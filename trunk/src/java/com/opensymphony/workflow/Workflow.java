@@ -190,11 +190,22 @@ public interface Workflow {
     boolean canInitialize(String workflowName, int initialAction, Map inputs);
 
     /**
-     * Remove the specified workflow.
+     * Remove the specified workflow descriptor.
      * @param workflowName The workflow name of the workflow to remove.
      * @return true if the workflow was removed, false otherwise.
      * @throws FactoryException If the underlying workflow factory has an error removing the workflow,
      * or if it does not support the removal of workflows.
      */
-    boolean removeWorkflow(String workflowName) throws FactoryException;
+    boolean removeWorkflowDescriptor(String workflowName) throws FactoryException;
+
+    /**
+     * Add a new workflow descriptor
+     * @param workflowName The workflow name of the workflow to add
+     * @param descriptor The workflow descriptor to add
+     * @param replace true, if an existing descriptor should be overwritten
+     * @return true if the workflow was added, fales otherwise
+     * @throws FactoryException If the underlying workflow factory has an error adding the workflow,
+     * or if it does not support adding workflows.
+     */
+    boolean saveWorkflowDescriptor(String workflowName, WorkflowDescriptor descriptor, boolean replace) throws FactoryException;
 }

@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class OfbizSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -116,11 +116,15 @@ public class OfbizSOAPWorkflow implements Workflow {
         return new OfbizWorkflow(getRemoteUser()).query(query);
     }
 
-    public boolean removeWorkflow(String workflowName) throws FactoryException {
-        return new OfbizWorkflow(getRemoteUser()).removeWorkflow(workflowName);
+    public boolean removeWorkflowDescriptor(String workflowName) throws FactoryException {
+        return new OfbizWorkflow(getRemoteUser()).removeWorkflowDescriptor(workflowName);
     }
 
-    private String getRemoteUser() {
+    public boolean saveWorkflowDescriptor(String workflowName, WorkflowDescriptor descriptor, boolean replace) throws FactoryException {
+        return new OfbizWorkflow(getRemoteUser()).saveWorkflowDescriptor(workflowName, descriptor, replace);
+    }
+
+    protected String getRemoteUser() {
         HttpServletRequest request = (HttpServletRequest) Context.thread().getProperty("httpRequest");
 
         return request.getRemoteUser();
