@@ -40,6 +40,16 @@ public class XMLUtil {
         return null;
     }
 
+    public static String getChildText(Element parent, String childName) {
+        Element child = getChildElement(parent, childName);
+
+        if (child == null) {
+            return null;
+        }
+
+        return getText(child);
+    }
+
     public static String getText(Element node) {
         StringBuffer sb = new StringBuffer();
         NodeList list = node.getChildNodes();
