@@ -1,6 +1,8 @@
 package com.opensymphony.workflow;
 
 import java.util.*;
+import java.net.URL;
+import java.io.File;
 
 import junit.framework.TestCase;
 import com.opensymphony.workflow.spi.Step;
@@ -27,14 +29,14 @@ public class AutoExecuteTestCase extends TestCase {
   }
 
     public void testSimpleAuto() throws Exception {
-     long id = workflow.initialize(getClass().getClassLoader().getResource("/auto1.xml").toString(), 1, new HashMap());
+      long id = workflow.initialize(getClass().getClassLoader().getResource("/auto1.xml").toString(), 1, new HashMap());
      List currentSteps = workflow.getCurrentSteps(id);
       assertEquals("Unexpected number of current steps", 1, currentSteps.size());
       assertEquals("Unexpected current step", 2, ((Step)currentSteps.get(0)).getStepId());
     }
 
   public void testExecOnlyOne() throws Exception {
-   long id = workflow.initialize(getClass().getClassLoader().getResource("/auto2.xml").toString(), 1, new HashMap());
+    long id = workflow.initialize(getClass().getClassLoader().getResource("/auto2.xml").toString(), 1, new HashMap());
    List currentSteps = workflow.getCurrentSteps(id);
     assertEquals("Unexpected number of current steps", 1, currentSteps.size());
     assertEquals("Unexpected current step", 4, ((Step)currentSteps.get(0)).getStepId());
