@@ -29,9 +29,6 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
   public ImportWorkflow()
   {
     setEnabled(false);
-    putValue(SHORT_DESCRIPTION, "Import a workflow");
-    putValue(NAME, "Import workflow");
-    putValue(LONG_DESCRIPTION, "Import a workflow definition file into the current workspace");
   }
 
   public void actionPerformed(ActionEvent e)

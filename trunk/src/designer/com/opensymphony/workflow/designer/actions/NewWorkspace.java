@@ -12,13 +12,6 @@ import com.opensymphony.workflow.designer.WorkflowDesigner;
  */
 public class NewWorkspace extends AbstractAction
 {
-  public NewWorkspace()
-  {
-    putValue(SHORT_DESCRIPTION, "Create new workspace");
-    putValue(NAME, "New workspace");
-    putValue(LONG_DESCRIPTION, "Create a new workspace");
-  }
-
   public void actionPerformed(ActionEvent e)
   {
     WorkflowDesigner.INSTANCE.newWorkspace();

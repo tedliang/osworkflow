@@ -24,9 +24,6 @@ public class SaveWorkspace extends AbstractAction implements WorkspaceListener
   public SaveWorkspace()
   {
     setEnabled(false);
-    putValue(SHORT_DESCRIPTION, "Save current workspace");
-    putValue(NAME, "Save workspace");
-    putValue(LONG_DESCRIPTION, "Save the currently loaded workspace");
   }
 
   public void actionPerformed(ActionEvent e)

@@ -26,9 +26,6 @@ public class AutoLayout extends AbstractAction implements WorkspaceListener
   public AutoLayout(WorkflowGraph graph)
   {
     this.graph = graph;
-    putValue(LONG_DESCRIPTION, "Automatically layout the graph");
-    putValue(SHORT_DESCRIPTION, "Layout graph");
-    putValue(NAME, "Layout graph");
   }
 
   public void actionPerformed(ActionEvent e)
