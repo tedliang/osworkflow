@@ -8,7 +8,7 @@
 
     Welcome to the OSWorkflow Example App. Please log in, or <a href="manager">create an account</a>:
     <p>
-    You can also load some reference data by clicking <a href="reference.jsp">here</a>. After logging in,
+    You can also load some reference data by clicking <a href="reference.jsp">here</a>. After creating the test data,
     you can login with the username <b>test</b>, and password <b>test</b>
 
     <form method="POST" action="login.jsp">
