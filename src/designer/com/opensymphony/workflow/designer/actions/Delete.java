@@ -38,22 +38,7 @@ public class Delete extends AbstractAction
     {
 			// update the graph
       graph.removeEdge((ResultEdge)cell);
-      WorkflowDesigner.INSTANCE.navigator().reloadWorkflow(workflow);
-      
-      /*
-      if (parent instanceof ActionDescriptor)
-      {
-      	WorkflowDesigner.INSTANCE.navigator().reloadAction(workflow, (ActionDescriptor)parent);
-      }
-      else if (parent instanceof SplitDescriptor)
-      {
-				WorkflowDesigner.INSTANCE.navigator().reloadSplit(workflow, (SplitDescriptor)parent);
-			}
-      else if (parent instanceof JoinDescriptor)
-      {
-				WorkflowDesigner.INSTANCE.navigator().reloadJoin(workflow, (JoinDescriptor)parent);
-			}
-			*/
+      WorkflowDesigner.INSTANCE.navigator().reloadWorkflow(workflow);      
     }
     else if(cell instanceof StepCell)
     {

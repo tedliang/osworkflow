@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author acapitani
@@ -8,76 +9,48 @@ import java.util.*;
 public class DesignerService
 {
   protected String verb;
-  protected String service_addr;
+  protected String address;
   protected String workspace;
   protected Map workflows = new HashMap();
 
-  private static final int MAX_WORKFLOWS = 64;
+  private static final int MAX_WORKFLOWS = 30;
 
-  public DesignerService(String[] args)
+  public DesignerService()
   {
-    init();
-    if(args != null)
+    verb = System.getProperty("com.opensymphony.workflow.jws.verb");
+    if("new".equals(verb))
     {
-      // potrei caricare i parametri di servizio dagli argomenti
-      // passati al main() del programma
-      // TODO
-    }
-    else
-    {
-      // verifico le System Properties, magari passate via JNLP
-      verb = System.getProperty("com.opensymphony.workflow.jws.verb");
-      if(verb == null)
-        verb = "none";
-      else if(verb.equals("new"))
+      address = System.getProperty("com.opensymphony.workflow.jws.service");
+      workspace = System.getProperty("com.opensymphony.workflow.jws.workspace");
+      if(address == null)
       {
-        service_addr = System.getProperty("com.opensymphony.workflow.jws.service");
-        if(service_addr == null)
-          service_addr = "";
-        workspace = System.getProperty("com.opensymphony.workflow.jws.workspace");
-        if(workspace == null)
-          workspace = "";
-        if(service_addr.length() == 0)
-        {
-          // not a valida web service name!
-          verb = "none";
-        }
-      }
-      else if(verb.equals("modify"))
-      {
-        service_addr = System.getProperty("com.opensymphony.workflow.jws.service");
-        if(service_addr == null)
-          service_addr = "";
-        workspace = System.getProperty("com.opensymphony.workflow.jws.workspace");
-        if(workspace == null)
-          workspace = "";
-        if(service_addr.length() > 0)
-        {
-          for(int i = 1; i <= MAX_WORKFLOWS; i++)
-          {
-            String sId = System.getProperty("com.opensymphony.workflow.jws.id_" + i);
-            if((sId == null) || (sId.length() == 0))
-              break;
-            String sName = System.getProperty("com.opensymphony.workflow.jws.name_" + i);
-            if(sName == null)
-              break;
-            workflows.put(sId, sName);
-          }
-        }
-        else
-        {
-          // not a valid web service
-          verb = "none";
-        }
+        // not a valid web service name!
+        verb = null;
       }
     }
-  }
-
-  private void init()
-  {
-    verb = "none";
-    service_addr = "";
-    workspace = "";
+    else if("modify".equals(verb))
+    {
+      address = System.getProperty("com.opensymphony.workflow.jws.service");
+      workspace = System.getProperty("com.opensymphony.workflow.jws.workspace");
+      if(address != null)
+      {
+        for(int i = 1; i <= MAX_WORKFLOWS; i++)
+        {
+          String sId = System.getProperty("com.opensymphony.workflow.jws.id_" + i);
+          if((sId == null) || (sId.length() == 0))
+            break;
+          String sName = System.getProperty("com.opensymphony.workflow.jws.name_" + i);
+          if(sName == null)
+            break;
+          workflows.put(sId, sName);
+        }
+      }
+      else
+      {
+        // not a valid web service
+        verb = null;
+      }
+    }
   }
 
   public String getVerb()
@@ -85,9 +58,9 @@ public class DesignerService
     return verb;
   }
 
-  public String getServiceAddr()
+  public String getRemoteAddress()
   {
-    return service_addr;
+    return address;
   }
 
   public String getWorkspaceName()
