@@ -14,7 +14,7 @@ public class ResultEdgeColor extends JMenuItem
 {
   ResultEdgeColorHandler customHandler;
 
-  class ResultEdgeColorHandler extends AbstractAction
+  static class ResultEdgeColorHandler extends AbstractAction
   {
     private WorkflowGraph graph;
     private Point location;

@@ -1,28 +1,29 @@
 package com.opensymphony.workflow.designer.editor;
 
-import com.opensymphony.workflow.designer.ResultEdge;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
 import com.opensymphony.workflow.loader.ConditionDescriptor;
+import com.opensymphony.workflow.loader.ResultDescriptor;
 
 /**
  * @author baab
  */
 public class ResultConditionEditor extends ConditionEditor
 {
-  private ResultEdge edge;
+  //private ResultEdge edge;
+  private ResultDescriptor descriptor;
 
-  public ResultConditionEditor(ResultEdge cell)
+  public ResultConditionEditor(ResultDescriptor desc)
   {
     super(null);
-    edge = cell;
+    descriptor = desc;
   }
 
   protected AbstractDescriptor getParent()
   {
-    return edge.getDescriptor();
+    return descriptor;
   }
 
 	protected ConfigConditionDescriptor getConfigDescriptor(ConditionDescriptor cond)

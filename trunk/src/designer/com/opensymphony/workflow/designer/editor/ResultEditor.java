@@ -10,7 +10,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.designer.model.FunctionsTableModel;
-import com.opensymphony.workflow.designer.ResultEdge;
+import com.opensymphony.workflow.designer.model.ValidatorsTableModel;
 import com.opensymphony.workflow.designer.UIFactory;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.beanutils.BeanConnector;
@@ -29,6 +29,8 @@ public class ResultEditor extends DetailPanel implements ActionListener
   private JTable preFunctionsTable;
   private FunctionsTableModel postFunctionsModel = new FunctionsTableModel();
   private JTable postFunctionsTable;
+	private ValidatorsTableModel validatorsModel = new ValidatorsTableModel();
+	private JTable validatorsTable;	
   private JComboBox type = new JComboBox(new String[]{"AND", "OR"});
   private ConditionsTableModel conditionsModel = new ConditionsTableModel();
   private JTable conditionsTable;
@@ -78,12 +80,29 @@ public class ResultEditor extends DetailPanel implements ActionListener
 
 		tabbedPane.add(ResourceManager.getString("info"), panelInfo);
 
+		/////////////////////////////
+		// Tab4 (validators)
+		/////////////////////////////
+		FormLayout layoutValid = new FormLayout(colLayout, rowLayout);
+		JPanel panelValid = new JPanel();
+		PanelBuilder builderValid = new PanelBuilder(panelValid, layoutValid);
+	
+		validatorsTable = new JTable(validatorsModel);
+		validatorsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		builderValid.add(UIFactory.createTablePanel(validatorsTable), cc.xywh(2, 2, 3, 1));
+		builderValid.add(UIFactory.getAddRemovePropertiesBar(this, "validator", BUTTONS), cc.xywh(2, 4, 3, 1));
+
+		tabbedPane.add(ResourceManager.getString("validators"), panelValid);
+
+		
+		///////////////////////////
 		// Tab2 (pre-functions)
 		FormLayout layoutPrefunc = new FormLayout(colLayout, rowLayout);
 		JPanel panelPrefunc = new JPanel();
 		PanelBuilder builderPrefunc = new PanelBuilder(panelPrefunc, layoutPrefunc);
 
 		preFunctionsTable = new JTable(preFunctionsModel);
+		preFunctionsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		preFunctionsModel.setGraphModel(getModel());
 		builderPrefunc.add(UIFactory.createTablePanel(preFunctionsTable), cc.xywh(2, 2, 3, 1));		// 2, 15, 3, 1
 		builderPrefunc.add(UIFactory.getAddRemovePropertiesBar(this, "pre", BUTTONS), cc.xywh(2, 4, 3, 1));	// 2, 16, 3, 1
@@ -96,6 +115,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
 		PanelBuilder builderPostfunc = new PanelBuilder(panelPostfunc, layoutPostfunc);
 
 		postFunctionsTable = new JTable(postFunctionsModel);
+		postFunctionsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		postFunctionsModel.setGraphModel(getModel());
 		builderPostfunc.add(UIFactory.createTablePanel(postFunctionsTable), cc.xywh(2, 2, 3, 1));		// 2, 20, 3, 1
 		builderPostfunc.add(UIFactory.getAddRemovePropertiesBar(this, "post", BUTTONS), cc.xywh(2, 4, 3, 1));	// 2, 21, 3, 1
@@ -112,6 +132,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
 		builderCond.add(type, cc.xy(4, 2));		// 4, 25
 
 		conditionsTable = new JTable(conditionsModel);
+		conditionsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		conditionsModel.setGraphModel(getModel());
 		conditionsModel.setType(ConditionsTableModel.RESULT);
 		builderCond.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 4, 3, 1));	// 2, 27, 3, 1
@@ -133,8 +154,8 @@ public class ResultEditor extends DetailPanel implements ActionListener
     PaletteDescriptor palette = getModel().getPalette();
     status.setModel(new DefaultComboBoxModel(palette.getStatusNames()));
     oldStatus.setModel(new DefaultComboBoxModel(palette.getStatusNames()));
-    ResultEdge result = (ResultEdge)getEdge();
-    ResultDescriptor descriptor = result.getDescriptor();
+    //ResultEdge result = (ResultEdge)getEdge();
+    ResultDescriptor descriptor = (ResultDescriptor)getDescriptor();
 
     preFunctionsModel.setList(descriptor.getPreFunctions());
     preFunctionsTable.getSelectionModel().clearSelection();
@@ -142,6 +163,9 @@ public class ResultEditor extends DetailPanel implements ActionListener
     postFunctionsModel.setList(descriptor.getPostFunctions());
     postFunctionsTable.getSelectionModel().clearSelection();
 
+		validatorsModel.setList(descriptor.getValidators());
+		validatorsTable.getSelectionModel().clearSelection(); 
+		
     if(isConditional())
     {
       setConditional(true);
@@ -202,11 +226,23 @@ public class ResultEditor extends DetailPanel implements ActionListener
     {
       modify();
     }
+		else if (command.equals("validatoradd"))
+		{
+			validatoradd();
+		}
+		else if (command.equals("validatoredit"))
+		{
+			validatormodify();
+		}
+		else if (command.equals("validatorremove"))
+		{
+			validatorremove();
+		}
   }
 
   private void preadd()
   {
-    ResultFunctionEditor editor = new ResultFunctionEditor((ResultEdge)getEdge());
+    ResultFunctionEditor editor = new ResultFunctionEditor((ResultDescriptor)getDescriptor());
     editor.setModel(getModel());
     FunctionDescriptor func = editor.add();
     if(func != null)
@@ -237,7 +273,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
   {
     FunctionDescriptor func = (FunctionDescriptor)preFunctionsModel.get(selected);
 
-    ResultFunctionEditor editor = new ResultFunctionEditor((ResultEdge)getEdge());
+    ResultFunctionEditor editor = new ResultFunctionEditor((ResultDescriptor)getDescriptor());
     editor.setModel(getModel());
     editor.modify(func);
 
@@ -246,7 +282,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
 
   private void postadd()
   {
-    ResultFunctionEditor editor = new ResultFunctionEditor((ResultEdge)getEdge());
+    ResultFunctionEditor editor = new ResultFunctionEditor((ResultDescriptor)getDescriptor());
     editor.setModel(getModel());
     FunctionDescriptor func = editor.add();
     if(func != null)
@@ -277,7 +313,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
   {
     FunctionDescriptor func = (FunctionDescriptor)postFunctionsModel.get(selected);
 
-    ResultFunctionEditor editor = new ResultFunctionEditor((ResultEdge)getEdge());
+    ResultFunctionEditor editor = new ResultFunctionEditor((ResultDescriptor)getDescriptor());
     editor.setModel(getModel());
     editor.modify(func);
 
@@ -286,15 +322,15 @@ public class ResultEditor extends DetailPanel implements ActionListener
 
   private boolean isConditional()
   {
-    ResultEdge edge = (ResultEdge)getEdge();
-    ResultDescriptor result = edge.getDescriptor();
+    //ResultEdge edge = (ResultDescriptor)getEdge();
+    ResultDescriptor result = (ResultDescriptor)getDescriptor();
 
     return (result instanceof ConditionalResultDescriptor);
   }
 
   private void add()
   {
-    ResultConditionEditor editor = new ResultConditionEditor((ResultEdge)getEdge());
+    ResultConditionEditor editor = new ResultConditionEditor((ResultDescriptor)getDescriptor());
     editor.setModel(getModel());
     ConditionDescriptor cond = editor.add();
     if(cond != null)
@@ -325,7 +361,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
   {
     ConditionDescriptor cond = (ConditionDescriptor)conditionsModel.get(selected);
 
-    ResultConditionEditor editor = new ResultConditionEditor((ResultEdge)getEdge());
+    ResultConditionEditor editor = new ResultConditionEditor((ResultDescriptor)getDescriptor());
     editor.setModel(getModel());
     editor.modify(cond);
 
@@ -342,4 +378,44 @@ public class ResultEditor extends DetailPanel implements ActionListener
       comps[i].setEnabled(enabled);
     }
   }
+  
+	private void validatoradd()
+	{
+		ValidatorEditor editor = new ValidatorEditor(getDescriptor());
+		editor.setModel(getModel());
+		ValidatorDescriptor val = editor.add();
+		if (val!=null)
+		{
+			validatorsModel.add(val);
+		}
+	}
+
+	private void validatorremove()
+	{
+		int[] rows = validatorsTable.getSelectedRows();
+		for(int i = 0; i < rows.length; i++)
+		{
+			validatorsModel.remove(rows[i]);
+		}
+	}
+
+	private void validatormodify()
+	{
+		int[] rows = validatorsTable.getSelectedRows();
+		for(int i = 0; i < rows.length; i++)
+		{
+			validatormodify(rows[i]);
+		}
+	}
+
+	private void validatormodify(int selected)
+	{
+		ValidatorDescriptor val = (ValidatorDescriptor)validatorsModel.get(selected);
+
+		ValidatorEditor editor = new ValidatorEditor(getDescriptor());
+		editor.setModel(getModel());
+		editor.modify(val);
+
+		validatorsModel.fireTableDataChanged();
+	}
 }

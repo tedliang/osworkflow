@@ -15,6 +15,6 @@ public class NewWorkspace extends AbstractAction
   public void actionPerformed(ActionEvent e)
   {
     //todo need to prompt user for where to save the workspace, and remove prompting from SaveWorkspace
-    WorkflowDesigner.INSTANCE.newWorkspace();
+    WorkflowDesigner.INSTANCE.newLocalWorkspace();
   }
 }

@@ -5,11 +5,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.opensymphony.workflow.designer.JoinCell;
-import com.opensymphony.workflow.designer.ResultEdge;
-import com.opensymphony.workflow.designer.SplitCell;
-import com.opensymphony.workflow.designer.StepCell;
-import com.opensymphony.workflow.designer.WorkflowGraph;
+import com.opensymphony.workflow.designer.*;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 
 /**
@@ -40,20 +36,47 @@ public class Delete extends AbstractAction
     }
     else if(cell instanceof ResultEdge)
     {
+//      ResultDescriptor result = ((ResultEdge)cell).getDescriptor();
+			// update the workspace navigator
+//      AbstractDescriptor parent = result.getParent();
+			// update the graph
       graph.removeEdge((ResultEdge)cell);
+      WorkflowDesigner.INSTANCE.navigator().reloadWorkflow(workflow);
+      
+      /*
+      if (parent instanceof ActionDescriptor)
+      {
+      	WorkflowDesigner.INSTANCE.navigator().reloadAction(workflow, (ActionDescriptor)parent);
+      }
+      else if (parent instanceof SplitDescriptor)
+      {
+				WorkflowDesigner.INSTANCE.navigator().reloadSplit(workflow, (SplitDescriptor)parent);
+			}
+      else if (parent instanceof JoinDescriptor)
+      {
+				WorkflowDesigner.INSTANCE.navigator().reloadJoin(workflow, (JoinDescriptor)parent);
+			}
+			*/
     }
     else if(cell instanceof StepCell)
     {
       graph.removeStep((StepCell)cell);
+			//WorkflowDesigner.INSTANCE.navigator().reloadSteps(workflow);
+			WorkflowDesigner.INSTANCE.navigator().reloadWorkflow(workflow);
     }
     else if(cell instanceof JoinCell)
     {
       graph.removeJoin((JoinCell)cell);
+			//WorkflowDesigner.INSTANCE.navigator().reloadJoins(workflow);
+			WorkflowDesigner.INSTANCE.navigator().reloadWorkflow(workflow);
     }
     else if(cell instanceof SplitCell)
     {
       graph.removeSplit((SplitCell)cell);
+			//WorkflowDesigner.INSTANCE.navigator().reloadSplits(workflow);
+			WorkflowDesigner.INSTANCE.navigator().reloadWorkflow(workflow);
     }
+		WorkflowDesigner.INSTANCE.navigator().selectTreeNode(workflow, workflow);
   }
 
 }

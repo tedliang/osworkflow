@@ -1,10 +1,4 @@
 /*
- * $Header: /zpool01/javanet/scm/svn/tmp/cvs2svn/osworkflow/src/designer/com/opensymphony/workflow/designer/beanutils/MethodUtils.java,v 1.2 2004-04-16 10:36:29 hani Exp $
- * $Revision: 1.2 $
- * $Date: 2004-04-16 10:36:29 $
- *
- * ====================================================================
- *
  * The Apache Software License, Version 1.1
  *
  * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
@@ -86,8 +80,8 @@ import java.util.WeakHashMap;
  * @author Craig R. McClanahan
  * @author Ralph Schaer
  * @author Chris Audley
- * @author Rey François
- * @author Gregor Raýman
+ * @author Rey Franï¿½ois
+ * @author Gregor Raï¿½man
  * @author Jan Sorensen
  * @author Robert Burrell Donkin
  */
@@ -501,7 +495,6 @@ public class MethodUtils {
                     method = interfaces[i].getDeclaredMethod(methodName,
                             parameterTypes);
                 } catch (NoSuchMethodException e) {
-                    ;
                 }
                 if (method != null)
                     break;

@@ -3,29 +3,37 @@ package com.opensymphony.workflow.designer.editor;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.opensymphony.workflow.designer.WorkflowCell;
 import com.opensymphony.workflow.designer.WorkflowGraphModel;
 import com.opensymphony.workflow.designer.spi.DefaultFunctionPlugin;
 import com.opensymphony.workflow.designer.spi.FunctionPlugin;
-import com.opensymphony.workflow.loader.*;
+import com.opensymphony.workflow.loader.AbstractDescriptor;
+import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
+import com.opensymphony.workflow.loader.FunctionDescriptor;
+import com.opensymphony.workflow.loader.DescriptorFactory;
 
 /**
  * @author baab
  */
 public abstract class FunctionEditor
 {
-  protected WorkflowCell cell;
+  //protected WorkflowCell cell;
+  protected AbstractDescriptor descriptor;
   protected WorkflowGraphModel model;
 
-  public FunctionEditor(WorkflowCell cell)
+  public FunctionEditor(AbstractDescriptor descriptor)
   {
-    this.cell = cell;
+    this.descriptor = descriptor;
   }
 
   public WorkflowGraphModel getModel()
   {
     return model;
   }
+
+	public AbstractDescriptor getDescriptor()
+	{
+		return descriptor;
+	}
 
   public void setModel(WorkflowGraphModel model)
   {
@@ -108,7 +116,7 @@ public abstract class FunctionEditor
 
     // put the parameter
     Map args = new HashMap();
-    args.put("cell", cell);
+    args.put("cell", descriptor);
 
     if(!funcImpl.editFunction(args))
     {

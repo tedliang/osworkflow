@@ -2,7 +2,6 @@ package com.opensymphony.workflow.designer.editor;
 
 import java.util.List;
 
-import com.opensymphony.workflow.designer.StepCell;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.*;
@@ -12,14 +11,14 @@ import com.opensymphony.workflow.loader.*;
  */
 public class StepPermissionEditor extends ConditionEditor
 {
-  public StepPermissionEditor(StepCell cell)
+  public StepPermissionEditor(StepDescriptor desc)
   {
-    super(cell);
+    super(desc);
   }
 
   protected AbstractDescriptor getParent()
   {
-    List actions = getCell().getDescriptor().getActions();
+    List actions = ((StepDescriptor)getDescriptor()).getActions();
     if(actions.size()>0)
       return ((ActionDescriptor)actions.get(0)).getRestriction();
     return null;
@@ -39,9 +38,4 @@ public class StepPermissionEditor extends ConditionEditor
 		  return new PermissionConditionDescriptor(template);
 		return null;
 	}
-
-  protected StepCell getCell()
-  {
-    return (StepCell)cell;
-  }
 }

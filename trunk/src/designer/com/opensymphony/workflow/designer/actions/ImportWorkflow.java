@@ -13,6 +13,7 @@ import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.Utils;
 import com.opensymphony.workflow.designer.swing.status.StatusDisplay;
 import com.opensymphony.workflow.designer.dialogs.ImportWorkflowDialog;
+import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
 import com.opensymphony.workflow.loader.Workspace;
 import com.opensymphony.workflow.FactoryException;
 import foxtrot.Worker;
@@ -25,7 +26,8 @@ import foxtrot.Task;
  */
 public class ImportWorkflow extends AbstractAction implements WorkspaceListener
 {
-  private Workspace currentWorkspace;
+  //private Workspace currentWorkspace;
+  private AbstractWorkflowFactory currentWorkspace;
 
   public ImportWorkflow()
   {
@@ -34,7 +36,12 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
 
   public void actionPerformed(ActionEvent e)
   {
-    if(currentWorkspace.getLocation() == null)
+    Workspace space;
+    if (!(currentWorkspace instanceof Workspace))
+    	return;
+    space = (Workspace)currentWorkspace;
+    
+    if (space.getLocation() == null)
     {
       JOptionPane.showMessageDialog((Component)e.getSource(), ResourceManager.getString("error.save.unsavedspace"), ResourceManager.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
       return;
@@ -50,18 +57,24 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
 
   public void importURL(final URL url)
   {
-    if(url==null) return;
+    Workspace space;
+    if(url==null) 
+    	return;
+   	if (!(currentWorkspace instanceof Workspace))
+   	 	return;
+   	space = (Workspace)currentWorkspace;
+    	
     StatusDisplay status = (StatusDisplay)WorkflowDesigner.INSTANCE.statusBar.getItemByName("Status");
     String f = url.getFile();
     if(!"file".equals(url.getProtocol()) && f.indexOf('?')>-1) f = f.substring(0, f.indexOf('?'));
     String fileName = f.substring(f.lastIndexOf('/')+1, f.length());
     try
     {
-      final File outputFile = new File(currentWorkspace.getLocation().getParentFile(), fileName);
+      final File outputFile = new File(space.getLocation().getParentFile(), fileName);
       if(outputFile.isDirectory()) throw new Exception("Output file is a directory!");
       //don't allow importing of files within the workspace!
       if(!"file".equals(url.getProtocol()) ||
-        !new File(url.getFile()).getParentFile().getCanonicalPath().equals(currentWorkspace.getLocation().getParentFile().getCanonicalPath()))
+        !new File(url.getFile()).getParentFile().getCanonicalPath().equals(space.getLocation().getParentFile().getCanonicalPath()))
       {
         status.setProgressStatus(ResourceManager.getString("import.progress", new Object[]{fileName}));
         status.setIndeterminate(true);
@@ -83,7 +96,7 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
           }
         });
         String workflowName = fileName.substring(0, fileName.lastIndexOf('.'));
-        currentWorkspace.importDescriptor(workflowName, url.openStream());
+        space.importDescriptor(workflowName, url.openStream());
         //this ensures that the descriptor is loaded into the cache
 	      try
 	      {

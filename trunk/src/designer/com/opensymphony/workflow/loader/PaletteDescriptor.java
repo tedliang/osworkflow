@@ -18,6 +18,9 @@ public class PaletteDescriptor extends AbstractDescriptor
   protected List preList = new ArrayList();
   protected List permissionList = new ArrayList();
   protected List resultList = new ArrayList();
+  protected List validatorList = new ArrayList();
+  protected List registerList = new ArrayList();
+  protected List triggerList = new ArrayList();
   protected String defaultOldStatus = null;
   protected String defaultNextStatus = null;
 	private EnhancedResourceBundle bundle;
@@ -56,6 +59,28 @@ public class PaletteDescriptor extends AbstractDescriptor
 		return config;
 	}
 
+	public ConfigRegisterDescriptor[] getRegisters()
+	{
+		// workflow registers
+		ConfigRegisterDescriptor[] config = new ConfigRegisterDescriptor[registerList.size()];
+		registerList.toArray(config);
+		return config;		 
+	}
+	
+	public ConfigValidatorDescriptor[] getValidators()
+	{
+		ConfigValidatorDescriptor[] config = new ConfigValidatorDescriptor[validatorList.size()];
+		validatorList.toArray(config);
+		return config;
+	}
+	
+	public ConfigFunctionDescriptor[] getTriggerFunctions()
+	{
+		ConfigFunctionDescriptor[] config = new ConfigFunctionDescriptor[triggerList.size()];
+		triggerList.toArray(config);
+		return config;
+	}
+	
   public String[] getStatusNames()
   {
     String[] names = new String[statusList.size()];
@@ -136,6 +161,32 @@ public class PaletteDescriptor extends AbstractDescriptor
     return null;
   }
 
+	public ConfigFunctionDescriptor getTriggerFunction(String name)
+	{
+		if (name==null)
+			return null;
+		for (int i=0; i<triggerList.size(); i++)
+		{
+			ConfigFunctionDescriptor function = (ConfigFunctionDescriptor)triggerList.get(i);
+			if (name.equals(function.getName()))
+				return function;		
+		}
+		return null;
+	}
+	
+	public ConfigRegisterDescriptor getRegister(String name)
+	{
+		if (name==null)
+			return null;
+		for (int i=0; i<registerList.size(); i++)
+		{
+			ConfigRegisterDescriptor reg = (ConfigRegisterDescriptor)registerList.get(i);
+			if (name.equals(reg.getVariableName()))
+				return reg;
+		}
+		return null;
+	}
+	
   public String getDefaultOldStatus()
   {
     return defaultOldStatus;
@@ -214,7 +265,7 @@ public class PaletteDescriptor extends AbstractDescriptor
 
     // resultconditions
     Element r = XMLUtil.getChildElement(root, "resultconditions");
-    if(j != null)
+    if (r != null)
     {
       List conditions = XMLUtil.getChildElements(r, "condition");
       for(int i = 0; i < conditions.size(); i++)
@@ -228,6 +279,55 @@ public class PaletteDescriptor extends AbstractDescriptor
       }
     }
 
+		// registers
+		Element rr = XMLUtil.getChildElement(root, "registers");
+		if (rr != null)
+		{
+			List registers = XMLUtil.getChildElements(rr, "register");
+			for(int i = 0; i < registers.size(); i++)
+			{
+				Element register = (Element)registers.get(i);
+				ConfigRegisterDescriptor rd = new ConfigRegisterDescriptor(this, register);
+				rd.setDescription(bundle.getString(rd.getName() + ".long"));
+				rd.setVariableName(bundle.getString(rd.getName()));
+				rd.setParent(this);
+				registerList.add(rd);
+			}
+		}
+		
+		// trigger-functions
+		Element tf = XMLUtil.getChildElement(root, "triggerfunctions");
+		if(tf != null)
+		{
+			List functions = XMLUtil.getChildElements(tf, "function");
+			for(int i = 0; i < functions.size(); i++)
+			{
+				Element function = (Element)functions.get(i);
+				ConfigFunctionDescriptor pd = new ConfigFunctionDescriptor(this, function);
+				pd.setDescription(bundle.getString(pd.getName() + ".long"));
+				pd.setDisplayName(bundle.getString(pd.getName()));
+				pd.setParent(this);
+				triggerList.add(pd);
+			}
+		}
+		
+		// validators
+		Element vl = XMLUtil.getChildElement(root, "validators");
+		if (vl != null)
+		{
+			List validators = XMLUtil.getChildElements(vl, "validator");
+			for(int i = 0; i < validators.size(); i++)
+			{
+				Element validator = (Element)validators.get(i);
+				ConfigValidatorDescriptor vd = new ConfigValidatorDescriptor(this, validator);
+				vd.setDescription(bundle.getString(vd.getName() + ".long"));
+				vd.setName(bundle.getString(vd.getName()));
+				vd.setParent(this);
+				validatorList.add(vd);
+			}
+		}
+		
+		
   }
 
 	public EnhancedResourceBundle getBundle()

@@ -5,10 +5,10 @@ import javax.swing.*;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.builder.PanelBuilder;
-import com.opensymphony.workflow.designer.SplitCell;
 import com.opensymphony.workflow.designer.UIFactory;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.model.ResultsTableModel;
+import com.opensymphony.workflow.loader.SplitDescriptor;
 
 public class SplitEditor extends DetailPanel
 {
@@ -48,6 +48,7 @@ public class SplitEditor extends DetailPanel
 
     //builder.addSeparator(ResourceManager.getString("results"), cc.xywh(2, 5, 3, 1));
     JTable actionsTable = new JTable(resultsModel);
+    actionsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     builderResult.add(UIFactory.createTablePanel(actionsTable), cc.xywh(2, 2, 3, 1));
 
     tabbedPane.add(ResourceManager.getString("results"), panelResult);
@@ -63,8 +64,8 @@ public class SplitEditor extends DetailPanel
 
   protected void updateView()
   {
-    SplitCell cell = (SplitCell)getCell();
-    id.setText(Integer.toString(cell.getId(), 10));
-    resultsModel.setList(cell.getSplitDescriptor().getResults());
+    SplitDescriptor desc = (SplitDescriptor)getDescriptor();
+    id.setText(Integer.toString(desc.getId(), 10));
+    resultsModel.setList(desc.getResults());
   }
 }

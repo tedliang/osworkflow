@@ -99,7 +99,7 @@ public class NewWorkspaceDialog extends BaseDialog
 		    JOptionPane.showMessageDialog(this, ResourceManager.getString("error.file.invalid"), ResourceManager.getString("error"), JOptionPane.ERROR_MESSAGE);
 		    return;
 		  }
-		  Workspace space = WorkflowDesigner.INSTANCE.newWorkspace();
+		  Workspace space = WorkflowDesigner.INSTANCE.newLocalWorkspace();
 		  space.setLocation(file);
 		  Prefs.INSTANCE.put(Prefs.LAST_WORKSPACE, file.toString());
 		  WorkflowDesigner.INSTANCE.navigator().setWorkspace(space);

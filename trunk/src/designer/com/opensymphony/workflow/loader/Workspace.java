@@ -128,7 +128,7 @@ public class Workspace extends XMLWorkflowFactory
     }
   }
 
-  public Layout getLayout(String workflowName)
+  public Object getLayout(String workflowName)
   {
     Object obj = layouts.get(workflowName);
     if(obj==null) return null;
@@ -201,13 +201,12 @@ public class Workspace extends XMLWorkflowFactory
   public boolean removeWorkflow(String name) throws FactoryException
   {
     WorkflowConfig removed = (WorkflowConfig)workflows.remove(name);
-    if(removed == null) return false;
     save();
     if(removed.url != null && removed.url.getProtocol().equals("file"))
     {
       return new File(removed.url.getFile()).delete();
     }
-    return true;
+    return removed != null;
   }
 
   public WorkflowDescriptor getWorkflow(String name) throws FactoryException
@@ -218,8 +217,7 @@ public class Workspace extends XMLWorkflowFactory
     {
       return config.descriptor;
     }
-    WorkflowDescriptor descriptor = super.getWorkflow(name);
-    return descriptor;
+    return super.getWorkflow(name);
   }
 
   public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, WorkflowGraph graph, boolean replace) throws FactoryException
@@ -255,7 +253,7 @@ public class Workspace extends XMLWorkflowFactory
       if(config.url!=null)
       {
 	      descriptor.getMetaAttributes().put("generator", "OSWOrkflow Designer");
-	      descriptor.getMetaAttributes().put("lastModified", new Date());
+	      descriptor.getMetaAttributes().put("lastModified", (new Date()).toString());
         return super.saveWorkflow(name, descriptor, replace);
       }
       else
@@ -266,7 +264,7 @@ public class Workspace extends XMLWorkflowFactory
     return false;
   }
 
-  public void setLayout(String workflowName, Layout layout)
+  public void setLayout(String workflowName, Object layout)
   {
     layouts.put(workflowName, layout);
   }
@@ -286,10 +284,11 @@ public class Workspace extends XMLWorkflowFactory
   {
     WorkflowConfig config = new WorkflowConfig("file", null);
     config.descriptor = DescriptorFactory.getFactory().createWorkflowDescriptor();
+    config.descriptor.setName(name);
     ActionDescriptor initialAction = DescriptorFactory.getFactory().createActionDescriptor();
     initialAction.setName(ResourceManager.getString("action.initial.start"));
     config.descriptor.getInitialActions().add(initialAction);
-	  config.descriptor.getMetaAttributes().put("created", new Date());
+	  config.descriptor.getMetaAttributes().put("created", (new Date()).toString());
     workflows.put(name, config);
   }
 

@@ -7,14 +7,12 @@ import javax.swing.*;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import com.opensymphony.workflow.designer.JoinCell;
 import com.opensymphony.workflow.designer.UIFactory;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.beanutils.BeanConnector;
 import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.loader.ConditionDescriptor;
 import com.opensymphony.workflow.loader.JoinDescriptor;
-import com.opensymphony.workflow.loader.ConditionsDescriptor;
 
 public class JoinEditor extends DetailPanel implements ActionListener
 {
@@ -25,8 +23,6 @@ public class JoinEditor extends DetailPanel implements ActionListener
   private ConditionsTableModel conditionsModel = new ConditionsTableModel();
   private JTable conditionsTable;
 
-  //private ResultsTableModel resultsModel = new ResultsTableModel();
-  //private JTable resultsTable;
   private BeanConnector connector = new BeanConnector();
 
   public JoinEditor()
@@ -71,6 +67,7 @@ public class JoinEditor extends DetailPanel implements ActionListener
     conditionsModel.setGraphModel(getModel());
     conditionsModel.setType(ConditionsTableModel.JOIN);
     conditionsTable = new JTable(conditionsModel);
+    conditionsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     builderCond.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 2, 3, 1));
     builderCond.add(UIFactory.getAddRemovePropertiesBar(this, "cond", new String[]{"add", "remove", "edit"}), cc.xywh(2, 4, 3, 1));
 
@@ -87,11 +84,9 @@ public class JoinEditor extends DetailPanel implements ActionListener
 
   protected void updateView()
   {
-    JoinCell cell = (JoinCell)getCell();
+   	JoinDescriptor descriptor = (JoinDescriptor)getDescriptor();
 
-    JoinDescriptor descriptor = cell.getJoinDescriptor();
-
-    conditionsModel.setList(((ConditionsDescriptor)descriptor.getConditions().get(0)).getConditions());
+    conditionsModel.setList(descriptor.getConditions());
     connector.setSource(descriptor);
 
     //		if (cell.getJoinDescriptor().getResult() != null) {
@@ -124,7 +119,7 @@ public class JoinEditor extends DetailPanel implements ActionListener
 
   private void add()
   {
-    JoinConditionEditor editor = new JoinConditionEditor((JoinCell)this.getCell());
+    JoinConditionEditor editor = new JoinConditionEditor((JoinDescriptor)this.getDescriptor());
     editor.setModel(getModel());
     ConditionDescriptor cond = editor.add();
     if(cond != null)
@@ -154,7 +149,7 @@ public class JoinEditor extends DetailPanel implements ActionListener
 
   private void modify(int selected)
   {
-    JoinConditionEditor editor = new JoinConditionEditor((JoinCell)getCell());
+    JoinConditionEditor editor = new JoinConditionEditor((JoinDescriptor)this.getDescriptor());
     editor.setModel(getModel());
     ConditionDescriptor cond = (ConditionDescriptor)conditionsModel.get(selected);
     editor.modify(cond);

@@ -13,7 +13,8 @@ import com.opensymphony.workflow.designer.actions.AssignPalette;
 import com.opensymphony.workflow.designer.actions.DeleteWorkflow;
 import com.opensymphony.workflow.designer.actions.ImportWorkflow;
 import com.opensymphony.workflow.designer.swing.FileDropHandler;
-import com.opensymphony.workflow.loader.Workspace;
+import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
+import com.opensymphony.workflow.FactoryException;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -96,7 +97,10 @@ public class Navigator extends JTree implements TreeSelectionListener, TreeModel
           {
             try
             {
-              importWorkflow.importURL(file.toURL());
+              if (importWorkflow!=null)
+              {
+                importWorkflow.importURL(file.toURL());
+              }
             }
             catch(MalformedURLException e)
             {
@@ -177,14 +181,23 @@ public class Navigator extends JTree implements TreeSelectionListener, TreeModel
     currentWorkflow = newValue;
   }
 
-  public void setWorkspace(Workspace workspace)
+  public void setWorkspace(AbstractWorkflowFactory workspace)
   {
     rootNode.removeAllChildren();
     ((DefaultTreeModel)getModel()).reload();
     DefaultMutableTreeNode root = (DefaultMutableTreeNode)getModel().getRoot();
     if(workspace != null)
     {
-      String[] workflows = workspace.getWorkflowNames();
+      String[] workflows;
+      try
+      {
+        workflows = workspace.getWorkflowNames();
+      }
+      catch(FactoryException e)
+      {
+        e.printStackTrace();
+        return;
+      }
       for(int i = 0; i < workflows.length; i++)
       {
         addWorkflow(workflows[i]);

@@ -1,10 +1,4 @@
 /*
- * $Header: /zpool01/javanet/scm/svn/tmp/cvs2svn/osworkflow/src/designer/com/opensymphony/workflow/designer/beanutils/MappedPropertyDescriptor.java,v 1.1 2003-12-06 18:05:58 hani Exp $
- * $Revision: 1.1 $
- * $Date: 2003-12-06 18:05:58 $
- *
- * ====================================================================
- *
  * The Apache Software License, Version 1.1
  *
  * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
@@ -80,9 +74,9 @@ import java.security.PrivilegedAction;
  * <p>where <code><strong>Property</strong></code> must be replaced
  * by the name of the property.
  *
- * @author Rey François
- * @author Gregor Raýman
- * @version $Revision: 1.1 $ $Date: 2003-12-06 18:05:58 $
+ * @author Rey Franï¿½ois
+ * @author Gregor Raï¿½man
+ * @version $Revision: 1.2 $ $Date: 2004-12-21 16:56:08 $
  * @see java.beans.PropertyDescriptor
  */
 

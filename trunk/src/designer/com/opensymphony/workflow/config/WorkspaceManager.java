@@ -7,7 +7,9 @@ import java.net.URL;
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
-import com.opensymphony.workflow.loader.Workspace;
+import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
+import com.opensymphony.workflow.loader.RemoteWorkspace;
+import com.opensymphony.workflow.designer.DesignerService;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -16,7 +18,8 @@ import com.opensymphony.workflow.loader.Workspace;
  */
 public class WorkspaceManager
 {
-  private Workspace currentWorkspace = null;
+  //private Workspace currentWorkspace = null;
+  private AbstractWorkflowFactory currentWorkspace = null;
   private Collection listeners;
 
   public void loadWorkspace(URL url) throws FactoryException, IOException
@@ -25,7 +28,17 @@ public class WorkspaceManager
     saveWorkspace();
     DefaultConfiguration config = new DefaultConfiguration();
     config.load(url);
-    currentWorkspace  = (Workspace)config.getFactory();
+    currentWorkspace  = config.getFactory();
+    fireWorkspaceOpened();
+  }
+	
+	public void loadServiceWorkspace(DesignerService service) throws FactoryException, IOException
+	{
+		fireWorkspaceClosed();
+		saveWorkspace();
+		currentWorkspace  = new RemoteWorkspace(service);
+		currentWorkspace.initDone(); 
+		
     fireWorkspaceOpened();
   }
 
@@ -69,7 +82,7 @@ public class WorkspaceManager
     }
   }
 
-  public void setCurrentWorkspace(Workspace current)
+  public void setCurrentWorkspace(AbstractWorkflowFactory current)
   {
     saveWorkspace();
     if(this.currentWorkspace!=null)
@@ -87,7 +100,7 @@ public class WorkspaceManager
     }
   }
 
-  public Workspace getCurrentWorkspace()
+  public AbstractWorkflowFactory getCurrentWorkspace()
   {
     return currentWorkspace;
   }

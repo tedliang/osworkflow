@@ -1,10 +1,10 @@
 package com.opensymphony.workflow.designer.editor;
 
-import com.opensymphony.workflow.designer.StepCell;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ActionDescriptor;
+import com.opensymphony.workflow.loader.StepDescriptor;
 import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
 
 /**
@@ -12,20 +12,15 @@ import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
  */
 public class StepFunctionEditor extends FunctionEditor
 {
-  public StepFunctionEditor(StepCell cell)
+  public StepFunctionEditor(StepDescriptor desc)
   {
-    super(cell);
-  }
-
-  private StepCell getCell()
-  {
-    return (StepCell)cell;
+    super(desc);
   }
 
   protected AbstractDescriptor getParent()
   {
     //todo need a check here for actions>0 or a more sensible way to get parent
-    return (ActionDescriptor)getCell().getDescriptor().getActions().get(0);
+    return (ActionDescriptor)((StepDescriptor)getDescriptor()).getActions().get(0);
   }
 
 	protected ConfigFunctionDescriptor getFunction()

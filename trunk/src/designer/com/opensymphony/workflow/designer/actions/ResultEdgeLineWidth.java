@@ -14,7 +14,7 @@ public class ResultEdgeLineWidth extends JMenuItem
 {
   ResultEdgeLineWidthHandler customHandler;
 
-  class ResultEdgeLineWidthHandler extends AbstractAction
+  static class ResultEdgeLineWidthHandler extends AbstractAction
   {
     private WorkflowGraph graph;
     private Point location;
@@ -37,7 +37,7 @@ public class ResultEdgeLineWidth extends JMenuItem
       }
       else
       {
-        CellView view = graph.getGraphLayoutCache().getMapping(cell, false);
+        CellView view = (graph.getGraphLayoutCache().getMapping(cell, false));
         if(view instanceof CustomEdgeView)
         {
           GraphConstants.setLineWidth(((ResultEdge)cell).getAttributes(), iWidth);
