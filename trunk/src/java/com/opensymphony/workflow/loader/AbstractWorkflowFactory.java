@@ -52,6 +52,8 @@ public abstract class AbstractWorkflowFactory {
      */
     public abstract String[] getWorkflowNames() throws FactoryException;
 
+    public abstract boolean removeWorkflow(String name) throws FactoryException;
+
     /**
      * Save the workflow.
      * @param name The name of the workflow to same.
