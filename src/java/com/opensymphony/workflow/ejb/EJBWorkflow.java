@@ -9,6 +9,7 @@ import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.util.EJBUtils;
 
 import com.opensymphony.workflow.*;
+import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
@@ -33,7 +34,7 @@ import javax.naming.NamingException;
  * This class acts as a wrapper around a workflow session bean.
  *
  * @author plightbo
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class EJBWorkflow implements Workflow {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -89,6 +90,14 @@ public class EJBWorkflow implements Workflow {
             log.error("Error getting available actions", e);
 
             return new int[0];
+        }
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        try {
+            wf.setConfiguration(configuration);
+        } catch (RemoteException e) {
+            log.fatal("Error setting configuration", e);
         }
     }
 

@@ -14,6 +14,7 @@ import com.opensymphony.module.propertyset.PropertySet;
 
 import com.opensymphony.workflow.*;
 import com.opensymphony.workflow.basic.BasicWorkflow;
+import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
@@ -30,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
  * Soap enabled Wrapper around a BasicWorkflow
  *
  * @author $author$
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class BasicSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -41,6 +42,10 @@ public class BasicSOAPWorkflow implements Workflow {
 
     public int[] getAvailableActions(long id, Map inputs) {
         return new BasicWorkflow(getRemoteUser()).getAvailableActions(id, inputs);
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        new BasicWorkflow(getRemoteUser()).setConfiguration(configuration);
     }
 
     public List getCurrentSteps(long id) {

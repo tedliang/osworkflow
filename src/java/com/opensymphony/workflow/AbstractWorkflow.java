@@ -9,7 +9,8 @@ import com.opensymphony.module.propertyset.PropertySetManager;
 
 import com.opensymphony.util.TextUtils;
 
-import com.opensymphony.workflow.config.ConfigLoader;
+import com.opensymphony.workflow.config.Configuration;
+import com.opensymphony.workflow.config.DefaultConfiguration;
 import com.opensymphony.workflow.loader.*;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
@@ -39,10 +40,6 @@ import com.opensymphony.workflow.util.jndi.JNDIValidator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.InputStream;
-
-import java.net.URL;
-
 import java.util.*;
 
 
@@ -50,36 +47,17 @@ import java.util.*;
  * Abstract workflow instance that serves as the base for specific implementations, such as EJB or SOAP.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
+ * @author Hani Suleiman
  */
 public class AbstractWorkflow implements Workflow {
     //~ Static fields/initializers /////////////////////////////////////////////
 
-    // statics
-    public static final String CLASS_NAME = "class.name";
-    public static final String EJB_LOCATION = "ejb.location";
-    public static final String JNDI_LOCATION = "jndi.location";
-    public static final String BSF_LANGUAGE = "language";
-    public static final String BSF_SOURCE = "source";
-    public static final String BSF_ROW = "row";
-    public static final String BSF_COL = "col";
-    public static final String BSF_SCRIPT = "script";
-    public static final String BSH_SCRIPT = "script";
     private static final Log log = LogFactory.getLog(AbstractWorkflow.class);
-    protected static boolean configLoaded = false;
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected WorkflowContext context;
-
-    //~ Constructors ///////////////////////////////////////////////////////////
-
-    public AbstractWorkflow() {
-        try {
-            loadConfig(null);
-        } catch (FactoryException e) {
-            throw new InternalWorkflowException("Error loading config", (e.getRootCause() != null) ? e.getRootCause() : e);
-        }
-    }
+    private Configuration configuration;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
@@ -115,7 +93,7 @@ public class AbstractWorkflow implements Workflow {
                 return new int[0];
             }
 
-            WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
+            WorkflowDescriptor wf = getConfiguration().getWorkflow(entry.getWorkflowName());
 
             if (wf == null) {
                 throw new IllegalArgumentException("No such workflow " + entry.getWorkflowName());
@@ -172,6 +150,37 @@ public class AbstractWorkflow implements Workflow {
     /**
      * @ejb.interface-method
      */
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
+    /**
+     * Get the configuration for this workflow.
+     * This method also checks if the configuration has been initialized, and if not, initializes it.
+     * @return The configuration that was set.
+     * If no configuration was set, then the default (static) configuration is returned.
+     *
+     */
+    public Configuration getConfiguration() {
+        Configuration config = (configuration != null) ? configuration : DefaultConfiguration.INSTANCE;
+
+        if (!config.isInitialized()) {
+            try {
+                config.load(null);
+            } catch (FactoryException e) {
+                log.fatal("Error initialising configuration", e);
+
+                //fail fast, better to blow up with an NPE that hide the error
+                return null;
+            }
+        }
+
+        return config;
+    }
+
+    /**
+     * @ejb.interface-method
+     */
     public List getCurrentSteps(long id) {
         try {
             WorkflowStore store = getPersistence();
@@ -219,7 +228,7 @@ public class AbstractWorkflow implements Workflow {
      */
     public Properties getPersistenceProperties() {
         Properties p = new Properties();
-        Iterator iter = ConfigLoader.persistenceArgs.entrySet().iterator();
+        Iterator iter = getConfiguration().getPersistenceArgs().entrySet().iterator();
 
         while (iter.hasNext()) {
             Map.Entry entry = (Map.Entry) iter.next();
@@ -253,7 +262,7 @@ public class AbstractWorkflow implements Workflow {
         try {
             WorkflowStore store = getPersistence();
             WorkflowEntry entry = store.findEntry(id);
-            WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
+            WorkflowDescriptor wf = getConfiguration().getWorkflow(entry.getWorkflowName());
 
             PropertySet ps = store.getPropertySet(id);
             Map transientVars = new HashMap();
@@ -293,10 +302,20 @@ public class AbstractWorkflow implements Workflow {
     }
 
     /**
+     * Returns a workflow definition object associated with the given name.
+     *
+     * @param workflowName the name of the workflow
+     * @return the object graph that represents a workflow definition
      * @ejb.interface-method
      */
     public WorkflowDescriptor getWorkflowDescriptor(String workflowName) {
-        return getWorkflow(workflowName);
+        try {
+            return getConfiguration().getWorkflow(workflowName);
+        } catch (FactoryException e) {
+            log.error("Error loading workflow " + workflowName, e);
+        }
+
+        return null;
     }
 
     /**
@@ -319,13 +338,12 @@ public class AbstractWorkflow implements Workflow {
 
     /**
      * Get a list of workflow names available
-     * @ejb.interface-method
      * @return String[] an array of workflow names.
-     * @throws UnsupportedOperationException if the underlying workflow factory cannot obtain a list of workflow names.
+     * @ejb.interface-method
      */
     public String[] getWorkflowNames() {
         try {
-            return ConfigLoader.getWorkflowNames();
+            return getConfiguration().getWorkflowNames();
         } catch (FactoryException e) {
             log.error("Error getting workflow names", e);
         }
@@ -465,7 +483,7 @@ public class AbstractWorkflow implements Workflow {
         WorkflowStore store = getPersistence();
         WorkflowEntry entry = store.findEntry(id);
 
-        WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
+        WorkflowDescriptor wf = getConfiguration().getWorkflow(entry.getWorkflowName());
 
         List currentSteps = store.findCurrentSteps(id);
         ActionDescriptor action = null;
@@ -520,7 +538,7 @@ public class AbstractWorkflow implements Workflow {
     public void executeTriggerFunction(long id, int triggerId) throws WorkflowException {
         WorkflowStore store = getPersistence();
         WorkflowEntry entry = store.findEntry(id);
-        WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
+        WorkflowDescriptor wf = getConfiguration().getWorkflow(entry.getWorkflowName());
 
         PropertySet ps = store.getPropertySet(id);
         Map transientVars = new HashMap();
@@ -529,7 +547,7 @@ public class AbstractWorkflow implements Workflow {
     }
 
     public long initialize(String workflowName, int initialAction, Map inputs) throws InvalidRoleException, InvalidInputException, WorkflowException {
-        WorkflowDescriptor wf = getWorkflow(workflowName);
+        WorkflowDescriptor wf = getConfiguration().getWorkflow(workflowName);
 
         WorkflowStore store = getPersistence();
         WorkflowEntry entry = store.createEntry(workflowName);
@@ -583,7 +601,7 @@ public class AbstractWorkflow implements Workflow {
      * @ejb.interface-method
      */
     public boolean saveWorkflowDescriptor(String workflowName, WorkflowDescriptor descriptor, boolean replace) throws FactoryException {
-        boolean success = ConfigLoader.saveWorkflow(workflowName, descriptor, replace);
+        boolean success = getConfiguration().saveWorkflow(workflowName, descriptor, replace);
 
         return success;
     }
@@ -638,7 +656,7 @@ public class AbstractWorkflow implements Workflow {
                 return new int[0];
             }
 
-            WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
+            WorkflowDescriptor wf = getConfiguration().getWorkflow(entry.getWorkflowName());
 
             if (wf == null) {
                 throw new IllegalArgumentException("No such workflow " + entry.getWorkflowName());
@@ -719,32 +737,15 @@ public class AbstractWorkflow implements Workflow {
         return l;
     }
 
-    //$AR end
     protected WorkflowStore getPersistence() throws StoreException {
-        return StoreFactory.getPersistence();
-    }
-
-    /**
-     * Returns a workflow definition object associated with the given name.
-     *
-     * @param name the name of the workflow
-     * @return the object graph that represents a workflow definition
-     */
-    protected synchronized WorkflowDescriptor getWorkflow(String name) {
-        try {
-            return ConfigLoader.getWorkflow(name);
-        } catch (FactoryException e) {
-            log.error("Error loading workflow " + name, e);
-        }
-
-        return null;
+        return getConfiguration().getWorkflowStore();
     }
 
     protected void completeEntry(long id) throws WorkflowException {
         WorkflowStore store = getPersistence();
         WorkflowEntry entry = store.findEntry(id);
 
-        WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
+        WorkflowDescriptor wf = getConfiguration().getWorkflow(entry.getWorkflowName());
 
         Collection currentSteps = store.findCurrentSteps(id);
 
@@ -762,72 +763,6 @@ public class AbstractWorkflow implements Workflow {
 
         if (isCompleted == true) {
             store.setEntryState(id, WorkflowEntry.COMPLETED);
-        }
-    }
-
-    /**
-     * Load the default configuration from the current context classloader. The search order is:
-     * <li>osworkflow.xml</li>
-     * <li>/osworkflow.xml</li>
-     * <li>META-INF/osworkflow.xml</li>
-     * <li>/META-INF/osworkflow.xml</li>
-     */
-    protected void loadConfig() throws FactoryException {
-        loadConfig(null);
-    }
-
-    /**
-     * Loads the configurtion file <b>osworkflow.xml</b> from the thread's class loader if no url is specified.
-     * @param url the URL to first attempt to load the configuration file from. If this url is unavailable,
-     * then the default search mechanism is used (as outlined in {@link #loadConfig}).
-     */
-    protected void loadConfig(URL url) throws FactoryException {
-        if (configLoaded) {
-            return;
-        }
-
-        InputStream is = null;
-
-        if (url != null) {
-            try {
-                is = url.openStream();
-            } catch (Exception ex) {
-            }
-        }
-
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
-        if (is == null) {
-            try {
-                is = classLoader.getResourceAsStream("osworkflow.xml");
-            } catch (Exception e) {
-            }
-        }
-
-        if (is == null) {
-            try {
-                is = classLoader.getResourceAsStream("/osworkflow.xml");
-            } catch (Exception e) {
-            }
-        }
-
-        if (is == null) {
-            try {
-                is = classLoader.getResourceAsStream("META-INF/osworkflow.xml");
-            } catch (Exception e) {
-            }
-        }
-
-        if (is == null) {
-            try {
-                is = classLoader.getResourceAsStream("/META-INF/osworkflow.xml");
-            } catch (Exception e) {
-            }
-        }
-
-        if (is != null) {
-            ConfigLoader.load(is);
-            configLoaded = true;
         }
     }
 
@@ -926,7 +861,7 @@ public class AbstractWorkflow implements Workflow {
         transientVars.put("context", context);
         transientVars.put("entry", entry);
         transientVars.put("store", getPersistence());
-        transientVars.put("descriptor", getWorkflow(entry.getWorkflowName()));
+        transientVars.put("descriptor", getConfiguration().getWorkflow(entry.getWorkflowName()));
 
         if (actionId != null) {
             transientVars.put("actionId", actionId);
@@ -1084,7 +1019,7 @@ public class AbstractWorkflow implements Workflow {
     }
 
     private boolean canInitialize(String workflowName, int initialAction, Map transientVars, PropertySet ps) throws WorkflowException {
-        WorkflowDescriptor wf = getWorkflow(workflowName);
+        WorkflowDescriptor wf = getConfiguration().getWorkflow(workflowName);
 
         ActionDescriptor actionDescriptor = wf.getInitialAction(initialAction);
 

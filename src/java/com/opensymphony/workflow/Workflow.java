@@ -6,6 +6,7 @@ package com.opensymphony.workflow;
 
 import com.opensymphony.module.propertyset.PropertySet;
 
+import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
@@ -20,6 +21,20 @@ import java.util.Map;
  * @author <a href="mailto:plightbo@hotmail.com">Patrick Lightbody</a>
  */
 public interface Workflow {
+    //~ Instance fields ////////////////////////////////////////////////////////
+
+    String BSF_COL = "col";
+    String BSF_LANGUAGE = "language";
+    String BSF_ROW = "row";
+    String BSF_SCRIPT = "script";
+    String BSF_SOURCE = "source";
+    String BSH_SCRIPT = "script";
+
+    // statics
+    String CLASS_NAME = "class.name";
+    String EJB_LOCATION = "ejb.location";
+    String JNDI_LOCATION = "jndi.location";
+
     //~ Methods ////////////////////////////////////////////////////////////////
 
     /**
@@ -152,6 +167,13 @@ public interface Workflow {
      * descriptor is no longer available or has become invalid.
      */
     int[] getAvailableActions(long id, Map inputs);
+
+    /**
+     * Set the configuration for this workflow.
+     * If not set, then the workflow will use the default configuration static instance.
+     * @param configuration a workflow configuration
+     */
+    void setConfiguration(Configuration configuration);
 
     /**
      * Get all available workflow names.

@@ -25,7 +25,7 @@ import java.util.Map;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class OfbizWorkflow extends AbstractWorkflow {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -36,12 +36,6 @@ public class OfbizWorkflow extends AbstractWorkflow {
 
     public OfbizWorkflow(String caller) {
         super.context = new OfbizWorkflowContext(caller);
-
-        try {
-            loadConfig();
-        } catch (FactoryException e) {
-            log.fatal("Could not initialize workflow", e);
-        }
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////

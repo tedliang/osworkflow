@@ -6,9 +6,6 @@ package com.opensymphony.workflow.ejb;
 
 import com.opensymphony.workflow.*;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.util.Map;
 
 import javax.ejb.*;
@@ -42,21 +39,12 @@ import javax.ejb.*;
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
  * @author <a href="mailto:hani@formicary.net">Hani Suleiman</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
-public class WorkflowEJB extends AbstractWorkflow implements SessionBean {
-    //~ Static fields/initializers /////////////////////////////////////////////
-
-    private static final Log log = LogFactory.getLog(WorkflowEJB.class);
-
-    //~ Instance fields ////////////////////////////////////////////////////////
-
-    private SessionContext sessionContext;
-
+public abstract class WorkflowEJB extends AbstractWorkflow implements SessionBean {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public void setSessionContext(SessionContext context) {
-        this.sessionContext = context;
         super.context = new EJBWorkflowContext(context);
     }
 
@@ -76,25 +64,10 @@ public class WorkflowEJB extends AbstractWorkflow implements SessionBean {
         super.doAction(id, actionId, inputs);
     }
 
-    public void ejbActivate() {
-    }
-
-    public void ejbCreate() throws CreateException {
-        try {
-            loadConfig();
-        } catch (WorkflowException ex) {
-            log.error("Error loading config");
-            throw new CreateException(ex.getMessage());
-        }
-    }
-
-    public void ejbPassivate() {
+    public void ejbCreate() {
     }
 
     public void ejbPostCreate() throws CreateException {
-    }
-
-    public void ejbRemove() {
     }
 
     /**
