@@ -28,4 +28,59 @@
 	&#60;property key=<span class="java&#45;quote">"step.dueDate"</span> value=<span class="java&#45;quote">"DUE_DATE"</span>/&#62;
 	&#60;property key=<span class="java&#45;quote">"step.status"</span> value=<span class="java&#45;quote">"STATUS"</span>/&#62;
 	&#60;property key=<span class="java&#45;quote">"step.previousId"</span> value=<span class="java&#45;quote">"PREVIOUS_ID"</span>/&#62;
-&#60;/persistence&#62;</pre></div><p class="paragraph"></p>A number of sample sql scripts to create the required tables are included in the OSWorkflow distribution in in the src/etc/deployment/jdbc directory.</body></html>
+&#60;/persistence&#62;</pre></div><p class="paragraph"></p>If you are using tomcat as the servlet container, you should config <b class="bold">$TOMCAT_HOME/conf/server.xml</b> for data source, by default, the data source name is <b class="bold">jdbc/DefaultDS</b>.<p class="paragraph"></p>You should also config the propertyset to use jdbc by add  <b class="bold">WEB-INF/classes/propertyset.xml</b>, please note that the datasource setting should match the name defined in tomcat.
+<div class="wikicode"><pre>&#60;propertysets&#62;
+    &#60;propertyset name=<span class="java&#45;quote">"jdbc"</span> class=<span class="java&#45;quote">"com.opensymphony.module.propertyset.database.JDBCPropertySet"</span>&#62;
+        &#60;arg name=<span class="java&#45;quote">"datasource"</span> value=<span class="java&#45;quote">"jdbc/DefaultDS"</span>/&#62;
+        &#60;arg name=<span class="java&#45;quote">"table.name"</span> value=<span class="java&#45;quote">"OS_PROPERTYENTRY"</span>/&#62;
+        &#60;arg name=<span class="java&#45;quote">"col.globalKey"</span> value=<span class="java&#45;quote">"GLOBAL_KEY"</span>/&#62;
+        &#60;arg name=<span class="java&#45;quote">"col.itemKey"</span> value=<span class="java&#45;quote">"ITEM_KEY"</span>/&#62;
+        &#60;arg name=<span class="java&#45;quote">"col.itemType"</span> value=<span class="java&#45;quote">"ITEM_TYPE"</span>/&#62;
+        &#60;arg name=<span class="java&#45;quote">"col.string"</span> value=<span class="java&#45;quote">"STRING_VALUE"</span>/&#62;
+        &#60;arg name=<span class="java&#45;quote">"col.date"</span> value=<span class="java&#45;quote">"DATE_VALUE"</span>/&#62;
+        &#60;arg name=<span class="java&#45;quote">"col.data"</span> value=<span class="java&#45;quote">"DATA_VALUE"</span>/&#62;
+        &#60;arg name=<span class="java&#45;quote">"col.<span class="java&#45;object">float</span>"</span> value=<span class="java&#45;quote">"FLOAT_VALUE"</span>/&#62;
+        &#60;arg name=<span class="java&#45;quote">"col.number"</span> value=<span class="java&#45;quote">"NUMBER_VALUE"</span>/&#62;
+    &#60;/propertyset&#62;
+&#60;/propertysets&#62;</pre></div><p class="paragraph"></p>A number of sample sql scripts to create the required tables are included in the OSWorkflow distribution in in the src/etc/deployment/jdbc directory.<p class="paragraph"></p>If HypersonicSQL is used as the datasource, you can follow these steps:
+<ol>
+<li>Assume your hsql db is named <b class="bold">oswf</b> and created in directory <b class="bold">/db</b></li>
+</ol><p class="paragraph"></p>2. Use the mckoi.sql script to create the tables, you can use <b class="bold">java -cp hsqldb.jar org.hsqldb.util.DatabaseManager</b> to startup the tool to execute the sript. Please delete all statements about create and drop sequence. HSQL does not support sequence, so we must have a workaround.<p class="paragraph"></p>3. Add the context config to <b class="bold">$TOMCAT_HOME/conf/server.xml</b>
+<div class="wikicode"><pre>&#60;Context path=<span class="java&#45;quote">"/osworkflow"</span> docBase=<span class="java&#45;quote">"/jakarta&#45;tomcat&#45;4.1.27/webapps/osworkflow&#45;2.6&#45;dev&#45;example"</span>&#62;
+          &#60;Resource name=<span class="java&#45;quote">"jdbc/oswf"</span> type=<span class="java&#45;quote">"javax.sql.DataSource"</span>/&#62;
+          &#60;ResourceParams name=<span class="java&#45;quote">"jdbc/DefaultDS"</span>&#62;
+            &#60;parameter&#62;&#60;name&#62;username&#60;/name&#62;&#60;value&#62;sa&#60;/value&#62;&#60;/parameter&#62;
+            &#60;parameter&#62;&#60;name&#62;password&#60;/name&#62;&#60;value&#62;&#60;/value&#62;&#60;/parameter&#62;
+            &#60;parameter&#62;&#60;name&#62;driverClassName&#60;/name&#62;
+              &#60;value&#62;org.hsqldb.jdbcDriver&#60;/value&#62;&#60;/parameter&#62;
+            &#60;parameter&#62;&#60;name&#62;url&#60;/name&#62;
+              &#60;value&#62;jdbc:hsqldb:/db/oswf&#60;/value&#62;&#60;/parameter&#62;
+          &#60;/ResourceParams&#62;
+&#60;/Context&#62;</pre></div><p class="paragraph"></p>4. Add <b class="bold">WEB-INF/classes/propertyset.xml</b> as described above<p class="paragraph"></p>5. Change the persistent setting of <b class="bold">WEB-INF/classes/osworkflow.xml</b>
+<div class="wikicode"><pre>&#60;persistence class=<span class="java&#45;quote">"com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore"</span>&#62;
+	&#60;!&#45;&#45; For jdbc persistence, all are required. &#45;&#45;&#62;
+	&#60;property key=<span class="java&#45;quote">"datasource"</span> value=<span class="java&#45;quote">"jdbc/DefaultDS"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"entry.sequence"</span> value=<span class="java&#45;quote">"select count(&#42;) + 1 from os_wfentry"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"entry.table"</span> value=<span class="java&#45;quote">"OS_WFENTRY"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"entry.id"</span> value=<span class="java&#45;quote">"ID"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"entry.name"</span> value=<span class="java&#45;quote">"NAME"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"entry.state"</span> value=<span class="java&#45;quote">"STATE"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"entry.initialized"</span> value=<span class="java&#45;quote">"STATE"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.sequence"</span> value=<span class="java&#45;quote">"select sum(c1) from (select 1 tb, count(&#42;) c1 from os_currentstep union select 2 tb, count(&#42;) c1 from os_historystep)"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"history.table"</span> value=<span class="java&#45;quote">"OS_HISTORYSTEP"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"current.table"</span> value=<span class="java&#45;quote">"OS_CURRENTSTEP"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"historyPrev.table"</span> value=<span class="java&#45;quote">"OS_HISTORYSTEP_PREV"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"currentPrev.table"</span> value=<span class="java&#45;quote">"OS_CURRENTSTEP_PREV"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.id"</span> value=<span class="java&#45;quote">"ID"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.entryId"</span> value=<span class="java&#45;quote">"ENTRY_ID"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.stepId"</span> value=<span class="java&#45;quote">"STEP_ID"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.actionId"</span> value=<span class="java&#45;quote">"ACTION_ID"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.owner"</span> value=<span class="java&#45;quote">"OWNER"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.caller"</span> value=<span class="java&#45;quote">"CALLER"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.startDate"</span> value=<span class="java&#45;quote">"START_DATE"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.finishDate"</span> value=<span class="java&#45;quote">"FINISH_DATE"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.dueDate"</span> value=<span class="java&#45;quote">"DUE_DATE"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.status"</span> value=<span class="java&#45;quote">"STATUS"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.previousId"</span> value=<span class="java&#45;quote">"PREVIOUS_ID"</span>/&#62;
+&#60;/persistence&#62;</pre></div>
+Please note that in 2.6, <b class="bold">entry.initialized</b> has beed renamed to <b class="bold">entry.state</b>. The above sample define both property to column <b class="bold">STATE</b>, just in case.</body></html>
