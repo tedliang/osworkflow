@@ -171,7 +171,7 @@ public class Layout
   public Color getColor(int resultKey)
   {
     ResultLayout rl = ((ResultLayout)results.get(new Integer(resultKey)));
-    return rl != null ? new Color(rl.cColor) : Color.black;
+    return rl != null && rl.cColor != 0 ? new Color(rl.cColor) : Color.black;
   }
 
   public float getLineWidth(int resultKey)
