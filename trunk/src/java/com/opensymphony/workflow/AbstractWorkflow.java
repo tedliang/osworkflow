@@ -255,6 +255,7 @@ public class AbstractWorkflow implements Workflow {
 
     /**
      * Get a list of workflow names available
+     * @ejb.interface-method
      * @return String[] an array of workflow names.
      * @throws UnsupportedOperationException if the underlying workflow factory cannot obtain a list of workflow names.
      */

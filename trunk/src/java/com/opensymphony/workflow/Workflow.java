@@ -98,5 +98,7 @@ public interface Workflow {
 
     public List query(WorkflowQuery query) throws WorkflowException;
 
+    String[] getWorkflowNames() throws FactoryException;
+
     boolean canInitialize(String workflowName, int initialAction, Map inputs) throws WorkflowException;
 }

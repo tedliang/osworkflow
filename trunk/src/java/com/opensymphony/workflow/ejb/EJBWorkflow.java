@@ -30,7 +30,7 @@ import javax.naming.NamingException;
  * This class acts as a wrapper around a workflow session bean.
  *
  * @author plightbo
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class EJBWorkflow implements Workflow {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -129,6 +129,16 @@ public class EJBWorkflow implements Workflow {
         } catch (RemoteException e) {
             log.error("Error getting workflow name", e);
             throw new WorkflowException(e);
+        }
+    }
+
+    public String[] getWorkflowNames() throws FactoryException {
+        try {
+            return wf.getWorkflowNames();
+        } catch (RemoteException e) {
+            log.error("Error calling getWorkflowNames", e);
+
+            return new String[0];
         }
     }
 
