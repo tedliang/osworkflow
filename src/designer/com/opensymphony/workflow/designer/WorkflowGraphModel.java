@@ -43,7 +43,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
     if(port==null) return false;
     WorkflowCell cell = (WorkflowCell)((WorkflowPort)port).getParent();
     if(cell instanceof InitialActionCell) return false;
-    //todo return true once we have connection stuff working
     return true;
   }
 
