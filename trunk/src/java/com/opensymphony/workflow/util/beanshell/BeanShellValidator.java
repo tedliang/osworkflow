@@ -21,8 +21,6 @@ import java.util.Map;
 /**
  * Beanshell inline script validator.
  * The input is determined to be invalid of the script throws a  {@link InvalidInputException}.
- * @author $Author: hani $
- * @version $Revision: 1.4 $
  */
 public class BeanShellValidator implements Validator {
     //~ Static fields/initializers /////////////////////////////////////////////

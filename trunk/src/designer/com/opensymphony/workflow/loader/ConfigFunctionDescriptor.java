@@ -1,8 +1,10 @@
 package com.opensymphony.workflow.loader;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Element;
 
@@ -16,6 +18,7 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor implements Args
   protected String description;
 	protected String displayName;
   protected List modifiableArgs = new ArrayList();
+  protected Map argTypeMap = new HashMap();
 	private PaletteDescriptor palette;
 
   public ConfigFunctionDescriptor(PaletteDescriptor palette)
@@ -38,6 +41,7 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor implements Args
 	  displayName = other.displayName;
 	  description = other.description;
     modifiableArgs = other.modifiableArgs;
+    argTypeMap.putAll(other.getArgTypes());
 	  palette = other.palette;
   }
 
@@ -64,10 +68,22 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor implements Args
     for(int l = 0; l < args.size(); l++)
     {
       Element arg = (Element)args.get(l);
+    		
+			String ss = arg.getAttribute("name");
+      
       this.args.put(arg.getAttribute("name"), XMLUtil.getText(arg));
       if("true".equals(arg.getAttribute("modifiable")))
       {
         modifiableArgs.add(arg.getAttribute("name"));
+      	String sArgType = arg.getAttribute("argtype");
+      	if (sArgType!=null)
+      	{
+      		ArgType at = (ArgType)palette.getArgType(sArgType);
+      		if (at!=null)
+      		{
+      			argTypeMap.put(arg.getAttribute("name"), at);
+      		}
+      	}
       }
     }
 
@@ -80,6 +96,11 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor implements Args
     return modifiableArgs.contains(name);
   }
 
+	public ArgType getArgType(String name)
+	{
+		return (ArgType)argTypeMap.get(name);
+	}
+	
   public String getDescription()
   {
     return description;
@@ -113,5 +134,10 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor implements Args
 	public String toString()
 	{
 		return displayName!=null ? displayName : name;
+	}
+	
+	public Map getArgTypes()
+	{
+		return argTypeMap;
 	}
 }

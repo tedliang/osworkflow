@@ -2,10 +2,12 @@ package com.opensymphony.workflow.designer.editor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.awt.*;
 
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.designer.WorkflowGraphModel;
+import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.designer.spi.DefaultValidatorPlugin;
 import com.opensymphony.workflow.designer.spi.ValidatorPlugin;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
@@ -51,7 +53,7 @@ public class ValidatorEditor
       return null;
     }
 
-    validator = editValidator(validator);
+    validator = editValidator(validator, WorkflowDesigner.INSTANCE);
 
     if (validator != null)
     {
@@ -79,7 +81,7 @@ public class ValidatorEditor
     
     validator.getArgs().putAll(val.getArgs());
 
-    validator = editValidator(validator);
+    validator = editValidator(validator, WorkflowDesigner.INSTANCE);
 
     if (validator != null)
     {
@@ -87,7 +89,7 @@ public class ValidatorEditor
     }
   }
 
-  private ConfigValidatorDescriptor editValidator(ConfigValidatorDescriptor config)
+  private ConfigValidatorDescriptor editValidator(ConfigValidatorDescriptor config, Component parent)
   {
     // get plugin
     String clazz = config.getPlugin();
@@ -112,7 +114,7 @@ public class ValidatorEditor
     Map args = new HashMap();
     args.put("cell", descriptor);
 
-    if (!valImpl.editValidator(args))
+    if (!valImpl.editValidator(args, parent))
     {
       // cancel
       return null;
@@ -130,7 +132,8 @@ public class ValidatorEditor
 	{
 		ConfigValidatorDescriptor template = (ConfigValidatorDescriptor)DialogUtils.getUserSelection(getModel().getPalette().getValidators(),
 			ResourceManager.getString("validator.select"),
-			ResourceManager.getString("validator.select"), null);
+			ResourceManager.getString("validator.select"), 
+			WorkflowDesigner.INSTANCE);
 		if (template!=null)
 			return new ConfigValidatorDescriptor(template);
 		return null;

@@ -17,9 +17,6 @@ import java.util.List;
 
 /**
  * DOCUMENT ME!
- *
- * @author $author$
- * @version $Revision: 1.7 $
  */
 public class JoinDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////

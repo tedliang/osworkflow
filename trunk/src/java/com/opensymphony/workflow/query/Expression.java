@@ -16,7 +16,6 @@ import java.io.Serializable;
  * Store specific expressions like XPathExpression can be added.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.7 $
  */
 public abstract class Expression implements Serializable {
     //~ Instance fields ////////////////////////////////////////////////////////

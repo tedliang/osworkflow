@@ -16,7 +16,6 @@ import org.springframework.core.io.ClassPathResource;
 /**
  * @author        Quake Wang
  * @since        2004-5-2
- * @version $Revision: 1.4 $
  *
  **/
 public class SpringHibernateFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest {

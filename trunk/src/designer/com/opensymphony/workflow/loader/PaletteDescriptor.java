@@ -21,6 +21,7 @@ public class PaletteDescriptor extends AbstractDescriptor
   protected List validatorList = new ArrayList();
   protected List registerList = new ArrayList();
   protected List triggerList = new ArrayList();
+  protected List argtypeList = new ArrayList();
   protected String defaultOldStatus = null;
   protected String defaultNextStatus = null;
 	private EnhancedResourceBundle bundle;
@@ -187,6 +188,19 @@ public class PaletteDescriptor extends AbstractDescriptor
 		return null;
 	}
 	
+	public ArgType getArgType(String name)
+	{
+		if (name==null)
+			return null;
+		for (int i=0; i<argtypeList.size(); i++)
+		{
+			ArgType type = (ArgType)argtypeList.get(i); 
+			if (name.equals(type.getName()))
+				return type;		
+		}
+		return null;
+	}
+	
   public String getDefaultOldStatus()
   {
     return defaultOldStatus;
@@ -204,6 +218,34 @@ public class PaletteDescriptor extends AbstractDescriptor
 
   protected void init(Element root)
   {
+    // argtypes
+    Element a = XMLUtil.getChildElement(root, "argtypes");
+    if (a!=null)
+   	{
+   		List types = XMLUtil.getChildElements(a, "argtype");
+   		for (int i=0; i<types.size(); i++)
+   		{
+   			Element argtype = (Element)types.get(i);
+   			String sClass = argtype.getAttribute("class");   
+   			if (sClass!=null)
+   			{
+					ArgType argImpl = null;
+					try
+					{
+						argImpl = (ArgType)Class.forName(sClass).newInstance();
+						if ((argImpl!=null)&&(argImpl.init(argtype)))
+						{
+							argtypeList.add(argImpl);
+						}
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+				}	
+   		}
+   	}
+    
     // joinconditions
     Element s = XMLUtil.getChildElement(root, "statusvalues");
     defaultNextStatus = s.getAttribute("default-next");

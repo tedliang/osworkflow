@@ -29,9 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * DOCUMENT ME!
- *
- * @author $author$
- * @version $Revision: 1.10 $
  */
 public class OfbizSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////

@@ -1,5 +1,6 @@
 package com.opensymphony.workflow.designer.spi;
 
+import java.awt.Component;
 import java.util.Map;
 
 import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
@@ -24,9 +25,9 @@ public class BshFunctionPlugin implements FunctionPlugin
 		return function;
 	}
 
-	public boolean editFunction(Map args)
+	public boolean editFunction(Map args, Component parent)
 	{
-		String text = DialogUtils.getTextDialog((String)function.getArgs().get("script"));
+		String text = DialogUtils.getTextDialog((String)function.getArgs().get("script"), parent);
 		if(text!=null)
 		{
 			function.getArgs().put("script", text);

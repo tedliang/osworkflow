@@ -1,5 +1,6 @@
 package com.opensymphony.workflow.designer.spi;
 
+import java.awt.Component;
 import java.util.Map;
 import com.opensymphony.workflow.loader.ConfigValidatorDescriptor;
 
@@ -12,5 +13,5 @@ public interface ValidatorPlugin
 {
 	public void setValidator(ConfigValidatorDescriptor descriptor);
 	public ConfigValidatorDescriptor getValidator();
-	public boolean editValidator(Map args);
+	public boolean editValidator(Map args, Component parent);
 }

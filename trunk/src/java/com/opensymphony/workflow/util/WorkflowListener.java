@@ -15,7 +15,6 @@ import java.rmi.RemoteException;
  * Listener interface to be implemented by remote session beans that wish to be
  * notified of changes in the workflow.
  * @author Hani Suleiman
- * @version $Revision: 1.3 $
  * Date: Apr 6, 2002
  * Time: 11:48:14 PM
  */

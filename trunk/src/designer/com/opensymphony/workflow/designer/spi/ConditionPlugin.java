@@ -1,5 +1,6 @@
 package com.opensymphony.workflow.designer.spi;
 
+import java.awt.Component;
 import java.util.Map;
 
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
@@ -13,6 +14,6 @@ public interface ConditionPlugin
 
   public ConfigConditionDescriptor getCondition();
 
-  public boolean editCondition(Map args);
+  public boolean editCondition(Map args, Component parent);
 
 }

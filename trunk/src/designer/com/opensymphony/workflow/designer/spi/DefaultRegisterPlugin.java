@@ -1,5 +1,6 @@
 package com.opensymphony.workflow.designer.spi;
 
+import java.awt.Component;
 import java.util.Map;
 
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
@@ -25,9 +26,9 @@ public class DefaultRegisterPlugin implements RegisterPlugin
     return reg;
   }
 
-  public boolean editRegister(Map args)
+  public boolean editRegister(Map args, Component parent)
   {
-    Map newArg = DialogUtils.getMapDialog(reg, reg.getType(), null);
+    Map newArg = DialogUtils.getMapDialog(reg, reg.getType(), null, parent);
     if (newArg == null)
     {
       return false;

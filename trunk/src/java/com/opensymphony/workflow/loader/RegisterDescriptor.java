@@ -14,7 +14,6 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.5 $
  */
 public class RegisterDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////

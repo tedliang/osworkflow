@@ -22,10 +22,7 @@ import java.util.Map;
 
 
 /**
- * DOCUMENT ME!
- *
- * @author $author$
- * @version $Revision: 1.5 $
+ * Ofbiz aware workflow implementation
  */
 public class OfbizWorkflow extends AbstractWorkflow {
     //~ Static fields/initializers /////////////////////////////////////////////

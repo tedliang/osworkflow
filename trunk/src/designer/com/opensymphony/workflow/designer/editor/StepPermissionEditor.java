@@ -3,6 +3,7 @@ package com.opensymphony.workflow.designer.editor;
 import java.util.List;
 
 import com.opensymphony.workflow.designer.ResourceManager;
+import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.*;
 
@@ -33,7 +34,8 @@ public class StepPermissionEditor extends ConditionEditor
 	{
 		PermissionConditionDescriptor template = (PermissionConditionDescriptor)DialogUtils.getUserSelection(getModel().getPalette().getPermissionConditions(),
 		  ResourceManager.getString("permission.select.step"),
-		  ResourceManager.getString("permission.select"), null);
+		  ResourceManager.getString("permission.select"), 
+		  WorkflowDesigner.INSTANCE);
 		if(template!=null)
 		  return new PermissionConditionDescriptor(template);
 		return null;

@@ -2,7 +2,9 @@ package com.opensymphony.workflow.loader;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Element;
 
@@ -14,6 +16,7 @@ public class ConfigRegisterDescriptor extends RegisterDescriptor implements Args
   protected String plugin;
 	protected String description;
   protected List modifiableArgs = new ArrayList();
+  protected Map argTypeMap = new HashMap(); 
 	private PaletteDescriptor palette;
 
 	public ConfigRegisterDescriptor(PaletteDescriptor palette)
@@ -60,6 +63,15 @@ public class ConfigRegisterDescriptor extends RegisterDescriptor implements Args
       if("true".equals(arg.getAttribute("modifiable")))
       {
         modifiableArgs.add(arg.getAttribute("name"));
+				String sArgType = arg.getAttribute("argtype");
+				if (sArgType!=null)
+				{
+					ArgType at = (ArgType)palette.getArgType(sArgType);
+					if (at!=null)
+					{
+						argTypeMap.put(arg.getAttribute("name"), at);
+					}
+				}
       }
     }
     plugin = XMLUtil.getChildText(register, "plugin");
@@ -70,6 +82,11 @@ public class ConfigRegisterDescriptor extends RegisterDescriptor implements Args
   {
     return modifiableArgs.contains(name);
   }
+
+	public ArgType getArgType(String name)
+	{
+		return (ArgType)argTypeMap.get(name);
+	}
 
   public void writeXML(PrintWriter writer, int indent)
   {

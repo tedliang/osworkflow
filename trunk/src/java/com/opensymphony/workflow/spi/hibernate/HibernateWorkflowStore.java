@@ -39,8 +39,6 @@ import java.util.*;
  * <code>DefaultConfiguration.persistenceArgs.put("sessionFactory", DatabaseHelper.getSessionFactory());</code>
  * See the HibernateFunctionalWorkflowTestCase for more help.
  *
- * @author $Author: hani $
- * @version $Revision: 1.20 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////

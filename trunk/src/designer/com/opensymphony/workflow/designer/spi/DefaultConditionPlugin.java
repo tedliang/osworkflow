@@ -1,5 +1,6 @@
 package com.opensymphony.workflow.designer.spi;
 
+import java.awt.Component;
 import java.util.Map;
 
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
@@ -22,9 +23,9 @@ public class DefaultConditionPlugin implements ConditionPlugin
     return condition;
   }
 
-  public boolean editCondition(Map args)
+  public boolean editCondition(Map args, Component parent)
   {
-    Map newArg = DialogUtils.getMapDialog(condition, condition.getType(), null);
+    Map newArg = DialogUtils.getMapDialog(condition, condition.getType(), null, parent);
     if(newArg == null)
     {
       return false;

@@ -33,7 +33,6 @@ import javax.mail.internet.MimeMessage;
  * </ul>
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.4 $
  */
 public class SendEmail implements FunctionProvider {
     //~ Static fields/initializers /////////////////////////////////////////////

@@ -2,8 +2,10 @@ package com.opensymphony.workflow.designer.editor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.awt.*;
 
 import com.opensymphony.workflow.designer.WorkflowGraphModel;
+import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.designer.spi.DefaultFunctionPlugin;
 import com.opensymphony.workflow.designer.spi.FunctionPlugin;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
@@ -48,7 +50,7 @@ public abstract class FunctionEditor
       return null;
     }
 
-    function = editFunction(function);
+    function = editFunction(function, WorkflowDesigner.INSTANCE);
 
     if(function != null)
     {
@@ -84,7 +86,7 @@ public abstract class FunctionEditor
 
     function.getArgs().putAll(func.getArgs());
 
-    function = editFunction(function);
+    function = editFunction(function, WorkflowDesigner.INSTANCE);
 
     if(function != null)
     {
@@ -93,7 +95,7 @@ public abstract class FunctionEditor
 
   }
 
-  private ConfigFunctionDescriptor editFunction(ConfigFunctionDescriptor config)
+  private ConfigFunctionDescriptor editFunction(ConfigFunctionDescriptor config, Component parent)
   {
     // get plugin
     String clazz = config.getPlugin();
@@ -118,7 +120,7 @@ public abstract class FunctionEditor
     Map args = new HashMap();
     args.put("cell", descriptor);
 
-    if(!funcImpl.editFunction(args))
+    if(!funcImpl.editFunction(args, parent))
     {
       // cancel
       return null;

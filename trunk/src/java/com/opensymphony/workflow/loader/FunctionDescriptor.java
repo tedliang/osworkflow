@@ -15,7 +15,6 @@ import java.util.*;
  * Desrives a function that can be applied to a workflow step.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.10 $
  */
 public class FunctionDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////

@@ -1,5 +1,6 @@
 package com.opensymphony.workflow.designer.spi;
 
+import java.awt.Component;
 import java.util.Map;
 
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
@@ -25,9 +26,9 @@ public class DefaultValidatorPlugin implements ValidatorPlugin
     return val;
   }
 
-  public boolean editValidator(Map args)
+  public boolean editValidator(Map args, Component parent)
   {
-    Map newArg = DialogUtils.getMapDialog(val, val.getType(), null);
+    Map newArg = DialogUtils.getMapDialog(val, val.getType(), null, parent);
     if (newArg == null)
     {
       return false;

@@ -2,8 +2,10 @@ package com.opensymphony.workflow.designer.editor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.awt.*;
 
 import com.opensymphony.workflow.designer.WorkflowGraphModel;
+import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.designer.spi.ConditionPlugin;
 import com.opensymphony.workflow.designer.spi.DefaultConditionPlugin;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
@@ -48,7 +50,7 @@ public abstract class ConditionEditor
       return null;
     }
 
-    condition = editCondition(condition);
+    condition = editCondition(condition, WorkflowDesigner.INSTANCE);
 
     if(condition != null)
     {
@@ -85,7 +87,7 @@ public abstract class ConditionEditor
 
     condition.getArgs().putAll(cond.getArgs());
 
-    condition = editCondition(condition);
+    condition = editCondition(condition, WorkflowDesigner.INSTANCE);
 
     if(condition != null)
     {
@@ -95,7 +97,7 @@ public abstract class ConditionEditor
 
 	protected abstract ConfigConditionDescriptor getConfigDescriptor(ConditionDescriptor cond);
 
-	private ConfigConditionDescriptor editCondition(ConfigConditionDescriptor config)
+	private ConfigConditionDescriptor editCondition(ConfigConditionDescriptor config, Component parent)
   {
     // get plugin
     String clazz = config.getPlugin();
@@ -120,7 +122,7 @@ public abstract class ConditionEditor
     Map args = new HashMap();
     args.put("cell", descriptor);
 
-    if(!condImpl.editCondition(args))
+    if(!condImpl.editCondition(args, parent))
     {
       // cancel
       return null;

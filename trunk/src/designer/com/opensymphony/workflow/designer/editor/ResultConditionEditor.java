@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer.editor;
 
 import com.opensymphony.workflow.designer.ResourceManager;
+import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
@@ -35,7 +36,8 @@ public class ResultConditionEditor extends ConditionEditor
 	{
 		ConfigConditionDescriptor template = (ConfigConditionDescriptor)DialogUtils.getUserSelection(getModel().getPalette().getResultConditions(),
 		  ResourceManager.getString("condition.select.result"),
-		  ResourceManager.getString("condition.select"), null);
+		  ResourceManager.getString("condition.select"),
+		  WorkflowDesigner.INSTANCE);
 		if(template!=null)
 		  return new ConfigConditionDescriptor(template);
 		return null;

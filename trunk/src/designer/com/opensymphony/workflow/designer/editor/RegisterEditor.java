@@ -2,10 +2,12 @@ package com.opensymphony.workflow.designer.editor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.awt.*;
 
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.designer.WorkflowGraphModel;
+import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.designer.spi.DefaultRegisterPlugin;
 import com.opensymphony.workflow.designer.spi.RegisterPlugin;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
@@ -51,7 +53,7 @@ public class RegisterEditor
       return null;
     }
 
-    register = editRegister(register);
+    register = editRegister(register, WorkflowDesigner.INSTANCE);
 
     if (register != null)
     {
@@ -85,7 +87,7 @@ public class RegisterEditor
 
     register.getArgs().putAll(reg.getArgs());
 
-    register = editRegister(register);
+    register = editRegister(register, WorkflowDesigner.INSTANCE);
 
     if (register != null)
     {
@@ -93,7 +95,7 @@ public class RegisterEditor
     }
   }
 
-  private ConfigRegisterDescriptor editRegister(ConfigRegisterDescriptor config)
+  private ConfigRegisterDescriptor editRegister(ConfigRegisterDescriptor config, Component parent)
   {
     // get plugin
     String clazz = config.getPlugin();
@@ -118,7 +120,7 @@ public class RegisterEditor
     Map args = new HashMap();
     args.put("cell", descriptor);
 
-    if (!regImpl.editRegister(args))
+    if (!regImpl.editRegister(args, WorkflowDesigner.INSTANCE))
     {
       // cancel
       return null;
@@ -137,7 +139,8 @@ public class RegisterEditor
 	{
 		ConfigRegisterDescriptor template = (ConfigRegisterDescriptor)DialogUtils.getUserSelection(getModel().getPalette().getRegisters(),
 			ResourceManager.getString("register.select"),
-			ResourceManager.getString("register.select"), null);
+			ResourceManager.getString("register.select"), 
+			WorkflowDesigner.INSTANCE);
 		if(template!=null)
 			return new ConfigRegisterDescriptor(template);
 		return null;

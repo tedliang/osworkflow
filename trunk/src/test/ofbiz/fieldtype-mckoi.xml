@@ -3,7 +3,6 @@
 
 <!--
 /**
- *  $Id: fieldtype-mckoi.xml,v 1.1 2003-10-04 21:25:27 hani Exp $
  *  Title: Entity Generator Definitions for the General Data Model
  *  Description: None
  *  Copyright (c) 2002 The Open For Business Project - www.ofbiz.org
@@ -91,6 +90,11 @@
   </field-type-def>
   <field-type-def type="tel-number" sql-type="VARCHAR(60)" java-type="String">
     <validate name="isInternationalPhoneNumber"/>
+  </field-type-def>
+
+</fieldtypemodel>
+
+ternationalPhoneNumber"/>
   </field-type-def>
 
 </fieldtypemodel>
