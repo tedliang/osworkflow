@@ -4,12 +4,12 @@
  */
 package com.opensymphony.workflow.spi.memory;
 
-import java.util.*;
-
 import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
+
 import com.opensymphony.util.DataUtil;
 import com.opensymphony.util.TextUtils;
+
 import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.query.Expression;
 import com.opensymphony.workflow.query.FieldExpression;
@@ -21,7 +21,10 @@ import com.opensymphony.workflow.spi.SimpleWorkflowEntry;
 import com.opensymphony.workflow.spi.Step;
 import com.opensymphony.workflow.spi.WorkflowEntry;
 import com.opensymphony.workflow.spi.WorkflowStore;
+
 import java.security.InvalidParameterException;
+
+import java.util.*;
 
 
 /**
@@ -336,6 +339,37 @@ public class MemoryWorkflowStore implements WorkflowStore {
         return false;
     }
 
+    private boolean checkNestedExpression(long entryId, NestedExpression nestedExpression) {
+        for (int i = 0; i < nestedExpression.getExpressionCount(); i++) {
+            boolean expressionResult;
+            Expression expression = nestedExpression.getExpression(i);
+
+            if (expression.isNested()) {
+                expressionResult = this.checkNestedExpression(entryId, (NestedExpression) expression);
+            } else {
+                expressionResult = this.checkExpression(entryId, (FieldExpression) expression);
+            }
+
+            if (nestedExpression.getOperator() == NestedExpression.AND) {
+                if (expressionResult == false) {
+                    return nestedExpression.isNegate();
+                }
+            } else if (nestedExpression.getOperator() == NestedExpression.OR) {
+                if (expressionResult == true) {
+                    return !nestedExpression.isNegate();
+                }
+            }
+        }
+
+        if (nestedExpression.getOperator() == NestedExpression.AND) {
+            return !nestedExpression.isNegate();
+        } else if (nestedExpression.getOperator() == NestedExpression.OR) {
+            return nestedExpression.isNegate();
+        }
+
+        throw new InvalidParameterException("unknown operator");
+    }
+
     private boolean compareDate(Date value1, Date value2, int operator) {
         switch (operator) {
         case FieldExpression.EQUALS:
@@ -414,40 +448,13 @@ public class MemoryWorkflowStore implements WorkflowStore {
     }
 
     private boolean query(long entryId, WorkflowExpressionQuery query) {
-		Expression expression = query.getExpression();
-		if ( expression.isNested() )
-			return this.checkNestedExpression(entryId, (NestedExpression) expression);
-		else
-			return this.checkExpression(entryId, (FieldExpression) expression);
-	}
-	
-	private boolean checkNestedExpression (long entryId, NestedExpression nestedExpression ){
-        for (int i = 0; i < nestedExpression.getExpressionCount(); i++) {
-			boolean expressionResult;
-			Expression expression = nestedExpression.getExpression(i);
-			if ( expression.isNested() )
-			   expressionResult = this.checkNestedExpression(entryId, (NestedExpression) expression);
-			else
-			   expressionResult = this.checkExpression(entryId, (FieldExpression) expression);
+        Expression expression = query.getExpression();
 
-            if (nestedExpression.getOperator() == NestedExpression.AND) {
-                if (expressionResult == false) {
-                    return nestedExpression.isNegate();
-                }
-            } else if (nestedExpression.getOperator() == NestedExpression.OR) {
-                if (expressionResult == true) {
-                    return !nestedExpression.isNegate();
-                }
-            }
+        if (expression.isNested()) {
+            return this.checkNestedExpression(entryId, (NestedExpression) expression);
+        } else {
+            return this.checkExpression(entryId, (FieldExpression) expression);
         }
-
-        if (nestedExpression.getOperator() == NestedExpression.AND) {
-            return !nestedExpression.isNegate();
-        } else if (nestedExpression.getOperator() == NestedExpression.OR) {
-            return nestedExpression.isNegate();
-        }
-
-        throw new InvalidParameterException("unknown operator");
     }
 
     private boolean queryBasic(Long entryId, WorkflowQuery query) {

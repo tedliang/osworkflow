@@ -14,9 +14,9 @@ package com.opensymphony.workflow.query;
  * <li>Context: The context to search in, which can be one history, current steps, or a workflow instance.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class FieldExpression extends Expression{
+public class FieldExpression extends Expression {
     //~ Static fields/initializers /////////////////////////////////////////////
 
     // field operators
@@ -126,11 +126,11 @@ public class FieldExpression extends Expression{
         this.field = field;
         this.value = value;
     }
-	
-	public FieldExpression(int field, int context, int operator, Object value, boolean negate) {
-		this(field,context,operator,value);
-		super.negate=negate;
-	}
+
+    public FieldExpression(int field, int context, int operator, Object value, boolean negate) {
+        this(field, context, operator, value);
+        super.negate = negate;
+    }
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
@@ -142,6 +142,10 @@ public class FieldExpression extends Expression{
         return field;
     }
 
+    public boolean isNested() {
+        return false;
+    }
+
     public int getOperator() {
         return operator;
     }
@@ -149,8 +153,4 @@ public class FieldExpression extends Expression{
     public Object getValue() {
         return value;
     }
-	
-	public boolean isNested() {
-		return false;
-	}
 }
