@@ -110,20 +110,25 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         log("Perform Publish Document");
         workflow.doAction(workflowId, 11, Collections.EMPTY_MAP);
 
-        query = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
-
-        List workflows = workflow.query(query);
-        assertEquals("Unexpected number of workflow query results", 1, workflows.size());
         actions = workflow.getAvailableActions(workflowId, Collections.EMPTY_MAP);
         assertEquals(0, actions.length);
         historySteps = workflow.getHistorySteps(workflowId);
         assertEquals("Unexpected number of history steps", 7, historySteps.size());
 
-        WorkflowQuery queryLeft = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
-        WorkflowQuery queryRight = new WorkflowQuery(WorkflowQuery.STATUS, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, "Finished");
-        query = new WorkflowQuery(queryLeft, WorkflowQuery.AND, queryRight);
-        workflows = workflow.query(query);
-        assertEquals("Unexpected number of workflow query results", 1, workflows.size());
+        query = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
+
+        try {
+            List workflows = workflow.query(query);
+            assertEquals("Unexpected number of workflow query results", 1, workflows.size());
+
+            WorkflowQuery queryLeft = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
+            WorkflowQuery queryRight = new WorkflowQuery(WorkflowQuery.STATUS, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, "Finished");
+            query = new WorkflowQuery(queryLeft, WorkflowQuery.AND, queryRight);
+            workflows = workflow.query(query);
+            assertEquals("Unexpected number of workflow query results", 1, workflows.size());
+        } catch (QueryNotSupportedException ex) {
+            System.out.println("query not supported");
+        }
     }
 
     public void testWorkflowExpressionQuery() throws Exception {

@@ -31,7 +31,7 @@ org.ofbiz.core.entity.config.UrlLoader - load resources from external URLs
   <!-- FIELD TYPES -->
   <field-type name="mckoi" loader="maincp" location="ofbiz/fieldtype-mckoi.xml"/>
 
-  <datasource name="mckoiDS" helper-class="org.ofbiz.core.entity.GenericHelperDAO" field-type-name="mckoi" check-on-start="false" add-missing-on-start="false">
+  <datasource name="mckoiDS" helper-class="org.ofbiz.core.entity.GenericHelperDAO" field-type-name="mckoi" check-on-start="true" add-missing-on-start="true">
     <jndi-jdbc jndi-server-name="default" jndi-name="jdbc/DefaultDS" />
   </datasource>
 </entity-config>
