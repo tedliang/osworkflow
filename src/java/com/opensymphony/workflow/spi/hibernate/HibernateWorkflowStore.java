@@ -10,6 +10,7 @@ import com.opensymphony.module.propertyset.hibernate.DefaultHibernateConfigurati
 
 import com.opensymphony.util.TextUtils;
 
+import com.opensymphony.workflow.QueryNotSupportedException;
 import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.query.*;
 import com.opensymphony.workflow.spi.Step;
@@ -39,7 +40,7 @@ import java.util.*;
  * See the HibernateFunctionalWorkflowTestCase for more help.
  *
  * @author $Author: hani $
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.20 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -465,7 +466,7 @@ public class HibernateWorkflowStore implements WorkflowStore {
                 break;
 
             default:
-                throw new StoreException("Query for unsupported context " + fieldExpression.getContext());
+                throw new QueryNotSupportedException("Query for unsupported context " + fieldExpression.getContext());
             }
         } else {
             NestedExpression nestedExpression = (NestedExpression) expr;
@@ -482,7 +483,7 @@ public class HibernateWorkflowStore implements WorkflowStore {
         }
 
         if (classesCache.size() > 1) {
-            throw new StoreException("Store does not support nested queries of different types (types found:" + classesCache + ")");
+            throw new QueryNotSupportedException("Store does not support nested queries of different types (types found:" + classesCache + ")");
         }
 
         return (Class) classesCache.iterator().next();

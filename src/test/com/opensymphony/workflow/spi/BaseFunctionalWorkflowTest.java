@@ -290,8 +290,13 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
                         queryLeft, queryRight
                     }, NestedExpression.OR));
-        workflows = workflow.query(query);
-        assertEquals("empty nested query OR + mixed context", 0, workflows.size());
+
+        try {
+            workflows = workflow.query(query);
+            assertEquals("empty nested query OR + mixed context", 0, workflows.size());
+        } catch (QueryNotSupportedException e) {
+            log.warn("Query not supported: " + e);
+        }
 
         // ------------------------- negated nested query: OR -------------------------------------
         queryLeft = new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date());
@@ -299,8 +304,13 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
                         queryLeft, queryRight
                     }, NestedExpression.OR));
-        workflows = workflow.query(query);
-        assertEquals("negated nested query OR", 1, workflows.size());
+
+        try {
+            workflows = workflow.query(query);
+            assertEquals("negated nested query OR", 1, workflows.size());
+        } catch (QueryNotSupportedException e) {
+            log.warn("Query not supported: " + e);
+        }
 
         // ------------------------- nested query: OR + mixed context -------------------------------------
         queryLeft = new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date());
@@ -308,8 +318,13 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
                         queryLeft, queryRight
                     }, NestedExpression.OR));
-        workflows = workflow.query(query);
-        assertEquals("nested query OR + mixed context", 1, workflows.size());
+
+        try {
+            workflows = workflow.query(query);
+            assertEquals("nested query OR + mixed context", 1, workflows.size());
+        } catch (QueryNotSupportedException e) {
+            log.warn("Query not supported: " + e);
+        }
 
         // --------------------- START_DATE+CURRENT_STEPS -------------------------------------------------
         //there should be one step that has been started

@@ -8,6 +8,7 @@ import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
 import com.opensymphony.module.propertyset.hibernate.DefaultHibernateConfigurationProvider;
 
+import com.opensymphony.workflow.QueryNotSupportedException;
 import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.query.FieldExpression;
 import com.opensymphony.workflow.query.NestedExpression;
@@ -42,7 +43,7 @@ import java.util.Set;
 /**
  * @author        Quake Wang
  * @since        2004-5-2
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  *
  **/
 public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements WorkflowStore {
@@ -348,7 +349,7 @@ public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements
                 break;
 
             default:
-                throw new StoreException("Query for unsupported context " + fieldExpression.getContext());
+                throw new QueryNotSupportedException("Query for unsupported context " + fieldExpression.getContext());
             }
         } else {
             NestedExpression nestedExpression = (NestedExpression) expr;
@@ -365,7 +366,7 @@ public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements
         }
 
         if (classesCache.size() > 1) {
-            throw new StoreException("Store does not support nested queries of different types (types found:" + classesCache + ")");
+            throw new QueryNotSupportedException("Store does not support nested queries of different types (types found:" + classesCache + ")");
         }
 
         return (Class) classesCache.iterator().next();
@@ -395,10 +396,10 @@ public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements
                 return Expression.or(buildExpression(left), buildExpression(right));
 
             case WorkflowQuery.XOR:
-                throw new StoreException("XOR Operator in Queries not supported by " + this.getClass().getName());
+                throw new QueryNotSupportedException("XOR Operator in Queries not supported by " + this.getClass().getName());
 
             default:
-                throw new StoreException("Operator '" + operator + "' is not supported by " + this.getClass().getName());
+                throw new QueryNotSupportedException("Operator '" + operator + "' is not supported by " + this.getClass().getName());
             }
         }
     }
