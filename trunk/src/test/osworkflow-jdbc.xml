@@ -1,0 +1,6 @@
+<osworkflow>
+    <persistence class="com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore">
+      <property key="datasource" value="blahblah" />
+      </persistence>
+    <factory class="com.opensymphony.workflow.loader.URLWorkflowFactory" />
+</osworkflow>
