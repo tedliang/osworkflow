@@ -1,0 +1,1602 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OSWorkflow Coverage Report</title>
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../style.css" TITLE="Style">
+</head>
+<body>
+  <!-- render overall pkg coverage graph -->
+<TABLE cellspacing="0" cellpadding="2">
+  <TBODY>
+    <!-- / Users/ hani/ projects/ osworkflow/ src/ java/ com/ opensymphony/ workflow/ util/ EJBInvoker.java -->
+  <TR>
+    <TD colspan="6" class="reportHeader">
+    <TABLE width="100%"><TR><TD valign="top" class="titleText">Clover coverage report -  OSWorkflow Coverage Report<DIV class="timestamp"><b>Coverage timestamp:</b>&nbsp;Wed Oct 8 2003 20:31:22 EDT</DIV>
+            <DIV class="navBar"><a href="../../../../pkgs-summary.html"><b>Overview</b></a>&nbsp;&nbsp;&nbsp;<a href="pkg-summary.html"><b>Package</b></a>&nbsp;&nbsp;&nbsp;<font class="navBarCurrent">File</font></DIV>
+    </TD>
+         <td class="headerStats" valign="top" width="40%" align="right">
+        <table align="right">
+         <tr>
+           <td nowrap><b>file stats:</b></td>
+           <td align="right"><b>LOC:</b></td>
+           <td align="right">92</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Methods:</b></td>
+           <td align="right">1</td>
+         </tr>
+         <tr>
+           <td></td>
+           <td align="right"><b>NCLOC:</b></td>
+           <td align="right">42</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Classes:</b></td>
+           <td align="right">1</td>
+         </tr>
+      </table>
+     </td>
+    </TR></TABLE>
+   </TD>
+  </TR>
+
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+  <TR>
+    <TD class="graphHeaderLeft"><b>&nbsp;Source file</b></TD>
+    <TD class="graphHeader">Conditionals</TD>
+    <TD class="graphHeader">Statements</TD>
+    <TD class="graphHeader">Methods</TD>
+    <TD class="graphHeader" align="left" colspan="2"><B>TOTAL</B></TD>
+  </TR>   
+  <TR>
+    <TD class="graphItem">
+        	   EJBInvoker.java
+	    </TD>
+   
+    <TD class="graphPercent" align="center">0%</TD>
+    <TD class="graphPercent" align="center">0%</TD>
+    <TD class="graphPercent" align="center">0%</TD>
+    <TD class="graphBarLeft" align="center"><B>0%</B></TD>
+    <TD class="graphBar">
+            <TABLE class="barGraph" cellspacing="0">
+        <TBODY>
+          <TR>
+	   	    <TD class="uncovered"><img alt="coverage" src="../../../../img/trans.gif" width="200" height="12"></TD> 
+	   	  </TR>
+	</TBODY>
+      </TABLE>
+          </TD>
+  </TR> 
+</TBODY>
+</TABLE>
+
+
+<TABLE cellspacing="0" cellpadding="0" class="srcView">
+<TBODY>
+
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;1
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/*</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;2
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Copyright (c) 2002-2003 by OpenSymphony</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;3
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * All rights reserved.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;4
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;5
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">package</span> com.opensymphony.workflow.util;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;6
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;7
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.module.propertyset.PropertySet;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;8
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;9
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.FunctionProvider;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;10
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.spi.WorkflowEntry;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;11
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;12
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> org.apache.commons.logging.Log;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;13
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> org.apache.commons.logging.LogFactory;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;14
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;15
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.lang.reflect.Method;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;16
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;17
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.util.Hashtable;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;18
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.util.Map;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;19
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;20
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> javax.naming.InitialContext;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;21
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;22
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> javax.rmi.PortableRemoteObject;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;23
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;24
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;25
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;26
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Generic EJB Invoker function.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;27
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * This function is used to invoke an EJB listener in a step. The EJB</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;28
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * must implement WorkflowListener if it's a remote session bean, or</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;29
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * WorkflowLocalListener if it's a local session bean.&lt;br&gt;</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;30
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * It accepts a number of arguments, these are:</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;31
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> *</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;32
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * &lt;ul&gt;</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;33
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> *  &lt;li&gt;ejb-home - The fully qualified class name of the EJB remote home interface&lt;/li&gt;</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;34
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> *  &lt;li&gt;ejb-local-home - The fully qualified class name of the local home interface&lt;/li&gt;</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;35
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> *  &lt;li&gt;ejb-jndi-location - The JNDI location of the ejb to invoke&lt;/li&gt;</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;36
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * &lt;/ul&gt;</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;37
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * &lt;p&gt;</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;38
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Note that only one of ejb-home or ejb-local-home can be specified.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;39
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> *</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;40
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Also, please note that the entire set of properties will be passed through to the</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;41
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * constructor for InitialContext, meaning that if you need to use an</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;42
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * InintialContextFactory other than the default one, you are free to include arguments</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;43
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * that will do so.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;44
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> *</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;45
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * <span class="javadoc">@author</span> Hani Suleiman</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;46
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * <span class="javadoc">@version</span> $Revision: 1.1 $</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;47
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Date: Apr 6, 2002</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;48
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Time: 11:48:14 PM</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;49
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+   <A name="EJBInvoker">&nbsp;50</A>
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLineClassStart">
+      <PRE class="srcLine">&nbsp;<span class="keyword">public</span> <span class="keyword">class</span> EJBInvoker <span class="keyword">implements</span> FunctionProvider {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;51
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Static fields/initializers /////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;52
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;53
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">private</span> <span class="keyword">static</span> final Log log = LogFactory.getLog(EJBInvoker.<span class="keyword">class</span>);</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;54
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;55
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Methods ////////////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;56
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;57
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 57: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 57: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> execute(Map transientVars, Map args, PropertySet ps) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;58
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 58: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 58: statement not executed."><PRE class="srcLine">&nbsp;        Class homeClass = <span class="keyword">null</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;59
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 59: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 59: statement not executed."><PRE class="srcLine">&nbsp;        Object home = <span class="keyword">null</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;60
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 60: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 60: statement not executed."><PRE class="srcLine">&nbsp;        WorkflowEntry entry = (WorkflowEntry) transientVars.get(<span class="string">"entry"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;61
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 61: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 61: statement not executed."><PRE class="srcLine">&nbsp;        Hashtable env = <span class="keyword">new</span> Hashtable(args);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;62
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;63
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 63: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 63: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;64
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 64: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 64: statement not executed."><PRE class="srcLine">&nbsp;            InitialContext ic = <span class="keyword">new</span> InitialContext(env);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;65
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;66
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 66: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 66: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (log.isDebugEnabled()) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;67
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 67: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 67: statement not executed."><PRE class="srcLine">&nbsp;                log.debug(<span class="string">"executing with properties="</span> + args);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;68
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;69
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;70
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 70: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 70: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (args.containsKey(<span class="string">"ejb-home"</span>)) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;71
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 71: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 71: statement not executed."><PRE class="srcLine">&nbsp;                homeClass = Class.forName((String) args.get(<span class="string">"ejb-home"</span>));</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;72
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 72: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 72: statement not executed."><PRE class="srcLine">&nbsp;            } <span class="keyword">else</span> <span class="keyword">if</span> (args.containsKey(<span class="string">"ejb-local-home"</span>)) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;73
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 73: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 73: statement not executed."><PRE class="srcLine">&nbsp;                homeClass = Class.forName((String) args.get(<span class="string">"ejb-local-home"</span>));</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;74
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;75
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;76
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 76: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 76: statement not executed."><PRE class="srcLine">&nbsp;            home = PortableRemoteObject.narrow(ic.lookup((String) args.get(<span class="string">"ejb-jndi-location"</span>)), homeClass);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;77
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;78
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 78: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 78: statement not executed."><PRE class="srcLine">&nbsp;            Method method = homeClass.getMethod(<span class="string">"create"</span>, <span class="keyword">new</span> Class[0]);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;79
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;80
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 80: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 80: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (java.rmi.Remote.<span class="keyword">class</span>.isAssignableFrom(homeClass)) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;81
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 81: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 81: statement not executed."><PRE class="srcLine">&nbsp;                WorkflowListener listener = (WorkflowListener) method.invoke(home, <span class="keyword">new</span> Object[0]);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;82
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 82: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 82: statement not executed."><PRE class="srcLine">&nbsp;                listener.stateChanged(entry);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;83
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            } <span class="keyword">else</span> {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;84
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 84: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 84: statement not executed."><PRE class="srcLine">&nbsp;                WorkflowLocalListener listener = (WorkflowLocalListener) method.invoke(home, <span class="keyword">new</span> Object[0]);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;85
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 85: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 85: statement not executed."><PRE class="srcLine">&nbsp;                listener.stateChanged(entry);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;86
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;87
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (Exception e) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;88
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 88: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 88: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Error invoking EJB homeClass="</span> + homeClass, e);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;89
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;90
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;91
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;}</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;92
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+</TBODY>
+</TABLE>
+<TABLE width="100%">
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+<TR><TD class="footer" colspan="6">
+<table>
+<tr>
+ <td><a target="_new" href="http://www.thecortex.net/clover"><img alt="Clover" src="../../../../img/logo.gif" border="0"></a></td><td nowrap><i>Report generated by </i><a target="_new" href="http://www.thecortex.net/clover">Clover v1.2</a><i><BR>Wed Oct 8 2003 23:00:13 EDT</i>.</td>
+<td>&nbsp;</td><td style="BORDER-LEFT: #9c9c9c 1px solid;">&nbsp;</td><td>Open Source License registered to the OpenSymphony Project. This license of Clover is provided to support the development of OpenSymphony only. </td>
+</tr>
+</table>
+</td>
+</tr></TABLE>

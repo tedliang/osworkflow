@@ -1,0 +1,7081 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OSWorkflow Coverage Report</title>
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../style.css" TITLE="Style">
+</head>
+<body>
+  <!-- render overall pkg coverage graph -->
+<TABLE cellspacing="0" cellpadding="2">
+  <TBODY>
+    <!-- / Users/ hani/ projects/ osworkflow/ src/ java/ com/ opensymphony/ workflow/ spi/ hibernate/ HibernateWorkflowStore.java -->
+  <TR>
+    <TD colspan="6" class="reportHeader">
+    <TABLE width="100%"><TR><TD valign="top" class="titleText">Clover coverage report -  OSWorkflow Coverage Report<DIV class="timestamp"><b>Coverage timestamp:</b>&nbsp;Wed Oct 8 2003 20:31:22 EDT</DIV>
+            <DIV class="navBar"><a href="../../../../../pkgs-summary.html"><b>Overview</b></a>&nbsp;&nbsp;&nbsp;<a href="pkg-summary.html"><b>Package</b></a>&nbsp;&nbsp;&nbsp;<font class="navBarCurrent">File</font></DIV>
+    </TD>
+         <td class="headerStats" valign="top" width="40%" align="right">
+        <table align="right">
+         <tr>
+           <td nowrap><b>file stats:</b></td>
+           <td align="right"><b>LOC:</b></td>
+           <td align="right">430</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Methods:</b></td>
+           <td align="right">17</td>
+         </tr>
+         <tr>
+           <td></td>
+           <td align="right"><b>NCLOC:</b></td>
+           <td align="right">304</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Classes:</b></td>
+           <td align="right">1</td>
+         </tr>
+      </table>
+     </td>
+    </TR></TABLE>
+   </TD>
+  </TR>
+
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+  <TR>
+    <TD class="graphHeaderLeft"><b>&nbsp;Source file</b></TD>
+    <TD class="graphHeader">Conditionals</TD>
+    <TD class="graphHeader">Statements</TD>
+    <TD class="graphHeader">Methods</TD>
+    <TD class="graphHeader" align="left" colspan="2"><B>TOTAL</B></TD>
+  </TR>   
+  <TR>
+    <TD class="graphItem">
+        	   HibernateWorkflowStore.java
+	    </TD>
+   
+    <TD class="graphPercent" align="center">72.7%</TD>
+    <TD class="graphPercent" align="center">71.3%</TD>
+    <TD class="graphPercent" align="center">94.1%</TD>
+    <TD class="graphBarLeft" align="center"><B>73.2%</B></TD>
+    <TD class="graphBar">
+            <TABLE class="barGraph" cellspacing="0">
+        <TBODY>
+          <TR>
+	               <TD class="covered"><img alt="coverage" src="../../../../../img/trans.gif"
+                   width="146" height="12"></TD>
+            <TD class="uncovered"><img alt="coverage" src="../../../../../img/trans.gif"
+                   width="54" height="12"></TD>
+	   	  </TR>
+	</TBODY>
+      </TABLE>
+          </TD>
+  </TR> 
+</TBODY>
+</TABLE>
+
+
+<TABLE cellspacing="0" cellpadding="0" class="srcView">
+<TBODY>
+
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;1
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/*</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;2
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Copyright (c) 2002-2003 by OpenSymphony</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;3
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * All rights reserved.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;4
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;5
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">package</span> com.opensymphony.workflow.spi.hibernate;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;6
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;7
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.module.propertyset.PropertySet;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;8
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.module.propertyset.PropertySetManager;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;9
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.module.propertyset.hibernate.DefaultHibernateConfigurationProvider;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;10
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;11
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.util.TextUtils;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;12
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;13
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.QueryNotSupportedException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;14
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.StoreException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;15
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.query.WorkflowExpressionQuery;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;16
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.query.WorkflowQuery;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;17
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.spi.Step;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;18
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.spi.WorkflowEntry;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;19
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.spi.WorkflowStore;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;20
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;21
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> net.sf.hibernate.Criteria;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;22
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> net.sf.hibernate.Hibernate;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;23
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> net.sf.hibernate.HibernateException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;24
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> net.sf.hibernate.Session;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;25
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> net.sf.hibernate.SessionFactory;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;26
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> net.sf.hibernate.Transaction;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;27
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> net.sf.hibernate.expression.Expression;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;28
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;29
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> org.apache.commons.logging.Log;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;30
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> org.apache.commons.logging.LogFactory;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;31
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;32
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.util.*;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;33
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;34
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;35
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;36
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * A workflow store backed by Hibernate for persistence.  To use this with the standard</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;37
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * persistence factory, pass to the ConfigLoader.persistenceArgs the SessionFactory to</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;38
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * use:</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;39
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * &lt;code&gt;ConfigLoader.persistenceArgs.put("sessionFactory", DatabaseHelper.getSessionFactory());&lt;/code&gt;</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;40
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * See the HibernateFunctionalWorkflowTestCase for more help.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;41
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> *</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;42
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * <span class="javadoc">@author</span> $Author: os_anthill $</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;43
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * <span class="javadoc">@version</span> $Revision: 1.1 $</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;44
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+   <A name="HibernateWorkflowStore">&nbsp;45</A>
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLineClassStart">
+      <PRE class="srcLine">&nbsp;<span class="keyword">public</span> <span class="keyword">class</span> HibernateWorkflowStore <span class="keyword">implements</span> WorkflowStore {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;46
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Static fields/initializers /////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;47
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;48
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">private</span> <span class="keyword">static</span> final Log log = LogFactory.getLog(HibernateWorkflowStore.<span class="keyword">class</span>);</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;49
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;50
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Instance fields ////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;51
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;52
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    Session session;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;53
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    SessionFactory sessionFactory;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;54
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;55
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Constructors ///////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;56
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;57
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 57: method entered 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 57: method entered 7 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> HibernateWorkflowStore() {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;58
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;59
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;60
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 60: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 60: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> HibernateWorkflowStore(SessionFactory sessionFactory) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;61
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 61: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 61: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">this</span>.sessionFactory = sessionFactory;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;62
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;63
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 63: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 63: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;64
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 64: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 64: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">this</span>.session = sessionFactory.openSession();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;65
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;66
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 66: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 66: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"constructor"</span>, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;67
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 67: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 67: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"constructor"</span>, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;68
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;69
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;70
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;71
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Methods ////////////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;72
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;73
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 73: method entered 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 73: method entered 7 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> setEntryState(<span class="keyword">long</span> entryId, <span class="keyword">int</span> state) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;74
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 74: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 74: statement executed 7 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;75
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 75: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 75: statement executed 7 times."><PRE class="srcLine">&nbsp;            HibernateWorkflowEntry entry = (HibernateWorkflowEntry) session.find(<span class="string">"FROM entry IN CLASS "</span> + HibernateWorkflowEntry.<span class="keyword">class</span>.getName() + <span class="string">" WHERE entry.id = ?"</span>, <span class="keyword">new</span> Long(entryId), Hibernate.LONG).get(0);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;76
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 76: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 76: statement executed 7 times."><PRE class="srcLine">&nbsp;            entry.setState(state);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;77
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 77: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 77: statement executed 7 times."><PRE class="srcLine">&nbsp;            session.save(entry);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;78
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException e) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;79
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 79: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 79: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"An exception occured"</span>, e);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;80
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;81
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 81: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 81: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;82
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;83
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;84
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;85
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 85: method entered 210 times.">&nbsp;210</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 85: method entered 210 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> PropertySet getPropertySet(<span class="keyword">long</span> entryId) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;86
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 86: statement executed 210 times.">&nbsp;210</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 86: statement executed 210 times."><PRE class="srcLine">&nbsp;        HashMap args = <span class="keyword">new</span> HashMap();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;87
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 87: statement executed 210 times.">&nbsp;210</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 87: statement executed 210 times."><PRE class="srcLine">&nbsp;        args.put(<span class="string">"entityName"</span>, <span class="string">"OSWorkflowEntry"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;88
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 88: statement executed 210 times.">&nbsp;210</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 88: statement executed 210 times."><PRE class="srcLine">&nbsp;        args.put(<span class="string">"entityId"</span>, <span class="keyword">new</span> Long(entryId));</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;89
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;90
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 90: statement executed 210 times.">&nbsp;210</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 90: statement executed 210 times."><PRE class="srcLine">&nbsp;        DefaultHibernateConfigurationProvider configurationProvider = <span class="keyword">new</span> DefaultHibernateConfigurationProvider();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;91
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 91: statement executed 210 times.">&nbsp;210</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 91: statement executed 210 times."><PRE class="srcLine">&nbsp;        configurationProvider.setSessionFactory(sessionFactory);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;92
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;93
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 93: statement executed 210 times.">&nbsp;210</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 93: statement executed 210 times."><PRE class="srcLine">&nbsp;        args.put(<span class="string">"configurationProvider"</span>, configurationProvider);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;94
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;95
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 95: statement executed 210 times.">&nbsp;210</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 95: statement executed 210 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> PropertySetManager.getInstance(<span class="string">"hibernate"</span>, args);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;96
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;97
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;98
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 98: method entered 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 98: method entered 56 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> Step createCurrentStep(<span class="keyword">long</span> entryId, <span class="keyword">int</span> stepId, String owner, Date startDate, Date dueDate, String status, <span class="keyword">long</span>[] previousIds) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;99
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 99: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 99: statement executed 56 times."><PRE class="srcLine">&nbsp;        HibernateCurrentStep step = <span class="keyword">new</span> HibernateCurrentStep();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;100
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 100: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 100: statement executed 56 times."><PRE class="srcLine">&nbsp;        HibernateWorkflowEntry entry;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;101
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;102
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 102: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 102: statement executed 56 times."><PRE class="srcLine">&nbsp;        Transaction tx;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;103
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;104
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 104: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 104: statement executed 56 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;105
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 105: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 105: statement executed 56 times."><PRE class="srcLine">&nbsp;            tx = session.beginTransaction();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;106
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 106: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 106: statement executed 56 times."><PRE class="srcLine">&nbsp;            entry = (HibernateWorkflowEntry) session.find(<span class="string">"FROM entry in CLASS "</span> + HibernateWorkflowEntry.<span class="keyword">class</span>.getName() + <span class="string">" WHERE entry.id = ?"</span>, <span class="keyword">new</span> Long(entryId), Hibernate.LONG).get(0);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;107
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;108
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 108: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 108: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Looking for workflow entry "</span> + entryId, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;109
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 109: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 109: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Looking for workflow entry "</span> + entryId, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;110
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;111
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;112
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 112: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 112: statement executed 56 times."><PRE class="srcLine">&nbsp;        step.setEntry(entry);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;113
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 113: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 113: statement executed 56 times."><PRE class="srcLine">&nbsp;        step.setStepId(stepId);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;114
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 114: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 114: statement executed 56 times."><PRE class="srcLine">&nbsp;        step.setOwner(owner);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;115
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 115: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 115: statement executed 56 times."><PRE class="srcLine">&nbsp;        step.setStartDate(startDate);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;116
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 116: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 116: statement executed 56 times."><PRE class="srcLine">&nbsp;        step.setDueDate(dueDate);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;117
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 117: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 117: statement executed 56 times."><PRE class="srcLine">&nbsp;        step.setStatus(status);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;118
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;119
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 119: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 119: statement executed 56 times."><PRE class="srcLine">&nbsp;        List stepIdList = <span class="keyword">new</span> ArrayList(previousIds.length);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;120
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;121
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 121: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 121: statement executed 56 times."><PRE class="srcLine">&nbsp;        <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; previousIds.length; i++) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;122
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 122: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 122: statement executed 56 times."><PRE class="srcLine">&nbsp;            <span class="keyword">long</span> previousId = previousIds[i];</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;123
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 123: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 123: statement executed 56 times."><PRE class="srcLine">&nbsp;            stepIdList.add(<span class="keyword">new</span> Long(previousId));</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;124
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;125
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;126
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 126: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 126: statement executed 56 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (!stepIdList.isEmpty()) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;127
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 127: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 127: statement executed 49 times."><PRE class="srcLine">&nbsp;            String stepIds = TextUtils.join(<span class="string">", "</span>, stepIdList);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;128
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;129
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 129: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 129: statement executed 49 times."><PRE class="srcLine">&nbsp;            <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;130
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 130: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 130: statement executed 49 times."><PRE class="srcLine">&nbsp;                step.setPreviousSteps(session.find(<span class="string">"FROM step in CLASS "</span> + HibernateCurrentStep.<span class="keyword">class</span>.getName() + <span class="string">" WHERE step.id IN ("</span> + stepIds + <span class="string">")"</span>));</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;131
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;132
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 132: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 132: statement not executed."><PRE class="srcLine">&nbsp;                log.error(<span class="string">"Looking for step in "</span> + stepIds, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;133
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 133: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 133: statement not executed."><PRE class="srcLine">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Looking for step in "</span> + stepIds, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;134
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;135
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">else</span> {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;136
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 136: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 136: statement executed 7 times."><PRE class="srcLine">&nbsp;            step.setPreviousSteps(Collections.EMPTY_LIST);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;137
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;138
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;139
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 139: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 139: statement executed 56 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (entry.getCurrentSteps() == <span class="keyword">null</span>) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;140
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 140: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 140: statement executed 7 times."><PRE class="srcLine">&nbsp;            ArrayList cSteps = <span class="keyword">new</span> ArrayList(1);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;141
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 141: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 141: statement executed 7 times."><PRE class="srcLine">&nbsp;            cSteps.add(step);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;142
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 142: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 142: statement executed 7 times."><PRE class="srcLine">&nbsp;            entry.setCurrentSteps(cSteps);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;143
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">else</span> {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;144
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 144: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 144: statement executed 49 times."><PRE class="srcLine">&nbsp;            entry.getCurrentSteps().add(step);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;145
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;146
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;147
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 147: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 147: statement executed 56 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;148
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 148: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 148: statement executed 56 times."><PRE class="srcLine">&nbsp;            session.save(entry);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;149
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 149: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 149: statement executed 56 times."><PRE class="srcLine">&nbsp;            tx.commit();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;150
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;151
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            <span class="comment">//session.save(step);</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;152
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 152: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 152: statement executed 56 times."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> step;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;153
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;154
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 154: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 154: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Saving new workflow entry"</span>, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;155
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 155: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 155: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Saving new workflow entry"</span>, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;156
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;157
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;158
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;159
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 159: method entered 14 times.">&nbsp;14</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 159: method entered 14 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> WorkflowEntry createEntry(String workflowName) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;160
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 160: statement executed 14 times.">&nbsp;14</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 160: statement executed 14 times."><PRE class="srcLine">&nbsp;        HibernateWorkflowEntry entry = <span class="keyword">new</span> HibernateWorkflowEntry();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;161
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 161: statement executed 14 times.">&nbsp;14</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 161: statement executed 14 times."><PRE class="srcLine">&nbsp;        entry.setState(WorkflowEntry.CREATED);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;162
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 162: statement executed 14 times.">&nbsp;14</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 162: statement executed 14 times."><PRE class="srcLine">&nbsp;        entry.setWorkflowName(workflowName);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;163
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;164
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 164: statement executed 14 times.">&nbsp;14</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 164: statement executed 14 times."><PRE class="srcLine">&nbsp;        Transaction tx;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;165
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;166
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 166: statement executed 14 times.">&nbsp;14</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 166: statement executed 14 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;167
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 167: statement executed 14 times.">&nbsp;14</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 167: statement executed 14 times."><PRE class="srcLine">&nbsp;            tx = session.beginTransaction();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;168
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 168: statement executed 14 times.">&nbsp;14</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 168: statement executed 14 times."><PRE class="srcLine">&nbsp;            session.save(entry);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;169
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 169: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 169: statement executed 7 times."><PRE class="srcLine">&nbsp;            tx.commit();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;170
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;171
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 171: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 171: statement executed 7 times."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Saving new workflow entry"</span>, he);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;172
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 172: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 172: statement executed 7 times."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Saving new workflow entry"</span>, he);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;173
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;174
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;175
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 175: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 175: statement executed 7 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> entry;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;176
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;177
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;178
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 178: method entered 819 times.">&nbsp;819</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 178: method entered 819 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List findCurrentSteps(<span class="keyword">long</span> entryId) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;179
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 179: statement executed 819 times.">&nbsp;819</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 179: statement executed 819 times."><PRE class="srcLine">&nbsp;        HibernateWorkflowEntry entry;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;180
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;181
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 181: statement executed 819 times.">&nbsp;819</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 181: statement executed 819 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;182
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 182: statement executed 819 times.">&nbsp;819</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 182: statement executed 819 times."><PRE class="srcLine">&nbsp;            entry = (HibernateWorkflowEntry) session.find(<span class="string">"FROM entry in CLASS "</span> + HibernateWorkflowEntry.<span class="keyword">class</span>.getName() + <span class="string">" WHERE entry.id = ?"</span>, <span class="keyword">new</span> Long(entryId), Hibernate.LONG).get(0);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;183
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;184
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 184: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 184: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Looking for entryId "</span> + entryId, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;185
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 185: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 185: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Looking for entryId "</span> + entryId, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;186
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;187
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;188
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 188: statement executed 819 times.">&nbsp;819</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 188: statement executed 819 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;189
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 189: statement executed 819 times.">&nbsp;819</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 189: statement executed 819 times."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> session.find(<span class="string">"FROM step IN CLASS "</span> + HibernateCurrentStep.<span class="keyword">class</span>.getName() + <span class="string">" WHERE step.entry = ?"</span>, entry, Hibernate.entity(entry.getClass()));</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;190
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;191
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 191: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 191: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Looking for step id"</span> + entry, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;192
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 192: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 192: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Looking for step id"</span> + entry, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;193
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;194
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;195
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;196
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 196: method entered 273 times.">&nbsp;273</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 196: method entered 273 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> WorkflowEntry findEntry(<span class="keyword">long</span> entryId) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;197
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 197: statement executed 273 times.">&nbsp;273</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 197: statement executed 273 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;198
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 198: statement executed 273 times.">&nbsp;273</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 198: statement executed 273 times."><PRE class="srcLine">&nbsp;            List result = session.find(<span class="string">"FROM entry IN CLASS "</span> + HibernateWorkflowEntry.<span class="keyword">class</span>.getName() + <span class="string">" WHERE entry.id = ?"</span>, <span class="keyword">new</span> Long(entryId), Hibernate.LONG);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;199
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;200
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 200: statement executed 273 times.">&nbsp;273</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 200: statement executed 273 times."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> (WorkflowEntry) result.get(0);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;201
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;202
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 202: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 202: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Looking for entry "</span> + entryId, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;203
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 203: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 203: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Loooking for entry "</span> + entryId, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;204
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;205
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;206
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;207
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 207: method entered 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 207: method entered 49 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List findHistorySteps(<span class="keyword">long</span> entryId) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;208
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 208: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 208: statement executed 49 times."><PRE class="srcLine">&nbsp;        HibernateWorkflowEntry entry;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;209
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;210
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 210: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 210: statement executed 49 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;211
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 211: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 211: statement executed 49 times."><PRE class="srcLine">&nbsp;            entry = (HibernateWorkflowEntry) session.find(<span class="string">"FROM entry in CLASS "</span> + HibernateWorkflowEntry.<span class="keyword">class</span>.getName() + <span class="string">" WHERE entry.id = ?"</span>, <span class="keyword">new</span> Long(entryId), Hibernate.LONG).get(0);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;212
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;213
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 213: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 213: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Finding entry "</span> + entryId, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;214
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 214: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 214: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Finding entry "</span> + entryId, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;215
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;216
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;217
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 217: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 217: statement executed 49 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;218
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 218: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 218: statement executed 49 times."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> session.find(<span class="string">"FROM step IN CLASS "</span> + HibernateHistoryStep.<span class="keyword">class</span>.getName() + <span class="string">" WHERE step.entry = ?"</span>, entry, Hibernate.entity(entry.getClass()));</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;219
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;220
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 220: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 220: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Looking for step with entry "</span> + entry, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;221
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 221: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 221: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Looking for step with entry "</span> + entry, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;222
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;223
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;224
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;225
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 225: method entered 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 225: method entered 7 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> init(Map props) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;226
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 226: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 226: statement executed 7 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;227
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            <span class="comment">//if(1==2){</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;228
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 228: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 228: statement executed 7 times."><PRE class="srcLine">&nbsp;            sessionFactory = (SessionFactory) props.get(<span class="string">"sessionFactory"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;229
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 229: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 229: statement executed 7 times."><PRE class="srcLine">&nbsp;            session = sessionFactory.openSession();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;230
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;231
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            <span class="comment">//}</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;232
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;233
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 233: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 233: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Setting sessionFactory"</span>, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;234
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 234: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 234: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Setting sessionFactory"</span>, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;235
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;236
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;237
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;238
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 238: method entered 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 238: method entered 56 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> Step markFinished(Step step, <span class="keyword">int</span> actionId, Date finishDate, String status, String caller) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;239
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 239: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 239: statement executed 56 times."><PRE class="srcLine">&nbsp;        HibernateCurrentStep currentStep = (HibernateCurrentStep) step;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;240
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;241
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 241: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 241: statement executed 56 times."><PRE class="srcLine">&nbsp;        currentStep.setActionId(actionId);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;242
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 242: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 242: statement executed 56 times."><PRE class="srcLine">&nbsp;        currentStep.setFinishDate(finishDate);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;243
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 243: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 243: statement executed 56 times."><PRE class="srcLine">&nbsp;        currentStep.setStatus(status);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;244
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 244: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 244: statement executed 56 times."><PRE class="srcLine">&nbsp;        currentStep.setCaller(caller);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;245
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;246
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 246: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 246: statement executed 56 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;247
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 247: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 247: statement executed 56 times."><PRE class="srcLine">&nbsp;            Transaction tx = session.beginTransaction();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;248
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 248: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 248: statement executed 56 times."><PRE class="srcLine">&nbsp;            session.save(currentStep);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;249
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 249: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 249: statement executed 56 times."><PRE class="srcLine">&nbsp;            tx.commit();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;250
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;251
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 251: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 251: statement executed 56 times."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> currentStep;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;252
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;253
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 253: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 253: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Saving current step with action "</span> + actionId, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;254
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 254: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 254: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Saving current step with action "</span> + actionId, he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;255
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;256
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;257
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;258
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 258: method entered 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 258: method entered 49 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> moveToHistory(Step step) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;259
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 259: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 259: statement executed 49 times."><PRE class="srcLine">&nbsp;        HibernateWorkflowEntry entry;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;260
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;261
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 261: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 261: statement executed 49 times."><PRE class="srcLine">&nbsp;        Transaction tx;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;262
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;263
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 263: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 263: statement executed 49 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;264
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 264: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 264: statement executed 49 times."><PRE class="srcLine">&nbsp;            tx = session.beginTransaction();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;265
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 265: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 265: statement executed 49 times."><PRE class="srcLine">&nbsp;            entry = (HibernateWorkflowEntry) session.find(<span class="string">"FROM entry IN CLASS "</span> + HibernateWorkflowEntry.<span class="keyword">class</span>.getName() + <span class="string">" WHERE entry.id = ?"</span>, <span class="keyword">new</span> Long(step.getEntryId()), Hibernate.LONG).get(0);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;266
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;267
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 267: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 267: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Looking for workflow entry "</span> + step.getEntryId(), he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;268
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 268: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 268: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Looking for workflow entry "</span> + step.getEntryId(), he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;269
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;270
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;271
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 271: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 271: statement executed 49 times."><PRE class="srcLine">&nbsp;        HibernateHistoryStep hStep = <span class="keyword">new</span> HibernateHistoryStep((HibernateStep) step);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;272
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;273
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 273: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 273: statement executed 49 times."><PRE class="srcLine">&nbsp;        entry.getCurrentSteps().remove(step);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;274
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;275
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 275: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 275: statement executed 49 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (entry.getHistorySteps() == <span class="keyword">null</span>) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;276
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 276: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 276: statement executed 7 times."><PRE class="srcLine">&nbsp;            ArrayList hSteps = <span class="keyword">new</span> ArrayList(1);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;277
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 277: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 277: statement executed 7 times."><PRE class="srcLine">&nbsp;            hSteps.add(hStep);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;278
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 278: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 278: statement executed 7 times."><PRE class="srcLine">&nbsp;            entry.setHistorySteps(hSteps);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;279
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">else</span> {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;280
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 280: statement executed 42 times.">&nbsp;42</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 280: statement executed 42 times."><PRE class="srcLine">&nbsp;            entry.getHistorySteps().add(hStep);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;281
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;282
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;283
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 283: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 283: statement executed 49 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;284
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 284: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 284: statement executed 49 times."><PRE class="srcLine">&nbsp;            session.save(entry);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;285
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 285: statement executed 49 times.">&nbsp;49</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 285: statement executed 49 times."><PRE class="srcLine">&nbsp;            tx.commit();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;286
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;287
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            <span class="comment">//session.delete(step);</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;288
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            <span class="comment">//session.save(hStep, new Long(hStep.getId()));</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;289
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException he) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;290
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 290: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 290: statement not executed."><PRE class="srcLine">&nbsp;            log.error(<span class="string">"Saving workflow entry "</span> + entry.getId(), he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;291
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 291: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 291: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Saving workflow entry "</span> + entry.getId(), he);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;292
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;293
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;294
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;295
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 295: method entered 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 295: method entered 7 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List query(WorkflowExpressionQuery query) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;296
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 296: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 296: statement executed 7 times."><PRE class="srcLine">&nbsp;        <span class="keyword">throw</span> <span class="keyword">new</span> QueryNotSupportedException(<span class="string">"Hibernate Store does not support WorkflowExpressionQuery"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;297
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;298
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;299
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 299: method entered 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 299: method entered 21 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List query(WorkflowQuery query) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;300
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 300: statement executed 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 300: statement executed 21 times."><PRE class="srcLine">&nbsp;        Class entityClass;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;301
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;302
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 302: statement executed 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 302: statement executed 21 times."><PRE class="srcLine">&nbsp;        <span class="keyword">int</span> qtype = query.getType();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;303
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;304
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 304: expression evaluated to true 0 times, false 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 304: expression evaluated to true 0 times, false 21 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (qtype == 0) { <span class="comment">// then not set, so look in sub queries</span></PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;305
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;306
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 306: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 306: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (query.getLeft() != <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;307
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 307: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 307: statement not executed."><PRE class="srcLine">&nbsp;                qtype = query.getLeft().getType();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;308
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;309
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;310
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;311
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 311: expression evaluated to true 21 times, false 0 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 311: expression evaluated to true 21 times, false 0 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (qtype == WorkflowQuery.CURRENT) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;312
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 312: statement executed 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 312: statement executed 21 times."><PRE class="srcLine">&nbsp;            entityClass = HibernateCurrentStep.<span class="keyword">class</span>;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;313
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">else</span> {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;314
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 314: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 314: statement not executed."><PRE class="srcLine">&nbsp;            entityClass = HibernateHistoryStep.<span class="keyword">class</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;315
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;316
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;317
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 317: statement executed 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 317: statement executed 21 times."><PRE class="srcLine">&nbsp;        Criteria criteria = session.createCriteria(entityClass);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;318
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 318: statement executed 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 318: statement executed 21 times."><PRE class="srcLine">&nbsp;        Expression expression = buildExpression(query);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;319
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 319: statement executed 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 319: statement executed 21 times."><PRE class="srcLine">&nbsp;        criteria.add(expression);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;320
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;321
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="comment">//get results and send them back</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;322
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 322: statement executed 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 322: statement executed 21 times."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;323
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 323: statement executed 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 323: statement executed 21 times."><PRE class="srcLine">&nbsp;            Set results = <span class="keyword">new</span> HashSet();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;324
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 324: statement executed 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 324: statement executed 21 times."><PRE class="srcLine">&nbsp;            Iterator iter = criteria.list().iterator();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;325
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;326
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 326: statement executed 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 326: statement executed 21 times."><PRE class="srcLine">&nbsp;            <span class="keyword">while</span> (iter.hasNext()) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;327
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 327: statement executed 112 times.">&nbsp;112</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 327: statement executed 112 times."><PRE class="srcLine">&nbsp;                HibernateStep step = (HibernateStep) iter.next();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;328
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 328: statement executed 112 times.">&nbsp;112</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 328: statement executed 112 times."><PRE class="srcLine">&nbsp;                results.add(<span class="keyword">new</span> Long(step.getEntryId()));</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;329
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;330
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;331
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 331: statement executed 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 331: statement executed 21 times."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList(results);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;332
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (HibernateException e) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;333
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 333: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 333: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Error executing query "</span> + expression, e);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;334
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;335
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;336
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;337
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;338
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Returns an expression generated from this query</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;339
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;340
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 340: method entered 28 times.">&nbsp;28</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 340: method entered 28 times."><PRE class="srcLine">&nbsp;    <span class="keyword">private</span> Expression getExpression(WorkflowQuery query) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;341
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 341: statement executed 28 times.">&nbsp;28</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 341: statement executed 28 times."><PRE class="srcLine">&nbsp;        <span class="keyword">int</span> operator = query.getOperator();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;342
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;343
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 343: statement executed 28 times.">&nbsp;28</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 343: statement executed 28 times."><PRE class="srcLine">&nbsp;        <span class="keyword">switch</span> (operator) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;344
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">case</span> WorkflowQuery.EQUALS:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;345
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 345: statement executed 28 times.">&nbsp;28</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 345: statement executed 28 times."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> Expression.eq(getFieldName(query.getField()), query.getValue());</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;346
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;347
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">case</span> WorkflowQuery.NOT_EQUALS:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;348
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 348: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 348: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> Expression.not(Expression.like(getFieldName(query.getField()), query.getValue()));</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;349
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;350
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">case</span> WorkflowQuery.GT:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;351
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 351: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 351: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> Expression.gt(getFieldName(query.getField()), query.getValue());</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;352
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;353
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">case</span> WorkflowQuery.LT:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;354
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 354: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 354: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> Expression.lt(getFieldName(query.getField()), query.getValue());</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;355
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;356
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">default</span>:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;357
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 357: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 357: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> Expression.eq(getFieldName(query.getField()), query.getValue());</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;358
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;359
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;360
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;361
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;362
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * returns the correct name of the field given or "1" if none is found</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;363
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * which matches the input.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;364
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> field</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;365
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span></span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;366
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;367
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 367: method entered 28 times.">&nbsp;28</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 367: method entered 28 times."><PRE class="srcLine">&nbsp;    <span class="keyword">private</span> String getFieldName(<span class="keyword">int</span> field) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;368
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 368: statement executed 28 times.">&nbsp;28</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 368: statement executed 28 times."><PRE class="srcLine">&nbsp;        <span class="keyword">switch</span> (field) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;369
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">case</span> WorkflowQuery.ACTION: <span class="comment">// actionId</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;370
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 370: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 370: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="string">"actionId"</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;371
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;372
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">case</span> WorkflowQuery.CALLER:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;373
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 373: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 373: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="string">"caller"</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;374
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;375
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">case</span> WorkflowQuery.FINISH_DATE:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;376
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 376: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 376: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="string">"finishDate"</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;377
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;378
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">case</span> WorkflowQuery.OWNER:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;379
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 379: statement executed 21 times.">&nbsp;21</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 379: statement executed 21 times."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="string">"owner"</span>;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;380
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;381
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">case</span> WorkflowQuery.START_DATE:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;382
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 382: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 382: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="string">"startDate"</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;383
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;384
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">case</span> WorkflowQuery.STEP: <span class="comment">// stepId</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;385
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 385: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 385: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="string">"stepId"</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;386
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;387
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">case</span> WorkflowQuery.STATUS:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;388
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 388: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 388: statement executed 7 times."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="string">"status"</span>;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;389
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;390
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">default</span>:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;391
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 391: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 391: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="string">"1"</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;392
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;393
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;394
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;395
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;396
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     *  Recursive method for building Expressions using Query objects.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;397
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;398
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 398: method entered 35 times.">&nbsp;35</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 398: method entered 35 times."><PRE class="srcLine">&nbsp;    <span class="keyword">private</span> Expression buildExpression(WorkflowQuery query) <span class="keyword">throws</span> StoreException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;399
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 399: statement executed 35 times.">&nbsp;35</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 399: statement executed 35 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (query.getLeft() == <span class="keyword">null</span>) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;400
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 400: expression evaluated to true 28 times, false 0 times.">&nbsp;28</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 400: expression evaluated to true 28 times, false 0 times."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (query.getRight() == <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;401
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 401: statement executed 28 times.">&nbsp;28</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 401: statement executed 28 times."><PRE class="srcLine">&nbsp;                <span class="keyword">return</span> getExpression(query); <span class="comment">//leaf node</span></PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;402
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            } <span class="keyword">else</span> {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;403
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 403: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 403: statement not executed."><PRE class="srcLine">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Invalid WorkflowQuery object.  QueryLeft is null but QueryRight is not."</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;404
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;405
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">else</span> {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;406
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 406: expression evaluated to true 0 times, false 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 406: expression evaluated to true 0 times, false 7 times."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (query.getRight() == <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;407
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 407: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 407: statement not executed."><PRE class="srcLine">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Invalid WorkflowQuery object.  QueryLeft is not null but QueryRight is."</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;408
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;409
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;410
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 410: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 410: statement executed 7 times."><PRE class="srcLine">&nbsp;            <span class="keyword">int</span> operator = query.getOperator();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;411
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 411: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 411: statement executed 7 times."><PRE class="srcLine">&nbsp;            WorkflowQuery left = query.getLeft();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;412
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 412: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 412: statement executed 7 times."><PRE class="srcLine">&nbsp;            WorkflowQuery right = query.getRight();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;413
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;414
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 414: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 414: statement executed 7 times."><PRE class="srcLine">&nbsp;            <span class="keyword">switch</span> (operator) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;415
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            <span class="keyword">case</span> WorkflowQuery.AND:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;416
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 416: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 416: statement executed 7 times."><PRE class="srcLine">&nbsp;                <span class="keyword">return</span> Expression.and(buildExpression(left), buildExpression(right));</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;417
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;418
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            <span class="keyword">case</span> WorkflowQuery.OR:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;419
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 419: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 419: statement not executed."><PRE class="srcLine">&nbsp;                <span class="keyword">return</span> Expression.or(buildExpression(left), buildExpression(right));</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;420
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;421
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            <span class="keyword">case</span> WorkflowQuery.XOR:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;422
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 422: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 422: statement not executed."><PRE class="srcLine">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"XOR Operator in Queries not supported by "</span> + <span class="keyword">this</span>.getClass().getName());</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;423
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;424
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            <span class="keyword">default</span>:</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;425
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 425: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 425: statement not executed."><PRE class="srcLine">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> StoreException(<span class="string">"Operator '"</span> + operator + <span class="string">"' is not supported by "</span> + <span class="keyword">this</span>.getClass().getName());</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;426
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;427
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;428
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;429
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;}</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;430
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+</TBODY>
+</TABLE>
+<TABLE width="100%">
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+<TR><TD class="footer" colspan="6">
+<table>
+<tr>
+ <td><a target="_new" href="http://www.thecortex.net/clover"><img alt="Clover" src="../../../../../img/logo.gif" border="0"></a></td><td nowrap><i>Report generated by </i><a target="_new" href="http://www.thecortex.net/clover">Clover v1.2</a><i><BR>Wed Oct 8 2003 23:00:13 EDT</i>.</td>
+<td>&nbsp;</td><td style="BORDER-LEFT: #9c9c9c 1px solid;">&nbsp;</td><td>Open Source License registered to the OpenSymphony Project. This license of Clover is provided to support the development of OpenSymphony only. </td>
+</tr>
+</table>
+</td>
+</tr></TABLE>

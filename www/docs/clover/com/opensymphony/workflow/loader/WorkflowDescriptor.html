@@ -1,0 +1,7565 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OSWorkflow Coverage Report</title>
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../style.css" TITLE="Style">
+</head>
+<body>
+  <!-- render overall pkg coverage graph -->
+<TABLE cellspacing="0" cellpadding="2">
+  <TBODY>
+    <!-- / Users/ hani/ projects/ osworkflow/ src/ java/ com/ opensymphony/ workflow/ loader/ WorkflowDescriptor.java -->
+  <TR>
+    <TD colspan="6" class="reportHeader">
+    <TABLE width="100%"><TR><TD valign="top" class="titleText">Clover coverage report -  OSWorkflow Coverage Report<DIV class="timestamp"><b>Coverage timestamp:</b>&nbsp;Wed Oct 8 2003 20:31:22 EDT</DIV>
+            <DIV class="navBar"><a href="../../../../pkgs-summary.html"><b>Overview</b></a>&nbsp;&nbsp;&nbsp;<a href="pkg-summary.html"><b>Package</b></a>&nbsp;&nbsp;&nbsp;<font class="navBarCurrent">File</font></DIV>
+    </TD>
+         <td class="headerStats" valign="top" width="40%" align="right">
+        <table align="right">
+         <tr>
+           <td nowrap><b>file stats:</b></td>
+           <td align="right"><b>LOC:</b></td>
+           <td align="right">458</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Methods:</b></td>
+           <td align="right">24</td>
+         </tr>
+         <tr>
+           <td></td>
+           <td align="right"><b>NCLOC:</b></td>
+           <td align="right">287</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Classes:</b></td>
+           <td align="right">1</td>
+         </tr>
+      </table>
+     </td>
+    </TR></TABLE>
+   </TD>
+  </TR>
+
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+  <TR>
+    <TD class="graphHeaderLeft"><b>&nbsp;Source file</b></TD>
+    <TD class="graphHeader">Conditionals</TD>
+    <TD class="graphHeader">Statements</TD>
+    <TD class="graphHeader">Methods</TD>
+    <TD class="graphHeader" align="left" colspan="2"><B>TOTAL</B></TD>
+  </TR>   
+  <TR>
+    <TD class="graphItem">
+        	   WorkflowDescriptor.java
+	    </TD>
+   
+    <TD class="graphPercent" align="center">61.6%</TD>
+    <TD class="graphPercent" align="center">71.1%</TD>
+    <TD class="graphPercent" align="center">66.7%</TD>
+    <TD class="graphBarLeft" align="center"><B>67.9%</B></TD>
+    <TD class="graphBar">
+            <TABLE class="barGraph" cellspacing="0">
+        <TBODY>
+          <TR>
+	               <TD class="covered"><img alt="coverage" src="../../../../img/trans.gif"
+                   width="135" height="12"></TD>
+            <TD class="uncovered"><img alt="coverage" src="../../../../img/trans.gif"
+                   width="65" height="12"></TD>
+	   	  </TR>
+	</TBODY>
+      </TABLE>
+          </TD>
+  </TR> 
+</TBODY>
+</TABLE>
+
+
+<TABLE cellspacing="0" cellpadding="0" class="srcView">
+<TBODY>
+
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;1
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/*</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;2
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Copyright (c) 2002-2003 by OpenSymphony</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;3
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * All rights reserved.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;4
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;5
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">package</span> com.opensymphony.workflow.loader;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;6
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;7
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.InvalidWorkflowDescriptorException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;8
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.util.Validatable;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;9
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;10
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> org.w3c.dom.Element;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;11
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> org.w3c.dom.NodeList;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;12
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;13
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.io.*;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;14
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;15
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.util.*;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;16
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;17
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;18
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;19
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Describes a single workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;20
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> *</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;21
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * <span class="javadoc">@author</span> &lt;a href="mailto:plightbo@hotmail.com"&gt;Pat Lightbody&lt;/a&gt;</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;22
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * <span class="javadoc">@version</span> $Revision: 1.1 $</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;23
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+   <A name="WorkflowDescriptor">&nbsp;24</A>
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLineClassStart">
+      <PRE class="srcLine">&nbsp;<span class="keyword">public</span> <span class="keyword">class</span> WorkflowDescriptor <span class="keyword">extends</span> AbstractDescriptor <span class="keyword">implements</span> Validatable {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;25
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Instance fields ////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;26
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;27
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">protected</span> List globalActions = <span class="keyword">new</span> ArrayList();</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;28
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">protected</span> List initialActions = <span class="keyword">new</span> ArrayList();</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;29
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">protected</span> List joins = <span class="keyword">new</span> ArrayList();</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;30
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">protected</span> List registers = <span class="keyword">new</span> ArrayList();</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;31
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">protected</span> List splits = <span class="keyword">new</span> ArrayList();</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;32
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">protected</span> List steps = <span class="keyword">new</span> ArrayList();</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;33
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">protected</span> Map timerFunctions = <span class="keyword">new</span> HashMap();</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;34
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;35
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Constructors ///////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;36
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;37
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 37: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 37: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> WorkflowDescriptor() {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;38
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;39
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;40
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 40: method entered 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 40: method entered 3066 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> WorkflowDescriptor(Element root) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;41
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 41: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 41: statement executed 3066 times."><PRE class="srcLine">&nbsp;        init(root);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;42
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;43
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;44
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Methods ////////////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;45
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;46
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 46: method entered 770 times.">&nbsp;770</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 46: method entered 770 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> ActionDescriptor getAction(<span class="keyword">int</span> id) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;47
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="comment">// check global actions</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;48
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 48: expression evaluated to true 0 times, false 770 times.">&nbsp;770</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 48: expression evaluated to true 0 times, false 770 times."><PRE class="srcLine">&nbsp;        <span class="keyword">for</span> (Iterator iterator = globalActions.iterator(); iterator.hasNext();) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;49
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 49: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 49: statement not executed."><PRE class="srcLine">&nbsp;            ActionDescriptor actionDescriptor = (ActionDescriptor) iterator.next();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;50
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;51
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 51: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 51: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (actionDescriptor.getId() == id) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;52
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 52: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 52: statement not executed."><PRE class="srcLine">&nbsp;                <span class="keyword">return</span> actionDescriptor;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;53
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;54
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;55
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;56
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="comment">// check steps</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;57
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 57: expression evaluated to true 3171 times, false 0 times.">&nbsp;3171</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 57: expression evaluated to true 3171 times, false 0 times."><PRE class="srcLine">&nbsp;        <span class="keyword">for</span> (Iterator iterator = steps.iterator(); iterator.hasNext();) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;58
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 58: statement executed 3171 times.">&nbsp;3171</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 58: statement executed 3171 times."><PRE class="srcLine">&nbsp;            StepDescriptor stepDescriptor = (StepDescriptor) iterator.next();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;59
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 59: statement executed 3171 times.">&nbsp;3171</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 59: statement executed 3171 times."><PRE class="srcLine">&nbsp;            ActionDescriptor actionDescriptor = stepDescriptor.getAction(id);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;60
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;61
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 61: statement executed 3171 times.">&nbsp;3171</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 61: statement executed 3171 times."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (actionDescriptor != <span class="keyword">null</span>) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;62
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 62: statement executed 770 times.">&nbsp;770</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 62: statement executed 770 times."><PRE class="srcLine">&nbsp;                <span class="keyword">return</span> actionDescriptor;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;63
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;64
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;65
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;66
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 66: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 66: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> <span class="keyword">null</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;67
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;68
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;69
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;70
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Get a List of the global actions specified</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;71
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span> A list of {@link ActionDescriptor} objects</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;72
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;73
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 73: method entered 3871 times.">&nbsp;3871</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 73: method entered 3871 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List getGlobalActions() {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;74
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 74: statement executed 3871 times.">&nbsp;3871</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 74: statement executed 3871 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> globalActions;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;75
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;76
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;77
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 77: method entered 700 times.">&nbsp;700</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 77: method entered 700 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> ActionDescriptor getInitialAction(<span class="keyword">int</span> id) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;78
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 78: statement executed 700 times.">&nbsp;700</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 78: statement executed 700 times."><PRE class="srcLine">&nbsp;        <span class="keyword">for</span> (Iterator iterator = initialActions.iterator(); iterator.hasNext();) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;79
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 79: statement executed 700 times.">&nbsp;700</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 79: statement executed 700 times."><PRE class="srcLine">&nbsp;            ActionDescriptor actionDescriptor = (ActionDescriptor) iterator.next();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;80
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;81
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 81: statement executed 700 times.">&nbsp;700</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 81: statement executed 700 times."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (actionDescriptor.getId() == id) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;82
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 82: statement executed 476 times.">&nbsp;476</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 82: statement executed 476 times."><PRE class="srcLine">&nbsp;                <span class="keyword">return</span> actionDescriptor;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;83
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;84
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;85
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;86
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 86: statement executed 224 times.">&nbsp;224</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 86: statement executed 224 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> <span class="keyword">null</span>;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;87
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;88
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;89
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;90
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Get a List of initial steps for this workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;91
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span> A list of {@link ActionDescriptor} objects</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;92
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;93
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 93: method entered 3059 times.">&nbsp;3059</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 93: method entered 3059 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List getInitialActions() {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;94
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 94: statement executed 3059 times.">&nbsp;3059</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 94: statement executed 3059 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> initialActions;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;95
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;96
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;97
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 97: method entered 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 97: method entered 56 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> JoinDescriptor getJoin(<span class="keyword">int</span> id) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;98
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 98: expression evaluated to true 56 times, false 0 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 98: expression evaluated to true 56 times, false 0 times."><PRE class="srcLine">&nbsp;        <span class="keyword">for</span> (Iterator iterator = joins.iterator(); iterator.hasNext();) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;99
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 99: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 99: statement executed 56 times."><PRE class="srcLine">&nbsp;            JoinDescriptor joinDescriptor = (JoinDescriptor) iterator.next();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;100
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;101
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 101: expression evaluated to true 56 times, false 0 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 101: expression evaluated to true 56 times, false 0 times."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (joinDescriptor.getId() == id) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;102
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 102: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 102: statement executed 56 times."><PRE class="srcLine">&nbsp;                <span class="keyword">return</span> joinDescriptor;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;103
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;104
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;105
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;106
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 106: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 106: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> <span class="keyword">null</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;107
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;108
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;109
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;110
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * Get a List of initial steps for this workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;111
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * <span class="javadoc">@return</span> A list of {@link JoinDescriptor} objects</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;112
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;113
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 113: method entered 3052 times.">&nbsp;3052</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 113: method entered 3052 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List getJoins() {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;114
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 114: statement executed 3052 times.">&nbsp;3052</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 114: statement executed 3052 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> joins;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;115
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;116
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;117
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 117: method entered 4284 times.">&nbsp;4284</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 117: method entered 4284 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List getRegisters() {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;118
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 118: statement executed 4284 times.">&nbsp;4284</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 118: statement executed 4284 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> registers;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;119
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;120
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;121
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 121: method entered 42 times.">&nbsp;42</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 121: method entered 42 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> SplitDescriptor getSplit(<span class="keyword">int</span> id) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;122
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 122: expression evaluated to true 42 times, false 0 times.">&nbsp;42</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 122: expression evaluated to true 42 times, false 0 times."><PRE class="srcLine">&nbsp;        <span class="keyword">for</span> (Iterator iterator = splits.iterator(); iterator.hasNext();) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;123
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 123: statement executed 42 times.">&nbsp;42</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 123: statement executed 42 times."><PRE class="srcLine">&nbsp;            SplitDescriptor splitDescriptor = (SplitDescriptor) iterator.next();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;124
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;125
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 125: expression evaluated to true 42 times, false 0 times.">&nbsp;42</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 125: expression evaluated to true 42 times, false 0 times."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (splitDescriptor.getId() == id) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;126
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 126: statement executed 42 times.">&nbsp;42</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 126: statement executed 42 times."><PRE class="srcLine">&nbsp;                <span class="keyword">return</span> splitDescriptor;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;127
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;128
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;129
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;130
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 130: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 130: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> <span class="keyword">null</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;131
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;132
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;133
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;134
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * Get a List of initial steps for this workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;135
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * <span class="javadoc">@return</span> A list of {@link SplitDescriptor} objects</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;136
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;137
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 137: method entered 3052 times.">&nbsp;3052</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 137: method entered 3052 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List getSplits() {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;138
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 138: statement executed 3052 times.">&nbsp;3052</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 138: statement executed 3052 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> splits;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;139
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;140
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;141
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 141: method entered 2149 times.">&nbsp;2149</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 141: method entered 2149 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> StepDescriptor getStep(<span class="keyword">int</span> id) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;142
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 142: statement executed 2149 times.">&nbsp;2149</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 142: statement executed 2149 times."><PRE class="srcLine">&nbsp;        <span class="keyword">for</span> (Iterator iterator = steps.iterator(); iterator.hasNext();) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;143
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 143: statement executed 9723 times.">&nbsp;9723</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 143: statement executed 9723 times."><PRE class="srcLine">&nbsp;            StepDescriptor step = (StepDescriptor) iterator.next();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;144
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;145
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 145: statement executed 9723 times.">&nbsp;9723</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 145: statement executed 9723 times."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (step.getId() == id) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;146
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 146: statement executed 2121 times.">&nbsp;2121</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 146: statement executed 2121 times."><PRE class="srcLine">&nbsp;                <span class="keyword">return</span> step;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;147
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;148
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;149
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;150
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 150: statement executed 28 times.">&nbsp;28</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 150: statement executed 28 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> <span class="keyword">null</span>;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;151
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;152
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;153
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;154
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Get a List of steps in this workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;155
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span> a List of {@link StepDescriptor} objects</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;156
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;157
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 157: method entered 6104 times.">&nbsp;6104</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 157: method entered 6104 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List getSteps() {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;158
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 158: statement executed 6104 times.">&nbsp;6104</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 158: statement executed 6104 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> steps;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;159
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;160
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;161
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;162
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Update a trigger function</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;163
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> id The id for the trigger function</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;164
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> descriptor The descriptor for the trigger function</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;165
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span> The old trigger function with the specified ID, if any existed</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;166
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;167
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 167: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 167: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> FunctionDescriptor setTriggerFunction(<span class="keyword">int</span> id, FunctionDescriptor descriptor) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;168
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 168: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 168: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> (FunctionDescriptor) timerFunctions.put(<span class="keyword">new</span> Integer(id), descriptor);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;169
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;170
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;171
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 171: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 171: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> FunctionDescriptor getTriggerFunction(<span class="keyword">int</span> id) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;172
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 172: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 172: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> (FunctionDescriptor) <span class="keyword">this</span>.timerFunctions.get(<span class="keyword">new</span> Integer(id));</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;173
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;174
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;175
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;176
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Get a Map of all trigger functions in this workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;177
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span> a Map with Integer keys and {@link FunctionDescriptor} values</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;178
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;179
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 179: method entered 3059 times.">&nbsp;3059</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 179: method entered 3059 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> Map getTriggerFunctions() {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;180
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 180: statement executed 3059 times.">&nbsp;3059</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 180: statement executed 3059 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> timerFunctions;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;181
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;182
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;183
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;184
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Add a global action</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;185
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@throws</span> IllegalArgumentException if the descriptor's ID already exists in the workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;186
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> descriptor The action descriptor to add</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;187
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;188
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 188: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 188: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> addGlobalAction(ActionDescriptor descriptor) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;189
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 189: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 189: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (getAction(descriptor.getId()) != <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;190
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 190: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 190: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Action with id "</span> + descriptor.getId() + <span class="string">" already exists"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;191
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;192
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;193
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 193: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 193: statement not executed."><PRE class="srcLine">&nbsp;        globalActions.add(descriptor);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;194
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;195
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;196
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;197
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Add an initial action</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;198
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@throws</span> IllegalArgumentException if the descriptor's ID already exists in the workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;199
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> descriptor The action descriptor to add</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;200
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;201
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 201: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 201: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> addInitialAction(ActionDescriptor descriptor) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;202
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 202: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 202: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (getAction(descriptor.getId()) != <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;203
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 203: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 203: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Action with id "</span> + descriptor.getId() + <span class="string">" already exists"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;204
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;205
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;206
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 206: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 206: statement not executed."><PRE class="srcLine">&nbsp;        initialActions.add(descriptor);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;207
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;208
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;209
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;210
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Add a join</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;211
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@throws</span> IllegalArgumentException if the descriptor's ID already exists in the workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;212
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> descriptor The join descriptor to add</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;213
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;214
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 214: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 214: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> addJoin(JoinDescriptor descriptor) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;215
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 215: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 215: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (getJoin(descriptor.getId()) != <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;216
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 216: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 216: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Join with id "</span> + descriptor.getId() + <span class="string">" already exists"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;217
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;218
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;219
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 219: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 219: statement not executed."><PRE class="srcLine">&nbsp;        joins.add(descriptor);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;220
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;221
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;222
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;223
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Add a split</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;224
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@throws</span> IllegalArgumentException if the descriptor's ID already exists in the workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;225
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> descriptor The split descriptor to add</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;226
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;227
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 227: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 227: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> addSplit(SplitDescriptor descriptor) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;228
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 228: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 228: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (getSplit(descriptor.getId()) != <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;229
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 229: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 229: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Split with id "</span> + descriptor.getId() + <span class="string">" already exists"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;230
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;231
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;232
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 232: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 232: statement not executed."><PRE class="srcLine">&nbsp;        splits.add(descriptor);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;233
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;234
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;235
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;236
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Add a step</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;237
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@throws</span> IllegalArgumentException if the descriptor's ID already exists in the workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;238
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> descriptor The step descriptor to add</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;239
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;240
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 240: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 240: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> addStep(StepDescriptor descriptor) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;241
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 241: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 241: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (getStep(descriptor.getId()) != <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;242
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 242: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 242: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Step with id "</span> + descriptor.getId() + <span class="string">" already exists"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;243
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;244
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;245
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 245: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 245: statement not executed."><PRE class="srcLine">&nbsp;        steps.add(descriptor);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;246
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;247
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;248
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 248: method entered 3059 times.">&nbsp;3059</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 248: method entered 3059 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> validate() <span class="keyword">throws</span> InvalidWorkflowDescriptorException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;249
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 249: statement executed 3059 times.">&nbsp;3059</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 249: statement executed 3059 times."><PRE class="srcLine">&nbsp;        ValidationHelper.validate(<span class="keyword">this</span>.getRegisters());</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;250
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 250: statement executed 3059 times.">&nbsp;3059</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 250: statement executed 3059 times."><PRE class="srcLine">&nbsp;        ValidationHelper.validate(<span class="keyword">this</span>.getTriggerFunctions().values());</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;251
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 251: statement executed 3059 times.">&nbsp;3059</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 251: statement executed 3059 times."><PRE class="srcLine">&nbsp;        ValidationHelper.validate(<span class="keyword">this</span>.getGlobalActions());</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;252
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 252: statement executed 3059 times.">&nbsp;3059</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 252: statement executed 3059 times."><PRE class="srcLine">&nbsp;        ValidationHelper.validate(<span class="keyword">this</span>.getInitialActions());</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;253
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 253: statement executed 3052 times.">&nbsp;3052</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 253: statement executed 3052 times."><PRE class="srcLine">&nbsp;        ValidationHelper.validate(<span class="keyword">this</span>.getSteps());</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;254
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 254: statement executed 3052 times.">&nbsp;3052</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 254: statement executed 3052 times."><PRE class="srcLine">&nbsp;        ValidationHelper.validate(<span class="keyword">this</span>.getSplits());</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;255
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 255: statement executed 3052 times.">&nbsp;3052</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 255: statement executed 3052 times."><PRE class="srcLine">&nbsp;        ValidationHelper.validate(<span class="keyword">this</span>.getJoins());</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;256
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;257
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 257: statement executed 3052 times.">&nbsp;3052</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 257: statement executed 3052 times."><PRE class="srcLine">&nbsp;        Set actions = <span class="keyword">new</span> HashSet();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;258
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 258: statement executed 3052 times.">&nbsp;3052</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 258: statement executed 3052 times."><PRE class="srcLine">&nbsp;        Iterator i = globalActions.iterator();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;259
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;260
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 260: expression evaluated to true 0 times, false 3052 times.">&nbsp;3052</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 260: expression evaluated to true 0 times, false 3052 times."><PRE class="srcLine">&nbsp;        <span class="keyword">while</span> (i.hasNext()) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;261
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 261: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 261: statement not executed."><PRE class="srcLine">&nbsp;            ActionDescriptor action = (ActionDescriptor) i.next();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;262
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 262: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 262: statement not executed."><PRE class="srcLine">&nbsp;            actions.add(<span class="keyword">new</span> Integer(action.getId()));</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;263
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;264
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;265
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 265: statement executed 3052 times.">&nbsp;3052</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 265: statement executed 3052 times."><PRE class="srcLine">&nbsp;        i = getSteps().iterator();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;266
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;267
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 267: statement executed 3052 times.">&nbsp;3052</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 267: statement executed 3052 times."><PRE class="srcLine">&nbsp;        <span class="keyword">while</span> (i.hasNext()) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;268
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 268: statement executed 20209 times.">&nbsp;20209</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 268: statement executed 20209 times."><PRE class="srcLine">&nbsp;            StepDescriptor step = (StepDescriptor) i.next();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;269
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 269: statement executed 20209 times.">&nbsp;20209</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 269: statement executed 20209 times."><PRE class="srcLine">&nbsp;            Iterator j = step.getActions().iterator();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;270
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;271
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 271: statement executed 20209 times.">&nbsp;20209</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 271: statement executed 20209 times."><PRE class="srcLine">&nbsp;            <span class="keyword">while</span> (j.hasNext()) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;272
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 272: statement executed 34244 times.">&nbsp;34244</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 272: statement executed 34244 times."><PRE class="srcLine">&nbsp;                ActionDescriptor action = (ActionDescriptor) j.next();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;273
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;274
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 274: statement executed 34244 times.">&nbsp;34244</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 274: statement executed 34244 times."><PRE class="srcLine">&nbsp;                <span class="keyword">if</span> (!actions.add(<span class="keyword">new</span> Integer(action.getId()))) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;275
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 275: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 275: statement executed 7 times."><PRE class="srcLine">&nbsp;                    <span class="keyword">throw</span> <span class="keyword">new</span> InvalidWorkflowDescriptorException(<span class="string">"Duplicate occurance of action ID "</span> + action.getId() + <span class="string">" found in step "</span> + step.getId());</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;276
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;                }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;277
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;278
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;279
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;280
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;281
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 281: method entered 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 281: method entered 7 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> writeXML(PrintWriter out, <span class="keyword">int</span> indent) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;282
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 282: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 282: statement executed 7 times."><PRE class="srcLine">&nbsp;        XMLUtil.printIndent(out, indent++);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;283
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 283: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 283: statement executed 7 times."><PRE class="srcLine">&nbsp;        out.println(<span class="string">"&lt;workflow&gt;"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;284
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;285
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 285: expression evaluated to true 0 times, false 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 285: expression evaluated to true 0 times, false 7 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (registers.size() &gt; 0) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;286
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 286: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 286: statement not executed."><PRE class="srcLine">&nbsp;            XMLUtil.printIndent(out, indent++);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;287
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 287: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 287: statement not executed."><PRE class="srcLine">&nbsp;            out.println(<span class="string">"&lt;registers&gt;"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;288
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;289
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 289: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 289: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; registers.size(); i++) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;290
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 290: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 290: statement not executed."><PRE class="srcLine">&nbsp;                RegisterDescriptor register = (RegisterDescriptor) registers.get(i);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;291
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 291: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 291: statement not executed."><PRE class="srcLine">&nbsp;                register.writeXML(out, indent);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;292
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;293
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;294
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 294: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 294: statement not executed."><PRE class="srcLine">&nbsp;            XMLUtil.printIndent(out, --indent);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;295
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 295: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 295: statement not executed."><PRE class="srcLine">&nbsp;            out.println(<span class="string">"&lt;/registers&gt;"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;296
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;297
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;298
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 298: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 298: statement executed 7 times."><PRE class="srcLine">&nbsp;        XMLUtil.printIndent(out, indent++);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;299
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 299: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 299: statement executed 7 times."><PRE class="srcLine">&nbsp;        out.println(<span class="string">"&lt;initial-actions&gt;"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;300
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;301
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 301: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 301: statement executed 7 times."><PRE class="srcLine">&nbsp;        <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; initialActions.size(); i++) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;302
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 302: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 302: statement executed 7 times."><PRE class="srcLine">&nbsp;            ActionDescriptor action = (ActionDescriptor) initialActions.get(i);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;303
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 303: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 303: statement executed 7 times."><PRE class="srcLine">&nbsp;            action.writeXML(out, indent);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;304
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;305
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;306
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 306: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 306: statement executed 7 times."><PRE class="srcLine">&nbsp;        XMLUtil.printIndent(out, --indent);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;307
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 307: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 307: statement executed 7 times."><PRE class="srcLine">&nbsp;        out.println(<span class="string">"&lt;/initial-actions&gt;"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;308
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;309
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 309: expression evaluated to true 0 times, false 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 309: expression evaluated to true 0 times, false 7 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (globalActions.size() &gt; 0) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;310
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 310: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 310: statement not executed."><PRE class="srcLine">&nbsp;            XMLUtil.printIndent(out, indent++);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;311
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 311: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 311: statement not executed."><PRE class="srcLine">&nbsp;            out.println(<span class="string">"&lt;global-actions&gt;"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;312
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;313
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 313: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 313: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; globalActions.size(); i++) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;314
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 314: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 314: statement not executed."><PRE class="srcLine">&nbsp;                ActionDescriptor action = (ActionDescriptor) globalActions.get(i);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;315
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 315: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 315: statement not executed."><PRE class="srcLine">&nbsp;                action.writeXML(out, indent);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;316
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;317
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;318
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 318: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 318: statement not executed."><PRE class="srcLine">&nbsp;            XMLUtil.printIndent(out, --indent);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;319
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 319: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 319: statement not executed."><PRE class="srcLine">&nbsp;            out.println(<span class="string">"&lt;/global-actions&gt;"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;320
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;321
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;322
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 322: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 322: statement executed 7 times."><PRE class="srcLine">&nbsp;        XMLUtil.printIndent(out, indent++);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;323
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 323: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 323: statement executed 7 times."><PRE class="srcLine">&nbsp;        out.println(<span class="string">"&lt;steps&gt;"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;324
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;325
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 325: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 325: statement executed 7 times."><PRE class="srcLine">&nbsp;        <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; steps.size(); i++) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;326
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 326: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 326: statement executed 56 times."><PRE class="srcLine">&nbsp;            StepDescriptor step = (StepDescriptor) steps.get(i);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;327
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 327: statement executed 56 times.">&nbsp;56</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 327: statement executed 56 times."><PRE class="srcLine">&nbsp;            step.writeXML(out, indent);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;328
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;329
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;330
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 330: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 330: statement executed 7 times."><PRE class="srcLine">&nbsp;        XMLUtil.printIndent(out, --indent);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;331
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 331: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 331: statement executed 7 times."><PRE class="srcLine">&nbsp;        out.println(<span class="string">"&lt;/steps&gt;"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;332
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;333
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 333: expression evaluated to true 7 times, false 0 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 333: expression evaluated to true 7 times, false 0 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (splits.size() &gt; 0) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;334
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 334: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 334: statement executed 7 times."><PRE class="srcLine">&nbsp;            XMLUtil.printIndent(out, indent++);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;335
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 335: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 335: statement executed 7 times."><PRE class="srcLine">&nbsp;            out.println(<span class="string">"&lt;splits&gt;"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;336
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;337
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 337: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 337: statement executed 7 times."><PRE class="srcLine">&nbsp;            <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; splits.size(); i++) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;338
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 338: statement executed 14 times.">&nbsp;14</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 338: statement executed 14 times."><PRE class="srcLine">&nbsp;                SplitDescriptor split = (SplitDescriptor) splits.get(i);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;339
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 339: statement executed 14 times.">&nbsp;14</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 339: statement executed 14 times."><PRE class="srcLine">&nbsp;                split.writeXML(out, indent);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;340
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;341
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;342
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 342: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 342: statement executed 7 times."><PRE class="srcLine">&nbsp;            XMLUtil.printIndent(out, --indent);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;343
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 343: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 343: statement executed 7 times."><PRE class="srcLine">&nbsp;            out.println(<span class="string">"&lt;/splits&gt;"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;344
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;345
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;346
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 346: expression evaluated to true 7 times, false 0 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 346: expression evaluated to true 7 times, false 0 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (joins.size() &gt; 0) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;347
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 347: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 347: statement executed 7 times."><PRE class="srcLine">&nbsp;            XMLUtil.printIndent(out, indent++);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;348
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 348: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 348: statement executed 7 times."><PRE class="srcLine">&nbsp;            out.println(<span class="string">"&lt;joins&gt;"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;349
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;350
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 350: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 350: statement executed 7 times."><PRE class="srcLine">&nbsp;            <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; joins.size(); i++) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;351
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 351: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 351: statement executed 7 times."><PRE class="srcLine">&nbsp;                JoinDescriptor join = (JoinDescriptor) joins.get(i);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;352
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 352: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 352: statement executed 7 times."><PRE class="srcLine">&nbsp;                join.writeXML(out, indent);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;353
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;354
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;355
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 355: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 355: statement executed 7 times."><PRE class="srcLine">&nbsp;            XMLUtil.printIndent(out, --indent);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;356
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 356: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 356: statement executed 7 times."><PRE class="srcLine">&nbsp;            out.println(<span class="string">"&lt;/joins&gt;"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;357
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;358
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;359
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 359: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 359: statement executed 7 times."><PRE class="srcLine">&nbsp;        XMLUtil.printIndent(out, --indent);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;360
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 360: statement executed 7 times.">&nbsp;7</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 360: statement executed 7 times."><PRE class="srcLine">&nbsp;        out.println(<span class="string">"&lt;/workflow&gt;"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;361
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;362
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;363
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 363: method entered 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 363: method entered 3066 times."><PRE class="srcLine">&nbsp;    <span class="keyword">protected</span> <span class="keyword">void</span> init(Element root) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;364
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="comment">// handle registers - OPTIONAL</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;365
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 365: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 365: statement executed 3066 times."><PRE class="srcLine">&nbsp;        Element r = XMLUtil.getChildElement(root, <span class="string">"registers"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;366
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;367
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 367: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 367: statement executed 3066 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (r != <span class="keyword">null</span>) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;368
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 368: statement executed 2296 times.">&nbsp;2296</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 368: statement executed 2296 times."><PRE class="srcLine">&nbsp;            NodeList registers = r.getElementsByTagName(<span class="string">"register"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;369
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;370
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 370: statement executed 2296 times.">&nbsp;2296</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 370: statement executed 2296 times."><PRE class="srcLine">&nbsp;            <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; registers.getLength(); i++) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;371
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 371: statement executed 2296 times.">&nbsp;2296</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 371: statement executed 2296 times."><PRE class="srcLine">&nbsp;                Element register = (Element) registers.item(i);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;372
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 372: statement executed 2296 times.">&nbsp;2296</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 372: statement executed 2296 times."><PRE class="srcLine">&nbsp;                RegisterDescriptor registerDescriptor = <span class="keyword">new</span> RegisterDescriptor(register);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;373
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 373: statement executed 2296 times.">&nbsp;2296</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 373: statement executed 2296 times."><PRE class="srcLine">&nbsp;                registerDescriptor.setParent(<span class="keyword">this</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;374
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 374: statement executed 2296 times.">&nbsp;2296</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 374: statement executed 2296 times."><PRE class="srcLine">&nbsp;                <span class="keyword">this</span>.registers.add(registerDescriptor);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;375
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;376
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;377
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;378
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="comment">// handle initial-steps - REQUIRED</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;379
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 379: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 379: statement executed 3066 times."><PRE class="srcLine">&nbsp;        Element intialActionsElement = XMLUtil.getChildElement(root, <span class="string">"initial-actions"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;380
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 380: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 380: statement executed 3066 times."><PRE class="srcLine">&nbsp;        NodeList initialActions = intialActionsElement.getElementsByTagName(<span class="string">"action"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;381
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;382
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 382: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 382: statement executed 3066 times."><PRE class="srcLine">&nbsp;        <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; initialActions.getLength(); i++) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;383
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 383: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 383: statement executed 3066 times."><PRE class="srcLine">&nbsp;            Element initialAction = (Element) initialActions.item(i);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;384
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 384: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 384: statement executed 3066 times."><PRE class="srcLine">&nbsp;            ActionDescriptor actionDescriptor = <span class="keyword">new</span> ActionDescriptor(initialAction);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;385
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 385: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 385: statement executed 3066 times."><PRE class="srcLine">&nbsp;            actionDescriptor.setParent(<span class="keyword">this</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;386
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 386: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 386: statement executed 3066 times."><PRE class="srcLine">&nbsp;            <span class="keyword">this</span>.initialActions.add(actionDescriptor);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;387
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;388
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;389
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="comment">// handle global-actions - OPTIONAL</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;390
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 390: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 390: statement executed 3066 times."><PRE class="srcLine">&nbsp;        Element globalActionsElement = XMLUtil.getChildElement(root, <span class="string">"global-actions"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;391
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;392
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 392: expression evaluated to true 0 times, false 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 392: expression evaluated to true 0 times, false 3066 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (globalActionsElement != <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;393
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 393: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 393: statement not executed."><PRE class="srcLine">&nbsp;            NodeList globalActions = globalActionsElement.getElementsByTagName(<span class="string">"action"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;394
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;395
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 395: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 395: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; globalActions.getLength(); i++) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;396
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 396: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 396: statement not executed."><PRE class="srcLine">&nbsp;                Element globalAction = (Element) globalActions.item(i);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;397
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 397: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 397: statement not executed."><PRE class="srcLine">&nbsp;                ActionDescriptor actionDescriptor = <span class="keyword">new</span> ActionDescriptor(globalAction);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;398
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 398: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 398: statement not executed."><PRE class="srcLine">&nbsp;                actionDescriptor.setParent(<span class="keyword">this</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;399
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 399: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 399: statement not executed."><PRE class="srcLine">&nbsp;                <span class="keyword">this</span>.globalActions.add(actionDescriptor);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;400
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;401
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;402
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;403
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="comment">// handle timer-functions - OPTIONAL</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;404
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 404: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 404: statement executed 3066 times."><PRE class="srcLine">&nbsp;        Element timerFunctionsElement = XMLUtil.getChildElement(root, <span class="string">"trigger-functions"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;405
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;406
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 406: expression evaluated to true 0 times, false 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 406: expression evaluated to true 0 times, false 3066 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (timerFunctionsElement != <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;407
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 407: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 407: statement not executed."><PRE class="srcLine">&nbsp;            NodeList timerFunctions = timerFunctionsElement.getElementsByTagName(<span class="string">"trigger-function"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;408
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;409
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 409: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 409: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; timerFunctions.getLength(); i++) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;410
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 410: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 410: statement not executed."><PRE class="srcLine">&nbsp;                Element timerFunction = (Element) timerFunctions.item(i);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;411
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 411: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 411: statement not executed."><PRE class="srcLine">&nbsp;                Integer id = <span class="keyword">new</span> Integer(timerFunction.getAttribute(<span class="string">"id"</span>));</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;412
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 412: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 412: statement not executed."><PRE class="srcLine">&nbsp;                FunctionDescriptor function = <span class="keyword">new</span> FunctionDescriptor((Element) timerFunction.getElementsByTagName(<span class="string">"function"</span>).item(0));</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;413
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 413: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 413: statement not executed."><PRE class="srcLine">&nbsp;                function.setParent(<span class="keyword">this</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;414
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 414: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 414: statement not executed."><PRE class="srcLine">&nbsp;                <span class="keyword">this</span>.timerFunctions.put(id, function);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;415
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;416
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;417
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;418
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="comment">// handle steps - REQUIRED</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;419
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 419: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 419: statement executed 3066 times."><PRE class="srcLine">&nbsp;        Element stepsElement = XMLUtil.getChildElement(root, <span class="string">"steps"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;420
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 420: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 420: statement executed 3066 times."><PRE class="srcLine">&nbsp;        NodeList steps = stepsElement.getElementsByTagName(<span class="string">"step"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;421
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;422
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 422: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 422: statement executed 3066 times."><PRE class="srcLine">&nbsp;        <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; steps.getLength(); i++) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;423
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 423: statement executed 20272 times.">&nbsp;20272</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 423: statement executed 20272 times."><PRE class="srcLine">&nbsp;            Element step = (Element) steps.item(i);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;424
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 424: statement executed 20272 times.">&nbsp;20272</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 424: statement executed 20272 times."><PRE class="srcLine">&nbsp;            StepDescriptor stepDescriptor = <span class="keyword">new</span> StepDescriptor(step);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;425
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 425: statement executed 20272 times.">&nbsp;20272</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 425: statement executed 20272 times."><PRE class="srcLine">&nbsp;            stepDescriptor.setParent(<span class="keyword">this</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;426
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 426: statement executed 20272 times.">&nbsp;20272</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 426: statement executed 20272 times."><PRE class="srcLine">&nbsp;            <span class="keyword">this</span>.steps.add(stepDescriptor);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;427
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;428
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;429
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="comment">// handle splits - OPTIONAL</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;430
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 430: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 430: statement executed 3066 times."><PRE class="srcLine">&nbsp;        Element splitsElement = XMLUtil.getChildElement(root, <span class="string">"splits"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;431
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;432
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 432: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 432: statement executed 3066 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (splitsElement != <span class="keyword">null</span>) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;433
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 433: statement executed 2436 times.">&nbsp;2436</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 433: statement executed 2436 times."><PRE class="srcLine">&nbsp;            NodeList split = splitsElement.getElementsByTagName(<span class="string">"split"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;434
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;435
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 435: statement executed 2436 times.">&nbsp;2436</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 435: statement executed 2436 times."><PRE class="srcLine">&nbsp;            <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; split.getLength(); i++) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;436
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 436: statement executed 4739 times.">&nbsp;4739</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 436: statement executed 4739 times."><PRE class="srcLine">&nbsp;                Element s = (Element) split.item(i);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;437
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 437: statement executed 4739 times.">&nbsp;4739</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 437: statement executed 4739 times."><PRE class="srcLine">&nbsp;                SplitDescriptor splitDescriptor = <span class="keyword">new</span> SplitDescriptor(s);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;438
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 438: statement executed 4739 times.">&nbsp;4739</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 438: statement executed 4739 times."><PRE class="srcLine">&nbsp;                splitDescriptor.setParent(<span class="keyword">this</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;439
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 439: statement executed 4739 times.">&nbsp;4739</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 439: statement executed 4739 times."><PRE class="srcLine">&nbsp;                <span class="keyword">this</span>.splits.add(splitDescriptor);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;440
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;441
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;442
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;443
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="comment">// handle joins - OPTIONAL:</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;444
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 444: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 444: statement executed 3066 times."><PRE class="srcLine">&nbsp;        Element joinsElement = XMLUtil.getChildElement(root, <span class="string">"joins"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;445
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;446
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 446: statement executed 3066 times.">&nbsp;3066</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 446: statement executed 3066 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (joinsElement != <span class="keyword">null</span>) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;447
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 447: statement executed 2303 times.">&nbsp;2303</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 447: statement executed 2303 times."><PRE class="srcLine">&nbsp;            NodeList join = joinsElement.getElementsByTagName(<span class="string">"join"</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;448
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;449
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 449: statement executed 2303 times.">&nbsp;2303</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 449: statement executed 2303 times."><PRE class="srcLine">&nbsp;            <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; join.getLength(); i++) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;450
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 450: statement executed 2303 times.">&nbsp;2303</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 450: statement executed 2303 times."><PRE class="srcLine">&nbsp;                Element s = (Element) join.item(i);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;451
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 451: statement executed 2303 times.">&nbsp;2303</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 451: statement executed 2303 times."><PRE class="srcLine">&nbsp;                JoinDescriptor joinDescriptor = <span class="keyword">new</span> JoinDescriptor(s);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;452
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 452: statement executed 2303 times.">&nbsp;2303</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 452: statement executed 2303 times."><PRE class="srcLine">&nbsp;                joinDescriptor.setParent(<span class="keyword">this</span>);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;453
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 453: statement executed 2303 times.">&nbsp;2303</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 453: statement executed 2303 times."><PRE class="srcLine">&nbsp;                <span class="keyword">this</span>.joins.add(joinDescriptor);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;454
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;455
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;456
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;457
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;}</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;458
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+</TBODY>
+</TABLE>
+<TABLE width="100%">
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+<TR><TD class="footer" colspan="6">
+<table>
+<tr>
+ <td><a target="_new" href="http://www.thecortex.net/clover"><img alt="Clover" src="../../../../img/logo.gif" border="0"></a></td><td nowrap><i>Report generated by </i><a target="_new" href="http://www.thecortex.net/clover">Clover v1.2</a><i><BR>Wed Oct 8 2003 23:00:13 EDT</i>.</td>
+<td>&nbsp;</td><td style="BORDER-LEFT: #9c9c9c 1px solid;">&nbsp;</td><td>Open Source License registered to the OpenSymphony Project. This license of Clover is provided to support the development of OpenSymphony only. </td>
+</tr>
+</table>
+</td>
+</tr></TABLE>
