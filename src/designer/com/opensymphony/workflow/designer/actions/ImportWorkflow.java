@@ -36,8 +36,8 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
 
   public void actionPerformed(ActionEvent e)
   {
-    File file = Utils.promptUserForFile((Component)e.getSource(), JFileChooser.FILES_AND_DIRECTORIES, false, ".xml", "XML Workflow Files");
-    if(file!=null)
+    File inputFile = Utils.promptUserForFile((Component)e.getSource(), JFileChooser.FILES_AND_DIRECTORIES, false, ".xml", "XML Workflow Files");
+    if(inputFile!=null)
     {
       try
       {
@@ -46,19 +46,23 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
           JOptionPane.showMessageDialog((Component)e.getSource(), "Please save this workspace before importing workflows into it", "Warning", JOptionPane.WARNING_MESSAGE);
           return;
         }
-        FileOutputStream out = new FileOutputStream(new File(currentWorkspace.getLocation().getParentFile(), file.getName()));
-        FileInputStream in = new FileInputStream(file);
-
-        byte[] buff = new byte[4096];
-        int nch;
-        while((nch = in.read(buff, 0, buff.length)) != -1)
+        File ouputFile = new File(currentWorkspace.getLocation().getParentFile(), inputFile.getName());
+        if(!ouputFile.getCanonicalPath().equals(inputFile))
         {
-          out.write(buff, 0, nch);
+          FileOutputStream out = new FileOutputStream(ouputFile);
+          FileInputStream in = new FileInputStream(inputFile);
+
+          byte[] buff = new byte[4096];
+          int nch;
+          while((nch = in.read(buff, 0, buff.length)) != -1)
+          {
+            out.write(buff, 0, nch);
+          }
+          out.flush();
+          out.close();
         }
-        out.flush();
-        out.close();
-        String name = file.getName();
-        currentWorkspace.importDescriptor(name.substring(0, name.lastIndexOf('.')), new FileInputStream(file));
+        String name = inputFile.getName();
+        currentWorkspace.importDescriptor(name.substring(0, name.lastIndexOf('.')), new FileInputStream(inputFile));
         WorkflowDesigner.INSTANCE.navigator().setWorkspace(currentWorkspace);
       }
       catch(Exception t)
