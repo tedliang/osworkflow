@@ -17,6 +17,7 @@ import com.opensymphony.workflow.designer.swing.status.MemoryDisplay;
 import com.opensymphony.workflow.designer.swing.plaf.BlueButtonUI;
 import com.jgoodies.plaf.HeaderStyle;
 import com.jgoodies.plaf.Options;
+import com.jgoodies.plaf.LookUtils;
 
 /**
  * @author jackflit
@@ -75,10 +76,12 @@ public class BarFactory
     item = new JMenuItem(ActionManager.register("savespace", save));
     fileMenu.add(item);
 
-    fileMenu.addSeparator();
-
     item = new JMenuItem(ActionManager.register("quit", new Quit()));
-    fileMenu.add(item);
+    if(!LookUtils.IS_OS_MAC)
+    {
+      fileMenu.addSeparator();
+      fileMenu.add(item);
+    }
 
     JMenu viewMenu = new JMenu(ResourceManager.getString("menu.layout"));
     AutoLayout auto = new AutoLayout(null);
