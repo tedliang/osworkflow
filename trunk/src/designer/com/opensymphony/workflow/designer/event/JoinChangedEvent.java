@@ -2,10 +2,7 @@
  * Created on 2003-11-22
  *
  * source is JoinCell
- * should know model? in whitch model 
- * 
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * should know model? in whitch model
  */
 package com.opensymphony.workflow.designer.event;
 
@@ -16,54 +13,45 @@ import com.opensymphony.workflow.designer.WorkflowGraphModel;
 
 /**
  * @author Gulei
- *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
-public class JoinChangedEvent extends EventObject {
+public class JoinChangedEvent extends EventObject
+{
 
-	private WorkflowGraphModel model;
-	private Map args;
-	/**
-	 * @param source should be JoinCell
-	 */
-	public JoinChangedEvent(Object source) {
-		super(source);
-	}
+  private WorkflowGraphModel model;
+  private Map args;
 
-	public JoinChangedEvent(Object source, WorkflowGraphModel model) {
-		super(source);
-		this.model = model;		
-	}
-	
-	
+  /**
+   * @param source should be JoinCell
+   */
+  public JoinChangedEvent(Object source)
+  {
+    super(source);
+  }
 
-	/**
-	 * @return
-	 */
-	public Map getArgs() {
-		return args;
-	}
+  public JoinChangedEvent(Object source, WorkflowGraphModel model)
+  {
+    super(source);
+    this.model = model;
+  }
 
-	/**
-	 * @return
-	 */
-	public WorkflowGraphModel getModel() {
-		return model;
-	}
+  public Map getArgs()
+  {
+    return args;
+  }
 
-	/**
-	 * @param map
-	 */
-	public void setArgs(Map map) {
-		args = map;
-	}
+  public WorkflowGraphModel getModel()
+  {
+    return model;
+  }
 
-	/**
-	 * @param model
-	 */
-	public void setModel(WorkflowGraphModel model) {
-		this.model = model;
-	}
+  public void setArgs(Map map)
+  {
+    args = map;
+  }
+
+  public void setModel(WorkflowGraphModel model)
+  {
+    this.model = model;
+  }
 
 }
