@@ -94,12 +94,14 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 		builder.addSeparator(ResourceManager.getString("prefunctions"), cc.xywh(2, 16, 3, 1));
 
 		pre = new JTable(preModel);
+    preModel.setGraphModel(getModel());
 		builder.add(UIFactory.createTablePanel(pre), cc.xywh(2, 18, 3, 1));
 		builder.add(UIFactory.getButtonBar(this, "pre", BUTTONS), cc.xywh(2, 19, 3, 1));
 
 		builder.addSeparator(ResourceManager.getString("postfunctions"), cc.xywh(2, 21, 3, 1));
 
 		post = new JTable(postModel);
+    postModel.setGraphModel(getModel());
 		builder.add(UIFactory.createTablePanel(post), cc.xywh(2, 23, 3, 1));
 		builder.add(UIFactory.getButtonBar(this, "post", BUTTONS), cc.xywh(2, 24, 3, 1));
 	}

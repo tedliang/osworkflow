@@ -1,7 +1,10 @@
 package com.opensymphony.workflow.designer.model;
 
 import com.opensymphony.workflow.loader.FunctionDescriptor;
+import com.opensymphony.workflow.loader.WorkflowConfigDescriptor;
+import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
 import com.opensymphony.workflow.designer.ResourceManager;
+import com.opensymphony.workflow.designer.WorkflowGraphModel;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -11,6 +14,17 @@ import com.opensymphony.workflow.designer.ResourceManager;
 public class FunctionsTableModel extends ListTableModel
 {
   private String[] header = new String[]{ResourceManager.getString("name"), ResourceManager.getString("type")};
+  private WorkflowGraphModel graphModel;
+
+  public WorkflowGraphModel getGraphModel()
+  {
+    return graphModel;
+  }
+
+  public void setGraphModel(WorkflowGraphModel graphModel)
+  {
+    this.graphModel = graphModel;
+  }
 
   public boolean isCellEditable(int rowIndex, int columnIndex)
   {
@@ -51,11 +65,13 @@ public class FunctionsTableModel extends ListTableModel
   public Object getValueAt(int rowIndex, int columnIndex)
   {
     FunctionDescriptor function = (FunctionDescriptor)list.get(rowIndex);
+    WorkflowConfigDescriptor palette = graphModel.getPalette();
+    ConfigFunctionDescriptor config = palette.getPrefunction(function.getName());
     switch(columnIndex)
     {
       case 0:
-        String name = function.getName();
-        return name==null ? "<unknown>" : name;
+        String name = config!=null && config.getDisplayName()!=null ? config.getDisplayName() : ResourceManager.getString("unknown");
+        return name;
       case 1:
         return function.getType();
       default:

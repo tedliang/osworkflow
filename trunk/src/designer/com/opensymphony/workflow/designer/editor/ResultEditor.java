@@ -76,11 +76,13 @@ public class ResultEditor extends DetailPanel implements ActionListener
 
     builder.addSeparator(ResourceManager.getString("prefunctions"), cc.xywh(2, 11, 3, 1));
     preFunctionsTable = new JTable(preFunctionsModel);
+    preFunctionsModel.setGraphModel(getModel());
     builder.add(UIFactory.createTablePanel(preFunctionsTable), cc.xywh(2, 13, 3, 1));
     builder.add(UIFactory.getButtonBar(this, "pre", BUTTONS), cc.xywh(2, 14, 3, 1));
 
     builder.addSeparator(ResourceManager.getString("postfunctions"), cc.xywh(2, 16, 3, 1));
     postFunctionsTable = new JTable(postFunctionsModel);
+    postFunctionsModel.setGraphModel(getModel());
     builder.add(UIFactory.createTablePanel(postFunctionsTable), cc.xywh(2, 18, 3, 1));
     builder.add(UIFactory.getButtonBar(this, "post", BUTTONS), cc.xywh(2, 19, 3, 1));
 
