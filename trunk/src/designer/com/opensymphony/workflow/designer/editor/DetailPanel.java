@@ -15,8 +15,6 @@ public abstract class DetailPanel extends JPanel
   private AbstractDescriptor descriptor;
   private WorkflowGraphModel model;
   private WorkflowGraph graph;
-  private WorkflowCell cell;
-  private WorkflowEdge edge;
 
   private boolean componentsInited = false;
 
@@ -52,26 +50,6 @@ public abstract class DetailPanel extends JPanel
   public void setGraph(WorkflowGraph graph)
   {
   	this.graph = graph;
-  }
-
-	public void setCell(WorkflowCell cell)
-  {
-    this.cell = cell;
-  }
-
-	public WorkflowCell getCell()
-	{
-		return cell;
-	}
-
-	public void setEdge(WorkflowEdge edge)
-	{
-		this.edge = edge;
-	}
-
-	public WorkflowEdge getEdge()
-  {
-		return edge;
   }
 
   public final void setDescriptor(AbstractDescriptor descriptor)

@@ -12,11 +12,8 @@ import javax.swing.event.*;
 import com.opensymphony.workflow.designer.editor.DetailPanel;
 import com.opensymphony.workflow.designer.editor.ResultEditor;
 import com.opensymphony.workflow.designer.editor.WorkflowEditor;
-import com.opensymphony.workflow.designer.views.CustomEdgeView;
 import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
-import org.jgraph.graph.CellView;
-import org.jgraph.graph.DefaultGraphCell;
 
 public class BeanConnector
 {
@@ -117,26 +114,6 @@ public class BeanConnector
             if(panel instanceof ResultEditor)
             {
 							setProperty(e.getComponent());
-          		
-              if(panel.getGraph() != null)
-              {
-								DefaultGraphCell cell = ((ResultEditor)panel).getCell();
-                if(cell == null)
-                {
-									//cell = ((ResultEditor)panel).getEdge();
-                }
-                if(cell != null)
-                {
-                  CellView view = panel.getGraph().getGraphLayoutCache().getMapping(cell, false);
-                  if(view instanceof CustomEdgeView)
-                  {
-						  			((CustomEdgeView)view).update();
-						  			((CustomEdgeView)view).refresh(false);
-                    panel.getGraph().getSelectionModel().setSelectionCell(view.getCell());
-                    panel.getGraph().repaint();
-                  }
-                }
-              }
             }
           	else if (panel instanceof WorkflowEditor)
           	{
