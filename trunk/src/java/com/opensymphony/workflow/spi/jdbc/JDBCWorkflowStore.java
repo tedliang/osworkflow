@@ -7,8 +7,6 @@ package com.opensymphony.workflow.spi.jdbc;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
 
-import com.opensymphony.util.EJBUtils;
-
 import com.opensymphony.workflow.QueryNotSupportedException;
 import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
@@ -22,6 +20,9 @@ import java.sql.*;
 
 import java.util.*;
 import java.util.Date;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import javax.sql.DataSource;
 
@@ -401,7 +402,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         String jndi = (String) props.get("datasource");
 
         try {
-            ds = (DataSource) EJBUtils.lookup(jndi);
+            ds = (DataSource) lookup(jndi);
 
             if (ds == null) {
                 ds = (DataSource) new javax.naming.InitialContext().lookup(jndi);
@@ -672,6 +673,23 @@ public class JDBCWorkflowStore implements WorkflowStore {
         }
 
         return sb.toString();
+    }
+
+    private Object lookup(String location) {
+        try {
+            InitialContext context = new InitialContext();
+
+            try {
+                return context.lookup(location);
+            } catch (NamingException e) {
+                //ok, couldn't find it, look in env
+                return context.lookup("java:comp/env/" + location);
+            }
+        } catch (NamingException e) {
+            log.error("Unable to find name " + location + " in initial context", e);
+        }
+
+        return null;
     }
 
     private String queryComparison(WorkflowQuery query) {
