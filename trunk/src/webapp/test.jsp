@@ -17,8 +17,8 @@
     }
 
 
-    int[] actions = wf.getAvailableActions(id);
-    WorkflowDescriptor wd = wf.getWorkflowDescriptor("example");
+    int[] actions = wf.getAvailableActions(id, null);
+    WorkflowDescriptor wd =  wf.getWorkflowDescriptor(wf.getWorkflowName(id));
 
     for (int i = 0; i < actions.length; i++) {
         String name = wd.getAction(actions[i]).getName();
