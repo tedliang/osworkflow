@@ -319,7 +319,13 @@
     </junitreport>
   </target>
 
-  <target name="docs" depends="javadocs, webstart, reports" description="Build all documentation">
+  <target name="docs" depends="javadocs, reports" description="Build all documentation">
+    <copy todir="${dist.docs}">
+      <fileset dir="${docs}"/>
+    </copy>
+  </target>
+
+  <target name="website" depends="javadocs, webstart" description="Build all documentation">
     <copy todir="${dist.docs}">
       <fileset dir="${docs}"/>
     </copy>
