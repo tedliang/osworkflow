@@ -379,6 +379,10 @@ public class AbstractWorkflow implements Workflow {
             populateTransientMap(mockEntry, transientVars, Collections.EMPTY_LIST, new Integer(initialAction), Collections.EMPTY_LIST);
 
             return canInitialize(workflowName, initialAction, transientVars, ps);
+        } catch (InvalidActionException e) {
+            log.error(e.getMessage());
+
+            return false;
         } catch (WorkflowException e) {
             log.error("Error checking canInitialize", e);
 
@@ -957,7 +961,7 @@ public class AbstractWorkflow implements Workflow {
         ActionDescriptor actionDescriptor = wf.getInitialAction(initialAction);
 
         if (actionDescriptor == null) {
-            throw new WorkflowException("Invalid Initial Action");
+            throw new InvalidActionException("Invalid Initial Action #" + initialAction);
         }
 
         RestrictionDescriptor restriction = actionDescriptor.getRestriction();
