@@ -47,7 +47,6 @@ public class FileField extends JPanel
       {
         File file = Utils.promptUserForFile(FileField.this, FileField.this.type, FileField.this.isSave,
                                             FileField.this.suffix, FileField.this.description);
-        //todo really need a way to notify container that we've done selecting a file
         if(file != null)
         {
           field.setText(file.getAbsolutePath());
