@@ -3,7 +3,7 @@
 
 <%
     Workflow wf = new BasicWorkflow((String) session.getAttribute("username"));
-    long id = wf.initialize("example", 1, null);
+    long id = wf.initialize("example", 100, null);
 %>
 
 New workflow entry <a href="test.jsp?id=<%=id%>">#<%=id%></a> created and initialized!
