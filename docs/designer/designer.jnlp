@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0+" codebase="$$codebase" href="designer.jnlp">
+<jnlp spec="1.0+" codebase="$$codebase" href="$$name">
   <information>
     <title>OSWorkflow Designer</title>
     <vendor>OpenSymphony</vendor>
     <homepage href="../index.html"/>
     <description>OSWorkflow Designer Application</description>
-    <description kind="short">OSWorkflow Designer Application</description>
     <!--    <icon href="logo.gif"/>-->
     <offline-allowed/>
   </information>
