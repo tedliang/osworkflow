@@ -13,9 +13,9 @@ public class ResultCell extends WorkflowCell implements Keyable
   private ResultDescriptor descriptor;
 
   //   private String mKey;
-  public ResultCell(DefaultGraphCell fromCell, ResultDescriptor resultDescriptor)
+  public ResultCell(DefaultGraphCell fromCell, ResultDescriptor resultDescriptor, String actionName)
   {
-    super(new Integer(resultDescriptor.getId()));
+    super(actionName);
     this.fromCell = fromCell;
     descriptor = resultDescriptor;
     id = descriptor.getId();
