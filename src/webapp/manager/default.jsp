@@ -1,9 +1,9 @@
-<%@ page import="com.opensymphony.module.user.UserManager,
+<%@ page import="com.opensymphony.user.UserManager,
 				 java.util.Collection,
 				 java.util.Iterator,
-				 com.opensymphony.module.user.provider.CredentialsProvider,
-				 com.opensymphony.module.user.provider.AccessProvider,
-				 com.opensymphony.module.user.provider.UserProvider"%>
+				 com.opensymphony.user.provider.CredentialsProvider,
+				 com.opensymphony.user.provider.AccessProvider,
+				 com.opensymphony.user.provider.UserProvider"%>
  <h2>Directory</h2>
 <ul>
 <li><a href="users.jsp">Users</a>

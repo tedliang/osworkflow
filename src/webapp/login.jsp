@@ -1,5 +1,5 @@
-<%@ page import="com.opensymphony.module.user.UserManager,
-                 com.opensymphony.module.user.EntityNotFoundException"%>
+<%@ page import="com.opensymphony.user.UserManager,
+                 com.opensymphony.user.EntityNotFoundException"%>
 <%
     String username = request.getParameter("username");
     String password = request.getParameter("password");

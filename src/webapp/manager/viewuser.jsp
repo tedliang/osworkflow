@@ -1,10 +1,10 @@
-<%@ page import="com.opensymphony.module.user.UserManager,
-				 com.opensymphony.module.user.User,
+<%@ page import="com.opensymphony.user.UserManager,
+				 com.opensymphony.user.User,
 				 com.opensymphony.module.propertyset.PropertySet,
 				 java.util.Collection,
 				 java.util.Iterator,
 				 java.net.URLEncoder,
-				 com.opensymphony.module.user.Group"%>
+				 com.opensymphony.user.Group"%>
 <%
 	UserManager um = UserManager.getInstance();
 	User user = um.getUser(request.getParameter("name"));

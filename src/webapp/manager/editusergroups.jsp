@@ -1,8 +1,8 @@
-<%@ page import="com.opensymphony.module.user.UserManager,
-				 com.opensymphony.module.user.User,
+<%@ page import="com.opensymphony.user.UserManager,
+				 com.opensymphony.user.User,
 				 java.util.Collection,
 				 java.net.URLEncoder,
-				 com.opensymphony.module.user.Group,
+				 com.opensymphony.user.Group,
                  java.util.Iterator"%>
 
 
