@@ -1,9 +1,11 @@
 package com.opensymphony.workflow.designer.views;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Point;
+import java.awt.Rectangle;
 
-import org.jgraph.graph.*;
+import org.jgraph.graph.Edge;
+import org.jgraph.graph.EdgeView;
+
 import com.opensymphony.workflow.designer.WorkflowPort;
 
 /**
