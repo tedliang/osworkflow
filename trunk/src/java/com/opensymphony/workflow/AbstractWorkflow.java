@@ -86,14 +86,23 @@ public class AbstractWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     /**
-     * Get the available actions for the specified workflow entry.
      * @ejb.interface-method
-     * @param id The workflow entry id
+     * @deprecated use {@link #getAvailableActions(long, Map)}  with an empty Map instead.
+     */
+    public int[] getAvailableActions(long id) throws WorkflowException {
+        return getAvailableActions(id, new HashMap());
+    }
+
+    /**
+     * Get the available actions for the specified workflow instance.
+     * @ejb.interface-method
+     * @param id The workflow instance id.
+     * @param inputs The inputs map to pass on to conditions
      * @return An array of action id's that can be performed on the specified entry
      * @throws IllegalArgumentException if the specified id does not exist, or if its workflow
      * descriptor is no longer available or has become invalid.
      */
-    public int[] getAvailableActions(long id) throws WorkflowException {
+    public int[] getAvailableActions(long id, Map inputs) throws WorkflowException {
         WorkflowStore store = getPersistence();
         WorkflowEntry entry = store.findEntry(id);
 
@@ -115,7 +124,7 @@ public class AbstractWorkflow implements Workflow {
 
         List l = new ArrayList();
         PropertySet ps = store.getPropertySet(id);
-        Map transientVars = new HashMap();
+        Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
         populateTransientMap(entry, transientVars, wf.getRegisters());
 
         // get global actions

@@ -22,10 +22,7 @@ public interface Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     /**
-     * Get an array of possible actions for the specified workflow instance in the current state that the caller can perform.
-     *
-     * @param id the workflow instance id to get actions for.
-     * @return an array of action id's. The collection of action is those that can be performed on the current step.
+     * @deprecated use {@link #getAvailableActions(long, Map)}  with an empty Map instead.
      */
     public int[] getAvailableActions(long id) throws WorkflowException;
 
@@ -131,6 +128,17 @@ public interface Workflow {
     public long initialize(String workflowName, int initialAction, Map inputs) throws InvalidRoleException, InvalidInputException, WorkflowException, InvalidEntryStateException;
 
     public List query(WorkflowQuery query) throws WorkflowException;
+
+    /**
+     * Get the available actions for the specified workflow instance.
+     * @ejb.interface-method
+     * @param id The workflow instance id.
+     * @param inputs The inputs map to pass on to conditions
+     * @return An array of action id's that can be performed on the specified entry
+     * @throws IllegalArgumentException if the specified id does not exist, or if its workflow
+     * descriptor is no longer available or has become invalid.
+     */
+    int[] getAvailableActions(long id, Map inputs) throws WorkflowException;
 
     /**
      * Get all available workflow names.
