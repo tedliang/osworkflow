@@ -340,7 +340,7 @@ public class AbstractWorkflow implements Workflow {
         }
 
         if (!validAction) {
-            return;
+          throw new IllegalArgumentException("Action " + actionId + " is invalid");
         }
 
         WorkflowDescriptor wf = null;
