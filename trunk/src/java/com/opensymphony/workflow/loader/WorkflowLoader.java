@@ -26,7 +26,7 @@ import javax.xml.parsers.*;
  * by loading the XML from various sources.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WorkflowLoader {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -51,13 +51,15 @@ public class WorkflowLoader {
         dbf.setNamespaceAware(true);
         dbf.setValidating(true);
 
-        DocumentBuilder db = null;
+        DocumentBuilder db;
 
         try {
             db = dbf.newDocumentBuilder();
             db.setEntityResolver(new DTDEntityResolver());
         } catch (ParserConfigurationException e) {
             log.fatal("Could not load workflow file", e);
+
+            return null;
         }
 
         db.setErrorHandler(new WorkflowErrorHandler(url));
