@@ -22,7 +22,7 @@ public class DescriptorQuirksTestCase extends TestCase
 
   /**
    * Test if functions are executed once in an unconditional-result
-   * @see <a href="http://jira.opensymphony.com/secure/ViewIssue.jspa?key=WF-130">Jira issue WF-118</a>
+   * @see <a href="http://jira.opensymphony.com/secure/ViewIssue.jspa?key=WF-118">Jira issue WF-118</a>
    * @throws Exception If error while executing testing
    */
   public void testDoubleFunctionExecution() throws Exception {
@@ -34,6 +34,11 @@ public class DescriptorQuirksTestCase extends TestCase
     assertEquals("function executed unexpected number of times", 2, counter);
   }
 
+  /**
+   * Test if comments in args are correctly ignored.
+   * @see <a href="http://jira.opensymphony.com/secure/ViewIssue.jspa?key=WF-178">Jira issue WF-178</a>
+   * @throws Exception If error while executing testing
+   */
   public void testArgComment() throws Exception {
     counter = 0;
     Map inputs = new HashMap();
