@@ -16,7 +16,7 @@ create table OS_PROPERTYENTRY
 	ITEM_KEY varchar(255),
 	ITEM_TYPE smallint,
 	STRING_VALUE varchar(255),
-	DATE_VALUE datetime,
+	DATE_VALUE date
 	DATA_VALUE blob,
 	FLOAT_VALUE float,
 	NUMBER_VALUE numeric,
