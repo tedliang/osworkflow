@@ -28,7 +28,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -273,6 +273,41 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         }
 
         steps.add(descriptor);
+    }
+
+    /**
+     * Remove an action from this workflow completely.
+     * <p>
+     * This method will check global actions and all steps.
+     *
+     * @return true if the action was successfully removed, false if it was not found
+     */
+    public boolean removeAction(ActionDescriptor actionToRemove) {
+        // global actions
+        for (Iterator iterator = getGlobalActions().iterator();
+                iterator.hasNext();) {
+            ActionDescriptor actionDescriptor = (ActionDescriptor) iterator.next();
+
+            if (actionDescriptor.getId() == actionToRemove.getId()) {
+                getGlobalActions().remove(actionDescriptor);
+
+                return true;
+            }
+        }
+
+        // steps
+        for (Iterator iterator = getSteps().iterator(); iterator.hasNext();) {
+            StepDescriptor stepDescriptor = (StepDescriptor) iterator.next();
+            ActionDescriptor actionDescriptor = stepDescriptor.getAction(actionToRemove.getId());
+
+            if (actionDescriptor != null) {
+                stepDescriptor.getActions().remove(actionDescriptor);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void validate() throws InvalidWorkflowDescriptorException {
