@@ -127,7 +127,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     // Create Vertex Attributes
     if(layout != null)
     {
-      Rectangle bounds = layout.getBounds(initialActionCell.getId());
+      Rectangle bounds = layout.getBounds(initialActionCell.getId(), initialActionCell.getClass());
       if(bounds != null)
       {
         GraphConstants.setBounds(initialActionCell.getAttributes(), bounds);
@@ -154,7 +154,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     // Create Vertex Attributes
     if(layout != null)
     {
-      Rectangle bounds = layout.getBounds(join.getId());
+      Rectangle bounds = layout.getBounds(join.getId(), join.getClass());
       if(bounds != null)
         join.getAttributes().put(GraphConstants.BOUNDS, bounds);
       if(join.getChildCount() == 0)
@@ -178,7 +178,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     SplitCell split = new SplitCell(descriptor);
     if(layout != null)
     {
-      Rectangle bounds = layout.getBounds(split.getId());
+      Rectangle bounds = layout.getBounds(split.getId(), split.getClass());
       if(bounds != null)
         split.getAttributes().put(GraphConstants.BOUNDS, bounds);
       if(split.getChildCount() == 0)
@@ -202,7 +202,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     StepCell step = new StepCell(descriptor);
     if(layout != null)
     {
-      Rectangle bounds = layout.getBounds(step.getId());
+      Rectangle bounds = layout.getBounds(step.getId(), step.getClass());
       if(bounds != null)
       {
         step.getAttributes().put(GraphConstants.BOUNDS, bounds);
