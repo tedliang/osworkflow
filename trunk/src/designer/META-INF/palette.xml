@@ -66,6 +66,12 @@
       <name>webwork.action</name>
     </function>
     <function type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.XWorkExecutor</arg>
+      <arg name="action.name" modifiable="true"/>
+      <arg name="namespace" modifiable="true"/>
+      <name>xwork.action</name>
+    </function>
+    <function type="class">
       <arg name="class.name">com.opensymphony.workflow.util.ejb.local.LocalEJBFunctionProvider</arg>
       <arg name="ejb.location" modifiable="true"/>
       <name>ejb.local.function</name>
