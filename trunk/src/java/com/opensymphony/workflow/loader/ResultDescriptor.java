@@ -8,7 +8,6 @@ import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 import com.opensymphony.workflow.util.Validatable;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 
@@ -19,7 +18,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class ResultDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
