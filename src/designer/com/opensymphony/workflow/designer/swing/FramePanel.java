@@ -193,7 +193,6 @@ public class FramePanel extends JPanel
       return c;
     }
     return UIManager.getColor(selected ? "InternalFrame.activeTitleForeground" : "Label.foreground");
-
   }
 
   protected Color getHeaderBackground()
@@ -201,13 +200,12 @@ public class FramePanel extends JPanel
     Color c = UIManager.getColor("FramePanel.activeTitleBackground");
     if(c != null)
       return c;
-    return c != null ? c : UIManager.getColor("InternalFrame.activeTitleBackground");
+    return UIManager.getColor("InternalFrame.activeTitleBackground");
   }
 
 
   private static class RaisedHeaderBorder extends AbstractBorder
   {
-
     private static final Insets INSETS = new Insets(1, 1, 1, 0);
 
     public Insets getBorderInsets(Component c)
@@ -217,7 +215,6 @@ public class FramePanel extends JPanel
 
     public void paintBorder(Component c, Graphics g, int x, int y, int w, int h)
     {
-
       g.translate(x, y);
       g.setColor(UIManager.getColor("controlLtHighlight"));
       g.fillRect(0, 0, w, 1);
@@ -230,7 +227,6 @@ public class FramePanel extends JPanel
 
   private static class ShadowBorder extends AbstractBorder
   {
-
     private static final Insets INSETS = new Insets(1, 1, 3, 3);
 
     public Insets getBorderInsets(Component c)
@@ -270,7 +266,6 @@ public class FramePanel extends JPanel
 
   private static class GradientPanel extends JPanel
   {
-
     private GradientPanel(LayoutManager lm, Color background)
     {
       super(lm);
