@@ -10,16 +10,21 @@ import com.opensymphony.workflow.util.Validatable;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import org.xml.sax.*;
+
 import java.io.*;
 
 import java.util.*;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 
 /**
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -258,6 +263,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
     }
 
     public void validate() throws InvalidWorkflowDescriptorException {
+        validateDTD();
         ValidationHelper.validate(this.getRegisters());
         ValidationHelper.validate(this.getTriggerFunctions().values());
         ValidationHelper.validate(this.getGlobalActions());
@@ -511,6 +517,50 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
             ((Map) actionsCollectionOrMap).put(new Integer(descriptor.getId()), descriptor);
         } else {
             ((Collection) actionsCollectionOrMap).add(descriptor);
+        }
+    }
+
+    private void validateDTD() throws InvalidWorkflowDescriptorException {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setNamespaceAware(true);
+        dbf.setValidating(true);
+
+        StringWriter sw = new StringWriter();
+        PrintWriter writer = new PrintWriter(sw);
+        writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.6//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_6.dtd\">");
+        writeXML(writer, 0);
+
+        try {
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            db.setEntityResolver(new DTDEntityResolver());
+
+            final List exceptions = new ArrayList();
+            db.setErrorHandler(new ErrorHandler() {
+                    public void error(SAXParseException exception) throws SAXException {
+                        addMessage(exception);
+                    }
+
+                    public void fatalError(SAXParseException exception) throws SAXException {
+                        addMessage(exception);
+                    }
+
+                    public void warning(SAXParseException exception) throws SAXException {
+                    }
+
+                    private void addMessage(SAXParseException exception) {
+                        exceptions.add(exception.getMessage() + " (line:" + exception.getLineNumber() + ((exception.getColumnNumber() > -1) ? (" col:" + exception.getColumnNumber()) : "") + ")");
+                    }
+                });
+            db.parse(new InputSource(new StringReader(sw.toString())));
+
+            if (exceptions.size() > 0) {
+                throw new InvalidWorkflowDescriptorException(exceptions.toString());
+            }
+        } catch (InvalidWorkflowDescriptorException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new InvalidWorkflowDescriptorException(e.toString());
         }
     }
 }
