@@ -44,11 +44,11 @@ public class DatabaseHelper {
      * @throws Exception
      */
     public static void exportSchemaForJDBC() throws Exception {
-        openDatabase();
+        createDatabase("src/etc/deployment/jdbc/mckoi.sql");
     }
 
-    private static String getDatabaseCreationScript() throws Exception {
-        File file = new File("src/etc/deployment/jdbc/mckoi.sql");
+    private static String getDatabaseCreationScript(String scriptFile) throws Exception {
+        File file = new File(scriptFile);
         Assert.assertTrue(file.exists());
 
         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
@@ -56,7 +56,7 @@ public class DatabaseHelper {
         return readTextStream(bis);
     }
 
-    private static void openDatabase() {
+    private static void createDatabase(String scriptFile) {
         Connection connection;
         Statement statement = null;
         String sqlLine = null;
@@ -67,7 +67,7 @@ public class DatabaseHelper {
             connection = ds.getConnection();
             statement = connection.createStatement();
 
-            String sql = getDatabaseCreationScript();
+            String sql = getDatabaseCreationScript(scriptFile);
             String[] sqls = StringUtils.split(sql, ";");
 
             for (int i = 0; i < sqls.length; i++) {
