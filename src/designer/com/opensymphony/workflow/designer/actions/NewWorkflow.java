@@ -1,14 +1,12 @@
 package com.opensymphony.workflow.designer.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.*;
 import javax.swing.*;
 
 import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
 import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.designer.ResourceManager;
-//import com.opensymphony.workflow.loader.Workspace;
 import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
 import com.opensymphony.workflow.FactoryException;
 
@@ -29,13 +27,13 @@ public class NewWorkflow extends AbstractAction implements WorkspaceListener
 
   public void actionPerformed(ActionEvent e)
   {
-    String name = JOptionPane.showInputDialog(ResourceManager.getString("createflow"), ResourceManager.getString("createflow.long"));
+    String name = JOptionPane.showInputDialog(WorkflowDesigner.INSTANCE, ResourceManager.getString("createflow"), ResourceManager.getString("createflow.long"));
     if(name==null) return;
     try
     {
       if(currentWorkspace.getWorkflow(name)!=null)
       {
-        JOptionPane.showMessageDialog((Component)e.getSource(), ResourceManager.getString("createflow.error", new Object[]{name}), ResourceManager.getString("createflow.error"), JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(WorkflowDesigner.INSTANCE, ResourceManager.getString("createflow.error", new Object[]{name}), ResourceManager.getString("createflow.error"), JOptionPane.ERROR_MESSAGE);
         return;
       }
     }
