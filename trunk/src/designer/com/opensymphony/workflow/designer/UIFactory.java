@@ -7,6 +7,8 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.View;
 
 import com.jgoodies.forms.factories.ButtonBarFactory;
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.FormLayout;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -26,6 +28,24 @@ public class UIFactory
       buttons[i].addActionListener(listener);
     }
 	  return ButtonBarFactory.buildAddRemovePropertiesBar(buttons[0], buttons[1], buttons[2]);
+  }
+
+  public static DefaultFormBuilder getDialogBuilder(String separator)
+  {
+    FormLayout layout = new FormLayout("2dlu, left:max(40dlu;pref), 3dlu, 110dlu:grow, 7dlu");
+    DefaultFormBuilder builder = new DefaultFormBuilder(layout, ResourceManager.getBundle());
+	  builder.setLeadingColumnOffset(1);
+    builder.setDefaultDialogBorder();
+    if(separator == null)
+    {
+      builder.appendRow(builder.getLineGapSpec());
+      builder.nextLine();
+    }
+    else
+    {
+      builder.appendSeparator(separator);
+    }
+    return builder;
   }
 
   public static JPanel getOKCancelBar(ActionListener listener, String prefix)
