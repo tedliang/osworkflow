@@ -9,4 +9,8 @@ import org.jgraph.graph.DefaultEdge;
  */
 public class WorkflowEdge extends DefaultEdge
 {
+  public WorkflowEdge(Object descriptor)
+  {
+    super(descriptor);
+  }
 }

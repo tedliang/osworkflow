@@ -62,7 +62,7 @@ public class CustomEdgeRenderer extends EdgeRenderer
         {
           g2.setStroke(new BasicStroke(1));
           g.setFont(getFont());
-          paintLabel(g, label.toString());
+          paintLabel(g, label.toString(), new Point(0, 0), true);
         }
       }
     }

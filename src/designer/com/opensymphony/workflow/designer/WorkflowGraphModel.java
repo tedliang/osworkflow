@@ -7,7 +7,6 @@ import javax.swing.undo.UndoableEdit;
 
 import com.opensymphony.workflow.designer.event.JoinChangedEvent;
 import com.opensymphony.workflow.designer.event.JoinChangedListener;
-import com.opensymphony.workflow.designer.proxy.ResultProxy;
 import com.opensymphony.workflow.loader.*;
 import org.jgraph.graph.*;
 
@@ -334,7 +333,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
     if(result.getId() == 0) result.setId(resultIdGenerator.generateId());
     // Create Edge
     ResultEdge edge = new ResultEdge(result, layout != null ? layout.getLabelPosition(result.getId()) : null);
-    edge.setUserObject(new ResultProxy(result));
 
     // Connect Edge
     ConnectionSet cs = new ConnectionSet(edge, fromPort, toPort);
@@ -374,10 +372,8 @@ public class WorkflowGraphModel extends DefaultGraphModel
     }
     else
     {
-      edge = new ResultEdge(descriptor, layout != null ? layout.getLabelPosition(descriptor.getId()) : null);
+      edge = new ResultEdge(descriptor, null);
     }
-
-    edge.setUserObject(new ResultProxy(descriptor));
 
     ConnectionSet cs = new ConnectionSet(edge, fromPort, toPort);
     Object[] cells = new Object[]{edge};

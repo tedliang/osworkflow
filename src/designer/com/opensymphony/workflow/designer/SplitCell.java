@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.jgraph.graph.GraphConstants;
 
-import com.opensymphony.workflow.designer.proxy.SplitProxy;
 import com.opensymphony.workflow.loader.ResultDescriptor;
 import com.opensymphony.workflow.loader.SplitDescriptor;
 
@@ -15,7 +14,7 @@ public class SplitCell extends WorkflowCell implements ResultAware
 
   public SplitCell(SplitDescriptor userObject)
   {
-    super(new SplitProxy(userObject));
+    super(userObject);
     descriptor = userObject;
     id = descriptor.getId();
     GraphConstants.setBackground(attributes, Color.gray);
@@ -41,6 +40,11 @@ public class SplitCell extends WorkflowCell implements ResultAware
       }
     }
     return false;
+  }
+
+  public String toString()
+  {
+    return "Split id " + descriptor.getId();
   }
 }
 

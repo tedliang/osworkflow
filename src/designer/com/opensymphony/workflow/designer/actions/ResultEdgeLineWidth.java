@@ -42,7 +42,7 @@ public class ResultEdgeLineWidth extends JMenuItem
         {
           GraphConstants.setLineWidth(((ResultEdge)cell).getAttributes(), iWidth);
           view.update();
-          view.refresh(false);
+          view.refresh(graph.getModel(), graph.getGraphLayoutCache(), false);
           graph.getSelectionModel().setSelectionCell(view.getCell());
         }
       }

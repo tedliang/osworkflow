@@ -3,8 +3,6 @@ package com.opensymphony.workflow.designer.views;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import org.jgraph.JGraph;
-import org.jgraph.graph.CellMapper;
 import org.jgraph.graph.CellViewRenderer;
 import org.jgraph.graph.VertexView;
 
@@ -13,9 +11,9 @@ public class InitialActionView extends VertexView
   private Object cell;
   private static final InitialActionRenderer renderer = new InitialActionRenderer();
 
-  public InitialActionView(Object cell, JGraph graph, CellMapper mapper)
+  public InitialActionView(Object cell)
   {
-    super(cell, graph, mapper);
+    super(cell);
     this.cell = cell;
   }
 

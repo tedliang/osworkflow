@@ -2,7 +2,6 @@ package com.opensymphony.workflow.designer;
 
 import java.awt.*;
 
-import com.opensymphony.workflow.designer.proxy.JoinProxy;
 import com.opensymphony.workflow.loader.JoinDescriptor;
 import com.opensymphony.workflow.loader.ResultDescriptor;
 
@@ -14,7 +13,7 @@ public class JoinCell extends WorkflowCell implements ResultAware
 
   public JoinCell(JoinDescriptor userObject)
   {
-    super(new JoinProxy(userObject));
+    super(userObject);
     descriptor = userObject;
     id = descriptor.getId();
     GraphConstants.setBackground(attributes, Color.gray);
@@ -23,6 +22,11 @@ public class JoinCell extends WorkflowCell implements ResultAware
   public JoinDescriptor getJoinDescriptor()
   {
     return descriptor;
+  }
+
+  public String toString()
+  {
+    return "Join id " + descriptor.getId();
   }
 
   public boolean removeResult(ResultDescriptor result)

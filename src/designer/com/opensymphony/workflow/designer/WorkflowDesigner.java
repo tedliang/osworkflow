@@ -153,7 +153,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     //DefaultGraphCell  relationsCell = relationshipsNavigator.getCell();
 
     Object[] cells = e.getChange().getChanged();
-    System.out.println("changed = " + java.util.Arrays.asList(cells));
+    //System.out.println("changed = " + java.util.Arrays.asList(cells));
     //for(int i = 0; i < cells.length; i++)
     //{
     //  if(cells[i] instanceof WorkflowCell)
