@@ -111,6 +111,9 @@ public interface Workflow {
      * Modify the state of the specified workflow instance.
      * @param id The workflow instance id.
      * @param newState the new state to change the workflow instance to.
+     * If the new state is {@link com.opensymphony.workflow.spi.WorkflowEntry.KILLED}
+     * or {@link com.opensymphony.workflow.spi.WorkflowEntry.COMPLETED}
+     * then all current steps are moved to history steps. If the new state is
      */
     public void changeEntryState(long id, int newState) throws WorkflowException;
 
