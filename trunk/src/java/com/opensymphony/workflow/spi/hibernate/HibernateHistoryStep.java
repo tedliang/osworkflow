@@ -6,10 +6,10 @@ package com.opensymphony.workflow.spi.hibernate;
 
 
 /**
- *
- *
+  * This is here to persist the historical steps to the historical table.
+ *  It is more used more for querying than persistence.
  * @author $Author: hani $
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class HibernateHistoryStep extends HibernateStep {
     //~ Constructors ///////////////////////////////////////////////////////////
