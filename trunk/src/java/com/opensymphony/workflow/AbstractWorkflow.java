@@ -885,7 +885,13 @@ public class AbstractWorkflow implements Workflow {
 
         for (Iterator iterator = conditions.iterator(); iterator.hasNext();) {
             ConditionDescriptor conditionDescriptor = (ConditionDescriptor) iterator.next();
-            boolean result = passesCondition(conditionDescriptor, transientVars, ps, currentStepId);
+            boolean result;
+
+            if (conditionDescriptor.isNested()) {
+                result = passesConditions((String) conditionDescriptor.getArgs().get("operator"), conditionDescriptor.getNestedConditions(), transientVars, ps, currentStepId);
+            } else {
+                result = passesCondition(conditionDescriptor, transientVars, ps, currentStepId);
+            }
 
             if (and && !result) {
                 return false;

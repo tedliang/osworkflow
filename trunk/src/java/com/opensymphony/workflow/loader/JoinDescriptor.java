@@ -20,7 +20,7 @@ import java.util.List;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class JoinDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -99,18 +99,18 @@ public class JoinDescriptor extends AbstractDescriptor implements Validatable {
         Element conditions = XMLUtil.getChildElement(join, "conditions");
         conditionType = conditions.getAttribute("type");
 
-        NodeList conditionNodes = conditions.getElementsByTagName("condition");
-        int length = conditionNodes.getLength();
+        List conditionNodes = XMLUtil.getChildElements(conditions, "condition");
+        int length = conditionNodes.size();
 
         for (int i = 0; i < length; i++) {
-            Element condition = (Element) conditionNodes.item(i);
+            Element condition = (Element) conditionNodes.get(i);
             ConditionDescriptor conditionDescriptor = new ConditionDescriptor(condition);
             conditionDescriptor.setParent(this);
             this.conditions.add(conditionDescriptor);
         }
 
         //<unconditional-result status="Underway" owner="test" step="2"/>
-        Element resultElement = (Element) join.getElementsByTagName("unconditional-result").item(0);
+        Element resultElement = XMLUtil.getChildElement(join, "unconditional-result");
         result = new ResultDescriptor(resultElement);
         result.setParent(this);
     }

@@ -13,9 +13,7 @@ import java.io.*;
 
 import java.net.URL;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 import javax.xml.parsers.*;
 
@@ -127,10 +125,10 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
             Element root = (Element) doc.getElementsByTagName("workflows").item(0);
             workflows = new HashMap();
 
-            NodeList list = root.getElementsByTagName("workflow");
+            List list = XMLUtil.getChildElements(root, "workflow");
 
-            for (int i = 0; i < list.getLength(); i++) {
-                Element e = (Element) list.item(i);
+            for (int i = 0; i < list.size(); i++) {
+                Element e = (Element) list.get(i);
                 WorkflowConfig config = new WorkflowConfig(e.getAttribute("type"), e.getAttribute("location"));
                 workflows.put(e.getAttribute("name"), config);
             }

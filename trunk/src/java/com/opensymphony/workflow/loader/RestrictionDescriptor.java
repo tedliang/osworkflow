@@ -8,7 +8,6 @@ import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 import com.opensymphony.workflow.util.Validatable;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 
@@ -18,7 +17,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class RestrictionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -85,11 +84,11 @@ public class RestrictionDescriptor extends AbstractDescriptor implements Validat
         if (conditions != null) {
             conditionType = conditions.getAttribute("type");
 
-            NodeList conditionNodes = conditions.getElementsByTagName("condition");
-            int length = conditionNodes.getLength();
+            List conditionNodes = XMLUtil.getChildElements(conditions, "condition");
+            int length = conditionNodes.size();
 
             for (int i = 0; i < length; i++) {
-                Element condition = (Element) conditionNodes.item(i);
+                Element condition = (Element) conditionNodes.get(i);
                 ConditionDescriptor conditionDescriptor = new ConditionDescriptor(condition);
                 conditionDescriptor.setParent(this);
                 this.conditions.add(conditionDescriptor);

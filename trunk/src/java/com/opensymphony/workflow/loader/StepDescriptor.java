@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -275,10 +275,10 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
         Element pre = XMLUtil.getChildElement(step, "pre-functions");
 
         if (pre != null) {
-            NodeList preFunctions = pre.getElementsByTagName("function");
+            List preFunctions = XMLUtil.getChildElements(pre, "function");
 
-            for (int k = 0; k < preFunctions.getLength(); k++) {
-                Element preFunction = (Element) preFunctions.item(k);
+            for (int k = 0; k < preFunctions.size(); k++) {
+                Element preFunction = (Element) preFunctions.get(k);
                 FunctionDescriptor functionDescriptor = new FunctionDescriptor(preFunction);
                 functionDescriptor.setParent(this);
                 this.preFunctions.add(functionDescriptor);
@@ -289,10 +289,10 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
         Element p = XMLUtil.getChildElement(step, "external-permissions");
 
         if (p != null) {
-            NodeList permissions = p.getElementsByTagName("permission");
+            List permissions = XMLUtil.getChildElements(p, "permission");
 
-            for (int i = 0; i < permissions.getLength(); i++) {
-                Element permission = (Element) permissions.item(i);
+            for (int i = 0; i < permissions.size(); i++) {
+                Element permission = (Element) permissions.get(i);
                 PermissionDescriptor permissionDescriptor = new PermissionDescriptor(permission);
                 permissionDescriptor.setParent(this);
                 this.permissions.add(permissionDescriptor);
@@ -305,20 +305,20 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
         if (a != null) {
             hasActions = true;
 
-            NodeList actions = a.getElementsByTagName("action");
+            List actions = XMLUtil.getChildElements(a, "action");
 
-            for (int i = 0; i < actions.getLength(); i++) {
-                Element action = (Element) actions.item(i);
+            for (int i = 0; i < actions.size(); i++) {
+                Element action = (Element) actions.get(i);
                 ActionDescriptor actionDescriptor = new ActionDescriptor(action);
                 actionDescriptor.setParent(this);
                 this.actions.add(actionDescriptor);
             }
 
             // look for common-action elements
-            NodeList commonActions = a.getElementsByTagName("common-action");
+            List commonActions = XMLUtil.getChildElements(a, "common-action");
 
-            for (int i = 0; i < commonActions.getLength(); i++) {
-                Element commonAction = (Element) commonActions.item(i);
+            for (int i = 0; i < commonActions.size(); i++) {
+                Element commonAction = (Element) commonActions.get(i);
 
                 WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) (getParent());
 
@@ -342,10 +342,10 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
         Element post = XMLUtil.getChildElement(step, "post-functions");
 
         if (post != null) {
-            NodeList postFunctions = post.getElementsByTagName("function");
+            List postFunctions = XMLUtil.getChildElements(post, "function");
 
-            for (int k = 0; k < postFunctions.getLength(); k++) {
-                Element postFunction = (Element) postFunctions.item(k);
+            for (int k = 0; k < postFunctions.size(); k++) {
+                Element postFunction = (Element) postFunctions.get(k);
                 FunctionDescriptor functionDescriptor = new FunctionDescriptor(postFunction);
                 functionDescriptor.setParent(this);
                 this.postFunctions.add(functionDescriptor);

@@ -15,6 +15,9 @@ import java.io.*;
 
 import java.net.URL;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.parsers.*;
 
 
@@ -23,7 +26,7 @@ import javax.xml.parsers.*;
  * by loading the XML from various sources.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WorkflowLoader {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -67,7 +70,30 @@ public class WorkflowLoader {
 
     //~ Inner Classes //////////////////////////////////////////////////////////
 
-    static class WorkflowErrorHandler implements ErrorHandler {
+    public static class AllExceptionsErrorHandler implements ErrorHandler {
+        private final List exceptions = new ArrayList();
+
+        public List getExceptions() {
+            return exceptions;
+        }
+
+        public void error(SAXParseException exception) {
+            addMessage(exception);
+        }
+
+        public void fatalError(SAXParseException exception) {
+            addMessage(exception);
+        }
+
+        public void warning(SAXParseException exception) {
+        }
+
+        private void addMessage(SAXParseException exception) {
+            exceptions.add(exception.getMessage() + " (line:" + exception.getLineNumber() + ((exception.getColumnNumber() > -1) ? (" col:" + exception.getColumnNumber()) : "") + ")");
+        }
+    }
+
+    public static class WorkflowErrorHandler implements ErrorHandler {
         private URL url;
 
         public WorkflowErrorHandler(final URL url) {

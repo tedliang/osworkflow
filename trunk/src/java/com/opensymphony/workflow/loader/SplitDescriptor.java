@@ -20,7 +20,7 @@ import java.util.List;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class SplitDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -66,11 +66,13 @@ public class SplitDescriptor extends AbstractDescriptor implements Validatable {
             throw new IllegalArgumentException("Invalid split id value " + split.getAttribute("id"));
         }
 
-        NodeList uResults = split.getElementsByTagName("unconditional-result");
+        List uResults = XMLUtil.getChildElements(split, "unconditional-result");
 
-        for (int i = 0; i < uResults.getLength(); i++) {
-            Element result = (Element) uResults.item(i);
-            results.add(new ResultDescriptor(result));
+        for (int i = 0; i < uResults.size(); i++) {
+            Element result = (Element) uResults.get(i);
+            ResultDescriptor resultDescriptor = new ResultDescriptor(result);
+            resultDescriptor.setParent(this);
+            results.add(resultDescriptor);
         }
     }
 }

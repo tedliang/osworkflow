@@ -9,14 +9,12 @@ import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class RegisterDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -93,10 +91,10 @@ public class RegisterDescriptor extends AbstractDescriptor {
         } catch (NumberFormatException e) {
         }
 
-        NodeList args = register.getElementsByTagName("arg");
+        List args = XMLUtil.getChildElements(register, "arg");
 
-        for (int l = 0; l < args.getLength(); l++) {
-            Element arg = (Element) args.item(l);
+        for (int l = 0; l < args.size(); l++) {
+            Element arg = (Element) args.get(l);
             this.args.put(arg.getAttribute("name"), XMLUtil.getText(arg));
         }
     }

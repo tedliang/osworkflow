@@ -9,14 +9,12 @@ import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ValidatorDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -85,10 +83,10 @@ public class ValidatorDescriptor extends AbstractDescriptor {
 
         this.args = new HashMap();
 
-        NodeList args = validator.getElementsByTagName("arg");
+        List args = XMLUtil.getChildElements(validator, "arg");
 
-        for (int l = 0; l < args.getLength(); l++) {
-            Element arg = (Element) args.item(l);
+        for (int l = 0; l < args.size(); l++) {
+            Element arg = (Element) args.get(l);
             this.args.put(arg.getAttribute("name"), XMLUtil.getText(arg));
         }
     }

@@ -9,16 +9,14 @@ import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 
 /**
  * Desrives a function that can be applied to a workflow step.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class FunctionDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -102,10 +100,10 @@ public class FunctionDescriptor extends AbstractDescriptor {
             name = function.getAttribute("name");
         }
 
-        NodeList args = function.getElementsByTagName("arg");
+        List args = XMLUtil.getChildElements(function, "arg");
 
-        for (int l = 0; l < args.getLength(); l++) {
-            Element arg = (Element) args.item(l);
+        for (int l = 0; l < args.size(); l++) {
+            Element arg = (Element) args.get(l);
             String value = XMLUtil.getText(arg);
 
             this.args.put(arg.getAttribute("name"), value);

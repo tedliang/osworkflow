@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -468,10 +468,10 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         Element r = XMLUtil.getChildElement(root, "registers");
 
         if (r != null) {
-            NodeList registers = r.getElementsByTagName("register");
+            List registers = XMLUtil.getChildElements(r, "register");
 
-            for (int i = 0; i < registers.getLength(); i++) {
-                Element register = (Element) registers.item(i);
+            for (int i = 0; i < registers.size(); i++) {
+                Element register = (Element) registers.get(i);
                 RegisterDescriptor registerDescriptor = new RegisterDescriptor(register);
                 registerDescriptor.setParent(this);
                 this.registers.add(registerDescriptor);
@@ -480,10 +480,10 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
         // handle initial-steps - REQUIRED
         Element intialActionsElement = XMLUtil.getChildElement(root, "initial-actions");
-        NodeList initialActions = intialActionsElement.getElementsByTagName("action");
+        List initialActions = XMLUtil.getChildElements(intialActionsElement, "action");
 
-        for (int i = 0; i < initialActions.getLength(); i++) {
-            Element initialAction = (Element) initialActions.item(i);
+        for (int i = 0; i < initialActions.size(); i++) {
+            Element initialAction = (Element) initialActions.get(i);
             ActionDescriptor actionDescriptor = new ActionDescriptor(initialAction);
             actionDescriptor.setParent(this);
             this.initialActions.add(actionDescriptor);
@@ -493,10 +493,10 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         Element globalActionsElement = XMLUtil.getChildElement(root, "global-actions");
 
         if (globalActionsElement != null) {
-            NodeList globalActions = globalActionsElement.getElementsByTagName("action");
+            List globalActions = XMLUtil.getChildElements(globalActionsElement, "action");
 
-            for (int i = 0; i < globalActions.getLength(); i++) {
-                Element globalAction = (Element) globalActions.item(i);
+            for (int i = 0; i < globalActions.size(); i++) {
+                Element globalAction = (Element) globalActions.get(i);
                 ActionDescriptor actionDescriptor = new ActionDescriptor(globalAction);
                 actionDescriptor.setParent(this);
                 this.globalActions.add(actionDescriptor);
@@ -509,10 +509,10 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         Element commonActionsElement = XMLUtil.getChildElement(root, "common-actions");
 
         if (commonActionsElement != null) {
-            NodeList commonActions = commonActionsElement.getElementsByTagName("action");
+            List commonActions = XMLUtil.getChildElements(commonActionsElement, "action");
 
-            for (int i = 0; i < commonActions.getLength(); i++) {
-                Element commonAction = (Element) commonActions.item(i);
+            for (int i = 0; i < commonActions.size(); i++) {
+                Element commonAction = (Element) commonActions.get(i);
                 ActionDescriptor actionDescriptor = new ActionDescriptor(commonAction);
                 actionDescriptor.setParent(this);
                 addCommonAction(actionDescriptor);
@@ -523,12 +523,12 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         Element timerFunctionsElement = XMLUtil.getChildElement(root, "trigger-functions");
 
         if (timerFunctionsElement != null) {
-            NodeList timerFunctions = timerFunctionsElement.getElementsByTagName("trigger-function");
+            List timerFunctions = XMLUtil.getChildElements(timerFunctionsElement, "trigger-function");
 
-            for (int i = 0; i < timerFunctions.getLength(); i++) {
-                Element timerFunction = (Element) timerFunctions.item(i);
+            for (int i = 0; i < timerFunctions.size(); i++) {
+                Element timerFunction = (Element) timerFunctions.get(i);
                 Integer id = new Integer(timerFunction.getAttribute("id"));
-                FunctionDescriptor function = new FunctionDescriptor((Element) timerFunction.getElementsByTagName("function").item(0));
+                FunctionDescriptor function = new FunctionDescriptor(XMLUtil.getChildElement(timerFunction, "function"));
                 function.setParent(this);
                 this.timerFunctions.put(id, function);
             }
@@ -536,10 +536,10 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
         // handle steps - REQUIRED
         Element stepsElement = XMLUtil.getChildElement(root, "steps");
-        NodeList steps = stepsElement.getElementsByTagName("step");
+        List steps = XMLUtil.getChildElements(stepsElement, "step");
 
-        for (int i = 0; i < steps.getLength(); i++) {
-            Element step = (Element) steps.item(i);
+        for (int i = 0; i < steps.size(); i++) {
+            Element step = (Element) steps.get(i);
             StepDescriptor stepDescriptor = new StepDescriptor(step, this);
             this.steps.add(stepDescriptor);
         }
@@ -548,10 +548,10 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         Element splitsElement = XMLUtil.getChildElement(root, "splits");
 
         if (splitsElement != null) {
-            NodeList split = splitsElement.getElementsByTagName("split");
+            List split = XMLUtil.getChildElements(splitsElement, "split");
 
-            for (int i = 0; i < split.getLength(); i++) {
-                Element s = (Element) split.item(i);
+            for (int i = 0; i < split.size(); i++) {
+                Element s = (Element) split.get(i);
                 SplitDescriptor splitDescriptor = new SplitDescriptor(s);
                 splitDescriptor.setParent(this);
                 this.splits.add(splitDescriptor);
@@ -562,10 +562,10 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         Element joinsElement = XMLUtil.getChildElement(root, "joins");
 
         if (joinsElement != null) {
-            NodeList join = joinsElement.getElementsByTagName("join");
+            List join = XMLUtil.getChildElements(joinsElement, "join");
 
-            for (int i = 0; i < join.getLength(); i++) {
-                Element s = (Element) join.item(i);
+            for (int i = 0; i < join.size(); i++) {
+                Element s = (Element) join.get(i);
                 JoinDescriptor joinDescriptor = new JoinDescriptor(s);
                 joinDescriptor.setParent(this);
                 this.joins.add(joinDescriptor);
@@ -601,27 +601,12 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
             DocumentBuilder db = dbf.newDocumentBuilder();
             db.setEntityResolver(new DTDEntityResolver());
 
-            final List exceptions = new ArrayList();
-            db.setErrorHandler(new ErrorHandler() {
-                    public void error(SAXParseException exception) {
-                        addMessage(exception);
-                    }
-
-                    public void fatalError(SAXParseException exception) {
-                        addMessage(exception);
-                    }
-
-                    public void warning(SAXParseException exception) {
-                    }
-
-                    private void addMessage(SAXParseException exception) {
-                        exceptions.add(exception.getMessage() + " (line:" + exception.getLineNumber() + ((exception.getColumnNumber() > -1) ? (" col:" + exception.getColumnNumber()) : "") + ")");
-                    }
-                });
+            WorkflowLoader.AllExceptionsErrorHandler errorHandler = new WorkflowLoader.AllExceptionsErrorHandler();
+            db.setErrorHandler(errorHandler);
             db.parse(new InputSource(new StringReader(sw.toString())));
 
-            if (exceptions.size() > 0) {
-                throw new InvalidWorkflowDescriptorException(exceptions.toString());
+            if (errorHandler.getExceptions().size() > 0) {
+                throw new InvalidWorkflowDescriptorException(errorHandler.getExceptions().toString());
             }
         } catch (InvalidWorkflowDescriptorException e) {
             throw e;

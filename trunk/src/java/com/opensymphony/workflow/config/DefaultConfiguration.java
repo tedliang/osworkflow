@@ -26,7 +26,7 @@ import javax.xml.parsers.*;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DefaultConfiguration implements Configuration {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -107,16 +107,16 @@ public class DefaultConfiguration implements Configuration {
             Document doc = db.parse(is);
 
             Element root = (Element) doc.getElementsByTagName("osworkflow").item(0);
-            Element p = (Element) root.getElementsByTagName("persistence").item(0);
-            Element factoryElement = (Element) root.getElementsByTagName("factory").item(0);
+            Element p = XMLUtil.getChildElement(root, "persistence");
+            Element factoryElement = XMLUtil.getChildElement(root, "factory");
 
             persistenceClass = p.getAttribute("class");
 
-            NodeList args = p.getElementsByTagName("property");
+            List args = XMLUtil.getChildElements(p, "property");
 
             //persistenceArgs = new HashMap();
-            for (int i = 0; i < args.getLength(); i++) {
-                Element e = (Element) args.item(i);
+            for (int i = 0; i < args.size(); i++) {
+                Element e = (Element) args.get(i);
                 persistenceArgs.put(e.getAttribute("key"), e.getAttribute("value"));
             }
 
@@ -133,10 +133,10 @@ public class DefaultConfiguration implements Configuration {
                     factory = (AbstractWorkflowFactory) ClassLoaderUtil.loadClass(clazz, getClass()).newInstance();
 
                     Properties properties = new Properties();
-                    NodeList props = factoryElement.getElementsByTagName("property");
+                    List props = XMLUtil.getChildElements(factoryElement, "property");
 
-                    for (int i = 0; i < props.getLength(); i++) {
-                        Element e = (Element) props.item(i);
+                    for (int i = 0; i < props.size(); i++) {
+                        Element e = (Element) props.get(i);
                         properties.setProperty(e.getAttribute("key"), e.getAttribute("value"));
                     }
 

@@ -66,10 +66,10 @@ public class ConfigConditionDescriptor extends ConditionDescriptor implements Ar
       negate = false;
     }
 
-    NodeList args = condition.getElementsByTagName("arg");
-    for(int l = 0; l < args.getLength(); l++)
+    List args = XMLUtil.getChildElements(condition, "arg");
+    for(int l = 0; l < args.size(); l++)
     {
-      Element arg = (Element)args.item(l);
+      Element arg = (Element)args.get(l);
       this.args.put(arg.getAttribute("name"), XMLUtil.getText(arg));
       if("true".equals(arg.getAttribute("modifiable")))
       {

@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -279,10 +279,10 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
         Element v = XMLUtil.getChildElement(action, "validators");
 
         if (v != null) {
-            NodeList validators = v.getElementsByTagName("validator");
+            List validators = XMLUtil.getChildElements(v, "validator");
 
-            for (int k = 0; k < validators.getLength(); k++) {
-                Element validator = (Element) validators.item(k);
+            for (int k = 0; k < validators.size(); k++) {
+                Element validator = (Element) validators.get(k);
                 ValidatorDescriptor validatorDescriptor = new ValidatorDescriptor(validator);
                 validatorDescriptor.setParent(this);
                 this.validators.add(validatorDescriptor);
@@ -293,10 +293,10 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
         Element pre = XMLUtil.getChildElement(action, "pre-functions");
 
         if (pre != null) {
-            NodeList preFunctions = pre.getElementsByTagName("function");
+            List preFunctions = XMLUtil.getChildElements(pre, "function");
 
-            for (int k = 0; k < preFunctions.getLength(); k++) {
-                Element preFunction = (Element) preFunctions.item(k);
+            for (int k = 0; k < preFunctions.size(); k++) {
+                Element preFunction = (Element) preFunctions.get(k);
                 FunctionDescriptor functionDescriptor = new FunctionDescriptor(preFunction);
                 functionDescriptor.setParent(this);
                 this.preFunctions.add(functionDescriptor);
@@ -305,16 +305,16 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
 
         // set up results - REQUIRED
         Element resultsElememt = XMLUtil.getChildElement(action, "results");
-        NodeList results = resultsElememt.getElementsByTagName("result");
+        List results = XMLUtil.getChildElements(resultsElememt, "result");
 
-        for (int k = 0; k < results.getLength(); k++) {
-            Element result = (Element) results.item(k);
+        for (int k = 0; k < results.size(); k++) {
+            Element result = (Element) results.get(k);
             ConditionalResultDescriptor conditionalResultDescriptor = new ConditionalResultDescriptor(result);
             conditionalResultDescriptor.setParent(this);
             this.conditionalResults.add(conditionalResultDescriptor);
         }
 
-        Element unconditionalResult = (Element) resultsElememt.getElementsByTagName("unconditional-result").item(0);
+        Element unconditionalResult = XMLUtil.getChildElement(resultsElememt, "unconditional-result");
         this.unconditionalResult = new ResultDescriptor(unconditionalResult);
         this.unconditionalResult.setParent(this);
 
@@ -322,10 +322,10 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
         Element post = XMLUtil.getChildElement(action, "post-functions");
 
         if (post != null) {
-            NodeList postFunctions = post.getElementsByTagName("function");
+            List postFunctions = XMLUtil.getChildElements(post, "function");
 
-            for (int k = 0; k < postFunctions.getLength(); k++) {
-                Element postFunction = (Element) postFunctions.item(k);
+            for (int k = 0; k < postFunctions.size(); k++) {
+                Element postFunction = (Element) postFunctions.get(k);
                 FunctionDescriptor functionDescriptor = new FunctionDescriptor(postFunction);
                 functionDescriptor.setParent(this);
                 this.postFunctions.add(functionDescriptor);

@@ -16,7 +16,7 @@ import java.util.HashMap;
  * Test Case for AbstractWorkflow.
  *
  * @author <a href="mailto:vorburger@users.sourceforge.net">Michael Vorburger</a>
- * @version $Id: ValidationTestCase.java,v 1.6 2004-03-25 06:05:17 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
+ * @version $Id: ValidationTestCase.java,v 1.7 2004-05-05 23:09:45 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
  */
 public class ValidationTestCase extends TestCase {
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ public class ValidationTestCase extends TestCase {
      */
     public void testCommonActions() throws Exception {
         try {
-            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getClassLoader().getResource("samples/common-actions.xml").toString());
+            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getResource("/samples/common-actions.xml").toString());
             descriptor.validate();
         } catch (InvalidWorkflowDescriptorException e) {
             e.printStackTrace();
@@ -61,7 +61,7 @@ public class ValidationTestCase extends TestCase {
         }
 
         try {
-            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getClassLoader().getResource("samples/common-actions-bad.xml").toString());
+            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getResource("/samples/invalid/common-actions-bad.xml").toString());
             descriptor.validate();
             fail("Invalid common-actions not detected correctly");
         } catch (InvalidWorkflowDescriptorException e) {
@@ -76,7 +76,7 @@ public class ValidationTestCase extends TestCase {
      */
     public void testDuplicateActionID() throws Exception {
         try {
-            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getClassLoader().getResource("samples/duplicate-action.xml").toString());
+            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getResource("/samples/invalid/duplicate-action.xml").toString());
             descriptor.validate();
             fail("descriptor loaded successfully, even though duplicate action exists");
         } catch (InvalidWorkflowDescriptorException e) {

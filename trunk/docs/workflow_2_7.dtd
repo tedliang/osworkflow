@@ -90,9 +90,9 @@ A condition.
 
 Used in: conditions
 -->
-<!ELEMENT condition (arg*)>
+<!ELEMENT condition (arg*, condition*)>
 <!ATTLIST condition
-	type (class | jndi | local-ejb | remote-ejb | bsf | beanshell) #REQUIRED
+	type (class | jndi | local-ejb | remote-ejb | bsf | beanshell | nested) #REQUIRED
   id CDATA #IMPLIED
   negate CDATA #IMPLIED
   name CDATA #IMPLIED
