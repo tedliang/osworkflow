@@ -19,14 +19,14 @@ public class StepCell extends WorkflowCell implements Keyable
     super(userObject.getName());
     descriptor = userObject;
     id = descriptor.getId();
-    name = descriptor.getName();
   }
 
   public StepCell(int id, String name)
   {
     super(name);
-    this.id = id;
-    this.name = name;
+    descriptor = new StepDescriptor();
+    descriptor.setName(name);
+    descriptor.setId(id);
   }
 
   public String getKey()
@@ -43,7 +43,7 @@ public class StepCell extends WorkflowCell implements Keyable
 
   public String getName()
   {
-    return name;
+    return descriptor.getName();
   }
 
   public StepDescriptor getDescriptor()
@@ -57,18 +57,22 @@ public class StepCell extends WorkflowCell implements Keyable
   public boolean equals(Object obj)
   {
     boolean returnVal = false;
+    if(obj==null || obj.getClass()!=getClass()) return false;
     if(obj instanceof StepCell)
     {
-      if(obj != null)
+      StepCell recObj = (StepCell)obj;
+      if(getKey().equals(recObj.getKey()))
       {
-        StepCell recObj = (StepCell)obj;
-        if(getKey().equals(recObj.getKey()))
-        {
-          returnVal = true;
-        }
+        returnVal = true;
       }
     }
     return returnVal;
+  }
+
+  public void setName(String text)
+  {
+    getDescriptor().setName(text);
+    setUserObject(text);    
   }
 
 }
