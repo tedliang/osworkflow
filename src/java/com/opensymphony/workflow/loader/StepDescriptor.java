@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.20 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -226,7 +226,10 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
             for (int i = 0; i < actions.size(); i++) {
                 ActionDescriptor action = (ActionDescriptor) actions.get(i);
-                action.writeXML(out, indent);
+
+                if (!action.isCommon()) {
+                    action.writeXML(out, indent);
+                }
             }
 
             XMLUtil.printIndent(out, --indent);

@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -212,6 +212,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
      * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      */
     public void addCommonAction(ActionDescriptor descriptor) {
+        descriptor.setCommon(true);
         addAction(commonActions, descriptor);
         addAction(commonActionsList, descriptor);
     }
