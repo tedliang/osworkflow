@@ -89,5 +89,5 @@
 %>
 
 </table>
-
+<a href="#" onclick="window.open('viewlivegraph.jsp?id=<%=id%>')">Viw Live Graph</a>
 <%@ include file="nav.jsp" %>
