@@ -4,10 +4,10 @@
  */
 package com.opensymphony.workflow.designer.views;
 
-import com.jgraph.JGraph;
-import com.jgraph.graph.CellMapper;
-import com.jgraph.graph.CellViewRenderer;
-import com.jgraph.graph.VertexView;
+import org.jgraph.JGraph;
+import org.jgraph.graph.CellMapper;
+import org.jgraph.graph.CellViewRenderer;
+import org.jgraph.graph.VertexView;
 
 public class JoinView extends VertexView
 {

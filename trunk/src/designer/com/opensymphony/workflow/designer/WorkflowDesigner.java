@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.StringTokenizer;
 import javax.swing.*;
 
-import com.jgraph.event.GraphSelectionEvent;
-import com.jgraph.event.GraphSelectionListener;
-import com.jgraph.graph.GraphModel;
+import org.jgraph.event.GraphSelectionEvent;
+import org.jgraph.event.GraphSelectionListener;
+import org.jgraph.graph.GraphModel;
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.config.WorkspaceManager;
 import com.opensymphony.workflow.designer.actions.*;
@@ -148,13 +148,18 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   public void valueChanged(GraphSelectionEvent e)
   {
-    if(e.getCell() != null && (e.getCell() instanceof WorkflowCell || e.getCell() instanceof WorkflowEdge))
+    int index = e.getCells().length;
+    Object lastModified = e.getCells()[index - 1];
+    if(lastModified instanceof WorkflowCell || lastModified instanceof WorkflowEdge)
     {
-      showDetails(e.getCell());
+      if(e.isAddedCell(index - 1))
+      {
+        showDetails(lastModified);
+      }
     }
-    else if(e.getCell() != null)
+    else if(lastModified != null)
     {
-      log.debug("unhandled selection:" + e.getCell().getClass());
+      log.debug("unhandled selection:" + lastModified.getClass());
     }
   }
 

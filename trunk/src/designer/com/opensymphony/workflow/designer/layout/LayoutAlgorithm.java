@@ -20,7 +20,7 @@
  */
 package com.opensymphony.workflow.designer.layout;
 
-import com.jgraph.JGraph;
+import org.jgraph.JGraph;
 
 import java.util.Properties;
 

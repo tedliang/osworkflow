@@ -3,7 +3,7 @@ package com.opensymphony.workflow.designer;
 import java.awt.*;
 
 import com.opensymphony.workflow.loader.SplitDescriptor;
-import com.jgraph.graph.GraphConstants;
+import org.jgraph.graph.GraphConstants;
 
 public class SplitCell extends WorkflowCell implements Keyable
 {

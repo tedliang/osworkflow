@@ -7,7 +7,7 @@ package com.opensymphony.workflow.designer;
 import java.awt.*;
 
 import com.opensymphony.workflow.loader.JoinDescriptor;
-import com.jgraph.graph.GraphConstants;
+import org.jgraph.graph.GraphConstants;
 
 public class JoinCell extends WorkflowCell implements Keyable
 {

@@ -4,7 +4,7 @@
  */
 package com.opensymphony.workflow.designer;
 
-import com.jgraph.graph.DefaultGraphCell;
+import org.jgraph.graph.DefaultGraphCell;
 import com.opensymphony.workflow.loader.ResultDescriptor;
 
 public class ResultCell extends WorkflowCell implements Keyable

@@ -33,7 +33,8 @@ public class NewWorkflow extends AbstractAction implements WorkspaceListener
 
   public void actionPerformed(ActionEvent e)
   {
-    String name = JOptionPane.showInputDialog(this, "Please specify a new workflow name");
+    String name = JOptionPane.showInputDialog("Create Workflow", "Please specify a new workflow name");
+    if(name==null) return;
     try
     {
       if(currentWorkspace.getWorkflow(name)!=null)

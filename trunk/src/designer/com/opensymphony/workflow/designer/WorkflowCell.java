@@ -4,8 +4,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import com.jgraph.graph.DefaultGraphCell;
-import com.jgraph.graph.GraphConstants;
+import org.jgraph.graph.DefaultGraphCell;
+import org.jgraph.graph.GraphConstants;
 
 /**
  * @author Harsh Vijaywargiya Mar 9, 2003 1:04:57 PM

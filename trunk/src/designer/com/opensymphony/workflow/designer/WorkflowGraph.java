@@ -1,12 +1,14 @@
 package com.opensymphony.workflow.designer;
 
 import java.util.*;
-import java.awt.Rectangle;
+import java.util.List;
+import java.awt.*;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
-import com.jgraph.JGraph;
-import com.jgraph.graph.*;
+import org.jgraph.JGraph;
+import org.jgraph.graph.*;
 import com.opensymphony.workflow.loader.*;
 import com.opensymphony.workflow.designer.layout.SugiyamaLayoutAlgorithm;
 import com.opensymphony.workflow.designer.layout.LayoutAlgorithm;
@@ -35,6 +37,41 @@ public class WorkflowGraph extends JGraph
     if(doAutoLayout)
     {
       autoLayout();
+    }
+    setSelectNewCells(true);
+    setGridEnabled(true);
+    setGridSize(6);
+    setTolerance(2);
+    setMarqueeHandler(new WorkflowMarqueeHandler());
+  }
+
+  // Insert a new Edge between source and target
+  public void connect(Port source, Port target)
+  {
+    // Connections that will be inserted into the Model
+    ConnectionSet cs = new ConnectionSet();
+    // Construct Edge with no label
+    DefaultEdge edge = new DefaultEdge();
+    // Create Connection between source and target using edge
+    cs.connect(edge, source, target);
+    // Create a Map thath holds the attributes for the edge
+    Map map = GraphConstants.createMap();
+    // Add a Line End Attribute
+    GraphConstants.setLineEnd(map, GraphConstants.ARROW_SIMPLE);
+    // Construct a Map from cells to Maps (for insert)
+    Hashtable attributes = new Hashtable();
+    // Associate the Edge with its Attributes
+    attributes.put(edge, map);
+    // Insert the Edge and its Attributes
+    getGraphLayoutCache().insert(new Object[]{edge}, attributes, cs, null, null);
+  }
+
+  public class WorkflowMarqueeHandler extends BasicMarqueeHandler
+  {
+    public void mouseReleased(MouseEvent e)
+    {
+      repaint();
+      super.mouseReleased(e);
     }
   }
 

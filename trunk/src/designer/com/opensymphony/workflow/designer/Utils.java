@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
-import com.jgraph.JGraph;
+import org.jgraph.JGraph;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)

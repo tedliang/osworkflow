@@ -7,7 +7,7 @@ package com.opensymphony.workflow.designer;
 import java.util.*;
 import javax.swing.undo.UndoableEdit;
 
-import com.jgraph.graph.*;
+import org.jgraph.graph.*;
 import com.opensymphony.workflow.loader.*;
 
 public class WorkflowGraphModel extends DefaultGraphModel

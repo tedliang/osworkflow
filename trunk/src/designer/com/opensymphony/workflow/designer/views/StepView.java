@@ -4,8 +4,8 @@
  */
 package com.opensymphony.workflow.designer.views;
 
-import com.jgraph.JGraph;
-import com.jgraph.graph.*;
+import org.jgraph.JGraph;
+import org.jgraph.graph.*;
 import com.opensymphony.workflow.designer.StepCell;
 
 /**
