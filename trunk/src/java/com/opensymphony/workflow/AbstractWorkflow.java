@@ -39,6 +39,13 @@ public class AbstractWorkflow implements Workflow {
 
     protected WorkflowContext context;
     private Configuration configuration;
+    private ThreadLocal stateCache = new ThreadLocal();
+
+    //~ Constructors ///////////////////////////////////////////////////////////
+
+    public AbstractWorkflow() {
+        stateCache.set(new HashMap());
+    }
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
@@ -1001,6 +1008,9 @@ public class AbstractWorkflow implements Workflow {
      * @throws WorkflowException
      */
     protected boolean transitionWorkflow(WorkflowEntry entry, List currentSteps, WorkflowStore store, WorkflowDescriptor wf, ActionDescriptor action, Map transientVars, Map inputs, PropertySet ps) throws WorkflowException {
+        Map cache = (Map) stateCache.get();
+        cache.clear();
+
         Step step = getCurrentStep(wf, action.getId(), currentSteps, transientVars, ps);
 
         // validate transientVars (optional)
@@ -1345,14 +1355,23 @@ public class AbstractWorkflow implements Workflow {
 
         WorkflowDescriptor wf = getWorkflowDescriptorForAction(action);
 
-        RestrictionDescriptor restriction = action.getRestriction();
-        ConditionsDescriptor conditions = null;
+        Map cache = (Map) stateCache.get();
 
-        if (restriction != null) {
-            conditions = restriction.getConditionsDescriptor();
+        Boolean result = (Boolean) cache.get(action);
+
+        if (result == null) {
+            RestrictionDescriptor restriction = action.getRestriction();
+            ConditionsDescriptor conditions = null;
+
+            if (restriction != null) {
+                conditions = restriction.getConditionsDescriptor();
+            }
+
+            result = new Boolean(passesConditions(wf.getGlobalConditions(), Collections.unmodifiableMap(transientVars), ps, stepId) && passesConditions(conditions, Collections.unmodifiableMap(transientVars), ps, stepId));
+            cache.put(action, result);
         }
 
-        return passesConditions(wf.getGlobalConditions(), Collections.unmodifiableMap(transientVars), ps, stepId) && passesConditions(conditions, Collections.unmodifiableMap(transientVars), ps, stepId);
+        return result.booleanValue();
     }
 
     private Step getCurrentStep(WorkflowDescriptor wfDesc, int actionId, List currentSteps, Map transientVars, PropertySet ps) throws WorkflowException {
