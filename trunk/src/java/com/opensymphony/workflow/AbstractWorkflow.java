@@ -290,31 +290,7 @@ public class AbstractWorkflow implements Workflow {
      * @ejb.interface-method
      */
     public boolean canInitialize(String workflowName, int initialAction) throws WorkflowException {
-        final String mockWorkflowName = workflowName;
-        WorkflowEntry mockEntry = new WorkflowEntry() {
-            public long getId() {
-                return 0;
-            }
-
-            public String getWorkflowName() {
-                return mockWorkflowName;
-            }
-
-            public boolean isInitialized() {
-                return false;
-            }
-
-            public int getState() {
-                return WorkflowEntry.CREATED;
-            }
-        };
-
-        // since no state change happens here, a memory instance is just fine
-        PropertySet ps = PropertySetManager.getInstance("memory", null);
-        Map transientVars = new HashMap();
-        populateTransientMap(mockEntry, transientVars, Collections.EMPTY_LIST);
-
-        return canInitialize(workflowName, initialAction, transientVars, ps);
+      return canInitialize(workflowName, initialAction, null);
     }
 
     /**
@@ -1300,7 +1276,7 @@ public class AbstractWorkflow implements Workflow {
 
                 if (toCheck != null) {
                     Iterator iter = toCheck.getActions().iterator();
-MAIN: 
+MAIN:
                     while (iter.hasNext()) {
                         ActionDescriptor descriptor = (ActionDescriptor) iter.next();
 
