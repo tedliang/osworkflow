@@ -11,6 +11,7 @@ import com.opensymphony.workflow.loader.JoinDescriptor;
 import com.opensymphony.workflow.loader.ResultDescriptor;
 import com.opensymphony.workflow.loader.SplitDescriptor;
 import com.opensymphony.workflow.loader.StepDescriptor;
+import com.opensymphony.workflow.designer.dialogs.ActionTypeDialog;
 
 /**
  * @author baab
@@ -18,8 +19,8 @@ import com.opensymphony.workflow.loader.StepDescriptor;
 public class ConnectHelper
 {
 
-  private static final int CONDITIONAL = 0;
-  private static final int UNCONDITIONAL = 1;
+  public static final int CONDITIONAL = 0;
+  public static final int UNCONDITIONAL = 1;
   private static final int UNKNOWN = -1;
 
   private static boolean isConnectable(WorkflowCell source, WorkflowCell target)
@@ -153,7 +154,7 @@ public class ConnectHelper
     return false;
   }
 
-  private static boolean isConnected(ResultDescriptor result, AbstractDescriptor desc)
+  public static boolean isConnected(ResultDescriptor result, AbstractDescriptor desc)
   {
     if(result == null)
     {
@@ -227,8 +228,6 @@ public class ConnectHelper
 
   private static boolean connectStepTo(StepCell source, WorkflowCell target, WorkflowGraphModel model)
   {
-    ActionDescriptor sourceAction = DescriptorBuilder.createAction(source.getDescriptor(), source.getDescriptor().getName(), Utils.getNextId(model.getContext()));
-	  Utils.checkId(model.getContext(), sourceAction);
     AbstractDescriptor to;
     if(target instanceof StepCell)
     {
@@ -249,7 +248,13 @@ public class ConnectHelper
 
     ResultDescriptor result;
 
-    int type = getConnectType(sourceAction, to);
+    ActionTypeDialog selectType = new ActionTypeDialog(WorkflowDesigner.INSTANCE, source.getDescriptor());
+    selectType.setModel(model);
+    if(!selectType.ask(WorkflowDesigner.INSTANCE)) return false;
+
+    ActionDescriptor sourceAction = selectType.getRelatedAction();
+
+    int type = selectType.getType();
 
     if(type == CONDITIONAL)
     {
