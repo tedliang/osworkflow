@@ -17,16 +17,6 @@ public final class Splash extends Window
   private Rectangle progressBarBounds;
   private int percent;
 
-  public Splash(Image image)
-  {
-    this(image, false);
-  }
-
-  public Splash(Image image, boolean showProgress)
-  {
-    this(new Frame(), image, "Loading...", showProgress);
-  }
-
   public Splash(Frame owner, Image image, String text, boolean showProgress)
   {
     super(owner);
@@ -45,11 +35,6 @@ public final class Splash extends Window
   public Color getTextColor()
   {
     return textColor;
-  }
-
-  public void setTextColor(Color newTextColor)
-  {
-    textColor = newTextColor;
   }
 
   public void setProgressBarBounds(Rectangle r)
