@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.24 $
+ * @version $Revision: 1.25 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -426,15 +426,30 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
             XMLUtil.printIndent(out, indent++);
             out.println("<common-actions>");
 
-            Iterator commonActionsItr = getCommonActions().values().iterator();
+            Iterator iterator = getCommonActions().values().iterator();
 
-            while (commonActionsItr.hasNext()) {
-                ActionDescriptor action = (ActionDescriptor) commonActionsItr.next();
+            while (iterator.hasNext()) {
+                ActionDescriptor action = (ActionDescriptor) iterator.next();
                 action.writeXML(out, indent);
             }
 
             XMLUtil.printIndent(out, --indent);
             out.println("</common-actions>");
+        }
+
+        if (timerFunctions.size() > 0) {
+            XMLUtil.printIndent(out, indent++);
+            out.println("<trigger-functions>");
+
+            Iterator iterator = timerFunctions.values().iterator();
+
+            while (iterator.hasNext()) {
+                FunctionDescriptor trigger = (FunctionDescriptor) iterator.next();
+                trigger.writeXML(out, indent);
+            }
+
+            XMLUtil.printIndent(out, --indent);
+            out.println("</trigger-functions>");
         }
 
         XMLUtil.printIndent(out, indent++);
