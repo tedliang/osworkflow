@@ -221,6 +221,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
     if(panel != null)
     {
+      WorkflowGraph currentGraph = (WorkflowGraph)((JScrollPane)graphTabs.getSelectedComponent()).getViewport().getView();
+      panel.setModel(currentGraph.getWorkflowGraphModel());
       if(node instanceof WorkflowCell)
       {
         panel.setCell((WorkflowCell)node);
@@ -231,8 +233,6 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       }
 
       String title = panel.getTitle();
-      WorkflowGraph currentGraph = (WorkflowGraph)((JScrollPane)graphTabs.getSelectedComponent()).getViewport().getView();
-      panel.setModel(currentGraph.getWorkflowGraphModel());
       detailFramePanel.setTitle(ResourceManager.getString("details") + (title != null ? (" - " + title) : ""));
       detailPanel.showCard(panel);
     }
