@@ -1,0 +1,287 @@
+<project default="jar" basedir=".">
+
+  <property file="build.properties"/>
+  <path id="cp">
+    <fileset dir="lib">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+  <path id="jalopy.classpath">
+    <fileset dir="lib/build/jalopy">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <path id="client.classpath">
+    <fileset dir="lib/designer">
+      <include name="*.jar"/>
+    </fileset>
+    <pathelement path="dist/${name}-${version}.jar"/>
+    <pathelement path="lib/core/commons-logging.jar"/>
+  </path>
+
+  <taskdef name="jalopy" classname="de.hunsicker.jalopy.plugin.ant.AntPlugin">
+    <classpath refid="jalopy.classpath"/>
+  </taskdef>
+
+  <taskdef name="ejbdoclet" classname="xdoclet.modules.ejb.EjbDocletTask" classpathref="cp"/>
+
+  <target name="init">
+    <tstamp/>
+    <property name="lib" value="lib"/>
+    <property name="lib.core" value="${lib}/core"/>
+    <property name="lib.build" value="${lib}/build"/>
+    <property name="lib.optional" value="${lib}/optional"/>
+
+    <property name="src" value="src"/>
+    <property name="src.java" value="${src}/java"/>
+    <property name="src.test" value="${src}/test"/>
+    <property name="src.client" value="${src}/designer"/>
+    <property name="src.etc" value="${src}/etc"/>
+    <property name="src.webapp" value="${src}/webapp"/>
+    <property name="propertyset.jar" value="propertyset-1.1.1.jar"/>
+    <property name="oscore.jar" value="oscore-2.2.1.jar"/>
+    <property name="build" value="build"/>
+    <property name="build.test" value="${build}/test"/>
+    <property name="build.java" value="${build}/java"/>
+    <property name="build.client" value="${build}/designer"/>
+
+    <property name="dist" value="dist"/>
+    <property name="dist.client" value="${dist}/designer"/>
+
+    <property name="docs" value="docs"/>
+
+    <property name="clover.initstring" location="testcoverage.db"/>
+
+    <property name="packages" value="com.opensymphony.*"/>
+
+    <available property="junit.available" classname="junit.framework.TestCase"/>
+    <available property="clover.available" classname="org.apache.tools.ant.taskdefs.CloverCompilerAdapter"/>
+  </target>
+
+  <target name="junit-check" depends="init" unless="junit.available">
+    <fail message="Cannot run test cases. Please copy lib/build/junit-3.8.1.jar to ${ant.home}/lib"/>
+  </target>
+
+  <target name="clover-check" depends="init" unless="clover.available">
+    <fail message="Cannot run coverage tests. Please copy lib/build/clover-1.2.jar to ${ant.home}/lib"/>
+  </target>
+
+  <target name="clean" depends="init">
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+    <delete>
+      <fileset dir="${src.java}/com/opensymphony/workflow/spi/ejb">
+        <exclude name="*EJB*.java"/>
+        <exclude name="Abstract*.java"/>
+        <exclude name="StepComparator.java"/>
+      </fileset>
+      <fileset dir="${src.java}/com/opensymphony/workflow/ejb">
+        <exclude name="*EJB*.java"/>
+      </fileset>
+    </delete>
+    <delete>
+      <fileset dir="." includes="testcoverage.db*"/>
+    </delete>
+  </target>
+
+  <target name="ejbdoclet" depends="init">
+    <!-- work around a bug in xdoclet -->
+    <delete file="${build.java}/META-INF/orion-ejb-jar.xml"/>
+    <ejbdoclet ejbspec="2.0" verbose="false" destdir="${src.java}">
+      <fileset dir="${src.java}">
+        <include name="**/ejb/**/*EJB.java"/>
+      </fileset>
+      <remoteinterface pattern="{0}Remote"/>
+      <localinterface/>
+      <homeinterface/>
+      <localhomeinterface/>
+      <!--<valueobject/>-->
+      <entitypk/>
+      <entitycmp/>
+      <session/>
+      <utilobject pattern="{0}HomeFactory" cacheHomes="true"/>
+      <deploymentdescriptor destdir="${build.java}/META-INF" validatexml="true" description="OpenSymphony Workflow Module" displayname="OSWorkflow Module"/>
+      <jboss version="3.0" destdir="${build.java}/META-INF"/>
+      <weblogic version="7.0" destdir="${build.java}/META-INF" datasource="defaultDS" createtables="true"/>
+      <jrun version="4.0" destdir="${build.java}/META-INF"/>
+      <orion version="2.0" destdir="${build.java}/META-INF"/>
+    </ejbdoclet>
+  </target>
+
+  <target name="java" depends="ejbdoclet">
+    <mkdir dir="${build.java}"/>
+    <copy filtering="no" todir="${build.java}">
+      <fileset dir="${src.java}">
+        <exclude name="**/*.java"/>
+        <exclude name="**/package.html"/>
+      </fileset>
+    </copy>
+
+    <javac srcdir="${src.java}" destdir="${build.java}" classpathref="cp" debug="on"/>
+  </target>
+
+  <target name="test" depends="clover-check,junit-check,ejbdoclet">
+    <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
+
+    <mkdir dir="${build.test}/META-INF"/>
+    <copy file="${docs}/workflow_2_5.dtd" todir="${build.test}/META-INF/"/>
+    <javac srcdir="${src.java}" destdir="${build.test}" debug="on" classpathref="cp" compiler="org.apache.tools.ant.taskdefs.CloverCompilerAdapter" />
+    <javac srcdir="${src.test}" destdir="${build.test}" classpathref="cp" debug="on"/>
+
+    <mkdir dir="${dist}/docs/junit"/>
+    <junit printsummary="withOutAndErr" haltonfailure="no" haltonerror="yes" fork="yes" showoutput="yes" dir="${src.test}">
+      <classpath>
+        <pathelement location="${build.test}"/>
+        <path refid="cp"/>
+      </classpath>
+
+      <formatter type="xml"/>
+
+      <batchtest todir="${dist}/docs/junit">
+        <fileset dir="${src.test}">
+          <include name="**/*TestCase.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+  <target name="format" depends="java">
+    <jalopy fileformat="unix" convention="src/etc/jalopy.xml" history="file" historymethod="adler32" loglevel="error" threads="2" classpathref="cp">
+      <fileset dir="${src.java}">
+        <include name="**/*.java"/>
+      </fileset>
+      <!-- <fileset dir="${src.test}">
+          <include name="**/*.java" />
+
+      </fileset>
+      -->
+    </jalopy>
+  </target>
+
+  <target name="jar" depends="format">
+    <mkdir dir="${dist}"/>
+    <copy todir="${build.java}/META-INF">
+      <fileset dir="${docs}">
+        <include name="*.dtd"/>
+      </fileset>
+    </copy>
+    <jar basedir="${build.java}" jarfile="${dist}/${name}-${version}.jar" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
+  </target>
+
+  <target name="example-war" depends="jar">
+    <war warfile="${dist}/${name}-${version}-example.war" webxml="${src.etc}/example/web.xml">
+      <fileset dir="${src.webapp}"/>
+      <lib dir="${lib.core}"/>
+      <lib file="${dist}/${name}-${version}.jar"/>
+      <lib file="${lib.optional}/osuser.jar"/>
+      <lib file="${lib.optional}/mail.jar"/>
+      <lib file="${lib.optional}/activation.jar"/>
+      <lib file="${lib.optional}/quartz.jar"/>
+      <lib file="${lib.optional}/bsh-1.2b7.jar"/>
+      <classes dir="${src.etc}/example">
+        <exclude name="web.xml"/>
+      </classes>
+    </war>
+  </target>
+
+  <target name="example-ear" depends="jar">
+    <mkdir dir="${build}/tmp/lib"/>
+    <war warfile="${build}/tmp/${name}-${version}-example.war" webxml="${src.etc}/example/web.xml">
+      <fileset dir="${src.webapp}"/>
+    </war>
+    <copy file="${dist}/${name}-${version}.jar" tofile="${build}/tmp/${name}-${version}-example.jar"/>
+    <!-- note that we add these files to the jarfile for ease of deployment. In a real environment, the config files
+    would be in a separate dir and added appropriately to the classpath -->
+    <copy file="${src.etc}/example/osworkflow-ejb.xml" tofile="${build}/tmp/osworkflow.xml"/>
+    <copy file="${src.etc}/example/workflows.xml" todir="${build}/tmp"/>
+    <copy file="${src.etc}/example/example.xml" todir="${build}/tmp"/>
+    <touch file="${build}/tmp/${name}-${version}-example.jar" millis="500"/>
+    <jar file="${build}/tmp/${name}-${version}-example.jar" update="true" basedir="${build}/tmp">
+      <include name="*.xml"/>
+    </jar>
+    <copy file="${lib.core}/${oscore.jar}" todir="${build}/tmp"/>
+    <copy file="${lib.core}/${propertyset.jar}" todir="${build}/tmp"/>
+    <copy file="${lib.core}/commons-logging.jar" todir="${build}/tmp/lib"/>
+    <copy file="${lib.optional}/osuser.jar" todir="${build}/tmp/lib"/>
+    <copy file="${lib.optional}/quartz.jar" todir="${build}/tmp/lib"/>
+    <copy file="${lib.optional}/bsh-1.2b7.jar" todir="${build}/tmp/lib"/>
+    <!-- update the manifests of the other ejb modules -->
+    <touch file="${build}/tmp/${oscore.jar}" millis="500"/>
+    <touch file="${build}/tmp/${propertyset.jar}" millis="500"/>
+    <jar jarfile="${build}/tmp/${oscore.jar}" update="true" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
+    <jar jarfile="${build}/tmp/${propertyset.jar}" update="true" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
+    <ear appxml="${src.etc}/example/application.xml" earfile="${dist}/${name}-${version}-example.ear" basedir="${build}/tmp">
+    </ear>
+  </target>
+
+  <target name="client" depends="init">
+    <mkdir dir="${build.client}"/>
+    <javac classpathref="client.classpath" srcdir="${src.client}" destdir="${build.client}"/>
+    <copy todir="${build.client}">
+      <fileset dir="${src.client}">
+        <exclude name="**/*.java"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="client-jar" depends="client">
+    <jar basedir="${build.client}" jarfile="${dist}/designer.jar" manifest="${build.client}/META-INF/MANIFEST.MF"/>
+  </target>
+
+  <target name="javadocs" depends="init">
+    <mkdir dir="${dist}/docs/api"/>
+    <javadoc sourcepath="${src.java}" destdir="${dist}/docs/api" packagenames="${packages}" classpathref="cp" author="true" version="true" windowTitle="${name} ${version} API" doctitle="${name}" footer="See &lt;a href=&quot;http://www.opensymphony.com&quot;&gt;www.opensymphony.com&lt;/a&gt; for more information." use="true" verbose="false"/>
+    <copy overwrite="yes" file="${docs}/main.css" tofile="${docs}/api/stylesheet.css"/>
+  </target>
+
+  <target name="clover.report" depends="test">
+    <java classname="com.cortexeb.tools.clover.reporters.html.HtmlReporter" fork="true">
+      <arg line="--outputdir ${dist}/docs/clover --showSrc --initstring ${clover.initstring} --title '${name}'"/>
+      <classpath refid="cp"/>
+    </java>
+  </target>
+
+  <target name="junit.report" depends="test">
+    <junitreport todir="${dist}/docs/junit">
+      <fileset dir="${dist}/docs/junit">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${dist}/docs/junit"/>
+    </junitreport>
+  </target>
+
+  <target name="docs" depends="javadocs, clover.report, junit.report">
+    <copy todir="${dist}/docs">
+      <fileset dir="${docs}"/>
+    </copy>
+  </target>
+
+  <target name="dist" depends="example-war, docs">
+    <mkdir dir="${dist}/zip"/>
+    <mkdir dir="${dist}/zip/docs"/>
+    <mkdir dir="${dist}/zip/src"/>
+    <mkdir dir="${dist}/zip/lib"/>
+
+    <copy todir="${dist}/zip/docs">
+      <fileset dir="${dist}/docs"/>
+    </copy>
+
+    <copy todir="${dist}/zip/src">
+      <fileset dir="src"/>
+    </copy>
+
+    <copy todir="${dist}/zip/lib">
+      <fileset dir="${lib.core}"/>
+    </copy>
+
+    <copy file="${dist}/${name}-${version}.jar" todir="${dist}/zip"/>
+    <copy file="${dist}/${name}-${version}-example.war" todir="${dist}/zip"/>
+
+    <zip zipfile="${dist}/${name}-${version}.zip" basedir="${dist}/zip"/>
+
+    <delete dir="${dist}/zip"/>
+  </target>
+</project>
+
