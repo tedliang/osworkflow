@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ResultDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -131,7 +131,7 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
                 throw new InvalidWorkflowDescriptorException(error.append("next step").toString());
             }
 
-            if (status == null || status.length() == 0) {
+            if ((status == null) || (status.length() == 0)) {
                 throw new InvalidWorkflowDescriptorException(error.append("status").toString());
             }
         }

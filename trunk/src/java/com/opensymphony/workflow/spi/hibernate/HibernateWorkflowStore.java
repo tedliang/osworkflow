@@ -33,13 +33,13 @@ import java.util.*;
 
 /**
  * A workflow store backed by Hibernate for persistence.  To use this with the standard
- * persistence factory, pass to the ConfigLoader.persistenceArgs the SessionFactory to
+ * persistence factory, pass to the DefaultConfiguration.persistenceArgs the SessionFactory to
  * use:
- * <code>ConfigLoader.persistenceArgs.put("sessionFactory", DatabaseHelper.getSessionFactory());</code>
+ * <code>DefaultConfiguration.persistenceArgs.put("sessionFactory", DatabaseHelper.getSessionFactory());</code>
  * See the HibernateFunctionalWorkflowTestCase for more help.
  *
  * @author $Author: hani $
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////

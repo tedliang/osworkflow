@@ -13,12 +13,20 @@ package com.opensymphony.workflow.query;
  * whereby all expressions must return true for a result to be included.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WorkflowExpressionQuery {
+    //~ Static fields/initializers /////////////////////////////////////////////
+
+    public static final int SORT_NONE = 0;
+    public static final int SORT_ASC = 1;
+    public static final int SORT_DESC = -1;
+
     //~ Instance fields ////////////////////////////////////////////////////////
 
     private Expression expression = null;
+    private int orderBy;
+    private int sortOrder;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -33,5 +41,21 @@ public class WorkflowExpressionQuery {
 
     public Expression getExpression() {
         return expression;
+    }
+
+    public void setOrderBy(int orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public int getOrderBy() {
+        return orderBy;
+    }
+
+    public void setSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public int getSortOrder() {
+        return sortOrder;
     }
 }
