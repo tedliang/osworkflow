@@ -30,7 +30,7 @@ import javax.sql.DataSource;
 /**
  * @author Eric Pugh
  *
- * This helper class populates a test mckoi database.
+ * This helper class populates a test database.
  */
 public class DatabaseHelper {
     //~ Static fields/initializers /////////////////////////////////////////////

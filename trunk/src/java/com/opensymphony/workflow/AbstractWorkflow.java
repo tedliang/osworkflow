@@ -7,8 +7,6 @@ package com.opensymphony.workflow;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
 
-import com.opensymphony.util.TextUtils;
-
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.config.DefaultConfiguration;
 import com.opensymphony.workflow.loader.*;
@@ -1073,7 +1071,7 @@ public class AbstractWorkflow implements Workflow {
         }
 
         if (log.isDebugEnabled()) {
-            log.debug("theResult=" + theResults[0].getStep() + " " + theResults[0].getStatus());
+            log.debug("theResult=" + theResults[0].getStep() + ' ' + theResults[0].getStatus());
         }
 
         if ((extraPreFunctions != null) && (extraPreFunctions.size() > 0)) {
@@ -1285,11 +1283,9 @@ public class AbstractWorkflow implements Workflow {
         //get available autoexec actions
         int[] availableAutoActions = getAvailableAutoActions(entry.getId(), inputs);
 
-        for (int j = 0; j < availableAutoActions.length; j++) {
-            int actionId = availableAutoActions[j];
-            doAction(entry.getId(), actionId, inputs);
-
-            break;
+        //we perform the first autoaction that applies, not all of them.
+        if (availableAutoActions.length > 0) {
+            doAction(entry.getId(), availableAutoActions[0], inputs);
         }
 
         return false;
