@@ -2,7 +2,7 @@
 <!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.7//EN" "http://www.opensymphony.com/osworkflow/workflow_2_7.dtd">
 <workflow>
 	<initial-actions>
-		<action id="1" name="Start Workflow">
+		<action id="50" name="Start Workflow">
 			<results>
 				<unconditional-result old-status="Finished" status="Underway" step="1" owner="${caller}" />
 			</results>

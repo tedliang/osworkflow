@@ -34,7 +34,7 @@ public class StepsTestCase extends TestCase {
 
     public void testEarlyJoin() throws Exception {
         URL url = getClass().getResource("/samples/earlyjoin.xml");
-        long id = workflow.initialize(url.toString(), 1, null);
+        long id = workflow.initialize(url.toString(), 100, null);
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 2, currentSteps.size());
         workflow.doAction(id, 1, Collections.EMPTY_MAP);
@@ -49,7 +49,7 @@ public class StepsTestCase extends TestCase {
 
     public void testSplitCompletedHistorySteps() throws Exception {
         URL url = getClass().getResource("/samples/joinsplit.xml");
-        long id = workflow.initialize(url.toString(), 1, null);
+        long id = workflow.initialize(url.toString(), 100, null);
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 1, currentSteps.size());
         workflow.doAction(id, 1, Collections.EMPTY_MAP);

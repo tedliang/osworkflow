@@ -28,7 +28,7 @@ public class CommonAndGlobalActionsTestCase extends TestCase {
 
     public void testBasicCommonAction() throws Exception {
         URL url = getClass().getResource("/samples/common-actions.xml");
-        long id = workflow.initialize(url.toString(), 1, null);
+        long id = workflow.initialize(url.toString(), 50, null);
         assertEquals("Unexpected workflow state", WorkflowEntry.ACTIVATED, workflow.getEntryState(id));
 
         //verify that a common action can be called
@@ -57,7 +57,7 @@ public class CommonAndGlobalActionsTestCase extends TestCase {
 
     public void testBasicGlobalAction() throws Exception {
         URL url = getClass().getResource("/samples/global-actions.xml");
-        long id = workflow.initialize(url.toString(), 1, null);
+        long id = workflow.initialize(url.toString(), 50, null);
 
         int[] availableActions = workflow.getAvailableActions(id, null);
         Object[] list = new Object[availableActions.length];

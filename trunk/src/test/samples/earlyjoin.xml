@@ -4,7 +4,7 @@
 
 <workflow>
   <initial-actions>
-    <action id="1" name="Initiate">
+    <action id="100" name="Initiate">
       <pre-functions>
         <function type="class">
           <arg name="class.name">com.opensymphony.workflow.util.Caller</arg>

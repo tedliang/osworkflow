@@ -10,7 +10,7 @@
     </register>
   </registers>
   <initial-actions>
-    <action id="1" name="Start Workflow">
+    <action id="100" name="Start Workflow">
       <restrict-to>
         <conditions type="AND">
           <condition type="beanshell" name="bsh.condition">
@@ -32,7 +32,7 @@
       </results>
     </action>
     <!-- an illegal initial action, we use just for testing -->
-    <action id="2" name="Start Workflow - illegal">
+    <action id="200" name="Start Workflow - illegal">
       <restrict-to>
         <conditions type="AND">
           <condition type="beanshell" name="bsh.condition">
