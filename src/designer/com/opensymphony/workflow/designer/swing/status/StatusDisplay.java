@@ -71,14 +71,14 @@ public class StatusDisplay extends DisplayItem
     JPanel barPanel = new JPanel(new BorderLayout(0, 0));
     barPanel.setOpaque(false);
     barPanel.setBorder(new EmptyBorder(3, 3, 3, 3));
-    barPanel.add(progress, "Center");
+    barPanel.add(progress, BorderLayout.CENTER);
     JPanel progressPanel = new JPanel(new BorderLayout(3, 0));
     progressPanel.setOpaque(false);
-    progressPanel.add(progressStatus, "Before");
-    progressPanel.add(barPanel, "Center");
-    mainPanel.add(progressPanel, "Center");
-    mainPanel.add(cancel, "After");
-    setCancelCallback(null);
+    progressPanel.add(progressStatus, BorderLayout.LINE_START);
+    progressPanel.add(barPanel, BorderLayout.CENTER);
+    mainPanel.add(progressPanel, BorderLayout.CENTER);
+    mainPanel.add(cancel, BorderLayout.LINE_END);
+    setCancelListener(null);
     return mainPanel;
   }
 
@@ -170,7 +170,7 @@ public class StatusDisplay extends DisplayItem
   }
 
 
-  public void setCancelCallback(CancelListener c)
+  public void setCancelListener(CancelListener c)
   {
     if(c == null)
     {

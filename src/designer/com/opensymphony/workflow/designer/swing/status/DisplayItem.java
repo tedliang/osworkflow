@@ -11,7 +11,6 @@ import javax.swing.*;
  */
 public abstract class DisplayItem extends JPanel
 {
-
   private int preferredWidth;
 
   public abstract String getItemName();
