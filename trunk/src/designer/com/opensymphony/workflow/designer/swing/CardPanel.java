@@ -99,7 +99,6 @@ public class CardPanel extends JPanel
           height = d.height;
         }
       }
-      System.out.println("preferredLayoutSize()=" + width + " " + height);
       return new Dimension(width, height);
     }
 
