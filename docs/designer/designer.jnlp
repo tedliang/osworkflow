@@ -15,7 +15,6 @@
     <j2se version="1.4+" max-heap-size="128m"/>
     <jar href="designer.jar" main="true"/>
     <jar href="forms.jar" main="false"/>
-    <jar href="commons-logging.jar" main="false"/>
     <jar href="jgraph.jar" main="false"/>
     <jar href="looks.jar" main="false"/>
     <jar href="foxtrot.jar" main="false"/>

@@ -9,8 +9,6 @@ import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.designer.Layout;
 import com.opensymphony.workflow.designer.Prefs;
 import com.opensymphony.workflow.designer.ResourceManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -19,8 +17,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class Workspace extends XMLWorkflowFactory
 {
-  private static final Log log = LogFactory.getLog(Workspace.class);
-
   private Map layouts = new HashMap();
   private File workflowsXML;
   private File configFile;
@@ -56,7 +52,6 @@ public class Workspace extends XMLWorkflowFactory
       }
     }
     super.initDone();
-    log.debug("workspace location=" + workflowsXML);
     String dir = workflowsXML.getParent();
     Iterator iter = workflows.values().iterator();
     while(iter.hasNext())
@@ -127,8 +122,8 @@ public class Workspace extends XMLWorkflowFactory
     }
     catch(MalformedURLException e)
     {
-      //can't really happy
-      log.error(e.getMessage(), e);
+      //can't really happen
+      e.printStackTrace();
     }
   }
 
@@ -165,7 +160,6 @@ public class Workspace extends XMLWorkflowFactory
   {
     if(workflowsXML==null)
     {
-      log.warn("cannot save workspace, no location set");
       return;
     }
     try
@@ -196,7 +190,6 @@ public class Workspace extends XMLWorkflowFactory
       out.println("</workflows>");
       out.flush();
       out.close();
-      log.debug("wrote " + workflowsXML);
     }
     catch(IOException e)
     {
@@ -253,7 +246,7 @@ public class Workspace extends XMLWorkflowFactory
       }
       else
       {
-        log.warn("*** saveWorkflow called with config.location=" + config.location + " url is null");
+        System.out.println("WARN: *** saveWorkflow called with config.location=" + config.location + " url is null");
       }
     }
     return false;

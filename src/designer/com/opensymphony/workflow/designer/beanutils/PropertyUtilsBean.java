@@ -1,7 +1,7 @@
 /*
- * $Header: /zpool01/javanet/scm/svn/tmp/cvs2svn/osworkflow/src/designer/com/opensymphony/workflow/designer/beanutils/PropertyUtilsBean.java,v 1.2 2003-12-06 18:55:41 hani Exp $
- * $Revision: 1.2 $
- * $Date: 2003-12-06 18:55:41 $
+ * $Header: /zpool01/javanet/scm/svn/tmp/cvs2svn/osworkflow/src/designer/com/opensymphony/workflow/designer/beanutils/PropertyUtilsBean.java,v 1.3 2004-04-16 10:36:29 hani Exp $
+ * $Revision: 1.3 $
+ * $Date: 2004-04-16 10:36:29 $
  *
  * ====================================================================
  *
@@ -67,9 +67,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * Utility methods for using Java Reflection APIs to facilitate generic
  * property getter and setter operations on Java objects.  Much of this
@@ -123,7 +120,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Gregor Raýman
  * @author Jan Sorensen
  * @author Scott Sanders
- * @version $Revision: 1.2 $ $Date: 2003-12-06 18:55:41 $
+ * @version $Revision: 1.3 $ $Date: 2004-04-16 10:36:29 $
  * @see PropertyUtils
  * @since 1.7
  */
@@ -148,9 +145,6 @@ public class PropertyUtilsBean
    */
   private Map descriptorsCache = null;
   private Map mappedDescriptorsCache = null;
-
-  /** Log instance */
-  private Log log = LogFactory.getLog(PropertyUtils.class);
 
   // ---------------------------------------------------------- Constructors
 
@@ -1372,11 +1366,6 @@ public class PropertyUtilsBean
         subscript[1] = value;
         try
         {
-          if(log.isTraceEnabled())
-          {
-            String valueClassName = value == null ? "<null>" : value.getClass().getName();
-            log.trace("setSimpleProperty: Invoking method " + writeMethod + " with index=" + index + ", value=" + value + " (class " + valueClassName + ")");
-          }
           invokeMethod(writeMethod, bean, subscript);
         }
         catch(InvocationTargetException e)
@@ -1517,11 +1506,6 @@ public class PropertyUtilsBean
         Object params[] = new Object[2];
         params[0] = key;
         params[1] = value;
-        if(log.isTraceEnabled())
-        {
-          String valueClassName = value == null ? "<null>" : value.getClass().getName();
-          log.trace("setSimpleProperty: Invoking method " + mappedWriteMethod + " with key=" + key + ", value=" + value + " (class " + valueClassName + ")");
-        }
         invokeMethod(mappedWriteMethod, bean, params);
       }
       else
@@ -1732,11 +1716,6 @@ public class PropertyUtilsBean
     // Call the property setter method
     Object values[] = new Object[1];
     values[0] = value;
-    if(log.isTraceEnabled())
-    {
-      String valueClassName = value == null ? "<null>" : value.getClass().getName();
-      log.trace("setSimpleProperty: Invoking method " + writeMethod + " with value " + value + " (class " + valueClassName + ")");
-    }
     invokeMethod(writeMethod, bean, values);
 
   }
@@ -1748,16 +1727,11 @@ public class PropertyUtilsBean
   {
     try
     {
-
       return method.invoke(bean, values);
-
     }
     catch(IllegalArgumentException e)
     {
-
-      log.error("Method invocation failed.", e);
       throw new IllegalArgumentException("Cannot invoke " + method.getDeclaringClass().getName() + "." + method.getName() + " - " + e.getMessage());
-
     }
   }
 }

@@ -11,8 +11,6 @@ import javax.imageio.ImageIO;
 import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
 import com.opensymphony.workflow.designer.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -21,8 +19,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class PNGExport extends AbstractAction implements WorkspaceListener
 {
-  private static final Log log = LogFactory.getLog(PNGExport.class);
-
   public PNGExport()
   {
     setEnabled(false);
@@ -40,7 +36,7 @@ public class PNGExport extends AbstractAction implements WorkspaceListener
     }
     catch(IOException e1)
     {
-      log.error("Error writing png file", e1);
+      e1.printStackTrace();
     }
   }
 

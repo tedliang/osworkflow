@@ -15,8 +15,6 @@ import com.opensymphony.workflow.designer.swing.status.StatusDisplay;
 import com.opensymphony.workflow.designer.dialogs.ImportWorkflowDialog;
 import com.opensymphony.workflow.loader.Workspace;
 import com.opensymphony.workflow.FactoryException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import foxtrot.Worker;
 import foxtrot.Task;
 
@@ -27,8 +25,6 @@ import foxtrot.Task;
  */
 public class ImportWorkflow extends AbstractAction implements WorkspaceListener
 {
-  private static final Log log = LogFactory.getLog(ImportWorkflow.class);
-
   private Workspace currentWorkspace;
 
   public ImportWorkflow()
@@ -107,7 +103,7 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
     }
     catch(Exception t)
     {
-      log.error("Error importing descriptor", t);
+      t.printStackTrace();
     }
     finally
     {
