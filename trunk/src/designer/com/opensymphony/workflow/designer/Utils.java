@@ -132,4 +132,19 @@ public class Utils
     if(i == null) return 0;
     return i.intValue();
   }
+
+  public static void centerComponent(Component component)
+  {
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    Window window;
+    if(component instanceof Window)
+    {
+      window = (Window)component;
+    }
+    else
+    {
+      window = SwingUtilities.getWindowAncestor(component);
+    }
+    window.setLocation((screenSize.width - window.getSize().width) / 2, (screenSize.height - window.getSize().height) / 2);
+  }
 }
