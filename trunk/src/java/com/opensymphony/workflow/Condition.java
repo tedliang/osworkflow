@@ -13,7 +13,7 @@ import java.util.Map;
  * Interface that must be implemented to define a java-based condition in your workflow definition.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Patrick Lightbody</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public interface Condition {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -42,7 +42,9 @@ public interface Condition {
      * @param args The properties for this function invocation. Properties are created
      * from arg nested elements within the xml, an arg element takes in a name attribute
      * which is the properties key, and the CDATA text contents of the element map to
-     * the property value.
+     * the property value. There is a magic property of '<code>stepId</code>';
+     * if specified with a value of -1, then the value is replaced with the
+     * current step's ID before the condition is called.
      * @param ps The persistent variables that are associated with the current
      * instance of the workflow. Any change made to this will be seen on the next
      * function call in the workflow lifetime.

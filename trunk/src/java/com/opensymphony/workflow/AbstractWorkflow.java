@@ -89,8 +89,6 @@ public class AbstractWorkflow implements Workflow {
             }
 
             if (entry.getState() != WorkflowEntry.ACTIVATED) {
-                log.debug("--> state is " + entry.getState());
-
                 return new int[0];
             }
 
@@ -122,7 +120,8 @@ public class AbstractWorkflow implements Workflow {
                     conditions = restriction.getConditions();
                 }
 
-                if (passesConditions(conditionType, conditions, transientVars, ps)) {
+                      //todo verify that 0 is the right currentStepId
+                if (passesConditions(conditionType, conditions, transientVars, ps, 0)) {
                     l.add(new Integer(action.getId()));
                 }
             }
@@ -288,7 +287,7 @@ public class AbstractWorkflow implements Workflow {
 
                     // to have the permission, the condition must be met or not specified
                     // securities can't have restrictions based on inputs, so it's null
-                    if (passesConditions(security.getRestriction().getConditionType(), security.getRestriction().getConditions(), transientVars, ps)) {
+                    if (passesConditions(security.getRestriction().getConditionType(), security.getRestriction().getConditions(), transientVars, ps, xmlStep.getId())) {
                         s.add(security.getName());
                     }
                 }
@@ -662,7 +661,7 @@ public class AbstractWorkflow implements Workflow {
                 conditions = restriction.getConditions();
             }
 
-            if (passesConditions(conditionType, conditions, Collections.unmodifiableMap(transientVars), ps)) {
+            if (passesConditions(conditionType, conditions, Collections.unmodifiableMap(transientVars), ps, s.getId())) {
                 l.add(new Integer(action.getId()));
             }
         }
@@ -812,10 +811,10 @@ public class AbstractWorkflow implements Workflow {
         }
     }
 
-    protected boolean passesCondition(ConditionDescriptor conditionDesc, Map transientVars, PropertySet ps) throws WorkflowException {
+    protected boolean passesCondition(ConditionDescriptor conditionDesc, Map transientVars, PropertySet ps, int currentStepId) throws WorkflowException {
         String type = conditionDesc.getType();
 
-        HashMap args = new HashMap(conditionDesc.getArgs());
+        Map args = new HashMap(conditionDesc.getArgs());
 
         for (Iterator iterator = args.entrySet().iterator();
                 iterator.hasNext();) {
@@ -823,6 +822,14 @@ public class AbstractWorkflow implements Workflow {
             mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
         }
 
+      if(currentStepId != -1)
+      {
+        Object stepId = args.get("stepId");
+
+        if ((stepId != null) && stepId.equals("-1")) {
+            args.put("stepId", String.valueOf(currentStepId));
+        }
+      }
         String clazz;
 
         if ("remote-ejb".equals(type)) {
@@ -865,7 +872,7 @@ public class AbstractWorkflow implements Workflow {
         }
     }
 
-    protected boolean passesConditions(String conditionType, List conditions, Map transientVars, PropertySet ps) throws WorkflowException {
+    protected boolean passesConditions(String conditionType, List conditions, Map transientVars, PropertySet ps, int currentStepId) throws WorkflowException {
         if ((conditions == null) || (conditions.size() == 0)) {
             return true;
         }
@@ -875,7 +882,7 @@ public class AbstractWorkflow implements Workflow {
 
         for (Iterator iterator = conditions.iterator(); iterator.hasNext();) {
             ConditionDescriptor conditionDescriptor = (ConditionDescriptor) iterator.next();
-            boolean result = passesCondition(conditionDescriptor, transientVars, ps);
+            boolean result = passesCondition(conditionDescriptor, transientVars, ps, currentStepId);
 
             if (and && !result) {
                 return false;
@@ -1031,7 +1038,7 @@ public class AbstractWorkflow implements Workflow {
             conditions = restriction.getConditions();
         }
 
-        return passesConditions(conditionType, conditions, Collections.unmodifiableMap(transientVars), ps);
+        return passesConditions(conditionType, conditions, Collections.unmodifiableMap(transientVars), ps, 0);
     }
 
     private Step getCurrentStep(WorkflowDescriptor wfDesc, int actionId, List currentSteps, Map transientVars, PropertySet ps) throws WorkflowException {
@@ -1072,7 +1079,7 @@ public class AbstractWorkflow implements Workflow {
             conditions = restriction.getConditions();
         }
 
-        return passesConditions(conditionType, conditions, Collections.unmodifiableMap(transientVars), ps);
+        return passesConditions(conditionType, conditions, Collections.unmodifiableMap(transientVars), ps, 0);
     }
 
     private void createNewCurrentStep(ResultDescriptor theResult, WorkflowEntry entry, WorkflowStore store, int actionId, Step currentStep, long[] previousIds, Map transientVars, PropertySet ps) throws StoreException {
@@ -1229,7 +1236,7 @@ public class AbstractWorkflow implements Workflow {
                 iterator.hasNext();) {
             ConditionalResultDescriptor conditionalResult = (ConditionalResultDescriptor) iterator.next();
 
-            if (passesConditions(conditionalResult.getConditionType(), conditionalResult.getConditions(), unmodifiableTransients, ps)) {
+            if (passesConditions(conditionalResult.getConditionType(), conditionalResult.getConditions(), unmodifiableTransients, ps, step.getStepId())) {
                 //if (evaluateExpression(conditionalResult.getCondition(), entry, wf.getRegisters(), null, transientVars)) {
                 theResults[0] = conditionalResult;
 
@@ -1367,7 +1374,8 @@ public class AbstractWorkflow implements Workflow {
             JoinNodes jn = new JoinNodes(joinSteps);
             transientVars.put("jn", jn);
 
-            if (passesConditions(joinDesc.getConditionType(), joinDesc.getConditions(), unmodifiableTransients, ps)) {
+          //todo verify that 0 is the right value for currentstep here
+            if (passesConditions(joinDesc.getConditionType(), joinDesc.getConditions(), unmodifiableTransients, ps, 0)) {
                 // move the rest without creating a new step ...
                 ResultDescriptor joinresult = joinDesc.getResult();
 
