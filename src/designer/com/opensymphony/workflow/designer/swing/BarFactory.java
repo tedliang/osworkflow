@@ -104,6 +104,7 @@ public class BarFactory
   public static JPanel createToolbar()
   {
     JToolBar bar = new JToolBar();
+    bar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
     bar.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
     JButton step = new JButton(ResourceManager.getIcon("newstep"));
 	  step.setUI(new BlueButtonUI());
