@@ -92,9 +92,8 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory {
 
         //write it out to a new file, to ensure we don't end up with a messed up file if we're interrupted halfway for some reason
         PrintWriter writer = new PrintWriter(new BufferedWriter(out));
-        writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-
-        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.7//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_6_1.dtd\">");
+        writer.println(WorkflowDescriptor.XML_HEADER);
+        writer.println(WorkflowDescriptor.DOCTYPE_DECL);
         descriptor.writeXML(writer, 0);
         writer.flush();
         writer.close();

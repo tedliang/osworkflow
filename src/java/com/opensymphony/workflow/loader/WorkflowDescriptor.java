@@ -25,9 +25,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
+    //~ Static fields/initializers /////////////////////////////////////////////
+
+    public static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    public static final String DOCTYPE_DECL = "<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.7//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_7.dtd\">";
+
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected List commonActionsList = new ArrayList(); // for preserving order
@@ -593,8 +598,8 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
         StringWriter sw = new StringWriter();
         PrintWriter writer = new PrintWriter(sw);
-        writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.7//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_7.dtd\">");
+        writer.println(XML_HEADER);
+        writer.println(DOCTYPE_DECL);
         writeXML(writer, 0);
 
         try {
