@@ -7,14 +7,6 @@
     </fileset>
   </path>
 
-  <path id="cp.test">
-    <fileset dir="lib">
-      <include name="**/*.jar"/>
-      <exclude name="**/jalopy/*.jar"/>
-      <exclude name="**/xdoclet/*.jar"/>
-    </fileset>
-  </path>
-
   <path id="jalopy.classpath">
     <fileset dir="lib/build/jalopy">
       <include name="*.jar"/>
@@ -137,12 +129,13 @@
 
     <mkdir dir="${build.test}/META-INF"/>
     <copy file="${docs}/workflow_2_5.dtd" todir="${build.test}/META-INF/"/>
-    <javac srcdir="${src.java}" destdir="${build.test}" debug="on" classpathref="cp" compiler="org.apache.tools.ant.taskdefs.CloverCompilerAdapter" />
+    <javac srcdir="${src.java}" destdir="${build.test}" debug="on" classpathref="cp" compiler="org.apache.tools.ant.taskdefs.CloverCompilerAdapter"/>
     <javac srcdir="${src.test}" destdir="${build.test}" classpathref="cp" debug="on"/>
     <copy todir="${build.test}">
       <fileset dir="${src.test}">
         <include name="**/*.xml" />
         <include name="**/*.properties"/>
+        <include name="**/*.sql"/>
       </fileset>
     </copy>
     <copy todir="${build.test}">
@@ -155,7 +148,7 @@
     <junit printsummary="withOutAndErr" haltonfailure="no" haltonerror="no" showoutput="yes">
       <classpath>
         <pathelement location="${build.test}"/>
-        <path refid="cp.test"/>
+        <path refid="cp"/>
       </classpath>
 
       <formatter type="xml"/>
