@@ -97,8 +97,8 @@ public class WorkflowGraphModel extends DefaultGraphModel
     ResultDescriptor result = joinDescriptor.getResult();
     recordResult(fromCell, result, null);
   }
-
-  public void processJoinEndPointResult(JoinCell joinCell)
+  
+  private void processJoinEndPointResult(JoinCell joinCell)
   {
     int joinId = joinCell.getJoinDescriptor().getId();
     Iterator results = resultCells.getResultsToJoin(joinId).iterator();
@@ -109,7 +109,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     }
   }
 
-  public void processSplitEndPointResult(SplitCell splitCell)
+  private void processSplitEndPointResult(SplitCell splitCell)
   {
     int splitId = splitCell.getSplitDescriptor().getId();
     Iterator results = resultCells.getResultsToSplit(splitId).iterator();
@@ -131,7 +131,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   /**
    * Find Results that have StepCell's associated Step passed in as next Step. Connect all such cells
    */
-  public void processStepEndPointResult(StepCell stepCell)
+  private void processStepEndPointResult(StepCell stepCell)
   {
     int stepId = stepCell.getDescriptor().getId();
     Iterator results = resultCells.getResultsToStep(stepId).iterator();
