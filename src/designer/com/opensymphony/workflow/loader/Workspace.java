@@ -201,12 +201,13 @@ public class Workspace extends XMLWorkflowFactory
   public boolean removeWorkflow(String name) throws FactoryException
   {
     WorkflowConfig removed = (WorkflowConfig)workflows.remove(name);
+    if(removed == null) return false;
     save();
     if(removed.url != null && removed.url.getProtocol().equals("file"))
     {
       return new File(removed.url.getFile()).delete();
     }
-    return removed != null;
+    return true;
   }
 
   public WorkflowDescriptor getWorkflow(String name) throws FactoryException

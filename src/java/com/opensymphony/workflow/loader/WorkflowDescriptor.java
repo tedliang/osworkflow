@@ -7,9 +7,7 @@ package com.opensymphony.workflow.loader;
 import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 import com.opensymphony.workflow.util.Validatable;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 
 import org.xml.sax.*;
 
@@ -25,7 +23,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.32 $
+ * @version $Revision: 1.33 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -691,11 +689,12 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         writer.println(DOCTYPE_DECL);
         writeXML(writer, 0);
 
+        WorkflowLoader.AllExceptionsErrorHandler errorHandler = new WorkflowLoader.AllExceptionsErrorHandler();
+
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             db.setEntityResolver(new DTDEntityResolver());
 
-            WorkflowLoader.AllExceptionsErrorHandler errorHandler = new WorkflowLoader.AllExceptionsErrorHandler();
             db.setErrorHandler(errorHandler);
             db.parse(new InputSource(new StringReader(sw.toString())));
 
