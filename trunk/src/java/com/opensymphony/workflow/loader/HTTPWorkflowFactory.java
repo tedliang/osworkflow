@@ -8,6 +8,11 @@ import com.opensymphony.workflow.FactoryException;
 
 import java.io.*;
 
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -56,9 +61,6 @@ public class HTTPWorkflowFactory extends AbstractWorkflowFactory {
         return c.descriptor;
     }
 
-    /* (non-Javadoc)
-     * @see com.opensymphony.workflow.loader.AbstractWorkflowFactory#getWorkflowNames()
-     */
     public String[] getWorkflowNames() throws FactoryException {
         int i = 0;
         String[] res = new String[workflows.keySet().size()];
@@ -127,64 +129,127 @@ public class HTTPWorkflowFactory extends AbstractWorkflowFactory {
         return true;
     }
 
-    protected String readLayoutBuffer(final String service_addr, final String docId) throws Exception {
-        String sWorkflowBuffer;
-        String sLayoutBuffer = null;
+    protected static String get(String urlValue, Map data) throws IOException {
+        BufferedReader input;
 
-        //    OSWorkflowServiceServiceLocator service = new OSWorkflowServiceServiceLocator();
-        //    service.setOSWorkflowServiceEndpointAddress(service_addr);
-        //    OSWorkflowService srv = service.getOSWorkflowService();
-        //    String ret = srv.downloadWorkflow(docId);
-        //    if (ret.equals("ERROR"))
-        //    {
-        //      System.out.println("File not downloaded!");
-        //      return null;
-        //    }
-        //    System.out.println("File downloaded OK!");
-        //    int junction = ret.indexOf(x2lSeparator);
-        //    sWorkflowBuffer = ret.substring(0,junction);
-        //    sLayoutBuffer = ret.substring(junction + x2lSeparator.length());
-        return sLayoutBuffer;
+        StringBuffer value = new StringBuffer(urlValue);
+
+        if (data.size() > 0) {
+            if (value.indexOf("?") == -1) {
+                value.append("?");
+            } else {
+                value.append("&");
+            }
+        }
+
+        Iterator i = data.entrySet().iterator();
+
+        while (i.hasNext()) {
+            Map.Entry entry = (Map.Entry) i.next();
+            value.append(entry.getKey()).append('=');
+            value.append(URLEncoder.encode((String) entry.getValue(), "utf-8"));
+
+            if (i.hasNext()) {
+                value.append("&");
+            }
+        }
+
+        URL url = new URL(urlValue);
+        URLConnection connection = url.openConnection();
+        connection.setDoOutput(true);
+        connection.setUseCaches(false);
+
+        input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        StringBuffer output = new StringBuffer();
+        String line;
+
+        while (null != (line = input.readLine())) {
+            output.append(line).append('\n');
+        }
+
+        input.close();
+
+        return output.toString();
     }
 
-    protected String readWorkflowBuffer(final String service_addr, final String docId) throws Exception {
-        String sWorkflowBuffer = null;
+    protected static String post(String urlValue, Map data) throws IOException {
+        BufferedReader input;
 
-        //    String sLayoutBuffer;
-        //
-        //    OSWorkflowServiceServiceLocator service = new OSWorkflowServiceServiceLocator();
-        //    service.setOSWorkflowServiceEndpointAddress(service_addr);
-        //    OSWorkflowService srv = service.getOSWorkflowService();
-        //    String ret = srv.downloadWorkflow(docId);
-        //    if (ret.equals("ERROR"))
-        //    {
-        //      System.out.println("File not downloaded!");
-        //      return null;
-        //    }
-        //    System.out.println("File downloaded OK!");
-        //    int junction = ret.indexOf(x2lSeparator);
-        //    sWorkflowBuffer = ret.substring(0,junction);
-        //    sLayoutBuffer = ret.substring(junction + x2lSeparator.length());
-        return sWorkflowBuffer;
+        URL url = new URL(urlValue);
+        URLConnection connection = url.openConnection();
+        connection.setDoInput(true);
+        connection.setDoOutput(true);
+        connection.setUseCaches(false);
+        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+        DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+
+        StringBuffer content = new StringBuffer();
+        Iterator i = data.entrySet().iterator();
+
+        while (i.hasNext()) {
+            Map.Entry entry = (Map.Entry) i.next();
+            content.append(entry.getKey()).append('=');
+            content.append(URLEncoder.encode((String) entry.getValue(), "utf-8"));
+
+            if (i.hasNext()) {
+                content.append("&");
+            }
+        }
+
+        out.writeBytes(content.toString());
+        out.flush();
+        out.close();
+
+        input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        StringBuffer output = new StringBuffer();
+        String line;
+
+        while (null != (line = input.readLine())) {
+            output.append(line).append('\n');
+        }
+
+        input.close();
+
+        return output.toString();
     }
 
-    protected String writeWorkflowBuffer(final String service_addr, final String docId, final String name, final String workflowBuffer, final String layoutBuffer) throws Exception {
+    protected String readLayoutBuffer(final String url, final String docId) throws Exception {
+        Map map = new HashMap();
+        map.put("docId", docId);
+        map.put("command", "layout");
+
+        return get(url, map);
+    }
+
+    protected String readWorkflowBuffer(final String url, final String docId) throws Exception {
+        Map map = new HashMap();
+        map.put("docId", docId);
+        map.put("command", "workflow");
+
+        return get(url, map);
+    }
+
+    protected String writeWorkflowDescriptor(final String url, final String docId, final String name, final String workflowXML) throws Exception {
         String ret = null;
 
-        //    OSWorkflowServiceServiceLocator service = new OSWorkflowServiceServiceLocator();
-        //    service.setOSWorkflowServiceEndpointAddress(service_addr);
-        //    OSWorkflowService srv = service.getOSWorkflowService();
-        //    if ((docId==null)||(docId.length()==0))
-        //      ret = srv.uploadWorkflow(name, workflowBuffer + x2lSeparator + layoutBuffer, true);
-        //    else
-        //      ret = srv.uploadWorkflow(docId, workflowBuffer + x2lSeparator + layoutBuffer, false);
-        //    if (ret.equals(""))
-        //    {
-        //      System.out.println("File not uploaded!");
-        //      return "";
-        //    }
-        //    System.out.println("File uploaded OK!");
-        return ret;
+        Map map = new HashMap();
+        map.put("docId", docId);
+        map.put("data", workflowXML);
+        map.put("command", "workflow");
+
+        return post(url, map);
+    }
+
+    protected String writeWorkflowLayout(final String url, final String docId, final String name, final String layoutXML) throws Exception {
+        Map map = new HashMap();
+        map.put("docId", docId);
+        map.put("data", layoutXML);
+        map.put("command", "layout");
+
+        return post(url, map);
     }
 
     protected void writeXML(WorkflowDescriptor descriptor, Writer out) {
