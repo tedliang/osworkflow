@@ -37,6 +37,13 @@ public interface Workflow {
      */
     public List getCurrentSteps(long id) throws WorkflowException;
 
+    /**
+     * Returns a list of all steps that are finished for the given workflow instance ID.
+     *
+     * @param id the ID of the workflow instance
+     * @return a List of Steps
+     * @see com.opensymphony.workflow.spi.Step
+     */
     public List getHistorySteps(long id) throws WorkflowException;
 
     /**
