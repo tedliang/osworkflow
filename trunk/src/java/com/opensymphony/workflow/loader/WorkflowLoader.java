@@ -26,7 +26,7 @@ import javax.xml.parsers.*;
  * by loading the XML from various sources.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class WorkflowLoader {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -89,7 +89,7 @@ public class WorkflowLoader {
         }
 
         private void addMessage(SAXParseException exception) {
-            exceptions.add(exception.getMessage() + " (line:" + exception.getLineNumber() + ((exception.getColumnNumber() > -1) ? (" col:" + exception.getColumnNumber()) : "") + ")");
+            exceptions.add(exception.getMessage() + " (line:" + exception.getLineNumber() + ((exception.getColumnNumber() > -1) ? (" col:" + exception.getColumnNumber()) : "") + ')');
         }
     }
 
@@ -112,7 +112,7 @@ public class WorkflowLoader {
         }
 
         private String getMessage(SAXParseException exception) {
-            return exception.getMessage() + " (" + ((url != null) ? (" url=" + url + " ") : "") + "line:" + exception.getLineNumber() + ((exception.getColumnNumber() > -1) ? (" col:" + exception.getColumnNumber()) : "") + ")";
+            return exception.getMessage() + " (" + ((url != null) ? (" url=" + url + ' ') : "") + "line:" + exception.getLineNumber() + ((exception.getColumnNumber() > -1) ? (" col:" + exception.getColumnNumber()) : "") + ')';
         }
     }
 }
