@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -250,13 +250,15 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
         this.autoExecute = "true".equals(action.getAttribute("auto"));
 
         NodeList children = action.getChildNodes();
+
         for (int i = 0; i < children.getLength(); i++) {
-          Node child = (Node) children.item(i);
-          if (child.getNodeName().equals("meta")) {
-            Element meta = (Element) child;
-            String value = XMLUtil.getText(meta);
-            this.metaAttributes.put(meta.getAttribute("name"), value);
-          }
+            Node child = (Node) children.item(i);
+
+            if (child.getNodeName().equals("meta")) {
+                Element meta = (Element) child;
+                String value = XMLUtil.getText(meta);
+                this.metaAttributes.put(meta.getAttribute("name"), value);
+            }
         }
 
         // set up validators - OPTIONAL

@@ -21,7 +21,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -221,13 +221,15 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
         name = step.getAttribute("name");
 
         NodeList children = step.getChildNodes();
+
         for (int i = 0; i < children.getLength(); i++) {
-          Node child = (Node) children.item(i);
-          if (child.getNodeName().equals("meta")) {
-            Element meta = (Element) child;
-            String value = XMLUtil.getText(meta);
-            this.metaAttributes.put(meta.getAttribute("name"), value);
-          }
+            Node child = (Node) children.item(i);
+
+            if (child.getNodeName().equals("meta")) {
+                Element meta = (Element) child;
+                String value = XMLUtil.getText(meta);
+                this.metaAttributes.put(meta.getAttribute("name"), value);
+            }
         }
 
         // set up permissions - OPTIONAL

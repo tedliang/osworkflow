@@ -28,7 +28,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -428,10 +428,11 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
         for (int i = 0; i < children.getLength(); i++) {
             Node child = (Node) children.item(i);
+
             if (child.getNodeName().equals("meta")) {
-              Element meta = (Element) child;
-              String value = XMLUtil.getText(meta);
-              this.metaAttributes.put(meta.getAttribute("name"), value);
+                Element meta = (Element) child;
+                String value = XMLUtil.getText(meta);
+                this.metaAttributes.put(meta.getAttribute("name"), value);
             }
         }
 
