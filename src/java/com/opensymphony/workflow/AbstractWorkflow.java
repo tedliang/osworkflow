@@ -112,14 +112,14 @@ public class AbstractWorkflow implements Workflow {
                     iterator.hasNext();) {
                 ActionDescriptor action = (ActionDescriptor) iterator.next();
                 RestrictionDescriptor restriction = action.getRestriction();
-                List conditions = null;
+                ConditionsDescriptor conditions = null;
 
                 if (restriction != null) {
-                    conditions = restriction.getConditions();
+                    conditions = restriction.getConditionsDescriptor();
                 }
 
                 //todo verify that 0 is the right currentStepId
-                if (passesConditions(null, conditions, transientVars, ps, 0)) {
+                if (passesConditions(conditions, transientVars, ps, 0)) {
                     l.add(new Integer(action.getId()));
                 }
             }
@@ -285,8 +285,10 @@ public class AbstractWorkflow implements Workflow {
 
                     // to have the permission, the condition must be met or not specified
                     // securities can't have restrictions based on inputs, so it's null
-                    if (passesConditions(null, security.getRestriction().getConditions(), transientVars, ps, xmlStep.getId())) {
-                        s.add(security.getName());
+                    if (security.getRestriction() != null) {
+                        if (passesConditions(security.getRestriction().getConditionsDescriptor(), transientVars, ps, xmlStep.getId())) {
+                            s.add(security.getName());
+                        }
                     }
                 }
             }
@@ -661,13 +663,13 @@ public class AbstractWorkflow implements Workflow {
         for (Iterator iterator2 = actions.iterator(); iterator2.hasNext();) {
             ActionDescriptor action = (ActionDescriptor) iterator2.next();
             RestrictionDescriptor restriction = action.getRestriction();
-            List conditions = null;
+            ConditionsDescriptor conditions = null;
 
             if (restriction != null) {
-                conditions = restriction.getConditions();
+                conditions = restriction.getConditionsDescriptor();
             }
 
-            if (passesConditions(null, conditions, Collections.unmodifiableMap(transientVars), ps, s.getId())) {
+            if (passesConditions(conditions, Collections.unmodifiableMap(transientVars), ps, s.getId())) {
                 l.add(new Integer(action.getId()));
             }
         }
@@ -920,6 +922,16 @@ public class AbstractWorkflow implements Workflow {
         }
     }
 
+    protected boolean passesConditions(ConditionsDescriptor descriptor, Map transientVars, PropertySet ps, int currentStepId) throws WorkflowException {
+        if (descriptor == null) {
+            return true;
+        }
+
+        ConditionsDescriptor conditionsDescriptor = (ConditionsDescriptor) descriptor;
+
+        return passesConditions(conditionsDescriptor.getType(), conditionsDescriptor.getConditions(), transientVars, ps, currentStepId);
+    }
+
     protected void populateTransientMap(WorkflowEntry entry, Map transientVars, List registers, Integer actionId, Collection currentSteps) throws WorkflowException {
         transientVars.put("context", context);
         transientVars.put("entry", entry);
@@ -1050,13 +1062,13 @@ public class AbstractWorkflow implements Workflow {
         }
 
         RestrictionDescriptor restriction = action.getRestriction();
-        List conditions = null;
+        ConditionsDescriptor conditions = null;
 
         if (restriction != null) {
-            conditions = restriction.getConditions();
+            conditions = restriction.getConditionsDescriptor();
         }
 
-        return passesConditions(null, conditions, Collections.unmodifiableMap(transientVars), ps, stepId);
+        return passesConditions(conditions, Collections.unmodifiableMap(transientVars), ps, stepId);
     }
 
     private Step getCurrentStep(WorkflowDescriptor wfDesc, int actionId, List currentSteps, Map transientVars, PropertySet ps) throws WorkflowException {
@@ -1089,13 +1101,13 @@ public class AbstractWorkflow implements Workflow {
         }
 
         RestrictionDescriptor restriction = actionDescriptor.getRestriction();
-        List conditions = null;
+        ConditionsDescriptor conditions = null;
 
         if (restriction != null) {
-            conditions = restriction.getConditions();
+            conditions = restriction.getConditionsDescriptor();
         }
 
-        return passesConditions(null, conditions, Collections.unmodifiableMap(transientVars), ps, 0);
+        return passesConditions(conditions, Collections.unmodifiableMap(transientVars), ps, 0);
     }
 
     private Step createNewCurrentStep(ResultDescriptor theResult, WorkflowEntry entry, WorkflowStore store, int actionId, Step currentStep, long[] previousIds, Map transientVars, PropertySet ps) throws WorkflowException {
