@@ -6,6 +6,7 @@ package com.opensymphony.workflow;
 
 import com.opensymphony.module.propertyset.PropertySet;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import java.util.Map;
@@ -17,9 +18,9 @@ import java.util.Map;
  * will be mapped to the properties parameter.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
-public interface FunctionProviderRemote {
+public interface FunctionProviderRemote extends Remote {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     /**
