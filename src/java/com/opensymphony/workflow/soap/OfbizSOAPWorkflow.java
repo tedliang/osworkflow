@@ -29,13 +29,17 @@ import javax.servlet.http.HttpServletRequest;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class OfbizSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public int[] getAvailableActions(long id) throws WorkflowException {
         return new OfbizWorkflow(getRemoteUser()).getAvailableActions(id);
+    }
+
+    public int[] getAvailableActions(long id, Map inputs) throws WorkflowException {
+        return new OfbizWorkflow(getRemoteUser()).getAvailableActions(id, inputs);
     }
 
     public List getCurrentSteps(long id) throws StoreException, FactoryException {

@@ -30,7 +30,7 @@ import javax.naming.NamingException;
  * This class acts as a wrapper around a workflow session bean.
  *
  * @author plightbo
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class EJBWorkflow implements Workflow {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -72,6 +72,15 @@ public class EJBWorkflow implements Workflow {
     public int[] getAvailableActions(long id) throws WorkflowException {
         try {
             return wf.getAvailableActions(id);
+        } catch (RemoteException e) {
+            log.error("Error getting available actions", e);
+            throw new WorkflowException(e);
+        }
+    }
+
+    public int[] getAvailableActions(long id, Map inputs) throws WorkflowException {
+        try {
+            return wf.getAvailableActions(id, inputs);
         } catch (RemoteException e) {
             log.error("Error getting available actions", e);
             throw new WorkflowException(e);
