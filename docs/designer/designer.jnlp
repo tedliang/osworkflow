@@ -19,7 +19,7 @@
     <jar href="forms.jar" main="false"/>
     <jar href="commons-logging.jar" main="false"/>
     <jar href="jgraph.jar" main="false"/>
-    <jar href="looks-all.jar" main="false"/>
+    <jar href="looks.jar" main="false"/>
   </resources>
 
   <application-desc main-class="com.opensymphony.workflow.designer.WorkflowDesigner">
