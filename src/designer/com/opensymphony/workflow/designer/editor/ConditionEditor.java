@@ -73,7 +73,7 @@ public abstract class ConditionEditor
     }
     else
     {
-      condition = new ConfigConditionDescriptor();
+      condition = new ConfigConditionDescriptor(getModel().getPalette());
       condition.setType(cond.getType());
     }
 

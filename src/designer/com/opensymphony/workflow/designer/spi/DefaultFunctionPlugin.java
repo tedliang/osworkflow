@@ -26,7 +26,7 @@ public class DefaultFunctionPlugin implements FunctionPlugin
 
   public boolean editFunction(Map args)
   {
-    Map newArg = DialogUtils.getMapDialog(func, func.getType(), func.getDisplayName(), func.getDescription(), null);
+    Map newArg = DialogUtils.getMapDialog(func, func.getType(), null);
     if(newArg == null)
     {
       return false;

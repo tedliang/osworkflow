@@ -1,9 +1,6 @@
 package com.opensymphony.workflow.designer.swing;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.swing.*;
 
@@ -24,15 +21,15 @@ public class MapPanel extends JPanel
     return edits;
   }
 
-  public MapPanel(ArgsAware descriptor, String type, String name, String description, String owner)
+  public MapPanel(final ArgsAware descriptor, String type, String owner)
   {
     FormLayout layout = new FormLayout("2dlu, left:max(40dlu;pref), 3dlu, 110dlu:grow, 7dlu");
 		DefaultFormBuilder builder = new DefaultFormBuilder(this, layout, ResourceManager.getBundle());
 	  builder.setLeadingColumnOffset(1);
     builder.appendI15dSeparator("info");
     builder.appendI15d("type", new JLabel(noNull(type)));
-	  builder.appendI15d("name", new JLabel(noNull(name)));
-	  builder.appendI15d("description", new JLabel(noNull(description)));
+	  builder.appendI15d("name", new JLabel(noNull(descriptor.getName())));
+	  builder.appendI15d("description", new JLabel(noNull(descriptor.getDescription())));
 		if(owner!=null)
 		{
 			JTextField tf = new JTextField(15);
@@ -46,7 +43,22 @@ public class MapPanel extends JPanel
       builder.appendI15dSeparator("args");
     }
 
-    Set keys = args.keySet();
+    List keys = new ArrayList(args.keySet());
+	  Collections.sort(keys, new Comparator()
+	  {
+		  public int compare(Object o1, Object o2)
+		  {
+			  String key1 = (String)o1;
+			  String key2 = (String)o2;
+			  boolean mod1 = descriptor.isArgModifiable(key1);
+			  boolean mod2 = descriptor.isArgModifiable(key2);
+			  if(mod1 && !mod2) return 1;
+			  if(mod2 && !mod1) return -1;
+			  String value1 =  descriptor.getPalette().getBundle().getString(descriptor.getName() + "." + key1, key1);
+			  String value2 =  descriptor.getPalette().getBundle().getString(descriptor.getName() + "." + key2, key2);
+			  return value1.compareTo(value2);
+		  }
+	  });
     Iterator iter = keys.iterator();
     while(iter.hasNext())
     {
@@ -56,7 +68,8 @@ public class MapPanel extends JPanel
       {
         field.setText((String)args.get(key));
       }
-	    builder.append(key, field);
+	    String value = descriptor.getPalette().getBundle().getString(descriptor.getName() + "." + key, key);
+	    builder.append(value, field);
       edits.put(key, field);
     }
   }

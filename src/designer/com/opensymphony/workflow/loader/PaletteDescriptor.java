@@ -3,10 +3,11 @@ package com.opensymphony.workflow.loader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import com.opensymphony.workflow.designer.swing.EnhancedResourceBundle;
+import com.opensymphony.workflow.designer.ResourceManager;
 
 /**
  * @author jackflit
@@ -21,9 +22,9 @@ public class PaletteDescriptor extends AbstractDescriptor
   protected List resultList = new ArrayList();
   protected String defaultOldStatus = null;
   protected String defaultNextStatus = null;
-	private ResourceBundle bundle;
+	private EnhancedResourceBundle bundle;
 
-	public PaletteDescriptor(Element root, ResourceBundle bundle)
+	public PaletteDescriptor(Element root, EnhancedResourceBundle bundle)
   {
 	  this.bundle = bundle;
     init(root);
@@ -173,7 +174,7 @@ public class PaletteDescriptor extends AbstractDescriptor
       for(int i = 0; i < joins.getLength(); i++)
       {
         Element condition = (Element)joins.item(i);
-        ConfigConditionDescriptor jcd = new ConfigConditionDescriptor(condition);
+        ConfigConditionDescriptor jcd = new ConfigConditionDescriptor(this, condition);
 	      jcd.setDescription(bundle.getString(jcd.getName() + ".long"));
 	      jcd.setDisplayName(bundle.getString(jcd.getName()));
         jcd.setParent(this);
@@ -189,7 +190,7 @@ public class PaletteDescriptor extends AbstractDescriptor
       for(int i = 0; i < joins.getLength(); i++)
       {
         Element function = (Element)joins.item(i);
-        ConfigFunctionDescriptor pd = new ConfigFunctionDescriptor(function);
+        ConfigFunctionDescriptor pd = new ConfigFunctionDescriptor(this, function);
 	      pd.setDescription(bundle.getString(pd.getName() + ".long"));
 	      pd.setDisplayName(bundle.getString(pd.getName()));
         pd.setParent(this);
@@ -205,7 +206,7 @@ public class PaletteDescriptor extends AbstractDescriptor
       for(int i = 0; i < joins.getLength(); i++)
       {
         Element condition = (Element)joins.item(i);
-        PermissionConditionDescriptor pcd = new PermissionConditionDescriptor(condition);
+        PermissionConditionDescriptor pcd = new PermissionConditionDescriptor(this, condition);
 	      pcd.setDescription(bundle.getString(pcd.getName() + ".long"));
 	      pcd.setDisplayName(bundle.getString(pcd.getName()));
         pcd.setParent(this);
@@ -221,7 +222,7 @@ public class PaletteDescriptor extends AbstractDescriptor
       for(int i = 0; i < joins.getLength(); i++)
       {
         Element condition = (Element)joins.item(i);
-        ConfigConditionDescriptor rcd = new ConfigConditionDescriptor(condition);
+        ConfigConditionDescriptor rcd = new ConfigConditionDescriptor(this, condition);
 	      rcd.setDescription(bundle.getString(rcd.getName() + ".long"));
 	      rcd.setDisplayName(bundle.getString(rcd.getName()));
         rcd.setParent(this);
@@ -231,4 +232,8 @@ public class PaletteDescriptor extends AbstractDescriptor
 
   }
 
+	public EnhancedResourceBundle getBundle()
+	{
+		return bundle;
+	}
 }

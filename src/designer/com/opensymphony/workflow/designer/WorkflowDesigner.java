@@ -387,7 +387,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 	    ResourceBundle bundle = ResourceBundle.getBundle("META-INF/palette", Locale.getDefault(), getClass().getClassLoader());
       Element root = (Element)doc.getElementsByTagName("plugin").item(0);
 
-      palette = new PaletteDescriptor(root, bundle);
+      palette = new PaletteDescriptor(root, new EnhancedResourceBundle(bundle));
     }
     catch(SAXException e)
     {

@@ -1,82 +1,55 @@
 package com.opensymphony.workflow.designer;
 
 import java.io.*;
-import java.net.URL;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.text.MessageFormat;
-import java.text.FieldPosition;
 import javax.swing.*;
+
+import com.opensymphony.workflow.designer.swing.EnhancedResourceBundle;
 
 public final class ResourceManager
 {
   private static final ResourceManager INSTANCE = new ResourceManager();
 
-  private ResourceBundle bundle;
-
-  private ClassLoader loader = ResourceManager.class.getClassLoader();
+  private EnhancedResourceBundle bundle;
 
   private ResourceManager()
   {
-    bundle = ResourceBundle.getBundle(getClass().getName());
+    bundle = new EnhancedResourceBundle(getClass().getName());
   }
 
   public static ResourceBundle getBundle()
   {
-    return INSTANCE.bundle;
+    return INSTANCE.bundle.getBundle();
   }
 
   public static String getString(String key)
   {
-    try
-    {
-      return INSTANCE.bundle.getString(key);
-    }
-    catch(MissingResourceException e)
-    {
-      return key;
-    }
+	  return getString(key, key);
   }
+
+	public static String getString(String key, String defaultValue)
+	{
+		return INSTANCE.bundle.getString(key);
+	}
 
   public static String getString(String key, Object args)
   {
-
-    try
-    {
-      String value = INSTANCE.bundle.getString(key);
-      MessageFormat format = new MessageFormat(value);
-      return format.format(args, new StringBuffer(), new FieldPosition(0)).toString();
-    }
-    catch(MissingResourceException e)
-    {
-      return key;
-    }
+	  return INSTANCE.bundle.getString(key, args);
   }
 
   public static ImageIcon getIcon(String key)
   {
-    String path = getString("image." + key);
-    if(path == null)
-    {
-      return null;
-    }
-    else if(path.length() == 0)
-    {
-      return null;
-    }
-    else
-      return readImageIcon(path);
+	  return INSTANCE.bundle.getIcon(key);
   }
 
   public static InputStream getInputStream(String path)
   {
-    return INSTANCE.loader.getResourceAsStream(path);
+    return INSTANCE.bundle.getInputStream(path);
   }
 
   public static ImageIcon readImageIcon(String path)
   {
-    URL url = INSTANCE.loader.getResource(path);
-    return null == url ? null : new ImageIcon(url);
+	  return INSTANCE.bundle.readImageIcon(path);
   }
 
   public static String readTextFromFile(String path)
@@ -113,5 +86,4 @@ public final class ResourceManager
       }
     }
   }
-
 }

@@ -29,9 +29,9 @@ public class DialogUtils
       null);							// initial select
   }
 
-  public static Map getMapDialog(ArgsAware descriptor, String type, String name, String description, String owner)
+  public static Map getMapDialog(ArgsAware descriptor, String type, String owner)
   {
-    MapPanel panel = new MapPanel(descriptor, type, name, description, owner);
+    MapPanel panel = new MapPanel(descriptor, type, owner);
     JOptionPane pane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
     JDialog dialog = pane.createDialog(null, ResourceManager.getString("specify.properties"));
 	  dialog.setResizable(true);
@@ -46,7 +46,6 @@ public class DialogUtils
     {
       return null;
     }
-
     Map edits = panel.getEdits();
     Map args = descriptor.getArgs();
     Set keys = args.keySet();
@@ -58,7 +57,6 @@ public class DialogUtils
       String newValue = field.getText();
       args.put(key, newValue);
     }
-
     return args;
   }
 }

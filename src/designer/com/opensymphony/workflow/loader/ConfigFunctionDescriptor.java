@@ -17,13 +17,16 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor implements Args
   protected String description;
 	protected String displayName;
   protected List modifiableArgs = new ArrayList();
+	private PaletteDescriptor palette;
 
-  public ConfigFunctionDescriptor()
+  public ConfigFunctionDescriptor(PaletteDescriptor palette)
   {
+	  this.palette = palette;
   }
 
-  public ConfigFunctionDescriptor(Element function)
+  public ConfigFunctionDescriptor(PaletteDescriptor palette, Element function)
   {
+	  this.palette = palette;
     init(function);
   }
 
@@ -36,7 +39,18 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor implements Args
 	  displayName = other.displayName;
 	  description = other.description;
     modifiableArgs = other.modifiableArgs;
+	  palette = other.palette;
   }
+
+	public PaletteDescriptor getPalette()
+	{
+		return palette;
+	}
+
+	public void setPalette(PaletteDescriptor palette)
+	{
+		this.palette = palette;
+	}
 
   public void writeXML(PrintWriter writer, int indent)
   {
