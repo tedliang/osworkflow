@@ -2,8 +2,6 @@ package com.opensymphony.workflow.designer;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.awt.*;
 import javax.swing.*;
 
 /**
