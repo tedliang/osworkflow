@@ -43,70 +43,84 @@ public class StepEditor extends DetailPanel implements ActionListener
 
   protected void initComponents()
   {
-    FormLayout layout = new FormLayout("2dlu, max(30dlu;pref), 2dlu, pref:grow, 4dlu", "pref, 2dlu, " + // 1 Info
-      "pref, 2dlu, " + // 3 ID
-      "pref, 2dlu, " + // 5 Name
-      "pref, 2dlu, " + // 7 View
-      "pref, 2dlu, " + // 9 auto
-      "pref, 2dlu, " + // 11 permission
-      "pref, 2dlu, " + // 13 type
-      "40dlu:grow, " + // 15 table
-      "pref, 2dlu, " + // 16 buttons
-      "pref, 2dlu, " + // 18 pre-function
-      "40dlu:grow, " + // 20 table
-      "pref, 2dlu, " + // 21 buttons
-      "pref, 2dlu, " + // 23 post-function
-      "40dlu:grow, " + // 25 table
-      "pref, 2dlu");	 // 26 buttons
+		String colLayout = "2dlu, max(32dlu;pref), 2dlu, pref:grow, 4dlu";
+		String rowLayout = "4dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref";
 
-	StepCell cell = (StepCell)getCell();
+    StepCell cell = (StepCell)getCell();
 
-    PanelBuilder builder = new PanelBuilder(this, layout);
+		//FormLayout layout = new FormLayout("2dlu, 50dlu:grow, 2dlu", "2dlu, pref, 2dlu");
+		FormLayout layout = new FormLayout("2dlu, pref:grow, 2dlu", "2dlu, pref, 2dlu");
+		PanelBuilder builder = new PanelBuilder(this, layout);
+
+		JTabbedPane tabbedPane = new JTabbedPane();
+
     CellConstraints cc = new CellConstraints();
 
-    builder.addSeparator(ResourceManager.getString("info"), cc.xywh(2, 1, 3, 1));
+    // Tab1 (Info)
+		FormLayout layoutInfo = new FormLayout(colLayout, rowLayout);
+		JPanel panelInfo = new JPanel();
+		PanelBuilder builderInfo = new PanelBuilder(panelInfo, layoutInfo);
 
-    builder.addLabel(ResourceManager.getString("id"), cc.xy(2, 3));
+    builderInfo.addLabel(ResourceManager.getString("id"), cc.xy(2, 2));
     connector.connect(id, "id");
-    builder.add(id, cc.xy(4, 3));
+    builderInfo.add(id, cc.xy(4, 2));
 
-    builder.addLabel(ResourceManager.getString("name"), cc.xy(2, 5));
+    builderInfo.addLabel(ResourceManager.getString("name"), cc.xy(2, 4));
     connector.connect(name, "name");
-    builder.add(name, cc.xy(4, 5));
+    builderInfo.add(name, cc.xy(4, 4));
 
-    builder.addLabel(ResourceManager.getString("view"), cc.xy(2, 7));
+    builderInfo.addLabel(ResourceManager.getString("view"), cc.xy(2, 6));
     connector.connect(view, "actions[0].view");
-    builder.add(view, cc.xy(4, 7));
+    builderInfo.add(view, cc.xy(4, 6));
 
-    builder.addLabel(ResourceManager.getString("auto"), cc.xy(2, 9));
+    builderInfo.addLabel(ResourceManager.getString("auto"), cc.xy(2, 8));
     connector.connect(auto, "actions[0].autoExecute");
-    builder.add(auto, cc.xy(4, 9));
+    builderInfo.add(auto, cc.xy(4, 8));
 
-    builder.addSeparator(ResourceManager.getString("permissions"), cc.xywh(2, 11, 3, 1));
+		tabbedPane.add(ResourceManager.getString("info"), panelInfo);
 
-    builder.addLabel(ResourceManager.getString("type"), cc.xy(2, 13));
+		// Tab2 (Permissions)
+		FormLayout layoutPerm = new FormLayout(colLayout, rowLayout);
+		JPanel panelPerm = new JPanel();
+		PanelBuilder builderPerm = new PanelBuilder(panelPerm, layoutPerm);
+
+    builderPerm.addLabel(ResourceManager.getString("type"), cc.xy(2, 2));
     connector.connect(restrict, "restriction/conditionType");
-    builder.add(restrict, cc.xy(4, 13));
+    builderPerm.add(restrict, cc.xy(4, 2));
 
     conditionsTable = new JTable(conditionsModel);
     conditionsModel.setType(ConditionsTableModel.PERMISSION);
     conditionsModel.setGraphModel(getModel());
-    builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 15, 3, 1));
-    builder.add(UIFactory.getAddRemovePropertiesBar(this, "permission", BUTTONS), cc.xywh(2, 16, 3, 1));
+    builderPerm.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 4, 3, 1));
+    builderPerm.add(UIFactory.getAddRemovePropertiesBar(this, "permission", BUTTONS), cc.xywh(2, 6, 3, 1));
 
-    builder.addSeparator(ResourceManager.getString("prefunctions"), cc.xywh(2, 18, 3, 1));
+		tabbedPane.add(ResourceManager.getString("permissions"), panelPerm);
+
+		// Tab3 (pre-functions)
+		FormLayout layoutPrefunc = new FormLayout(colLayout, rowLayout);
+		JPanel panelPrefunc = new JPanel();
+		PanelBuilder builderPrefunc = new PanelBuilder(panelPrefunc, layoutPrefunc);
 
     pre = new JTable(preModel);
     preModel.setGraphModel(getModel());
-    builder.add(UIFactory.createTablePanel(pre), cc.xywh(2, 20, 3, 1));
-    builder.add(UIFactory.getAddRemovePropertiesBar(this, "pre", BUTTONS), cc.xywh(2, 21, 3, 1));
+    builderPrefunc.add(UIFactory.createTablePanel(pre), cc.xywh(2, 2, 3, 1));
+    builderPrefunc.add(UIFactory.getAddRemovePropertiesBar(this, "pre", BUTTONS), cc.xywh(2, 4, 3, 1));
 
-    builder.addSeparator(ResourceManager.getString("postfunctions"), cc.xywh(2, 23, 3, 1));
+		tabbedPane.add(ResourceManager.getString("prefunctions"), panelPrefunc);
+
+		// Tab4 (post-functions)
+		FormLayout layoutPostfunc = new FormLayout(colLayout, rowLayout);
+		JPanel panelPostfunc = new JPanel();
+		PanelBuilder builderPostfunc = new PanelBuilder(panelPostfunc, layoutPostfunc);
 
     post = new JTable(postModel);
     postModel.setGraphModel(getModel());
-    builder.add(UIFactory.createTablePanel(post), cc.xywh(2, 25, 3, 1));
-    builder.add(UIFactory.getAddRemovePropertiesBar(this, "post", BUTTONS), cc.xywh(2, 26, 3, 1));
+    builderPostfunc.add(UIFactory.createTablePanel(post), cc.xywh(2, 2, 3, 1));
+    builderPostfunc.add(UIFactory.getAddRemovePropertiesBar(this, "post", BUTTONS), cc.xywh(2, 4, 3, 1));
+
+    tabbedPane.add(ResourceManager.getString("postfunctions"), panelPostfunc);
+
+		builder.add(tabbedPane, cc.xy(2,2));
   }
 
   public void actionPerformed(ActionEvent e)

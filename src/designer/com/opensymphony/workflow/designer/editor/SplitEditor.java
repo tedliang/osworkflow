@@ -21,15 +21,39 @@ public class SplitEditor extends DetailPanel
 
   protected void initComponents()
   {
-    FormLayout layout = new FormLayout("2dlu, max(30dlu;pref), 2dlu, pref:grow, 4dlu", "pref, 2dlu, pref, 3dlu, pref, 2dlu, 60dlu, 2dlu");
+		String colLayout = "2dlu, max(32dlu;pref), 2dlu, pref:grow, 4dlu";
+		String rowLayout = "4dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref";
+
+		JTabbedPane tabbedPane = new JTabbedPane();
+		CellConstraints cc = new CellConstraints();
+
+    //FormLayout layout = new FormLayout("2dlu, max(30dlu;pref), 2dlu, pref:grow, 4dlu", "pref, 2dlu, pref, 3dlu, pref, 2dlu, 60dlu, 2dlu");
+		FormLayout layout = new FormLayout("2dlu, 50dlu:grow, 2dlu", "2dlu, pref, 2dlu");
     PanelBuilder builder = new PanelBuilder(this, layout);
-    CellConstraints cc = new CellConstraints();
-    builder.addSeparator(ResourceManager.getString("info"), cc.xywh(2, 1, 4, 1));
-    builder.addLabel(ResourceManager.getString("id"), cc.xy(2, 3));
-    builder.add(id, cc.xy(4, 3));
-    builder.addSeparator(ResourceManager.getString("results"), cc.xywh(2, 5, 3, 1));
+
+    // Tab1 (Info)
+		FormLayout layoutInfo = new FormLayout(colLayout, rowLayout);
+		JPanel panelInfo = new JPanel();
+		PanelBuilder builderInfo = new PanelBuilder(panelInfo, layoutInfo);
+    //builderInfo.addSeparator(ResourceManager.getString("info"), cc.xywh(2, 1, 4, 1));
+    builderInfo.addLabel(ResourceManager.getString("id"), cc.xy(2, 2));
+    builderInfo.add(id, cc.xy(4, 2));
+
+    tabbedPane.add(ResourceManager.getString("info"), panelInfo);
+
+    // Tab2 (Results)
+		FormLayout layoutResult = new FormLayout(colLayout, rowLayout);
+		JPanel panelResult = new JPanel();
+		PanelBuilder builderResult = new PanelBuilder(panelResult, layoutResult);
+
+    //builder.addSeparator(ResourceManager.getString("results"), cc.xywh(2, 5, 3, 1));
     JTable actionsTable = new JTable(resultsModel);
-    builder.add(UIFactory.createTablePanel(actionsTable), cc.xywh(2, 7, 3, 1));
+    builderResult.add(UIFactory.createTablePanel(actionsTable), cc.xywh(2, 2, 3, 1));
+
+    tabbedPane.add(ResourceManager.getString("results"), panelResult);
+
+    builder.add(tabbedPane, cc.xy(2,2));
+
   }
 
   public String getTitle()

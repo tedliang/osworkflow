@@ -14,6 +14,7 @@ public abstract class DetailPanel extends JPanel
   private WorkflowCell cell;
   private WorkflowEdge edge;
   private WorkflowGraphModel model;
+  private WorkflowGraph graph;
 
   private boolean componentsInited = false;
 
@@ -44,6 +45,16 @@ public abstract class DetailPanel extends JPanel
   public void setModel(WorkflowGraphModel model)
   {
     this.model = model;
+  }
+
+  public WorkflowGraph getGraph()
+  {
+  	return graph;
+  }
+
+  public void setGraph(WorkflowGraph graph)
+  {
+  	this.graph = graph;
   }
 
   public final void setCell(WorkflowCell cell)

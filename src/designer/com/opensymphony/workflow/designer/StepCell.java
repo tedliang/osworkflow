@@ -1,7 +1,3 @@
-/**
- * Created on Feb 3, 2003
- * Copyright (C) 2002  Aditisoft Inc
- */
 package com.opensymphony.workflow.designer;
 
 import java.util.Iterator;
@@ -14,9 +10,6 @@ import com.opensymphony.workflow.loader.ResultDescriptor;
 import com.opensymphony.workflow.loader.StepDescriptor;
 import org.jgraph.graph.GraphConstants;
 
-/**
- * @author apatel
- */
 public class StepCell extends WorkflowCell implements ResultAware
 {
   private StepDescriptor descriptor;
@@ -33,7 +26,7 @@ public class StepCell extends WorkflowCell implements ResultAware
 
   public String toString()
   {
-    return descriptor.getName() + " " + descriptor.getId();
+    return descriptor.getName();// + " " + descriptor.getId();
   }
 
   public String getName()

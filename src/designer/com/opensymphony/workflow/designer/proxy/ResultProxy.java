@@ -39,20 +39,27 @@ public class ResultProxy implements DefaultGraphCell.ValueChangeHandler
 
   public Object valueChanged(Object newValue)
   {
-    if(result == null) return "";
-    String name = result.getDisplayName();
-    if(name == null) return "";
-
-    if((name != null) && (name.length() > 0))
+    if(newValue instanceof String)
     {
+      if(result == null) return "";
+      String name = result.getDisplayName();
+      boolean hasNickname = (name != null);
+      if(hasNickname) hasNickname &= (name.length() > 0);
+      if((!hasNickname) && (result.getParent() instanceof ActionDescriptor))
+      {
+        if(((ActionDescriptor)result.getParent()).getConditionalResults() != null)
+        {
+          if(((ActionDescriptor)result.getParent()).getConditionalResults().isEmpty())
+          {
+            ((ActionDescriptor)result.getParent()).setName(newValue.toString());
+            return (name != null) ? name : "";
+          }
+        }
+      }
       result.setDisplayName(newValue.toString());
-      return name;
+      return (name != null) ? name : "";
     }
-    if(result.getParent() instanceof ActionDescriptor)
-    {
-      ((ActionDescriptor)result.getParent()).setName(newValue.toString());
-    }
-    return name;
+    return newValue;
   }
 
   public Object clone()

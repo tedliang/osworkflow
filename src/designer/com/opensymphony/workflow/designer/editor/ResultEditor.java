@@ -41,69 +41,86 @@ public class ResultEditor extends DetailPanel implements ActionListener
 
   protected void initComponents()
   {
-	String colLayout = "2dlu, max(32dlu;pref), 2dlu, pref:grow, 4dlu";
+		String colLayout = "2dlu, max(32dlu;pref), 2dlu, pref:grow, 4dlu";
+		String rowLayout = "4dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref";
 
-	String rowLayout = "pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 4dlu,pref, 2dlu, 40dlu:grow, pref, 2dlu, pref, 2dlu, 40dlu:grow, pref, 2dlu";
+		FormLayout layout = new FormLayout("2dlu, 50dlu:grow, 2dlu", "2dlu, pref, 2dlu");
+		PanelBuilder builder = new PanelBuilder(this, layout);
 
-	//		ResultEdge edge = (ResultEdge)getEdge();
-	//		ResultDescriptor descriptor = edge.getDescriptor();
-	//		if(isConditional()){
-	rowLayout += ", pref, 2dlu, pref, 2dlu, 40dlu:grow, pref, 2dlu";
-	//		}
+		JTabbedPane tabbedPane = new JTabbedPane();
 
-	FormLayout layout = new FormLayout(colLayout, rowLayout);
+		CellConstraints cc = new CellConstraints();
 
-	PanelBuilder builder = new PanelBuilder(this, layout);
-	CellConstraints cc = new CellConstraints();
+		// Tab1 (info)
+		FormLayout layoutInfo = new FormLayout(colLayout, rowLayout);
+		JPanel panelInfo = new JPanel();
+		PanelBuilder builderInfo = new PanelBuilder(panelInfo, layoutInfo);
 
-	builder.addSeparator(ResourceManager.getString("info"), cc.xywh(2, 1, 3, 1));
+		builderInfo.addLabel(ResourceManager.getString("id"), cc.xy(2, 2));
+		builderInfo.add(id, cc.xy(4, 2));
+		connector.connect(id, "id");
 
-	builder.addLabel(ResourceManager.getString("id"), cc.xy(2, 3));
-	builder.add(id, cc.xy(4, 3));
-	connector.connect(id, "id");
+		builderInfo.addLabel(ResourceManager.getString("display.name"), cc.xy(2, 4));
+		connector.connect(displayName, "displayName");
+		builderInfo.add(displayName, cc.xy(4, 4));
 
-	builder.addLabel(ResourceManager.getString("display.name"), cc.xy(2, 5));
-	connector.connect(displayName, "displayName");
-	builder.add(displayName, cc.xy(4, 5));
+		builderInfo.addLabel(ResourceManager.getString("owner"), cc.xy(2, 6));
+		connector.connect(owner, "owner");
+		builderInfo.add(owner, cc.xy(4, 6));
 
-	builder.addLabel(ResourceManager.getString("owner"), cc.xy(2, 7));
-	connector.connect(owner, "owner");
-	builder.add(owner, cc.xy(4, 7));
+		builderInfo.addLabel(ResourceManager.getString("status"), cc.xy(2, 8));
+		builderInfo.add(status, cc.xy(4, 8));
+		connector.connect(status, "status");
 
-	builder.addLabel(ResourceManager.getString("status"), cc.xy(2, 9));
-	builder.add(status, cc.xy(4, 9));
-	connector.connect(status, "status");
+		builderInfo.addLabel(ResourceManager.getString("status.old"), cc.xy(2, 10));
+		builderInfo.add(oldStatus, cc.xy(4, 10));
+		connector.connect(oldStatus, "oldStatus");
 
-	builder.addLabel(ResourceManager.getString("status.old"), cc.xy(2, 11));
-	builder.add(oldStatus, cc.xy(4, 11));
-	connector.connect(oldStatus, "oldStatus");
+		tabbedPane.add(ResourceManager.getString("info"), panelInfo);
 
-	builder.addSeparator(ResourceManager.getString("prefunctions"), cc.xywh(2, 13, 3, 1));
-	preFunctionsTable = new JTable(preFunctionsModel);
-	preFunctionsModel.setGraphModel(getModel());
-	builder.add(UIFactory.createTablePanel(preFunctionsTable), cc.xywh(2, 15, 3, 1));
-	builder.add(UIFactory.getAddRemovePropertiesBar(this, "pre", BUTTONS), cc.xywh(2, 16, 3, 1));
+		// Tab2 (pre-functions)
+		FormLayout layoutPrefunc = new FormLayout(colLayout, rowLayout);
+		JPanel panelPrefunc = new JPanel();
+		PanelBuilder builderPrefunc = new PanelBuilder(panelPrefunc, layoutPrefunc);
 
-	builder.addSeparator(ResourceManager.getString("postfunctions"), cc.xywh(2, 18, 3, 1));
-	postFunctionsTable = new JTable(postFunctionsModel);
-	postFunctionsModel.setGraphModel(getModel());
-	builder.add(UIFactory.createTablePanel(postFunctionsTable), cc.xywh(2, 20, 3, 1));
-	builder.add(UIFactory.getAddRemovePropertiesBar(this, "post", BUTTONS), cc.xywh(2, 21, 3, 1));
+		preFunctionsTable = new JTable(preFunctionsModel);
+		preFunctionsModel.setGraphModel(getModel());
+		builderPrefunc.add(UIFactory.createTablePanel(preFunctionsTable), cc.xywh(2, 2, 3, 1));		// 2, 15, 3, 1
+		builderPrefunc.add(UIFactory.getAddRemovePropertiesBar(this, "pre", BUTTONS), cc.xywh(2, 4, 3, 1));	// 2, 16, 3, 1
 
-	//		if(isConditional()){
-	builder.addSeparator(ResourceManager.getString("conditions"), cc.xywh(2, 23, 3, 1));
+		tabbedPane.add(ResourceManager.getString("prefunctions"), panelPrefunc);
 
-	builder.addLabel(ResourceManager.getString("type"), cc.xy(2, 25));
-	connector.connect(type, "conditionType");
-	builder.add(type, cc.xy(4, 25));
+		// Tab3 (post-functions)
+		FormLayout layoutPostfunc = new FormLayout(colLayout, rowLayout);
+		JPanel panelPostfunc = new JPanel();
+		PanelBuilder builderPostfunc = new PanelBuilder(panelPostfunc, layoutPostfunc);
 
-	conditionsTable = new JTable(conditionsModel);
-	conditionsModel.setGraphModel(getModel());
-	conditionsModel.setType(ConditionsTableModel.RESULT);
-	builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 27, 3, 1));
-	panel = UIFactory.getAddRemovePropertiesBar(this, "condition", BUTTONS);
-	builder.add(panel, cc.xywh(2, 28, 3, 1));
-	//		}
+		postFunctionsTable = new JTable(postFunctionsModel);
+		postFunctionsModel.setGraphModel(getModel());
+		builderPostfunc.add(UIFactory.createTablePanel(postFunctionsTable), cc.xywh(2, 2, 3, 1));		// 2, 20, 3, 1
+		builderPostfunc.add(UIFactory.getAddRemovePropertiesBar(this, "post", BUTTONS), cc.xywh(2, 4, 3, 1));	// 2, 21, 3, 1
+
+		tabbedPane.add(ResourceManager.getString("postfunctions"), panelPostfunc);
+
+		// Tab4 (conditions)
+		FormLayout layoutCond = new FormLayout(colLayout, rowLayout);
+		JPanel panelCond = new JPanel();
+		PanelBuilder builderCond = new PanelBuilder(panelCond, layoutCond);
+
+		builderCond.addLabel(ResourceManager.getString("type"), cc.xy(2, 2));	// 2, 25
+		connector.connect(type, "conditionType");
+		builderCond.add(type, cc.xy(4, 2));		// 4, 25
+
+		conditionsTable = new JTable(conditionsModel);
+		conditionsModel.setGraphModel(getModel());
+		conditionsModel.setType(ConditionsTableModel.RESULT);
+		builderCond.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 4, 3, 1));	// 2, 27, 3, 1
+		panel = UIFactory.getAddRemovePropertiesBar(this, "condition", BUTTONS);
+		builderCond.add(panel, cc.xywh(2, 6, 3, 1));		// 2, 28, 3, 1
+
+		tabbedPane.add(ResourceManager.getString("conditions"), panelCond);
+
+		builder.add(tabbedPane, cc.xy(2,2));
   }
 
   public String getTitle()
@@ -143,6 +160,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
       setConditional(false);
     }
     connector.setSource(descriptor);
+    connector.setPanel(this);
   }
 
   public void actionPerformed(ActionEvent e)

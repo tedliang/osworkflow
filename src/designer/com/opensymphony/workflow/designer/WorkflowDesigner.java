@@ -50,6 +50,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
   private CardPanel detailPanel = new CardPanel();
   private FramePanel detailFramePanel;
   private FramePanel relationshipsFramePanel;
+  private Object currentDetailObject = null;
+  private Object currentRelationsObject = null;
   public static WorkflowDesigner INSTANCE = null;
   private PaletteDescriptor palette = null;
   public StatusBar statusBar;
@@ -65,28 +67,29 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     JScrollPane sp = new JScrollPane(detailPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     detailFramePanel = new FramePanel(ResourceManager.getString("details"), false);
     detailFramePanel.setContent(sp);
-	relationshipsNavigator = new RelationshipsNavigator(this);
+		relationshipsNavigator = new RelationshipsNavigator(this);
 
     splash.setProgress(40);
     loadPalette();
-	splash.setProgress(50);
+		splash.setProgress(50);
 
     // create workspace view
     FramePanel flowsPanel = new FramePanel(ResourceManager.getString("workspace"), false);
     flowsPanel.setContent(new JScrollPane(navigator));
 
-	// create workspace view
-	relationshipsFramePanel = new FramePanel(ResourceManager.getString("relationships"), false);
-	relationshipsFramePanel.setContent(new JScrollPane(relationshipsNavigator));
+		// create workspace view
+		relationshipsFramePanel = new FramePanel(ResourceManager.getString("relationships"), false);
+		relationshipsFramePanel.setContent(new JScrollPane(relationshipsNavigator));
 
     // layout
-	detailsRelationsSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, relationshipsFramePanel, detailFramePanel);
-	leftSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, flowsPanel, detailsRelationsSplitPane);
+		detailsRelationsSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, relationshipsFramePanel, detailFramePanel);
+		//leftSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, testSplitPane, flowsPanel);
+		leftSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, flowsPanel, detailsRelationsSplitPane);
     mainSplitPane = new EmptyBorderSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSplitPane, new JScrollPane(graphTabs));
     graphTabs.setVisible(false);
     mainSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.MAIN_DIVIDER_LOCATION, 150));
     leftSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 50));
-	detailsRelationsSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 150));
+		detailsRelationsSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 150));
 
     splash.setProgress(60);
     //Provide a preferred size for the split pane
@@ -259,8 +262,24 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     }
   }
 
+  public void refreshUI()
+  {
+  	if (currentDetailObject!=null)
+  	{
+  		showDetails(currentDetailObject);
+  	}
+  	if (currentRelationsObject!=null)
+  	{
+		relationshipsFramePanel.repaint();
+  		WorkflowGraph currentGraph = graphTabs.getCurrentGraph();
+		String title = currentGraph.convertValueToString(currentRelationsObject);
+		relationshipsFramePanel.setTitle(ResourceManager.getString("relationships") + (title != null ? (" - " + title) : ""));
+  	}
+  }
+
   public void showDetails(Object node)
   {
+	  currentDetailObject = node;
     String panelName = node.getClass().getName();
     DetailPanel current = (DetailPanel)detailPanel.getVisibleCard();
     if(current != null) current.closeView();
@@ -297,6 +316,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     {
       WorkflowGraph currentGraph = graphTabs.getCurrentGraph();
       panel.setModel(currentGraph.getWorkflowGraphModel());
+	  	panel.setGraph(currentGraph);
       if(node instanceof WorkflowCell)
       {
         panel.setCell((WorkflowCell)node);
@@ -319,10 +339,11 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
 
   public void showRelationships(Object node)
   {
-	WorkflowGraph currentGraph = graphTabs.getCurrentGraph();
+		currentRelationsObject = node;
+		WorkflowGraph currentGraph = graphTabs.getCurrentGraph();
   	relationshipsNavigator.showRelationships(node, currentGraph);
-	String title = currentGraph.convertValueToString(node);
-	relationshipsFramePanel.setTitle(ResourceManager.getString("relationships") + (title != null ? (" - " + title) : ""));
+		String title = currentGraph.convertValueToString(node);
+		relationshipsFramePanel.setTitle(ResourceManager.getString("relationships") + (title != null ? (" - " + title) : ""));
   }
 
   public void openWorkspace(URL file)
