@@ -58,10 +58,10 @@
 
     <property name="dist" location="dist"/>
     <property name="dist.client" value="${dist}/designer"/>
+    <property name="www" location="www"/>
+    <property name="dist.docs" value="${dist}/docs"/>
 
     <property name="docs" location="docs"/>
-
-    <property name="clover.initstring" location="testcoverage.db"/>
 
     <property name="packages" value="com.opensymphony.*"/>
 
@@ -90,9 +90,7 @@
         <exclude name="*EJB*.java"/>
       </fileset>
     </delete>
-    <delete>
-      <fileset dir="." includes="testcoverage.db*"/>
-    </delete>
+    <delete dir="clover-db" />
   </target>
 
   <target name="ejbdoclet" depends="init">
@@ -129,7 +127,7 @@
     <javac srcdir="${src.java}" destdir="${build.java}" classpathref="cp" debug="on"/>
   </target>
 
-  <target name="test" depends="clover-check,junit-check,ejbdoclet">
+  <target name="test" depends="clover-check,init-clover,junit-check,ejbdoclet">
     <jalopy fileformat="unix" convention="${src}/etc/jalopy.xml" history="file" historymethod="adler32" loglevel="error" threads="2" classpathref="cp">
       <fileset dir="${src.test}">
         <include name="**/*.java"/>
@@ -153,7 +151,7 @@
         <include name="**/*.properties"/>
       </fileset>
     </copy>
-    <mkdir dir="${dist}/docs/junit"/>
+    <mkdir dir="${dist.docs}/junit"/>
     <junit printsummary="withOutAndErr" haltonfailure="no" haltonerror="no" showoutput="yes">
       <classpath>
         <pathelement location="${build.test}"/>
@@ -162,7 +160,7 @@
 
       <formatter type="xml"/>
 
-      <batchtest todir="${dist}/docs/junit">
+      <batchtest todir="${dist.docs}/junit">
         <fileset dir="${src.test}">
           <include name="**/*TestCase.java"/>
         </fileset>
@@ -181,6 +179,13 @@
       </fileset>
       -->
     </jalopy>
+  </target>
+
+  <target name="init-clover" depends="init">
+    <taskdef resource="clovertasks"/>
+    <typedef resource="clovertypes"/>
+    <mkdir dir="clover-db" />
+    <clover-setup initstring="clover-db/coverage.db" />
   </target>
 
   <target name="jar" depends="java">
@@ -254,28 +259,29 @@
   </target>
 
   <target name="javadocs" depends="init">
-    <mkdir dir="${dist}/docs/api"/>
-    <javadoc sourcepath="${src.java}" destdir="${dist}/docs/api" packagenames="${packages}" classpathref="cp" author="true" version="true" windowTitle="${name} ${version} API" doctitle="${name}" footer="See &lt;a href=&quot;http://www.opensymphony.com&quot;&gt;www.opensymphony.com&lt;/a&gt; for more information." use="true" verbose="false"/>
+    <mkdir dir="${dist.docs}/api"/>
+    <javadoc sourcepath="${src.java}" stylesheetfile="${docs}/api.css" destdir="${dist.docs}/api" packagenames="${packages}" classpathref="cp" author="true" version="true" windowTitle="${name} ${version} API" doctitle="${name}" footer="See &lt;a href=&quot;http://www.opensymphony.com&quot;&gt;www.opensymphony.com&lt;/a&gt; for more information." use="true" verbose="false"/>
   </target>
 
   <target name="clover.report" depends="test">
-    <java classname="com.cortexeb.tools.clover.reporters.html.HtmlReporter" fork="true">
-      <arg line="--outputdir ${dist}/docs/clover --showSrc --initstring ${clover.initstring} --title '${name}'"/>
-      <classpath refid="cp"/>
-    </java>
+    <clover-report>
+      <current title="OSWorkflow Coverage Report" outfile="${dist.docs}/clover">
+        <format type="html" />
+      </current>
+    </clover-report>
   </target>
 
   <target name="junit.report" depends="test">
-    <junitreport todir="${dist}/docs/junit">
-      <fileset dir="${dist}/docs/junit">
+    <junitreport todir="${dist.docs}/junit">
+      <fileset dir="${dist.docs}/junit">
         <include name="TEST-*.xml"/>
       </fileset>
-      <report format="frames" todir="${dist}/docs/junit"/>
+      <report format="frames" todir="${dist.docs}/junit" />
     </junitreport>
   </target>
 
   <target name="docs" depends="javadocs, reports">
-    <copy todir="${dist}/docs">
+    <copy todir="${dist.docs}">
       <fileset dir="${docs}"/>
     </copy>
   </target>
@@ -290,7 +296,7 @@
     <mkdir dir="${dist}/zip/lib/designer"/>
 
     <copy todir="${dist}/zip/docs">
-      <fileset dir="${dist}/docs"/>
+      <fileset dir="${dist.docs}"/>
     </copy>
 
     <copy todir="${dist}/zip/src">
@@ -310,7 +316,6 @@
     <copy file="${dist}/${name}-${version}-example.war" todir="${dist}/zip"/>
 
     <zip zipfile="${dist}/${name}-${version}.zip" basedir="${dist}/zip"/>
-
 <!--    <delete dir="${dist}/zip"/>-->
   </target>
 </project>
