@@ -55,20 +55,24 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   private FramePanel detailFramePanel;
   public static WorkflowDesigner INSTANCE = null;
   public static WorkflowConfigDescriptor config = null;
+  private static Splash splash;
 
   public WorkflowDesigner()
   {
     super("OSWorkflow Designer");
     INSTANCE = this;
     navigator = new Navigator(this);
+    splash.setProgress(30);
     setJMenuBar(BarFactory.createMenubar(manager));
     JScrollPane sp = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     sp.setViewportView(detailPanel);
     detailFramePanel = new FramePanel("Details", false);
     detailFramePanel.setContent(sp);
 
+    splash.setProgress(40);
     loadConfiguration();
     // create workspace view
+    splash.setProgress(50);
     FramePanel flowsPanel = new FramePanel("Workspace", false);
     flowsPanel.setContent(new JScrollPane(navigator));
 
@@ -80,6 +84,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     mainSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.MAIN_DIVIDER_LOCATION, 150));
     leftSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 150));
 
+    splash.setProgress(60);
     //Provide a preferred size for the split pane
     String bounds = Prefs.INSTANCE.get(Prefs.DESIGNER_BOUNDS, "100, 100, 800, 600");
     StringTokenizer tok = new StringTokenizer(bounds, ",");
@@ -92,6 +97,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     getContentPane().add(BarFactory.createToolbar(), BorderLayout.NORTH);
     getContentPane().add(mainSplitPane, BorderLayout.CENTER);
 
+    splash.setProgress(70);
     mainSplitPane.setPreferredSize(new Dimension(w, h));
 
     addWindowListener(new WindowAdapter()
@@ -373,7 +379,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       System.out.println("Workflow Designer requires JDK 1.4.0 or higher");
       System.exit(1);
     }
-    Splash splash = new Splash(new Frame(), ImageLoader.getIcon("splash.gif").getImage(), "OSWorkflow Designer", true);
+    splash = new Splash(new Frame(), ImageLoader.getIcon("splash.gif").getImage(), "OSWorkflow Designer", true);
     splash.openSplash();
     splash.setProgress(10);
     if(System.getProperty("os.name").startsWith("Windows"))
@@ -400,11 +406,12 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
     splash.setProgress(20);
     WorkflowDesigner d = new WorkflowDesigner();
-    splash.setProgress(60);
+    splash.setProgress(80);
     d.pack();
-    splash.setProgress(70);
+    splash.setProgress(90);
     d.show();
     splash.setProgress(100);
     splash.closeSplash();
+    splash = null;
   }
 }
