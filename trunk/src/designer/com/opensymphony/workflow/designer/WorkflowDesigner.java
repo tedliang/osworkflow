@@ -437,7 +437,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       }
     }
     //all other platforms except for OSX get the plastic LAF
-    else if(!LookUtils.isLafAqua())
+    else
     {
       try
       {
