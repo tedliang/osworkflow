@@ -28,7 +28,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -566,7 +566,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         StringWriter sw = new StringWriter();
         PrintWriter writer = new PrintWriter(sw);
         writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.7//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_7.dtd\">");
+        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.6.1//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_6_1.dtd\">");
         writeXML(writer, 0);
 
         try {
