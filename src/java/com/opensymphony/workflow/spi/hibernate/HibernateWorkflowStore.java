@@ -12,8 +12,7 @@ import com.opensymphony.util.TextUtils;
 
 import com.opensymphony.workflow.QueryNotSupportedException;
 import com.opensymphony.workflow.StoreException;
-import com.opensymphony.workflow.query.WorkflowExpressionQuery;
-import com.opensymphony.workflow.query.WorkflowQuery;
+import com.opensymphony.workflow.query.*;
 import com.opensymphony.workflow.spi.Step;
 import com.opensymphony.workflow.spi.WorkflowEntry;
 import com.opensymphony.workflow.spi.WorkflowStore;
@@ -29,6 +28,8 @@ import net.sf.hibernate.expression.Expression;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.sql.Timestamp;
+
 import java.util.*;
 
 
@@ -40,7 +41,7 @@ import java.util.*;
  * See the HibernateFunctionalWorkflowTestCase for more help.
  *
  * @author $Author: hani $
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -293,7 +294,46 @@ public class HibernateWorkflowStore implements WorkflowStore {
     }
 
     public List query(WorkflowExpressionQuery query) throws StoreException {
-        throw new QueryNotSupportedException("Hibernate Store does not support WorkflowExpressionQuery");
+        com.opensymphony.workflow.query.Expression expression = query.getExpression();
+
+        Expression expr;
+
+        Class entityClass = getQueryClass(expression, null);
+
+        if (expression.isNested()) {
+            expr = buildNested((NestedExpression) expression);
+        } else {
+            expr = queryComparison((FieldExpression) expression);
+        }
+
+        //get results and send them back
+        Criteria criteria = session.createCriteria(entityClass);
+        criteria.add(expr);
+
+        try {
+            Set results = new HashSet();
+
+            Iterator iter = criteria.list().iterator();
+
+            while (iter.hasNext()) {
+                Object next = iter.next();
+                Object item;
+
+                if (next instanceof HibernateStep) {
+                    HibernateStep step = (HibernateStep) next;
+                    item = new Long(step.getEntryId());
+                } else {
+                    WorkflowEntry entry = (WorkflowEntry) next;
+                    item = new Long(entry.getId());
+                }
+
+                results.add(item);
+            }
+
+            return new ArrayList(results);
+        } catch (HibernateException e) {
+            throw new StoreException("Error executing query " + expression, e);
+        }
     }
 
     public List query(WorkflowQuery query) throws StoreException {
@@ -366,30 +406,79 @@ public class HibernateWorkflowStore implements WorkflowStore {
      */
     private String getFieldName(int field) {
         switch (field) {
-        case WorkflowQuery.ACTION: // actionId
+        case FieldExpression.ACTION: // actionId
             return "actionId";
 
-        case WorkflowQuery.CALLER:
+        case FieldExpression.CALLER:
             return "caller";
 
-        case WorkflowQuery.FINISH_DATE:
+        case FieldExpression.FINISH_DATE:
             return "finishDate";
 
-        case WorkflowQuery.OWNER:
+        case FieldExpression.OWNER:
             return "owner";
 
-        case WorkflowQuery.START_DATE:
+        case FieldExpression.START_DATE:
             return "startDate";
 
-        case WorkflowQuery.STEP: // stepId
+        case FieldExpression.STEP: // stepId
             return "stepId";
 
-        case WorkflowQuery.STATUS:
+        case FieldExpression.STATUS:
             return "status";
 
         default:
             return "1";
         }
+    }
+
+    private Class getQueryClass(com.opensymphony.workflow.query.Expression expr, Collection classesCache) throws StoreException {
+        if (classesCache == null) {
+            classesCache = new HashSet();
+        }
+
+        if (expr instanceof FieldExpression) {
+            FieldExpression fieldExpression = (FieldExpression) expr;
+
+            switch (fieldExpression.getContext()) {
+            case FieldExpression.CURRENT_STEPS:
+                classesCache.add(HibernateCurrentStep.class);
+
+                break;
+
+            case FieldExpression.HISTORY_STEPS:
+                classesCache.add(HibernateHistoryStep.class);
+
+                break;
+
+            case FieldExpression.ENTRY:
+                classesCache.add(HibernateWorkflowEntry.class);
+
+                break;
+
+            default:
+                throw new StoreException("Query for unsupported context " + fieldExpression.getContext());
+            }
+        } else {
+            NestedExpression nestedExpression = (NestedExpression) expr;
+
+            for (int i = 0; i < nestedExpression.getExpressionCount(); i++) {
+                com.opensymphony.workflow.query.Expression expression = nestedExpression.getExpression(i);
+
+                if (expression.isNested()) {
+                    classesCache.add(getQueryClass(nestedExpression.getExpression(i), classesCache));
+                } else {
+                    FieldExpression sub = (FieldExpression) nestedExpression.getExpression(i);
+                    classesCache.add(getQueryClass(expression, classesCache));
+                }
+            }
+        }
+
+        if (classesCache.size() > 1) {
+            throw new StoreException("Store does not support nested queries of different types (types found:" + classesCache + ")");
+        }
+
+        return (Class) classesCache.iterator().next();
     }
 
     /**
@@ -424,6 +513,59 @@ public class HibernateWorkflowStore implements WorkflowStore {
             default:
                 throw new StoreException("Operator '" + operator + "' is not supported by " + this.getClass().getName());
             }
+        }
+    }
+
+    private Expression buildNested(NestedExpression nestedExpression) throws StoreException {
+        Expression full = null;
+
+        for (int i = 0; i < nestedExpression.getExpressionCount(); i++) {
+            Expression expr;
+            com.opensymphony.workflow.query.Expression expression = nestedExpression.getExpression(i);
+
+            if (expression.isNested()) {
+                expr = buildNested((NestedExpression) nestedExpression.getExpression(i));
+            } else {
+                FieldExpression sub = (FieldExpression) nestedExpression.getExpression(i);
+                expr = queryComparison(sub);
+            }
+
+            if (full == null) {
+                full = expr;
+            } else {
+                switch (nestedExpression.getOperator()) {
+                case NestedExpression.AND:
+                    full = Expression.and(full, expr);
+
+                    break;
+
+                case NestedExpression.OR:
+                    full = Expression.or(full, expr);
+                }
+            }
+        }
+
+        return full;
+    }
+
+    private Expression queryComparison(FieldExpression expression) {
+        int operator = expression.getOperator();
+
+        switch (operator) {
+        case FieldExpression.EQUALS:
+            return Expression.eq(getFieldName(expression.getField()), expression.getValue());
+
+        case FieldExpression.NOT_EQUALS:
+            return Expression.not(Expression.like(getFieldName(expression.getField()), expression.getValue()));
+
+        case FieldExpression.GT:
+            return Expression.gt(getFieldName(expression.getField()), expression.getValue());
+
+        case FieldExpression.LT:
+            return Expression.lt(getFieldName(expression.getField()), expression.getValue());
+
+        default:
+            return Expression.eq(getFieldName(expression.getField()), expression.getValue());
         }
     }
 }
