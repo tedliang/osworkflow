@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.29 $
+ * @version $Revision: 1.30 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -110,9 +110,6 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         return globalConditions;
     }
 
-    /**
-     * @deprecated use {@link #getAction(int)} instead, since initial actions have to have a unique id.
-     */
     public ActionDescriptor getInitialAction(int id) {
         for (Iterator iterator = initialActions.iterator(); iterator.hasNext();) {
             ActionDescriptor actionDescriptor = (ActionDescriptor) iterator.next();
