@@ -24,7 +24,7 @@ public class ResultEdge extends WorkflowEdge
     int arrow = GraphConstants.ARROW_CLASSIC;
     GraphConstants.setLineEnd(attributes, arrow);
     GraphConstants.setEndFill(attributes, true);
-    GraphConstants.setDisconnectable(attributes, false);
+    GraphConstants.setDisconnectable(attributes, true);
     GraphConstants.setRouting(attributes, EDGE_ROUTER);
     if(labelPos!=null)
     {
