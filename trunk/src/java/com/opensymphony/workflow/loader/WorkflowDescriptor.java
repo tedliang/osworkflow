@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.31 $
+ * @version $Revision: 1.32 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -46,6 +46,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
     protected Map commonActions = new HashMap();
     protected Map metaAttributes = new HashMap();
     protected Map timerFunctions = new HashMap();
+    protected String workflowName = null;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -152,6 +153,14 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
     public Map getMetaAttributes() {
         return metaAttributes;
+    }
+
+    public void setName(String name) {
+        workflowName = name;
+    }
+
+    public String getName() {
+        return workflowName;
     }
 
     public List getRegisters() {

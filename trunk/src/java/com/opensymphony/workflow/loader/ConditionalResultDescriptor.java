@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class ConditionalResultDescriptor extends ResultDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -55,33 +55,33 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
         buf.append("<result");
 
         if (hasId()) {
-            buf.append(" id=\"").append(getId()).append("\"");
+            buf.append(" id=\"").append(getId()).append('\"');
         }
 
         if ((dueDate != null) && (dueDate.length() > 0)) {
-            buf.append(" due-date=\"").append(getDueDate()).append("\"");
+            buf.append(" due-date=\"").append(getDueDate()).append('\"');
         }
 
-        buf.append(" old-status=\"").append(oldStatus).append("\"");
+        buf.append(" old-status=\"").append(oldStatus).append('\"');
 
         if (join != 0) {
-            buf.append(" join=\"").append(join).append("\"");
+            buf.append(" join=\"").append(join).append('\"');
         } else if (split != 0) {
-            buf.append(" split=\"").append(split).append("\"");
+            buf.append(" split=\"").append(split).append('\"');
         } else {
-            buf.append(" status=\"").append(status).append("\"");
-            buf.append(" step=\"").append(step).append("\"");
+            buf.append(" status=\"").append(status).append('\"');
+            buf.append(" step=\"").append(step).append('\"');
 
             if ((owner != null) && (owner.length() > 0)) {
-                buf.append(" owner=\"").append(owner).append("\"");
+                buf.append(" owner=\"").append(owner).append('\"');
             }
 
             if ((displayName != null) && (displayName.length() > 0)) {
-                buf.append(" display-name=\"").append(displayName).append("\"");
+                buf.append(" display-name=\"").append(displayName).append('\"');
             }
         }
 
-        buf.append(">");
+        buf.append('>');
         out.println(buf);
 
         for (int i = 0; i < conditions.size(); i++) {
@@ -123,7 +123,7 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
         }
     }
 
-    private String getDestination() {
+    String getDestination() {
         if (join != 0) {
             return "join #" + join;
         } else if (split != 0) {
