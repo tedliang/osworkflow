@@ -17,7 +17,7 @@ import com.opensymphony.workflow.loader.JoinDescriptor;
 
 public class JoinEditor extends DetailPanel implements ActionListener
 {
-  private JTextField id = new JTextField(12);
+  private JTextField id = UIFactory.createReadOnlyTextField(12);
 
   private JComboBox conditionTypes = new JComboBox(new String[]{"OR", "AND"});
 
@@ -39,7 +39,6 @@ public class JoinEditor extends DetailPanel implements ActionListener
     CellConstraints cc = new CellConstraints();
     builder.addSeparator("Info", cc.xywh(2, 1, 3, 1));
     builder.addLabel("ID", cc.xy(2, 3));
-    id.setEditable(false);
     builder.add(id, cc.xy(4, 3));
     builder.addLabel("Condition Type", cc.xy(2, 5));
 
