@@ -2,6 +2,7 @@ package com.opensymphony.workflow.designer.model;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -23,6 +24,11 @@ public abstract class ListTableModel extends AbstractTableModel
     this.list = l;
     fireTableDataChanged();
   }
+
+	public List getList()
+	{
+		return Collections.unmodifiableList(list);
+	}
 
   public void add(Object item)
   {
