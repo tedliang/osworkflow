@@ -101,8 +101,6 @@ public class BarFactory
   public static JPanel createToolbar()
   {
     JToolBar bar1 = new JToolBar();
-    bar1.addSeparator();
-
     JButton step = new JButton(ResourceManager.getIcon("newstep"));
     step.setToolTipText(ResourceManager.getString("createstep"));
     bar1.add(step);
