@@ -16,7 +16,7 @@ import java.util.HashMap;
  * Test Case for AbstractWorkflow.
  *
  * @author <a href="mailto:vorburger@users.sourceforge.net">Michael Vorburger</a>
- * @version $Id: ValidationTestCase.java,v 1.7 2004-05-05 23:09:45 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
+ * @version $Id: ValidationTestCase.java,v 1.8 2004-08-11 01:43:00 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
  */
 public class ValidationTestCase extends TestCase {
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -43,6 +43,15 @@ public class ValidationTestCase extends TestCase {
         } catch (Exception ex) {
             ex.printStackTrace();
             fail("descriptor failed to load as expected, but a " + ex.getClass() + " exception was caught instead of InvalidWorkflowDescriptorException");
+        }
+    }
+
+    public void testCommonActionDuplicateID() throws Exception {
+        try {
+            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getResource("/samples/invalid/common-actions-dupid.xml").toString());
+            descriptor.validate();
+            fail("Invalid common-actions not detected correctly");
+        } catch (InvalidWorkflowDescriptorException e) {
         }
     }
 
