@@ -74,7 +74,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   {
     JoinDescriptor join = cell.getJoinDescriptor();
 
-    List list = join.getConditions();
+    List list = ((ConditionsDescriptor)join.getConditions().get(0)).getConditions();
     for(int i = 0; i < list.size(); i++)
     {
       ConditionDescriptor cond = (ConditionDescriptor)list.get(i);
