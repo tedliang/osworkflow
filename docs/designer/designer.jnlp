@@ -3,7 +3,7 @@
   <information>
     <title>OSWorkflow Designer</title>
     <vendor>OpenSymphony</vendor>
-    <homepage href="help.html"/>
+    <homepage href="../index.html"/>
     <description>OSWorkflow Designer Application</description>
     <description kind="short">OSWorkflow Designer Application</description>
     <!--    <icon href="logo.gif"/>-->
@@ -15,7 +15,7 @@
   <resources>
     <j2se version="1.4+" max-heap-size="128m"/>
     <jar href="designer.jar" main="true"/>
-    <jar href="osworkflow-2.6.0-dev.jar" main="false"/>
+    <jar href="osworkflow.jar" main="false"/>
     <jar href="forms.jar" main="false"/>
     <jar href="commons-logging.jar" main="false"/>
     <jar href="jgraph.jar" main="false"/>
