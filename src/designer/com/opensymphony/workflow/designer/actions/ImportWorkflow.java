@@ -11,6 +11,7 @@ import com.opensymphony.workflow.designer.event.WorkspaceEvent;
 import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.Utils;
+import com.opensymphony.workflow.designer.swing.status.StatusDisplay;
 import com.opensymphony.workflow.designer.dialogs.ImportWorkflowDialog;
 import com.opensymphony.workflow.loader.Workspace;
 import org.apache.commons.logging.Log;
@@ -47,6 +48,7 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
     if(inputFile!=null)
     {
       String f = inputFile.getFile();
+      if(!"file".equals(inputFile.getProtocol()) && f.indexOf('?')>-1) f = f.substring(0, f.indexOf('?'));
       String fileName = f.substring(f.lastIndexOf('/')+1, f.length());
       try
       {
@@ -55,9 +57,11 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
         if(!"file".equals(inputFile.getProtocol()) ||
           new File(inputFile.getFile()).getCanonicalPath().indexOf(currentWorkspace.getLocation().getParentFile().getCanonicalPath())==-1)
         {
+          StatusDisplay status = (StatusDisplay)WorkflowDesigner.INSTANCE.statusBar.getItemByName("Status");
+          status.setIndeterminate(true);
+          status.setProgressStatus("Loading...");
           FileOutputStream out = new FileOutputStream(ouputFile);
           InputStream in = inputFile.openStream();
-
           byte[] buff = new byte[4096];
           int nch;
           while((nch = in.read(buff, 0, buff.length)) != -1)
@@ -66,6 +70,7 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
           }
           out.flush();
           out.close();
+          status.setIndeterminate(false);
           currentWorkspace.importDescriptor(fileName.substring(0, fileName.lastIndexOf('.')), inputFile.openStream());
           WorkflowDesigner.INSTANCE.navigator().setWorkspace(currentWorkspace);
         }
