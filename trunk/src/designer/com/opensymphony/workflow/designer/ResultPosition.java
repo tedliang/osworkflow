@@ -1,6 +1,6 @@
 package com.opensymphony.workflow.designer;
 
-import java.awt.*;
+import java.awt.Point;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -77,7 +77,7 @@ public class ResultPosition implements XMLizable
     buf.append("<connector ");
     buf.append("id=\"").append(id).append('\"');
     buf.append(" linewidth=\"").append(lineWidth).append('\"');
-    buf.append(" color=\"").append(Integer.toString(color)).append('\"');
+    buf.append(" color=\"").append(color).append('\"');
     buf.append(" labelx=\"").append(labelPos.x).append('\"');
     buf.append(" labely=\"").append(labelPos.y).append('\"');
     buf.append('>');

@@ -1,6 +1,8 @@
 package com.opensymphony.workflow.designer;
 
 import java.util.*;
+import java.util.List;
+import java.awt.*;
 import javax.swing.undo.UndoableEdit;
 
 import com.opensymphony.workflow.designer.event.JoinChangedEvent;
@@ -367,7 +369,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
       edge = new ResultEdge(descriptor,
                             layout.getLabelPosition(descriptor.getId()),
                             layout.getLineWidth(descriptor.getId()),
-                            layout.getColor(descriptor.getId()),
+                            new Color(layout.getColor(descriptor.getId())),
                             layout.getRoutingPoints(descriptor.getId()));
     }
     else

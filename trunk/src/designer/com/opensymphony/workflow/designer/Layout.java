@@ -1,6 +1,6 @@
 package com.opensymphony.workflow.designer;
 
-import java.awt.*;
+import java.awt.Point;
 import java.io.*;
 import java.util.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -76,7 +76,7 @@ public class Layout
       {
         Element element = (Element)mActivitycell.item(k);
         CellPosition pos = new CellPosition(element);
-        Rectangle bound = pos.getBounds();
+        int[] bound = pos.getBounds();
         allCells.put(new Integer(pos.getId()), bound);
         Map map = (Map)cellsByType.get(pos.getType());
         if(map == null)
@@ -155,23 +155,29 @@ public class Layout
     out.close();
   }
 
-  public Rectangle getBounds(int key, String type)
+  /**
+   * Get the boounds for the specified key/type.
+   * @param key
+   * @param type
+   * @return int[] an array of 4 ints containing x, y, width, and height.
+   */
+  public int[] getBounds(int key, String type)
   {
     if(type == null)
-      return (Rectangle)allCells.get(new Integer(key));
+      return (int[])allCells.get(new Integer(key));
     Map typeMap = (Map)cellsByType.get(type);
     if(typeMap == null)
     {
       return null;
     }
-    Rectangle bounds = (Rectangle)typeMap.get(new Integer(key));
+    int[] bounds = (int[])typeMap.get(new Integer(key));
     return bounds;
   }
 
-  public Color getColor(int resultKey)
+  public int getColor(int resultKey)
   {
     ResultLayout rl = ((ResultLayout)results.get(new Integer(resultKey)));
-    return rl != null && rl.cColor != 0 ? new Color(rl.cColor) : Color.black;
+    return rl != null  ? rl.cColor : 0;
   }
 
   public float getLineWidth(int resultKey)

@@ -180,10 +180,10 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     // Create Vertex Attributes
     if(layout != null)
     {
-      Rectangle bounds = layout.getBounds(initialActionCell.getId(), "InitialActionCell");
+      int[] bounds = layout.getBounds(initialActionCell.getId(), "InitialActionCell");
       if(bounds != null)
       {
-        initialActionCell.getAttributes().put(GraphConstants.BOUNDS, bounds);
+        initialActionCell.getAttributes().put(GraphConstants.BOUNDS, new Rectangle(bounds[0], bounds[1], bounds[2], bounds[3]));
       }
       if(initialActionCell.getChildCount() == 0)
       {
@@ -206,9 +206,9 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     // Create Vertex Attributes
     if(layout != null)
     {
-      Rectangle bounds = layout.getBounds(join.getId(), "JoinCell");
+      int[] bounds = layout.getBounds(join.getId(), "JoinCell");
       if(bounds != null)
-        join.getAttributes().put(GraphConstants.BOUNDS, bounds);
+        join.getAttributes().put(GraphConstants.BOUNDS, new Rectangle(bounds[0], bounds[1], bounds[2], bounds[3]));
       if(join.getChildCount() == 0)
       {
         WorkflowPort port = new WorkflowPort();
@@ -230,15 +230,14 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     SplitCell split = new SplitCell(descriptor);
     if(layout != null)
     {
-      Rectangle bounds = layout.getBounds(split.getId(), "SplitCell");
+      int[] bounds = layout.getBounds(split.getId(), "SplitCell");
       if(bounds != null)
-        split.getAttributes().put(GraphConstants.BOUNDS, bounds);
+        split.getAttributes().put(GraphConstants.BOUNDS, new Rectangle(bounds[0], bounds[1], bounds[2], bounds[3]));
       if(split.getChildCount() == 0)
       {
         WorkflowPort port = new WorkflowPort();
         split.add(port);
       }
-
     }
     else
     {
@@ -254,10 +253,10 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     StepCell step = new StepCell(descriptor);
     if(layout != null)
     {
-      Rectangle bounds = layout.getBounds(step.getId(), "StepCell");
+      int[] bounds = layout.getBounds(step.getId(), "StepCell");
       if(bounds != null)
       {
-        step.getAttributes().put(GraphConstants.BOUNDS, bounds);
+        step.getAttributes().put(GraphConstants.BOUNDS, new Rectangle(bounds[0], bounds[1], bounds[2], bounds[3]));
       }
       if(step.getChildCount() == 0)
       {
