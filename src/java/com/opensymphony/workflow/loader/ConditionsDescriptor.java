@@ -77,6 +77,14 @@ public class ConditionsDescriptor extends AbstractDescriptor implements Validata
     public void validate() throws InvalidWorkflowDescriptorException {
         ValidationHelper.validate(conditions);
 
+        if (conditions.size() == 0) {
+            AbstractDescriptor desc = getParent();
+
+            if ((desc != null) && (desc instanceof ConditionalResultDescriptor)) {
+                throw new InvalidWorkflowDescriptorException("Conditional result from " + ((ActionDescriptor) desc.getParent()).getName() + " to " + ((ConditionalResultDescriptor) desc).getDestination() + " must have at least one condition");
+            }
+        }
+
         if ((conditions.size() > 1) && (type == null)) {
             throw new InvalidWorkflowDescriptorException("Conditions must have AND or OR type specified");
         }
@@ -89,10 +97,10 @@ public class ConditionsDescriptor extends AbstractDescriptor implements Validata
             StringBuffer sb = new StringBuffer("<conditions");
 
             if (conditions.size() > 1) {
-                sb.append(" type=\"").append(type).append("\"");
+                sb.append(" type=\"").append(type).append('\"');
             }
 
-            sb.append(">");
+            sb.append('>');
             out.println(sb.toString());
 
             for (int i = 0; i < conditions.size(); i++) {
