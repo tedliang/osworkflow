@@ -1,28 +1,33 @@
 package com.opensymphony.workflow.designer;
 
-import java.util.*;
-import java.util.List;
 import java.awt.*;
-
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.*;
+import java.util.List;
+import java.util.Properties;
 import javax.swing.*;
 
+import com.opensymphony.workflow.designer.actions.*;
+import com.opensymphony.workflow.designer.dnd.DragData;
+import com.opensymphony.workflow.designer.layout.LayoutAlgorithm;
+import com.opensymphony.workflow.designer.layout.SugiyamaLayoutAlgorithm;
+import com.opensymphony.workflow.designer.views.*;
+import com.opensymphony.workflow.loader.JoinDescriptor;
+import com.opensymphony.workflow.loader.SplitDescriptor;
+import com.opensymphony.workflow.loader.StepDescriptor;
+import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import org.jgraph.JGraph;
 import org.jgraph.graph.*;
-import com.opensymphony.workflow.loader.*;
-import com.opensymphony.workflow.designer.layout.SugiyamaLayoutAlgorithm;
-import com.opensymphony.workflow.designer.layout.LayoutAlgorithm;
-import com.opensymphony.workflow.designer.views.*;
-import com.opensymphony.workflow.designer.actions.CreateStep;
-import com.opensymphony.workflow.designer.actions.Delete;
 
-public class WorkflowGraph extends JGraph
+public class WorkflowGraph extends JGraph implements DropTargetListener
 {
   private Layout layout = new Layout();
   private Point menuLocation = new Point();
 
   private WorkflowDescriptor descriptor;
   private JPopupMenu menu;
-  private Delete delete;
+  private JPopupMenu delete;
 
   public WorkflowGraph(GraphModel model, WorkflowDescriptor descriptor, Layout layout, boolean doAutoLayout)
   {
@@ -35,20 +40,32 @@ public class WorkflowGraph extends JGraph
       autoLayout();
     }
     setSelectNewCells(true);
-    //setGridEnabled(true);
-    //setGridSize(6);
-    //setTolerance(2);
+
+    setGridEnabled(true);
+    setGridColor(java.awt.Color.gray.brighter());
+    setGridSize(12);
+    setTolerance(2);
+    setGridVisible(true);
+    setGridMode(JGraph.LINE_GRID_MODE);
+
     setBendable(true);
     setMarqueeHandler(new WorkflowMarqueeHandler(this));
     setCloneable(false);
     setPortsVisible(true);
-    delete = new Delete(getWorkflowGraphModel());
+
+    // one set of menu <==> one graph <==> one workflow descriptor
     menu = new JPopupMenu();
     JMenu n = new JMenu("New");
     menu.add(n);
-    n.add(new CreateStep(getWorkflowGraphModel(), menuLocation));
-    menu.add(new JMenuItem(delete));
-    delete.setEnabled(false);
+    n.add(new CreateStep(descriptor, getWorkflowGraphModel(), menuLocation));
+    //	n.add(new CreateInitialAction(descriptor, getWorkflowGraphModel(), menuLocation));
+    n.add(new CreateJoin(descriptor, getWorkflowGraphModel(), menuLocation));
+    n.add(new CreateSplit(descriptor, getWorkflowGraphModel(), menuLocation));
+
+    delete = new JPopupMenu();
+    delete.add(new Delete(descriptor, this, menuLocation));
+
+    new DropTarget(this, this);
   }
 
   public void setDescriptor(WorkflowDescriptor descriptor)
@@ -109,6 +126,18 @@ public class WorkflowGraph extends JGraph
       {
         GraphConstants.setBounds(initialActionCell.getAttributes(), bounds);
       }
+      if(initialActionCell.getChildCount() == 0)
+      {
+        WorkflowPort port = new WorkflowPort();
+        initialActionCell.add(port);
+      }
+
+    }
+    else
+    {
+      WorkflowPort port = new WorkflowPort();
+      initialActionCell.add(port);
+
     }
     getWorkflowGraphModel().insertInitialActions(initialActionList, initialActionCell, null, null, null);
   }
@@ -122,6 +151,18 @@ public class WorkflowGraph extends JGraph
       Rectangle bounds = layout.getBounds(join.toString());
       if(bounds != null)
         join.getAttributes().put(GraphConstants.BOUNDS, bounds);
+      if(join.getChildCount() == 0)
+      {
+        WorkflowPort port = new WorkflowPort();
+        join.add(port);
+      }
+
+    }
+    else
+    {
+      WorkflowPort port = new WorkflowPort();
+      join.add(port);
+
     }
     getWorkflowGraphModel().insertJoinCell(join, null, null, null);
   }
@@ -134,6 +175,18 @@ public class WorkflowGraph extends JGraph
       Rectangle bounds = layout.getBounds(split.toString());
       if(bounds != null)
         split.getAttributes().put(GraphConstants.BOUNDS, bounds);
+      if(split.getChildCount() == 0)
+      {
+        WorkflowPort port = new WorkflowPort();
+        split.add(port);
+      }
+
+    }
+    else
+    {
+      WorkflowPort port = new WorkflowPort();
+      split.add(port);
+
     }
     getWorkflowGraphModel().insertSplitCell(split, null, null, null);
   }
@@ -145,7 +198,18 @@ public class WorkflowGraph extends JGraph
     {
       Rectangle bounds = layout.getBounds(step.toString());
       if(bounds != null)
+      {
         step.getAttributes().put(GraphConstants.BOUNDS, bounds);
+      }
+      if(step.getChildCount() == 0)
+      {
+        WorkflowPort port = new WorkflowPort();
+        step.add(port);
+      }
+
+    }
+    else
+    {
     }
     // Insert into Model
     getWorkflowGraphModel().insertStepCell(step, null, null, null);
@@ -174,12 +238,89 @@ public class WorkflowGraph extends JGraph
     return super.createVertexView(v, cm);
   }
 
-  public void showMenu(Object cell, int x, int y)
+  public void showMenu(int x, int y)
   {
-    delete.setEnabled(cell!=null);
     menuLocation.x = x;
     menuLocation.y = y;
     menu.show(this, x, y);
   }
-}
 
+  public void showDelete(int x, int y)
+  {
+    menuLocation.x = x;
+    menuLocation.y = y;
+    delete.show(this, x, y);
+  }
+
+  public boolean removeEdge(ResultEdge edge)
+  {
+    return getWorkflowGraphModel().removeEdge(edge);
+  }
+
+  public boolean removeStep(StepCell step)
+  {
+    getWorkflowGraphModel().removeStep(step);
+    return true;
+  }
+
+  public boolean removeJoin(JoinCell join)
+  {
+    return getWorkflowGraphModel().removeJoin(join);
+  }
+
+  public boolean removeSplit(SplitCell split)
+  {
+    return getWorkflowGraphModel().removeSplit(split);
+  }
+
+  public void dragEnter(DropTargetDragEvent dtde)
+  {
+  }
+
+  public void dragOver(DropTargetDragEvent dtde)
+  {
+  }
+
+  public void dropActionChanged(DropTargetDragEvent dtde)
+  {
+
+  }
+
+  public void drop(DropTargetDropEvent dtde)
+  {
+    try
+    {
+      //Ok, get the dropped object and try to figure out what it is.
+      Transferable tr = dtde.getTransferable();
+      DataFlavor[] flavors = tr.getTransferDataFlavors();
+      for(int i = 0; i < flavors.length; i++)
+      {
+        if(flavors[i].isFlavorSerializedObjectType())
+        {
+          if(flavors[i].equals(DragData.scriptFlavor))
+          {
+            dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
+            DragData o = (DragData)tr.getTransferData(flavors[i]);
+            dtde.dropComplete(true);
+
+            CellFactory.createCell(this.descriptor, this.getWorkflowGraphModel(), dtde.getLocation(), o);
+
+            return;
+          }
+        }
+      }
+      dtde.rejectDrop();
+    }
+    catch(Exception e)
+    {
+      e.printStackTrace();
+      dtde.rejectDrop();
+    }
+  }
+
+  public void dragExit(DropTargetEvent dte)
+  {
+
+  }
+
+}
