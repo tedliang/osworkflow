@@ -11,7 +11,7 @@
 		<action id="1" name="Start Workflow">
 			<restrict-to>
 				<conditions type="AND">
-					<condition type="beanshell">
+					<condition type="beanshell" name="bsh.condition">
 						<arg name="script">true</arg>
 					</condition>
 					<condition name="check.usergroup" type="class">
