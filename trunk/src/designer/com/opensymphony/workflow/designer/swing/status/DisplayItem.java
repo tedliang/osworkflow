@@ -13,7 +13,6 @@ public abstract class DisplayItem extends JPanel
 {
 
   private int preferredWidth;
-  public static boolean e;
 
   public abstract String getItemName();
 
