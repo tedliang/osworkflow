@@ -61,6 +61,7 @@
       <arg name="to" modifiable="true"/>
       <arg name="from" modifiable="true"/>
       <arg name="cc" modifiable="true"/>
+      <arg name="subject" modifiable="true"/>
       <arg name="message" modifiable="true"/>
       <arg name="smtpHost" modifiable="true"/>
       <name>send.email</name>

@@ -5,6 +5,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.File;
 import java.util.*;
 import java.net.URL;
 import java.net.MalformedURLException;
@@ -113,7 +114,14 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     {
 	    try
 	    {
-		    openWorkspace(new URL(lastOpened));
+        if(lastOpened.indexOf("://") == -1)
+        {
+          openWorkspace(new File(lastOpened).toURL());
+        }
+        else
+        {
+  		    openWorkspace(new URL(lastOpened));
+        }
 	    }
 	    catch(MalformedURLException e)
 	    {
