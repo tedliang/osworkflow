@@ -33,7 +33,7 @@ public class JDBCFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest {
 
         long id = workflow.initialize(workflowName, 1, new HashMap());
         Thread.sleep(500);
-        assertEquals("trigger was not fired", workflow.getPropertySet(id).getString("testTrigger"), "blahblah");
+        assertEquals("trigger was not fired", "blahblah", workflow.getPropertySet(id).getString("testTrigger"));
     }
 
     protected void setUp() throws Exception {
