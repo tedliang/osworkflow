@@ -30,7 +30,7 @@ public class DTDEntityResolver implements EntityResolver {
         URL url = new URL(systemId);
         String file = url.getFile();
 
-        if (file != null && file.indexOf('/') > -1) {
+        if ((file != null) && (file.indexOf('/') > -1)) {
             file = file.substring(file.lastIndexOf('/') + 1);
         }
 

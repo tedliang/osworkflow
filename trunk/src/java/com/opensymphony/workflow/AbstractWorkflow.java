@@ -17,26 +17,6 @@ import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.*;
 import com.opensymphony.workflow.util.ScriptVariableParser;
-import com.opensymphony.workflow.util.beanshell.BeanShellCondition;
-import com.opensymphony.workflow.util.beanshell.BeanShellFunctionProvider;
-import com.opensymphony.workflow.util.beanshell.BeanShellRegister;
-import com.opensymphony.workflow.util.beanshell.BeanShellValidator;
-import com.opensymphony.workflow.util.bsf.BSFCondition;
-import com.opensymphony.workflow.util.bsf.BSFFunctionProvider;
-import com.opensymphony.workflow.util.bsf.BSFRegister;
-import com.opensymphony.workflow.util.bsf.BSFValidator;
-import com.opensymphony.workflow.util.ejb.local.LocalEJBCondition;
-import com.opensymphony.workflow.util.ejb.local.LocalEJBFunctionProvider;
-import com.opensymphony.workflow.util.ejb.local.LocalEJBRegister;
-import com.opensymphony.workflow.util.ejb.local.LocalEJBValidator;
-import com.opensymphony.workflow.util.ejb.remote.RemoteEJBCondition;
-import com.opensymphony.workflow.util.ejb.remote.RemoteEJBFunctionProvider;
-import com.opensymphony.workflow.util.ejb.remote.RemoteEJBRegister;
-import com.opensymphony.workflow.util.ejb.remote.RemoteEJBValidator;
-import com.opensymphony.workflow.util.jndi.JNDICondition;
-import com.opensymphony.workflow.util.jndi.JNDIFunctionProvider;
-import com.opensymphony.workflow.util.jndi.JNDIRegister;
-import com.opensymphony.workflow.util.jndi.JNDIValidator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -100,7 +80,7 @@ public class AbstractWorkflow implements Workflow {
 
             List l = new ArrayList();
             PropertySet ps = store.getPropertySet(id);
-            Map transientVars = inputs == null ? new HashMap() : new HashMap(inputs);
+            Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
             Collection currentSteps = store.findCurrentSteps(id);
 
             populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(0), currentSteps);
@@ -160,7 +140,7 @@ public class AbstractWorkflow implements Workflow {
      *
      */
     public Configuration getConfiguration() {
-        Configuration config = configuration != null ? configuration : DefaultConfiguration.INSTANCE;
+        Configuration config = (configuration != null) ? configuration : DefaultConfiguration.INSTANCE;
 
         if (!config.isInitialized()) {
             try {
@@ -424,7 +404,7 @@ public class AbstractWorkflow implements Workflow {
 
             case WorkflowEntry.ACTIVATED:
 
-                if (currentState == WorkflowEntry.CREATED || currentState == WorkflowEntry.SUSPENDED) {
+                if ((currentState == WorkflowEntry.CREATED) || (currentState == WorkflowEntry.SUSPENDED)) {
                     result = true;
                 }
 
@@ -440,7 +420,7 @@ public class AbstractWorkflow implements Workflow {
 
             case WorkflowEntry.KILLED:
 
-                if (currentState == WorkflowEntry.CREATED || currentState == WorkflowEntry.ACTIVATED || currentState == WorkflowEntry.SUSPENDED) {
+                if ((currentState == WorkflowEntry.CREATED) || (currentState == WorkflowEntry.ACTIVATED) || (currentState == WorkflowEntry.SUSPENDED)) {
                     result = true;
                 }
 
@@ -469,7 +449,7 @@ public class AbstractWorkflow implements Workflow {
         }
 
         if (canModifyEntryState(id, newState)) {
-            if (newState == WorkflowEntry.KILLED || newState == WorkflowEntry.COMPLETED) {
+            if ((newState == WorkflowEntry.KILLED) || (newState == WorkflowEntry.COMPLETED)) {
                 Collection currentSteps = getCurrentSteps(id);
 
                 if (currentSteps.size() > 0) {
@@ -656,7 +636,7 @@ public class AbstractWorkflow implements Workflow {
 
         List actions = s.getActions();
 
-        if (actions == null || actions.size() == 0) {
+        if ((actions == null) || (actions.size() == 0)) {
             return l;
         }
 
@@ -700,7 +680,7 @@ public class AbstractWorkflow implements Workflow {
 
             List l = new ArrayList();
             PropertySet ps = store.getPropertySet(id);
-            Map transientVars = inputs == null ? new HashMap() : new HashMap(inputs);
+            Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
             Collection currentSteps = store.findCurrentSteps(id);
 
             populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(0), currentSteps);
@@ -755,7 +735,7 @@ public class AbstractWorkflow implements Workflow {
 
         List actions = s.getActions();
 
-        if (actions == null || actions.size() == 0) {
+        if ((actions == null) || (actions.size() == 0)) {
             return l;
         }
 
@@ -840,24 +820,14 @@ public class AbstractWorkflow implements Workflow {
         if (currentStepId != -1) {
             Object stepId = args.get("stepId");
 
-            if (stepId != null && stepId.equals("-1")) {
+            if ((stepId != null) && stepId.equals("-1")) {
                 args.put("stepId", String.valueOf(currentStepId));
             }
         }
 
-        String clazz;
+        String clazz = TypeResolver.getCondition(type);
 
-        if ("remote-ejb".equals(type)) {
-            clazz = RemoteEJBCondition.class.getName();
-        } else if ("local-ejb".equals(type)) {
-            clazz = LocalEJBCondition.class.getName();
-        } else if ("jndi".equals(type)) {
-            clazz = JNDICondition.class.getName();
-        } else if ("bsf".equals(type)) {
-            clazz = BSFCondition.class.getName();
-        } else if ("beanshell".equals(type)) {
-            clazz = BeanShellCondition.class.getName();
-        } else {
+        if (clazz == null) {
             clazz = (String) args.get(CLASS_NAME);
         }
 
@@ -888,7 +858,7 @@ public class AbstractWorkflow implements Workflow {
     }
 
     protected boolean passesConditions(String conditionType, List conditions, Map transientVars, PropertySet ps, int currentStepId) throws WorkflowException {
-        if (conditions == null || conditions.size() == 0) {
+        if ((conditions == null) || (conditions.size() == 0)) {
             return true;
         }
 
@@ -926,6 +896,7 @@ public class AbstractWorkflow implements Workflow {
         if (descriptor == null) {
             return true;
         }
+
         return passesConditions(descriptor.getType(), descriptor.getConditions(), transientVars, ps, currentStepId);
     }
 
@@ -947,19 +918,9 @@ public class AbstractWorkflow implements Workflow {
             Map args = register.getArgs();
 
             String type = register.getType();
-            String clazz;
+            String clazz = TypeResolver.getRegister(type);
 
-            if ("remote-ejb".equals(type)) {
-                clazz = RemoteEJBRegister.class.getName();
-            } else if ("local-ejb".equals(type)) {
-                clazz = LocalEJBRegister.class.getName();
-            } else if ("jndi".equals(type)) {
-                clazz = JNDIRegister.class.getName();
-            } else if ("bsf".equals(type)) {
-                clazz = BSFRegister.class.getName();
-            } else if ("beanshell".equals(type)) {
-                clazz = BeanShellRegister.class.getName();
-            } else {
+            if (clazz == null) {
                 clazz = (String) args.get(CLASS_NAME);
             }
 
@@ -1007,19 +968,9 @@ public class AbstractWorkflow implements Workflow {
                     mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
                 }
 
-                String clazz;
+                String clazz = TypeResolver.getValidator(type);
 
-                if ("remote-ejb".equals(type)) {
-                    clazz = RemoteEJBValidator.class.getName();
-                } else if ("local-ejb".equals(type)) {
-                    clazz = LocalEJBValidator.class.getName();
-                } else if ("jndi".equals(type)) {
-                    clazz = JNDIValidator.class.getName();
-                } else if ("bsf".equals(type)) {
-                    clazz = BSFValidator.class.getName();
-                } else if ("beanshell".equals(type)) {
-                    clazz = BeanShellValidator.class.getName();
-                } else {
+                if (clazz == null) {
                     clazz = (String) args.get(CLASS_NAME);
                 }
 
@@ -1120,7 +1071,7 @@ public class AbstractWorkflow implements Workflow {
             }
 
             if (log.isDebugEnabled()) {
-                log.debug("Outcome: stepId=" + nextStep + ", status=" + theResult.getStatus() + ", owner=" + theResult.getOwner() + ", actionId=" + actionId + ", currentStep=" + (currentStep != null ? currentStep.getStepId() : 0));
+                log.debug("Outcome: stepId=" + nextStep + ", status=" + theResult.getStatus() + ", owner=" + theResult.getOwner() + ", actionId=" + actionId + ", currentStep=" + ((currentStep != null) ? currentStep.getStepId() : 0));
             }
 
             if (previousIds == null) {
@@ -1133,7 +1084,7 @@ public class AbstractWorkflow implements Workflow {
                 owner = null;
             } else {
                 Object o = ScriptVariableParser.translateVariables(owner, transientVars, ps);
-                owner = o != null ? o.toString() : null;
+                owner = (o != null) ? o.toString() : null;
             }
 
             String oldStatus = theResult.getOldStatus();
@@ -1153,7 +1104,7 @@ public class AbstractWorkflow implements Workflow {
             Date startDate = new Date();
             Date dueDate = null;
 
-            if (theResult.getDueDate() != null && theResult.getDueDate().length() > 0) {
+            if ((theResult.getDueDate() != null) && (theResult.getDueDate().length() > 0)) {
                 Object dueDateObject = ScriptVariableParser.translateVariables(theResult.getDueDate(), transientVars, ps);
 
                 if (dueDateObject instanceof Date) {
@@ -1210,19 +1161,9 @@ public class AbstractWorkflow implements Workflow {
                 mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
             }
 
-            String clazz;
+            String clazz = TypeResolver.getFunction(type);
 
-            if ("remote-ejb".equals(type)) {
-                clazz = RemoteEJBFunctionProvider.class.getName();
-            } else if ("local-ejb".equals(type)) {
-                clazz = LocalEJBFunctionProvider.class.getName();
-            } else if ("jndi".equals(type)) {
-                clazz = JNDIFunctionProvider.class.getName();
-            } else if ("bsf".equals(type)) {
-                clazz = BSFFunctionProvider.class.getName();
-            } else if ("beanshell".equals(type)) {
-                clazz = BeanShellFunctionProvider.class.getName();
-            } else {
+            if (clazz == null) {
                 clazz = (String) args.get(CLASS_NAME);
             }
 
@@ -1287,7 +1228,7 @@ public class AbstractWorkflow implements Workflow {
                 iterator.hasNext();) {
             ConditionalResultDescriptor conditionalResult = (ConditionalResultDescriptor) iterator.next();
 
-            if (passesConditions(null, conditionalResult.getConditions(), unmodifiableTransients, ps, step != null ? step.getStepId() : -1)) {
+            if (passesConditions(null, conditionalResult.getConditions(), unmodifiableTransients, ps, (step != null) ? step.getStepId() : (-1))) {
                 //if (evaluateExpression(conditionalResult.getCondition(), entry, wf.getRegisters(), null, transientVars)) {
                 theResults[0] = conditionalResult;
 
@@ -1314,7 +1255,7 @@ public class AbstractWorkflow implements Workflow {
             log.debug("theResult=" + theResults[0].getStep() + " " + theResults[0].getStatus());
         }
 
-        if (extraPreFunctions != null && extraPreFunctions.size() > 0) {
+        if ((extraPreFunctions != null) && (extraPreFunctions.size() > 0)) {
             // run any extra pre-functions that haven't been run already
             for (Iterator iterator = extraPreFunctions.iterator();
                     iterator.hasNext();) {
@@ -1502,7 +1443,7 @@ public class AbstractWorkflow implements Workflow {
         }
 
         //if executed action was an initial action then workflow is activated
-        if (wf.getInitialAction(action.getId()) != null && entry.getState() != WorkflowEntry.ACTIVATED) {
+        if ((wf.getInitialAction(action.getId()) != null) && (entry.getState() != WorkflowEntry.ACTIVATED)) {
             changeEntryState(entry.getId(), WorkflowEntry.ACTIVATED);
         }
 
