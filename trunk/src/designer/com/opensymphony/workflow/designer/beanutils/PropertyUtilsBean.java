@@ -1,7 +1,7 @@
 /*
- * $Header: /zpool01/javanet/scm/svn/tmp/cvs2svn/osworkflow/src/designer/com/opensymphony/workflow/designer/beanutils/PropertyUtilsBean.java,v 1.1 2003-12-06 18:05:58 hani Exp $
- * $Revision: 1.1 $
- * $Date: 2003-12-06 18:05:58 $
+ * $Header: /zpool01/javanet/scm/svn/tmp/cvs2svn/osworkflow/src/designer/com/opensymphony/workflow/designer/beanutils/PropertyUtilsBean.java,v 1.2 2003-12-06 18:55:41 hani Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003-12-06 18:55:41 $
  *
  * ====================================================================
  *
@@ -123,7 +123,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Gregor Raýman
  * @author Jan Sorensen
  * @author Scott Sanders
- * @version $Revision: 1.1 $ $Date: 2003-12-06 18:05:58 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-06 18:55:41 $
  * @see PropertyUtils
  * @since 1.7
  */
@@ -670,7 +670,7 @@ public class PropertyUtilsBean
       }
       if(bean == null)
       {
-        throw new IllegalArgumentException("Null property value for '" + name.substring(0, indexOfNESTED_DELIM) + "'");
+        throw new NullPointerException("Null property value for '" + name.substring(0, indexOfNESTED_DELIM) + "'");
       }
       name = name.substring(indexOfNESTED_DELIM + 1);
     }
