@@ -36,13 +36,11 @@ public abstract class ConditionEditor
 
   public ConditionDescriptor add()
   {
-    String selection = getSelection();
-    if(selection == null)
+    ConfigConditionDescriptor condition = getCondition();
+    if(condition == null)
     {
       return null;
     }
-
-    ConfigConditionDescriptor condition = getNewCondition(selection);
 
     condition = editCondition(condition);
 
@@ -67,11 +65,11 @@ public abstract class ConditionEditor
 
   public void modify(ConditionDescriptor cond)
   {
-    ConfigConditionDescriptor condition = null;
+    ConfigConditionDescriptor condition;
 
     if(cond.getName() != null)
     {
-      condition = getNewCondition(cond.getName());
+	    condition = new ConfigConditionDescriptor(getModel().getPalette().getJoinCondition(cond.getName()));
     }
     else
     {
@@ -98,7 +96,7 @@ public abstract class ConditionEditor
     {
       clazz = "com.opensymphony.workflow.designer.spi.DefaultConditionPlugin";
     }
-    ConditionPlugin condImpl = null;
+    ConditionPlugin condImpl;
     try
     {
       condImpl = (ConditionPlugin)Class.forName(clazz).newInstance();
@@ -126,8 +124,5 @@ public abstract class ConditionEditor
 
   abstract protected AbstractDescriptor getParent();
 
-  abstract protected ConfigConditionDescriptor getNewCondition(String selection);
-
-  abstract protected String getSelection();
-
+  abstract protected ConfigConditionDescriptor getCondition();
 }

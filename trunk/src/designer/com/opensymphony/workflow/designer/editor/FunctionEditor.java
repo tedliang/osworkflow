@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.opensymphony.workflow.designer.WorkflowCell;
 import com.opensymphony.workflow.designer.WorkflowGraphModel;
-import com.opensymphony.workflow.designer.spi.DefaultFunctionPluginImpl;
-import com.opensymphony.workflow.designer.spi.IFunctionPlugin;
+import com.opensymphony.workflow.designer.spi.DefaultFunctionPlugin;
+import com.opensymphony.workflow.designer.spi.FunctionPlugin;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
 import com.opensymphony.workflow.loader.FunctionDescriptor;
@@ -36,13 +36,11 @@ public abstract class FunctionEditor
 
   public FunctionDescriptor add()
   {
-    String selection = getSelection();
-    if(selection == null)
+    ConfigFunctionDescriptor function = getFunction();
+    if(function == null)
     {
       return null;
     }
-
-    ConfigFunctionDescriptor function = getNewFunction(selection);
 
     function = editFunction(function);
 
@@ -66,11 +64,11 @@ public abstract class FunctionEditor
 
   public void modify(FunctionDescriptor func)
   {
-    ConfigFunctionDescriptor function = null;
+    ConfigFunctionDescriptor function;
 
     if(func.getName() != null)
     {
-      function = getNewFunction(func.getName());
+	    function = new ConfigFunctionDescriptor(getModel().getPalette().getPrefunction(func.getName()));
     }
     else
     {
@@ -95,17 +93,17 @@ public abstract class FunctionEditor
     String clazz = config.getPlugin();
     if(clazz == null || clazz.length() == 0)
     {
-      clazz = "com.opensymphony.workflow.designer.spi.DefaultFunctionPluginImpl";
+      clazz = "com.opensymphony.workflow.designer.spi.DefaultFunctionPlugin";
     }
-    IFunctionPlugin funcImpl = null;
+    FunctionPlugin funcImpl;
     try
     {
-      funcImpl = (IFunctionPlugin)Class.forName(clazz).newInstance();
+      funcImpl = (FunctionPlugin)Class.forName(clazz).newInstance();
     }
     catch(Exception e1)
     {
       e1.printStackTrace();
-      funcImpl = new DefaultFunctionPluginImpl();
+      funcImpl = new DefaultFunctionPlugin();
     }
 
     funcImpl.setFunction(config);
@@ -125,7 +123,5 @@ public abstract class FunctionEditor
 
   abstract protected AbstractDescriptor getParent();
 
-  abstract protected ConfigFunctionDescriptor getNewFunction(String selection);
-
-  abstract protected String getSelection();
+	abstract protected ConfigFunctionDescriptor getFunction();
 }

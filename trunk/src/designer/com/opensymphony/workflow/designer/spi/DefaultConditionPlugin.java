@@ -27,7 +27,7 @@ public class DefaultConditionPlugin implements ConditionPlugin
 
   public boolean editCondition(Map args)
   {
-    Map newArg = DialogUtils.getMapDialog(condition.getArgs(), condition.getType(), condition.getName(), condition.getDescription());
+    Map newArg = DialogUtils.getMapDialog(condition.getArgs(), condition.getType(), condition.getDisplayName(), condition.getDescription());
     if(newArg == null)
     {
       return false;

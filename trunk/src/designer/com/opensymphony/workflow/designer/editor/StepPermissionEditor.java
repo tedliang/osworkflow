@@ -23,15 +23,15 @@ public class StepPermissionEditor extends ConditionEditor
     return ((ActionDescriptor)getCell().getDescriptor().getActions().get(0)).getRestriction();
   }
 
-  protected ConfigConditionDescriptor getNewCondition(String selection)
-  {
-    return new PermissionConditionDescriptor(getModel().getPalette().getPermissionCondition(selection));
-  }
-
-  protected String getSelection()
-  {
-    return DialogUtils.getUserSelection(getModel().getPalette().getPermissionNames(), ResourceManager.getString("permission.select.step"), ResourceManager.getString("permission.select"), null);
-  }
+	protected ConfigConditionDescriptor getCondition()
+	{
+		PermissionConditionDescriptor template = (PermissionConditionDescriptor)DialogUtils.getUserSelection(getModel().getPalette().getPermissionConditions(),
+		  ResourceManager.getString("permission.select.step"),
+		  ResourceManager.getString("permission.select"), null);
+		if(template!=null)
+		  return new PermissionConditionDescriptor(template);
+		return null;
+	}
 
   protected StepCell getCell()
   {

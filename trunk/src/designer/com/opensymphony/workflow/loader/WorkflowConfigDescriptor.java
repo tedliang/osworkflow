@@ -3,6 +3,7 @@ package com.opensymphony.workflow.loader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -20,47 +21,41 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
   protected List resultList = new ArrayList();
   protected String defaultOldStatus = null;
   protected String defaultNextStatus = null;
+	private ResourceBundle bundle;
 
-  public WorkflowConfigDescriptor(Element root)
+	public WorkflowConfigDescriptor(Element root, ResourceBundle bundle)
   {
+	  this.bundle = bundle;
     init(root);
   }
 
-  public String[] getJoinNames()
-  {
-    String[] names = new String[joinList.size()];
+	public ConfigConditionDescriptor[] getJoinConditions()
+	{
+		ConfigConditionDescriptor[] config = new ConfigConditionDescriptor[joinList.size()];
+		joinList.toArray(config);
+		return config;
+	}
 
-    for(int i = 0; i < names.length; i++)
-    {
-      ConfigConditionDescriptor condition = (ConfigConditionDescriptor)joinList.get(i);
-      names[i] = condition.getName();
-    }
-    return names;
+  public ConfigFunctionDescriptor[] getPreFunctions()
+  {
+	  ConfigFunctionDescriptor[] array = new ConfigFunctionDescriptor[preList.size()];
+	  preList.toArray(array);
+	  return array;
   }
 
-  public String[] getPreNames()
+  public PermissionConditionDescriptor[] getPermissionConditions()
   {
-    String[] names = new String[preList.size()];
-
-    for(int i = 0; i < names.length; i++)
-    {
-      ConfigFunctionDescriptor pre = (ConfigFunctionDescriptor)preList.get(i);
-      names[i] = pre.getName();
-    }
-    return names;
+	  PermissionConditionDescriptor[] array = new PermissionConditionDescriptor[permissionList.size()];
+	  permissionList.toArray(array);
+	  return array;
   }
 
-  public String[] getPermissionNames()
-  {
-    String[] names = new String[permissionList.size()];
-
-    for(int i = 0; i < names.length; i++)
-    {
-      PermissionConditionDescriptor perm = (PermissionConditionDescriptor)permissionList.get(i);
-      names[i] = perm.getName();
-    }
-    return names;
-  }
+	public ConfigConditionDescriptor[] getResultConditions()
+	{
+		ConfigConditionDescriptor[] config = new ConfigConditionDescriptor[resultList.size()];
+		resultList.toArray(config);
+		return config;
+	}
 
   public String[] getStatusNames()
   {
@@ -70,18 +65,6 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
     {
       StatusDescriptor status = (StatusDescriptor)statusList.get(i);
       names[i] = status.getName();
-    }
-    return names;
-  }
-
-  public String[] getResultNames()
-  {
-    String[] names = new String[resultList.size()];
-
-    for(int i = 0; i < names.length; i++)
-    {
-      ConfigConditionDescriptor result = (ConfigConditionDescriptor)resultList.get(i);
-      names[i] = result.getName();
     }
     return names;
   }
@@ -191,6 +174,8 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
       {
         Element condition = (Element)joins.item(i);
         ConfigConditionDescriptor jcd = new ConfigConditionDescriptor(condition);
+	      jcd.setDescription(bundle.getString(jcd.getName() + ".long"));
+	      jcd.setDisplayName(bundle.getString(jcd.getName()));
         jcd.setParent(this);
         joinList.add(jcd);
       }
@@ -205,6 +190,8 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
       {
         Element function = (Element)joins.item(i);
         ConfigFunctionDescriptor pd = new ConfigFunctionDescriptor(function);
+	      pd.setDescription(bundle.getString(pd.getName() + ".long"));
+	      pd.setDisplayName(bundle.getString(pd.getName()));
         pd.setParent(this);
         preList.add(pd);
       }
@@ -219,6 +206,8 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
       {
         Element condition = (Element)joins.item(i);
         PermissionConditionDescriptor pcd = new PermissionConditionDescriptor(condition);
+	      pcd.setDescription(bundle.getString(pcd.getName() + ".long"));
+	      pcd.setDisplayName(bundle.getString(pcd.getName()));
         pcd.setParent(this);
         permissionList.add(pcd);
       }
@@ -233,6 +222,8 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
       {
         Element condition = (Element)joins.item(i);
         ConfigConditionDescriptor rcd = new ConfigConditionDescriptor(condition);
+	      rcd.setDescription(bundle.getString(rcd.getName() + ".long"));
+	      rcd.setDisplayName(bundle.getString(rcd.getName()));
         rcd.setParent(this);
         resultList.add(rcd);
       }

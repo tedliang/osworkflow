@@ -12,6 +12,7 @@ public class ConfigConditionDescriptor extends ConditionDescriptor
 {
   protected String plugin;
   protected String description;
+	protected String displayName;
 
   public ConfigConditionDescriptor()
   {
@@ -25,14 +26,13 @@ public class ConfigConditionDescriptor extends ConditionDescriptor
 
   public ConfigConditionDescriptor(ConfigConditionDescriptor config)
   {
-    this.setDescription(config.getDescription());
     this.setPlugin(config.getPlugin());
-
     this.setName(config.getName());
     this.setNegate(config.isNegate());
     this.setType(config.getType());
-
     this.getArgs().putAll(config.getArgs());
+	  displayName = config.displayName;
+	  description = config.description;
   }
 
   protected void init(Element condition)
@@ -40,7 +40,6 @@ public class ConfigConditionDescriptor extends ConditionDescriptor
     type = condition.getAttribute("type");
 
     String n = condition.getAttribute("negate");
-    boolean negate;
     if("true".equalsIgnoreCase(n) || "yes".equalsIgnoreCase(n))
     {
       negate = true;
@@ -51,7 +50,6 @@ public class ConfigConditionDescriptor extends ConditionDescriptor
     }
 
     NodeList args = condition.getElementsByTagName("arg");
-
     for(int l = 0; l < args.getLength(); l++)
     {
       Element arg = (Element)args.item(l);
@@ -59,11 +57,7 @@ public class ConfigConditionDescriptor extends ConditionDescriptor
     }
 
     plugin = XMLUtil.getChildText(condition, "plugin");
-
     name = XMLUtil.getChildText(condition, "name");
-
-    description = XMLUtil.getChildText(condition, "description");
-
   }
 
   public void writeXML(PrintWriter writer, int indent)
@@ -75,6 +69,16 @@ public class ConfigConditionDescriptor extends ConditionDescriptor
   {
     return description;
   }
+
+	public String getDisplayName()
+	{
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName)
+	{
+		this.displayName = displayName;
+	}
 
   public String getPlugin()
   {
@@ -90,4 +94,9 @@ public class ConfigConditionDescriptor extends ConditionDescriptor
   {
     plugin = string;
   }
+
+	public String toString()
+	{
+		return displayName!=null ? displayName : name;
+	}
 }
