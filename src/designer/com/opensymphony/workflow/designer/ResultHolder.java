@@ -1,22 +1,20 @@
 package com.opensymphony.workflow.designer;
 
-import org.jgraph.graph.DefaultGraphCell;
 import com.opensymphony.workflow.loader.ResultDescriptor;
 import com.opensymphony.workflow.loader.ActionDescriptor;
+import org.jgraph.graph.DefaultGraphCell;
 
-public class ResultCell extends WorkflowCell
+public class ResultHolder
 {
-  private DefaultGraphCell fromCell;
+  private WorkflowCell fromCell;
   private ResultDescriptor descriptor;
   //the action that causes this result
   private ActionDescriptor action;
 
-  public ResultCell(DefaultGraphCell fromCell, ResultDescriptor resultDescriptor, ActionDescriptor action)
+  public ResultHolder(WorkflowCell fromCell, ResultDescriptor resultDescriptor, ActionDescriptor action)
   {
-    super(action);
     this.fromCell = fromCell;
     descriptor = resultDescriptor;
-    id = descriptor.getId();
     this.action = action;
   }
 
