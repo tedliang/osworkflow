@@ -23,6 +23,9 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
   protected PortView port, firstPort;
   private WorkflowGraph graph;
 
+  //
+  protected boolean readyToConnect = false;
+
   public WorkflowMarqueeHandler(WorkflowGraph graph)
   {
     this.graph = graph;
@@ -107,20 +110,30 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     return getSourcePortAt(point);
   }
 
-// Display PopupMenu or Remember Start Location and First Port
+  // Display PopupMenu or Remember Start Location and First Port
   public void mousePressed(final MouseEvent e)
   {
     // If Right Mouse Button
-    if(SwingUtilities.isRightMouseButton(e))
+    if(e.isPopupTrigger())
     {
       // Scale From Screen to Model
-      Point loc = graph.fromScreen(e.getPoint());
+      //Point loc = fromScreen(e.getPoint());
       // Find Cell in Model Coordinates
-      Object cell = graph.getFirstCellForLocation(loc.x, loc.y);
+      Object cell = graph.getFirstCellForLocation(e.getX(), e.getY());
       // Create PopupMenu for the Cell
-      graph.showMenu(cell, e.getX(), e.getY());
-//				JPopupMenu menu = createPopupMenu(e.getPoint(), cell);
-//				menu.show(graph, e.getX(), e.getY());
+      System.out.println(this + " cell=" + cell);
+      if(cell == null)
+      {
+        graph.showMenu(e.getX(), e.getY());
+      }
+      else
+      {
+        if(!(cell instanceof InitialActionCell))
+        {
+          //      		System.out.println(cell);
+          graph.showDelete(e.getX(), e.getY());
+        }
+      }
 
       // Else if in ConnectMode and Remembered Port is Valid
     }
@@ -132,6 +145,7 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
       firstPort = port;
       // Consume Event
       e.consume();
+      readyToConnect = false;
     }
     else
     // Call Superclass
@@ -144,13 +158,16 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     // If remembered Start Point is Valid
     if(start != null && !e.isConsumed())
     {
+      // ready to connect
+      readyToConnect = true;
+
       // Fetch Graphics from Graph
       Graphics g = graph.getGraphics();
       // Xor-Paint the old Connector (Hide old Connector)
       paintConnector(Color.black, graph.getBackground(), g);
       // Reset Remembered Port
       PortView newPort = getTargetPortAt(e.getPoint());
-      if(port!=newPort && port!=null)
+      if(port != newPort && port != null)
       {
         paintPort(g);
       }
@@ -174,25 +191,18 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
   public void mouseReleased(MouseEvent e)
   {
     // If Valid Event, Current and First Port
-    if(e != null && !e.isConsumed() && port != null && firstPort != null && firstPort != port)
+    // first connect first is OK
+    if(e != null && !e.isConsumed() && port != null && firstPort != null && readyToConnect)
     {
+      readyToConnect = false;
       // Then Establish Connection
       WorkflowCell source = (WorkflowCell)((WorkflowPort)firstPort.getCell()).getParent();
       WorkflowCell target = (WorkflowCell)((WorkflowPort)port.getCell()).getParent();
-      System.out.println("connect " + source + "->" + target);
-//      ResultEditor editor = new ResultEditor();
-//      ResultDescriptor result = new ResultDescriptor();
-//      result.setId(graph.getWorkflowGraphModel().getNextId());
-//      result.setOldStatus("Finished");
-//      result.setOwner("${caller}");
-//      ActionDescriptor action = new ActionDescriptor();
-//      action.setId(graph.getWorkflowGraphModel().getNextId());
-//      editor.setCell(new ResultCell(source, result, action));
-//      int ok = JOptionPane.showConfirmDialog(graph, editor, "Specify Result", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-//      if(ok==JOptionPane.OK_OPTION)
-      {
-//				connect((Port) firstPort.getCell(), (Port) port.getCell());
-      }
+      //      System.out.println("connect " + source + "->" + target);
+      ConnectHelper.connect(source, target, (WorkflowGraphModel)graph.getModel());
+      //		System.out.println("connectable "+ ConnectHelper.connect(source, target, (WorkflowGraphModel)graph.getModel()));
+
+      //				connect((Port) firstPort.getCell(), (Port) port.getCell());
       // Consume Event
       e.consume();
       // Else Repaint the Graph
