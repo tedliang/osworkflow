@@ -10,7 +10,7 @@ package com.opensymphony.workflow.spi.hibernate;
  *   By seperating out the Current Step from the Previous
   * Step classes, they can be easily written into seperate tables.
   * @see {@link HibernateHistoryStep}
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class HibernateCurrentStep extends HibernateStep {
     //~ Constructors ///////////////////////////////////////////////////////////

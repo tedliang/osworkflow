@@ -15,7 +15,7 @@ import java.util.Map;
  * will be mapped to the properties parameter.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public interface FunctionProvider {
     //~ Methods ////////////////////////////////////////////////////////////////

@@ -41,7 +41,7 @@ import java.util.Map;
  *
  * @author <a href="mike.g.slack@usahq.unitedspacealliance.com ">Michael G. Slack</a>
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class UnscheduleJob implements FunctionProvider {
     //~ Static fields/initializers /////////////////////////////////////////////

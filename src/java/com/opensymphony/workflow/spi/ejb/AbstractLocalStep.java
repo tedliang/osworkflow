@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  * Remote interface for steps. Used to encapsulate common methods between history and current steps.
  *
  * @author Hani Suleiman
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface AbstractLocalStep {
     //~ Methods ////////////////////////////////////////////////////////////////

@@ -13,7 +13,7 @@ import java.util.Map;
  * Interface that must be implemented for workflow registers to behave properly.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Patrick Lightbody</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface Register {
     //~ Methods ////////////////////////////////////////////////////////////////

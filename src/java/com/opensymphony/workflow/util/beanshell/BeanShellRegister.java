@@ -21,7 +21,7 @@ import java.util.Map;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class BeanShellRegister implements Register {
     //~ Static fields/initializers /////////////////////////////////////////////

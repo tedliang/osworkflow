@@ -29,7 +29,7 @@ import javax.xml.parsers.*;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ConfigLoader {
     //~ Static fields/initializers /////////////////////////////////////////////

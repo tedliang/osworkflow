@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
 
 /*
  * @author Hani Suleiman
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  * Date: Apr 6, 2002
  * Time: 11:48:14 PM
  */

@@ -13,7 +13,7 @@ package com.opensymphony.workflow.query;
  * whereby all expressions must return true for a result to be included.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WorkflowExpressionQuery {
     //~ Static fields/initializers /////////////////////////////////////////////

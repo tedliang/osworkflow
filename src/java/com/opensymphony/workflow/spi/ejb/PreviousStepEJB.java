@@ -14,7 +14,7 @@ import javax.ejb.EntityBean;
  * @ejb.home generate="false"
  *
  * @author <a href="mailto:hani@formicary.net">Hani Suleiman</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class PreviousStepEJB implements EntityBean {
     //~ Methods ////////////////////////////////////////////////////////////////

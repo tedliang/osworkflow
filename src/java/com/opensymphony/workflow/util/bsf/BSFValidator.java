@@ -25,7 +25,7 @@ import java.util.Map;
  * Validates a step using a BSF script.
  *
  * @author $Author: hani $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class BSFValidator implements Validator {
     //~ Methods ////////////////////////////////////////////////////////////////

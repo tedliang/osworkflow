@@ -18,7 +18,7 @@ import java.util.Map;
  * bean would then implement this interface in order for a register to be successfully registered.
  *
  * @author <a href="mailto:hani@formicary.net">Hani Suleiman</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface RegisterRemote extends Remote {
     //~ Methods ////////////////////////////////////////////////////////////////

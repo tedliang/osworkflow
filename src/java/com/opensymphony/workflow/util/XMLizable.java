@@ -12,7 +12,7 @@ import java.io.Serializable;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface XMLizable extends Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////

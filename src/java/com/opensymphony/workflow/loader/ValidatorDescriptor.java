@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ValidatorDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////

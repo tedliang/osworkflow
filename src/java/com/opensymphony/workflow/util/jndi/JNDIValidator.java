@@ -21,7 +21,7 @@ import javax.naming.NamingException;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class JNDIValidator implements Validator {
     //~ Static fields/initializers /////////////////////////////////////////////

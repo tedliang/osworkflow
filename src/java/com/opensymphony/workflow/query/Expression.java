@@ -13,7 +13,7 @@ package com.opensymphony.workflow.query;
  * <li>Context: The context to search in, which can be one history, current steps, or a workflow instance.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Expression {
     //~ Static fields/initializers /////////////////////////////////////////////

@@ -15,6 +15,7 @@ import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.workflow.*;
 import com.opensymphony.workflow.basic.BasicWorkflow;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
+import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 
 import electric.util.Context;
@@ -29,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
  * Soap enabled Wrapper around a BasicWorkflow
  *
  * @author $author$
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class BasicSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -103,6 +104,10 @@ public class BasicSOAPWorkflow implements Workflow {
     }
 
     public List query(WorkflowQuery query) throws StoreException {
+        return new BasicWorkflow(getRemoteUser()).query(query);
+    }
+
+    public List query(WorkflowExpressionQuery query) throws WorkflowException {
         return new BasicWorkflow(getRemoteUser()).query(query);
     }
 
