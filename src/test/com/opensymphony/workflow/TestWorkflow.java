@@ -6,6 +6,7 @@ package com.opensymphony.workflow;
 
 import com.opensymphony.workflow.basic.BasicWorkflow;
 import com.opensymphony.workflow.config.ConfigLoader;
+import com.opensymphony.workflow.spi.StoreFactory;
 
 import java.net.URL;
 
@@ -24,6 +25,9 @@ public class TestWorkflow extends BasicWorkflow {
 
     public TestWorkflow(String caller) {
         super(caller);
+
+        //lets clear out the old store
+        StoreFactory.clearCache();
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
