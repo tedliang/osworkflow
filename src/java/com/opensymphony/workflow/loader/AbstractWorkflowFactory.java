@@ -26,6 +26,8 @@ public abstract class AbstractWorkflowFactory {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public abstract boolean isModifiable(String name);
+
     /**
      * Get the configuration properties of this factory
      */
