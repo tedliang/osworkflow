@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE entitymodel PUBLIC "-//OFBiz//DTD Entity Model//EN" "http://www.ofbiz.org/dtds/entitymodel.dtd">
+
+<entitymodel>
+	<title>Entity Model for OSWorkflow</title>
+	<description>None</description>
+	<copyright>Copyright (c) 2002 Atlassian</copyright>
+	<author>Mike Cannon-Brookes and Victor Salaman</author>
+	<version>1.0</version>
+
+	<!-- sequence generator table -->
+	<entity entity-name="SequenceValueItem" table-name="SEQUENCE_VALUE_ITEM" package-name="">
+		<field name="seqName" type="id-long-ne"></field>
+		<field name="seqId" type="numeric"></field>
+		<prim-key field="seqName" />
+	</entity>
+
+
+	<!-- OSUser implementation -->
+	<entity entity-name="OSUser" table-name="OSUSER" package-name="">
+		<field name="id" col-name="id" type="numeric"/>
+		<field name="name" col-name="name" type="long-varchar"/>
+		<field name="passwordHash" col-name="passwordHash" type="long-varchar"/>
+		<prim-key field="id"/>
+	</entity>
+
+	<entity entity-name="OSMembership" table-name="OSMEMBERSHIP" package-name="">
+		<field name="id" col-name="id" type="numeric"/>
+		<field name="userName" col-name="userId" type="long-varchar"/>
+		<field name="groupName" col-name="groupId" type="long-varchar"/>
+		<prim-key field="id"/>
+	</entity>
+
+	<entity entity-name="OSGroup" table-name="OSGROUP" package-name="">
+		<field name="id" col-name="id" type="numeric"/>
+		<field name="name" col-name="name" type="long-varchar"/>
+		<prim-key field="id"/>
+	</entity>
+
+
+	<!-- PropertySet implementation -->
+	<entity entity-name="OSPropertyEntry" table-name="OS_PROPERTYENTRY" package-name="">
+		<field name="id" col-name="id" type="numeric"/>
+		<field name="entityName" col-name="entityName" type="long-varchar"/>
+		<field name="entityId" col-name="entityId" type="numeric"/>
+        <field name="type" col-name="type" type="integer"/>
+		<field name="propertyKey" col-name="keyValue" type="long-varchar"/>
+		<prim-key field="id"/>
+	</entity>
+
+	<entity entity-name="OSPropertyString" table-name="OS_PROPERTYSTRING" package-name="">
+		<field name="id" col-name="id" type="numeric"/>
+		<field name="value" col-name="value" type="very-long"/>
+		<prim-key field="id"/>
+	</entity>
+
+	<entity entity-name="OSPropertyDate" table-name="OS_PROPERTYDATE" package-name="">
+		<field name="id" col-name="id" type="numeric"/>
+		<field name="value" col-name="value" type="date-time"/>
+		<prim-key field="id"/>
+	</entity>
+
+	<entity entity-name="OSPropertyData" table-name="OS_PROPERTYDATA" package-name="">
+		<field name="id" col-name="id" type="numeric"/>
+		<field name="value" col-name="value" type="blob"/>
+		<prim-key field="id"/>
+	</entity>
+
+	<entity entity-name="OSPropertyDecimal" table-name="OS_PROPERTYDECIMAL" package-name="">
+		<field name="id" col-name="id" type="numeric"/>
+		<field name="value" col-name="value" type="floating-point"/>
+		<prim-key field="id"/>
+	</entity>
+
+	<entity entity-name="OSPropertyNumber" table-name="OS_PROPERTYNUMBER" package-name="">
+		<field name="id" col-name="id" type="numeric"/>
+		<field name="value" col-name="value" type="numeric"/>
+		<prim-key field="id"/>
+	</entity>
+
+    <!-- osworkflow -->
+    <entity entity-name="OSWorkflowEntry" table-name="OS_WFENTRY"  package-name="">
+        <field name="id" col-name="ID" type="numeric"/>
+        <field name="name" col-name="NAME" type="short-varchar"/>
+        <field name="state" col-name="STATE" type="integer"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="OSCurrentStep" table-name="OS_CURRENTSTEP" package-name="">
+        <field name="id" col-name="ID" type="numeric"/>
+        <field name="entryId" col-name="ENTRY_ID" type="numeric"/>
+        <field name="stepId" col-name="STEP_ID" type="integer"/>
+        <field name="actionId" col-name="ACTION_ID" type="integer"/>
+        <field name="owner" col-name="OWNER" type="short-varchar"/>
+        <field name="startDate" col-name="START_DATE" type="date-time"/>
+        <field name="dueDate" col-name="DUE_DATE" type="date-time"/>
+        <field name="finishDate" col-name="FINISH_DATE" type="date-time"/>
+        <field name="status" col-name="STATUS" type="short-varchar"/>
+        <field name="caller" col-name="CALLER" type="short-varchar"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="OSHistoryStep" table-name="OS_HISTORYSTEP" package-name="">
+        <field name="id" col-name="ID" type="numeric"/>
+        <field name="entryId" col-name="ENTRY_ID" type="numeric"/>
+        <field name="stepId" col-name="STEP_ID" type="integer"/>
+        <field name="actionId" col-name="ACTION_ID" type="integer"/>
+        <field name="owner" col-name="OWNER" type="short-varchar"/>
+        <field name="startDate" col-name="START_DATE" type="date-time"/>
+        <field name="dueDate" col-name="DUE_DATE" type="date-time"/>
+        <field name="finishDate" col-name="FINISH_DATE" type="date-time"/>
+        <field name="status" col-name="STATUS" type="short-varchar"/>
+        <field name="caller" col-name="CALLER" type="short-varchar"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="OSCurrentStepPrev" table-name="OS_CURRENTSTEP_PREV"  package-name="">
+        <field name="id" col-name="ID" type="numeric"/>
+        <field name="previousId" col-name="PREVIOUS_ID" type="numeric"/>
+        <prim-key field="id"/>
+        <prim-key field="previousId"/>
+    </entity>
+
+    <entity entity-name="OSHistoryStepPrev" table-name="OS_HISTORYSTEP_PREV"  package-name="">
+        <field name="id" col-name="ID" type="numeric"/>
+        <field name="previousId" col-name="PREVIOUS_ID" type="numeric"/>
+        <prim-key field="id"/>
+        <prim-key field="previousId"/>
+    </entity>
+
+</entitymodel>
