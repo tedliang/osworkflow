@@ -151,9 +151,9 @@ public final class ActionManager
       longDescription = getString(bundle, id + '.' + LONG_DESCRIPTION, name);
 
 			URL iconURL = iconPath != null ? getClass().getClassLoader().getResource(iconPath) : null;
-			if(iconURL == null)
+			if(iconURL == null && iconPath != null)
 			{
-				System.out.println("WARNING Invalid icon " + iconPath + " specified in actions.properties");
+				System.out.println("WARNING Invalid icon " + iconPath + " specified in actions.properties for action '" + name + "'");
 				icon = null;
 			}
 			else
