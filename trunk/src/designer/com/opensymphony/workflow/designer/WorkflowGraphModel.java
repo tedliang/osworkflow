@@ -150,7 +150,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
     while(steps.hasNext())
     {
       StepCell stepCell = (StepCell)steps.next();
-      System.out.println("insertResltConnections");
       processStepEndPointResult(stepCell);
     }
     Iterator splits = splitCells.values().iterator();
