@@ -42,7 +42,7 @@
     <property name="src.client" value="${src}/designer"/>
     <property name="src.etc" value="${src}/etc"/>
     <property name="src.webapp" value="${src}/webapp"/>
-    <property name="propertyset.jar" value="propertyset-1.3-1Oct03.jar"/>
+    <property name="propertyset.jar" value="propertyset-1.3-29Dec03.jar"/>
     <property name="oscore.jar" value="oscore-2.2.1.jar"/>
     <property name="build" location="build"/>
     <property name="build.test" value="${build}/test"/>
