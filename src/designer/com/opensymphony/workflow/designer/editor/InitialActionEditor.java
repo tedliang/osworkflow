@@ -10,9 +10,8 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.opensymphony.workflow.designer.InitialActionCell;
 import com.opensymphony.workflow.designer.UIFactory;
-import com.opensymphony.workflow.designer.listener.ActionNameListener;
-import com.opensymphony.workflow.designer.listener.ActionViewListener;
 import com.opensymphony.workflow.designer.listener.RestrictTypeListener;
+import com.opensymphony.workflow.designer.listener.TextFieldListener;
 import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.designer.model.FunctionsTableModel;
 import com.opensymphony.workflow.loader.ActionDescriptor;
@@ -28,10 +27,8 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 {
   private JTextField id = new JTextField(12);
 
-  private ActionNameListener nameListener = new ActionNameListener();
   private JTextField name = new JTextField(12);
 
-  private ActionViewListener viewListener = new ActionViewListener();
   private JTextField view = new JTextField(12);
 
   private RestrictTypeListener restrictListener = new RestrictTypeListener();
@@ -45,6 +42,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 
   private FunctionsTableModel postModel = new FunctionsTableModel();
   private JTable post;
+  private ActionDescriptor descriptor;
 
   public InitialActionEditor()
   {
@@ -78,11 +76,23 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
     builder.add(id, cc.xy(4, 3));
 
     builder.addLabel("Name", cc.xy(2, 5));
-    name.getDocument().addDocumentListener(nameListener);
+    name.getDocument().addDocumentListener(new TextFieldListener()
+    {
+      protected void valueChanged(String msg)
+      {
+        descriptor.setName(msg);
+      }
+    });
     builder.add(name, cc.xy(4, 5));
 
     builder.addLabel("View", cc.xy(2, 7));
-    view.getDocument().addDocumentListener(viewListener);
+    view.getDocument().addDocumentListener(new TextFieldListener()
+    {
+      protected void valueChanged(String msg)
+      {
+        descriptor.setView(msg);
+      }
+    });
     builder.add(view, cc.xy(4, 7));
 
     builder.addSeparator("Permissions", cc.xywh(2, 9, 3, 1));
@@ -135,13 +145,10 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
   protected void updateView()
   {
     InitialActionCell cell = (InitialActionCell)getCell();
-    ActionDescriptor descriptor = cell.getActionDescriptor();
+    descriptor = cell.getActionDescriptor();
     id.setText(String.valueOf(cell.getId()));
 
-    nameListener.setAction(descriptor);
     name.setText(descriptor.getName());
-
-    viewListener.setAction(descriptor);
     view.setText(descriptor.getView());
 
     RestrictionDescriptor rd = descriptor.getRestriction();

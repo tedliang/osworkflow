@@ -26,8 +26,8 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
   private Point menuLocation = new Point();
 
   private WorkflowDescriptor descriptor;
-  private JPopupMenu menu;
-  private JPopupMenu delete;
+  private JPopupMenu genericMenu;
+  private JPopupMenu cellMenu;
 
   public WorkflowGraph(GraphModel model, WorkflowDescriptor descriptor, Layout layout, boolean doAutoLayout)
   {
@@ -54,16 +54,16 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     setPortsVisible(true);
 
     // one set of menu <==> one graph <==> one workflow descriptor
-    menu = new JPopupMenu();
+    genericMenu = new JPopupMenu();
     JMenu n = new JMenu("New");
-    menu.add(n);
+    genericMenu.add(n);
     n.add(new CreateStep(descriptor, getWorkflowGraphModel(), menuLocation));
     //	n.add(new CreateInitialAction(descriptor, getWorkflowGraphModel(), menuLocation));
     n.add(new CreateJoin(descriptor, getWorkflowGraphModel(), menuLocation));
     n.add(new CreateSplit(descriptor, getWorkflowGraphModel(), menuLocation));
 
-    delete = new JPopupMenu();
-    delete.add(new Delete(descriptor, this, menuLocation));
+    cellMenu = new JPopupMenu();
+    cellMenu.add(new Delete(descriptor, this, menuLocation));
 
     new DropTarget(this, this);
   }
@@ -242,14 +242,14 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
   {
     menuLocation.x = x;
     menuLocation.y = y;
-    menu.show(this, x, y);
+    genericMenu.show(this, x, y);
   }
 
   public void showDelete(int x, int y)
   {
     menuLocation.x = x;
     menuLocation.y = y;
-    delete.show(this, x, y);
+    cellMenu.show(this, x, y);
   }
 
   public boolean removeEdge(ResultEdge edge)
