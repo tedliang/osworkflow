@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Migrating from version 1.0</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+    </head>
+
+    <body>
+	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <p class="paragraph">Migrating from OSWorkflow 1.x to 2.1+ is slightly complex due to the introduction of joins and splits, which means that there <b class="strong">can now be more than one current step</b>. Below is an attempt to provide helpful information for migrating your application to version 2.1+:
+<ul class="star">
+<li> <b class="strong">Check your workflow XML file with the latest DTD</b> - the DTD has changed a bit, especially with regards to functions, validators, and registers. The location attribute for these has been removed and must now be set with an <b class="strong">arg</b> name/value pair. Please read the documentation for the exact values you should place here.</li>
+<li> <b class="strong">Data migration</b> - the tables in version 1.x were much simpler than they are now in 2.1+. <b class="strong">Status values have changed from numbers to Strings</b>. <b class="strong">The conversion is as follows: 0 -&gt; Queued, 1 -&gt; Underway, 2 - &gt; Finished</b>. Below is a small guide to help you migrate your data so that it works under 2.1+:</li>
+</ul>
+<h3 class="heading3"> The old OSWorkflow schema is as follows:</h3></p><div class="code"><pre>entry &#10;&#45;&#45;&#45;&#45; &#10;id &#10;name &#10;currentStep &#10;&#10;step &#10;&#45;&#45; &#10;id &#10;entryId &#10;status &#10;startDate &#10;finishDate &#10;actionId &#10;owner</pre></div><p class="paragraph"><h3 class="heading3"> The new schema is now:</h3></p><div class="code"><pre>OS&#95;WFENTRY &#10;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &#10;ID &#10;NAME &#10;INITIALIZED &#10;&#10;&#10;OS&#95;CURRENTSTEP &#10;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &#10;ID &#10;ENTRY&#95;ID &#10;STEP&#95;ID &#10;ACTION&#95;ID &#10;OWNER &#10;START&#95;DATE &#10;FINISH&#95;DATE &#10;STATUS &#10;&#10;&#10;OS&#95;HISTORYSTEP &#10;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &#10;ID &#10;ENTRY&#95;ID &#10;STEP&#95;ID &#10;ACTION&#95;ID &#10;OWNER &#10;START&#95;DATE &#10;FINISH&#95;DATE &#10;STATUS &#10;&#10;&#10;OS&#95;CURRENTSTEP&#95;PREV &#10;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &#10;ID &#10;PREVIOUS&#95;ID &#10;&#10;&#10;OS&#95;HISTORYSTEP&#95;PREV &#10;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &#10;ID &#10;PREVIOUS&#95;ID</pre></div><p class="paragraph"><h3 class="heading3"> How to migrate</h3></p>First, dump all non-initialized workflows in your old schema with 
+
+<div class="code"><pre>DELTE <span class="sql&#45;keyword">FROM</span> entry <span class="sql&#45;keyword">WHERE</span> currentStep is NULL or currentStep = 0;</pre></div><p class="paragraph">Now we can assume the rest of the workflow instances are all initialized. Now just copy the (id, workflowName) tuple in to OS_WFENTRY as the tuple (id, name, 1) (the 1 is to mark the workflow as initialized).</p>Next, using the currentStep attribute on the old &quot;entry&quot; table, make a query to populate OS_CURRENTSTEP. For the previousId attribute in the old &quot;step&quot; table, populate the OS_CURRENTSTEP_PREV with the tuple (currentStep, previousId). <p class="paragraph">Lastly, delete all entries in the old &quot;step&quot; table that have a join to the &quot;entry&quot; table (ensuring the step table only contains history steps now). Now do the same thing you did above for the rest of the tuples in &quot;step&quot;, except use the OS_HISTORYSTEP and OS_HISTORYSTEP_PREV tables.</p>
+
+				    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

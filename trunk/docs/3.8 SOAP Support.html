@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>3.8 SOAP Support</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+    </head>
+
+    <body>
+	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul class="star">
+<li> Back to <a href="3.7 Conditions.html">3.7 Conditions</a></li>
+<li> Forward to <a href="4. GUI Designer.html">4. GUI Designer</a></li>
+</ul><br/>
+OSWorkflow comes with support for remote invocation using SOAP. This is accomplished using the Glue SOAP implementation from <span class="nobr"><a href="http://www.webmethods.com/solutions/wM_Glue_OEM_ISV/">WebMethods<sup><img src="./icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="&gt;&gt;" border="0"/></sup></a></span>. It has not been tested with any other SOAP implementations, but getting C# to integrate in with OSWorkflow should be a fairly trivial task. We hope to include C# sample code in the near future. <b class="strong">If you wish to use an alternate SOAP implementation, such as Apache Axis, you are free to write your own wrappers to speak with OSWorkflow &#8211; it should be very simple. However, we recommend GLUE as your SOAP provider of choice.</b><p class="paragraph">GLUE does <b class="strong">not</b> come with OSWorkflow and must be downloaded separately from <span class="nobr"><a href="http://www.webmethods.com/solutions/wM_Glue_OEM_ISV/">WebMethods<sup><img src="./icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="&gt;&gt;" border="0"/></sup></a></span>. GLUE is generally free for most usage. You can find the license agreement when you download GLUE. <b class="strong">Again, SOAP and Job Scheduling support will not be available if you do not download GLUE 2.1 or later and include GLUE-STD.jar in your classpath.</b></p>SOAP support is optional and can only be enabled by including the Glue servlet in your web application, as detailed in the GLUE documentation. SOAP support <b class="strong">must</b> be enabled for scheduled jobs to occur, using the Quartz job scheduler. Here is some example code that uses Glue to talk to OSWorkflow:
+
+<div class="code"><pre><span class="java&#45;keyword">import</span> electric.util.Context;&#10;<span class="java&#45;keyword">import</span> electric.registry.Registry;&#10;<span class="java&#45;keyword">import</span> electric.registry.RegistryException;&#10;&#10;...&#10;&#10;Context context = <span class="java&#45;keyword">new</span> Context();&#10;context.setProperty( &quot;authUser&quot;, username );&#10;context.setProperty( &quot;authPassword&quot;, password );&#10;Workflow wf = (Workflow) Registry.bind(&#10;  &quot;http&#58;//localhost/osworkflow/glue/oswf.wsdl&quot;, Workflow.class, context);</pre></div><p class="paragraph">From this point onward, you can use the Workflow interface just as you normally would.</p>
+
+				    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>1.5 Loading Workflow Definitions</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+    </head>
+
+    <body>
+	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul class="star">
+<li> Back to <a href="1.4 Persistence Options.html">1.4 Persistence Options</a></li>
+<li> Forward to <a href="2. Integration with Other Modules.html">2. Integration with Other Modules</a></li>
+</ul><br/>
+OSWorkflow tries to be as flexible as possible with regards to configuration. Only one file is required to be in the classpath: <span class="nobr"><a href="#osworkflow.xml">osworkflow.xml</a></span>. This file dictates the persistence method (JDBC, EJB, Ofbiz) as well the workflow factory class that is to be used for loading workflow definitions. <p class="paragraph">The default factory is <b class="strong">com.opensymphony.workflow.loader.XMLWorkflowFactory</b>. This loads up a file in the classpath that in turn contains links to any number of workflow definition files, all in XML (<span class="nobr"><a href="http://www.opensymphony.com/osworkflow/workflow_2_6.dtd">see Appendix A<sup><img src="./icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="&gt;&gt;" border="0"/></sup></a></span>).</p>During test phase it&#039;s also useful to have your workflow definition files reloaded as they are changed. For this you can specify an optional property called <b class="strong">reload</b> (true|false) to your factory definition (default is false). If you would rather specify your workflow definitions in a different way, you are free to extend <span class="nobr"><a href="http://www.opensymphony.com/osworkflow/api/com/opensymphony/workflow/loader/AbstractWorkflowFactory.html">com.opensymphony.workflow.loader.AbstractWorkflowFactory<sup><img src="./icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="&gt;&gt;" border="0"/></sup></a></span> in any way that you like. <p class="paragraph"><b class="strong">com.opensymphony.workflow.loader.JDBCWorkflowFactory</b> for example is an alternative factory, that allows you to store your workflow definitions in a JDBC database instead of putting them into the xml files. (<a href="JDBCWorkflowFactory.html">JDBCWorkflowFactory</a>)</p>The most common configuration would be:
+<h3 class="heading3"> <a name="1.5+Loading+Workflow+Definitions-osworkflow.xml" ></a> osworkflow.xml:</h3>
+<div class="code"><pre>&lt;osworkflow&gt;&#10;  &lt;persistence class=&quot;com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore&quot;&gt;&#10;    &lt;arg name=&quot;foo&quot; value=&quot;bar&quot;/&gt;&#10;    ...&#10;  &lt;/persistence&gt;&#10;  &lt;factory class=&quot;com.opensymphony.workflow.loader.XMLWorkflowFactory&quot;&gt;&#10;    &lt;property key=&quot;resource&quot; value=&quot;workflows.xml&quot; /&gt;&#10;  &lt;/factory&gt;&#10;&lt;/osworkflow&gt;</pre></div>
+<h3 class="heading3"> <a name="1.5+Loading+Workflow+Definitions-workflows.xml" ></a> workflows.xml:</h3>
+
+<div class="code"><pre>&lt;workflows&gt;&#10;  &lt;workflow name=&quot;example&quot; type=&quot;resource&quot; location=&quot;example.xml&quot;/&gt;&#10;&lt;/workflows&gt;</pre></div>
+<ul class="star">
+<li> Back to <a href="1.4 Persistence Options.html">1.4 Persistence Options</a></li>
+<li> Forward to <a href="2. Integration with Other Modules.html">2. Integration with Other Modules</a></li>
+</ul>
+
+				    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

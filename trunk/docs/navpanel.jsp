@@ -1,7 +1,7 @@
 <p>
 <h3>About</h3>
 <a href="https://osworkflow.dev.java.net/files/documents/635/2474/osworkflow-2.6.0.zip">Download</a><br>
-<a href="Documentation.html">OSWorkflow Documentation</a><br>
+<a href="Manual.html">OSWorkflow Manual</a><br>
 <a href="api/">API Documentation</a><br>
 <a href="designer/">OSWorkflow GUI Designer</a><br>
 </p>

@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>5.2 Creating a new workflow</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+    </head>
+
+    <body>
+	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul class="star">
+<li> Back to <a href="5.1 Interface choices.html">5.1 Interface choices</a></li>
+<li> Forward to <a href="5.3 Executing actions.html">5.3 Executing actions</a></li>
+</ul><br/>
+This is a very brief guide on how you can create a new workflow instance using the OSWorkflow Java APIs. First, the workflow definition file (in XML) must be created and defined using the <a href="1.5 Loading Workflow Definitions.html">1.5 Loading Workflow Definitions</a>. Then your code must know what the <b class="strong">initialStep</b> value should be for initializing an instance. Before you can initialize a workflow you must <b class="strong">create</b> it so that you have an ID that can be referenced from now on in the API. The following code example illustrates this:
+
+<div class="code"><pre>Workflow wf = <span class="java&#45;keyword">new</span> BasicWorkflow(username);&#10;HashMap inputs = <span class="java&#45;keyword">new</span> HashMap();&#10;inputs.put(&quot;docTitle&quot;, request.getParameter(&quot;title&quot;));&#10;wf.initialize(&quot;workflowName&quot;, 1, inputs);</pre></div><p class="paragraph">Note that usually, you would use a more appropriate Workflow implementation rather than BasicWorkflow. For example, EJBWorkflow or OfbizWorkflow. If you want to use a Workflow store that does not have a custom workflow context implementation (for example, JDBC, or Hibernate), then use BasicWorkflow. Contributions of WorkflowContexts for various stores are more than welcome!</p>
+
+				    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

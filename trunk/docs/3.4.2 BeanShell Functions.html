@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>3.4.2 BeanShell Functions</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+    </head>
+
+    <body>
+	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul class="star">
+<li> Back to <a href="3.4.1 Java-based Functions.html">3.4.1 Java-based Functions</a></li>
+<li> Forward to <a href="3.4.3 BSF Functions.html">3.4.3 BSF Functions</a></li>
+</ul><br/>
+OSWorkflow supports BeanShell as a scripting language. You can find out more about BeanShell at the <span class="nobr"><a href="http://www.beanshell.org/">BeanShell website<sup><img src="./icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="&gt;&gt;" border="0"/></sup></a></span>. Reading the documentation for BeanShell should be more than enough to get started with scripting for your own workflow definition file. There are a few behaviors that you should be aware of before starting, however:<p class="paragraph">The <b class="strong">type</b> that must be chosen for BeanShell functions is <b class="strong">beanshell</b>. There is one required argument: <b class="strong">script</b>. The value for this argument is the actual script that is to be executed. Example:</p><div class="code"><pre>&lt;function type=&quot;beanshell&quot;&gt;&#10;	&lt;arg name=&quot;script&quot;&gt;	&#10;		<span class="java&#45;object">System</span>.out.println(&quot;Hello, World&#33;&quot;);&#10;	&lt;/arg&gt;&#10;&lt;/function&gt;</pre></div><p class="paragraph">There are three variables in the expression scope at all times: <em class="emphasis">entry</em> <em class="emphasis">context</em>, and <em class="emphasis">store</em>. The variable &quot;entry&quot; is an object that implements <em class="emphasis">com.opensymphony.workflow.spi.WorkflowEntry</em> and represents the workflow instance. The variable &quot;context&quot; is an object of type <em class="emphasis">com.opensymphony.workflow.WorkflowContext</em> which allows for BeanShell functions to roll back transactions or determine the caller name. The &quot;store&quot; variable is of type <em class="emphasis">com.opensymphony.workflow.WorkflowStore</em>
+ and allows the function to access the underlying workflow persistence store.</p>Just like <a href="3.4.1 Java-based Functions.html">3.4.1 Java-based Functions</a>, there are three variables that can be used and are automatically set in the BeanShell scope: <b class="strong">transientVars</b>, <b class="strong">args</b>, and <b class="strong">propertySet</b>. The same rules that apply to Java functions also apply here. Example:
+
+<div class="code"><pre>&lt;function type=&quot;beanshell&quot;&gt;&#10;	&lt;arg name=&quot;script&quot;&gt;	&#10;		propertySet.setString(&quot;world&quot;, &quot;Earth&quot;);&#10;	&lt;/arg&gt;&#10;&lt;/function&gt;&#10;&lt;function type=&quot;beanshell&quot;&gt;&#10;	&lt;arg name=&quot;script&quot;&gt;	&#10;		<span class="java&#45;object">System</span>.out.println(&quot;Hello, &quot;&#43;propertySet.getString(&quot;world&quot;));&#10;	&lt;/arg&gt;&#10;&lt;/function&gt;</pre></div><p class="paragraph">The output of these two scripts would be &quot;Hello, Earth&quot;. This is because any variable stored in the <b class="strong">propertySet</b> is persisted for use in functions later in the workflow.
+<ul class="star">
+<li> Back to <a href="3.4.1 Java-based Functions.html">3.4.1 Java-based Functions</a></li>
+<li> Forward to <a href="3.4.3 BSF Functions.html">3.4.3 BSF Functions</a></li>
+</ul></p>
+
+				    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

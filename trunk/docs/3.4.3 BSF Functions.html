@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>3.4.3 BSF Functions</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+    </head>
+
+    <body>
+	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul class="star">
+<li> Back to <a href="3.4.2 BeanShell Functions.html">3.4.2 BeanShell Functions</a></li>
+<li> Forward to <a href="3.4.4 Utility Functions.html">3.4.4 Utility Functions</a></li>
+</ul><br/>
+In addition to <a href="3.4.1 Java-based Functions.html">3.4.1 Java-based Functions</a> and <a href="3.4.2 BeanShell Functions.html">3.4.2 BeanShell Functions</a>, OSWorkflow supports a third type of function: <span class="nobr"><a href="http://oss.software.ibm.com/developerworks/projects/bsf">Bean Scripting Framework<sup><img src="./icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="&gt;&gt;" border="0"/></sup></a></span> functions. BSF is a project by IBM&#039;s AlphaWorks group that allows for commonly used languages such as VBScript, Perlscript, Python, and JavaScript to operate in a common environment. What this means in OSWorkflow is that you can code your functions in any language supported by BSF in the following manner:
+
+<div class="code"><pre>&lt;function type=&quot;bsf&quot;&gt;&#10;	&lt;arg name=&quot;source&quot;&gt;foo.pl&lt;/arg&gt;&#10;	&lt;arg name=&quot;row&quot;&gt;0&lt;/arg&gt;&#10;	&lt;arg name=&quot;col&quot;&gt;0&lt;/arg&gt;&#10;	&lt;arg name=&quot;script&quot;&gt;&#10;		print $bsf&#45;&gt;lookupBean(&quot;propertySet&quot;).getString(&quot;foo&quot;);&#10;	&lt;/arg&gt;&#10;&lt;/function&gt;</pre></div><p class="paragraph">The above code gets the <b class="strong">propertySet</b> then prints out the value with the key &quot;foo&quot;. The same variables that are in default scope in BeanShell functions are available to lookup in your BSF script. Please read the BSF guide for info on how to lookup these beans in your language of choice.</p>
+
+				    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

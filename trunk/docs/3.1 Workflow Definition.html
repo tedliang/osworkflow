@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>3.1 Workflow Definition</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+    </head>
+
+    <body>
+	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul class="star">
+<li> Back to <a href="3. Understanding OSWorkflow.html">3. Understanding OSWorkflow</a></li>
+<li> Forward to <a href="3.2 Workflow Concepts.html">3.2 Workflow Concepts</a></li>
+</ul><br/>
+At the heart of OSWorkflow is the workflow definition descriptor. The descriptor is an XML file (although it doesn&#039;t have to be, but XML is the format supported out of the box).<p class="paragraph">This descriptor describes all the steps, states, transitions, and functionality for a given workflow.
+<ul type="square" class="minus">
+<li> A workflow consists of multiple steps to represent the flow.</li>
+</ul><ul type="square" class="minus">
+<li> For the current step, there may be multiple actions. An action may be set to run automatically or be selected to be run programmatically through user interaction.</li>
+</ul><ul type="square" class="minus">
+<li> Each action has at least one unconditional result and zero or more conditional results.</li>
+</ul><ul type="square" class="minus">
+<li> If multiple conditional results are specified, the first result for which all conditions are met is executed. If no conditional results are specified, or if no conditions are satisfied, then the unconditional result is executed.</li>
+</ul><ul type="square" class="minus">
+<li> A result might remain in the current step, reference a new step, reference a split, or reference a join. In all cases, the state of the workflow can also change (example workflow states are Underway, Queued, and Finished).</li>
+</ul><ul type="square" class="minus">
+<li> If a result causes a split, the result specifies a split attribute which points to a split element that defines the splits.</li>
+</ul><ul type="square" class="minus">
+<li> A split may have one or more unconditional results, but no conditional results. The unconditional results reference the steps coming from the split.</li>
+</ul><ul type="square" class="minus">
+<li> A register is a global variable, that is resolved for every workflow invocation and is always available to all functions and conditions.</li>
+</ul><ul type="square" class="minus">
+<li> A propertyset is a map of persistent data that is available globally.</li>
+</ul><ul type="square" class="minus">
+<li> A map called &#039;transientVars&#039; is a map of transient data that is available to all functions and conditions that includes all registers, user inputs, as well as the current workflow context and state. It exists only during the lifetime of a workflow invocation.</li>
+</ul></p>
+
+				    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>
