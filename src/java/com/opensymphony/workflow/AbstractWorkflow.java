@@ -816,7 +816,7 @@ public class AbstractWorkflow implements Workflow {
 
     protected Object loadObject(String clazz) {
         try {
-            return ClassLoaderUtil.loadClass(clazz, getClass()).newInstance();
+            return ClassLoaderUtil.loadClass(clazz.trim(), getClass()).newInstance();
         } catch (Exception e) {
             log.error("Could not load object '" + clazz + "'", e);
 
