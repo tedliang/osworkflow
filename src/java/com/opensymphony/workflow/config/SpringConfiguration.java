@@ -9,6 +9,8 @@ import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.loader.WorkflowFactory;
 import com.opensymphony.workflow.spi.WorkflowStore;
+import com.opensymphony.workflow.util.DefaultVariableResolver;
+import com.opensymphony.workflow.util.VariableResolver;
 
 import java.net.URL;
 
@@ -18,12 +20,14 @@ import java.util.Map;
 /**
  * @author        Quake Wang
  * @since        2004-5-2
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  *
  **/
 public class SpringConfiguration implements Configuration {
     //~ Instance fields ////////////////////////////////////////////////////////
 
+    //we init this for backward compat since existing spring configs likely don't specify this
+    private VariableResolver variableResolver = new DefaultVariableResolver();
     private WorkflowFactory factory;
     private WorkflowStore store;
 
@@ -33,11 +37,7 @@ public class SpringConfiguration implements Configuration {
         this.factory = factory;
     }
 
-    /* (non-Javadoc)
-     * @see com.opensymphony.workflow.config.Configuration#isInitialized()
-     */
     public boolean isInitialized() {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -45,24 +45,24 @@ public class SpringConfiguration implements Configuration {
         return factory.isModifiable(name);
     }
 
-    /* (non-Javadoc)
-     * @see com.opensymphony.workflow.config.Configuration#getPersistence()
-     */
     public String getPersistence() {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see com.opensymphony.workflow.config.Configuration#getPersistenceArgs()
-     */
     public Map getPersistenceArgs() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public void setStore(WorkflowStore store) {
         this.store = store;
+    }
+
+    public void setVariableResolver(VariableResolver variableResolver) {
+        this.variableResolver = variableResolver;
+    }
+
+    public VariableResolver getVariableResolver() {
+        return variableResolver;
     }
 
     public WorkflowDescriptor getWorkflow(String name) throws FactoryException {
@@ -83,11 +83,7 @@ public class SpringConfiguration implements Configuration {
         return store;
     }
 
-    /* (non-Javadoc)
-     * @see com.opensymphony.workflow.config.Configuration#load(java.net.URL)
-     */
     public void load(URL url) throws FactoryException {
-        // TODO Auto-generated method stub
     }
 
     public boolean removeWorkflow(String workflow) throws FactoryException {

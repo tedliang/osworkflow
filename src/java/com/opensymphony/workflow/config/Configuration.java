@@ -8,6 +8,7 @@ import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.spi.WorkflowStore;
+import com.opensymphony.workflow.util.VariableResolver;
 
 import java.net.URL;
 
@@ -53,6 +54,11 @@ public interface Configuration {
      * affect store behaviour.
      */
     Map getPersistenceArgs();
+
+    /**
+     * Return the resolver to use for all variables specified in scripts
+     */
+    VariableResolver getVariableResolver();
 
     /**
      * Get the named workflow descriptor.

@@ -13,7 +13,7 @@ import com.opensymphony.workflow.loader.*;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.*;
-import com.opensymphony.workflow.util.ScriptVariableParser;
+import com.opensymphony.workflow.util.VariableResolver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,7 +37,7 @@ public class AbstractWorkflow implements Workflow {
     protected WorkflowContext context;
     private Configuration configuration;
     private ThreadLocal stateCache = new ThreadLocal();
-    private TypeResolver resolver;
+    private TypeResolver typeResolver;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -241,15 +241,15 @@ public class AbstractWorkflow implements Workflow {
     }
 
     public void setResolver(TypeResolver resolver) {
-        this.resolver = resolver;
+        this.typeResolver = resolver;
     }
 
     public TypeResolver getResolver() {
-        if (resolver == null) {
-            resolver = TypeResolver.getResolver();
+        if (typeResolver == null) {
+            typeResolver = TypeResolver.getResolver();
         }
 
-        return resolver;
+        return typeResolver;
     }
 
     /**
@@ -846,7 +846,7 @@ public class AbstractWorkflow implements Workflow {
             for (Iterator iterator = args.entrySet().iterator();
                     iterator.hasNext();) {
                 Map.Entry mapEntry = (Map.Entry) iterator.next();
-                mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
+                mapEntry.setValue(getConfiguration().getVariableResolver().translateVariables((String) mapEntry.getValue(), transientVars, ps));
             }
 
             FunctionProvider provider = getResolver().getFunction(type, args);
@@ -874,7 +874,7 @@ public class AbstractWorkflow implements Workflow {
         for (Iterator iterator = args.entrySet().iterator();
                 iterator.hasNext();) {
             Map.Entry mapEntry = (Map.Entry) iterator.next();
-            mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
+            mapEntry.setValue(getConfiguration().getVariableResolver().translateVariables((String) mapEntry.getValue(), transientVars, ps));
         }
 
         if (currentStepId != -1) {
@@ -1311,7 +1311,7 @@ public class AbstractWorkflow implements Workflow {
                 for (Iterator iterator2 = args.entrySet().iterator();
                         iterator2.hasNext();) {
                     Map.Entry mapEntry = (Map.Entry) iterator2.next();
-                    mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
+                    mapEntry.setValue(getConfiguration().getVariableResolver().translateVariables((String) mapEntry.getValue(), transientVars, ps));
                 }
 
                 Validator validator = getResolver().getValidator(type, args);
@@ -1451,16 +1451,18 @@ public class AbstractWorkflow implements Workflow {
 
             String owner = theResult.getOwner();
 
+            VariableResolver variableResolver = getConfiguration().getVariableResolver();
+
             if (owner != null) {
-                Object o = ScriptVariableParser.translateVariables(owner, transientVars, ps);
+                Object o = variableResolver.translateVariables(owner, transientVars, ps);
                 owner = (o != null) ? o.toString() : null;
             }
 
             String oldStatus = theResult.getOldStatus();
-            oldStatus = ScriptVariableParser.translateVariables(oldStatus, transientVars, ps).toString();
+            oldStatus = variableResolver.translateVariables(oldStatus, transientVars, ps).toString();
 
             String status = theResult.getStatus();
-            status = ScriptVariableParser.translateVariables(status, transientVars, ps).toString();
+            status = variableResolver.translateVariables(status, transientVars, ps).toString();
 
             if (currentStep != null) {
                 store.markFinished(currentStep, actionId, new Date(), oldStatus, context.getCaller());
@@ -1474,7 +1476,7 @@ public class AbstractWorkflow implements Workflow {
             Date dueDate = null;
 
             if ((theResult.getDueDate() != null) && (theResult.getDueDate().length() > 0)) {
-                Object dueDateObject = ScriptVariableParser.translateVariables(theResult.getDueDate(), transientVars, ps);
+                Object dueDateObject = variableResolver.translateVariables(theResult.getDueDate(), transientVars, ps);
 
                 if (dueDateObject instanceof Date) {
                     dueDate = (Date) dueDateObject;
