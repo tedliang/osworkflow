@@ -22,7 +22,7 @@ import com.opensymphony.workflow.config.WorkspaceManager;
 import com.opensymphony.workflow.designer.editor.*;
 import com.opensymphony.workflow.designer.swing.*;
 import com.opensymphony.workflow.designer.swing.status.StatusBar;
-import com.opensymphony.workflow.loader.WorkflowConfigDescriptor;
+import com.opensymphony.workflow.loader.PaletteDescriptor;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.loader.Workspace;
 import org.apache.commons.logging.Log;
@@ -54,7 +54,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   private CardPanel detailPanel = new CardPanel();
   private FramePanel detailFramePanel;
   public static WorkflowDesigner INSTANCE = null;
-  private WorkflowConfigDescriptor palette = null;
+  private PaletteDescriptor palette = null;
   private static Splash splash;
   public StatusBar statusBar;
 
@@ -375,7 +375,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 	    ResourceBundle bundle = ResourceBundle.getBundle("META-INF/palette", Locale.getDefault(), getClass().getClassLoader());
       Element root = (Element)doc.getElementsByTagName("plugin").item(0);
 
-      palette = new WorkflowConfigDescriptor(root, bundle);
+      palette = new PaletteDescriptor(root, bundle);
     }
     catch(SAXException e)
     {

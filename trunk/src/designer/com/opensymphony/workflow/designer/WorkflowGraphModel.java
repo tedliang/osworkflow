@@ -19,7 +19,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   private IDGenerator resultIdGenerator = new IDGenerator();
   private Layout layout;
   private Object context = new Object();
-  private WorkflowConfigDescriptor palette;
+  private PaletteDescriptor palette;
 
   public WorkflowGraphModel(Layout layout)
   {
@@ -31,12 +31,12 @@ public class WorkflowGraphModel extends DefaultGraphModel
     return context;
   }
 
-  public WorkflowConfigDescriptor getPalette()
+  public PaletteDescriptor getPalette()
   {
     return palette;
   }
 
-  public void setPalette(WorkflowConfigDescriptor palette)
+  public void setPalette(PaletteDescriptor palette)
   {
     this.palette = palette;
   }

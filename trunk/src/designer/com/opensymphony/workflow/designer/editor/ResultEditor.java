@@ -109,7 +109,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
 
   protected void updateView()
   {
-    WorkflowConfigDescriptor palette = getModel().getPalette();
+    PaletteDescriptor palette = getModel().getPalette();
     status.setModel(new DefaultComboBoxModel(palette.getStatusNames()));
     oldStatus.setModel(new DefaultComboBoxModel(palette.getStatusNames()));
     ResultEdge result = (ResultEdge)getEdge();

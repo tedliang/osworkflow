@@ -1,7 +1,7 @@
 package com.opensymphony.workflow.designer.model;
 
 import com.opensymphony.workflow.loader.ConditionDescriptor;
-import com.opensymphony.workflow.loader.WorkflowConfigDescriptor;
+import com.opensymphony.workflow.loader.PaletteDescriptor;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.WorkflowGraphModel;
@@ -63,7 +63,7 @@ public class ConditionsTableModel extends ListTableModel
   public Object getValueAt(int rowIndex, int columnIndex)
   {
     ConditionDescriptor condition = (ConditionDescriptor)list.get(rowIndex);
-    WorkflowConfigDescriptor palette = graphModel.getPalette();
+    PaletteDescriptor palette = graphModel.getPalette();
     switch(columnIndex)
     {
       case 0:
@@ -78,7 +78,7 @@ public class ConditionsTableModel extends ListTableModel
             break;
           case RESULT:
             descriptor = palette.getResultCondition(condition.getName());
-            break;            
+            break;
         }
         return descriptor!=null && descriptor.getDisplayName()!=null ? descriptor.getDisplayName() : ResourceManager.getString("unknown");
       case 1:
