@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * @author        Quake Wang
  * @since        2004-5-2
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  *
  **/
 public class SpringConfiguration implements Configuration {
@@ -39,6 +39,10 @@ public class SpringConfiguration implements Configuration {
     public boolean isInitialized() {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    public boolean isModifiable(String name) {
+        return factory.isModifiable(name);
     }
 
     /* (non-Javadoc)

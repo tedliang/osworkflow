@@ -35,7 +35,7 @@ import javax.xml.parsers.*;
  * rather than in the calling client.
  *
  * @author Hani Suleiman
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class DefaultConfiguration implements Configuration, Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -54,6 +54,10 @@ public class DefaultConfiguration implements Configuration, Serializable {
 
     public boolean isInitialized() {
         return initialized;
+    }
+
+    public boolean isModifiable(String name) {
+        return factory.isModifiable(name);
     }
 
     public void setPersistence(String persistence) {
