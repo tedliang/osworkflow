@@ -4,24 +4,25 @@
  */
 package com.opensymphony.workflow.util.beanshell;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.opensymphony.module.propertyset.PropertySet;
+import com.opensymphony.module.propertyset.database.JDBCPropertySet;
+
+import com.opensymphony.workflow.AbstractWorkflow;
+import com.opensymphony.workflow.TestWorkflow;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 
-import com.opensymphony.module.propertyset.PropertySet;
-import com.opensymphony.module.propertyset.database.JDBCPropertySet;
-import com.opensymphony.workflow.AbstractWorkflow;
-import com.opensymphony.workflow.TestWorkflow;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
  * Unit test to prove that the BeanShellFunctionProvider eats the key exception
  * you need.  It tells you what line the script fails, but not the underlying
  * solution.
- * 
+ *
  * @author Eric Pugh (epugh@upstate.com)
  */
 public class BeanShellFunctionProviderTestCase extends TestCase {

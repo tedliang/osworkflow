@@ -4,17 +4,12 @@
  */
 package com.opensymphony.workflow.spi.hibernate;
 
-import com.opensymphony.module.propertyset.PropertySet;
-import com.opensymphony.module.propertyset.PropertySetManager;
-import com.opensymphony.module.propertyset.hibernate.DefaultHibernateConfigurationProvider;
-
-import com.opensymphony.util.TextUtils;
-
-import com.opensymphony.workflow.StoreException;
-import com.opensymphony.workflow.query.WorkflowQuery;
-import com.opensymphony.workflow.spi.Step;
-import com.opensymphony.workflow.spi.WorkflowEntry;
-import com.opensymphony.workflow.spi.WorkflowStore;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import net.sf.hibernate.Criteria;
 import net.sf.hibernate.Hibernate;
@@ -22,20 +17,31 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
 import net.sf.hibernate.Transaction;
-import net.sf.hibernate.cfg.Configuration;
 import net.sf.hibernate.expression.Expression;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.*;
+import com.opensymphony.module.propertyset.PropertySet;
+import com.opensymphony.module.propertyset.PropertySetManager;
+import com.opensymphony.module.propertyset.hibernate.DefaultHibernateConfigurationProvider;
+import com.opensymphony.util.TextUtils;
+import com.opensymphony.workflow.StoreException;
+import com.opensymphony.workflow.query.WorkflowQuery;
+import com.opensymphony.workflow.spi.Step;
+import com.opensymphony.workflow.spi.WorkflowEntry;
+import com.opensymphony.workflow.spi.WorkflowStore;
 
 
 /**
- *
+ * A workflow store backed by Hibernate for persistence.  To use this with the standard
+ * persistence factory, pass to the ConfigLoader.persistenceArgs the SessionFactory to
+ * use:
+ * <code>ConfigLoader.persistenceArgs.put("sessionFactory", DatabaseHelper.getSessionFactory());</code>
+ * See the HibernateFunctionalWorkflowTestCase for more help.
  *
  * @author $Author: dep4b $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
