@@ -27,7 +27,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -44,6 +44,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
     protected List splits = new ArrayList();
     protected List steps = new ArrayList();
     protected Map commonActions = new HashMap();
+    protected Map metaAttributes = new HashMap();
     protected Map timerFunctions = new HashMap();
 
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -134,6 +135,10 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
     */
     public List getJoins() {
         return joins;
+    }
+
+    public Map getMetaAttributes() {
+        return metaAttributes;
     }
 
     public List getRegisters() {
@@ -312,6 +317,26 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         XMLUtil.printIndent(out, indent++);
         out.println("<workflow>");
 
+        if (metaAttributes.size() > 0) {
+            XMLUtil.printIndent(out, indent++);
+            out.println("<attributes>");
+
+            Iterator iter = metaAttributes.entrySet().iterator();
+
+            while (iter.hasNext()) {
+                Map.Entry entry = (Map.Entry) iter.next();
+                XMLUtil.printIndent(out, indent);
+                out.print("<meta name=\"");
+                out.print(entry.getKey());
+                out.print("\">");
+                out.print(entry.getValue());
+                out.println("</meta>");
+            }
+
+            XMLUtil.printIndent(out, --indent);
+            out.println("</attributes>");
+        }
+
         if (registers.size() > 0) {
             XMLUtil.printIndent(out, indent++);
             out.println("<registers>");
@@ -406,6 +431,19 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
     }
 
     protected void init(Element root) {
+        Element att = XMLUtil.getChildElement(root, "attributes");
+
+        if (att != null) {
+            NodeList attributs = att.getElementsByTagName("meta");
+
+            for (int i = 0; i < attributs.getLength(); i++) {
+                Element meta = (Element) attributs.item(i);
+                String value = XMLUtil.getText(meta);
+
+                this.metaAttributes.put(meta.getAttribute("name"), value);
+            }
+        }
+
         // handle registers - OPTIONAL
         Element r = XMLUtil.getChildElement(root, "registers");
 
@@ -536,7 +574,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         StringWriter sw = new StringWriter();
         PrintWriter writer = new PrintWriter(sw);
         writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.6//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_6.dtd\">");
+        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.7//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_7.dtd\">");
         writeXML(writer, 0);
 
         try {
