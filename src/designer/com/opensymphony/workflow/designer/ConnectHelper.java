@@ -228,6 +228,7 @@ public class ConnectHelper
   private static boolean connectStepTo(StepCell source, WorkflowCell target, WorkflowGraphModel model)
   {
     ActionDescriptor sourceAction = DescriptorBuilder.createAction(source.getDescriptor(), source.getDescriptor().getName(), Utils.getNextId(model.getContext()));
+	  Utils.checkId(model.getContext(), sourceAction);
     AbstractDescriptor to;
     if(target instanceof StepCell)
     {
