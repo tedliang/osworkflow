@@ -231,6 +231,18 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         //there should be 1 steps that has been completed
         workflows = workflow.query(new WorkflowExpressionQuery(new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date())));
         assertEquals("Expected to find 1 history steps that was completed", 1, workflows.size());
+
+        //----------------------------------------------------------------------------
+        // ----- some more tests using nested expressions
+        long workflowId2 = workflow.initialize(workflowName, 1, Collections.EMPTY_MAP);
+        workflow.changeEntryState(workflowId, WorkflowEntry.SUSPENDED);
+        queryRight = new FieldExpression(FieldExpression.STATE, FieldExpression.ENTRY, FieldExpression.EQUALS, new Integer(WorkflowEntry.ACTIVATED));
+        queryLeft = new FieldExpression(FieldExpression.STATE, FieldExpression.ENTRY, FieldExpression.EQUALS, new Integer(WorkflowEntry.SUSPENDED));
+        query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
+                        queryLeft, queryRight
+                    }, NestedExpression.OR));
+        workflows = workflow.query(query);
+        assertEquals(2, workflows.size());
     }
 
     public void testWorkflowQuery() throws Exception {
