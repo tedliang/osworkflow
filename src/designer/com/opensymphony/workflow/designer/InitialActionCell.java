@@ -58,11 +58,5 @@ public class InitialActionCell extends WorkflowCell implements ResultAware
       return false;
     }
   }
-
-  public String getKey()
-  {
-    String myClassName = InitialActionCell.class.toString();
-    return (myClassName);
-  }
 }
 

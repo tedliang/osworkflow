@@ -55,7 +55,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
 
     // one set of menu <==> one graph <==> one workflow descriptor
     genericMenu = new JPopupMenu();
-    JMenu n = new JMenu("New");
+    JMenu n = new JMenu(ResourceManager.getString("create.new"));
     genericMenu.add(n);
     n.add(new CreateStep(descriptor, getWorkflowGraphModel(), menuLocation));
     //	n.add(new CreateInitialAction(descriptor, getWorkflowGraphModel(), menuLocation));
@@ -83,6 +83,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
       }
       List splitsList = descriptor.getSplits();
       for(int i = 0; i < splitsList.size(); i++)
+
       {
         SplitDescriptor split = (SplitDescriptor)splitsList.get(i);
         addSplitDescriptor(split);
@@ -122,7 +123,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
 
   public void addInitialActions(List initialActionList)
   {
-    InitialActionCell initialActionCell = new InitialActionCell("Start");
+    InitialActionCell initialActionCell = new InitialActionCell(ResourceManager.getString("action.initial.step"));
     // Create Vertex Attributes
     if(layout != null)
     {

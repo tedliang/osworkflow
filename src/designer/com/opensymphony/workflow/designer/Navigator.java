@@ -19,7 +19,7 @@ public class Navigator extends JTree implements TreeSelectionListener
 
   public Navigator(WorkflowDesigner designer)
   {
-    super(new DefaultTreeModel(new DefaultMutableTreeNode("<no workspace>")));
+    super(new DefaultTreeModel(new DefaultMutableTreeNode(ResourceManager.getString("workspace.none"))));
     rootNode = (DefaultMutableTreeNode)getModel().getRoot();
     this.designer = designer;
     addTreeSelectionListener(this);
@@ -76,7 +76,7 @@ public class Navigator extends JTree implements TreeSelectionListener
     }
     else
     {
-      root.setUserObject("<no workspace>");
+      root.setUserObject(ResourceManager.getString("workspace.none"));
     }
   }
 
