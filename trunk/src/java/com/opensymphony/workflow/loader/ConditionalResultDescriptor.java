@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class ConditionalResultDescriptor extends ResultDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -56,6 +56,10 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
 
         if (hasId()) {
             buf.append(" id=\"").append(getId()).append("\"");
+        }
+
+        if (dueDate != null) {
+            buf.append(" due-date=\"").append(getDueDate()).append("\"");
         }
 
         buf.append(" old-status=\"").append(oldStatus).append("\"");
