@@ -1507,7 +1507,13 @@ public class AbstractWorkflow implements Workflow {
             transientVars.put("createdStep", newStep);
 
             WorkflowDescriptor descriptor = (WorkflowDescriptor) transientVars.get("descriptor");
-            List preFunctions = descriptor.getStep(nextStep).getPreFunctions();
+            StepDescriptor step = descriptor.getStep(nextStep);
+
+            if (step == null) {
+                throw new WorkflowException("step #" + nextStep + " does not exist");
+            }
+
+            List preFunctions = step.getPreFunctions();
 
             for (Iterator iterator = preFunctions.iterator();
                     iterator.hasNext();) {
