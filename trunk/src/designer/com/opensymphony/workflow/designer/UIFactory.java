@@ -1,7 +1,9 @@
 package com.opensymphony.workflow.designer;
 
 import java.awt.event.ActionListener;
-import javax.swing.*;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 
@@ -14,7 +16,7 @@ public class UIFactory
 {
   public static JPanel getTableButtonBar(ActionListener listener, String prefix)
   {
-    if(prefix==null) prefix = "";
+    if(prefix == null) prefix = "";
     JButton[] buttons = new JButton[3];
     JButton add = new JButton("Add");
     add.setActionCommand(prefix + "add");
@@ -31,6 +33,25 @@ public class UIFactory
     JPanel panel = new JPanel();
     ButtonBarBuilder builder = new ButtonBarBuilder(panel);
     builder.addGriddedGrowingButtons(buttons);
+    return panel;
+  }
+
+  public static JPanel getTableButtonBar(ActionListener listener, String prefix, String[] names)
+  {
+    if(prefix == null) prefix = "";
+    JButton[] buttons = new JButton[names.length];
+    for(int i = 0; i < buttons.length; i++)
+    {
+      buttons[i] = new JButton(names[i]);
+      buttons[i].setActionCommand(prefix + names[i]);
+      buttons[i].addActionListener(listener);
+
+    }
+
+    JPanel panel = new JPanel();
+    ButtonBarBuilder builder = new ButtonBarBuilder(panel);
+    builder.addGriddedGrowingButtons(buttons);
+    //	panel.setPreferredSize(new Dimension(200, 100));
     return panel;
   }
 }
