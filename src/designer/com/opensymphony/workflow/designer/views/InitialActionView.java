@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer.views;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 import org.jgraph.JGraph;
 import org.jgraph.graph.CellMapper;
@@ -31,15 +32,13 @@ public class InitialActionView extends VertexView
   public Point getPerimeterPoint(Point source, Point p)
   {
     // Compute relative bounds
-    Rectangle r = getBounds();
-    int x = r.x;
-    int y = r.y;
-    int a = (r.width + 1) / 2;
-    int b = (r.height + 1) / 2;
+    Rectangle2D r = getBounds();
+    double a = (r.getWidth() + 1) / 2;
+    double b = (r.getHeight() + 1) / 2;
 
     // Get center
-    int xCenter = x + a;
-    int yCenter = y + b;
+    int xCenter = (int)r.getCenterX();
+    int yCenter = (int)r.getCenterY();
 
     // Compute angle
     int dx = p.x - xCenter;

@@ -437,7 +437,7 @@ public class SugiyamaLayoutAlgorithm implements LayoutAlgorithm
         // the cellView and their bounds
         CellView cellView = graphCellViews[i];
 
-        Rectangle cellViewBounds = cellView.getBounds();
+        Rectangle cellViewBounds = cellView.getBounds().getBounds();
 
         // checking min area
         try

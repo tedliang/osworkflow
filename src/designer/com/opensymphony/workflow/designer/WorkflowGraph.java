@@ -105,15 +105,15 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
 		return layout;
 	}
 
-  protected PortView createPortView(Object object, CellMapper mapper)
+  protected PortView createPortView(JGraph graph, CellMapper mapper, Object cell)
   {
-    return new CustomPortView(object, this, mapper);
+    return new CustomPortView(cell, graph, mapper);
   }
 
-  protected EdgeView createEdgeView(Object e, CellMapper cm)
-  {
-    return new CustomEdgeView(e, this, cm);
-  }
+  //protected EdgeView createEdgeView(JGraph graph, CellMapper mapper, Object cell)
+  //{
+  //  return new CustomEdgeView(cell, (WorkflowGraph)graph, mapper);
+  //}
 
   public void autoLayout()
   {
@@ -236,18 +236,18 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
    * Overriding method as required by JGraph API,
    * In order to return right View object corresponding to Cell.
    */
-  protected VertexView createVertexView(Object v, CellMapper cm)
+  protected VertexView createVertexView(JGraph graph, CellMapper cm, Object v)
   {
     if(v instanceof StepCell)
-      return new StepView(v, this, cm);
+      return new StepView(v, graph, cm);
     if(v instanceof SplitCell)
-      return new SplitView(v, this, cm);
+      return new SplitView(v, graph, cm);
     if(v instanceof JoinCell)
-      return new JoinView(v, this, cm);
+      return new JoinView(v, graph, cm);
     if(v instanceof InitialActionCell)
-      return new InitialActionView(v, this, cm);
+      return new InitialActionView(v, graph, cm);
     // Else Call Superclass
-    return super.createVertexView(v, cm);
+    return super.createVertexView(graph, cm, v);
   }
 
   public void showMenu(int x, int y)

@@ -2,8 +2,8 @@ package com.opensymphony.workflow.designer.views;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 import javax.swing.*;
 
 import org.jgraph.JGraph;
@@ -31,25 +31,26 @@ public class CustomPortView extends PortView
   /**
    * Returns the bounds for the port view.
    */
-  public Rectangle getBounds()
+  public Rectangle2D getBounds()
   {
-    Rectangle bounds = new Rectangle(getLocation(null));
-    bounds.x = bounds.x - WIDTH / 2;
-    bounds.width = WIDTH;
-    bounds.height = HEIGHT;
+    Point2D location = getLocation(null);
+    Rectangle2D bounds = new Rectangle2D.Double(location.getX() - WIDTH / 2, location.getY(), WIDTH, HEIGHT);
+    //bounds.x = bounds.x - WIDTH / 2;
+    //bounds.width = WIDTH;
+    //bounds.height = HEIGHT;
     return bounds;
   }
 
-  public Point getLocation(EdgeView edge)
-  {
-    Point p = super.getLocation(edge);
+  //public Point2D getLocation(EdgeView edge)
+  //{
+  //  Point p = super.getLocation(edge);
 //    if(edge!=null && edge.getSource()==edge.getTarget())
 //    {
 //      int index = ((WorkflowPort)getCell()).getEdgeIndex((Edge)edge.getCell());
 //      p.y = p.y - (5 * index);
 //    }
-    return p;
-  }
+//    return p;
+//  }
 
   public CellViewRenderer getRenderer()
   {
