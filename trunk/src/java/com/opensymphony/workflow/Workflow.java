@@ -119,7 +119,7 @@ public interface Workflow {
     * Initializes a workflow so that it can begin processing. A workflow must be initialized before it can
     * begin any sort of activity. It can only be initialized once.
     *
-    * @param workflowName The workflow instance id
+    * @param workflowName The workflow name to create and initialize an instance for
     * @param initialAction The initial step to start the workflow
     * @param inputs The inputs entered by the end-user
     * @throws InvalidRoleException if the user can't start this function
