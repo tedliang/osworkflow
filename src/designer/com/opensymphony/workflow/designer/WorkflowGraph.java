@@ -103,6 +103,11 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     return new CustomPortView(object, this, mapper);
   }
 
+  protected EdgeView createEdgeView(Object e, CellMapper cm)
+  {
+    return new CustomEdgeView(e, this, cm);
+  }
+
   public void autoLayout()
   {
     if(descriptor.getSteps().size() > 0)
