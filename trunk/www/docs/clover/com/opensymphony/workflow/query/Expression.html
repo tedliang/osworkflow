@@ -1,0 +1,2440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OSWorkflow Coverage Report</title>
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../style.css" TITLE="Style">
+</head>
+<body>
+  <!-- render overall pkg coverage graph -->
+<TABLE cellspacing="0" cellpadding="2">
+  <TBODY>
+    <!-- / Users/ hani/ projects/ osworkflow/ src/ java/ com/ opensymphony/ workflow/ query/ Expression.java -->
+  <TR>
+    <TD colspan="6" class="reportHeader">
+    <TABLE width="100%"><TR><TD valign="top" class="titleText">Clover coverage report -  OSWorkflow Coverage Report<DIV class="timestamp"><b>Coverage timestamp:</b>&nbsp;Wed Oct 8 2003 20:31:22 EDT</DIV>
+            <DIV class="navBar"><a href="../../../../pkgs-summary.html"><b>Overview</b></a>&nbsp;&nbsp;&nbsp;<a href="pkg-summary.html"><b>Package</b></a>&nbsp;&nbsp;&nbsp;<font class="navBarCurrent">File</font></DIV>
+    </TD>
+         <td class="headerStats" valign="top" width="40%" align="right">
+        <table align="right">
+         <tr>
+           <td nowrap><b>file stats:</b></td>
+           <td align="right"><b>LOC:</b></td>
+           <td align="right">147</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Methods:</b></td>
+           <td align="right">5</td>
+         </tr>
+         <tr>
+           <td></td>
+           <td align="right"><b>NCLOC:</b></td>
+           <td align="right">41</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Classes:</b></td>
+           <td align="right">1</td>
+         </tr>
+      </table>
+     </td>
+    </TR></TABLE>
+   </TD>
+  </TR>
+
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+  <TR>
+    <TD class="graphHeaderLeft"><b>&nbsp;Source file</b></TD>
+    <TD class="graphHeader">Conditionals</TD>
+    <TD class="graphHeader">Statements</TD>
+    <TD class="graphHeader">Methods</TD>
+    <TD class="graphHeader" align="left" colspan="2"><B>TOTAL</B></TD>
+  </TR>   
+  <TR>
+    <TD class="graphItem">
+        	   Expression.java
+	    </TD>
+   
+    <TD class="graphPercent" align="center"> - </TD>
+    <TD class="graphPercent" align="center">100%</TD>
+    <TD class="graphPercent" align="center">100%</TD>
+    <TD class="graphBarLeft" align="center"><B>100%</B></TD>
+    <TD class="graphBar">
+            <TABLE class="barGraph" cellspacing="0">
+        <TBODY>
+          <TR>
+	   	    <TD class="fullcover"><img alt="coverage" src="../../../../img/trans.gif" width="200" height="12"></TD> 
+	   	  </TR>
+	</TBODY>
+      </TABLE>
+          </TD>
+  </TR> 
+</TBODY>
+</TABLE>
+
+
+<TABLE cellspacing="0" cellpadding="0" class="srcView">
+<TBODY>
+
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;1
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/*</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;2
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Copyright (c) 2002-2003 by OpenSymphony</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;3
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * All rights reserved.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;4
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;5
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">package</span> com.opensymphony.workflow.query;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;6
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;7
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;8
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;9
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Workflow expressions are used when constructing a workflow query.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;10
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Expressions have three attributes. These are:</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;11
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * &lt;li&gt;operator: This is the operator to apply on the expression.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;12
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * &lt;li&gt;field: The workflow field to test agains</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;13
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * &lt;li&gt;Context: The context to search in, which can be one history, current steps, or a workflow instance.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;14
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> *</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;15
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * <span class="javadoc">@author</span> Christine Zimmermann</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;16
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * <span class="javadoc">@version</span> $Revision: 1.1 $</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;17
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+   <A name="Expression">&nbsp;18</A>
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLineClassStart">
+      <PRE class="srcLine">&nbsp;<span class="keyword">public</span> <span class="keyword">class</span> Expression {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;19
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Static fields/initializers /////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;20
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;21
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">// field operators</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;22
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;23
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;24
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the equality operator.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;25
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;26
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> EQUALS = 1;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;27
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;28
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;29
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the less than operator.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;30
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;31
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> LT = 2;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;32
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;33
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;34
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the greater than operator.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;35
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;36
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> GT = 3;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;37
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;38
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;39
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the not equals operator.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;40
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;41
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> NOT_EQUALS = 5;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;42
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;43
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">// fields</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;44
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;45
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;46
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the workflow owner field.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;47
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;48
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> OWNER = 1;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;49
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;50
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;51
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the workflow start date field.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;52
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;53
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> START_DATE = 2;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;54
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;55
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;56
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the workflow finish date field.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;57
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;58
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> FINISH_DATE = 3;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;59
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;60
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;61
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the workflow action field.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;62
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;63
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> ACTION = 4;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;64
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;65
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;66
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the workflow step field.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;67
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;68
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> STEP = 5;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;69
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;70
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;71
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the workflow caller field.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;72
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;73
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> CALLER = 6;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;74
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;75
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;76
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the workflow status field.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;77
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;78
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> STATUS = 7;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;79
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;80
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;81
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the workflow name field.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;82
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;83
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> NAME = 8;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;84
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;85
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;86
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * Constant for the state field.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;87
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;88
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> STATE = 9;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;89
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;90
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">// field context</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;91
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;92
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;93
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the history steps context.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;94
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Specifying this context means that the search</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;95
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * should be performed against the workflow steps.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;96
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;97
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> HISTORY_STEPS = 1;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;98
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;99
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;100
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the history steps context.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;101
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Specifying this context means that the search</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;102
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * should be performed against the workflow current steps.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;103
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;104
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> CURRENT_STEPS = 2;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;105
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;106
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;107
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Constant for the history steps context.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;108
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Specifying this context means that the search</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;109
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * should be performed against the workflow entries.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;110
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;111
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> final <span class="keyword">static</span> <span class="keyword">int</span> ENTRY = 3;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;112
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;113
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Instance fields ////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;114
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;115
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">private</span> Object value;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;116
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">private</span> <span class="keyword">int</span> context;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;117
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">private</span> <span class="keyword">int</span> field;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;118
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">private</span> <span class="keyword">int</span> operator;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;119
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;120
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Constructors ///////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;121
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;122
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 122: method entered 77 times.">&nbsp;77</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 122: method entered 77 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> Expression(<span class="keyword">int</span> field, <span class="keyword">int</span> context, <span class="keyword">int</span> operator, Object value) {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;123
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 123: statement executed 77 times.">&nbsp;77</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 123: statement executed 77 times."><PRE class="srcLine">&nbsp;        <span class="keyword">this</span>.context = context;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;124
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 124: statement executed 77 times.">&nbsp;77</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 124: statement executed 77 times."><PRE class="srcLine">&nbsp;        <span class="keyword">this</span>.operator = operator;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;125
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 125: statement executed 77 times.">&nbsp;77</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 125: statement executed 77 times."><PRE class="srcLine">&nbsp;        <span class="keyword">this</span>.field = field;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;126
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 126: statement executed 77 times.">&nbsp;77</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 126: statement executed 77 times."><PRE class="srcLine">&nbsp;        <span class="keyword">this</span>.value = value;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;127
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;128
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;129
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Methods ////////////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;130
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;131
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 131: method entered 63 times.">&nbsp;63</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 131: method entered 63 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">int</span> getContext() {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;132
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 132: statement executed 63 times.">&nbsp;63</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 132: statement executed 63 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> context;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;133
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;134
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;135
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 135: method entered 63 times.">&nbsp;63</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 135: method entered 63 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">int</span> getField() {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;136
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 136: statement executed 63 times.">&nbsp;63</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 136: statement executed 63 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> field;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;137
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;138
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;139
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 139: method entered 63 times.">&nbsp;63</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 139: method entered 63 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">int</span> getOperator() {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;140
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 140: statement executed 63 times.">&nbsp;63</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 140: statement executed 63 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> operator;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;141
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;142
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;143
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 143: method entered 63 times.">&nbsp;63</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 143: method entered 63 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> Object getValue() {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;144
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 144: statement executed 63 times.">&nbsp;63</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 144: statement executed 63 times."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> value;</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;145
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;146
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;}</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;147
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+</TBODY>
+</TABLE>
+<TABLE width="100%">
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+<TR><TD class="footer" colspan="6">
+<table>
+<tr>
+ <td><a target="_new" href="http://www.thecortex.net/clover"><img alt="Clover" src="../../../../img/logo.gif" border="0"></a></td><td nowrap><i>Report generated by </i><a target="_new" href="http://www.thecortex.net/clover">Clover v1.2</a><i><BR>Wed Oct 8 2003 23:00:13 EDT</i>.</td>
+<td>&nbsp;</td><td style="BORDER-LEFT: #9c9c9c 1px solid;">&nbsp;</td><td>Open Source License registered to the OpenSymphony Project. This license of Clover is provided to support the development of OpenSymphony only. </td>
+</tr>
+</table>
+</td>
+</tr></TABLE>

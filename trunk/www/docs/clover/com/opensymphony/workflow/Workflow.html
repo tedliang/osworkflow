@@ -1,0 +1,2776 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OSWorkflow Coverage Report</title>
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../style.css" TITLE="Style">
+</head>
+<body>
+  <!-- render overall pkg coverage graph -->
+<TABLE cellspacing="0" cellpadding="2">
+  <TBODY>
+    <!-- / Users/ hani/ projects/ osworkflow/ src/ java/ com/ opensymphony/ workflow/ Workflow.java -->
+  <TR>
+    <TD colspan="6" class="reportHeader">
+    <TABLE width="100%"><TR><TD valign="top" class="titleText">Clover coverage report -  OSWorkflow Coverage Report<DIV class="timestamp"><b>Coverage timestamp:</b>&nbsp;Wed Oct 8 2003 20:31:22 EDT</DIV>
+            <DIV class="navBar"><a href="../../../pkgs-summary.html"><b>Overview</b></a>&nbsp;&nbsp;&nbsp;<a href="pkg-summary.html"><b>Package</b></a>&nbsp;&nbsp;&nbsp;<font class="navBarCurrent">File</font></DIV>
+    </TD>
+         <td class="headerStats" valign="top" width="40%" align="right">
+        <table align="right">
+         <tr>
+           <td nowrap><b>file stats:</b></td>
+           <td align="right"><b>LOC:</b></td>
+           <td align="right">168</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Methods:</b></td>
+           <td align="right">0</td>
+         </tr>
+         <tr>
+           <td></td>
+           <td align="right"><b>NCLOC:</b></td>
+           <td align="right">28</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Classes:</b></td>
+           <td align="right">1</td>
+         </tr>
+      </table>
+     </td>
+    </TR></TABLE>
+   </TD>
+  </TR>
+
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+  <TR>
+    <TD class="graphHeaderLeft"><b>&nbsp;Source file</b></TD>
+    <TD class="graphHeader">Conditionals</TD>
+    <TD class="graphHeader">Statements</TD>
+    <TD class="graphHeader">Methods</TD>
+    <TD class="graphHeader" align="left" colspan="2"><B>TOTAL</B></TD>
+  </TR>   
+  <TR>
+    <TD class="graphItem">
+        	   Workflow.java
+	    </TD>
+   
+    <TD class="graphPercent" align="center"> - </TD>
+    <TD class="graphPercent" align="center"> - </TD>
+    <TD class="graphPercent" align="center"> - </TD>
+    <TD class="graphBarLeft" align="center"><B> - </B></TD>
+    <TD class="graphBar">
+            <TABLE class="barGraph" cellspacing="0">
+        <TBODY>
+          <TR>
+	   	    <TD class="empty"><img alt="coverage" src="../../../img/trans.gif" width="200" height="12"></TD>
+	   	  </TR>
+	</TBODY>
+      </TABLE>
+          </TD>
+  </TR> 
+</TBODY>
+</TABLE>
+
+
+<TABLE cellspacing="0" cellpadding="0" class="srcView">
+<TBODY>
+
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;1
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/*</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;2
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Copyright (c) 2002-2003 by OpenSymphony</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;3
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * All rights reserved.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;4
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;5
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">package</span> com.opensymphony.workflow;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;6
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;7
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.module.propertyset.PropertySet;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;8
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;9
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.loader.WorkflowDescriptor;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;10
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.query.WorkflowExpressionQuery;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;11
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.query.WorkflowQuery;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;12
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;13
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.util.List;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;14
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.util.Map;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;15
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;16
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;17
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;18
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * The core workflow interface.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;19
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> *</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;20
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * <span class="javadoc">@author</span> &lt;a href="mailto:plightbo@hotmail.com"&gt;Patrick Lightbody&lt;/a&gt;</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;21
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+   <A name="Workflow">&nbsp;22</A>
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLineClassStart">
+      <PRE class="srcLine">&nbsp;<span class="keyword">public</span> <span class="keyword">interface</span> Workflow {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;23
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Methods ////////////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;24
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;25
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;26
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@deprecated</span> use {@link #getAvailableActions(long, Map)}  with an empty Map instead.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;27
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;28
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">int</span>[] getAvailableActions(<span class="keyword">long</span> id) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;29
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;30
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;31
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Returns a Collection of Step objects that are the current steps of the specified workflow instance.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;32
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     *</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;33
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> id The workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;34
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span> The steps that the workflow instance is currently in.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;35
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;36
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List getCurrentSteps(<span class="keyword">long</span> id) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;37
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;38
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;39
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Return the state of the specified workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;40
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> id The workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;41
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span> int The state id of the specified workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;42
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;43
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">int</span> getEntryState(<span class="keyword">long</span> id) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;44
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;45
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;46
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Returns a list of all steps that are completed for the given workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;47
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     *</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;48
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> id The workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;49
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span> a List of Steps</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;50
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@see</span> com.opensymphony.workflow.spi.Step</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;51
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;52
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List getHistorySteps(<span class="keyword">long</span> id) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;53
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;54
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;55
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Get the PropertySet for the specified workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;56
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> id The workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;57
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;58
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> PropertySet getPropertySet(<span class="keyword">long</span> id) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;59
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;60
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;61
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Get a collection (Strings) of currently defined permissions for the specified workflow instance.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;62
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> id the workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;63
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span> A List of permissions specified currently (a permission is a string name).</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;64
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;65
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List getSecurityPermissions(<span class="keyword">long</span> id) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;66
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;67
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;68
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Get the workflow descriptor for the specified workflow name.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;69
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> workflowName The workflow name.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;70
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;71
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> WorkflowDescriptor getWorkflowDescriptor(String workflowName) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;72
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;73
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;74
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Get the name of the specified workflow instance.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;75
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> id the workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;76
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;77
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> String getWorkflowName(<span class="keyword">long</span> id) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;78
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;79
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;80
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Check if the calling user has enough permissions to initialise the specified workflow.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;81
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> workflowName The name of the workflow to check.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;82
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> initialStep The id of the initial state to check.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;83
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span> true if the user can successfully call initialize, false otherwise.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;84
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;85
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">boolean</span> canInitialize(String workflowName, <span class="keyword">int</span> initialStep) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;86
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;87
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;88
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * Check if the state of the specified workflow instance can be changed to the new specified one.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;89
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * <span class="javadoc">@param</span> id The workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;90
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * <span class="javadoc">@param</span> newState The new state id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;91
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * <span class="javadoc">@return</span> true if the state of the workflow can be modified, false otherwise.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;92
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;93
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">boolean</span> canModifyEntryState(<span class="keyword">long</span> id, <span class="keyword">int</span> newState) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;94
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;95
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;96
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Modify the state of the specified workflow instance.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;97
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> id The workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;98
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> newState the new state to change the workflow instance to.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;99
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;100
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> changeEntryState(<span class="keyword">long</span> id, <span class="keyword">int</span> newState) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;101
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;102
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;103
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Perform an action on the specified workflow instance.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;104
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> id The workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;105
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> actionId The action id to perform (action id's are listed in the workflow descriptor).</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;106
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> inputs The inputs to the workflow instance.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;107
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@throws</span> InvalidInputException if a validator is specified and an input is invalid.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;108
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;109
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> doAction(<span class="keyword">long</span> id, <span class="keyword">int</span> actionId, Map inputs) <span class="keyword">throws</span> InvalidInputException, WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;110
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;111
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;112
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Executes a special trigger-function using the context of the given workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;113
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     *</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;114
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> id The workflow instance id</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;115
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> triggerId The id of the speciail trigger-function</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;116
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;117
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> executeTriggerFunction(<span class="keyword">long</span> id, <span class="keyword">int</span> triggerId) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;118
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;119
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;120
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * Initializes a workflow so that it can begin processing. A workflow must be initialized before it can</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;121
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * begin any sort of activity. It can only be initialized once.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;122
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    *</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;123
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * <span class="javadoc">@param</span> workflowName The workflow name to create and initialize an instance for</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;124
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * <span class="javadoc">@param</span> initialAction The initial step to start the workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;125
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * <span class="javadoc">@param</span> inputs The inputs entered by the end-user</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;126
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    * <span class="javadoc">@throws</span> InvalidRoleException if the user can't start this function</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;127
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@throws</span> InvalidInputException if a validator is specified and an input is invalid.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;128
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">    */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;129
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">long</span> initialize(String workflowName, <span class="keyword">int</span> initialAction, Map inputs) <span class="keyword">throws</span> InvalidRoleException, InvalidInputException, WorkflowException, InvalidEntryStateException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;130
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;131
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;132
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Query the workflow store for matching instances</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;133
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@deprecated</span> use {@link Workflow#query(WorkflowExpressionQuery)} instead.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;134
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;135
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List query(WorkflowQuery query) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;136
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;137
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;138
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Query the workflow store for matching instances</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;139
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;140
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">public</span> List query(WorkflowExpressionQuery query) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;141
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;142
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;143
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Get the available actions for the specified workflow instance.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;144
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * @ejb.interface-method</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;145
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> id The workflow instance id.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;146
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> inputs The inputs map to pass on to conditions</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;147
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span> An array of action id's that can be performed on the specified entry</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;148
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@throws</span> IllegalArgumentException if the specified id does not exist, or if its workflow</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;149
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * descriptor is no longer available or has become invalid.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;150
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;151
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">int</span>[] getAvailableActions(<span class="keyword">long</span> id, Map inputs) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;152
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;153
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;154
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Get all available workflow names.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;155
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@throws</span> FactoryException If the underlying workflow factory is unable to determine the list of workflows it provides.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;156
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;157
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    String[] getWorkflowNames() <span class="keyword">throws</span> FactoryException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;158
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;159
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;160
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * Determine if a particular workflow can be initialized.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;161
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> workflowName The workflow name to check.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;162
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> initialAction The potential initial action.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;163
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@param</span> inputs The inputs to check.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;164
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     * <span class="javadoc">@return</span> true if the workflow can be initialized, false otherwise.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;165
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">     */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;166
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">boolean</span> canInitialize(String workflowName, <span class="keyword">int</span> initialAction, Map inputs) <span class="keyword">throws</span> WorkflowException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;167
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;}</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;168
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+</TBODY>
+</TABLE>
+<TABLE width="100%">
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+<TR><TD class="footer" colspan="6">
+<table>
+<tr>
+ <td><a target="_new" href="http://www.thecortex.net/clover"><img alt="Clover" src="../../../img/logo.gif" border="0"></a></td><td nowrap><i>Report generated by </i><a target="_new" href="http://www.thecortex.net/clover">Clover v1.2</a><i><BR>Wed Oct 8 2003 23:00:13 EDT</i>.</td>
+<td>&nbsp;</td><td style="BORDER-LEFT: #9c9c9c 1px solid;">&nbsp;</td><td>Open Source License registered to the OpenSymphony Project. This license of Clover is provided to support the development of OpenSymphony only. </td>
+</tr>
+</table>
+</td>
+</tr></TABLE>

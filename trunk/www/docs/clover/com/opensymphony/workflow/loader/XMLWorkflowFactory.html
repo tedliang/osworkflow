@@ -1,0 +1,4520 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OSWorkflow Coverage Report</title>
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../style.css" TITLE="Style">
+</head>
+<body>
+  <!-- render overall pkg coverage graph -->
+<TABLE cellspacing="0" cellpadding="2">
+  <TBODY>
+    <!-- / Users/ hani/ projects/ osworkflow/ src/ java/ com/ opensymphony/ workflow/ loader/ XMLWorkflowFactory.java -->
+  <TR>
+    <TD colspan="6" class="reportHeader">
+    <TABLE width="100%"><TR><TD valign="top" class="titleText">Clover coverage report -  OSWorkflow Coverage Report<DIV class="timestamp"><b>Coverage timestamp:</b>&nbsp;Wed Oct 8 2003 20:31:22 EDT</DIV>
+            <DIV class="navBar"><a href="../../../../pkgs-summary.html"><b>Overview</b></a>&nbsp;&nbsp;&nbsp;<a href="pkg-summary.html"><b>Package</b></a>&nbsp;&nbsp;&nbsp;<font class="navBarCurrent">File</font></DIV>
+    </TD>
+         <td class="headerStats" valign="top" width="40%" align="right">
+        <table align="right">
+         <tr>
+           <td nowrap><b>file stats:</b></td>
+           <td align="right"><b>LOC:</b></td>
+           <td align="right">263</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Methods:</b></td>
+           <td align="right">7</td>
+         </tr>
+         <tr>
+           <td></td>
+           <td align="right"><b>NCLOC:</b></td>
+           <td align="right">187</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Classes:</b></td>
+           <td align="right">2</td>
+         </tr>
+      </table>
+     </td>
+    </TR></TABLE>
+   </TD>
+  </TR>
+
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+  <TR>
+    <TD class="graphHeaderLeft"><b>&nbsp;Source file</b></TD>
+    <TD class="graphHeader">Conditionals</TD>
+    <TD class="graphHeader">Statements</TD>
+    <TD class="graphHeader">Methods</TD>
+    <TD class="graphHeader" align="left" colspan="2"><B>TOTAL</B></TD>
+  </TR>   
+  <TR>
+    <TD class="graphItem">
+        	   XMLWorkflowFactory.java
+	    </TD>
+   
+    <TD class="graphPercent" align="center">0%</TD>
+    <TD class="graphPercent" align="center">0%</TD>
+    <TD class="graphPercent" align="center">0%</TD>
+    <TD class="graphBarLeft" align="center"><B>0%</B></TD>
+    <TD class="graphBar">
+            <TABLE class="barGraph" cellspacing="0">
+        <TBODY>
+          <TR>
+	   	    <TD class="uncovered"><img alt="coverage" src="../../../../img/trans.gif" width="200" height="12"></TD> 
+	   	  </TR>
+	</TBODY>
+      </TABLE>
+          </TD>
+  </TR> 
+</TBODY>
+</TABLE>
+
+
+<TABLE cellspacing="0" cellpadding="0" class="srcView">
+<TBODY>
+
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;1
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/*</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;2
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Copyright (c) 2002-2003 by OpenSymphony</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;3
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * All rights reserved.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;4
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;5
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">package</span> com.opensymphony.workflow.loader;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;6
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;7
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.FactoryException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;8
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> com.opensymphony.workflow.InvalidWorkflowDescriptorException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;9
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;10
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> org.apache.commons.logging.Log;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;11
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> org.apache.commons.logging.LogFactory;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;12
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;13
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> org.w3c.dom.*;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;14
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;15
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.io.*;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;16
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;17
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.net.URL;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;18
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;19
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.util.HashMap;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;20
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.util.Iterator;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;21
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.util.Map;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;22
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;23
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> javax.xml.parsers.*;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;24
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;25
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;26
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;27
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * <span class="javadoc">@author</span> Hani Suleiman</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;28
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Date: May 10, 2002</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;29
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Time: 11:30:41 AM</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;30
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+   <A name="XMLWorkflowFactory">&nbsp;31</A>
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLineClassStart">
+      <PRE class="srcLine">&nbsp;<span class="keyword">public</span> <span class="keyword">class</span> XMLWorkflowFactory <span class="keyword">extends</span> AbstractWorkflowFactory {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;32
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Static fields/initializers /////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;33
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;34
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">private</span> <span class="keyword">static</span> final Log log = LogFactory.getLog(XMLWorkflowFactory.<span class="keyword">class</span>);</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;35
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;36
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Instance fields ////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;37
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;38
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">protected</span> Map workflows;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;39
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">protected</span> <span class="keyword">boolean</span> reload;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;40
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;41
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Methods ////////////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;42
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;43
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 43: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 43: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> WorkflowDescriptor getWorkflow(String name) <span class="keyword">throws</span> FactoryException {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;44
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 44: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 44: statement not executed."><PRE class="srcLine">&nbsp;        WorkflowConfig c = (WorkflowConfig) workflows.get(name);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;45
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;46
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 46: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 46: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (c == <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;47
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 47: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 47: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> FactoryException(<span class="string">"Unknown workflow name \""</span> + name + <span class="string">"\""</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;48
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;49
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;50
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 50: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 50: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (log.isDebugEnabled()) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;51
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 51: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 51: statement not executed."><PRE class="srcLine">&nbsp;            log.debug(<span class="string">"getWorkflow "</span> + name + <span class="string">" descriptor="</span> + c.descriptor);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;52
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;53
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;54
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 54: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 54: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (c.descriptor != <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;55
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 55: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 55: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (reload) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;56
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 56: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 56: statement not executed."><PRE class="srcLine">&nbsp;                File file = <span class="keyword">new</span> File(c.url.getFile());</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;57
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;58
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 58: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 58: statement not executed."><PRE class="srcLine">&nbsp;                <span class="keyword">if</span> (file.exists() &amp;&amp; (file.lastModified() &gt; c.lastModified)) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;59
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 59: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 59: statement not executed."><PRE class="srcLine">&nbsp;                    c.lastModified = file.lastModified();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;60
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 60: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 60: statement not executed."><PRE class="srcLine">&nbsp;                    log.debug(<span class="string">"Reloading workflow "</span> + name);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;61
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 61: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 61: statement not executed."><PRE class="srcLine">&nbsp;                    loadWorkflow(c);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;62
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;                }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;63
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;64
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">else</span> {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;65
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 65: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 65: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (log.isDebugEnabled()) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;66
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 66: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 66: statement not executed."><PRE class="srcLine">&nbsp;                log.debug(<span class="string">"Loading workflow "</span> + name);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;67
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;68
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;69
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 69: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 69: statement not executed."><PRE class="srcLine">&nbsp;            loadWorkflow(c);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;70
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;71
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;72
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 72: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 72: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> c.descriptor;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;73
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;74
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;75
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 75: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 75: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> String[] getWorkflowNames() {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;76
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 76: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 76: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">int</span> i = 0;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;77
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 77: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 77: statement not executed."><PRE class="srcLine">&nbsp;        String[] res = <span class="keyword">new</span> String[workflows.keySet().size()];</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;78
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 78: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 78: statement not executed."><PRE class="srcLine">&nbsp;        Iterator it = workflows.keySet().iterator();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;79
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;80
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 80: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 80: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">while</span> (it.hasNext()) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;81
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 81: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 81: statement not executed."><PRE class="srcLine">&nbsp;            res[i++] = (String) it.next();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;82
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;83
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;84
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 84: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 84: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> res;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;85
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;86
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;87
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 87: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 87: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">void</span> initDone() <span class="keyword">throws</span> FactoryException {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;88
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 88: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 88: statement not executed."><PRE class="srcLine">&nbsp;        reload = getProperties().getProperty(<span class="string">"reload"</span>, <span class="string">"false"</span>).equals(<span class="string">"true"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;89
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;90
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 90: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 90: statement not executed."><PRE class="srcLine">&nbsp;        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;91
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 91: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 91: statement not executed."><PRE class="srcLine">&nbsp;        InputStream is = <span class="keyword">null</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;92
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 92: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 92: statement not executed."><PRE class="srcLine">&nbsp;        String name = getProperties().getProperty(<span class="string">"resource"</span>, <span class="string">"workflows.xml"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;93
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;94
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 94: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 94: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> ((name != <span class="keyword">null</span>) &amp;&amp; (name.indexOf(<span class="string">":/"</span>) &gt; -1)) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;95
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 95: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 95: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;96
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 96: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 96: statement not executed."><PRE class="srcLine">&nbsp;                is = <span class="keyword">new</span> URL(name).openStream();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;97
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            } <span class="keyword">catch</span> (Exception e) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;98
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;99
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;100
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;101
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 101: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 101: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (is == <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;102
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 102: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 102: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;103
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 103: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 103: statement not executed."><PRE class="srcLine">&nbsp;                is = classLoader.getResourceAsStream(name);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;104
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            } <span class="keyword">catch</span> (Exception e) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;105
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;106
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;107
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;108
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 108: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 108: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (is == <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;109
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 109: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 109: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;110
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 110: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 110: statement not executed."><PRE class="srcLine">&nbsp;                is = classLoader.getResourceAsStream(<span class="string">"/"</span> + name);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;111
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            } <span class="keyword">catch</span> (Exception e) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;112
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;113
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;114
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;115
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 115: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 115: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (is == <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;116
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 116: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 116: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;117
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 117: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 117: statement not executed."><PRE class="srcLine">&nbsp;                is = classLoader.getResourceAsStream(<span class="string">"META-INF/"</span> + name);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;118
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            } <span class="keyword">catch</span> (Exception e) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;119
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;120
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;121
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;122
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 122: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 122: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (is == <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;123
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 123: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 123: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;124
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 124: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 124: statement not executed."><PRE class="srcLine">&nbsp;                is = classLoader.getResourceAsStream(<span class="string">"/META-INF/"</span> + name);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;125
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            } <span class="keyword">catch</span> (Exception e) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;126
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;127
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;128
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;129
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 129: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 129: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;130
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 130: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 130: statement not executed."><PRE class="srcLine">&nbsp;            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;131
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 131: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 131: statement not executed."><PRE class="srcLine">&nbsp;            dbf.setNamespaceAware(<span class="keyword">true</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;132
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;133
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 133: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 133: statement not executed."><PRE class="srcLine">&nbsp;            DocumentBuilder db = <span class="keyword">null</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;134
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;135
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 135: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 135: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;136
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 136: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 136: statement not executed."><PRE class="srcLine">&nbsp;                db = dbf.newDocumentBuilder();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;137
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            } <span class="keyword">catch</span> (ParserConfigurationException e) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;138
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 138: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 138: statement not executed."><PRE class="srcLine">&nbsp;                log.fatal(<span class="string">"Error creating document builder"</span>, e);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;139
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;140
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;141
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 141: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 141: statement not executed."><PRE class="srcLine">&nbsp;            Document doc = db.parse(is);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;142
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;143
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 143: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 143: statement not executed."><PRE class="srcLine">&nbsp;            Element root = (Element) doc.getElementsByTagName(<span class="string">"workflows"</span>).item(0);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;144
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 144: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 144: statement not executed."><PRE class="srcLine">&nbsp;            workflows = <span class="keyword">new</span> HashMap();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;145
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;146
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 146: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 146: statement not executed."><PRE class="srcLine">&nbsp;            NodeList list = root.getElementsByTagName(<span class="string">"workflow"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;147
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;148
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 148: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 148: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; list.getLength(); i++) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;149
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 149: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 149: statement not executed."><PRE class="srcLine">&nbsp;                Element e = (Element) list.item(i);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;150
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 150: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 150: statement not executed."><PRE class="srcLine">&nbsp;                WorkflowConfig config = <span class="keyword">new</span> WorkflowConfig(e.getAttribute(<span class="string">"type"</span>), e.getAttribute(<span class="string">"location"</span>));</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;151
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 151: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 151: statement not executed."><PRE class="srcLine">&nbsp;                workflows.put(e.getAttribute(<span class="string">"name"</span>), config);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;152
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;153
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (Exception e) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;154
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 154: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 154: statement not executed."><PRE class="srcLine">&nbsp;            log.fatal(<span class="string">"Error reading xml workflow"</span>, e);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;155
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 155: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 155: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> InvalidWorkflowDescriptorException(<span class="string">"Error in workflow config: "</span> + e.getMessage());</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;156
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;157
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;158
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;159
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 159: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 159: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> <span class="keyword">boolean</span> saveWorkflow(String name, WorkflowDescriptor descriptor, <span class="keyword">boolean</span> replace) <span class="keyword">throws</span> FactoryException {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;160
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 160: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 160: statement not executed."><PRE class="srcLine">&nbsp;        WorkflowConfig c = (WorkflowConfig) workflows.get(name);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;161
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;162
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 162: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 162: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> ((c != <span class="keyword">null</span>) &amp;&amp; !replace) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;163
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 163: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 163: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="keyword">false</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;164
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;165
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;166
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 166: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 166: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (c == <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;167
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 167: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 167: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException(<span class="string">"Saving of new workflow is not currently supported"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;168
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;169
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;170
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 170: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 170: statement not executed."><PRE class="srcLine">&nbsp;        Writer out = <span class="keyword">null</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;171
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;172
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 172: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 172: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;173
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 173: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 173: statement not executed."><PRE class="srcLine">&nbsp;            out = <span class="keyword">new</span> OutputStreamWriter(<span class="keyword">new</span> FileOutputStream(c.url.getFile() + <span class="string">".new"</span>), <span class="string">"utf-8"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;174
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (FileNotFoundException ex) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;175
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 175: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 175: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> FactoryException(<span class="string">"Could not create new file to save workflow "</span> + c.url.getFile());</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;176
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (UnsupportedEncodingException ex) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;177
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 177: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 177: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> FactoryException(<span class="string">"utf-8 encoding not supported, contact your JVM vendor!"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;178
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;179
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;180
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 180: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 180: statement not executed."><PRE class="srcLine">&nbsp;        writeXML(descriptor, out);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;181
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;182
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="comment">//write it out to a new file, to ensure we don't end up with a messed up file if we're interrupted halfway for some reason</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;183
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="comment">//now lets rename</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;184
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 184: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 184: statement not executed."><PRE class="srcLine">&nbsp;        File original = <span class="keyword">new</span> File(c.url.getFile());</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;185
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 185: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 185: statement not executed."><PRE class="srcLine">&nbsp;        File backup = <span class="keyword">new</span> File(c.url.getFile() + <span class="string">".bak"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;186
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 186: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 186: statement not executed."><PRE class="srcLine">&nbsp;        File updated = <span class="keyword">new</span> File(c.url.getFile() + <span class="string">".new"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;187
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 187: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 187: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">boolean</span> isOK = !original.exists() || original.renameTo(backup);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;188
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;189
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 189: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 189: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (!isOK) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;190
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 190: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 190: statement not executed."><PRE class="srcLine">&nbsp;            log.warn(<span class="string">"Unable to backup original workflow file "</span> + original + <span class="string">", aborting save"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;191
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;192
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 192: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 192: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="keyword">false</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;193
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;194
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;195
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 195: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 195: statement not executed."><PRE class="srcLine">&nbsp;        isOK = updated.renameTo(original);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;196
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;197
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 197: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 197: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (!isOK) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;198
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 198: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 198: statement not executed."><PRE class="srcLine">&nbsp;            log.warn(<span class="string">"Unable to rename new file "</span> + updated + <span class="string">" to "</span> + original + <span class="string">", aborting save"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;199
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;200
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 200: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 200: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="keyword">false</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;201
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;202
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;203
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 203: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 203: statement not executed."><PRE class="srcLine">&nbsp;        backup.delete();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;204
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;205
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 205: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 205: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> <span class="keyword">true</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;206
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;207
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;208
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 208: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 208: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">protected</span> <span class="keyword">void</span> writeXML(WorkflowDescriptor descriptor, Writer out) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;209
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 209: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 209: statement not executed."><PRE class="srcLine">&nbsp;        PrintWriter writer = <span class="keyword">new</span> PrintWriter(<span class="keyword">new</span> BufferedWriter(out));</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;210
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 210: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 210: statement not executed."><PRE class="srcLine">&nbsp;        writer.println(<span class="string">"&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;211
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;212
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 212: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 212: statement not executed."><PRE class="srcLine">&nbsp;        writer.println(<span class="string">"&lt;!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.5//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_5.dtd\"&gt;"</span>);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;213
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 213: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 213: statement not executed."><PRE class="srcLine">&nbsp;        descriptor.writeXML(writer, 0);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;214
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 214: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 214: statement not executed."><PRE class="srcLine">&nbsp;        writer.flush();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;215
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 215: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 215: statement not executed."><PRE class="srcLine">&nbsp;        writer.close();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;216
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;217
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;218
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 218: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 218: method not entered."><PRE class="srcLine">&nbsp;    <span class="keyword">private</span> <span class="keyword">void</span> loadWorkflow(WorkflowConfig c) <span class="keyword">throws</span> FactoryException {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;219
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 219: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 219: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;220
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 220: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 220: statement not executed."><PRE class="srcLine">&nbsp;            c.descriptor = WorkflowLoader.load(c.url);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;221
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        } <span class="keyword">catch</span> (Exception e) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;222
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 222: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 222: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> FactoryException(<span class="string">"Error in workflow descriptor: "</span> + c.url, e);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;223
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;224
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;225
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;226
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Inner Classes //////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;227
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+   <A name="WorkflowConfig">&nbsp;228</A>
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLineClassStart">
+      <PRE class="srcLine">&nbsp;    <span class="keyword">class</span> WorkflowConfig {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;229
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        String location;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;230
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        String type;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;231
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        URL url;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;232
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        WorkflowDescriptor descriptor;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;233
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        <span class="keyword">long</span> lastModified;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;234
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;235
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 235: method not entered.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 235: method not entered."><PRE class="srcLine">&nbsp;        <span class="keyword">public</span> WorkflowConfig(String type, String location) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;236
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 236: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 236: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (<span class="string">"URL"</span>.equals(type)) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;237
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 237: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 237: statement not executed."><PRE class="srcLine">&nbsp;                <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;238
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 238: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 238: statement not executed."><PRE class="srcLine">&nbsp;                    url = <span class="keyword">new</span> URL(location);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;239
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;240
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 240: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 240: statement not executed."><PRE class="srcLine">&nbsp;                    File file = <span class="keyword">new</span> File(url.getFile());</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;241
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;242
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 242: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 242: statement not executed."><PRE class="srcLine">&nbsp;                    <span class="keyword">if</span> (file.exists()) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;243
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 243: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 243: statement not executed."><PRE class="srcLine">&nbsp;                        lastModified = file.lastModified();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;244
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;                    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;245
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;                } <span class="keyword">catch</span> (Exception ex) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;246
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;                }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;247
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 247: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 247: statement not executed."><PRE class="srcLine">&nbsp;            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"file"</span>.equals(type)) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;248
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 248: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 248: statement not executed."><PRE class="srcLine">&nbsp;                <span class="keyword">try</span> {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;249
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 249: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 249: statement not executed."><PRE class="srcLine">&nbsp;                    File file = <span class="keyword">new</span> File(location);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;250
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 250: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 250: statement not executed."><PRE class="srcLine">&nbsp;                    url = file.toURL();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;251
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 251: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 251: statement not executed."><PRE class="srcLine">&nbsp;                    lastModified = file.lastModified();</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;252
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;                } <span class="keyword">catch</span> (Exception ex) {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;253
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;                }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;254
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            } <span class="keyword">else</span> {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;255
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 255: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 255: statement not executed."><PRE class="srcLine">&nbsp;                url = Thread.currentThread().getContextClassLoader().getResource(location);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;256
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;257
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;258
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 258: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 258: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">this</span>.type = type;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;259
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 259: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 259: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">this</span>.location = location;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;260
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;261
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;262
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;}</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;263
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+</TBODY>
+</TABLE>
+<TABLE width="100%">
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+<TR><TD class="footer" colspan="6">
+<table>
+<tr>
+ <td><a target="_new" href="http://www.thecortex.net/clover"><img alt="Clover" src="../../../../img/logo.gif" border="0"></a></td><td nowrap><i>Report generated by </i><a target="_new" href="http://www.thecortex.net/clover">Clover v1.2</a><i><BR>Wed Oct 8 2003 23:00:13 EDT</i>.</td>
+<td>&nbsp;</td><td style="BORDER-LEFT: #9c9c9c 1px solid;">&nbsp;</td><td>Open Source License registered to the OpenSymphony Project. This license of Clover is provided to support the development of OpenSymphony only. </td>
+</tr>
+</table>
+</td>
+</tr></TABLE>

@@ -1,0 +1,939 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OSWorkflow Coverage Report</title>
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../style.css" TITLE="Style">
+</head>
+<body>
+  <!-- render overall pkg coverage graph -->
+<TABLE cellspacing="0" cellpadding="2">
+  <TBODY>
+    <!-- / Users/ hani/ projects/ osworkflow/ src/ java/ com/ opensymphony/ workflow/ loader/ DTDEntityResolver.java -->
+  <TR>
+    <TD colspan="6" class="reportHeader">
+    <TABLE width="100%"><TR><TD valign="top" class="titleText">Clover coverage report -  OSWorkflow Coverage Report<DIV class="timestamp"><b>Coverage timestamp:</b>&nbsp;Wed Oct 8 2003 20:31:22 EDT</DIV>
+            <DIV class="navBar"><a href="../../../../pkgs-summary.html"><b>Overview</b></a>&nbsp;&nbsp;&nbsp;<a href="pkg-summary.html"><b>Package</b></a>&nbsp;&nbsp;&nbsp;<font class="navBarCurrent">File</font></DIV>
+    </TD>
+         <td class="headerStats" valign="top" width="40%" align="right">
+        <table align="right">
+         <tr>
+           <td nowrap><b>file stats:</b></td>
+           <td align="right"><b>LOC:</b></td>
+           <td align="right">52</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Methods:</b></td>
+           <td align="right">1</td>
+         </tr>
+         <tr>
+           <td></td>
+           <td align="right"><b>NCLOC:</b></td>
+           <td align="right">29</td>
+           <td width="10%">&nbsp;</td>
+           <td align="right"><b>Classes:</b></td>
+           <td align="right">1</td>
+         </tr>
+      </table>
+     </td>
+    </TR></TABLE>
+   </TD>
+  </TR>
+
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+  <TR>
+    <TD class="graphHeaderLeft"><b>&nbsp;Source file</b></TD>
+    <TD class="graphHeader">Conditionals</TD>
+    <TD class="graphHeader">Statements</TD>
+    <TD class="graphHeader">Methods</TD>
+    <TD class="graphHeader" align="left" colspan="2"><B>TOTAL</B></TD>
+  </TR>   
+  <TR>
+    <TD class="graphItem">
+        	   DTDEntityResolver.java
+	    </TD>
+   
+    <TD class="graphPercent" align="center">50%</TD>
+    <TD class="graphPercent" align="center">76.9%</TD>
+    <TD class="graphPercent" align="center">100%</TD>
+    <TD class="graphBarLeft" align="center"><B>66.7%</B></TD>
+    <TD class="graphBar">
+            <TABLE class="barGraph" cellspacing="0">
+        <TBODY>
+          <TR>
+	               <TD class="covered"><img alt="coverage" src="../../../../img/trans.gif"
+                   width="133" height="12"></TD>
+            <TD class="uncovered"><img alt="coverage" src="../../../../img/trans.gif"
+                   width="67" height="12"></TD>
+	   	  </TR>
+	</TBODY>
+      </TABLE>
+          </TD>
+  </TR> 
+</TBODY>
+</TABLE>
+
+
+<TABLE cellspacing="0" cellpadding="0" class="srcView">
+<TBODY>
+
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;1
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/*</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;2
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Copyright (c) 2002-2003 by OpenSymphony</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;3
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * All rights reserved.</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;4
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;5
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">package</span> com.opensymphony.workflow.loader;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;6
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;7
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> org.xml.sax.EntityResolver;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;8
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> org.xml.sax.InputSource;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;9
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> org.xml.sax.SAXException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;10
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;11
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.io.IOException;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;12
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.io.InputStream;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;13
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;14
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="keyword">import</span> java.net.URL;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;15
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;16
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;17
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment">/**</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;18
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * <span class="javadoc">@author</span> Hani Suleiman (hani@formicary.net)</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;19
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Date: Sep 14, 2003</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;20
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> * Time: 4:25:40 PM</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;21
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;<span class="comment"> */</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+   <A name="DTDEntityResolver">&nbsp;22</A>
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLineClassStart">
+      <PRE class="srcLine">&nbsp;<span class="keyword">public</span> <span class="keyword">class</span> DTDEntityResolver <span class="keyword">implements</span> EntityResolver {</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;23
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    <span class="comment">//~ Methods ////////////////////////////////////////////////////////////////</span></PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;24
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;25
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 25: method entered 3080 times.">&nbsp;3080</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 25: method entered 3080 times."><PRE class="srcLine">&nbsp;    <span class="keyword">public</span> InputSource resolveEntity(String publicId, String systemId) <span class="keyword">throws</span> SAXException, IOException {</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;26
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 26: expression evaluated to true 0 times, false 3080 times.">&nbsp;3080</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 26: expression evaluated to true 0 times, false 3080 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (systemId == <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;27
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 27: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 27: statement not executed."><PRE class="srcLine">&nbsp;            <span class="keyword">return</span> <span class="keyword">null</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;28
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;29
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;30
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 30: statement executed 3080 times.">&nbsp;3080</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 30: statement executed 3080 times."><PRE class="srcLine">&nbsp;        URL url = <span class="keyword">new</span> URL(systemId);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;31
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 31: statement executed 3080 times.">&nbsp;3080</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 31: statement executed 3080 times."><PRE class="srcLine">&nbsp;        String file = url.getFile();</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;32
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;33
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 33: expression evaluated to true 3080 times, false 0 times.">&nbsp;3080</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 33: expression evaluated to true 3080 times, false 0 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> ((file != <span class="keyword">null</span>) &amp;&amp; (file.indexOf('/') &gt; -1)) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;34
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 34: statement executed 3080 times.">&nbsp;3080</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 34: statement executed 3080 times."><PRE class="srcLine">&nbsp;            file = file.substring(file.lastIndexOf('/') + 1);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;35
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;36
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;37
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 37: expression evaluated to true 3080 times, false 0 times.">&nbsp;3080</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 37: expression evaluated to true 3080 times, false 0 times."><PRE class="srcLine">&nbsp;        <span class="keyword">if</span> (<span class="string">"www.opensymphony.com"</span>.equals(url.getHost())) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;38
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 38: statement executed 3080 times.">&nbsp;3080</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 38: statement executed 3080 times."><PRE class="srcLine">&nbsp;            InputStream is = getClass().getResourceAsStream(<span class="string">"/META-INF/"</span> + file);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;39
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;40
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 40: expression evaluated to true 0 times, false 3080 times.">&nbsp;3080</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 40: expression evaluated to true 0 times, false 3080 times."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (is == <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;41
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 41: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 41: statement not executed."><PRE class="srcLine">&nbsp;                is = getClass().getResourceAsStream(<span class="string">"/"</span> + file);</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;42
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;43
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;44
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 44: expression evaluated to true 3080 times, false 0 times.">&nbsp;3080</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 44: expression evaluated to true 3080 times, false 0 times."><PRE class="srcLine">&nbsp;            <span class="keyword">if</span> (is != <span class="keyword">null</span>) {</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;45
+</TD>
+
+<TD align="right" class="lineCountHilight">
+    <A title="Line 45: statement executed 3080 times.">&nbsp;3080</A>
+</TD>
+
+<TD class="srcLine">
+   <A title="Line 45: statement executed 3080 times."><PRE class="srcLine">&nbsp;                <span class="keyword">return</span> <span class="keyword">new</span> InputSource(is);</PRE></A>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;46
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;            }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;47
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;        }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;48
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCountHilight">
+    &nbsp;49
+</TD>
+
+<TD align="right" class="coverageCountHilight">
+    <A title="Line 49: statement not executed.">&nbsp;0</A>
+</TD>
+
+<TD class="srcHilight">
+   <SPAN class="srcHilight">
+   <A title="Line 49: statement not executed."><PRE class="srcLine">&nbsp;        <span class="keyword">return</span> <span class="keyword">null</span>;</PRE></A>
+
+   </SPAN>
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;50
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;    }</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;51
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;}</PRE>
+
+</TD>
+
+</TR>
+ <TR>
+
+ <TD align="right" class="lineCount">
+    &nbsp;52
+</TD>
+
+<TD align="right" class="coverageCount">
+      &nbsp;&nbsp;
+</TD>
+
+<TD class="srcLine">
+      <PRE class="srcLine">&nbsp;</PRE>
+
+</TD>
+
+</TR>
+</TBODY>
+</TABLE>
+<TABLE width="100%">
+<TR><TD class="hbreak" colspan="6">&nbsp;</TD></TR>
+<TR><TD class="footer" colspan="6">
+<table>
+<tr>
+ <td><a target="_new" href="http://www.thecortex.net/clover"><img alt="Clover" src="../../../../img/logo.gif" border="0"></a></td><td nowrap><i>Report generated by </i><a target="_new" href="http://www.thecortex.net/clover">Clover v1.2</a><i><BR>Wed Oct 8 2003 23:00:13 EDT</i>.</td>
+<td>&nbsp;</td><td style="BORDER-LEFT: #9c9c9c 1px solid;">&nbsp;</td><td>Open Source License registered to the OpenSymphony Project. This license of Clover is provided to support the development of OpenSymphony only. </td>
+</tr>
+</table>
+</td>
+</tr></TABLE>
