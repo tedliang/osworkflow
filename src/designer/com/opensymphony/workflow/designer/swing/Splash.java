@@ -27,7 +27,7 @@ public final class Splash extends Window
     setSize(image.getWidth(null), image.getHeight(null));
     setProgressBarBounds(VPAD);
     setForeground(Color.darkGray);
-    setBackground(Color.lightGray);
+    setBackground(Color.lightGray.brighter());
     textColor = Color.black;
     ScreenUtils.center(this);
   }
