@@ -246,7 +246,7 @@ public class WorkspaceNavigator extends JTree implements TreeSelectionListener, 
       {
         try 
         {
-        	WorkflowDescriptor descriptor = workspace.getWorkflow(workflows[i]);
+        	WorkflowDescriptor descriptor = workspace.getWorkflow(workflows[i], false);
         	addWorkflow(descriptor);
         }
         catch(FactoryException fe)
