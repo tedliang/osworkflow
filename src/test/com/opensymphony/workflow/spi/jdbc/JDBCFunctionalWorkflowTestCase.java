@@ -5,7 +5,7 @@
 package com.opensymphony.workflow.spi.jdbc;
 
 import com.opensymphony.workflow.TestWorkflow;
-import com.opensymphony.workflow.spi.BaseFunctionalWorkflow;
+import com.opensymphony.workflow.spi.BaseFunctionalWorkflowTest;
 import com.opensymphony.workflow.spi.DatabaseHelper;
 
 
@@ -16,7 +16,7 @@ import com.opensymphony.workflow.spi.DatabaseHelper;
  *
  * @author Eric Pugh (epugh@upstate.com)
  */
-public class JDBCFunctionalWorkflowTestCase extends BaseFunctionalWorkflow {
+public class JDBCFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest {
     //~ Constructors ///////////////////////////////////////////////////////////
 
     public JDBCFunctionalWorkflowTestCase(String s) {

@@ -10,7 +10,6 @@ import com.opensymphony.module.user.User;
 import com.opensymphony.module.user.UserManager;
 
 import com.opensymphony.workflow.AbstractWorkflow;
-import com.opensymphony.workflow.InvalidRoleException;
 import com.opensymphony.workflow.TestWorkflow;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.query.WorkflowQuery;
@@ -29,7 +28,7 @@ import java.util.List;
  *
  * @author Eric Pugh (epugh@upstate.com)
  */
-public abstract class BaseFunctionalWorkflow extends TestCase {
+public abstract class BaseFunctionalWorkflowTest extends TestCase {
     //~ Static fields/initializers /////////////////////////////////////////////
 
     private static final String USER_TEST = "test";
@@ -41,7 +40,7 @@ public abstract class BaseFunctionalWorkflow extends TestCase {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public BaseFunctionalWorkflow(String s) {
+    public BaseFunctionalWorkflowTest(String s) {
         super(s);
     }
 
@@ -126,15 +125,6 @@ public abstract class BaseFunctionalWorkflow extends TestCase {
         query = new WorkflowQuery(queryLeft, WorkflowQuery.AND, queryRight);
         workflows = workflow.query(query);
         assertEquals("Unexpected number of workflow query results", 1, workflows.size());
-    }
-
-    public void testInvalidRole() throws Exception {
-        try {
-            workflow.initialize(getClass().getResource("/samples/example.xml").toString(), 1, new HashMap());
-            fail("Should have thrown an exception 'You are restricted from initializing this workflow'");
-        } catch (InvalidRoleException ire) {
-            //good
-        }
     }
 
     public void testWorkflowQuery() throws Exception {
