@@ -15,7 +15,7 @@
     for (Iterator iterator = workflows.iterator(); iterator.hasNext();) {
         Long wfId = (Long) iterator.next();
 %>
-    <li><a href="test.jsp?id=<%= wfId %>"><%= wfId %></li>
+    <li><a href="test.jsp?id=<%= wfId %>"><%= wfId %></a></li>
 <%
     }
 %>
