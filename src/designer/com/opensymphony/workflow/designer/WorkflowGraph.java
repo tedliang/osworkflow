@@ -51,25 +51,25 @@ public class WorkflowGraph extends JGraph
     {
       this.descriptor = descriptor;
       List initialActionList = descriptor.getInitialActions();
-      addInitialActionView(initialActionList);
+      addInitialActions(initialActionList);
       List stepsList = descriptor.getSteps();
       for(int i = 0; i < stepsList.size(); i++)
       {
         StepDescriptor step = (StepDescriptor)stepsList.get(i);
-        addStepView(step);
+        addStepDescriptor(step);
       }
       List splitsList = descriptor.getSplits();
       for(int i = 0; i < splitsList.size(); i++)
       {
         SplitDescriptor split = (SplitDescriptor)splitsList.get(i);
-        addSplitView(split);
+        addSplitDescriptor(split);
 
       }
       List joinsList = descriptor.getJoins();
       for(int i = 0; i < joinsList.size(); i++)
       {
         JoinDescriptor join = (JoinDescriptor)joinsList.get(i);
-        addJoinView(join);
+        addJoinDescriptor(join);
       }
       getWorkflowGraphModel().insertResultConnections();
     }
@@ -92,7 +92,7 @@ public class WorkflowGraph extends JGraph
     }
   }
 
-  private void addInitialActionView(List initialActionList)
+  public void addInitialActions(List initialActionList)
   {
     InitialActionCell initialActionCell = new InitialActionCell("Start");
     // Create Vertex Attributes
@@ -107,7 +107,7 @@ public class WorkflowGraph extends JGraph
     getWorkflowGraphModel().insertInitialActions(initialActionList, initialActionCell, null, null, null);
   }
 
-  private void addJoinView(JoinDescriptor descriptor)
+  public void addJoinDescriptor(JoinDescriptor descriptor)
   {
     JoinCell join = new JoinCell(descriptor);
     // Create Vertex Attributes
@@ -120,7 +120,7 @@ public class WorkflowGraph extends JGraph
     getWorkflowGraphModel().insertJoinCell(join, null, null, null);
   }
 
-  private void addSplitView(SplitDescriptor descriptor)
+  public void addSplitDescriptor(SplitDescriptor descriptor)
   {
     SplitCell split = new SplitCell(descriptor);
     if(layout != null)
@@ -132,7 +132,7 @@ public class WorkflowGraph extends JGraph
     getWorkflowGraphModel().insertSplitCell(split, null, null, null);
   }
 
-  private void addStepView(StepDescriptor descriptor)
+  public void addStepDescriptor(StepDescriptor descriptor)
   {
     StepCell step = new StepCell(descriptor);
     if(layout != null)
