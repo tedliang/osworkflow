@@ -151,7 +151,7 @@ public class WorkflowGraph extends JGraph
     getWorkflowGraphModel().insertStepCell(step, null, null, null);
   }
 
-  private WorkflowGraphModel getWorkflowGraphModel()
+  public WorkflowGraphModel getWorkflowGraphModel()
   {
     return (WorkflowGraphModel)getModel();
   }
