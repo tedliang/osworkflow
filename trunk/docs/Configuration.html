@@ -1,0 +1,59 @@
+<html><head><title>OSWorkflow Configuration</title></head><body><ul>
+
+<li>Up to 
+<a href="Documentation.html">OSWorkflow Documentation</a></li>
+
+<li>Back to 
+<a href="Persistence_Options.html">OSWorkflow Persistence Options</a></li>
+
+<li>Forward to 
+<a href="Integration_with_Other_Modules.html">OSWorkflow Integration with Other Modules</a></li>
+</ul>
+<p></p>OSWorkflow tries to be as flexible as possible with regards to configuration. Only one file is required to be in the classpath: 
+<span></img>
+<a href="#osworkflow.xml">osworkflow.xml</a></span>. This file dictates the persistence method (JDBC, EJB, Ofbiz) as well the workflow factory class that is to be used for loading workflow definitions. The default factory is 
+<b>com.opensymphony.workflow.loader.XMLWorkflowFactory</b>. This loads up a file in the classpath that in turn contains links to many different workflow definition files, all in XML (
+<span></img>
+<a href="http://www.opensymphony.com/osworkflow/workflow.dtd">see Appendix A</a></span>). During test phase it's also useful to have your workflow definition files reloaded as they are changed. For this you can specify an optional property called 
+<b>reload</b> (true|false) to your factory definition (default is false). If you would rather specify your workflow definitions in a different way, you are free to extend 
+<b>com.opensymphony.workflow.loader.AbstractWorkflowFactory</b> in any way that you like. 
+<b>com.opensymphony.workflow.loader.JDBCWorkflowFactory</b> for example is an alternative factory, that allows you to store your workflow definitions in a JDBC database instead of putting them into the xml files. (
+<a href="JDBCWorkflowFactory.html">JDBCWorkflowFactory</a>)
+<p></p>The most common configuration would be:
+
+<h3>
+<a name="osworkflow.xml"></a>
+<a href="Configuration#osworkflow_xml.html" title="Permalink to osworkflow.xml"></img></a> osworkflow.xml:
+</h3>
+
+<div>
+<pre>&#60;osworkflow&#62;
+  &#60;persistence class=
+<span>"com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore"</span>&#62;
+    &#60;arg name=
+<span>"foo"</span> value=
+<span>"bar"</span>/&#62;
+    ...
+  &#60;/persistence&#62;
+  &#60;factory class=
+<span>"com.opensymphony.workflow.loader.XMLWorkflowFactory"</span>&#62;
+    &#60;property key=
+<span>"resource"</span> value=
+<span>"workflows.xml"</span> /&#62;
+  &#60;/factory&#62;
+&#60;/osworkflow&#62;</pre></div>
+
+<h3>
+<a name="workflows.xml"></a>
+<a href="Configuration#workflows_xml.html" title="Permalink to workflows.xml"></img></a> workflows.xml:
+</h3>
+<p></p>
+<div>
+<pre>&#60;workflows&#62;
+  &#60;workflow name=
+<span>"example"</span> type=
+<span>"resource"</span> location=
+<span>"example.xml"</span>/&#62;
+&#60;/workflows&#62;</pre></div>
+
+</div></body></html>

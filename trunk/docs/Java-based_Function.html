@@ -1,0 +1,96 @@
+<html><head><title>OSWorkflow Java-based Function</title></head><body><ul>
+
+<li>Back to 
+<a href="Documentation.html">OSWorkflow Documentation</a></li>
+
+<li>Back to 
+<a href="Functions.html">OSWorkflow Functions</a></li>
+</ul>
+<p></p>Java-based functions must implement the interface 
+<b>com.opensymphony.workflow.FunctionProvider</b>. This interface has a single method, 
+<b>execute</b>. This method takes three arguments:
+
+<ul>
+
+<li>
+<b>The transientVars Map</b> is the exact Map passed by the client code that called 
+<b>Workflow.doAction()</b>. This is useful for functions that behave differently based on user input when the action is finished. It also includes a number of special variables that are helpful in accessing various aspects of the workflow. This includes all the variables configured in Registers (see 
+<a href="Workflow_Concepts.html">OSWorkflow Workflow Concepts</a>) as well as the following two special variables: 
+<b>entry</b> (com.opensymphony.workflow.spi.WorkflowEntry) and 
+<b>context</b> (com.opensymphony.workflow.WorkflowContext).</li>
+</ul>
+
+<br></br>
+
+<ul>
+
+<li>
+<b>The args Map</b> is a map that contains all the &#60;arg/&#62; tags embedded in the &#60;function/&#62; tag. These arguments are all of type String and have been parsed for any variable interpolation. This means that 
+<i>&#60;arg name="foo"&#62;this is ${someVar}&#60;/arg&#62;</i> would result in a mapping from "foo" to "this is &#91;contents of someVar&#93;".</li>
+</ul>
+
+<br></br>
+
+<ul>
+
+<li>
+<b>The propertySet</b> contains all the persistent variables associated with the workflow instance.</li>
+</ul>
+<p></p>Java-based functions are available in the following 
+<b>types</b>:
+
+<h3>class
+</h3>
+<p></p>For a class function, the ClassLoader must know the class name of your function. This can be accomplished with the argument class.name. An example is:
+<p></p>
+<div>
+<pre>&#60;function type=
+<span>"class"</span>&#62;
+	&#60;arg name=
+<span>"class.name"</span>&#62;com.acme.FooFunction&#60;/arg&#62;
+	&#60;arg name=
+<span>"message"</span>&#62;The message is $&#123;message&#125;&#60;/arg&#62;
+&#60;/function&#62;</pre></div>
+
+<h3>jndi
+</h3>
+<p></p>JNDI functions are just like class functions except they must already exist in the JNDI tree. Instead of a class.name argument, the argument 
+<b>jndi.location</b> is required. Example:
+<p></p>
+<div>
+<pre>&#60;function type=
+<span>"jndi"</span>&#62;
+	&#60;arg name=
+<span>"jndi.location"</span>&#62;java:/FooFunction&#60;/arg&#62;
+	&#60;arg name=
+<span>"message"</span>&#62;The message is $&#123;message&#125;&#60;/arg&#62;
+&#60;/function&#62;</pre></div>
+
+<h3>remote-ejb
+</h3>
+<p></p>Remote EJBs can be used as a function in OSWorkflow provided a few things happen first. The remote interface of the EJB must extend 
+<b>com.opensymphony.workflow.FunctionProviderRemote</b>. Also, the required argument ejb.location must be given. Example:
+<p></p>
+<div>
+<pre>&#60;function type=
+<span>"remote&#45;ejb"</span>&#62;
+	&#60;arg name=
+<span>"ejb.location"</span>&#62;java:/comp/env/FooEJB&#60;/arg&#62;
+	&#60;arg name=
+<span>"message"</span>&#62;The message is $&#123;message&#125;&#60;/arg&#62;
+&#60;/function&#62;</pre></div>
+
+<h3>local-ejb
+</h3>
+<p></p>Local EJBs are exactly like remote EJBs, except that the local interface of the EJB must extend 
+<b>com.opensymphony.workflow.FunctionProvider</b>, just like the other Java-based functions. Example:
+<p></p>
+<div>
+<pre>&#60;function type=
+<span>"local&#45;ejb"</span>&#62;
+	&#60;arg name=
+<span>"ejb.location"</span>&#62;java:/comp/env/FooEJB&#60;/arg&#62;
+	&#60;arg name=
+<span>"message"</span>&#62;The message is $&#123;message&#125;&#60;/arg&#62;
+&#60;/function&#62;</pre></div>
+</div></body></html>

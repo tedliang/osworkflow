@@ -1,0 +1,44 @@
+<html><head><title>JDBCWorkflowFactory</title></head><body><b>com.opensymphony.workflow.loader.JDBCWorkflowFactory</b> is an alternative factory, that allows you to store your workflow definitions in a JDBC database instead of putting them into the xml files.
+
+<h3>These features are planned for JDBCWorkflowFactory, but not yet implemented:
+</h3>
+
+<ol>
+
+<li> versioning support</li>
+
+<li> find alternative to storing xml directly</li>
+
+<li> delete function</li>
+</ol>
+<p></p>It requires some configuration to get it running:
+
+<h3>
+<a name="osworkflow.xml"></a>
+<a href="JDBCWorkflowFactory#osworkflow_xml.html" title="Permalink to osworkflow.xml"></img></a> osworkflow.xml:
+</h3>
+
+<div>
+<pre>&#60;osworkflow&#62;
+  &#60;persistence class=
+<span>"com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore"</span>&#62;
+    &#60;arg name=
+<span>"foo"</span> value=
+<span>"bar"</span>/&#62;
+    ...
+  &#60;/persistence&#62;
+  &#60;factory class=
+<span>"com.opensymphony.workflow.loader.JDBCWorkflowFactory"</span>&#62;
+  &#60;/factory&#62;
+&#60;/osworkflow&#62;</pre></div>
+
+<h3>
+<a name="JDBCDatabase"></a>
+<a href="JDBCWorkflowFactory#JDBCDatabase.html" title="Permalink to JDBCDatabase"></img></a> JDBC Database:
+</h3>
+<p></p>Example create table script for HSQLDB:
+
+<div>
+<pre>CREATE CACHED TABLE OS_WORKFLOWDEFS (WF_DEFINITION BINARY,WF_NAME VARCHAR(256) NOT NULL PRIMARY KEY)</pre></div>
+
+</div></body></html>

@@ -1,0 +1,36 @@
+<html><head><title>OSWorkflow Integration with Other Modules</title></head><body><ul>
+
+<li>Up to 
+<a href="Documentation.html">OSWorkflow Documentation</a></li>
+
+<li>Back to 
+<a href="Configuration.html">OSWorkflow Configuration</a></li>
+
+<li>Forward to 
+<a href="Workflow_Concepts.html">OSWorkflow Workflow Concepts</a></li>
+</ul>
+
+<h3>Integration with OSCore
+</h3>
+<p></p>OSWorkflow requires 
+<span></img>
+<a href="http://www.opensymphony.com/osuser">OSUser</a></span> and 
+<span></img>
+<a href="http://www.opensymphony.com/propertyset">PropertySet</a></span>, which both require 
+<span></img>
+<a href="http://www.opensymphony.com/oscore">OSCore</a></span>. Furthermore, OSWorkflow makes heavy usage of the many useful features in OSCore, and therefore OSCore version 2.0.1 or above is required to use OSWorkflow.
+
+<h3>Integration with PropertySet
+</h3>
+<p></p>One of the key features in OSWorkflow is the ability to save small variables dynamically. This allows for a 
+<a href="Functions.html">OSWorkflow Functions</a> function to take place on day 1 in the workflow lifecycle and store a piece of data in OSWorkflow. Then, many days later, when an action is executed in the workflow, that same data can be transparently pulled up and re-used in another function. This is a very powerful feature that when used properly can allow for highly customized, long-lived workflow behavior that persists even after server restarts.
+<p></p>This is all possible by using the 
+<span></img>
+<a href="http://www.opensymphony.com/propertyset">PropertySet</a></span> module. What kinds of variable types you can dynamically store in the 
+<b>variables</b> Map is totally up to the PropertySet implementation that is chosen by the 
+<b>WorkflowStore</b> you have configured in 
+<b>osworkflow.xml</b>. For example, if you choose the 
+<b>JDBCWorkflowStore</b>, you must make sure that the jdbc propertyset is properly configured in 
+<b>propertyset.xml</b>.
+<p></p>
+</div></body></html>

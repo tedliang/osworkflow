@@ -1,0 +1,63 @@
+<html><head><title>OSWorkflow BeanShell Functions</title></head><body><ul>
+
+<li>Back to 
+<a href="Documentation.html">OSWorkflow Documentation</a></li>
+
+<li>Back to 
+<a href="Functions.html">OSWorkflow Functions</a></li>
+</ul>
+<p></p>OSWorkflow supports BeanShell as a scripting language. You can find out more about BeanShell at the 
+<span></img>
+<a href="http://www.beanshell.org/">BeanShell website</a></span>. Reading the documentation for BeanShell should be more than enough to get started with scripting for your own workflow definition file. There are a few behaviors that you should be aware of before starting, however:
+<p></p>The 
+<b>type</b> that must be chosen for BeanShell functions is 
+<b>beanshell</b>. There is one required argument: 
+<b>script</b>. The value for this argument is the actual script that is to be executed. Example:
+<p></p>
+<div>
+<pre>&#60;function type=
+<span>"beanshell"</span>&#62;
+	&#60;arg name=
+<span>"script"</span>&#62;	
+		
+<span>System</span>.out.println(
+<span>"Hello, World!"</span>);
+	&#60;/arg&#62;
+&#60;/function&#62;</pre></div>
+<p></p>There are three variables in the expression scope at all times: 
+<i>entry</i> 
+<i>context</i>, and 
+<i>store</i>. The variable "entry" is an object that implements 
+<i>com.opensymphony.workflow.spi.WorkflowEntry</i> and represents the workflow instance. The variable "context" is an object of type 
+<i>com.opensymphony.workflow.WorkflowContext</i> which allows for BeanShell functions to roll back transactions or determine the caller name. The "store" variable is of type 
+<i>com.opensymphony.workflow.WorkflowStore</i>
+ and allows the function to access the underlying workflow persistence store.
+<p></p>Just like OSWorkflow Java Function, there are three variables that can be used and are automatically set in the BeanShell scope: 
+<b>transientVars</b>, 
+<b>args</b>, and 
+<b>propertySet</b>. The same rules that apply to Java functions also apply here. Example:
+<p></p>
+<div>
+<pre>&#60;function type=
+<span>"beanshell"</span>&#62;
+	&#60;arg name=
+<span>"script"</span>&#62;	
+		propertySet.setString(
+<span>"world"</span>, 
+<span>"Earth"</span>);
+	&#60;/arg&#62;
+&#60;/function&#62;
+&#60;function type=
+<span>"beanshell"</span>&#62;
+	&#60;arg name=
+<span>"script"</span>&#62;	
+		
+<span>System</span>.out.println(
+<span>"Hello, "</span>+propertySet.getString(
+<span>"world"</span>));
+	&#60;/arg&#62;
+&#60;/function&#62;</pre></div>
+<p></p>The output of these two scripts would be "Hello, Earth". This is because any variable stored in the 
+<b>propertySet</b> is persisted for use in functions later in the workflow.
+<p></p>
+</div></body></html>
