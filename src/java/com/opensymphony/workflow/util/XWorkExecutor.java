@@ -20,7 +20,8 @@ import java.util.Map;
 
 
 /**
- * Executes an XWork function The following conversion is done:
+ * Executes an XWork function.
+ * The following conversion is done:
  * <ul>
  *  <li>inputs -> ActionContext#parameters</li>
  *  <li>variables -> ActionContext#session</li>
