@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.6//EN" "http://www.opensymphony.com/osworkflow/workflow_2_8.dtd">
+<workflow>
+  <initial-actions>
+    <action id="100" name="Start Workflow">
+      <pre-functions>
+        <function type="class">
+          <arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+        </function>
+      </pre-functions>
+      <results>
+        <unconditional-result old-status="Finished" status="Underway" step="1" owner="${caller}"/>
+      </results>
+    </action>
+  </initial-actions>
+  <steps>
+    <step id="1" name="First Step">
+      <actions>
+        <action id="1" name="The first action" finish="true">
+          <results>
+            <unconditional-result old-status="Finished" />
+          </results>
+        </action>
+      </actions>
+    </step>
+  </steps>
+</workflow>
+

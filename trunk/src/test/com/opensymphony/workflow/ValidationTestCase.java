@@ -9,6 +9,7 @@ import com.opensymphony.workflow.loader.WorkflowDescriptor;
 
 import junit.framework.TestCase;
 
+import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -16,7 +17,7 @@ import java.util.HashMap;
  * Test Case for AbstractWorkflow.
  *
  * @author <a href="mailto:vorburger@users.sourceforge.net">Michael Vorburger</a>
- * @version $Id: ValidationTestCase.java,v 1.8 2004-08-11 01:43:00 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
+ * @version $Id: ValidationTestCase.java,v 1.9 2004-12-30 18:40:50 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
  */
 public class ValidationTestCase extends TestCase {
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -93,6 +94,19 @@ public class ValidationTestCase extends TestCase {
         } catch (Exception ex) {
             ex.printStackTrace();
             fail("descriptor failed to load as expected, but a " + ex.getClass() + " exception was caught instead of InvalidWorkflowDescriptorException");
+        }
+    }
+
+    public void testFinish() throws Exception {
+        Workflow workflow = new BasicWorkflow("testuser");
+
+        try {
+            long id = workflow.initialize(getClass().getClassLoader().getResource("samples/finish-attribute.xml").toString(), 100, Collections.EMPTY_MAP);
+            workflow.doAction(id, 1, Collections.EMPTY_MAP);
+        } catch (Exception e) {
+            fail("finish attribute workflow should be valid, instead it failed with: " + e);
+
+            return;
         }
     }
 
