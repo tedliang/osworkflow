@@ -10,7 +10,7 @@ Contributed by Jérôme Picard
 <class-descriptor class="com.opensymphony.workflow.spi.ojb.OJBWorkflowEntry" table="OS_WFENTRY">
   <field-descriptor id="1" name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"/>
   <field-descriptor id="2" name="workflowName" column="NAME" jdbc-type="VARCHAR"/>
-  <field-descriptor id="3" name="initialized" column="INITIALIZED" jdbc-type="BIT"/>
+  <field-descriptor id="3" name="state" column="INITIALIZED" jdbc-type="INTEGER"/>
 
   <collection-descriptor name="currentSteps" element-class-ref="com.opensymphony.workflow.spi.ojb.OJBCurrentStep" auto-retrieve="true" auto-update="true" orderby="ID" sort="DESC">
     <inverse-foreignkey field-id-ref="2"/>
