@@ -7,9 +7,6 @@ package com.opensymphony.workflow;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
 
-import com.opensymphony.provider.BeanProvider;
-import com.opensymphony.provider.bean.DefaultBeanProvider;
-
 import com.opensymphony.util.TextUtils;
 
 import com.opensymphony.workflow.config.ConfigLoader;
@@ -17,6 +14,7 @@ import com.opensymphony.workflow.loader.*;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.*;
+import com.opensymphony.workflow.util.ScriptVariableParser;
 import com.opensymphony.workflow.util.beanshell.BeanShellCondition;
 import com.opensymphony.workflow.util.beanshell.BeanShellFunctionProvider;
 import com.opensymphony.workflow.util.beanshell.BeanShellRegister;
@@ -68,7 +66,6 @@ public class AbstractWorkflow implements Workflow {
     public static final String BSH_SCRIPT = "script";
     private static final Log log = LogFactory.getLog(AbstractWorkflow.class);
     protected static boolean configLoaded = false;
-    private static BeanProvider beanProvider = new DefaultBeanProvider();
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
@@ -671,7 +668,7 @@ public class AbstractWorkflow implements Workflow {
         for (Iterator iterator = args.entrySet().iterator();
                 iterator.hasNext();) {
             Map.Entry mapEntry = (Map.Entry) iterator.next();
-            mapEntry.setValue(translateVariables((String) mapEntry.getValue(), transientVars, ps));
+            mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
         }
 
         String clazz;
@@ -811,7 +808,7 @@ public class AbstractWorkflow implements Workflow {
                 for (Iterator iterator2 = args.entrySet().iterator();
                         iterator2.hasNext();) {
                     Map.Entry mapEntry = (Map.Entry) iterator2.next();
-                    mapEntry.setValue(translateVariables((String) mapEntry.getValue(), transientVars, ps));
+                    mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
                 }
 
                 String clazz;
@@ -847,71 +844,6 @@ public class AbstractWorkflow implements Workflow {
                     throw new WorkflowException(message, e);
                 }
             }
-        }
-    }
-
-    Object getVariableFromMaps(String var, Map transientVars, PropertySet ps) {
-        int firstDot = var.indexOf('.');
-        String actualVar = var;
-
-        if (firstDot != -1) {
-            actualVar = var.substring(0, firstDot);
-        }
-
-        Object o = transientVars.get(actualVar);
-
-        if (o == null) {
-            o = ps.getAsActualType(actualVar);
-        }
-
-        if (firstDot != -1) {
-            o = beanProvider.getProperty(o, var.substring(firstDot + 1));
-        }
-
-        return o;
-    }
-
-    /**
-     * Parses a string for instances of "${foo}" and returns a string with all instances replaced
-     * with the string value of the foo object (<b>foo.toString()</b>). If the string being passed
-     * in only refers to a single variable and contains no other characters (for example: ${foo}),
-     * then the actual object is returned instead of converting it to a string.
-     */
-    Object translateVariables(String s, Map transientVars, PropertySet ps) {
-        String temp = s.trim();
-
-        if (temp.startsWith("${") && temp.endsWith("}") && (temp.indexOf('$', 1) == -1)) {
-            // the string is just a variable reference, don't convert it to a string
-            String var = temp.substring(2, temp.length() - 1);
-
-            return getVariableFromMaps(var, transientVars, ps);
-        } else {
-            // the string passed in contains multiple variables (or none!) and should be treated as a string
-            while (true) {
-                int x = s.indexOf("${");
-                int y = s.indexOf("}", x);
-
-                if ((x != -1) && (y != -1)) {
-                    String var = s.substring(x + 2, y);
-                    String t = null;
-                    Object o = getVariableFromMaps(var, transientVars, ps);
-
-                    if (o != null) {
-                        t = o.toString();
-                    }
-
-                    if (t != null) {
-                        s = s.substring(0, x) + t + s.substring(y + 1);
-                    } else {
-                        // the variable doesn't exist, so don't display anything
-                        s = s.substring(0, x) + s.substring(y + 1);
-                    }
-                } else {
-                    break;
-                }
-            }
-
-            return s;
         }
     }
 
@@ -972,15 +904,15 @@ public class AbstractWorkflow implements Workflow {
             if (owner.equals("")) {
                 owner = null;
             } else {
-                Object o = translateVariables(owner, transientVars, ps);
+                Object o = ScriptVariableParser.translateVariables(owner, transientVars, ps);
                 owner = (o != null) ? o.toString() : null;
             }
 
             String oldStatus = theResult.getOldStatus();
-            oldStatus = translateVariables(oldStatus, transientVars, ps).toString();
+            oldStatus = ScriptVariableParser.translateVariables(oldStatus, transientVars, ps).toString();
 
             String status = theResult.getStatus();
-            status = translateVariables(status, transientVars, ps).toString();
+            status = ScriptVariableParser.translateVariables(status, transientVars, ps).toString();
 
             if (currentStep != null) {
                 store.markFinished(currentStep, actionId, new Date(), oldStatus, context.getCaller());
@@ -994,7 +926,7 @@ public class AbstractWorkflow implements Workflow {
             Date dueDate = null;
 
             if ((theResult.getDueDate() != null) && (theResult.getDueDate().length() > 0)) {
-                Object dueDateObject = translateVariables(theResult.getDueDate(), transientVars, ps);
+                Object dueDateObject = ScriptVariableParser.translateVariables(theResult.getDueDate(), transientVars, ps);
 
                 if (dueDateObject instanceof Date) {
                     dueDate = (Date) dueDateObject;
@@ -1037,7 +969,7 @@ public class AbstractWorkflow implements Workflow {
             for (Iterator iterator = args.entrySet().iterator();
                     iterator.hasNext();) {
                 Map.Entry mapEntry = (Map.Entry) iterator.next();
-                mapEntry.setValue(translateVariables((String) mapEntry.getValue(), transientVars, ps));
+                mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
             }
 
             String clazz;
@@ -1128,7 +1060,7 @@ public class AbstractWorkflow implements Workflow {
             log.debug("theResult=" + theResults[0].getStep() + " " + theResults[0].getStatus());
         }
 
-        if (extraPreFunctions != null) {
+        if ((extraPreFunctions != null) && (extraPreFunctions.size() > 0)) {
             // run any extra pre-functions that haven't been run already
             for (Iterator iterator = extraPreFunctions.iterator();
                     iterator.hasNext();) {
@@ -1199,10 +1131,11 @@ public class AbstractWorkflow implements Workflow {
             // this is a join, finish this step...
             JoinDescriptor joinDesc = wf.getJoin(theResults[0].getJoin());
             step = store.markFinished(step, action.getId(), new Date(), theResults[0].getOldStatus(), context.getCaller());
+            store.moveToHistory(step);
 
             // ... now check to see if the expression evaluates
             // (get only current steps that have a result to this join)
-            ArrayList joinSteps = new ArrayList();
+            Collection joinSteps = new HashSet();
             joinSteps.add(step);
 
             //currentSteps = store.findCurrentSteps(id); // shouldn't need to refresh the list
@@ -1215,6 +1148,22 @@ public class AbstractWorkflow implements Workflow {
 
                     if (stepDesc.resultsInJoin(theResults[0].getJoin())) {
                         joinSteps.add(currentStep);
+                    }
+                }
+            }
+
+            //we also need to check history steps that were finished before this one
+            //that might be part of the join
+            List historySteps = store.findHistorySteps(entry.getId());
+
+            for (Iterator i = historySteps.iterator(); i.hasNext();) {
+                Step historyStep = (Step) i.next();
+
+                if (historyStep.getId() != step.getId()) {
+                    StepDescriptor stepDesc = wf.getStep(historyStep.getStepId());
+
+                    if (stepDesc.resultsInJoin(theResults[0].getJoin())) {
+                        joinSteps.add(historyStep);
                     }
                 }
             }
@@ -1245,8 +1194,12 @@ public class AbstractWorkflow implements Workflow {
                     Step currentStep = (Step) iterator.next();
 
                     if (currentStep.getId() != step.getId()) {
-                        //store.moveToHistory(currentStep.getActionId(), currentStep.getFinishDate(), currentStep, theResult.getOldStatus(), context.getCaller());
-                        store.moveToHistory(currentStep);
+                        //if this is already a history step (eg, for all join steps completed prior to this one),
+                        //we don't move it, since it's already history.
+                        if (!historySteps.contains(currentStep)) {
+                            store.moveToHistory(currentStep);
+                        }
+
                         previousIds[i] = currentStep.getId();
                         i++;
                     }
@@ -1255,7 +1208,9 @@ public class AbstractWorkflow implements Workflow {
                 // ... now finish this step normally
                 previousIds[0] = step.getId();
                 theResults[0] = joinDesc.getResult();
-                createNewCurrentStep(joinDesc.getResult(), entry, store, action.getId(), step, previousIds, transientVars, ps);
+
+                //we pass in null for the current step since we've already moved it to history above
+                createNewCurrentStep(joinDesc.getResult(), entry, store, action.getId(), null, previousIds, transientVars, ps);
 
                 // now execute the post-functions
                 for (Iterator iterator = joinresult.getPostFunctions().iterator();
