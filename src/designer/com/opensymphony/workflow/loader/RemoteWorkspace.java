@@ -162,7 +162,7 @@ public class RemoteWorkspace extends HTTPWorkflowFactory
     return config.descriptor;
   }
 
-  public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, WorkflowGraph graph, boolean replace) throws FactoryException
+  public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, WorkflowGraph graph, boolean replace) throws Exception
   {
     String layoutBuffer = "";
     String workflowBuffer;
@@ -192,30 +192,28 @@ public class RemoteWorkspace extends HTTPWorkflowFactory
     }
     if(descriptor!=null)
     {
-      try
-      {
-      	HTTPWorkflowConfig config = (HTTPWorkflowConfig)workflows.get(name);
-				descriptor.getMetaAttributes().put("generator", "OSWOrkflow Designer");
-				descriptor.getMetaAttributes().put("lastModified", (new Date()).toString());
-				StringWriter sw = new StringWriter();
-				PrintWriter writer = new PrintWriter(new BufferedWriter(sw));
-				writer.println(WorkflowDescriptor.XML_HEADER);
-				writer.println(WorkflowDescriptor.DOCTYPE_DECL);
-				descriptor.writeXML(writer, 0);
-				writer.flush();
-				writer.close();
-				//workflowBuffer = writer.toString();
-				workflowBuffer = sw.getBuffer().toString();
-				String ret = writeWorkflowBuffer(service.getRemoteAddress(), config.docId, name, workflowBuffer, layoutBuffer);
-				if (ret.length() == 0)
-					return false;
-				config.docId = ret;		// set the new document ID
-				return true;
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
+      HTTPWorkflowConfig config = (HTTPWorkflowConfig)workflows.get(name);
+      descriptor.getMetaAttributes().put("generator", "OSWOrkflow Designer");
+      descriptor.getMetaAttributes().put("lastModified", (new Date()).toString());
+      StringWriter sw = new StringWriter();
+      PrintWriter writer = new PrintWriter(new BufferedWriter(sw));
+      writer.println(WorkflowDescriptor.XML_HEADER);
+      writer.println(WorkflowDescriptor.DOCTYPE_DECL);
+      descriptor.writeXML(writer, 0);
+      writer.flush();
+      writer.close();
+      //workflowBuffer = writer.toString();
+      workflowBuffer = sw.getBuffer().toString();
+      String ret = writeWorkflowDescriptor(service.getRemoteAddress(), config.docId, name, workflowBuffer);
+      System.out.println("workflow ret = " + ret);
+      if (ret.length() == 0)
+        return false;
+      ret = writeWorkflowLayout(service.getRemoteAddress(), config.docId, name, layoutBuffer);
+      System.out.println("layout ret = " + ret);
+      if (ret.length() == 0)
+        return false;
+      config.docId = ret;		// set the new document ID
+      return true;
 		}
     return false;
   }

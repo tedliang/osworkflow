@@ -20,19 +20,16 @@ public class Launcher
       if(args[0].equals("testnew"))
       {
         System.getProperties().put("com.opensymphony.workflow.jws.verb", "new");
-        System.getProperties().put("com.opensymphony.workflow.jws.service", "http://wrk-03:8080/axis/OSWorkflowService.jws");
+        System.getProperties().put("com.opensymphony.workflow.jws.service", "http://localhost:8000/workflow");
         System.getProperties().put("com.opensymphony.workflow.jws.workspace", "DocWay");
       }
       else if(args[0].equals("testmodify"))
       {
         System.getProperties().put("com.opensymphony.workflow.jws.verb", "modify");
-        System.getProperties().put("com.opensymphony.workflow.jws.service", "http://localhost:8090/axis/oswfdesigner/OSWorkflowService.jws");
-        //System.getProperties().put("com.opensymphony.workflow.jws.service", "http://wrk-03:8080/axis/OSWorkflowService.jws");
+        System.getProperties().put("com.opensymphony.workflow.jws.service", "http://localhost:8080/workflow");
         System.getProperties().put("com.opensymphony.workflow.jws.workspace", "DocWay");
-        //System.getProperties().put("com.opensymphony.workflow.jws.id_1", "workflow2");
         System.getProperties().put("com.opensymphony.workflow.jws.id_1", "MD00000008");
-        //System.getProperties().put("com.opensymphony.workflow.jws.name_1", "workflow2");
-        System.getProperties().put("com.opensymphony.workflow.jws.name_1", "Approvazione documento");
+        System.getProperties().put("com.opensymphony.workflow.jws.name_1", "test doc");
       }
     }
 

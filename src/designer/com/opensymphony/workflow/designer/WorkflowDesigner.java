@@ -349,6 +349,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
 
   public void showDetails(Object node)
   {
+    if(node == null) return;
     String title = getDescriptorTitle(node);
     AbstractDescriptor descriptor = null;
     currentDetailObject = node;
@@ -443,7 +444,6 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
 
   public void openRemoteWorkspace()
   {
-    // apre il workspace attraverso il webservice
     try
     {
       manager.loadServiceWorkspace(service);
@@ -513,9 +513,10 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
                                     ResourceManager.getString("title.validate.workflow", new Object[]{workflowName}),
                                     JOptionPane.ERROR_MESSAGE);
     }
-    catch(FactoryException e)
+    catch(Exception e)
     {
       e.printStackTrace();
+      JOptionPane.showMessageDialog(this, e.getMessage(), ResourceManager.getString("error.save.workflow.long", new Object[]{workflowName}), JOptionPane.ERROR_MESSAGE);
     }
     return saved;
   }
