@@ -115,13 +115,11 @@ public class Layout
     out.close();
   }
 
-	public Rectangle getBounds(int key, Class type)
+	public Rectangle getBounds(int key, String type)
 	{
 		if(type==null)
 		  return (Rectangle)allCells.get(new Integer(key));
-		String typeName = type.getName();
-		typeName = typeName.substring(typeName.lastIndexOf('.')+1, typeName.length());
-		Map typeMap = (Map)cellsByType.get(typeName);
+		Map typeMap = (Map)cellsByType.get(type);
 		if(typeMap==null)
 		{
 			return null;

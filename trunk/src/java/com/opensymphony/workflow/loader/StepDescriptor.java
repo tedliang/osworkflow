@@ -20,7 +20,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -39,7 +39,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
     protected List commonActions = new ArrayList();
     protected List permissions = new ArrayList();
     protected String name;
-  protected boolean hasActions = false;
+    protected boolean hasActions = false;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -163,7 +163,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
             out.println("</external-permissions>");
         }
 
-        if (actions.size() > 0 || commonActions.size()>0) {
+        if ((actions.size() > 0) || (commonActions.size() > 0)) {
             XMLUtil.printIndent(out, indent++);
             out.println("<actions>");
 
@@ -213,6 +213,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
         if (a != null) {
             hasActions = true;
+
             NodeList actions = a.getElementsByTagName("action");
 
             for (int i = 0; i < actions.getLength(); i++) {
