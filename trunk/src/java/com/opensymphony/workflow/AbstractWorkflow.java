@@ -1088,7 +1088,7 @@ public class AbstractWorkflow implements Workflow {
         }
     }
 
-    private void createNewCurrentStep(ResultDescriptor theResult, WorkflowEntry entry, WorkflowStore store, int actionId, Step currentStep, long[] previousIds, Map transientVars, PropertySet ps) throws StoreException {
+    private void createNewCurrentStep(ResultDescriptor theResult, WorkflowEntry entry, WorkflowStore store, int actionId, Step currentStep, long[] previousIds, Map transientVars, PropertySet ps) throws WorkflowException {
         try {
             int nextStep = theResult.getStep();
 
@@ -1155,8 +1155,17 @@ public class AbstractWorkflow implements Workflow {
                 }
             }
 
+            WorkflowDescriptor descriptor = (WorkflowDescriptor) transientVars.get("descriptor");
+            List preFunctions = descriptor.getStep(nextStep).getPreFunctions();
+
+            for (Iterator iterator = preFunctions.iterator();
+                    iterator.hasNext();) {
+                FunctionDescriptor function = (FunctionDescriptor) iterator.next();
+                executeFunction(function, transientVars, ps);
+            }
+
             store.createCurrentStep(entry.getId(), nextStep, owner, startDate, dueDate, status, previousIds);
-        } catch (StoreException e) {
+        } catch (WorkflowException e) {
             context.setRollbackOnly();
             throw e;
         }
@@ -1226,6 +1235,18 @@ public class AbstractWorkflow implements Workflow {
 
         if (action.getValidators().size() > 0) {
             verifyInputs(entry, action.getValidators(), unmodifiableTransients, ps);
+        }
+
+        //we're leaving the current step, so let's execute its post-functions
+        //check if we actually have a current step
+        if (step != null) {
+            List stepPostFunctions = wf.getStep(step.getStepId()).getPostFunctions();
+
+            for (Iterator iterator = stepPostFunctions.iterator();
+                    iterator.hasNext();) {
+                FunctionDescriptor function = (FunctionDescriptor) iterator.next();
+                executeFunction(function, transientVars, ps);
+            }
         }
 
         // preFunctions

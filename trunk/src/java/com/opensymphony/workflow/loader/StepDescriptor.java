@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -32,6 +32,8 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
      */
     protected List commonActions = new ArrayList();
     protected List permissions = new ArrayList();
+    protected List postFunctions = new ArrayList();
+    protected List preFunctions = new ArrayList();
     protected Map metaAttributes = new HashMap();
     protected String name;
     protected boolean hasActions = false;
@@ -95,6 +97,22 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
         return permissions;
     }
 
+    public void setPostFunctions(List postFunctions) {
+        this.postFunctions = postFunctions;
+    }
+
+    public List getPostFunctions() {
+        return postFunctions;
+    }
+
+    public void setPreFunctions(List preFunctions) {
+        this.preFunctions = preFunctions;
+    }
+
+    public List getPreFunctions() {
+        return preFunctions;
+    }
+
     public boolean resultsInJoin(int join) {
         for (Iterator iterator = actions.iterator(); iterator.hasNext();) {
             ActionDescriptor actionDescriptor = (ActionDescriptor) iterator.next();
@@ -128,6 +146,8 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
         ValidationHelper.validate(actions);
         ValidationHelper.validate(permissions);
+        ValidationHelper.validate(preFunctions);
+        ValidationHelper.validate(postFunctions);
 
         Iterator iter = commonActions.iterator();
 
@@ -169,6 +189,19 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
             out.println("</meta>");
         }
 
+        if (preFunctions.size() > 0) {
+            XMLUtil.printIndent(out, indent++);
+            out.println("<pre-functions>");
+
+            for (int i = 0; i < preFunctions.size(); i++) {
+                FunctionDescriptor function = (FunctionDescriptor) preFunctions.get(i);
+                function.writeXML(out, indent);
+            }
+
+            XMLUtil.printIndent(out, --indent);
+            out.println("</pre-functions>");
+        }
+
         if (permissions.size() > 0) {
             XMLUtil.printIndent(out, indent++);
             out.println("<external-permissions>");
@@ -200,6 +233,19 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
             out.println("</actions>");
         }
 
+        if (postFunctions.size() > 0) {
+            XMLUtil.printIndent(out, indent++);
+            out.println("<post-functions>");
+
+            for (int i = 0; i < postFunctions.size(); i++) {
+                FunctionDescriptor function = (FunctionDescriptor) postFunctions.get(i);
+                function.writeXML(out, indent);
+            }
+
+            XMLUtil.printIndent(out, --indent);
+            out.println("</post-functions>");
+        }
+
         XMLUtil.printIndent(out, --indent);
         out.println("</step>");
     }
@@ -222,6 +268,20 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
                 Element meta = (Element) child;
                 String value = XMLUtil.getText(meta);
                 this.metaAttributes.put(meta.getAttribute("name"), value);
+            }
+        }
+
+        // set up pre-functions - OPTIONAL
+        Element pre = XMLUtil.getChildElement(step, "pre-functions");
+
+        if (pre != null) {
+            NodeList preFunctions = pre.getElementsByTagName("function");
+
+            for (int k = 0; k < preFunctions.getLength(); k++) {
+                Element preFunction = (Element) preFunctions.item(k);
+                FunctionDescriptor functionDescriptor = new FunctionDescriptor(preFunction);
+                functionDescriptor.setParent(this);
+                this.preFunctions.add(functionDescriptor);
             }
         }
 
@@ -275,6 +335,20 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
                 } catch (Exception ex) {
                     //log.warn("Invalid common actionId:" + ex);
                 }
+            }
+        }
+
+        // set up post-functions - OPTIONAL
+        Element post = XMLUtil.getChildElement(step, "post-functions");
+
+        if (post != null) {
+            NodeList postFunctions = post.getElementsByTagName("function");
+
+            for (int k = 0; k < postFunctions.getLength(); k++) {
+                Element postFunction = (Element) postFunctions.item(k);
+                FunctionDescriptor functionDescriptor = new FunctionDescriptor(postFunction);
+                functionDescriptor.setParent(this);
+                this.postFunctions.add(functionDescriptor);
             }
         }
     }
