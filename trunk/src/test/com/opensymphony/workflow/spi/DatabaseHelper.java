@@ -24,6 +24,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import java.net.URL;
+
 import java.sql.Connection;
 import java.sql.Statement;
 
@@ -42,16 +44,8 @@ public class DatabaseHelper {
 
     private static Log log = LogFactory.getLog(DatabaseHelper.class);
     private static SessionFactory sessionFactory;
-    private static Configuration configuration;
 
     //~ Methods ////////////////////////////////////////////////////////////////
-
-    /**
-     * @return
-     */
-    public static Configuration getConfiguration() {
-        return configuration;
-    }
 
     /**
      * @return
@@ -60,6 +54,10 @@ public class DatabaseHelper {
         return sessionFactory;
     }
 
+    /**
+     * Create a new database and initialize it with the specified sql script.
+     * @param scriptFile
+     */
     public static void createDatabase(String scriptFile) {
         Connection connection;
         Statement statement = null;
@@ -83,10 +81,9 @@ public class DatabaseHelper {
                 if ((sqlLine.length() > 0) && (sqlLine.charAt(0) != '#')) {
                     try {
                         statement.executeQuery(sqlLine);
-                    } catch (MSQLException msqlEx) {
-                        // Eat any drop tables that fail.  The IF EXISTS clause doesn't seem to work.
-                        if (msqlEx.getMessage().indexOf("does not exist") == -1) {
-                            throw msqlEx;
+                    } catch (MSQLException e) {
+                        if (sqlLine.toLowerCase().indexOf("drop") == -1) {
+                            log.error("Error executing " + sqlLine, e);
                         }
                     }
                 }
@@ -112,25 +109,23 @@ public class DatabaseHelper {
       * @throws Exception
       */
     public static void exportSchemaForHibernate() throws Exception {
+        createDatabase("src/etc/deployment/hibernate/mckoi.sql");
+
         Configuration configuration = new Configuration();
 
         //cfg.addClass(HibernateHistoryStep.class);
-        File fileHibernateCurrentStep = new File("src/java/com/opensymphony/workflow/spi/hibernate/HibernateCurrentStep.hbm.xml");
-        File fileHibernateHistoryStep = new File("src/java/com/opensymphony/workflow/spi/hibernate/HibernateHistoryStep.hbm.xml");
-        File fileHibernateWorkflowEntry = new File("src/java/com/opensymphony/workflow/spi/hibernate/HibernateWorkflowEntry.hbm.xml");
-        Assert.assertTrue(fileHibernateCurrentStep.exists());
-        Assert.assertTrue(fileHibernateHistoryStep.exists());
-        Assert.assertTrue(fileHibernateWorkflowEntry.exists());
-        configuration.addFile(fileHibernateCurrentStep);
-        configuration.addFile(fileHibernateHistoryStep);
-        configuration.addFile(fileHibernateWorkflowEntry);
+        URL currentStep = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate/HibernateCurrentStep.hbm.xml");
+        URL historyStep = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate/HibernateHistoryStep.hbm.xml");
+        URL workflowEntry = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate/HibernateWorkflowEntry.hbm.xml");
+        Assert.assertTrue(currentStep != null);
+        Assert.assertTrue(historyStep != null);
+        Assert.assertTrue(workflowEntry != null);
+        configuration.addURL(currentStep);
+        configuration.addURL(historyStep);
+        configuration.addURL(workflowEntry);
         configuration.addClass(PropertySetItem.class);
 
-        //    Use SchemaExport to see what Hibernate would have created!
-        // Seems to need to do both, I think due to the createDS having the key
-        // to create the database, but the config in hibernate not having the key..?
-        createDatabase("src/etc/deployment/hibernate/mckoi.sql");
-        new SchemaExport(configuration).create(true, true);
+        //new SchemaExport(configuration).create(true, false);
         sessionFactory = configuration.buildSessionFactory();
     }
 
