@@ -22,6 +22,7 @@ import com.opensymphony.workflow.config.WorkspaceManager;
 import com.opensymphony.workflow.designer.editor.*;
 import com.opensymphony.workflow.designer.swing.*;
 import com.opensymphony.workflow.designer.swing.status.StatusBar;
+import com.opensymphony.workflow.designer.dialogs.NewWorkspaceDialog;
 import com.opensymphony.workflow.loader.PaletteDescriptor;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.loader.Workspace;
@@ -263,6 +264,16 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
   }
 
+  public void checkWorkspaceExists()
+  {
+    if(manager.getCurrentWorkspace()==null)
+    {
+      NewWorkspaceDialog newSpace = new NewWorkspaceDialog(this, ResourceManager.getString("workspace.new"), true);
+      Utils.centerComponent(this, newSpace);
+      newSpace.show();
+    }
+  }
+
   public void save(int index)
   {
     Layout layout = (Layout)mlayout.get(index);
@@ -298,12 +309,13 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     manager.saveWorkspace();
   }
 
-  public void newWorkspace()
+  public Workspace newWorkspace()
   {
     closeWorkspace();
     Workspace workspace = new Workspace();
     manager.setCurrentWorkspace(workspace);
     navigator.setWorkspace(workspace);
+    return workspace;
   }
 
   public void closeWorkspace()
@@ -431,5 +443,6 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     splash.setProgress(100);
     splash.closeSplash();
     splash = null;
+    d.checkWorkspaceExists();
   }
 }

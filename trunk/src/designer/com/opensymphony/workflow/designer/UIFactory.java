@@ -27,6 +27,20 @@ public class UIFactory
 	  return ButtonBarFactory.buildCenteredBar(buttons);
   }
 
+  public static JPanel getButtonBar(ActionListener[] listener, String prefix, String[] names)
+  {
+    if(prefix == null) prefix = "";
+    if(listener.length!=names.length) throw new IllegalArgumentException("listener.length=" + listener.length + " but names.length=" + names.length);
+    JButton[] buttons = new JButton[names.length];
+    for(int i = 0; i < buttons.length; i++)
+    {
+      buttons[i] = new JButton(ResourceManager.getString(names[i]));
+      buttons[i].setActionCommand(prefix + names[i]);
+      buttons[i].addActionListener(listener[i]);
+    }
+    return ButtonBarFactory.buildCenteredBar(buttons);
+  }
+
   public static JComponent createTablePanel(JTable table)
   {
     Color background = UIManager.getColor("window");
