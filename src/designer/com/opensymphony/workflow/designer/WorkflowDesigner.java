@@ -271,7 +271,12 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     if(manager.getCurrentWorkspace()==null)
     {
       NewWorkspaceDialog newSpace = new NewWorkspaceDialog(this, ResourceManager.getString("workspace.new"), true);
+	    newSpace.pack();
+	    newSpace.getBanner().setTitle("");
+	    newSpace.getBanner().setSubtitle(ResourceManager.getString("workspace.new.long"));
       Utils.centerComponent(this, newSpace);
+	    Dimension size = newSpace.getSize();
+	    newSpace.setSize(size.width+10, size.height+15);
       newSpace.show();
     }
   }
