@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class ResultDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -38,16 +38,24 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public ResultDescriptor() {
+    ResultDescriptor() {
     }
 
-    public ResultDescriptor(Element result) {
+    ResultDescriptor(Element result) {
         init(result);
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public void setDisplayName(String displayName) {
+        if (getParent() instanceof ActionDescriptor) {
+            if (((ActionDescriptor) getParent()).getName().equals(displayName)) {
+                this.displayName = null; // if displayName==parentAction.displayName, reset displayName  
+
+                return;
+            }
+        }
+
         this.displayName = displayName;
     }
 

@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -271,7 +271,7 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
         NodeList children = action.getChildNodes();
 
         for (int i = 0; i < children.getLength(); i++) {
-            Node child = (Node) children.item(i);
+            Node child = children.item(i);
 
             if (child.getNodeName().equals("meta")) {
                 Element meta = (Element) child;
@@ -320,8 +320,12 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
         }
 
         Element unconditionalResult = XMLUtil.getChildElement(resultsElememt, "unconditional-result");
-        this.unconditionalResult = new ResultDescriptor(unconditionalResult);
-        this.unconditionalResult.setParent(this);
+
+        // [KAP] This allows loading a workflow with actions without unconditional-results
+        if (unconditionalResult != null) {
+            this.unconditionalResult = DescriptorFactory.getFactory().createResultDescriptor(unconditionalResult);
+            this.unconditionalResult.setParent(this);
+        }
 
         // set up post-functions - OPTIONAL
         Element post = XMLUtil.getChildElement(action, "post-functions");

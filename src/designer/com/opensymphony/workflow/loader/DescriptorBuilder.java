@@ -45,7 +45,7 @@ public class DescriptorBuilder
 
   public static ResultDescriptor createResult(WorkflowGraphModel model, AbstractDescriptor desc)
   {
-    ResultDescriptor result = new ResultDescriptor();
+    ResultDescriptor result = DescriptorFactory.getFactory().createResultDescriptor();
     Utils.checkId(model.getContext(), desc);
     if(result.getId()==0)
       result.setId(Utils.getNextId(model.getContext()));
@@ -72,7 +72,7 @@ public class DescriptorBuilder
 
   public static ConditionalResultDescriptor createConditionalResult(WorkflowGraphModel model, AbstractDescriptor desc)
   {
-    ConditionalResultDescriptor result = new ConditionalResultDescriptor();
+    ConditionalResultDescriptor result = DescriptorFactory.getFactory().createConditionalResultDescriptor();
     Utils.checkId(model.getContext(), desc);
     if(result.getId()==0)
       result.setId(Utils.getNextId(model.getContext()));
