@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class OfbizSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -60,6 +60,10 @@ public class OfbizSOAPWorkflow implements Workflow {
 
     public String getWorkflowName(long id) throws StoreException, FactoryException {
         return new OfbizWorkflow(getRemoteUser()).getWorkflowName(id);
+    }
+
+    public String[] getWorkflowNames() throws FactoryException {
+        return new OfbizWorkflow(getRemoteUser()).getWorkflowNames();
     }
 
     public boolean canInitialize(String workflowName, int initialState) throws WorkflowException {
