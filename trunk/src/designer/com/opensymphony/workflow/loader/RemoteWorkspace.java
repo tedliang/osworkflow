@@ -135,7 +135,7 @@ public class RemoteWorkspace extends HTTPWorkflowFactory
 				String workflowBuffer = readWorkflowBuffer(service.getServiceAddr(), docId); 
 				if (workflowBuffer!=null)
 				{
-					config.descriptor = WorkflowLoader.load(new ByteArrayInputStream(workflowBuffer.getBytes()));
+					config.descriptor = WorkflowLoader.load(new ByteArrayInputStream(workflowBuffer.getBytes()), validate);
 					if (config.descriptor!=null)
 					{
 						/*

@@ -73,6 +73,8 @@ public abstract class AbstractWorkflowFactory {
 
     public abstract void createWorkflow(String name);
 
+    public abstract void deleteWorkflow(String workflowName);
+
     public abstract boolean removeWorkflow(String name) throws FactoryException;
 
     public abstract void renameWorkflow(String oldName, String newName);
