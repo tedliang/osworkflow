@@ -478,7 +478,13 @@ public class JDBCWorkflowStore implements WorkflowStore {
             stmt.setInt(4, step.getActionId());
             stmt.setString(5, step.getOwner());
             stmt.setTimestamp(6, new Timestamp(step.getStartDate().getTime()));
-            stmt.setTimestamp(7, new Timestamp(step.getFinishDate().getTime()));
+
+            if (step.getFinishDate() != null) {
+                stmt.setTimestamp(7, new Timestamp(step.getFinishDate().getTime()));
+            } else {
+                stmt.setNull(7, Types.TIMESTAMP);
+            }
+
             stmt.setString(8, step.getStatus());
             stmt.setString(9, step.getCaller());
             stmt.executeUpdate();
@@ -914,12 +920,22 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
         switch (operator) {
         case FieldExpression.EQUALS:
-            oper = " = ";
+
+            if (value == null) {
+                oper = " IS ";
+            } else {
+                oper = " = ";
+            }
 
             break;
 
         case FieldExpression.NOT_EQUALS:
-            oper = " <> ";
+
+            if (value == null) {
+                oper = " IS NOT ";
+            } else {
+                oper = " <> ";
+            }
 
             break;
 

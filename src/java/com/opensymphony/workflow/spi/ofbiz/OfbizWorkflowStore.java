@@ -262,7 +262,11 @@ public class OfbizWorkflowStore implements WorkflowStore {
             }
 
             valueMap.put("dueDate", realDueDate);
-            valueMap.put("finishDate", new Timestamp(step.getFinishDate().getTime()));
+
+            if (step.getFinishDate() != null) {
+                valueMap.put("finishDate", new Timestamp(step.getFinishDate().getTime()));
+            }
+
             valueMap.put("status", step.getStatus());
             valueMap.put("caller", step.getCaller());
 
