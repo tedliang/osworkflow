@@ -3,6 +3,7 @@ package com.opensymphony.workflow.designer.dialogs;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.net.MalformedURLException;
 import javax.swing.*;
 
 import com.jgoodies.forms.layout.FormLayout;
@@ -81,7 +82,14 @@ public class NewWorkspaceDialog extends BaseDialog
 		    JOptionPane.showMessageDialog(this, ResourceManager.getString("error.file.invalid"), ResourceManager.getString("error"), JOptionPane.ERROR_MESSAGE);
 		    return;
 		  }
-		  WorkflowDesigner.INSTANCE.openWorkspace(loadField.getFile());
+			try
+			{
+				WorkflowDesigner.INSTANCE.openWorkspace(loadField.getFile().toURL());
+			}
+			catch(MalformedURLException e)
+			{
+				e.printStackTrace();
+			}
 		}
 		else
 		{

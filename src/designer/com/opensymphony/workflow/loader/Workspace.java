@@ -37,8 +37,15 @@ public class Workspace extends XMLWorkflowFactory
     if(name!=null && name.indexOf('/')==-1)
     {
       //it's a relative path to resource, lets convert it
-      configFile = new File(Prefs.INSTANCE.get(Prefs.LAST_WORKSPACE, null));
-      try
+	    try
+	    {
+		    configFile = new File(new URL(Prefs.INSTANCE.get(Prefs.LAST_WORKSPACE, null)).getFile());
+	    }
+	    catch(MalformedURLException e)
+	    {
+		    throw new FactoryException(e);
+	    }
+	    try
       {
         workflowsXML = new File(configFile.getParentFile(), name);
         getProperties().setProperty("resource", workflowsXML.toURL().toString());

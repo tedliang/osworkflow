@@ -2,6 +2,7 @@ package com.opensymphony.workflow.config;
 
 import java.io.*;
 import java.util.*;
+import java.net.URL;
 
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.designer.event.WorkspaceListener;
@@ -22,12 +23,11 @@ public class WorkspaceManager
   private Workspace currentWorkspace = null;
   private Collection listeners;
 
-  public void loadWorkspace(File file) throws FactoryException, FileNotFoundException
+  public void loadWorkspace(URL url) throws FactoryException, IOException
   {
     fireWorkspaceClosed();
     saveWorkspace();
-    log.debug("loading " + file);
-    ConfigLoader.load(new FileInputStream(file));
+    ConfigLoader.load(url.openStream());
     currentWorkspace  = (Workspace)ConfigLoader.getFactory();
     fireWorkspaceOpened();
     log.debug("loaded workspace " + currentWorkspace);
