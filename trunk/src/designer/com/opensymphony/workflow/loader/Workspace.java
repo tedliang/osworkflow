@@ -296,4 +296,9 @@ public class Workspace extends XMLWorkflowFactory
 		workflows.remove(oldName);
 		workflows.put(newName, config);
 	}
+
+	public void deleteWorkflow(String name)
+	{
+		WorkflowConfig config = (WorkflowConfig)workflows.remove(name);
+	}
 }
