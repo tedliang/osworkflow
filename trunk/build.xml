@@ -130,9 +130,13 @@
     <copy file="${docs}/workflow_2_5.dtd" todir="${build.test}/META-INF/"/>
     <javac srcdir="${src.java}" destdir="${build.test}" debug="on" classpathref="cp" compiler="org.apache.tools.ant.taskdefs.CloverCompilerAdapter" />
     <javac srcdir="${src.test}" destdir="${build.test}" classpathref="cp" debug="on"/>
-
+    <copy todir="${build.test}">
+      <fileset dir="${src.test}">
+        <include name="*.xml" />
+      </fileset>
+    </copy>
     <mkdir dir="${dist}/docs/junit"/>
-    <junit printsummary="withOutAndErr" haltonfailure="no" haltonerror="yes" fork="yes" showoutput="yes" dir="${src.test}">
+    <junit printsummary="withOutAndErr" haltonfailure="no" haltonerror="yes" showoutput="yes">
       <classpath>
         <pathelement location="${build.test}"/>
         <path refid="cp"/>

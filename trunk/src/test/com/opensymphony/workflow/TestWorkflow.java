@@ -13,7 +13,7 @@ import com.opensymphony.workflow.config.ConfigLoader;
  */
 public class TestWorkflow extends BasicWorkflow
 {
-  public static String configFile = "osworkflow.xml";
+  public static String configFile = "/osworkflow.xml";
 
   public TestWorkflow(String caller)
   {
@@ -22,12 +22,8 @@ public class TestWorkflow extends BasicWorkflow
 
   protected void loadConfig(URL url) throws FactoryException {
       if (url == null) {
-          try {
             File file = new File(configFile);
-              ConfigLoader.load(new FileInputStream(file));
-          } catch (IOException e) {
-              throw new FactoryException(e);
-          }
+              ConfigLoader.load(getClass().getResourceAsStream(configFile));
       }
   }
 

@@ -18,7 +18,7 @@ public class ExceptionTestCase extends TestCase
 
   public void testFactoryException()
   {
-    TestWorkflow.configFile = "osworkflow-badfactory.xml";
+    TestWorkflow.configFile = "/osworkflow-badfactory.xml";
     //we expect an InternalWorkflowException (can't throw a checked exception in constructor, otherwise the ejb provider
     //will break spec by having a constructor
     try
@@ -34,12 +34,12 @@ public class ExceptionTestCase extends TestCase
 
   public void testStoreException() throws Exception
   {
-    TestWorkflow.configFile = "osworkflow-jdbc.xml";
+    TestWorkflow.configFile = "/osworkflow-jdbc.xml";
     TestWorkflow workflow = new TestWorkflow("testuser");
     //correct behaviour is to get a store exception since we can't look up the DS
     try
     {
-      workflow.initialize("file:auto1.xml", 1, new HashMap());
+      workflow.initialize(getClass().getClassLoader().getResource("/auto1.xml").toString(), 1, new HashMap());
     }
     catch(StoreException e)
     {
