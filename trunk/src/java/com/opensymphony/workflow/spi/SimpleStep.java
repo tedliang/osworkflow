@@ -130,4 +130,8 @@ public class SimpleStep implements Step, Serializable {
     public int getStepId() {
         return stepId;
     }
+
+    public String toString() {
+        return "SimpleStep@" + stepId + "[owner=" + owner + ", actionId=" + actionId + ", status=" + status + "]";
+    }
 }
