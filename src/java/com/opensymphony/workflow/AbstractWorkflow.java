@@ -1078,7 +1078,9 @@ public class AbstractWorkflow implements Workflow {
         Step step = getCurrentStep(wf, action.getId(), currentSteps, transientVars, ps);
 
         // validate transientVars (optional)
-        verifyInputs(entry, action.getValidators(), Collections.unmodifiableMap(transientVars), ps);
+        if (action.getValidators().size() > 0) {
+            verifyInputs(entry, action.getValidators(), Collections.unmodifiableMap(transientVars), ps);
+        }
 
         // preFunctions
         List preFunctions = action.getPreFunctions();
@@ -1290,7 +1292,7 @@ public class AbstractWorkflow implements Workflow {
 
                 if (toCheck != null) {
                     Iterator iter = toCheck.getActions().iterator();
-MAIN: 
+MAIN:
                     while (iter.hasNext()) {
                         ActionDescriptor descriptor = (ActionDescriptor) iter.next();
 
