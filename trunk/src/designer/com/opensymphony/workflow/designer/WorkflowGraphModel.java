@@ -223,7 +223,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     resultIdGenerator.checkId(result.getId());
     if(result.getId() == 0) result.setId(resultIdGenerator.generateId());
     // Create Edge
-    ResultEdge edge = new ResultEdge(result, layout.getLabelPosition(result.getId()));
+    ResultEdge edge = new ResultEdge(result, layout!=null ? layout.getLabelPosition(result.getId()) : null);
     edge.setUserObject(action==null ? null : new ActionProxy(action));
 
     // Connect Edge
@@ -253,7 +253,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     ResultDescriptor descriptor = resultCell.getDescriptor();
     resultIdGenerator.checkId(descriptor.getId());
     if(descriptor.getId()==0) descriptor.setId(resultIdGenerator.generateId());
-    ResultEdge edge = new ResultEdge(descriptor, layout.getLabelPosition(descriptor.getId()));
+    ResultEdge edge = new ResultEdge(descriptor, layout != null ? layout.getLabelPosition(descriptor.getId()) : null);
 
     // this is action, why?
     edge.setUserObject(new ActionProxy(resultCell.getAction()));
