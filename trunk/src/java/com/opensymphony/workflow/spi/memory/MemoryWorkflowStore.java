@@ -77,10 +77,10 @@ public class MemoryWorkflowStore implements WorkflowStore {
     }
 
     /**
-     * Reset the MemoryWorkflowStore so it doesn't have any information.
-     * Useful when testing and you don't want the MemoryWorkflowStore to
-     * have old data in it.
-     */
+    * Reset the MemoryWorkflowStore so it doesn't have any information.
+    * Useful when testing and you don't want the MemoryWorkflowStore to
+    * have old data in it.
+    */
     public static void reset() {
         entryCache.clear();
         currentStepsCache.clear();
@@ -343,6 +343,22 @@ public class MemoryWorkflowStore implements WorkflowStore {
                 SimpleStep step = (SimpleStep) iterator.next();
 
                 if (this.compareText(step.getStatus(), status, operator)) {
+                    expressionResult = true;
+
+                    break;
+                }
+            }
+
+            break;
+
+        case FieldExpression.DUE_DATE:
+
+            Date dueDate = (Date) value;
+
+            for (Iterator iterator = steps.iterator(); iterator.hasNext();) {
+                SimpleStep step = (SimpleStep) iterator.next();
+
+                if (this.compareDate(step.getDueDate(), dueDate, operator)) {
                     expressionResult = true;
 
                     break;

@@ -242,6 +242,22 @@ public class QueryLogic {
             }
 
             break;
+
+        case FieldExpression.DUE_DATE:
+
+            Date dueDate = (Date) value;
+
+            for (Iterator iterator = steps.iterator(); iterator.hasNext();) {
+                SimpleStep step = (SimpleStep) iterator.next();
+
+                if (this.compareDate(step.getDueDate(), dueDate, operator)) {
+                    expressionResult = true;
+
+                    break;
+                }
+            }
+
+            break;
         }
 
         if (expression.isNegate()) {
