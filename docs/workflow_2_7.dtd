@@ -32,6 +32,9 @@ are met:
 Note that within a step, only ONE auto action is performed per workflow transition. So if more than one
 action satisfies the above criteria, only the first match (in xml file order) is matches.
 
+finish: Whether this action is a terminal one. A terminal action causes all current steps to be ended and
+moved to history, and the workflow instance status set to COMPLETED.
+
 Used in: actions
 -->
 <!ELEMENT action (meta*, restrict-to? , validators?, pre-functions?, results, post-functions?)>
@@ -40,6 +43,7 @@ Used in: actions
 	name CDATA #REQUIRED
   view CDATA #IMPLIED
   auto (TRUE | FALSE | true | false) #IMPLIED
+  finish (TRUE | FALSE | true | false) #IMPLIED
 >
 
 <!--

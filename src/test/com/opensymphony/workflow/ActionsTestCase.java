@@ -6,6 +6,7 @@ package com.opensymphony.workflow;
 
 import com.opensymphony.workflow.basic.BasicWorkflow;
 import com.opensymphony.workflow.spi.Step;
+import com.opensymphony.workflow.spi.WorkflowEntry;
 
 import junit.framework.TestCase;
 
@@ -40,22 +41,21 @@ public class ActionsTestCase extends TestCase {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public void testAutoWithSplit() throws Exception {
-        Map inputs = new HashMap();
         URL url = getClass().getResource("/samples/auto-split.xml");
-        long id = workflow.initialize(url.toString(), 1, inputs);
+        long id = workflow.initialize(url.toString(), 1, null);
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 2, currentSteps.size());
     }
 
     public void testConditionCheck() throws Exception {
-        long id = workflow.initialize(getClass().getResource("/samples/auto4.xml").toString(), 1, new HashMap());
+        long id = workflow.initialize(getClass().getResource("/samples/auto4.xml").toString(), 1, null);
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 1, currentSteps.size());
         assertEquals("Unexpected current step", 3, ((Step) currentSteps.get(0)).getStepId());
     }
 
     public void testExecOnlyOne() throws Exception {
-        long id = workflow.initialize(getClass().getResource("/samples/auto2.xml").toString(), 1, new HashMap());
+        long id = workflow.initialize(getClass().getResource("/samples/auto2.xml").toString(), 1, null);
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 1, currentSteps.size());
         assertEquals("Unexpected current step", 4, ((Step) currentSteps.get(0)).getStepId());
@@ -66,7 +66,7 @@ public class ActionsTestCase extends TestCase {
     }
 
     public void testExecTwoActions() throws Exception {
-        long id = workflow.initialize(getClass().getResource("/samples/auto3.xml").toString(), 1, new HashMap());
+        long id = workflow.initialize(getClass().getResource("/samples/auto3.xml").toString(), 1, null);
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 1, currentSteps.size());
         assertEquals("Unexpected current step", 3, ((Step) currentSteps.get(0)).getStepId());
@@ -92,10 +92,22 @@ public class ActionsTestCase extends TestCase {
     }
 
     public void testSimpleAuto() throws Exception {
-        long id = workflow.initialize(getClass().getResource("/samples/auto1.xml").toString(), 1, new HashMap());
+        long id = workflow.initialize(getClass().getResource("/samples/auto1.xml").toString(), 1, null);
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 1, currentSteps.size());
         assertEquals("Unexpected current step", 2, ((Step) currentSteps.get(0)).getStepId());
+    }
+
+    public void testSimpleFinish() throws Exception {
+        long id = workflow.initialize(getClass().getResource("/samples/finish1.xml").toString(), 1, null);
+        workflow.doAction(id, 1, null);
+        assertTrue("Finished workflow should have no current actions", workflow.getCurrentSteps(id).size() == 0);
+        assertEquals("Unexpected workflow entry state", WorkflowEntry.COMPLETED, workflow.getEntryState(id));
+
+        List historySteps = workflow.getHistorySteps(id);
+
+        //last history step should have status of LastFinished
+        assertEquals("Unexpected status of last history step", "LastFinished", ((Step) historySteps.get(historySteps.size() - 1)).getStatus());
     }
 
     protected void setUp() throws Exception {
