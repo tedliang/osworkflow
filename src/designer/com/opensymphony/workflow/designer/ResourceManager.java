@@ -29,7 +29,7 @@ public final class ResourceManager
 
 	public static String getString(String key, String defaultValue)
 	{
-		return INSTANCE.bundle.getString(key);
+		return INSTANCE.bundle.getString(key, defaultValue);
 	}
 
   public static String getString(String key, Object args)
