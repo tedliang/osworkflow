@@ -3,7 +3,7 @@
   <!-- a list of status values available. The old-default is the value to set
   the oldStatus value to when a result is executed. The next-default is the default
   status to go to in the new step after a result is executed -->
-  <statusvalues old-default="Finished" next-default="Queued">
+  <statusvalues default-old="Finished" default-next="Queued">
     <status name="Queued" />
     <status name="Underway"/>
     <status name="Finished"/>
