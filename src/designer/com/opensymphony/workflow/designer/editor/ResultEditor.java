@@ -77,12 +77,12 @@ public class ResultEditor extends DetailPanel implements ActionListener
     builder.addSeparator(ResourceManager.getString("prefunctions"), cc.xywh(2, 11, 3, 1));
     preFunctionsTable = new JTable(preFunctionsModel);
     builder.add(UIFactory.createTablePanel(preFunctionsTable), cc.xywh(2, 13, 3, 1));
-    builder.add(UIFactory.getTableButtonBar(this, "pre", BUTTONS), cc.xywh(2, 14, 3, 1));
+    builder.add(UIFactory.getButtonBar(this, "pre", BUTTONS), cc.xywh(2, 14, 3, 1));
 
     builder.addSeparator(ResourceManager.getString("postfunctions"), cc.xywh(2, 16, 3, 1));
     postFunctionsTable = new JTable(postFunctionsModel);
     builder.add(UIFactory.createTablePanel(postFunctionsTable), cc.xywh(2, 18, 3, 1));
-    builder.add(UIFactory.getTableButtonBar(this, "post", BUTTONS), cc.xywh(2, 19, 3, 1));
+    builder.add(UIFactory.getButtonBar(this, "post", BUTTONS), cc.xywh(2, 19, 3, 1));
 
     //		if(isConditional()){
     builder.addSeparator(ResourceManager.getString("conditions"), cc.xywh(2, 21, 3, 1));
@@ -93,7 +93,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
 
     conditionsTable = new JTable(conditionsModel);
     builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 25, 3, 1));
-    panel = UIFactory.getTableButtonBar(this, "condition", BUTTONS);
+    panel = UIFactory.getButtonBar(this, "condition", BUTTONS);
     builder.add(panel, cc.xywh(2, 26, 3, 1));
     //		}
   }

@@ -61,7 +61,7 @@ public class ImportWorkflowDialog extends JDialog implements ActionListener
       }
     });
     getContentPane().add(builder.getPanel(), BorderLayout.CENTER);
-    getContentPane().add(UIFactory.getTableButtonBar(this, "", new String[]{"ok", "cancel"}), BorderLayout.SOUTH);
+    getContentPane().add(UIFactory.getButtonBar(this, "", new String[]{"ok", "cancel"}), BorderLayout.SOUTH);
   }
 
   public void actionPerformed(ActionEvent e)

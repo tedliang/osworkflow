@@ -407,6 +407,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       }
       catch(Exception e)
       {
+	      e.printStackTrace();
       }
     }
     //all other platforms except for OSX get the plastic LAF
