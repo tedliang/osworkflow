@@ -754,6 +754,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
                     stmt.setTimestamp(i, (Timestamp) timestamps.get(i - 1));
                 }
             }
+
             rs = stmt.executeQuery();
 
             while (rs.next()) {
