@@ -42,7 +42,7 @@ import javax.naming.InitialContext;
  * stored as a long property, with the name 'workflowEntry'.
  *
  * @author Hani Suleiman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class JMSMessage implements FunctionProvider {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -64,7 +64,7 @@ public class JMSMessage implements FunctionProvider {
                 conn.start();
 
                 QueueSession queueSession = conn.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
-                Queue queue = (Queue) initialContext.lookup((String) args.get("queue-location"));
+                javax.jms.Queue queue = (javax.jms.Queue) initialContext.lookup((String) args.get("queue-location"));
                 QueueSender sender = queueSession.createSender(queue);
                 TextMessage message = queueSession.createTextMessage();
                 populateMessage(message, entry, args);
