@@ -7,6 +7,9 @@ package com.opensymphony.workflow.designer;
 import java.util.*;
 import javax.swing.undo.UndoableEdit;
 
+import com.opensymphony.workflow.designer.event.JoinChangedEvent;
+import com.opensymphony.workflow.designer.event.JoinChangedListener;
+import com.opensymphony.workflow.designer.proxy.ActionProxy;
 import com.opensymphony.workflow.designer.views.EdgeRouter;
 import com.opensymphony.workflow.loader.*;
 import org.jgraph.graph.*;
@@ -19,25 +22,69 @@ public class WorkflowGraphModel extends DefaultGraphModel
   private Collection initialActions = new ArrayList();
   private ResultCellCollection resultCells = new ResultCellCollection();
   private static final EdgeRouter EDGE_ROUTER = new EdgeRouter();
-  private int nextId = 0;
+
+  private JoinCell getJoinCell(int id)
+  {
+    Iterator iter = joinCells.iterator();
+    while(iter.hasNext())
+    {
+      JoinCell cell = (JoinCell)iter.next();
+      if(cell.getJoinDescriptor().getId() == id)
+      {
+        return cell;
+      }
+    }
+    return null;
+  }
+
+  public void processJoinChangeEvent(JoinCell cell)
+  {
+    JoinDescriptor join = cell.getJoinDescriptor();
+
+    List list = join.getConditions();
+    for(int i = 0; i < list.size(); i++)
+    {
+      ConditionDescriptor cond = (ConditionDescriptor)list.get(i);
+      if(cond.getType().equals("class"))
+      {
+        String clazz = (String)cond.getArgs().get("class.name");
+        try
+        {
+          Object obj = Class.forName(clazz).newInstance();
+          if(obj instanceof JoinChangedListener)
+          {
+            JoinChangedEvent event = new JoinChangedEvent(cell, this);
+            event.setArgs(cond.getArgs());
+            ((JoinChangedListener)obj).joinChanged(event);
+            cond.getArgs().putAll(event.getArgs());
+          }
+        }
+        catch(Exception e)
+        {
+        }
+      }
+    }
+  }
 
   public void insertInitialActions(List initialActions, InitialActionCell initialActionCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     this.initialActions.add(initialActionCell);
-    if(initialActionCell.getChildCount()==0)
+    // TODO:: currently only supports one action
+    for(int i = 0; i < initialActions.size() && i < 1; i++)
     {
-      initialActionCell.add(new WorkflowPort());
-    }
-    for(int i = 0; i < initialActions.size(); i++)
-    {
+      // added by jackflit
+      if(i == 0)
+      {
+        initialActionCell.setActionDescriptor((ActionDescriptor)initialActions.get(i));
+      }
+
       ActionDescriptor action = (ActionDescriptor)initialActions.get(i);
-      checkId(action);
+      Utils.checkId(action);
       List conResults = action.getConditionalResults();
       recordResults(initialActionCell, conResults, action);
       ResultDescriptor result = action.getUnconditionalResult();
-      if(result!=null)
+      if(result != null)
       {
-        checkId(result);
         recordResult(initialActionCell, result, action);
       }
       Object[] cells = new Object[]{initialActionCell};
@@ -49,7 +96,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void insertStepCell(StepCell stepCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     stepCells.add(stepCell);
-    checkId(stepCell.getDescriptor());
+    Utils.checkId(stepCell.getDescriptor());
     Object[] cells = new Object[]{stepCell};
     // Insert into Model
     insert(cells, attributes, null, pm, edits);
@@ -59,7 +106,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void insertSplitCell(SplitCell splitCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     splitCells.add(splitCell);
-    checkId(splitCell.getSplitDescriptor());
+    Utils.checkId(splitCell.getSplitDescriptor());
     Object[] cells = new Object[]{splitCell};
     // Insert into Model
     insert(cells, attributes, null, pm, edits);
@@ -69,7 +116,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void insertJoinCell(JoinCell joinCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     joinCells.add(joinCell);
-    checkId(joinCell.getJoinDescriptor());
+    Utils.checkId(joinCell.getJoinDescriptor());
     Object[] cells = new Object[]{joinCell};
     // Insert into Model
     insert(cells, attributes, null, pm, edits);
@@ -95,6 +142,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     {
       JoinCell joinCell = (JoinCell)joins.next();
       processJoinEndPointResult(joinCell);
+      this.processJoinChangeEvent(joinCell);
     }
   }
 
@@ -102,7 +150,15 @@ public class WorkflowGraphModel extends DefaultGraphModel
   {
     JoinDescriptor joinDescriptor = fromCell.getJoinDescriptor();
     ResultDescriptor result = joinDescriptor.getResult();
-    recordResult(fromCell, result, null);
+    if(result != null)
+    {
+      recordResult(fromCell, result, null);
+    }
+  }
+
+  public List getResultsToJoin(JoinCell joinCell)
+  {
+    return resultCells.getResultsToJoin(joinCell.getJoinDescriptor().getId());
   }
 
   private void processJoinEndPointResult(JoinCell joinCell)
@@ -135,6 +191,11 @@ public class WorkflowGraphModel extends DefaultGraphModel
     recordResults(fromCell, results, null);
   }
 
+  public List getResultsToStep(StepCell stepCell)
+  {
+    return resultCells.getResultsToStep(stepCell.getDescriptor().getId());
+  }
+
   /**
    * Find Results that have StepCell's associated Step passed in as next Step. Connect all such cells
    */
@@ -146,6 +207,44 @@ public class WorkflowGraphModel extends DefaultGraphModel
     {
       ResultCell result = (ResultCell)results.next();
       connectCells(result, stepCell);
+    }
+  }
+
+  public void connectCells(WorkflowCell from, ActionDescriptor action, WorkflowCell to, ResultDescriptor result)
+  {
+    Map attributeMap = new HashMap();
+    WorkflowPort fromPort = (WorkflowPort)from.getChildAt(0);
+    WorkflowPort toPort = (WorkflowPort)to.getChildAt(0);
+
+    // Create Edge
+    ResultEdge edge = new ResultEdge();
+    //edge.setSource(fromPort);
+    //	  edge.setTarget(toPort);
+    edge.setUserObject(action==null ? null : new ActionProxy(action));
+    edge.setDescriptor(result);
+
+    // Create Edge Attributes
+    Map edgeAttrib = GraphConstants.createMap();
+    // Set Arrow
+    int arrow = GraphConstants.ARROW_CLASSIC;
+    GraphConstants.setLineEnd(edgeAttrib, arrow);
+    GraphConstants.setEndFill(edgeAttrib, true);
+    GraphConstants.setDisconnectable(edgeAttrib, false);
+    GraphConstants.setRouting(edgeAttrib, EDGE_ROUTER);
+
+    // Connect Edge
+    ConnectionSet cs = new ConnectionSet(edge, fromPort, toPort);
+    Object[] cells = new Object[]{edge};
+    // Insert into Model
+    attributeMap.put(edge, edgeAttrib);
+    insert(cells, attributeMap, cs, null, null);
+    toPort.assignIndex(edge);
+    fromPort.assignIndex(edge);
+
+    // process join changed event
+    if(to instanceof JoinCell)
+    {
+      processJoinChangeEvent((JoinCell)to);
     }
   }
 
@@ -179,8 +278,11 @@ public class WorkflowGraphModel extends DefaultGraphModel
     // Create Edge
     ResultEdge edge = new ResultEdge();
     //edge.setSource(fromPort);
-//    edge.setTarget(toPort);
-    edge.setUserObject(resultCell.getUserObject());
+    //    edge.setTarget(toPort);
+
+    // this is action, why?
+    Object obj = resultCell.getUserObject();
+    edge.setUserObject(new ActionProxy(obj));
     edge.setDescriptor(resultCell.getDescriptor());
     // Create Edge Attributes
     Map edgeAttrib = GraphConstants.createMap();
@@ -211,18 +313,13 @@ public class WorkflowGraphModel extends DefaultGraphModel
     for(int i = 0; i < actionList.size(); i++)
     {
       ActionDescriptor action = (ActionDescriptor)actionList.get(i);
-      checkId(action);
+      Utils.checkId(action);
       List conResults = action.getConditionalResults();
       recordResults(fromCell, conResults, action);
       ResultDescriptor result = action.getUnconditionalResult();
-      recordResult(fromCell, result, action);
+      if(result!=null)
+        recordResult(fromCell, result, action);
     }
-  }
-
-  private void checkId(AbstractDescriptor descriptor)
-  {
-    if(descriptor==null) return;
-    if(descriptor.getId()>=nextId) nextId = descriptor.getId() + 1;
   }
 
   private void recordResults(DefaultGraphCell fromCell, List results, ActionDescriptor action)
@@ -236,9 +333,9 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
   public ResultCell recordResult(DefaultGraphCell fromCell, ResultDescriptor result, ActionDescriptor action)
   {
-    String key = resultCells.getNextKey();
+    Utils.checkId(result);
     ResultCell newCell = new ResultCell(fromCell, result, action);
-    resultCells.put(key, newCell);
+    resultCells.add(newCell);
     return newCell;
   }
 
@@ -252,8 +349,160 @@ public class WorkflowGraphModel extends DefaultGraphModel
     return l;
   }
 
-  public int getNextId()
+  public boolean removeEdge(ResultEdge edge)
   {
-    return nextId;
+    ResultDescriptor result = edge.getDescriptor();
+
+    ResultCell cell = resultCells.getResultCell(result);
+    DefaultGraphCell from = cell.getFromCell();
+    if(from instanceof ResultAware)
+    {
+      // remove descriptor
+      ResultAware remove = (ResultAware)from;
+      if(!remove.removeResult(result))
+      {
+        return false;
+      }
+      Object[] objs = new Object[]{edge};
+      // remove edge
+      remove(objs);
+
+      // remove result cell
+
+      resultCells.remove(cell);
+      //			System.out.println(obj);
+    }
+
+    if(result.getJoin() > 0)
+    {
+      JoinCell join = getJoinCell(result.getJoin());
+      if(join != null)
+      {
+        this.processJoinChangeEvent(join);
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+    return true;
   }
+
+  public boolean removeStep(StepCell cell)
+  {
+    StepDescriptor step = cell.getDescriptor();
+
+    // remove all edges and result cells
+    Set set = getEdges(this, new Object[]{cell});
+    Iterator iter = set.iterator();
+    while(iter.hasNext())
+    {
+      Object obj = iter.next();
+      if(obj instanceof ResultEdge)
+      {
+        removeEdge((ResultEdge)obj);
+      }
+    }
+
+    // remove step descriptor
+    WorkflowDescriptor workflow = (WorkflowDescriptor)step.getParent();
+    List list = workflow.getSteps();
+    list.remove(step);
+
+    // remove cell
+
+    // 1. remove port
+    list = cell.getChildren();
+    for(int i = 0; i < list.size(); i++)
+    {
+      remove(new Object[]{list.get(i)});
+    }
+    // 2. remove cell
+    remove(new Object[]{cell});
+
+    // remove step cell from model
+    stepCells.remove(cell);
+
+    return true;
+  }
+
+  public boolean removeJoin(JoinCell cell)
+  {
+    JoinDescriptor join = cell.getJoinDescriptor();
+
+    // remove all edges and result cells
+    Set set = getEdges(this, new Object[]{cell});
+    Iterator iter = set.iterator();
+    while(iter.hasNext())
+    {
+      Object obj = iter.next();
+      if(obj instanceof ResultEdge)
+      {
+        removeEdge((ResultEdge)obj);
+      }
+    }
+
+    // remove join descriptor
+    WorkflowDescriptor workflow = (WorkflowDescriptor)join.getParent();
+    List list = workflow.getJoins();
+    list.remove(join);
+
+    // remove cell
+
+    // 1. remove port
+    list = cell.getChildren();
+    for(int i = 0; i < list.size(); i++)
+    {
+      remove(new Object[]{list.get(i)});
+    }
+    // 2. remove cell
+    remove(new Object[]{cell});
+
+    // remove join cell from model
+    joinCells.remove(cell);
+
+    return true;
+  }
+
+  public boolean removeSplit(SplitCell cell)
+  {
+
+    SplitDescriptor split = cell.getSplitDescriptor();
+
+    // remove all edges and result cells
+    Set set = getEdges(this, new Object[]{cell});
+    Iterator iter = set.iterator();
+    while(iter.hasNext())
+    {
+      Object obj = iter.next();
+      if(obj instanceof ResultEdge)
+      {
+        removeEdge((ResultEdge)obj);
+      }
+    }
+
+    // remove split descriptor
+    WorkflowDescriptor workflow = (WorkflowDescriptor)split.getParent();
+    List list = workflow.getSplits();
+    list.remove(split);
+
+    // remove cell
+
+    // 1. remove port
+    list = cell.getChildren();
+    for(int i = 0; i < list.size(); i++)
+    {
+      remove(new Object[]{list.get(i)});
+    }
+    // 2. remove cell
+    remove(new Object[]{cell});
+
+    // remove split cell from model
+    splitCells.remove(cell);
+
+    return true;
+  }
+
+
 }
