@@ -39,13 +39,19 @@ import javax.ejb.*;
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
  * @author <a href="mailto:hani@formicary.net">Hani Suleiman</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public abstract class WorkflowEJB extends AbstractWorkflow implements SessionBean {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public void setSessionContext(SessionContext context) {
-        super.context = new EJBWorkflowContext(context);
+        WorkflowContext workflowContext = (WorkflowContext) loadObject(getPersistenceProperties().getProperty("workflowContext", "com.opensymphony.workflow.ejb.EJBWorkflowContext"));
+
+        if (workflowContext instanceof EJBWorkflowContext) {
+            ((EJBWorkflowContext) workflowContext).setSessionContext(context);
+        }
+
+        super.context = workflowContext;
     }
 
     /**
