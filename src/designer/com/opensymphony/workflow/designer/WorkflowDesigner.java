@@ -182,11 +182,24 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     return graphTabs.getCurrentGraph();
   }
 
-  public void deleteWorkflow(String workflowName)
+  /**
+   * Delete a workflow from config
+   */ 
+  public void deleteWorkflow(String workflowName) throws FactoryException
   {
     graphTabs.removeGraph(workflowName);
     navigator.removeWorkflow(workflowName);
-    manager.getCurrentWorkspace().deleteWorkflow(workflowName);
+    manager.getCurrentWorkspace().removeWorkflow(workflowName);
+  }
+
+  /**
+   * Delete a workflow from config
+   */
+  public void closeWorkflow(String workflowName) throws FactoryException
+  {
+    graphTabs.removeGraph(workflowName);
+    navigator.removeWorkflow(workflowName);
+    manager.getCurrentWorkspace().removeWorkflow(workflowName);
   }
 
   public void validateCurrentWorkflow()
@@ -243,7 +256,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     WorkflowGraph graph = graphTabs.getCurrentGraph();
     if(graph != null)
     {
-      deleteWorkflow(graph.getDescriptor().getName());
+      graphTabs.removeGraph(graph);
     }
     //graphTabs.removeGraph(graphTabs.getCurrentGraph());
   }

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 import com.opensymphony.workflow.designer.WorkflowDesigner;
+import com.opensymphony.workflow.FactoryException;
 
 /**
  * User: Hani Suleiman
@@ -22,8 +23,15 @@ public class DeleteWorkflow extends AbstractAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		designer.deleteWorkflow(name);
-	}
+    try
+    {
+      designer.deleteWorkflow(name);
+    }
+    catch(FactoryException e1)
+    {
+      e1.printStackTrace();
+    }
+  }
 
 	public void setWorkflow(String name)
 	{

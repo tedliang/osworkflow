@@ -121,11 +121,6 @@ public class RemoteWorkspace extends HTTPWorkflowFactory
     return removed != null;
 	}
 
-  public void deleteWorkflow(String name)
-  {
-    workflows.remove(name);
-  }
-
   public WorkflowDescriptor getWorkflow(String name, boolean validate) throws FactoryException
   {
     HTTPWorkflowConfig config = (HTTPWorkflowConfig)workflows.get(name);

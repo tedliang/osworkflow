@@ -107,7 +107,7 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
 	      {
 		      JOptionPane.showMessageDialog(WorkflowDesigner.INSTANCE, ResourceManager.getString("import.factory.error.long", new Object[]{fileName, e.getMessage()}),
 		                                    ResourceManager.getString("import.factory.error"), JOptionPane.ERROR_MESSAGE);
-		      currentWorkspace.deleteWorkflow(workflowName);
+		      currentWorkspace.removeWorkflow(workflowName);
 	      }
       }
     }
