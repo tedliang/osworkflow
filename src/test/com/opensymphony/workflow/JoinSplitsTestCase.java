@@ -39,15 +39,13 @@ public class JoinSplitsTestCase extends TestCase {
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 2, currentSteps.size());
         workflow.doAction(id, 1, Collections.EMPTY_MAP);
-        currentSteps = workflow.getCurrentSteps(id);
-        assertEquals("Unexpected number of current steps", 1, currentSteps.size());
 
-        Step step = (Step) currentSteps.get(0);
-        assertEquals("Unexpected current step", 3, step.getStepId());
-
+        //we end up in step 3, with everything finished
         List historySteps = workflow.getHistorySteps(id);
-        assertEquals("Unexpected number of history steps", 2, historySteps.size());
-        workflow.doAction(id, 2, Collections.EMPTY_MAP);
+        assertEquals("Unexpected number of history steps", 3, historySteps.size());
+
+        Step step = (Step) historySteps.get(2);
+        assertEquals("Unexpected last history step", 3, step.getStepId());
     }
 
     public void testSplitCompletedHistorySteps() throws Exception {

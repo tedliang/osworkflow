@@ -553,6 +553,13 @@ public class AbstractWorkflow implements Workflow {
     public void executeTriggerFunction(long id, int triggerId) throws WorkflowException {
         WorkflowStore store = getPersistence();
         WorkflowEntry entry = store.findEntry(id);
+
+        if (entry == null) {
+            log.warn("Cannot execute trigger #" + triggerId + " on non-existent workflow id#" + id);
+
+            return;
+        }
+
         WorkflowDescriptor wf = getConfiguration().getWorkflow(entry.getWorkflowName());
 
         PropertySet ps = store.getPropertySet(id);
@@ -778,6 +785,13 @@ public class AbstractWorkflow implements Workflow {
 
         if (isCompleted == true) {
             store.setEntryState(id, WorkflowEntry.COMPLETED);
+
+            Iterator i = new ArrayList(currentSteps).iterator();
+
+            while (i.hasNext()) {
+                Step step = (Step) i.next();
+                store.moveToHistory(step);
+            }
         }
     }
 
