@@ -15,8 +15,9 @@
   <resources>
     <j2se version="1.4+" max-heap-size="128m"/>
     <jar href="designer.jar" main="true"/>
-    <jar href="osworkflow.jar" main="false"/>
+    <jar href="osworkflow-2.6.0-dev.jar" main="false"/>
     <jar href="forms.jar" main="false"/>
+    <jar href="commons-logging.jar" main="false"/>
     <jar href="jgraph.jar" main="false"/>
     <jar href="looks-all.jar" main="false"/>
   </resources>
