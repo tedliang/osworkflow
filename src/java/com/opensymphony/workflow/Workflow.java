@@ -126,9 +126,10 @@ public interface Workflow {
     * @param initialAction The initial step to start the workflow
     * @param inputs The inputs entered by the end-user
     * @throws InvalidRoleException if the user can't start this function
-     * @throws InvalidInputException if a validator is specified and an input is invalid.
+    * @throws InvalidInputException if a validator is specified and an input is invalid.
+    * @throws InvalidActionException if the specified initial action is invalid for the specified workflow.
     */
-    public long initialize(String workflowName, int initialAction, Map inputs) throws InvalidRoleException, InvalidInputException, WorkflowException, InvalidEntryStateException;
+    public long initialize(String workflowName, int initialAction, Map inputs) throws InvalidRoleException, InvalidInputException, WorkflowException, InvalidEntryStateException, InvalidActionException;
 
     /**
      * Query the workflow store for matching instances
