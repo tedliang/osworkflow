@@ -97,7 +97,7 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory {
         PrintWriter writer = new PrintWriter(new BufferedWriter(out));
         writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
-        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.6.1//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_6_1.dtd\">");
+        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.7//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_6_1.dtd\">");
         descriptor.writeXML(writer, 0);
         writer.flush();
         writer.close();
