@@ -318,6 +318,14 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
                     }, NestedExpression.OR));
         workflows = workflow.query(query);
         assertEquals(2, workflows.size());
+
+        queryLeft = new FieldExpression(FieldExpression.OWNER, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, USER_TEST);
+        queryRight = new FieldExpression(FieldExpression.STATUS, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, "Finished", true);
+        query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
+                        queryLeft, queryRight
+                    }, NestedExpression.AND));
+        workflows = workflow.query(query);
+        assertEquals("Expected to find 2 workflows in current steps", 2, workflows.size());
     }
 
     public void testWorkflowQuery() throws Exception {
