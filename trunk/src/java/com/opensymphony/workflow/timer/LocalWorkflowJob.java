@@ -18,7 +18,7 @@ import org.quartz.JobExecutionException;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class LocalWorkflowJob implements Job {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -33,7 +33,9 @@ public class LocalWorkflowJob implements Job {
         try {
             wf.executeTriggerFunction(id, triggerId);
         } catch (WorkflowException e) {
-            throw new JobExecutionException("Error Executing local job", (e.getRootCause() != null) ? e.getRootCause() : e, true);
+            //this cast is a fairly horrible hack, but it's more due to the fact that quartz is stupid enough to have wrapped exceptions
+            //wrap Exception, instead of Throwable.
+            throw new JobExecutionException("Error Executing local job", (e.getRootCause() != null) ? (Exception) e.getRootCause() : e, true);
         }
     }
 }

@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 public class InternalWorkflowException extends RuntimeException {
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private Exception rootCause;
+    private Throwable rootCause;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -33,18 +33,18 @@ public class InternalWorkflowException extends RuntimeException {
         super(s);
     }
 
-    public InternalWorkflowException(String s, Exception rootCause) {
+    public InternalWorkflowException(String s, Throwable rootCause) {
         super(s);
         this.rootCause = rootCause;
     }
 
-    public InternalWorkflowException(Exception rootCause) {
+    public InternalWorkflowException(Throwable rootCause) {
         this.rootCause = rootCause;
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public Exception getRootCause() {
+    public Throwable getRootCause() {
         return rootCause;
     }
 

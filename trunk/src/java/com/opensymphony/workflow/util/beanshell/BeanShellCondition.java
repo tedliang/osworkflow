@@ -6,6 +6,7 @@ package com.opensymphony.workflow.util.beanshell;
 
 import bsh.EvalError;
 import bsh.Interpreter;
+import bsh.TargetError;
 
 import com.opensymphony.module.propertyset.PropertySet;
 
@@ -24,7 +25,7 @@ import java.util.Map;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class BeanShellCondition implements Condition {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -59,6 +60,13 @@ public class BeanShellCondition implements Condition {
                 return false;
             } else {
                 return TextUtils.parseBoolean(o.toString());
+            }
+        } catch (TargetError targetError) {
+            if (targetError.getTarget() instanceof WorkflowException) {
+                throw (WorkflowException) targetError.getTarget();
+            } else {
+                String message = "Could not execute BeanShell script";
+                throw new WorkflowException(message, targetError.getTarget());
             }
         } catch (EvalError e) {
             String message = "Could not execute BeanShell script";

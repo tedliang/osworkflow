@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 public class WorkflowException extends Exception {
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private Exception rootCause;
+    private Throwable rootCause;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -27,7 +27,7 @@ public class WorkflowException extends Exception {
         super(s);
     }
 
-    public WorkflowException(String s, Exception rootCause) {
+    public WorkflowException(String s, Throwable rootCause) {
         super(s);
         this.rootCause = rootCause;
     }
@@ -57,7 +57,7 @@ public class WorkflowException extends Exception {
         return sb.toString();
     }
 
-    public Exception getRootCause() {
+    public Throwable getRootCause() {
         return rootCause;
     }
 
