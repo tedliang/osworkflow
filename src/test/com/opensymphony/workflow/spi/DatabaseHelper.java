@@ -4,8 +4,6 @@
  */
 package com.opensymphony.workflow.spi;
 
-import com.mckoi.database.jdbc.MSQLException;
-
 import junit.framework.Assert;
 
 import net.sf.hibernate.SessionFactory;
@@ -22,6 +20,7 @@ import java.net.URL;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.sql.SQLException;
 
 import javax.naming.InitialContext;
 
@@ -80,7 +79,7 @@ public class DatabaseHelper {
                 if ((sqlLine.length() > 0) && (sqlLine.charAt(0) != '#')) {
                     try {
                         statement.executeQuery(sqlLine);
-                    } catch (MSQLException e) {
+                    } catch (SQLException e) {
                         if (sqlLine.toLowerCase().indexOf("drop") == -1) {
                             log.error("Error executing " + sqlLine, e);
                         }
