@@ -29,7 +29,7 @@ import javax.xml.parsers.*;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class ConfigLoader {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -90,6 +90,10 @@ public class ConfigLoader {
                 try {
                     clazz = factoryElement.getAttribute("class");
 
+                    if (clazz == null) {
+                        throw new FactoryException("factory does not specify a class attribute");
+                    }
+
                     if (Thread.currentThread().getContextClassLoader() != null) {
                         try {
                             factory = (AbstractWorkflowFactory) Class.forName(clazz, true, Thread.currentThread().getContextClassLoader()).newInstance();
@@ -115,7 +119,7 @@ public class ConfigLoader {
                 } catch (FactoryException ex) {
                     throw ex;
                 } catch (Exception ex) {
-                    throw new FactoryException("Error creating workflow factory " + clazz + ": " + ex.getMessage());
+                    throw new FactoryException("Error creating workflow factory " + clazz, ex);
                 }
             }
         } catch (Exception e) {
