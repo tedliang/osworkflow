@@ -1,8 +1,7 @@
 package com.opensymphony.workflow.designer.dialogs;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.io.File;
@@ -35,11 +34,25 @@ public class ImportWorkflowDialog extends JDialog implements ActionListener
     DefaultFormBuilder builder = new DefaultFormBuilder(layout, ResourceManager.getBundle());
     builder.setDefaultDialogBorder();
     builder.append(web, webField);
+	  webField.addFocusListener(new FocusAdapter()
+	  {
+		  public void focusGained(FocusEvent e)
+		  {
+			  web.setSelected(true);
+		  }
+	  });
     builder.nextLine();
     ButtonGroup group = new ButtonGroup();
     group.add(web);
     group.add(file);
     builder.append(file, fileField);
+	  fileField.getTextField().addFocusListener(new FocusAdapter()
+	  {
+		  public void focusGained(FocusEvent e)
+		  {
+			  file.setSelected(true);
+		  }
+	  });
     fileField.addActionListener(new ActionListener()
     {
       public void actionPerformed(ActionEvent e)
@@ -86,7 +99,8 @@ public class ImportWorkflowDialog extends JDialog implements ActionListener
         }
         catch(MalformedURLException e1)
         {
-          JOptionPane.showMessageDialog(this, ResourceManager.getString("import.url.invalid", new Object[]{e1.getMessage()}));
+          JOptionPane.showMessageDialog(this, ResourceManager.getString("import.url.invalid", new Object[]{e1.getMessage()}),
+            ResourceManager.getString("error"), JOptionPane.ERROR_MESSAGE);
         }
       }
     }
