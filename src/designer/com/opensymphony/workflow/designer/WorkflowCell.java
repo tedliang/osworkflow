@@ -6,7 +6,6 @@ import javax.swing.*;
 
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.GraphConstants;
-import org.jgraph.graph.AttributeMap;
 
 /**
  * @author Harsh Vijaywargiya Mar 9, 2003 1:04:57 PM
