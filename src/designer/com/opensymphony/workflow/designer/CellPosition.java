@@ -12,14 +12,21 @@ public class CellPosition implements XMLizable
 {
   private int id = 0;
 	private String type;
-  private Rectangle bounds;
+  private int height;
+  private int width;
+  private int x;
+  private int y;
 
   public CellPosition(WorkflowCell cell)
   {
     id = cell.getId();
 	  type = cell.getClass().getName();
 	  type = type.substring(type.lastIndexOf('.')+1, type.length());
-    bounds = (Rectangle)cell.getAttributes().get("bounds");
+    Rectangle bounds = (Rectangle)cell.getAttributes().get("bounds");
+    height = bounds.height;
+    width = bounds.width;
+    x = bounds.x;
+    y = bounds.y;
   }
 
   public CellPosition(Element activity)
@@ -28,11 +35,10 @@ public class CellPosition implements XMLizable
     {
       id = Integer.parseInt(activity.getAttribute("id"));
 	    type = activity.getAttribute("type");
-      bounds = new Rectangle();
-      bounds.height = Integer.parseInt(activity.getAttribute("height"));
-      bounds.width = Integer.parseInt(activity.getAttribute("width"));
-      bounds.x = Integer.parseInt(activity.getAttribute("x"));
-      bounds.y = Integer.parseInt(activity.getAttribute("y"));
+      height = Integer.parseInt(activity.getAttribute("height"));
+      width = Integer.parseInt(activity.getAttribute("width"));
+      x = Integer.parseInt(activity.getAttribute("x"));
+      y = Integer.parseInt(activity.getAttribute("y"));
     }
     catch(Exception e)
     {
@@ -57,17 +63,17 @@ public class CellPosition implements XMLizable
     buf.append("<cell ");
     buf.append("id=\"").append(id).append("\"");
 	  buf.append(" type=\"").append(type).append("\"");
-    buf.append(" height=\"").append(bounds.height).append("\"");
-    buf.append(" width=\"").append(bounds.width).append("\"");
-    buf.append(" x=\"").append(bounds.x).append("\"");
-    buf.append(" y=\"").append(bounds.y).append("\"");
+    buf.append(" height=\"").append(height).append("\"");
+    buf.append(" width=\"").append(width).append("\"");
+    buf.append(" x=\"").append(x).append("\"");
+    buf.append(" y=\"").append(y).append("\"");
 
     buf.append("/>");
     out.println(buf.toString());
   }
 
-  public Rectangle getBounds()
+  public int[] getBounds()
   {
-    return bounds;
+    return new int[]{x, y, width, height};
   }
 }
