@@ -4,6 +4,8 @@
  */
 package com.opensymphony.workflow.query;
 
+import java.io.Serializable;
+
 
 /**
  * Abstract base class for expressions used in a workflow query.
@@ -14,9 +16,9 @@ package com.opensymphony.workflow.query;
  * Store specific expressions like XPathExpression can be added.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
-public abstract class Expression {
+public abstract class Expression implements Serializable {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected boolean negate = false;

@@ -13,7 +13,7 @@ package com.opensymphony.workflow.query;
  *     from the specified sub expressions.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class NestedExpression extends Expression {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -33,9 +33,12 @@ public class NestedExpression extends Expression {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     private Expression[] expressions = null;
-    private int operator = AND;
+    private int expressionOperator = AND;
 
     //~ Constructors ///////////////////////////////////////////////////////////
+
+    public NestedExpression() {
+    }
 
     /**
     * Create a NestedExpression that consists of multiple expressions.
@@ -44,7 +47,7 @@ public class NestedExpression extends Expression {
     */
     public NestedExpression(Expression[] expressions, int operator) {
         this.expressions = expressions;
-        this.operator = operator;
+        this.expressionOperator = operator;
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -60,15 +63,23 @@ public class NestedExpression extends Expression {
         return expressions.length;
     }
 
-    public boolean isNested() {
-        return true;
+    public void setExpressionOperator(int expressionOperator) {
+        this.expressionOperator = expressionOperator;
     }
 
     /**
      * @return {@link NestedExpression#AND} if all the expressions must match,
      * or {@link NestedExpression#OR} if only one must match.
      */
-    public int getOperator() {
-        return this.operator;
+    public int getExpressionOperator() {
+        return this.expressionOperator;
+    }
+
+    public void setExpressions(Expression[] expressions) {
+        this.expressions = expressions;
+    }
+
+    public boolean isNested() {
+        return true;
     }
 }

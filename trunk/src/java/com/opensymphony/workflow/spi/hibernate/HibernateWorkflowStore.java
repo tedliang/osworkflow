@@ -39,7 +39,7 @@ import java.util.*;
  * See the HibernateFunctionalWorkflowTestCase for more help.
  *
  * @author $Author: hani $
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -541,7 +541,7 @@ public class HibernateWorkflowStore implements WorkflowStore {
             if (full == null) {
                 full = expr;
             } else {
-                switch (nestedExpression.getOperator()) {
+                switch (nestedExpression.getExpressionOperator()) {
                 case NestedExpression.AND:
                     full = Expression.and(full, expr);
 

@@ -723,7 +723,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
             if (i == 0) {
                 sel.append(" WHERE ");
             } else {
-                if (nestedExpression.getOperator() == NestedExpression.AND) {
+                if (nestedExpression.getExpressionOperator() == NestedExpression.AND) {
                     sel.append(" AND ");
                 } else {
                     sel.append(" OR ");
