@@ -10,8 +10,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.opensymphony.workflow.designer.StepCell;
 import com.opensymphony.workflow.designer.UIFactory;
-import com.opensymphony.workflow.designer.listener.RestrictTypeListener;
-import com.opensymphony.workflow.designer.listener.TextFieldListener;
+import com.opensymphony.workflow.designer.beanutils.BeanConnector;
 import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.designer.model.FunctionsTableModel;
 import com.opensymphony.workflow.loader.*;
@@ -22,7 +21,6 @@ public class StepEditor extends DetailPanel implements ActionListener
   private JTextField name = new JTextField(12);
   private JTextField view = new JTextField(12);
   private JCheckBox auto = new JCheckBox();
-  private RestrictTypeListener restrictListener = new RestrictTypeListener();
   private JComboBox restrict = new JComboBox(new String[]{"AND", "OR"});
 
   private ConditionsTableModel conditionsModel = new ConditionsTableModel();
@@ -33,8 +31,8 @@ public class StepEditor extends DetailPanel implements ActionListener
 
   private FunctionsTableModel postModel = new FunctionsTableModel();
   private JTable post;
-  private ActionDescriptor firstAction = null;
-  private StepDescriptor stepDescriptor;
+
+  private BeanConnector connector = new BeanConnector();
 
   public StepEditor()
   {
@@ -64,42 +62,25 @@ public class StepEditor extends DetailPanel implements ActionListener
     builder.addSeparator("Info", cc.xywh(2, 1, 3, 1));
 
     builder.addLabel("ID", cc.xy(2, 3));
+    connector.connect(id, "id");
     builder.add(id, cc.xy(4, 3));
 
     builder.addLabel("Name", cc.xy(2, 5));
-    name.getDocument().addDocumentListener(new TextFieldListener()
-    {
-      protected void valueChanged(String msg)
-      {
-        stepDescriptor.setName(msg);
-      }
-    });
+    connector.connect(name, "name");
     builder.add(name, cc.xy(4, 5));
 
     builder.addLabel("View", cc.xy(2, 7));
-    view.getDocument().addDocumentListener(new TextFieldListener()
-    {
-      protected void valueChanged(String msg)
-      {
-        if(firstAction!=null) firstAction.setView(msg);
-      }
-    });
+    connector.connect(view, "actions[0].view");
     builder.add(view, cc.xy(4, 7));
 
     builder.addLabel("Auto", cc.xy(2, 9));
-    auto.addActionListener(new ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        if(firstAction!=null) firstAction.setAutoExecute(auto.isSelected());
-      }
-    });
+    connector.connect(auto, "actions[0].autoExecute");
     builder.add(auto, cc.xy(4, 9));
 
     builder.addSeparator("Permissions", cc.xywh(2, 11, 3, 1));
 
     builder.addLabel("Type", cc.xy(2, 13));
-    restrict.addActionListener(restrictListener);
+    connector.connect(restrict, "restriction/conditionType");
     builder.add(restrict, cc.xy(4, 13));
 
     conditionsTable = new JTable(conditionsModel);
@@ -179,10 +160,9 @@ public class StepEditor extends DetailPanel implements ActionListener
   protected void updateView()
   {
     StepCell cell = (StepCell)getCell();
-    stepDescriptor = cell.getDescriptor();
-    id.setText(String.valueOf(cell.getId()));
+    StepDescriptor stepDescriptor = cell.getDescriptor();
 
-    name.setText(stepDescriptor.getName());
+    ActionDescriptor firstAction;
 
     if(stepDescriptor.getActions().size()>0)
     {
@@ -193,38 +173,14 @@ public class StepEditor extends DetailPanel implements ActionListener
       firstAction = null;
     }
 
-    view.setText(firstAction==null ? "" : firstAction.getView());
-
-    if(firstAction!=null && firstAction.getAutoExecute())
-    {
-      auto.setSelected(true);
-    }
-    else
-    {
-      auto.setSelected(false);
-    }
-
     if(firstAction!=null)
     {
       RestrictionDescriptor rd = firstAction.getRestriction();
-      if(rd != null)
-      {
-        restrictListener.setRestrict(rd);
-        if(rd.getConditionType() == null)
-        {
-          restrict.setSelectedIndex(-1);
-        }
-        else
-        {
-          restrict.setSelectedItem(rd.getConditionType());
-        }
-      }
       conditionsModel.setList(rd!=null ? rd.getConditions() : new ArrayList());
     }
     else
     {
       conditionsModel.setList(new ArrayList());
-
     }
     conditionsTable.getSelectionModel().clearSelection();
 
@@ -233,6 +189,8 @@ public class StepEditor extends DetailPanel implements ActionListener
 
     postModel.setList(firstAction==null ? new ArrayList() : firstAction.getPostFunctions());
     post.getSelectionModel().clearSelection();
+
+    connector.setSource(stepDescriptor);
   }
 
   private void add()

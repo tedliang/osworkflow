@@ -10,8 +10,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.opensymphony.workflow.designer.InitialActionCell;
 import com.opensymphony.workflow.designer.UIFactory;
-import com.opensymphony.workflow.designer.listener.RestrictTypeListener;
-import com.opensymphony.workflow.designer.listener.TextFieldListener;
+import com.opensymphony.workflow.designer.beanutils.BeanConnector;
 import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.designer.model.FunctionsTableModel;
 import com.opensymphony.workflow.loader.ActionDescriptor;
@@ -26,12 +25,8 @@ import com.opensymphony.workflow.loader.RestrictionDescriptor;
 public class InitialActionEditor extends DetailPanel implements ActionListener
 {
   private JTextField id = UIFactory.createReadOnlyTextField(12);
-
   private JTextField name = new JTextField(12);
-
   private JTextField view = new JTextField(12);
-
-  private RestrictTypeListener restrictListener = new RestrictTypeListener();
   private JComboBox restrict = new JComboBox(new String[]{"AND", "OR"});
 
   private ConditionsTableModel conditionsModel = new ConditionsTableModel();
@@ -42,7 +37,8 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 
   private FunctionsTableModel postModel = new FunctionsTableModel();
   private JTable post;
-  private ActionDescriptor descriptor;
+
+  private BeanConnector connector = new BeanConnector();
 
   public InitialActionEditor()
   {
@@ -72,32 +68,21 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
     builder.addSeparator("Info", cc.xywh(2, 1, 3, 1));
 
     builder.addLabel("ID", cc.xy(2, 3));
+    connector.connect(id, "id");
     builder.add(id, cc.xy(4, 3));
 
     builder.addLabel("Name", cc.xy(2, 5));
-    name.getDocument().addDocumentListener(new TextFieldListener()
-    {
-      protected void valueChanged(String msg)
-      {
-        descriptor.setName(msg);
-      }
-    });
+    connector.connect(name, "name");
     builder.add(name, cc.xy(4, 5));
 
     builder.addLabel("View", cc.xy(2, 7));
-    view.getDocument().addDocumentListener(new TextFieldListener()
-    {
-      protected void valueChanged(String msg)
-      {
-        descriptor.setView(msg);
-      }
-    });
+    connector.connect(view, "view");
     builder.add(view, cc.xy(4, 7));
 
     builder.addSeparator("Permissions", cc.xywh(2, 9, 3, 1));
 
     builder.addLabel("Type", cc.xy(2, 11));
-    restrict.addActionListener(restrictListener);
+    connector.connect(restrict, "restriction.conditionType");
     builder.add(restrict, cc.xy(4, 11));
 
     conditionsTable = new JTable(conditionsModel);
@@ -144,25 +129,9 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
   protected void updateView()
   {
     InitialActionCell cell = (InitialActionCell)getCell();
-    descriptor = cell.getActionDescriptor();
-    id.setText(String.valueOf(cell.getId()));
-
-    name.setText(descriptor.getName());
-    view.setText(descriptor.getView());
+    ActionDescriptor descriptor = cell.getActionDescriptor();
 
     RestrictionDescriptor rd = descriptor.getRestriction();
-    if(rd != null)
-    {
-      restrictListener.setRestrict(rd);
-      if(rd.getConditionType() == null)
-      {
-        restrict.setSelectedIndex(-1);
-      }
-      else
-      {
-        restrict.setSelectedItem(rd.getConditionType());
-      }
-    }
     conditionsModel.setList(rd != null ? descriptor.getRestriction().getConditions() : new ArrayList());
     conditionsTable.getSelectionModel().clearSelection();
 
@@ -171,6 +140,8 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 
     postModel.setList(descriptor.getPostFunctions());
     post.getSelectionModel().clearSelection();
+
+    connector.setSource(descriptor);
   }
 
   public void actionPerformed(ActionEvent e)
