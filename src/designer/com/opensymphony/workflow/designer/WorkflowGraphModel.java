@@ -38,6 +38,22 @@ public class WorkflowGraphModel extends DefaultGraphModel
     return null;
   }
 
+  public boolean acceptsTarget(Object edge, Object port)
+  {
+    if(port==null) return false;
+    WorkflowCell cell = (WorkflowCell)((WorkflowPort)port).getParent();
+    if(cell instanceof InitialActionCell) return false;
+    //todo return true once we have connection stuff working
+    return false;
+  }
+
+  public boolean acceptsSource(Object edge, Object port)
+  {
+//    if(port==null) return false;
+//    WorkflowCell cell = (WorkflowCell)((WorkflowPort)port).getParent();
+    return false;
+  }
+
   public void processJoinChangeEvent(JoinCell cell)
   {
     JoinDescriptor join = cell.getJoinDescriptor();
