@@ -9,7 +9,7 @@ refer to a common-action to make it available. Note that all actions id's must b
 A workflow consists of a number of steps, split definitions that determine the states to move to within a split,
 and join definitions to determine the conditions and steps for a join.
 -->
-<!ELEMENT workflow (meta*, registers?, trigger-functions?, initial-actions, global-actions?, common-actions?, steps, splits?, joins?)>
+<!ELEMENT workflow (meta*, registers?, trigger-functions?, global-conditions?, initial-actions, global-actions?, common-actions?, steps, splits?, joins?)>
 <!--
 An action that can be executed. The action id must be unique for the entire workflow definition, and
 not just within the enclosing step.
@@ -325,3 +325,10 @@ Used in: action, intial-step, result, unconditional-result
 -->
 <!ELEMENT validators (validator+)>
 
+<!--
+A list of global condition that are checked for every action.
+
+Used in: workflow
+-->
+<!ELEMENT global-conditions (conditions?)>
+	
