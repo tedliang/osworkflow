@@ -3,10 +3,11 @@ package com.opensymphony.workflow.designer;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.net.URL;
+import java.net.MalformedURLException;
 import javax.swing.*;
 
 import org.jgraph.event.GraphSelectionEvent;
@@ -115,8 +116,15 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     String lastOpened = Prefs.INSTANCE.get(Prefs.LAST_WORKSPACE, null);
     if(lastOpened != null)
     {
-      openWorkspace(new File(lastOpened));
-      String workflow = Prefs.INSTANCE.get(Prefs.WORKFLOW_CURRENT, null);
+	    try
+	    {
+		    openWorkspace(new URL(lastOpened));
+	    }
+	    catch(MalformedURLException e)
+	    {
+		    e.printStackTrace();
+	    }
+	    String workflow = Prefs.INSTANCE.get(Prefs.WORKFLOW_CURRENT, null);
       if(workflow != null)
       {
         navigator.selectWorkflow(workflow);
@@ -262,14 +270,14 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
   }
 
-  public void openWorkspace(File f)
+  public void openWorkspace(URL file)
   {
-    if(f != null && f.exists())
+    if(file != null)
     {
       try
       {
-        Prefs.INSTANCE.put(Prefs.LAST_WORKSPACE, f.toString());
-        manager.loadWorkspace(f);
+        Prefs.INSTANCE.put(Prefs.LAST_WORKSPACE, file.toString());
+        manager.loadWorkspace(file);
 	      Workspace workspace = manager.getCurrentWorkspace();
 	      navigator.setWorkspace(workspace);
 	      String[] workflows = workspace.getWorkflowNames();
