@@ -300,6 +300,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   public void closeWorkspace()
   {
+    //don't bother doing anything if we have no workspace visible
+    if(!graphTabs.isVisible()) return;
     int count = graphTabs.getComponentCount();
     for(int i = count - 1; i >= 0; i--)
     {
