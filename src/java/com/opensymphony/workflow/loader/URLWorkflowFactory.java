@@ -27,8 +27,19 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory implements Seria
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public void setLayout(String workflowName, Object layout) {
+    }
+
+    public Object getLayout(String workflowName) {
+        return null;
+    }
+
     public boolean isModifiable(String name) {
         return false;
+    }
+
+    public String getName() {
+        return "";
     }
 
     public WorkflowDescriptor getWorkflow(String name) throws FactoryException {
@@ -60,8 +71,20 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory implements Seria
         throw new FactoryException("URLWorkflowFactory does not contain a list of workflow names");
     }
 
+    public void createWorkflow(String name) {
+    }
+
+    public void deleteWorkflow(String name) {
+    }
+
     public boolean removeWorkflow(String name) throws FactoryException {
         throw new FactoryException("remove workflow not supported");
+    }
+
+    public void renameWorkflow(String oldName, String newName) {
+    }
+
+    public void save() {
     }
 
     public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, boolean replace) throws FactoryException {

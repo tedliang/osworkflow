@@ -31,8 +31,19 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public void setLayout(String workflowName, Object layout) {
+    }
+
+    public Object getLayout(String workflowName) {
+        return null;
+    }
+
     public boolean isModifiable(String name) {
         return true;
+    }
+
+    public String getName() {
+        return "";
     }
 
     public WorkflowDescriptor getWorkflow(String name) throws FactoryException {
@@ -55,6 +66,8 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
             loadWorkflow(c);
         }
 
+        c.descriptor.setName(name);
+
         return c.descriptor;
     }
 
@@ -68,6 +81,12 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
         }
 
         return res;
+    }
+
+    public void createWorkflow(String name) {
+    }
+
+    public void deleteWorkflow(String name) {
     }
 
     public void initDone() throws FactoryException {
@@ -153,6 +172,12 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
         //return true;
     }
 
+    public void renameWorkflow(String oldName, String newName) {
+    }
+
+    public void save() {
+    }
+
     public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, boolean replace) throws FactoryException {
         WorkflowConfig c = (WorkflowConfig) workflows.get(name);
 
@@ -199,9 +224,6 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
         return true;
     }
 
-    protected void save() {
-    }
-
     protected void writeXML(WorkflowDescriptor descriptor, Writer out) {
         PrintWriter writer = new PrintWriter(new BufferedWriter(out));
         writer.println(WorkflowDescriptor.XML_HEADER);
@@ -223,7 +245,7 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
 
     static class WorkflowConfig {
         String location;
-        String type;
+        String type; // file, URL, service
         URL url;
         WorkflowDescriptor descriptor;
         long lastModified;
