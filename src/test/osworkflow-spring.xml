@@ -47,7 +47,12 @@
 		<property name="sessionFactory"><ref local="sessionFactory"/></property>
 	</bean>
 		
-	<bean id="workflowFactory" class="com.opensymphony.workflow.loader.URLWorkflowFactory"/>
+	<bean id="workflowTypeResolver" class="com.opensymphony.workflow.util.SpringTypeResolver"/>
+	
+	<bean id="workflowFactory" class="com.opensymphony.workflow.loader.SpringWorkflowFactory" init-method="init">
+        <property name="resource"><value>spring-workflows.xml</value></property>
+        <property name="reload"><value>false</value></property>
+	</bean>
 	
 	<bean id="osworkflowConfiguration" class="com.opensymphony.workflow.config.SpringConfiguration">
 		<property name="store"><ref local="workflowStore"/></property>
@@ -68,5 +73,8 @@
 		<constructor-arg><value>test</value></constructor-arg>
 		<property name="configuration"><ref local="osworkflowConfiguration"/></property>	
 	</bean-->
+
+	<!--bean id="testSpringFunction" class="function.to.test.with.spring" singleton="false" /-->
+
 	
 </beans>

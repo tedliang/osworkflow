@@ -16,7 +16,7 @@ import org.springframework.core.io.ClassPathResource;
 /**
  * @author        Quake Wang
  * @since        2004-5-2
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  *
  **/
 public class SpringHibernateFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest {
@@ -29,12 +29,22 @@ public class SpringHibernateFunctionalWorkflowTestCase extends BaseFunctionalWor
     //~ Methods ////////////////////////////////////////////////////////////////
 
     protected void setUp() throws Exception {
-        super.setUp();
-        DatabaseHelper.createDatabase("");
-
-        XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("osworkflow-spring.xml"));
-
-        //workflow = (AbstractWorkflow) beanFactory.getBean("workflow");
-        workflow.setConfiguration((Configuration) beanFactory.getBean("osworkflowConfiguration"));
+        try
+        {
+	        super.setUp();
+	        DatabaseHelper.createDatabase("");
+	
+	        XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("osworkflow-spring.xml"));
+	
+	        //workflow = (AbstractWorkflow) beanFactory.getBean("workflow");
+	        workflow.setConfiguration((Configuration) beanFactory.getBean("osworkflowConfiguration"));
+        }
+        catch(Exception e)
+        {
+            log.error(e);
+        }
+    }
+    protected String getWorkflowName() {
+        return "example";
     }
 }
