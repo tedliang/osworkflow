@@ -24,7 +24,7 @@ public class MapPanel extends JPanel
 
   public MapPanel(final ArgsAware descriptor, String type, String owner)
   {
-    FormLayout layout = new FormLayout("2dlu, left:max(40dlu;pref), 3dlu, 110dlu:grow, 7dlu");
+    FormLayout layout = new FormLayout("2dlu, left:max(40dlu;pref), 3dlu, pref:grow, 7dlu");
 		DefaultFormBuilder builder = new DefaultFormBuilder(this, layout, ResourceManager.getBundle());
 	  builder.setLeadingColumnOffset(1);
     builder.appendI15dSeparator("info");
@@ -64,7 +64,7 @@ public class MapPanel extends JPanel
     while(iter.hasNext())
     {
       String key = (String)iter.next();
-      JTextField field = descriptor.isArgModifiable(key) ? new JTextField(25) : UIFactory.createReadOnlyTextField(25);
+      JTextField field = descriptor.isArgModifiable(key) ? new JTextField(30) : UIFactory.createReadOnlyTextField(30);
       if(args.get(key) != null)
       {
         field.setText((String)args.get(key));

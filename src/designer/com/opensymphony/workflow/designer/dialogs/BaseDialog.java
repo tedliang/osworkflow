@@ -156,7 +156,14 @@ public class BaseDialog extends JDialog
 	public void show(Component parent)
 	{
 		pack();
-		Utils.centerComponent(parent, this);
+    if(parent == null)
+    {
+      Utils.centerComponent(this);
+    }
+    else
+    {
+  		Utils.centerComponent(parent, this);
+    }
 		super.show();
 	}
 
