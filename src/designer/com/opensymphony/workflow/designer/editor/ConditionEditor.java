@@ -69,7 +69,8 @@ public abstract class ConditionEditor
 
     if(cond.getName() != null)
     {
-	    condition = new ConfigConditionDescriptor(getModel().getPalette().getJoinCondition(cond.getName()));
+	    System.out.println("cond.getName()=" + cond.getName());
+	    condition = new ConfigConditionDescriptor(getConfigDescriptor(cond));
     }
     else
     {
@@ -85,10 +86,11 @@ public abstract class ConditionEditor
     {
       cond.getArgs().putAll(condition.getArgs());
     }
-
   }
 
-  private ConfigConditionDescriptor editCondition(ConfigConditionDescriptor config)
+	protected abstract ConfigConditionDescriptor getConfigDescriptor(ConditionDescriptor cond);
+
+	private ConfigConditionDescriptor editCondition(ConfigConditionDescriptor config)
   {
     // get plugin
     String clazz = config.getPlugin();

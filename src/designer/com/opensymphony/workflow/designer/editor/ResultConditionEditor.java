@@ -5,6 +5,7 @@ import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
+import com.opensymphony.workflow.loader.ConditionDescriptor;
 
 /**
  * @author baab
@@ -23,6 +24,11 @@ public class ResultConditionEditor extends ConditionEditor
   {
     return edge.getDescriptor();
   }
+
+	protected ConfigConditionDescriptor getConfigDescriptor(ConditionDescriptor cond)
+	{
+		return getModel().getPalette().getResultCondition(cond.getName());
+	}
 
 	protected ConfigConditionDescriptor getCondition()
 	{

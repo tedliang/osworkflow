@@ -3,10 +3,7 @@ package com.opensymphony.workflow.designer.editor;
 import com.opensymphony.workflow.designer.StepCell;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
-import com.opensymphony.workflow.loader.AbstractDescriptor;
-import com.opensymphony.workflow.loader.ActionDescriptor;
-import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
-import com.opensymphony.workflow.loader.PermissionConditionDescriptor;
+import com.opensymphony.workflow.loader.*;
 
 /**
  * @author baab
@@ -22,6 +19,11 @@ public class StepPermissionEditor extends ConditionEditor
   {
     return ((ActionDescriptor)getCell().getDescriptor().getActions().get(0)).getRestriction();
   }
+
+	protected ConfigConditionDescriptor getConfigDescriptor(ConditionDescriptor cond)
+	{
+		return getModel().getPalette().getPermissionCondition(cond.getName());
+	}
 
 	protected ConfigConditionDescriptor getCondition()
 	{
