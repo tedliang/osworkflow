@@ -22,6 +22,7 @@ import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 import com.opensymphony.workflow.config.WorkspaceManager;
 import com.opensymphony.workflow.designer.editor.*;
 import com.opensymphony.workflow.designer.swing.*;
+import com.opensymphony.workflow.designer.swing.status.StatusBar;
 import com.opensymphony.workflow.loader.WorkflowConfigDescriptor;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.loader.Workspace;
@@ -56,6 +57,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   public static WorkflowDesigner INSTANCE = null;
   private WorkflowConfigDescriptor palette = null;
   private static Splash splash;
+  private StatusBar statusBar;
 
   public WorkflowDesigner()
   {
@@ -94,8 +96,10 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     setLocation(x, y);
     getContentPane().setLayout(new BorderLayout());
     getContentPane().add(BarFactory.createToolbar(), BorderLayout.NORTH);
+    splash.setProgress(65);
     getContentPane().add(mainSplitPane, BorderLayout.CENTER);
-    getContentPane().add(BarFactory.createStatusBar(), BorderLayout.SOUTH);
+    statusBar = BarFactory.createStatusBar();
+    getContentPane().add(statusBar, BorderLayout.SOUTH);
 
     splash.setProgress(70);
     mainSplitPane.setPreferredSize(new Dimension(w, h));
