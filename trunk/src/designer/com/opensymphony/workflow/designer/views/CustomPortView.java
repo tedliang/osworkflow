@@ -9,7 +9,7 @@ import javax.swing.*;
 import org.jgraph.JGraph;
 import org.jgraph.graph.*;
 
-import com.opensymphony.workflow.designer.swing.ImageLoader;
+import com.opensymphony.workflow.designer.ResourceManager;
 
 /**
  * User: Hani Suleiman
@@ -18,7 +18,7 @@ import com.opensymphony.workflow.designer.swing.ImageLoader;
  */
 public class CustomPortView extends PortView
 {
-  private static final ImageIcon ICON = ImageLoader.getIcon("port.gif");
+  private static final ImageIcon ICON = ResourceManager.getIcon("port");
   private static final CellViewRenderer RENDERER = new CustomPortRenderer();
   private static final int WIDTH = ICON.getIconWidth();
   private static final int HEIGHT = ICON.getIconHeight();

@@ -9,8 +9,8 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import com.opensymphony.workflow.designer.swing.ImageLoader;
 import com.opensymphony.workflow.designer.swing.MapPanel;
+import com.opensymphony.workflow.designer.ResourceManager;
 
 /**
  * @author Gulei
@@ -23,7 +23,7 @@ public class DialogUtils
       message, // dialog message
       title, // dialog title
       JOptionPane.QUESTION_MESSAGE, // question message type
-      ImageLoader.getIcon("saveas.gif"), // icon
+      ResourceManager.getIcon("saveas"), // icon
       values, // selections
       null);							// initial select
   }
