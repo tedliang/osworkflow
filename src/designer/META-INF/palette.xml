@@ -11,13 +11,13 @@
 	<joinconditions>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
-      <arg name="stepId"></arg>
+      <arg name="stepId" modifiable="true"></arg>
       <name>allow.owner.only</name>
     </condition>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
-      <arg name="stepId"></arg>
-      <arg name="status"></arg>
+      <arg name="stepId" modifiable="true"></arg>
+      <arg name="status" modifiable="true"></arg>
       <name>check.status</name>
     </condition>
   </joinconditions>
@@ -36,18 +36,18 @@
 	<permissionconditions>
 		<condition type="class">
 			<arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
-			<arg name="stepId"></arg>
+			<arg name="stepId" modifiable="true"></arg>
 			<name>allow.owner.only</name>
 		</condition>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
-      <arg name="stepId"></arg>
-      <arg name="status"></arg>
+      <arg name="stepId" modifiable="true"></arg>
+      <arg name="status" modifiable="true"></arg>
       <name>check.status</name>
     </condition>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
-      <arg name="group"></arg>
+      <arg name="group" modifiable="true"></arg>
       <name>check.usergroup</name>
     </condition>
 	</permissionconditions>
@@ -55,18 +55,18 @@
 	<resultconditions>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
-      <arg name="stepId"></arg>
+      <arg name="stepId" modifiable="true"></arg>
       <name>allow.owner.only</name>
     </condition>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
-      <arg name="stepId"></arg>
-      <arg name="status"></arg>
+      <arg name="stepId" modifiable="true"></arg>
+      <arg name="status" modifiable="true"></arg>
       <name>check.status</name>
     </condition>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
-      <arg name="group"></arg>
+      <arg name="group" modifiable="true"></arg>
       <name>check.usergroup</name>
     </condition>
   </resultconditions>

@@ -1,6 +1,8 @@
 package com.opensymphony.workflow.loader;
 
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -9,11 +11,12 @@ import org.w3c.dom.NodeList;
  * @author jackflit
  * Date: 2003-11-21
  */
-public class ConfigFunctionDescriptor extends FunctionDescriptor
+public class ConfigFunctionDescriptor extends FunctionDescriptor implements ArgsAware
 {
   protected String plugin;
   protected String description;
 	protected String displayName;
+  protected List modifiableArgs = new ArrayList();
 
   public ConfigFunctionDescriptor()
   {
@@ -32,6 +35,7 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor
     args.putAll(other.getArgs());
 	  displayName = other.displayName;
 	  description = other.description;
+    modifiableArgs = other.modifiableArgs;
   }
 
   public void writeXML(PrintWriter writer, int indent)
@@ -59,10 +63,19 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor
     {
       Element arg = (Element)args.item(l);
       this.args.put(arg.getAttribute("name"), XMLUtil.getText(arg));
+      if("true".equals(arg.getAttribute("modifiable")))
+      {
+        modifiableArgs.add(arg.getAttribute("name"));
+      }
     }
 
     plugin = XMLUtil.getChildText(function, "plugin");
     name = XMLUtil.getChildText(function, "name");
+  }
+
+  public boolean isArgModifiable(String name)
+  {
+    return modifiableArgs.contains(name);
   }
 
   public String getDescription()

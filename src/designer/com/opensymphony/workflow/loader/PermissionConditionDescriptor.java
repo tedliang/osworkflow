@@ -3,7 +3,6 @@ package com.opensymphony.workflow.loader;
 import java.io.PrintWriter;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
  * @author jackflit
@@ -11,7 +10,6 @@ import org.w3c.dom.NodeList;
  */
 public class PermissionConditionDescriptor extends ConfigConditionDescriptor
 {
-
   protected String owner;
 
   public PermissionConditionDescriptor()
@@ -30,9 +28,8 @@ public class PermissionConditionDescriptor extends ConfigConditionDescriptor
     name = permission.getName();
     description = permission.getDescription();
     owner = permission.getOwner();
-
     args.putAll(permission.getArgs());
-
+    modifiableArgs = permission.modifiableArgs;
   }
 
   public void writeXML(PrintWriter writer, int indent)
@@ -42,19 +39,7 @@ public class PermissionConditionDescriptor extends ConfigConditionDescriptor
 
   protected void init(Element condition)
   {
-    type = condition.getAttribute("type");
-
-    NodeList args = condition.getElementsByTagName("arg");
-
-    for(int l = 0; l < args.getLength(); l++)
-    {
-      Element arg = (Element)args.item(l);
-      this.args.put(arg.getAttribute("name"), XMLUtil.getText(arg));
-    }
-
-    plugin = XMLUtil.getChildText(condition, "plugin");
-    name = XMLUtil.getChildText(condition, "name");
-    description = XMLUtil.getChildText(condition, "description");
+    super.init(condition);
     owner = XMLUtil.getChildText(condition, "owner");
   }
 

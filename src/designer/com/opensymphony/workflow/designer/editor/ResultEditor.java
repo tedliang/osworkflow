@@ -92,6 +92,8 @@ public class ResultEditor extends DetailPanel implements ActionListener
     builder.add(type, cc.xy(4, 23));
 
     conditionsTable = new JTable(conditionsModel);
+    conditionsModel.setGraphModel(getModel());
+    conditionsModel.setType(ConditionsTableModel.RESULT);
     builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 25, 3, 1));
     panel = UIFactory.getButtonBar(this, "condition", BUTTONS);
     builder.add(panel, cc.xywh(2, 26, 3, 1));

@@ -49,6 +49,8 @@ public class JoinEditor extends DetailPanel implements ActionListener
     connector.connect(conditionTypes, "conditionType");
     builder.addSeparator(ResourceManager.getString("conditions"), cc.xywh(2, 7, 3, 1));
 
+    conditionsModel.setGraphModel(getModel());
+    conditionsModel.setType(ConditionsTableModel.JOIN);
     conditionsTable = new JTable(conditionsModel);
     builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 9, 3, 1));
 

@@ -87,7 +87,8 @@ public class StepEditor extends DetailPanel implements ActionListener
     builder.add(restrict, cc.xy(4, 13));
 
     conditionsTable = new JTable(conditionsModel);
-    conditionsTable.setShowGrid(true);
+    conditionsModel.setType(ConditionsTableModel.PERMISSION);
+    conditionsModel.setGraphModel(getModel());
     builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 15, 3, 1));
     builder.add(UIFactory.getButtonBar(this, "permission", BUTTONS), cc.xywh(2, 16, 3, 1));
 
@@ -167,6 +168,7 @@ public class StepEditor extends DetailPanel implements ActionListener
 
     ActionDescriptor firstAction;
 
+    //todo need to do this in some way that handles multiple actions
     if(stepDescriptor.getActions().size()>0)
     {
       firstAction = (ActionDescriptor)stepDescriptor.getActions().get(0);
@@ -179,7 +181,14 @@ public class StepEditor extends DetailPanel implements ActionListener
     if(firstAction!=null)
     {
       RestrictionDescriptor rd = firstAction.getRestriction();
-      conditionsModel.setList(rd!=null ? rd.getConditions() : new ArrayList());
+      if(rd==null)
+      {
+        rd = new RestrictionDescriptor();
+        rd.setParent(firstAction);
+        rd.setConditionType((String)restrict.getSelectedItem());
+        firstAction.setRestriction(rd);
+      }
+      conditionsModel.setList(rd.getConditions());
     }
     else
     {
