@@ -33,4 +33,9 @@ public class ActionProxy implements DefaultGraphCell.ValueChangeHandler
     System.out.println(getClass() + " WARNING: Unexpected clone called on " + this);
     return this;
   }
+
+  public ActionDescriptor getDescriptor()
+  {
+    return action;
+  }
 }
