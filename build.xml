@@ -109,7 +109,7 @@
     </ejbdoclet>
   </target>
 
-  <target name="java" depends="ejbdoclet">
+  <target name="java" depends="ejbdoclet,format">
     <mkdir dir="${build.java}"/>
     <copy filtering="no" todir="${build.java}">
       <fileset dir="${src.java}">
@@ -150,7 +150,7 @@
     </junit>
   </target>
 
-  <target name="format" depends="java">
+  <target name="format" depends="init">
     <jalopy fileformat="unix" convention="${src}/etc/jalopy.xml" history="file" historymethod="adler32" loglevel="error" threads="2" classpathref="cp">
       <fileset dir="${src.java}">
         <include name="**/*.java"/>
@@ -163,7 +163,7 @@
     </jalopy>
   </target>
 
-  <target name="jar" depends="format">
+  <target name="jar" depends="java">
     <mkdir dir="${dist}"/>
     <copy todir="${build.java}/META-INF">
       <fileset dir="${docs}">
