@@ -294,7 +294,6 @@
     <signjar signedjar="${dist.docs}/designer/jgraph.jar" alias="opensymphony" jar="${lib.designer}/jgraph.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
     <signjar signedjar="${dist.docs}/designer/foxtrot.jar" alias="opensymphony" jar="${lib.designer}/foxtrot.jar" storepass="123456" keystore="${lib.build}/OSKeystore"/>
     <signjar signedjar="${dist.docs}/designer/forms.jar" alias="opensymphony" jar="${lib.designer}/forms.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
-    <signjar signedjar="${dist.docs}/designer/oscore.jar" alias="opensymphony" jar="${lib.core}/${oscore.jar}" storepass="123456" keystore="${lib.build}/OSKeystore" />
   </target>
 
   <target name="javadocs" depends="init" description="Build javadocs">
