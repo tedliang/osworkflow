@@ -1044,10 +1044,10 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
             break;
 
-          case FieldExpression.DUE_DATE:
-              values.add(new Timestamp(((Date) value).getTime()));
+        case FieldExpression.DUE_DATE:
+            values.add(new Timestamp(((Date) value).getTime()));
 
-              break;
+            break;
 
         default:
 

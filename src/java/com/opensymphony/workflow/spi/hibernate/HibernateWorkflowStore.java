@@ -39,7 +39,7 @@ import java.util.*;
  * See the HibernateFunctionalWorkflowTestCase for more help.
  *
  * @author $Author: hani $
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -431,6 +431,9 @@ public class HibernateWorkflowStore implements WorkflowStore {
 
         case FieldExpression.NAME:
             return "workflowName";
+
+        case FieldExpression.DUE_DATE:
+            return "dueDate";
 
         default:
             return "1";
