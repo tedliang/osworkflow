@@ -27,8 +27,8 @@ public class Layout
 
   private static class ResultLayout
   {
-    float fLineWidth;
-    int cColor;
+    float lineWidth;
+    int color;
     Point pLabelPosition;
     java.util.List routingPoints = new ArrayList();
 
@@ -36,8 +36,8 @@ public class Layout
     {
       if(labelPosition != null)
         pLabelPosition = new Point(labelPosition.x, labelPosition.y);
-      fLineWidth = lineWidth;
-      cColor = color;
+      this.lineWidth = lineWidth;
+      this.color = color;
     }
   }
 
@@ -177,13 +177,13 @@ public class Layout
   public int getColor(int resultKey)
   {
     ResultLayout rl = ((ResultLayout)results.get(new Integer(resultKey)));
-    return rl != null  ? rl.cColor : 0;
+    return rl != null  ? rl.color : 0;
   }
 
   public float getLineWidth(int resultKey)
   {
     ResultLayout resultLayout = (ResultLayout)results.get(new Integer(resultKey));
-    return resultLayout != null ? resultLayout.fLineWidth : 2;
+    return resultLayout != null ? resultLayout.lineWidth : 2;
   }
 
   public Point getLabelPosition(int resultKey)
