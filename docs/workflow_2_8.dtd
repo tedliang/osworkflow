@@ -92,7 +92,7 @@ Used in: conditions
 -->
 <!ELEMENT condition (arg*)>
 <!ATTLIST condition
-	type (class | jndi | local-ejb | remote-ejb | bsf | beanshell) #REQUIRED
+	type CDATA #REQUIRED
   id CDATA #IMPLIED
   negate CDATA #IMPLIED
   name CDATA #IMPLIED
@@ -113,7 +113,7 @@ Used in: pre-functions, post-functions
 -->
 <!ELEMENT function (arg*)>
 <!ATTLIST function
-	type (class | jndi | local-ejb | remote-ejb | bsf | beanshell) #REQUIRED
+	type CDATA #REQUIRED
   id CDATA #IMPLIED
   name CDATA #IMPLIED
 >
@@ -200,7 +200,7 @@ Used in: registers
 -->
 <!ELEMENT register (arg*)>
 <!ATTLIST register
-	type (class | jndi | local-ejb | remote-ejb | bsf | beanshell) #REQUIRED
+	type CDATA #REQUIRED
 	variable-name CDATA #REQUIRED
   id CDATA #IMPLIED
 >
@@ -315,7 +315,7 @@ Used in: validators
 -->
 <!ELEMENT validator (arg*)>
 <!ATTLIST validator
-	type (class | jndi | local-ejb | remote-ejb | bsf | beanshell) #REQUIRED
+	type CDATA #REQUIRED
   id CDATA #IMPLIED
 >
 <!--

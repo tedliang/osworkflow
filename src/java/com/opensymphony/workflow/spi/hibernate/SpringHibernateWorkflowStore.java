@@ -18,6 +18,7 @@ import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.Step;
 import com.opensymphony.workflow.spi.WorkflowEntry;
 import com.opensymphony.workflow.spi.WorkflowStore;
+import com.opensymphony.workflow.util.PropertySetDelegate;
 
 import net.sf.hibernate.Criteria;
 import net.sf.hibernate.HibernateException;
@@ -44,13 +45,13 @@ import java.util.Set;
 /**
  * @author        Quake Wang
  * @since        2004-5-2
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  *
  **/
 public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements WorkflowStore {
-    //~ Static fields/initializers /////////////////////////////////////////////
+    //~ Instance fields ////////////////////////////////////////////////////////
 
-    private static final Log log = LogFactory.getLog(SpringHibernateWorkflowStore.class);
+    private PropertySetDelegate propertySetDelegate;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
@@ -61,6 +62,10 @@ public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements
     }
 
     public PropertySet getPropertySet(long entryId) throws StoreException {
+        if (propertySetDelegate != null) {
+            return propertySetDelegate.getPropertySet(entryId);
+        }
+
         HashMap args = new HashMap();
         args.put("entityName", "OSWorkflowEntry");
         args.put("entityId", new Long(entryId));
@@ -71,6 +76,14 @@ public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements
         args.put("configurationProvider", configurationProvider);
 
         return PropertySetManager.getInstance("hibernate", args);
+    }
+
+    public void setPropertySetDelegate(PropertySetDelegate propertySetDelegate) {
+        this.propertySetDelegate = propertySetDelegate;
+    }
+
+    public PropertySetDelegate getPropertySetDelegate() {
+        return propertySetDelegate;
     }
 
     public Step createCurrentStep(long entryId, int stepId, String owner, Date startDate, Date dueDate, String status, long[] previousIds) throws StoreException {
