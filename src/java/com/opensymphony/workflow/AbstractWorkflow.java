@@ -1355,6 +1355,9 @@ public class AbstractWorkflow implements Workflow {
 
         if (cache != null) {
             result = (Boolean) cache.get(action);
+        } else {
+            cache = new HashMap();
+            stateCache.set(cache);
         }
 
         if (result == null) {
