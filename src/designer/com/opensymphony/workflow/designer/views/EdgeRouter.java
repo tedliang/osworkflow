@@ -45,11 +45,10 @@ public class EdgeRouter implements Edge.Routing
       if(sourcePort == targetPort)
       {
         Rectangle bounds = sourceView.getParentView().getBounds();
-        int edgeIndex = sourcePort.getEdgeIndex((Edge)edge.getCell());
-        int size = 25 + (edgeIndex * 5);
+        int size = 35;
         routed = new Point[4];
-        routed[0] = new Point(bounds.x + bounds.width - (edgeIndex * 5), bounds.y + bounds.height);
-        routed[1] = new Point(bounds.x + bounds.width - (edgeIndex * 5), bounds.y + bounds.height + size);
+        routed[0] = new Point(bounds.x + bounds.width, bounds.y + bounds.height);
+        routed[1] = new Point(bounds.x + bounds.width, bounds.y + bounds.height + size);
         routed[2] = new Point(bounds.x + size + bounds.width, bounds.y + bounds.height + size);
         routed[3] = new Point(bounds.x + size + bounds.width, bounds.y + bounds.height);
       }
