@@ -438,7 +438,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     {
       try
       {
-        UIManager.setLookAndFeel((LookAndFeel)Class.forName("com.jgoodies.plaf.plastic.PlasticXPLookAndFeel", true, WorkflowDesigner.class.getClassLoader()).newInstance());
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
       }
       catch(Exception e)
       {
