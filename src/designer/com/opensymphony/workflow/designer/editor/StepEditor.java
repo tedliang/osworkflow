@@ -12,7 +12,6 @@ import com.opensymphony.workflow.designer.UIFactory;
 import com.opensymphony.workflow.designer.model.ActionsTableModel;
 import com.opensymphony.workflow.designer.model.PermissionsTableModel;
 import com.opensymphony.workflow.loader.StepDescriptor;
-import com.opensymphony.workflow.loader.PermissionDescriptor;
 
 public class StepEditor extends DetailPanel implements ActionListener
 {
@@ -48,10 +47,20 @@ public class StepEditor extends DetailPanel implements ActionListener
     permissionsTable = new JTable(permissionsModel);
     builder.add(new JScrollPane(permissionsTable), cc.xywh(2, 14, 3, 1));
     builder.add(UIFactory.getTableButtonBar(this, "permission"), cc.xywh(2, 15, 3, 1));
+
+    name.addActionListener(this);
+    id.addActionListener(this);
   }
 
   public void actionPerformed(ActionEvent e)
   {
+    if(e.getSource()==name)
+    {
+      StepCell cell = (StepCell)getCell();
+      cell.setName(name.getText());
+      return;
+    }
+
     String command = e.getActionCommand();
     if(command.equals("actionadd"))
     {
