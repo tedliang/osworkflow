@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.opensymphony.workflow.designer.ResourceManager;
+import com.opensymphony.workflow.designer.UIFactory;
 import com.opensymphony.workflow.loader.ArgsAware;
 
 /**
@@ -50,17 +51,13 @@ public class MapPanel extends JPanel
     while(iter.hasNext())
     {
       String key = (String)iter.next();
-      JTextField field = new JTextField(25);
+      JTextField field = descriptor.isArgModifiable(key) ? new JTextField(25) : UIFactory.createReadOnlyTextField(25);
       if(args.get(key) != null)
       {
         field.setText((String)args.get(key));
       }
 	    builder.append(key, field);
       edits.put(key, field);
-      if(!descriptor.isArgModifiable(key))
-      {
-        field.setEditable(false);
-      }
     }
   }
 

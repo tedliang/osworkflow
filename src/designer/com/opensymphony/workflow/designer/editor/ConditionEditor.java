@@ -69,7 +69,6 @@ public abstract class ConditionEditor
 
     if(cond.getName() != null)
     {
-	    System.out.println("cond.getName()=" + cond.getName());
 	    condition = new ConfigConditionDescriptor(getConfigDescriptor(cond));
     }
     else

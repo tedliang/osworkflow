@@ -1,7 +1,7 @@
 package com.opensymphony.workflow.designer.model;
 
 import com.opensymphony.workflow.loader.FunctionDescriptor;
-import com.opensymphony.workflow.loader.WorkflowConfigDescriptor;
+import com.opensymphony.workflow.loader.PaletteDescriptor;
 import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.WorkflowGraphModel;
@@ -65,7 +65,7 @@ public class FunctionsTableModel extends ListTableModel
   public Object getValueAt(int rowIndex, int columnIndex)
   {
     FunctionDescriptor function = (FunctionDescriptor)list.get(rowIndex);
-    WorkflowConfigDescriptor palette = graphModel.getPalette();
+    PaletteDescriptor palette = graphModel.getPalette();
     ConfigFunctionDescriptor config = palette.getPrefunction(function.getName());
     switch(columnIndex)
     {

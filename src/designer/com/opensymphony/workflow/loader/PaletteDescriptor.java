@@ -12,7 +12,7 @@ import org.w3c.dom.NodeList;
  * @author jackflit
  * Date: 2003-11-21
  */
-public class WorkflowConfigDescriptor extends AbstractDescriptor
+public class PaletteDescriptor extends AbstractDescriptor
 {
   protected List statusList = new ArrayList();
   protected List joinList = new ArrayList();
@@ -23,7 +23,7 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
   protected String defaultNextStatus = null;
 	private ResourceBundle bundle;
 
-	public WorkflowConfigDescriptor(Element root, ResourceBundle bundle)
+	public PaletteDescriptor(Element root, ResourceBundle bundle)
   {
 	  this.bundle = bundle;
     init(root);

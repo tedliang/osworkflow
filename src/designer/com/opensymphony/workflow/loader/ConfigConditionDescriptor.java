@@ -69,7 +69,6 @@ public class ConfigConditionDescriptor extends ConditionDescriptor implements Ar
 
   public boolean isArgModifiable(String name)
   {
-    System.out.println(getClass() + ":isModifiable " + name + " list=" + modifiableArgs);
     return modifiableArgs.contains(name);
   }
 
