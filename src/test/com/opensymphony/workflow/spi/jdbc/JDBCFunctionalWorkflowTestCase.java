@@ -26,7 +26,7 @@ public class JDBCFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     protected void setUp() throws Exception {
-        DatabaseHelper.exportSchemaForJDBC();
+        DatabaseHelper.createDatabase("src/etc/deployment/jdbc/mckoi.sql");
         TestWorkflow.configFile = "/osworkflow-jdbc.xml";
         super.setUp();
     }
