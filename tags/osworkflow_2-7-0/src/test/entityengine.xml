@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE entity-config PUBLIC "-//OFBiz//DTD Entity Engine Config//EN" "http://www.ofbiz.org/dtds/entity-config.dtd">
+<entity-config>
+
+  <!-- RESOURCE LOADER -->
+  <!--
+    This determines where resources (other XML files) are loaded from.
+
+    Other resource loaders include:
+      org.ofbiz.core.entity.config.FileLoader - load resources from the file system
+org.ofbiz.core.entity.config.UrlLoader - load resources from external URLs
+  -->
+  <resource-loader name="maincp" class="org.ofbiz.core.config.ClasspathLoader"/>
+
+  <transaction-factory class="org.ofbiz.core.entity.transaction.JNDIFactory">
+    <user-transaction-jndi jndi-server-name="default" jndi-name="tx/UserTransaction"/>
+    <transaction-manager-jndi jndi-server-name="default" jndi-name="tx/UserTransaction"/>
+  </transaction-factory>
+
+  <delegator name="default" entity-model-reader="main" entity-group-reader="main">
+    <group-map group-name="default" datasource-name="mckoiDS"/>
+  </delegator>
+
+  <entity-model-reader name="main">
+    <resource loader="maincp" location="ofbiz/entitymodel.xml"/>
+  </entity-model-reader>
+
+  <entity-group-reader name="main" loader="maincp" location="ofbiz/entitygroup.xml"/>
+
+
+  <!-- FIELD TYPES -->
+  <field-type name="mckoi" loader="maincp" location="ofbiz/fieldtype-mckoi.xml"/>
+
+  <datasource name="mckoiDS" helper-class="org.ofbiz.core.entity.GenericHelperDAO" field-type-name="mckoi" check-on-start="true" add-missing-on-start="true">
+    <jndi-jdbc jndi-server-name="default" jndi-name="jdbc/DefaultDS" />
+  </datasource>
+</entity-config>

@@ -1,0 +1,2 @@
+Class-Path: lib/bsh-1.2b7.jar lib/GLUE-STD.jar lib/quartz.jar lib/osuser-1.0-dev-3Dec03.jar propertyset-1.3-21Apr04.jar lib/commons-logging.jar oscore-2.2.2.jar
+

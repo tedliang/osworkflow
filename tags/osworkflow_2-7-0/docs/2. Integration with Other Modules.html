@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>2. Integration with Other Modules</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+
+				    <ul class="star">
+<li> Back to <a href="1.5 Loading Workflow Definitions.html">1.5 Loading Workflow Definitions</a></li>
+<li> Forward to <a href="3. Understanding OSWorkflow.html">3. Understanding OSWorkflow</a></li>
+</ul>
+<h3 class="heading3"> Integration with OSCore</h3><p class="paragraph">OSWorkflow requires <span class="nobr"><a href="http://www.opensymphony.com/propertyset">PropertySet<sup><img src="./icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="&gt;&gt;" border="0"/></sup></a></span>, and <span class="nobr"><a href="http://www.opensymphony.com/oscore">OSCore<sup><img src="./icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="&gt;&gt;" border="0"/></sup></a></span>. Furthermore, OSWorkflow makes heavy usage of the many useful features in OSCore, and therefore OSCore version 2.2.0 or above is required to use OSWorkflow. OSUser is not strictly required, however, all of the built-in user/group functions and conditions use it, so you should include it unless you plan on writing your own versions of those conditions.
+<h3 class="heading3"> Integration with PropertySet</h3></p>One of the key features in OSWorkflow is the ability to save variables dynamically. This allows for a function (see <a href="3.4 Functions.html">3.4 Functions</a>) to take place on day 1 in the workflow lifecycle and store a piece of data in OSWorkflow. Then, many days later, when an action is executed in the workflow, that same data can be pulled up and re-used in another function. This is a very powerful feature that when used properly can allow for highly customized, long-lived workflow behavior that persists even after server restarts.<p class="paragraph">This is all possible by using the <span class="nobr"><a href="http://www.opensymphony.com/propertyset">PropertySet<sup><img src="./icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="&gt;&gt;" border="0"/></sup></a></span> module. What kinds of variable types you can dynamically store in the propertyset (usually exposed as the variable <b class="strong">ps</b>) is totally up to the PropertySet implementation that is chosen by the <b class="strong">WorkflowStore</b> you have configured in <em class="emphasis">osworkflow.xml</em>. For example, if you choose the <em class="emphasis">JDBCWorkflowStore</em>, you must make sure that the jdbc propertyset is properly configured in <em class="emphasis">propertyset.xml</em>. Information on setting up the propertyset backend store (for example, sql scripts for the JDBCPropertySet) can be found in the propertyset download.</p>
+
+				    
+			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

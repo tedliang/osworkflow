@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin>
+  <!-- a list of status values available. The old-default is the value to set
+  the oldStatus value to when a result is executed. The next-default is the default
+  status to go to in the new step after a result is executed -->
+  <statusvalues default-old="Finished" default-next="Queued">
+    <status name="Queued" />
+    <status name="Underway"/>
+    <status name="Finished"/>
+  </statusvalues>
+	<joinconditions>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
+      <arg name="stepId" modifiable="true"/>
+      <name>allow.owner.only</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.DenyOwnerCondition</arg>
+      <arg name="stepId" modifiable="true"/>
+      <name>deny.owner</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
+      <arg name="stepId" modifiable="true"/>
+      <arg name="status" modifiable="true"/>
+      <name>check.status</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
+      <arg name="group" modifiable="true"/>
+      <name>check.usergroup</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.ejb.local.LocalEJBCondition</arg>
+      <arg name="ejb.location" modifiable="true"/>
+      <name>ejb.local.condition</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.ejb.remote.RemoteEJBCondition</arg>
+      <arg name="ejb.location" modifiable="true"/>
+      <name>ejb.condition</name>
+    </condition>
+		<condition type="beanshell">
+			<arg name="script" modifiable="true"/>
+			<name>bsh.condition</name>
+			<plugin>com.opensymphony.workflow.designer.spi.BshConditionPlugin</plugin>
+		</condition>
+  </joinconditions>
+
+	<functions>
+		<function type="class">
+			<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+			<name>set.caller</name>
+		</function>
+    <function type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.MostRecentOwner</arg>
+      <name>set.most.recent.owner</name>
+    </function>
+    <function type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.SendEmail</arg>
+      <arg name="to" modifiable="true"/>
+      <arg name="from" modifiable="true"/>
+      <arg name="cc" modifiable="true"/>
+      <arg name="subject" modifiable="true"/>
+      <arg name="message" modifiable="true"/>
+      <arg name="smtpHost" modifiable="true"/>
+      <arg name="parseVariables" modifiable="true"/>
+      <name>send.email</name>
+    </function>
+    <function type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.WebWorkExecutor</arg>
+      <arg name="action.name" modifiable="true"/>
+      <name>webwork.action</name>
+    </function>
+    <function type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.XWorkExecutor</arg>
+      <arg name="action.name" modifiable="true"/>
+      <arg name="namespace" modifiable="true"/>
+      <name>xwork.action</name>
+    </function>
+    <function type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.ejb.local.LocalEJBFunctionProvider</arg>
+      <arg name="ejb.location" modifiable="true"/>
+      <name>ejb.local.function</name>
+    </function>
+    <function type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.ejb.remote.RemoteEJBFunctionProvider</arg>
+      <arg name="ejb.location" modifiable="true"/>
+      <name>ejb.function</name>
+    </function>
+		<condition type="beanshell">
+			<arg name="script" modifiable="true"/>
+			<name>bsh.function</name>
+			<plugin>com.opensymphony.workflow.designer.spi.BshFunctionPlugin</plugin>
+		</condition>
+	</functions>
+
+	<permissionconditions>
+		<condition type="class">
+			<arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
+			<arg name="stepId" modifiable="true"/>
+			<name>allow.owner.only</name>
+		</condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.DenyOwnerCondition</arg>
+      <arg name="stepId" modifiable="true"/>
+      <name>deny.owner</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
+      <arg name="stepId" modifiable="true"/>
+      <arg name="status" modifiable="true"/>
+      <name>check.status</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
+      <arg name="group" modifiable="true"/>
+      <name>check.usergroup</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.ejb.local.LocalEJBCondition</arg>
+      <arg name="ejb.location" modifiable="true"/>
+      <name>ejb.local.condition</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.ejb.remote.RemoteEJBCondition</arg>
+      <arg name="ejb.location" modifiable="true"/>
+      <name>ejb.condition</name>
+    </condition>
+		<condition type="beanshell">
+			<arg name="script" modifiable="true"/>
+			<name>bsh.condition</name>
+			<plugin>com.opensymphony.workflow.designer.spi.BshConditionPlugin</plugin>
+		</condition>
+	</permissionconditions>
+
+	<resultconditions>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
+      <arg name="stepId" modifiable="true"/>
+      <name>allow.owner.only</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.DenyOwnerCondition</arg>
+      <arg name="stepId" modifiable="true"/>
+      <name>deny.owner</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
+      <arg name="stepId" modifiable="true"/>
+      <arg name="status" modifiable="true"/>
+      <name>check.status</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
+      <arg name="group" modifiable="true"/>
+      <name>check.usergroup</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.ejb.local.LocalEJBCondition</arg>
+      <arg name="ejb.location" modifiable="true"/>
+      <name>ejb.local.condition</name>
+    </condition>
+    <condition type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.ejb.remote.RemoteEJBCondition</arg>
+      <arg name="ejb.location" modifiable="true"/>
+      <name>ejb.condition</name>
+    </condition>
+		<condition type="beanshell">
+			<arg name="script" modifiable="true"/>
+			<name>bsh.condition</name>
+			<plugin>com.opensymphony.workflow.designer.spi.BshConditionPlugin</plugin>
+		</condition>
+  </resultconditions>
+</plugin>

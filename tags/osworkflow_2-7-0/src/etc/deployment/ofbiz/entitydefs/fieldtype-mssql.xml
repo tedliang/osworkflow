@@ -1,0 +1,37 @@
+<fieldtypemodel>
+    <field-type-def type="bytes" sql-type="image" java-type="byte[]"></field-type-def>
+    <field-type-def type="blob" sql-type="image" java-type="java.lang.Object"></field-type-def>
+    <field-type-def type="date-time" sql-type="datetime" java-type="java.sql.Timestamp"></field-type-def>
+    <field-type-def type="datetime" sql-type="datetime" java-type="java.sql.Timestamp"></field-type-def>
+    <field-type-def type="date" sql-type="datetime" java-type="java.sql.Date"></field-type-def>
+    <field-type-def type="time" sql-type="datetime" java-type="java.sql.Time"></field-type-def>
+
+    <field-type-def type="currency-amount" sql-type="money" java-type="Double"><validate name="isSignedDouble" /></field-type-def>
+    <field-type-def type="floating-point" sql-type="numeric" java-type="Double"><validate name="isSignedDouble" /></field-type-def>
+    <field-type-def type="numeric" sql-type="numeric" java-type="Long"><validate name="isSignedLong" /></field-type-def>
+    <field-type-def type="long" sql-type="integer" java-type="Long"></field-type-def>
+    <field-type-def type="integer" sql-type="int" java-type="Integer"></field-type-def>
+
+    <field-type-def type="nid" sql-type="INT*" java-type="Long"></field-type-def>
+    <field-type-def type="id" sql-type="ID" java-type="String"></field-type-def>
+    <field-type-def type="id-long" sql-type="VARCHAR(60)" java-type="String"></field-type-def>
+    <field-type-def type="id-long-ne" sql-type="VARCHAR(40)" java-type="String"></field-type-def>
+    <field-type-def type="id-vlong" sql-type="VARCHAR(255)" java-type="String"></field-type-def>
+
+    <field-type-def type="indicator" sql-type="CHAR(1)" java-type="String"></field-type-def>
+    <field-type-def type="very-short" sql-type="VARCHAR(10)" java-type="String"></field-type-def>
+    <field-type-def type="short-varchar" sql-type="VARCHAR(60)" java-type="String"></field-type-def>
+    <field-type-def type="long-varchar" sql-type="VARCHAR(255)" java-type="String"></field-type-def>
+    <field-type-def type="very-long" sql-type="text" java-type="String"></field-type-def>
+    <field-type-def type="text" sql-type="text" java-type="String"></field-type-def>
+
+    <field-type-def type="comment" sql-type="VARCHAR(255)" java-type="String"></field-type-def>
+    <field-type-def type="description" sql-type="VARCHAR(255)" java-type="String"></field-type-def>
+    <field-type-def type="name" sql-type="VARCHAR(60)" java-type="String"></field-type-def>
+    <field-type-def type="string" sql-type="VARCHAR(255)" java-type="String"></field-type-def>
+    <field-type-def type="value" sql-type="VARCHAR(254)" java-type="String"></field-type-def>
+
+    <field-type-def type="boolean" sql-type="bit" java-type="java.lang.Boolean"></field-type-def>
+    <field-type-def type="currency" sql-type="money" java-type="Double"><validate name="isSignedDouble" /></field-type-def>
+
+</fieldtypemodel>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.6//EN" "http://www.opensymphony.com/osworkflow/workflow_2_6.dtd">
+
+<workflow>
+  <initial-actions>
+    <action id="1" name="Initial Action">
+      <restrict-to/>
+      <results>
+        <unconditional-result old-status="Initiated" split="10" owner="${caller}" />
+      </results>
+    </action>
+  </initial-actions>
+
+  <steps>
+    <step id="11" name="Step 11">
+      <actions>
+        <action id="1101" name="action-1101-auto" auto="true">
+          <restrict-to>
+            <conditions type="AND">
+              <condition type="class">
+                <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
+                <arg name="stepId">11</arg>
+                <arg name="status">Underway</arg>
+              </condition>
+            </conditions>
+          </restrict-to>
+          <results>
+            <unconditional-result old-status="Underway" status="Finished" step="11"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+
+    <step id="12" name="Step 12">
+      <actions>
+        <action id="1201" name="action-1201-auto" auto="true">
+          <restrict-to>
+            <conditions type="AND">
+              <condition type="class">
+                <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
+                <arg name="stepId">12</arg>
+                <arg name="status">Underway</arg>
+              </condition>
+            </conditions>
+          </restrict-to>
+          <results>
+            <unconditional-result old-status="Underway" status="Finished" step="12"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+  </steps>
+
+  <splits>
+    <split id="10">
+      <unconditional-result old-status="Split" status="Underway" step="11"/>
+      <unconditional-result old-status="Split" status="Underway" step="12"/>
+    </split>
+  </splits>
+
+</workflow>
+

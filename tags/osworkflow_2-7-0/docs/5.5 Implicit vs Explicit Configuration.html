@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>5.5 Implicit vs Explicit Configuration</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+
+				    <ul class="star">
+<li> Back to <a href="5.4 Queries.html">5.4 Queries</a></li>
+</ul><br/>
+Previous to OSWorkflow 2.7, state was maintained using static fields in a number of places. This approach while convenient, has quite a few drawbacks and restrictions. One of the main ones was the fact that it was not possible to have multiple instances of OSWorkflow with different configurations running. Put simply, you couldn&#039;t have a number of workflows using a memory store running alongside other workflow instances that used the EJB store, for example.<p class="paragraph">OSWorkflow 2.7 fixed this limitation by the introduction of a Configuration interface. The default implementation of this interface is DefaultConfiguration, which mimics the backward compatible behaviour of loading resources and so on. Also for the sake of backward compatibility, a static instance is used <b class="strong">if no explicit call is made using a Configuration</b>. Practically speaking, the decision to use the static instance or a specified configuration is determined by the <em class="emphasis">setConfiguration</em> method of AbstractWorkflow. If the method is called, then the per-instance model is used. If it is not called, then the legacy singleton static model is used.</p>One aspect of the new approach is that the AbstractWorkflow object is no longer stateless, and if you do not use the static approach (which you are dicouraged from using now!), you need to hold onto the instance of AbstractWorkflow that you instatiate and reuse it, instead of creating a new one for every call.<p class="paragraph">While that might all sound rather complicated, in practice it is quite simple, as the following examples illustrate:</p><h3 class="heading3"> Legacy approach:</h3>
+<div class="code"><pre>Workflow workflow = <span class="java&#45;keyword">new</span> BasicWorkflow(&quot;blah&quot;);&#10;<span class="java&#45;object">long</span> workflowId = workflow.initialize(&quot;someflow&quot;, 1, <span class="java&#45;keyword">new</span> HashMap());&#10;workflow.doAction(workflowId, 2, <span class="java&#45;keyword">new</span> HashMap());&#10;...&#10;//in some other class, called later on&#10;Workflow workflow = <span class="java&#45;keyword">new</span> BasicWorkflow(&quot;blah&quot;);&#10;workflow.doAction(workflowId, 3, <span class="java&#45;keyword">new</span> HashMap());</pre></div><p class="paragraph"><h3 class="heading3"> Recommend approach:</h3>
+<div class="code"><pre>Workflow workflow = <span class="java&#45;keyword">new</span> BasicWorkflow(&quot;blah&quot;);&#10;Configuration config = <span class="java&#45;keyword">new</span> DefaultConfiguration();&#10;workflow.setConfiguration(config);&#10;<span class="java&#45;object">long</span> workflowId = workflow.initialize(&quot;someflow&quot;, 1, <span class="java&#45;keyword">new</span> HashMap());&#10;workflow.doAction(workflowId, 2, <span class="java&#45;keyword">new</span> HashMap());&#10;//keep track of Workflow object somewhere&#33;&#10;...&#10;//in some other class, called later on&#10;//look up Workflow instance that was held onto earlier&#10;Workflow workflow = ...; //note, <span class="java&#45;keyword">do</span> NOT create a <span class="java&#45;keyword">new</span> one&#33;&#10;workflow.doAction(workflowId, 3, <span class="java&#45;keyword">new</span> HashMap());</pre></div></p>
+
+				    
+			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

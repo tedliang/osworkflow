@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE application PUBLIC "-//Sun Microsystems, Inc.//DTD J2EE Application 1.3//EN" "http://java.sun.com/dtd/application_1_3.dtd">
+<application>
+	<display-name>OSWorkflow</display-name>
+	<description>OSWorkflow EJB backed example app</description>
+	<!-- WEB PAGES -->
+	<module>
+		<web>
+			<web-uri>osworkflow-2.7.0-example.war</web-uri>
+			<context-root>/osworkflow</context-root>
+		</web>
+	</module>
+	<module>
+		<ejb>propertyset-1.3-21Apr04.jar</ejb>
+	</module>
+  <module>
+		<ejb>oscore-2.2.2.jar</ejb>
+	</module>
+  <module>
+		<ejb>osworkflow-2.7.0-example.jar</ejb>
+	</module>
+</application>

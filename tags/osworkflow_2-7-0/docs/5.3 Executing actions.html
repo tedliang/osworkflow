@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>5.3 Executing actions</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+
+				    <ul class="star">
+<li> Back to <a href="5.2 Creating a new workflow.html">5.2 Creating a new workflow</a></li>
+<li> Forward to <a href="5.4 Queries.html">5.4 Queries</a></li>
+</ul><br/>
+In OSWorkflow, executing an action is very simple:
+
+<div class="code"><pre>Workflow wf = <span class="java&#45;keyword">new</span> BasicWorkflow(username);&#10;HashMap inputs = <span class="java&#45;keyword">new</span> HashMap();&#10;inputs.put(&quot;docTitle&quot;, request.getParameter(&quot;title&quot;));&#10;<span class="java&#45;object">long</span> id = <span class="java&#45;object">Long</span>.parseLong(request.getParameter(&quot;workflowId&quot;));&#10;wf.doAction(id, 1, inputs);</pre></div>
+
+				    
+			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>
