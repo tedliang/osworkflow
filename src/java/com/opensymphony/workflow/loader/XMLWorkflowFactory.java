@@ -139,6 +139,18 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
         }
     }
 
+    public boolean removeWorkflow(String name) throws FactoryException {
+        throw new FactoryException("remove workflow not supported");
+
+        //WorkflowConfig workflow = (WorkflowConfig)workflows.remove(name);
+        //if(workflow == null) return false;
+        //if(workflow.descriptor != null)
+        //{
+        //
+        //}
+        //return true;
+    }
+
     public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, boolean replace) throws FactoryException {
         WorkflowConfig c = (WorkflowConfig) workflows.get(name);
 
@@ -183,6 +195,9 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
         backup.delete();
 
         return true;
+    }
+
+    protected void save() {
     }
 
     protected void writeXML(WorkflowDescriptor descriptor, Writer out) {

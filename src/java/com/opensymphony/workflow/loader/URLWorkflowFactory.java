@@ -56,6 +56,10 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory {
         throw new FactoryException("URLWorkflowFactory does not contain a list of workflow names");
     }
 
+    public boolean removeWorkflow(String name) throws FactoryException {
+        throw new FactoryException("remove workflow not supported");
+    }
+
     public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, boolean replace) throws FactoryException {
         WorkflowDescriptor c = (WorkflowDescriptor) cache.get(name);
         URL url = null;
