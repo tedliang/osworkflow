@@ -469,6 +469,14 @@ public class AbstractWorkflow implements Workflow {
         }
 
         if (canModifyEntryState(id, newState)) {
+            if ((newState == WorkflowEntry.KILLED) || (newState == WorkflowEntry.COMPLETED)) {
+                Collection currentSteps = getCurrentSteps(id);
+
+                if (currentSteps.size() > 0) {
+                    completeEntry(id, currentSteps);
+                }
+            }
+
             store.setEntryState(id, newState);
         } else {
             throw new InvalidEntryStateException("Can't transition workflow instance #" + id + ". Current state is " + entry.getState() + ", requested state is " + newState);
@@ -511,7 +519,7 @@ public class AbstractWorkflow implements Workflow {
             if (actionDesc.getId() == actionId) {
                 action = actionDesc;
 
-                if (isActionAvailable(action, transientVars, ps)) {
+                if (isActionAvailable(action, transientVars, ps, 0)) {
                     validAction = true;
                 }
             }
@@ -529,7 +537,7 @@ public class AbstractWorkflow implements Workflow {
                 if (actionDesc.getId() == actionId) {
                     action = actionDesc;
 
-                    if (isActionAvailable(action, transientVars, ps)) {
+                    if (isActionAvailable(action, transientVars, ps, s.getId())) {
                         validAction = true;
                     }
                 }
@@ -707,7 +715,7 @@ public class AbstractWorkflow implements Workflow {
                 ActionDescriptor action = (ActionDescriptor) iterator.next();
 
                 if (action.getAutoExecute()) {
-                    if (isActionAvailable(action, transientVars, ps)) {
+                    if (isActionAvailable(action, transientVars, ps, 0)) {
                         l.add(new Integer(action.getId()));
                     }
                 }
@@ -758,7 +766,7 @@ public class AbstractWorkflow implements Workflow {
 
             //check auto
             if (action.getAutoExecute()) {
-                if (isActionAvailable(action, transientVars, ps)) {
+                if (isActionAvailable(action, transientVars, ps, s.getId())) {
                     l.add(new Integer(action.getId()));
                 }
             }
@@ -1019,7 +1027,7 @@ public class AbstractWorkflow implements Workflow {
      * @param action The action descriptor
      * @return true if the action is available
      */
-    private boolean isActionAvailable(ActionDescriptor action, Map transientVars, PropertySet ps) throws WorkflowException {
+    private boolean isActionAvailable(ActionDescriptor action, Map transientVars, PropertySet ps, int stepId) throws WorkflowException {
         if (action == null) {
             return false;
         }
@@ -1033,7 +1041,7 @@ public class AbstractWorkflow implements Workflow {
             conditions = restriction.getConditions();
         }
 
-        return passesConditions(conditionType, conditions, Collections.unmodifiableMap(transientVars), ps, 0);
+        return passesConditions(conditionType, conditions, Collections.unmodifiableMap(transientVars), ps, stepId);
     }
 
     private Step getCurrentStep(WorkflowDescriptor wfDesc, int actionId, List currentSteps, Map transientVars, PropertySet ps) throws WorkflowException {
@@ -1046,7 +1054,7 @@ public class AbstractWorkflow implements Workflow {
             ActionDescriptor action = wfDesc.getStep(step.getStepId()).getAction(actionId);
 
             //$AR init
-            if (isActionAvailable(action, transientVars, ps)) {
+            if (isActionAvailable(action, transientVars, ps, step.getStepId())) {
                 return step;
             }
 
