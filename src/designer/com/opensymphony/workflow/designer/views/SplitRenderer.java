@@ -1,7 +1,3 @@
-/**
- * Created on Feb 12, 2003
- * Copyright (C) 2002  Aditisoft Inc
- */
 package com.opensymphony.workflow.designer.views;
 
 import java.awt.BasicStroke;
@@ -14,7 +10,6 @@ import org.jgraph.graph.VertexRenderer;
 
 public class SplitRenderer extends VertexRenderer
 {
-
   public void paint(Graphics g)
   {
     int b = borderWidth;

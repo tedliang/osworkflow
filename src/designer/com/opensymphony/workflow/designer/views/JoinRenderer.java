@@ -1,7 +1,3 @@
-/**
- * Created on Feb 13, 2003
- * Copyright (C) 2002  Aditisoft Inc
- */
 package com.opensymphony.workflow.designer.views;
 
 import java.awt.BasicStroke;
