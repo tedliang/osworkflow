@@ -406,6 +406,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     if(panel != null)
     {
       WorkflowGraph currentGraph = graphTabs.getCurrentGraph();
+      if(currentGraph == null) return;
       panel.setModel(currentGraph.getWorkflowGraphModel());
       panel.setGraph(currentGraph);
       panel.setDescriptor(descriptor);
