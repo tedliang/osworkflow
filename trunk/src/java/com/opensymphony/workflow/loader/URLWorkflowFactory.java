@@ -74,9 +74,6 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory implements Seria
     public void createWorkflow(String name) {
     }
 
-    public void deleteWorkflow(String name) {
-    }
-
     public boolean removeWorkflow(String name) throws FactoryException {
         throw new FactoryException("remove workflow not supported");
     }
