@@ -1,10 +1,10 @@
 package com.opensymphony.workflow.designer;
 
-import java.io.File;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Map;
+import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
@@ -13,8 +13,8 @@ import org.jgraph.JGraph;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
- * Date: May 21, 2003
- * Time: 12:12:44 AM
+ *         Date: May 21, 2003
+ *         Time: 12:12:44 AM
  */
 public class Utils
 {
@@ -68,6 +68,24 @@ public class Utils
     return selectedFile;
   }
 
+  public static void centerComponent(Component parent, Component child)
+  {
+    Point point = parent.getLocationOnScreen();
+    Dimension parentDim = parent.getSize();
+    Dimension childDim = child.getSize();
+    int x;
+    if(parentDim.width > childDim.width)
+      x = point.x + (parentDim.width - childDim.width) / 2;
+    else
+      x = point.x - (childDim.width - parentDim.width) / 2;
+    int y;
+    if(parentDim.height > childDim.height)
+      y = point.y + (parentDim.height - childDim.height) / 2;
+    else
+      y = point.y - (childDim.height - parentDim.height) / 2;
+    child.setLocation(x, y);
+  }
+
   public static BufferedImage toImage(JGraph graph)
   {
     Object[] cells = graph.getRoots();
@@ -103,7 +121,7 @@ public class Utils
   {
     if(descriptor == null) return;
     Integer i = (Integer)contexts.get(context);
-    int nextId = i==null ? 0 : i.intValue();
+    int nextId = i == null ? 0 : i.intValue();
     if(descriptor.getId() >= nextId) nextId = descriptor.getId() + 1;
     contexts.put(context, new Integer(nextId));
   }
@@ -111,7 +129,7 @@ public class Utils
   public static int getNextId(Object context)
   {
     Integer i = (Integer)contexts.get(context);
-    if(i==null) return 0;
+    if(i == null) return 0;
     return i.intValue();
   }
 }
