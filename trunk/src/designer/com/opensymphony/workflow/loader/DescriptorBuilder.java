@@ -11,7 +11,7 @@ public class DescriptorBuilder
 {
   public static StepDescriptor createStep(String name, int id)
   {
-    StepDescriptor step = new StepDescriptor();
+    StepDescriptor step = DescriptorFactory.getFactory().createStepDescriptor();
     step.setName(name);
     step.setId(id);
     return step;
@@ -19,7 +19,7 @@ public class DescriptorBuilder
 
   public static ActionDescriptor createAction(StepDescriptor step, String name, int id)
   {
-    ActionDescriptor action = new ActionDescriptor();
+    ActionDescriptor action = DescriptorFactory.getFactory().createActionDescriptor();
     step.getActions().add(action);
     action.setParent(step);
     action.setAutoExecute(false);
@@ -31,14 +31,14 @@ public class DescriptorBuilder
 
   public static JoinDescriptor createJoin(int id)
   {
-    JoinDescriptor join = new JoinDescriptor();
+    JoinDescriptor join = DescriptorFactory.getFactory().createJoinDescriptor();
     join.setId(id);
     return join;
   }
 
   public static SplitDescriptor createSplit(int id)
   {
-    SplitDescriptor split = new SplitDescriptor();
+    SplitDescriptor split = DescriptorFactory.getFactory().createSplitDescriptor();
     split.setId(id);
     return split;
   }

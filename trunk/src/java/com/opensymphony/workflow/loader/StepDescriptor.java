@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.24 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -40,15 +40,15 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public StepDescriptor() {
+    StepDescriptor() {
     }
 
-    public StepDescriptor(Element step) {
+    StepDescriptor(Element step) {
         init(step);
     }
 
     /** sets parent */
-    public StepDescriptor(Element step, AbstractDescriptor parent) {
+    StepDescriptor(Element step, AbstractDescriptor parent) {
         setParent(parent);
         init(step);
     }
@@ -299,7 +299,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
             for (int k = 0; k < preFunctions.size(); k++) {
                 Element preFunction = (Element) preFunctions.get(k);
-                FunctionDescriptor functionDescriptor = new FunctionDescriptor(preFunction);
+                FunctionDescriptor functionDescriptor = DescriptorFactory.getFactory().createFunctionDescriptor(preFunction);
                 functionDescriptor.setParent(this);
                 this.preFunctions.add(functionDescriptor);
             }
@@ -313,7 +313,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
             for (int i = 0; i < permissions.size(); i++) {
                 Element permission = (Element) permissions.get(i);
-                PermissionDescriptor permissionDescriptor = new PermissionDescriptor(permission);
+                PermissionDescriptor permissionDescriptor = DescriptorFactory.getFactory().createPermissionDescriptor(permission);
                 permissionDescriptor.setParent(this);
                 this.permissions.add(permissionDescriptor);
             }
@@ -329,7 +329,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
             for (int i = 0; i < actions.size(); i++) {
                 Element action = (Element) actions.get(i);
-                ActionDescriptor actionDescriptor = new ActionDescriptor(action);
+                ActionDescriptor actionDescriptor = DescriptorFactory.getFactory().createActionDescriptor(action);
                 actionDescriptor.setParent(this);
                 this.actions.add(actionDescriptor);
             }
@@ -366,7 +366,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
             for (int k = 0; k < postFunctions.size(); k++) {
                 Element postFunction = (Element) postFunctions.get(k);
-                FunctionDescriptor functionDescriptor = new FunctionDescriptor(postFunction);
+                FunctionDescriptor functionDescriptor = DescriptorFactory.getFactory().createFunctionDescriptor(postFunction);
                 functionDescriptor.setParent(this);
                 this.postFunctions.add(functionDescriptor);
             }

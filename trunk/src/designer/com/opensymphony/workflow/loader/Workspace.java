@@ -285,8 +285,8 @@ public class Workspace extends XMLWorkflowFactory
   public void createWorkflow(String name)
   {
     WorkflowConfig config = new WorkflowConfig("file", null);
-    config.descriptor = new WorkflowDescriptor();
-    ActionDescriptor initialAction = new ActionDescriptor();
+    config.descriptor = DescriptorFactory.getFactory().createWorkflowDescriptor();
+    ActionDescriptor initialAction = DescriptorFactory.getFactory().createActionDescriptor();
     initialAction.setName(ResourceManager.getString("action.initial.start"));
     config.descriptor.getInitialActions().add(initialAction);
 	  config.descriptor.getMetaAttributes().put("created", new Date());

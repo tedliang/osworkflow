@@ -201,7 +201,7 @@ public class StepEditor extends DetailPanel implements ActionListener
       {
         rd = new RestrictionDescriptor();
         rd.setParent(firstAction);
-        ConditionsDescriptor conditions = new ConditionsDescriptor();
+        ConditionsDescriptor conditions = DescriptorFactory.getFactory().createConditionsDescriptor();
         rd.setConditionsDescriptor(conditions);
         conditions.setParent(rd);
         conditions.setType((String)restrict.getSelectedItem());

@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PermissionDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -21,10 +21,10 @@ public class PermissionDescriptor extends AbstractDescriptor {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public PermissionDescriptor() {
+    PermissionDescriptor() {
     }
 
-    public PermissionDescriptor(Element permission) {
+    PermissionDescriptor(Element permission) {
         init(permission);
     }
 

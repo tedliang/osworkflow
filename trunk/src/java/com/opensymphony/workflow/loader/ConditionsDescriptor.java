@@ -32,10 +32,10 @@ public class ConditionsDescriptor extends AbstractDescriptor implements Validata
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public ConditionsDescriptor() {
+    ConditionsDescriptor() {
     }
 
-    public ConditionsDescriptor(Element element) {
+    ConditionsDescriptor(Element element) {
         type = element.getAttribute("type");
 
         NodeList children = element.getChildNodes();
@@ -46,10 +46,10 @@ public class ConditionsDescriptor extends AbstractDescriptor implements Validata
 
             if (child instanceof Element) {
                 if ("condition".equals(child.getNodeName())) {
-                    ConditionDescriptor condition = new ConditionDescriptor((Element) child);
+                    ConditionDescriptor condition = DescriptorFactory.getFactory().createConditionDescriptor((Element) child);
                     conditions.add(condition);
                 } else if ("conditions".equals(child.getNodeName())) {
-                    ConditionsDescriptor condition = new ConditionsDescriptor((Element) child);
+                    ConditionsDescriptor condition = DescriptorFactory.getFactory().createConditionsDescriptor((Element) child);
                     conditions.add(condition);
                 }
             }

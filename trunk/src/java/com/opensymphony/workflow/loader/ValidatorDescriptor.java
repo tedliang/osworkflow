@@ -14,7 +14,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ValidatorDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -24,10 +24,10 @@ public class ValidatorDescriptor extends AbstractDescriptor {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public ValidatorDescriptor() {
+    ValidatorDescriptor() {
     }
 
-    public ValidatorDescriptor(Element validator) {
+    ValidatorDescriptor(Element validator) {
         init(validator);
     }
 

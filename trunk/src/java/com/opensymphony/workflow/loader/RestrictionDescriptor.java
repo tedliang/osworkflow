@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class RestrictionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ public class RestrictionDescriptor extends AbstractDescriptor implements Validat
 
         for (int i = 0; i < length; i++) {
             Element condition = (Element) conditionNodes.get(i);
-            ConditionsDescriptor conditionDescriptor = new ConditionsDescriptor(condition);
+            ConditionsDescriptor conditionDescriptor = DescriptorFactory.getFactory().createConditionsDescriptor(condition);
             conditionDescriptor.setParent(this);
             this.conditions.add(conditionDescriptor);
         }

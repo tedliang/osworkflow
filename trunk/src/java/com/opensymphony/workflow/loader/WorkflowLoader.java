@@ -26,7 +26,7 @@ import javax.xml.parsers.*;
  * by loading the XML from various sources.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class WorkflowLoader {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -62,7 +62,7 @@ public class WorkflowLoader {
 
         Element root = (Element) doc.getElementsByTagName("workflow").item(0);
 
-        WorkflowDescriptor descriptor = new WorkflowDescriptor(root);
+        WorkflowDescriptor descriptor = DescriptorFactory.getFactory().createWorkflowDescriptor(root);
         descriptor.validate();
 
         return descriptor;

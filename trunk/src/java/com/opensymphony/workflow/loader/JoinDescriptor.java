@@ -19,7 +19,7 @@ import java.util.List;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class JoinDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -29,10 +29,10 @@ public class JoinDescriptor extends AbstractDescriptor implements Validatable {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public JoinDescriptor() {
+    JoinDescriptor() {
     }
 
-    public JoinDescriptor(Element join) {
+    JoinDescriptor(Element join) {
         init(join);
     }
 
@@ -89,7 +89,7 @@ public class JoinDescriptor extends AbstractDescriptor implements Validatable {
 
         for (int i = 0; i < length; i++) {
             Element condition = (Element) conditionNodes.get(i);
-            ConditionsDescriptor conditionDescriptor = new ConditionsDescriptor(condition);
+            ConditionsDescriptor conditionDescriptor = DescriptorFactory.getFactory().createConditionsDescriptor(condition);
             conditionDescriptor.setParent(this);
             this.conditions.add(conditionDescriptor);
         }

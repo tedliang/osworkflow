@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class ResultDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -238,7 +238,7 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
 
             for (int k = 0; k < validators.size(); k++) {
                 Element validator = (Element) validators.get(k);
-                ValidatorDescriptor validatorDescriptor = new ValidatorDescriptor(validator);
+                ValidatorDescriptor validatorDescriptor = DescriptorFactory.getFactory().createValidatorDescriptor(validator);
                 validatorDescriptor.setParent(this);
                 this.validators.add(validatorDescriptor);
             }
@@ -252,7 +252,7 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
 
             for (int k = 0; k < preFunctions.size(); k++) {
                 Element preFunction = (Element) preFunctions.get(k);
-                FunctionDescriptor functionDescriptor = new FunctionDescriptor(preFunction);
+                FunctionDescriptor functionDescriptor = DescriptorFactory.getFactory().createFunctionDescriptor(preFunction);
                 functionDescriptor.setParent(this);
                 this.preFunctions.add(functionDescriptor);
             }
@@ -266,7 +266,7 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
 
             for (int k = 0; k < postFunctions.size(); k++) {
                 Element postFunction = (Element) postFunctions.get(k);
-                FunctionDescriptor functionDescriptor = new FunctionDescriptor(postFunction);
+                FunctionDescriptor functionDescriptor = DescriptorFactory.getFactory().createFunctionDescriptor(postFunction);
                 functionDescriptor.setParent(this);
                 this.postFunctions.add(functionDescriptor);
             }

@@ -5,7 +5,6 @@
 package com.opensymphony.workflow.loader;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 
@@ -16,7 +15,7 @@ import java.util.*;
  * Desrives a function that can be applied to a workflow step.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class FunctionDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -31,10 +30,10 @@ public class FunctionDescriptor extends AbstractDescriptor {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public FunctionDescriptor() {
+    FunctionDescriptor() {
     }
 
-    public FunctionDescriptor(Element function) {
+    FunctionDescriptor(Element function) {
         init(function);
     }
 

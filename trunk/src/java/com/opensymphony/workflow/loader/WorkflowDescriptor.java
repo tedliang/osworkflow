@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.30 $
+ * @version $Revision: 1.31 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -49,10 +49,10 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public WorkflowDescriptor() {
+    WorkflowDescriptor() {
     }
 
-    public WorkflowDescriptor(Element root) {
+    WorkflowDescriptor(Element root) {
         init(root);
     }
 
@@ -546,7 +546,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
             for (int i = 0; i < registers.size(); i++) {
                 Element register = (Element) registers.get(i);
-                RegisterDescriptor registerDescriptor = new RegisterDescriptor(register);
+                RegisterDescriptor registerDescriptor = DescriptorFactory.getFactory().createRegisterDescriptor(register);
                 registerDescriptor.setParent(this);
                 this.registers.add(registerDescriptor);
             }
@@ -558,7 +558,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         if (globalConditionsElement != null) {
             Element globalConditions = XMLUtil.getChildElement(globalConditionsElement, "conditions");
 
-            ConditionsDescriptor conditionsDescriptor = new ConditionsDescriptor(globalConditions);
+            ConditionsDescriptor conditionsDescriptor = DescriptorFactory.getFactory().createConditionsDescriptor(globalConditions);
             conditionsDescriptor.setParent(this);
             this.globalConditions = conditionsDescriptor;
         }
@@ -569,7 +569,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
         for (int i = 0; i < initialActions.size(); i++) {
             Element initialAction = (Element) initialActions.get(i);
-            ActionDescriptor actionDescriptor = new ActionDescriptor(initialAction);
+            ActionDescriptor actionDescriptor = DescriptorFactory.getFactory().createActionDescriptor(initialAction);
             actionDescriptor.setParent(this);
             this.initialActions.add(actionDescriptor);
         }
@@ -582,7 +582,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
             for (int i = 0; i < globalActions.size(); i++) {
                 Element globalAction = (Element) globalActions.get(i);
-                ActionDescriptor actionDescriptor = new ActionDescriptor(globalAction);
+                ActionDescriptor actionDescriptor = DescriptorFactory.getFactory().createActionDescriptor(globalAction);
                 actionDescriptor.setParent(this);
                 this.globalActions.add(actionDescriptor);
             }
@@ -598,7 +598,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
             for (int i = 0; i < commonActions.size(); i++) {
                 Element commonAction = (Element) commonActions.get(i);
-                ActionDescriptor actionDescriptor = new ActionDescriptor(commonAction);
+                ActionDescriptor actionDescriptor = DescriptorFactory.getFactory().createActionDescriptor(commonAction);
                 actionDescriptor.setParent(this);
                 addCommonAction(actionDescriptor);
             }
@@ -613,7 +613,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
             for (int i = 0; i < timerFunctions.size(); i++) {
                 Element timerFunction = (Element) timerFunctions.get(i);
                 Integer id = new Integer(timerFunction.getAttribute("id"));
-                FunctionDescriptor function = new FunctionDescriptor(XMLUtil.getChildElement(timerFunction, "function"));
+                FunctionDescriptor function = DescriptorFactory.getFactory().createFunctionDescriptor(XMLUtil.getChildElement(timerFunction, "function"));
                 function.setParent(this);
                 this.timerFunctions.put(id, function);
             }
@@ -625,7 +625,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
         for (int i = 0; i < steps.size(); i++) {
             Element step = (Element) steps.get(i);
-            StepDescriptor stepDescriptor = new StepDescriptor(step, this);
+            StepDescriptor stepDescriptor = DescriptorFactory.getFactory().createStepDescriptor(step, this);
             this.steps.add(stepDescriptor);
         }
 
@@ -637,7 +637,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
             for (int i = 0; i < split.size(); i++) {
                 Element s = (Element) split.get(i);
-                SplitDescriptor splitDescriptor = new SplitDescriptor(s);
+                SplitDescriptor splitDescriptor = DescriptorFactory.getFactory().createSplitDescriptor(s);
                 splitDescriptor.setParent(this);
                 this.splits.add(splitDescriptor);
             }
@@ -651,7 +651,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
             for (int i = 0; i < join.size(); i++) {
                 Element s = (Element) join.get(i);
-                JoinDescriptor joinDescriptor = new JoinDescriptor(s);
+                JoinDescriptor joinDescriptor = DescriptorFactory.getFactory().createJoinDescriptor(s);
                 joinDescriptor.setParent(this);
                 this.joins.add(joinDescriptor);
             }
