@@ -1,32 +1,23 @@
-/**
- * Created on Feb 13, 2003
- * Copyright (C) 2002  Aditisoft Inc
- */
 package com.opensymphony.workflow.designer;
 
 import java.awt.*;
 
+import com.opensymphony.workflow.designer.proxy.JoinProxy;
 import com.opensymphony.workflow.loader.JoinDescriptor;
+import com.opensymphony.workflow.loader.ResultDescriptor;
+
 import org.jgraph.graph.GraphConstants;
 
-public class JoinCell extends WorkflowCell implements Keyable
+public class JoinCell extends WorkflowCell implements ResultAware
 {
   private JoinDescriptor descriptor;
 
-  // Construct Cell for Userobject
   public JoinCell(JoinDescriptor userObject)
   {
-    super("Join id " + userObject.getId());
+    super(new JoinProxy(userObject));
     descriptor = userObject;
     id = descriptor.getId();
     GraphConstants.setBackground(attributes, Color.gray);
-    // Set black border
-  }
-
-  public JoinCell(int id)
-  {
-    super("Join id " + id);
-    this.id = id;
   }
 
   public JoinDescriptor getJoinDescriptor()
@@ -34,9 +25,13 @@ public class JoinCell extends WorkflowCell implements Keyable
     return descriptor;
   }
 
-  public String getKey()
+  public boolean removeResult(ResultDescriptor result)
   {
-    String myClassName = JoinCell.class.toString();
-    return (myClassName + id);
+    if(descriptor.getResult() == result)
+    {
+      descriptor.setResult(null);
+      return true;
+    }
+    return false;
   }
 }
