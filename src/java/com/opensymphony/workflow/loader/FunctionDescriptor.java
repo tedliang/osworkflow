@@ -5,6 +5,7 @@
 package com.opensymphony.workflow.loader;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class FunctionDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -87,7 +88,9 @@ public class FunctionDescriptor extends AbstractDescriptor {
 
         for (int l = 0; l < args.getLength(); l++) {
             Element arg = (Element) args.item(l);
-            this.args.put(arg.getAttribute("name"), arg.getChildNodes().item(0).getNodeValue());
+            String value = XMLUtil.getText(arg);
+
+            this.args.put(arg.getAttribute("name"), value);
         }
     }
 }

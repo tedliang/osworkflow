@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class RegisterDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -97,7 +97,7 @@ public class RegisterDescriptor extends AbstractDescriptor {
 
         for (int l = 0; l < args.getLength(); l++) {
             Element arg = (Element) args.item(l);
-            this.args.put(arg.getAttribute("name"), arg.getChildNodes().item(0).getNodeValue());
+            this.args.put(arg.getAttribute("name"), XMLUtil.getText(arg));
         }
     }
 }

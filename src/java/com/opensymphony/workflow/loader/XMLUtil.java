@@ -40,6 +40,23 @@ public class XMLUtil {
         return null;
     }
 
+    public static String getText(Element node) {
+        StringBuffer sb = new StringBuffer();
+        NodeList list = node.getChildNodes();
+
+        for (int i = 0; i < list.getLength(); i++) {
+            Node child = list.item(i);
+
+            switch (child.getNodeType()) {
+            case Node.CDATA_SECTION_NODE:
+            case Node.TEXT_NODE:
+                sb.append(child.getNodeValue());
+            }
+        }
+
+        return sb.toString();
+    }
+
     public static String encode(Object string) {
         if (string == null) {
             return "";
