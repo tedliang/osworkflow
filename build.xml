@@ -241,7 +241,12 @@
     <touch file="${build}/tmp/${propertyset.jar}" millis="500"/>
     <jar jarfile="${build}/tmp/${oscore.jar}" update="true" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
     <jar jarfile="${build}/tmp/${propertyset.jar}" update="true" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
-    <ear appxml="${src.etc}/example/application.xml" earfile="${dist}/${name}-${version}-example.ear" basedir="${build}/tmp" />
+    <filter token="oscore.jar" value="${oscore.jar}"/>
+    <filter token="propertyset.jar" value="${propertyset.jar}"/>
+    <filter token="version" value="${version}"/>
+    <filter token="name" value="${name}"/>
+    <copy file="${src.etc}/example/application.xml" todir="${build}/" filtering="true" />
+    <ear appxml="${build}/application.xml" earfile="${dist}/${name}-${version}-example.ear" basedir="${build}/tmp" />
   </target>
 
   <target name="client" depends="java" description="Build the designer client sources">
