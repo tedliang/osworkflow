@@ -8,12 +8,14 @@ import com.opensymphony.workflow.loader.WorkflowDescriptor;
 
 import junit.framework.TestCase;
 
+import java.util.HashMap;
+
 
 /**
  * Test Case for AbstractWorkflow.
  *
  * @author <a href="mailto:vorburger@users.sourceforge.net">Michael Vorburger</a>
- * @version $Id: ValidationTestCase.java,v 1.3 2003-09-14 19:40:10 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
+ * @version $Id: ValidationTestCase.java,v 1.4 2003-09-14 23:47:55 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
  */
 public class ValidationTestCase extends TestCase {
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -60,5 +62,26 @@ public class ValidationTestCase extends TestCase {
             ex.printStackTrace();
             fail("descriptor failed to load as expected, but a " + ex.getClass() + " exception was caught instead of InvalidWorkflowDescriptorException");
         }
+    }
+
+    /**
+     * Test validator
+     */
+    public void testValidator() throws Exception {
+        TestWorkflow.configFile = "/osworkflow.xml";
+
+        Workflow workflow = new TestWorkflow("testuser");
+
+        try {
+            long id = workflow.initialize(getClass().getResource("/samples/validator.xml").toString(), 1, new HashMap());
+        } catch (InvalidInputException e) {
+            //the descriptor is invalid, which is correct
+            return;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fail("descriptor failed to load as expected, but a " + ex.getClass() + " exception was caught instead of InvalidWorkflowDescriptorException");
+        }
+
+        fail("Did not get expected InvalidInputException");
     }
 }

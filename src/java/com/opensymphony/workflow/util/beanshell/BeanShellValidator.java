@@ -5,6 +5,7 @@
 package com.opensymphony.workflow.util.beanshell;
 
 import bsh.Interpreter;
+import bsh.TargetError;
 
 import com.opensymphony.module.propertyset.PropertySet;
 
@@ -18,10 +19,10 @@ import java.util.Map;
 
 
 /**
- *
- *
+ * Beanshell inline script validator.
+ * The input is determined to be invalid of the script throws a  {@link InvalidInputException}.
  * @author $Author: hani $
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class BeanShellValidator implements Validator {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -50,11 +51,20 @@ public class BeanShellValidator implements Validator {
             i.set("propertySet", ps);
 
             Object o = i.eval(contents);
-
             if (o != null) {
                 throw new InvalidInputException(o);
             }
-        } catch (Exception e) {
+        } catch(TargetError e) {
+          if(e.getTarget() instanceof WorkflowException)
+          {
+            throw (WorkflowException)e.getTarget();
+          }
+          else
+          {
+            throw new WorkflowException("Unexpected exception in beanshell validator script:" + e.getMessage(), e);
+          }
+        }
+        catch (Exception e) {
             String message = "Error executing beanshell validator";
             throw new WorkflowException(message, e);
         } finally {

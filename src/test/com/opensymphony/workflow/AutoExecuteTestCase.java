@@ -38,8 +38,6 @@ public class AutoExecuteTestCase extends TestCase {
     public void testAutoWithSplit() throws Exception {
         Map inputs = new HashMap();
         URL url = getClass().getResource("/samples/auto-split.xml");
-        System.out.println("url=" + url);
-
         long id = workflow.initialize(url.toString(), 1, inputs);
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 2, currentSteps.size());
