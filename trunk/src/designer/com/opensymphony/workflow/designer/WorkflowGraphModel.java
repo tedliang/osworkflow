@@ -242,6 +242,8 @@ public class WorkflowGraphModel extends DefaultGraphModel
     int arrow = GraphConstants.ARROW_CLASSIC;
     GraphConstants.setLineEnd(edgeAttrib, arrow);
     GraphConstants.setEndFill(edgeAttrib, true);
+    GraphConstants.setDisconnectable(edgeAttrib, false);
+    GraphConstants.setRouting(edgeAttrib, GraphConstants.ROUTING_SIMPLE);
     // Connect Edge
     ConnectionSet cs = new ConnectionSet(edge, fromPort, toPort);
     Object[] cells = new Object[]{edge};
