@@ -450,7 +450,6 @@ public class AbstractWorkflow implements Workflow {
         PropertySet ps = store.getPropertySet(id);
         Map transientVars = new HashMap();
         populateTransientMap(entry, transientVars, wf.getRegisters(), null, store.findCurrentSteps(id));
-
         executeFunction(wf.getTriggerFunction(triggerId), transientVars, ps);
     }
 
@@ -1292,7 +1291,7 @@ public class AbstractWorkflow implements Workflow {
 
                 if (toCheck != null) {
                     Iterator iter = toCheck.getActions().iterator();
-MAIN: 
+MAIN:
                     while (iter.hasNext()) {
                         ActionDescriptor descriptor = (ActionDescriptor) iter.next();
 
