@@ -45,9 +45,6 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   private Navigator navigator;
   private WorkspaceManager manager = new WorkspaceManager();
   private GraphTabbedPane graphTabs = new GraphTabbedPane();
-  // Current WorkSpace File
-  //private List graphs = new ArrayList();
-  //private List layouts = new ArrayList();
   private JSplitPane mainSplitPane;
   private EmptyBorderSplitPane leftSplitPane;
   private CardPanel detailPanel = new CardPanel();
@@ -79,7 +76,6 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     leftSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, flowsPanel, detailFramePanel);
     mainSplitPane = new EmptyBorderSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSplitPane, new JScrollPane(graphTabs));
     graphTabs.setVisible(false);
-    //    graphTabs.setFont(FontHelper.TAB_ARIAL);
     mainSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.MAIN_DIVIDER_LOCATION, 150));
     leftSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 150));
 
