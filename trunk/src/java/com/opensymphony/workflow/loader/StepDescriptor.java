@@ -20,7 +20,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -76,6 +76,14 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
      */
     public List getActions() {
         return actions;
+    }
+
+    public void setMetaAttributes(Map metaAttributes) {
+        this.metaAttributes = metaAttributes;
+    }
+
+    public Map getMetaAttributes() {
+        return metaAttributes;
     }
 
     public void setName(String name) {

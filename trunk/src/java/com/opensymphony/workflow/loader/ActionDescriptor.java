@@ -17,7 +17,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -54,6 +54,14 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
 
     public List getConditionalResults() {
         return conditionalResults;
+    }
+
+    public void setMetaAttributes(Map metaAttributes) {
+        this.metaAttributes = metaAttributes;
+    }
+
+    public Map getMetaAttributes() {
+        return metaAttributes;
     }
 
     public void setName(String name) {
