@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class RestrictionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -68,20 +68,17 @@ public class RestrictionDescriptor extends AbstractDescriptor implements Validat
     }
 
     public void writeXML(PrintWriter out, int indent) {
-        if (conditions.size() == 0) {
+        ConditionsDescriptor conditions = getConditionsDescriptor();
+
+        List list = conditions.getConditions();
+
+        if (list.size() == 0) {
             return;
         }
 
         XMLUtil.printIndent(out, indent++);
         out.println("<restrict-to>");
-
-        if (conditions.size() > 0) {
-            for (int i = 0; i < conditions.size(); i++) {
-                ConditionsDescriptor condition = (ConditionsDescriptor) conditions.get(i);
-                condition.writeXML(out, indent);
-            }
-        }
-
+        conditions.writeXML(out, indent++);
         XMLUtil.printIndent(out, --indent);
         out.println("</restrict-to>");
     }
