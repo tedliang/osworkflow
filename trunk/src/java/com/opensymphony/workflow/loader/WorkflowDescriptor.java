@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.24 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -356,6 +356,16 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
             }
         }
 
+        i = initialActions.iterator();
+
+        while (i.hasNext()) {
+            ActionDescriptor action = (ActionDescriptor) i.next();
+
+            if (actions.contains(new Integer(action.getId()))) {
+                throw new InvalidWorkflowDescriptorException("initial-action ID " + action + " is duplicated in a step action");
+            }
+        }
+
         validateDTD();
     }
 
@@ -472,7 +482,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         NodeList children = root.getChildNodes();
 
         for (int i = 0; i < children.getLength(); i++) {
-            Node child = (Node) children.item(i);
+            Node child = children.item(i);
 
             if (child.getNodeName().equals("meta")) {
                 Element meta = (Element) child;
