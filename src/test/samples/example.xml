@@ -29,6 +29,30 @@
 				<unconditional-result old-status="Finished" status="Underway" step="1" owner="${caller}"/>
 			</results>
 		</action>
+		<!-- an illegal initial action, we use just for testing -->
+		<action id="2" name="Start Workflow - illegal">
+			<restrict-to>
+				<conditions type="AND">
+					<condition type="beanshell" name="bsh.condition">
+						<arg name="script">true</arg>
+					</condition>
+					<condition name="check.usergroup" type="class">
+						<arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
+						<arg name="group">foos</arg>
+					</condition>
+				</conditions>
+			</restrict-to>
+			<pre-functions>
+				<function name="set.caller" type="class">
+					<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+				</function>
+			</pre-functions>
+			<results>
+				<!-- bad result step here, we can't stay in current step from initial action -->
+				<unconditional-result old-status="Finished" status="Underway" step="-1" owner="${caller}"/>
+			</results>
+		</action>
+		
 	</initial-actions>
 	<steps>
 		<step id="1" name="First Draft">
@@ -425,6 +449,25 @@
 					</restrict-to>
 					<results>
 						<unconditional-result old-status="Finished" owner="test" status="Underway" step="8"/>
+					</results>
+				</action>
+				<!-- an action used purely to test staying in the same step with magic -1 step id -->
+				<action name="Stay in Bar" id="113">
+					<restrict-to>
+						<conditions type="AND">
+							<condition name="check.status" type="class">
+								<arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
+								<arg name="status">Underway</arg>
+								<arg name="stepId">7</arg>
+							</condition>
+							<condition name="allow.owner.only" type="class">
+								<arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
+								<arg name="stepId">7</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<results>
+						<unconditional-result old-status="Finished" owner="test" status="Underway" step="-1"/>
 					</results>
 				</action>
 			</actions>
