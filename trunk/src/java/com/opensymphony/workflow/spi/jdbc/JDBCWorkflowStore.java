@@ -72,29 +72,29 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
+    protected DataSource ds;
+    protected String currentPrevTable;
+    protected String currentTable;
+    protected String entryId;
+    protected String entryName;
+    protected String entrySequence;
+    protected String entryState;
+    protected String entryTable;
+    protected String historyPrevTable;
+    protected String historyTable;
+    protected String stepActionId;
+    protected String stepCaller;
+    protected String stepDueDate;
+    protected String stepEntryId;
+    protected String stepFinishDate;
+    protected String stepId;
+    protected String stepOwner;
+    protected String stepPreviousId;
+    protected String stepSequence;
+    protected String stepStartDate;
+    protected String stepStatus;
+    protected String stepStepId;
     protected boolean closeConnWhenDone = false;
-    private DataSource ds;
-    private String currentPrevTable;
-    private String currentTable;
-    private String entryId;
-    private String entryName;
-    private String entrySequence;
-    private String entryState;
-    private String entryTable;
-    private String historyPrevTable;
-    private String historyTable;
-    private String stepActionId;
-    private String stepCaller;
-    private String stepDueDate;
-    private String stepEntryId;
-    private String stepFinishDate;
-    private String stepId;
-    private String stepOwner;
-    private String stepPreviousId;
-    private String stepSequence;
-    private String stepStartDate;
-    private String stepStatus;
-    private String stepStepId;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
@@ -126,56 +126,18 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
     public Step createCurrentStep(long entryId, int wfStepId, String owner, Date startDate, Date dueDate, String status, long[] previousIds) throws StoreException {
         Connection conn = null;
-        PreparedStatement stmt = null;
 
         try {
             conn = getConnection();
 
-            String sql = "INSERT INTO " + currentTable + " (" + stepId + "," + stepEntryId + ", " + stepStepId + ", " + stepActionId + ", " + stepOwner + ", " + stepStartDate + ", " + stepDueDate + ", " + stepFinishDate + ", " + stepStatus + ", " + stepCaller + " ) VALUES (?, ?, ?, null, ?, ?, ?, null, ?, null)";
-
-            if (log.isDebugEnabled()) {
-                log.debug("Executing SQL statement: " + sql);
-            }
-
-            stmt = conn.prepareStatement(sql);
-
-            long id = getNextStepSequence(conn);
-            stmt.setLong(1, id);
-            stmt.setLong(2, entryId);
-            stmt.setInt(3, wfStepId);
-            stmt.setString(4, owner);
-            stmt.setTimestamp(5, new Timestamp(startDate.getTime()));
-
-            if (dueDate != null) {
-                stmt.setTimestamp(6, new Timestamp(dueDate.getTime()));
-            } else {
-                stmt.setNull(6, Types.TIMESTAMP);
-            }
-
-            stmt.setString(7, status);
-            stmt.executeUpdate();
-
-            if ((previousIds != null) && (previousIds.length > 0)) {
-                if (!((previousIds.length == 1) && (previousIds[0] == 0))) {
-                    sql = "INSERT INTO " + currentPrevTable + " (" + stepId + ", " + stepPreviousId + ") VALUES (?, ?)";
-                    log.debug("Executing SQL statement: " + sql);
-                    cleanup(null, stmt, null);
-                    stmt = conn.prepareStatement(sql);
-
-                    for (int i = 0; i < previousIds.length; i++) {
-                        long previousId = previousIds[i];
-                        stmt.setLong(1, id);
-                        stmt.setLong(2, previousId);
-                        stmt.executeUpdate();
-                    }
-                }
-            }
+            long id = createCurrentStep(conn, entryId, wfStepId, owner, startDate, dueDate, status);
+            addPreviousSteps(conn, id, previousIds);
 
             return new SimpleStep(id, entryId, wfStepId, 0, owner, startDate, dueDate, null, status, previousIds, null);
         } catch (SQLException e) {
             throw new StoreException("Unable to create current step for workflow instance #" + entryId, e);
         } finally {
-            cleanup(conn, stmt, null);
+            cleanup(conn, null, null);
         }
     }
 
@@ -386,27 +348,27 @@ public class JDBCWorkflowStore implements WorkflowStore {
     }
 
     public void init(Map props) throws StoreException {
-        entrySequence = (String) props.get("entry.sequence");
-        stepSequence = (String) props.get("step.sequence");
-        entryTable = (String) props.get("entry.table");
-        entryId = (String) props.get("entry.id");
-        entryName = (String) props.get("entry.name");
-        entryState = (String) props.get("entry.state");
-        historyTable = (String) props.get("history.table");
-        currentTable = (String) props.get("current.table");
-        currentPrevTable = (String) props.get("currentPrev.table");
-        historyPrevTable = (String) props.get("historyPrev.table");
-        stepId = (String) props.get("step.id");
-        stepEntryId = (String) props.get("step.entryId");
-        stepStepId = (String) props.get("step.stepId");
-        stepActionId = (String) props.get("step.actionId");
-        stepOwner = (String) props.get("step.owner");
-        stepCaller = (String) props.get("step.caller");
-        stepStartDate = (String) props.get("step.startDate");
-        stepFinishDate = (String) props.get("step.finishDate");
-        stepDueDate = (String) props.get("step.dueDate");
-        stepStatus = (String) props.get("step.status");
-        stepPreviousId = (String) props.get("step.previousId");
+        entrySequence = getInitProperty(props, "entry.sequence", "SELECT nextVal('seq_os_wfentry')");
+        stepSequence = getInitProperty(props, "step.sequence", "SELECT nextVal('seq_os_currentsteps')");
+        entryTable = getInitProperty(props, "entry.table", "OS_WFENTRY");
+        entryId = getInitProperty(props, "entry.id", "ID");
+        entryName = getInitProperty(props, "entry.name", "NAME");
+        entryState = getInitProperty(props, "entry.state", "STATE");
+        historyTable = getInitProperty(props, "history.table", "OS_HISTORYSTEP");
+        currentTable = getInitProperty(props, "current.table", "OS_CURRENTSTEP");
+        currentPrevTable = getInitProperty(props, "currentPrev.table", "OS_CURRENTSTEP_PREV");
+        historyPrevTable = getInitProperty(props, "historyPrev.table", "OS_HISTORYSTEP_PREV");
+        stepId = getInitProperty(props, "step.id", "ID");
+        stepEntryId = getInitProperty(props, "step.entryId", "ENTRY_ID");
+        stepStepId = getInitProperty(props, "step.stepId", "STEP_ID");
+        stepActionId = getInitProperty(props, "step.actionId", "ACTION_ID");
+        stepOwner = getInitProperty(props, "step.owner", "OWNER");
+        stepCaller = getInitProperty(props, "step.caller", "CALLER");
+        stepStartDate = getInitProperty(props, "step.startDate", "START_DATE");
+        stepFinishDate = getInitProperty(props, "step.finishDate", "FINISH_DATE");
+        stepDueDate = getInitProperty(props, "step.dueDate", "DUE_DATE");
+        stepStatus = getInitProperty(props, "step.status", "STATUS");
+        stepPreviousId = getInitProperty(props, "step.previousId", "PREVIOUS_ID");
 
         String jndi = (String) props.get("datasource");
 
@@ -664,6 +626,26 @@ public class JDBCWorkflowStore implements WorkflowStore {
         }
     }
 
+    protected void addPreviousSteps(Connection conn, long id, long[] previousIds) throws SQLException {
+        if ((previousIds != null) && (previousIds.length > 0)) {
+            if (!((previousIds.length == 1) && (previousIds[0] == 0))) {
+                String sql = "INSERT INTO " + currentPrevTable + " (" + stepId + ", " + stepPreviousId + ") VALUES (?, ?)";
+                log.debug("Executing SQL statement: " + sql);
+
+                PreparedStatement stmt = conn.prepareStatement(sql);
+
+                for (int i = 0; i < previousIds.length; i++) {
+                    long previousId = previousIds[i];
+                    stmt.setLong(1, id);
+                    stmt.setLong(2, previousId);
+                    stmt.executeUpdate();
+                }
+
+                cleanup(null, stmt, null);
+            }
+        }
+    }
+
     protected void cleanup(Connection connection, Statement statement, ResultSet result) {
         if (result != null) {
             try {
@@ -688,6 +670,45 @@ public class JDBCWorkflowStore implements WorkflowStore {
                 log.error("Error closing connection", ex);
             }
         }
+    }
+
+    protected long createCurrentStep(Connection conn, long entryId, int wfStepId, String owner, Date startDate, Date dueDate, String status) throws SQLException {
+        String sql = "INSERT INTO " + currentTable + " (" + stepId + "," + stepEntryId + ", " + stepStepId + ", " + stepActionId + ", " + stepOwner + ", " + stepStartDate + ", " + stepDueDate + ", " + stepFinishDate + ", " + stepStatus + ", " + stepCaller + " ) VALUES (?, ?, ?, null, ?, ?, ?, null, ?, null)";
+
+        if (log.isDebugEnabled()) {
+            log.debug("Executing SQL statement: " + sql);
+        }
+
+        PreparedStatement stmt = conn.prepareStatement(sql);
+
+        long id = getNextStepSequence(conn);
+        stmt.setLong(1, id);
+        stmt.setLong(2, entryId);
+        stmt.setInt(3, wfStepId);
+        stmt.setString(4, owner);
+        stmt.setTimestamp(5, new Timestamp(startDate.getTime()));
+
+        if (dueDate != null) {
+            stmt.setTimestamp(6, new Timestamp(dueDate.getTime()));
+        } else {
+            stmt.setNull(6, Types.TIMESTAMP);
+        }
+
+        stmt.setString(7, status);
+        stmt.executeUpdate();
+        cleanup(null, stmt, null);
+
+        return id;
+    }
+
+    private String getInitProperty(Map props, String strName, String strDefault) {
+        Object o = props.get(strName);
+
+        if (o == null) {
+            return strDefault;
+        }
+
+        return (String) o;
     }
 
     private String buildNested(NestedExpression nestedExpression, StringBuffer sel, List values) {
