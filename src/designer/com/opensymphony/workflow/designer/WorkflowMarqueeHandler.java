@@ -114,11 +114,11 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     if(SwingUtilities.isRightMouseButton(e))
     {
       // Scale From Screen to Model
-      //Point loc = fromScreen(e.getPoint());
+      Point loc = graph.fromScreen(e.getPoint());
       // Find Cell in Model Coordinates
-      //Object cell = getFirstCellForLocation(loc.x, loc.y);
+      Object cell = graph.getFirstCellForLocation(loc.x, loc.y);
       // Create PopupMenu for the Cell
-      graph.showMenu(e.getX(), e.getY());
+      graph.showMenu(cell, e.getX(), e.getY());
 //				JPopupMenu menu = createPopupMenu(e.getPoint(), cell);
 //				menu.show(graph, e.getX(), e.getY());
 

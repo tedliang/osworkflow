@@ -13,6 +13,7 @@ import com.opensymphony.workflow.designer.layout.SugiyamaLayoutAlgorithm;
 import com.opensymphony.workflow.designer.layout.LayoutAlgorithm;
 import com.opensymphony.workflow.designer.views.*;
 import com.opensymphony.workflow.designer.actions.CreateStep;
+import com.opensymphony.workflow.designer.actions.Delete;
 
 public class WorkflowGraph extends JGraph
 {
@@ -21,6 +22,7 @@ public class WorkflowGraph extends JGraph
 
   private WorkflowDescriptor descriptor;
   private JPopupMenu menu;
+  private Delete delete;
 
   public WorkflowGraph(GraphModel model, WorkflowDescriptor descriptor, Layout layout, boolean doAutoLayout)
   {
@@ -40,10 +42,13 @@ public class WorkflowGraph extends JGraph
     setMarqueeHandler(new WorkflowMarqueeHandler(this));
     setCloneable(false);
     setPortsVisible(true);
+    delete = new Delete(getWorkflowGraphModel());
     menu = new JPopupMenu();
     JMenu n = new JMenu("New");
     menu.add(n);
     n.add(new CreateStep(getWorkflowGraphModel(), menuLocation));
+    menu.add(new JMenuItem(delete));
+    delete.setEnabled(false);
   }
 
   public void setDescriptor(WorkflowDescriptor descriptor)
@@ -169,8 +174,9 @@ public class WorkflowGraph extends JGraph
     return super.createVertexView(v, cm);
   }
 
-  public void showMenu(int x, int y)
+  public void showMenu(Object cell, int x, int y)
   {
+    delete.setEnabled(cell!=null);
     menuLocation.x = x;
     menuLocation.y = y;
     menu.show(this, x, y);
