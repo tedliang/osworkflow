@@ -29,29 +29,29 @@
 
   <target name="init">
     <tstamp/>
-    <property name="lib" value="lib"/>
+    <property name="lib" location="lib"/>
     <property name="lib.core" value="${lib}/core"/>
     <property name="lib.designer" value="${lib}/designer"/>
     <property name="lib.build" value="${lib}/build"/>
     <property name="lib.optional" value="${lib}/optional"/>
 
-    <property name="src" value="src"/>
+    <property name="src" location="src"/>
     <property name="src.java" value="${src}/java"/>
     <property name="src.test" value="${src}/test"/>
     <property name="src.client" value="${src}/designer"/>
     <property name="src.etc" value="${src}/etc"/>
     <property name="src.webapp" value="${src}/webapp"/>
-    <property name="propertyset.jar" value="propertyset-1.1.1.jar"/>
-    <property name="oscore.jar" value="oscore-2.2.1.jar"/>
-    <property name="build" value="build"/>
+    <property name="propertyset.jar" location="propertyset-1.1.1.jar"/>
+    <property name="oscore.jar" location="oscore-2.2.1.jar"/>
+    <property name="build" location="build"/>
     <property name="build.test" value="${build}/test"/>
     <property name="build.java" value="${build}/java"/>
     <property name="build.client" value="${build}/designer"/>
 
-    <property name="dist" value="dist"/>
+    <property name="dist" location="dist"/>
     <property name="dist.client" value="${dist}/designer"/>
 
-    <property name="docs" value="docs"/>
+    <property name="docs" location="docs"/>
 
     <property name="clover.initstring" location="testcoverage.db"/>
 
