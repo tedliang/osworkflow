@@ -17,9 +17,14 @@ public class Layout
   private String url;
 
   private Collection entries = new ArrayList();
-  private Map cells = new HashMap();
+  private Map allCells = new HashMap();
   private Map results = new HashMap();
 
+	/**
+	 * A Map of Maps, with keys being type names.
+	 * Values are a map of id/bounds
+	 */
+	private Map cellsByType = new HashMap();
   public Layout()
   {
 
@@ -57,7 +62,14 @@ public class Layout
         Element element = (Element)mActivitycell.item(k);
         CellPosition pos = new CellPosition(element);
         Rectangle bound = pos.getBounds();
-        cells.put(new Integer(pos.getId()), bound);
+        allCells.put(new Integer(pos.getId()), bound);
+	      Map map = (Map)cellsByType.get(pos.getType());
+	      if(map==null)
+	      {
+		      map = new HashMap();
+		      cellsByType.put(pos.getType(), map);
+	      }
+	      map.put(new Integer(pos.getId()), bound);
       }
       NodeList list = doc.getElementsByTagName("connector");
       for(int k = 0; k < list.getLength(); k++)
@@ -103,10 +115,20 @@ public class Layout
     out.close();
   }
 
-  public Rectangle getBounds(int key)
-  {
-    return (Rectangle)cells.get(new Integer(key));
-  }
+	public Rectangle getBounds(int key, Class type)
+	{
+		if(type==null)
+		  return (Rectangle)allCells.get(new Integer(key));
+		String typeName = type.getName();
+		typeName = typeName.substring(typeName.lastIndexOf('.')+1, typeName.length());
+		Map typeMap = (Map)cellsByType.get(typeName);
+		if(typeMap==null)
+		{
+			return null;
+		}
+		Rectangle bounds = (Rectangle)typeMap.get(new Integer(key));
+		return bounds;
+	}
 
   public Point getLabelPosition(int resultKey)
   {

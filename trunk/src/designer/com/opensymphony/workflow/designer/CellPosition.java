@@ -11,11 +11,14 @@ import com.opensymphony.workflow.util.XMLizable;
 public class CellPosition implements XMLizable
 {
   private int id = 0;
+	private String type;
   private Rectangle bounds;
 
   public CellPosition(WorkflowCell cell)
   {
     id = cell.getId();
+	  type = cell.getClass().getName();
+	  type = type.substring(type.lastIndexOf('.')+1, type.length());
     bounds = (Rectangle)cell.getAttributes().get("bounds");
   }
 
@@ -24,6 +27,7 @@ public class CellPosition implements XMLizable
     try
     {
       id = Integer.parseInt(activity.getAttribute("id"));
+	    type = activity.getAttribute("type");
       bounds = new Rectangle();
       bounds.height = Integer.parseInt(activity.getAttribute("height"));
       bounds.width = Integer.parseInt(activity.getAttribute("width"));
@@ -41,12 +45,18 @@ public class CellPosition implements XMLizable
     return id;
   }
 
+	public String getType()
+	{
+		return type;
+	}
+
   public void writeXML(PrintWriter out, int indent)
   {
     XMLUtil.printIndent(out, indent++);
     StringBuffer buf = new StringBuffer();
     buf.append("<cell ");
     buf.append("id=\"").append(id).append("\"");
+	  buf.append(" type=\"").append(type).append("\"");
     buf.append(" height=\"").append(bounds.height).append("\"");
     buf.append(" width=\"").append(bounds.width).append("\"");
     buf.append(" x=\"").append(bounds.x).append("\"");
