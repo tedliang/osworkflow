@@ -9,27 +9,15 @@ import javax.swing.*;
 
 public final class ResourceManager
 {
-
   private static final ResourceManager INSTANCE = new ResourceManager();
 
   private ResourceBundle bundle;
 
-  private ClassLoader defaultClassLoader = ResourceManager.class.getClassLoader();
+  private ClassLoader loader = ResourceManager.class.getClassLoader();
 
   private ResourceManager()
   {
     bundle = ResourceBundle.getBundle(getClass().getName());
-  }
-
-  /**
-   * Returns the <code>ResourceBundle</code> that is used to look up
-   * localized resources.
-   *
-   * @return ResourceBundle
-   */
-  public static ResourceBundle getBundle()
-  {
-    return INSTANCE.bundle;
   }
 
   /**
@@ -73,7 +61,7 @@ public final class ResourceManager
    */
   public static InputStream getInputStream(String path)
   {
-    return INSTANCE.defaultClassLoader.getResourceAsStream(path);
+    return INSTANCE.loader.getResourceAsStream(path);
   }
 
   /**
@@ -82,7 +70,7 @@ public final class ResourceManager
    */
   public static ImageIcon readImageIcon(String path)
   {
-    URL url = INSTANCE.defaultClassLoader.getResource(path);
+    URL url = INSTANCE.loader.getResource(path);
     return null == url ? null : new ImageIcon(url);
   }
 
