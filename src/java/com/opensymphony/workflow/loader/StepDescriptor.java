@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
     }
 
     public void validate() throws InvalidWorkflowDescriptorException {
-        if ((commonActions.size() == 0) && (actions.size() == 0) && hasActions) {
+        if (commonActions.size() == 0 && actions.size() == 0 && hasActions) {
             throw new InvalidWorkflowDescriptorException("Step '" + name + "' actions element must contain at least one action or common-action");
         }
 
@@ -171,7 +171,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
         XMLUtil.printIndent(out, indent++);
         out.print("<step id=\"" + getId() + "\"");
 
-        if ((name != null) && (name.length() > 0)) {
+        if (name != null && name.length() > 0) {
             out.print(" name=\"" + name + "\"");
         }
 
@@ -215,7 +215,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
             out.println("</external-permissions>");
         }
 
-        if ((actions.size() > 0) || (commonActions.size() > 0)) {
+        if (actions.size() > 0 || commonActions.size() > 0) {
             XMLUtil.printIndent(out, indent++);
             out.println("<actions>");
 
@@ -262,7 +262,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
         NodeList children = step.getChildNodes();
 
         for (int i = 0; i < children.getLength(); i++) {
-            Node child = (Node) children.item(i);
+            Node child = children.item(i);
 
             if (child.getNodeName().equals("meta")) {
                 Element meta = (Element) child;
@@ -320,7 +320,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
             for (int i = 0; i < commonActions.size(); i++) {
                 Element commonAction = (Element) commonActions.get(i);
 
-                WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) (getParent());
+                WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor)getParent();
 
                 try {
                     Integer actionId = new Integer(commonAction.getAttribute("id"));

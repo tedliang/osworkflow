@@ -22,7 +22,6 @@ public class ResultEdgeColor extends JMenuItem
 
     ResultEdgeColorHandler(WorkflowGraph graph, Point location, Color color)
     {
-      super();
       this.graph = graph;
       this.location = location;
       this.cColor = color;
@@ -37,11 +36,11 @@ public class ResultEdgeColor extends JMenuItem
       }
       else
       {
-        CellView view = (graph.getGraphLayoutCache().getMapping(cell, false));
+        CellView view = graph.getGraphLayoutCache().getMapping(cell, false);
         if(view instanceof CustomEdgeView)
         {
           GraphConstants.setForeground(((ResultEdge)cell).getAttributes(), cColor);
-          ((CustomEdgeView)view).update();
+          view.update();
           ((CustomEdgeView)view).getGraph().paint(((CustomEdgeView)view).getGraph().getGraphics());
         }
       }

@@ -42,7 +42,7 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
             if (reload) {
                 File file = new File(c.url.getFile());
 
-                if (file.exists() && (file.lastModified() > c.lastModified)) {
+                if (file.exists() && file.lastModified() > c.lastModified) {
                     c.lastModified = file.lastModified();
                     loadWorkflow(c);
                 }
@@ -73,7 +73,7 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
         InputStream is = null;
         String name = getProperties().getProperty("resource", "workflows.xml");
 
-        if ((name != null) && (name.indexOf(":/") > -1)) {
+        if (name != null && name.indexOf(":/") > -1) {
             try {
                 is = new URL(name).openStream();
             } catch (Exception e) {
@@ -112,7 +112,7 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             dbf.setNamespaceAware(true);
 
-            DocumentBuilder db = null;
+            DocumentBuilder db;
 
             try {
                 db = dbf.newDocumentBuilder();
@@ -152,7 +152,7 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
     public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, boolean replace) throws FactoryException {
         WorkflowConfig c = (WorkflowConfig) workflows.get(name);
 
-        if ((c != null) && !replace) {
+        if (c != null && !replace) {
             return false;
         }
 
@@ -217,7 +217,7 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
 
     //~ Inner Classes //////////////////////////////////////////////////////////
 
-    class WorkflowConfig {
+    static class WorkflowConfig {
         String location;
         String type;
         URL url;
