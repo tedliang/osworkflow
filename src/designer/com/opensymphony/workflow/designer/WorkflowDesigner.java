@@ -440,7 +440,10 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
       }
       catch(Exception t)
       {
-        Prefs.INSTANCE.put(Prefs.LAST_WORKSPACE, oldWorkspace);
+        if(!file.toString().equals(oldWorkspace))
+          Prefs.INSTANCE.put(Prefs.LAST_WORKSPACE, oldWorkspace);
+        else
+          Prefs.INSTANCE.remove(Prefs.LAST_WORKSPACE);
         t.printStackTrace();
       }
     }
