@@ -4,9 +4,6 @@
  */
 package com.opensymphony.workflow.util.bsf;
 
-import com.ibm.bsf.BSFEngine;
-import com.ibm.bsf.BSFManager;
-
 import com.opensymphony.module.propertyset.PropertySet;
 
 import com.opensymphony.util.TextUtils;
@@ -18,6 +15,9 @@ import com.opensymphony.workflow.WorkflowContext;
 import com.opensymphony.workflow.WorkflowException;
 import com.opensymphony.workflow.spi.WorkflowEntry;
 
+import org.apache.bsf.BSFEngine;
+import org.apache.bsf.BSFManager;
+
 import java.util.Map;
 
 
@@ -25,7 +25,7 @@ import java.util.Map;
  * Validates a step using a BSF script.
  *
  * @author $Author: hani $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class BSFValidator implements Validator {
     //~ Methods ////////////////////////////////////////////////////////////////

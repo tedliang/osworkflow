@@ -4,10 +4,6 @@
  */
 package com.opensymphony.workflow.util.bsf;
 
-import com.ibm.bsf.BSFEngine;
-import com.ibm.bsf.BSFException;
-import com.ibm.bsf.BSFManager;
-
 import com.opensymphony.module.propertyset.PropertySet;
 
 import com.opensymphony.util.TextUtils;
@@ -15,8 +11,9 @@ import com.opensymphony.util.TextUtils;
 import com.opensymphony.workflow.*;
 import com.opensymphony.workflow.spi.WorkflowEntry;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.bsf.BSFEngine;
+import org.apache.bsf.BSFException;
+import org.apache.bsf.BSFManager;
 
 import java.util.Map;
 
@@ -25,10 +22,6 @@ import java.util.Map;
  * @author Hani
  */
 public class BSFCondition implements Condition {
-    //~ Static fields/initializers /////////////////////////////////////////////
-
-    private static final Log log = LogFactory.getLog(BSFCondition.class);
-
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public boolean passesCondition(Map transientVars, Map args, PropertySet ps) throws WorkflowException {
