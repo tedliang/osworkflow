@@ -20,7 +20,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -162,15 +162,15 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
             XMLUtil.printIndent(out, indent++);
             out.println("<actions>");
 
-            for (int i = 0; i < actions.size(); i++) {
-                ActionDescriptor action = (ActionDescriptor) actions.get(i);
-                action.writeXML(out, indent);
-            }
-
             // special serialization common-action elements
             for (int i = 0; i < commonActions.size(); i++) {
                 String action = (String) commonActions.get(i);
                 out.println("<common-action id=\"" + action + "\" />");
+            }
+
+            for (int i = 0; i < actions.size(); i++) {
+                ActionDescriptor action = (ActionDescriptor) actions.get(i);
+                action.writeXML(out, indent);
             }
 
             XMLUtil.printIndent(out, --indent);
