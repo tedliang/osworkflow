@@ -190,6 +190,7 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
 
             if (rows == 1) {
                 removed = true;
+                workflows.remove(name);
             }
 
             ps.close();
@@ -223,6 +224,9 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
             return write(name, bout.toByteArray());
         } catch (SQLException e) {
             throw new FactoryException("Unable to save workflow: " + e.toString(), e);
+        } finally {
+            WfConfig config = new WfConfig(name);
+            workflows.put(name, config);
         }
     }
 
