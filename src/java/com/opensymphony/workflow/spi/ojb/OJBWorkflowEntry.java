@@ -2,7 +2,7 @@
  * Copyright (c) 2002-2003 by OpenSymphony
  * All rights reserved.
  */
-package com.opensymphony.workflow.spi.hibernate;
+package com.opensymphony.workflow.spi.ojb;
 
 import com.opensymphony.workflow.spi.WorkflowEntry;
 
@@ -10,12 +10,10 @@ import java.util.List;
 
 
 /**
- *
- *
- * @author $Author: hani $
- * @version $Revision: 1.3 $
+ * @author picard
+ * Created on 9 sept. 2003
  */
-public class HibernateWorkflowEntry implements WorkflowEntry {
+public class OJBWorkflowEntry implements WorkflowEntry {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     List currentSteps;
@@ -24,26 +22,32 @@ public class HibernateWorkflowEntry implements WorkflowEntry {
     long id;
     private int state;
 
+    //~ Constructors ///////////////////////////////////////////////////////////
+
+    public OJBWorkflowEntry() {
+        super();
+    }
+
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public void setCurrentSteps(List currentSteps) {
-        this.currentSteps = currentSteps;
+    public void setCurrentSteps(List list) {
+        currentSteps = list;
     }
 
     public List getCurrentSteps() {
         return currentSteps;
     }
 
-    public void setHistorySteps(List historySteps) {
-        this.historySteps = historySteps;
+    public void setHistorySteps(List list) {
+        historySteps = list;
     }
 
     public List getHistorySteps() {
         return historySteps;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId(long l) {
+        id = l;
     }
 
     public long getId() {
@@ -62,8 +66,8 @@ public class HibernateWorkflowEntry implements WorkflowEntry {
         return state;
     }
 
-    public void setWorkflowName(String workflowName) {
-        this.workflowName = workflowName;
+    public void setWorkflowName(String string) {
+        workflowName = string;
     }
 
     public String getWorkflowName() {

@@ -15,7 +15,7 @@ import com.opensymphony.workflow.spi.WorkflowEntry;
 public class WorkflowStateHelper {
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public int[] getPossibleStates(int state) {
+    public static int[] getPossibleStates(int state) {
         switch (state) {
         case WorkflowEntry.CREATED:
             return new int[] {WorkflowEntry.ACTIVATED};

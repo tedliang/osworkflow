@@ -29,7 +29,7 @@ import java.util.*;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -129,7 +129,7 @@ public class HibernateWorkflowStore implements WorkflowStore {
 
     public WorkflowEntry createEntry(String workflowName) {
         HibernateWorkflowEntry entry = new HibernateWorkflowEntry();
-        entry.setInitialized(true);
+        entry.setState(WorkflowEntry.CREATED);
         entry.setWorkflowName(workflowName);
 
         try {
