@@ -259,8 +259,8 @@ public class WorkflowGraphModel extends DefaultGraphModel
     Object[] cells = new Object[]{edge};
     // Insert into Model
     insert(cells, null, cs, null, null);
-    toPort.assignIndex(edge);
-    fromPort.assignIndex(edge);
+    //toPort.assignIndex(edge);
+    //fromPort.assignIndex(edge);
 
     // process join changed event
     if(to instanceof JoinCell)
