@@ -210,7 +210,7 @@ public class Workspace extends XMLWorkflowFactory
     return true;
   }
 
-  public WorkflowDescriptor getWorkflow(String name) throws FactoryException
+  public WorkflowDescriptor getWorkflow(String name, boolean validate) throws FactoryException
   {
     WorkflowConfig config = (WorkflowConfig)workflows.get(name);
     if(config==null) return null;
@@ -218,7 +218,7 @@ public class Workspace extends XMLWorkflowFactory
     {
       return config.descriptor;
     }
-    return super.getWorkflow(name);
+    return super.getWorkflow(name, validate);
   }
 
   public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, WorkflowGraph graph, boolean replace) throws FactoryException
@@ -309,10 +309,5 @@ public class Workspace extends XMLWorkflowFactory
 		}
 		workflows.remove(oldName);
 		workflows.put(newName, config);
-	}
-
-	public void deleteWorkflow(String name)
-	{
-		WorkflowConfig config = (WorkflowConfig)workflows.remove(name);
 	}
 }

@@ -46,7 +46,7 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
         return "";
     }
 
-    public WorkflowDescriptor getWorkflow(String name) throws FactoryException {
+    public WorkflowDescriptor getWorkflow(String name, boolean validate) throws FactoryException {
         WorkflowConfig c = (WorkflowConfig) workflows.get(name);
 
         if (c == null) {
@@ -59,11 +59,11 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
 
                 if (file.exists() && (file.lastModified() > c.lastModified)) {
                     c.lastModified = file.lastModified();
-                    loadWorkflow(c);
+                    loadWorkflow(c, validate);
                 }
             }
         } else {
-            loadWorkflow(c);
+            loadWorkflow(c, validate);
         }
 
         c.descriptor.setName(name);
@@ -84,9 +84,6 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
     }
 
     public void createWorkflow(String name) {
-    }
-
-    public void deleteWorkflow(String name) {
     }
 
     public void initDone() throws FactoryException {
@@ -190,8 +187,9 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
         }
 
         Writer out;
-        descriptor.validate();
 
+        // [KAP] comment this line to disable all the validation while saving a workflow
+        //descriptor.validate();
         try {
             out = new OutputStreamWriter(new FileOutputStream(c.url.getFile() + ".new"), "utf-8");
         } catch (FileNotFoundException ex) {
@@ -233,9 +231,9 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
         writer.close();
     }
 
-    private void loadWorkflow(WorkflowConfig c) throws FactoryException {
+    private void loadWorkflow(WorkflowConfig c, boolean validate) throws FactoryException {
         try {
-            c.descriptor = WorkflowLoader.load(c.url);
+            c.descriptor = WorkflowLoader.load(c.url, validate);
         } catch (Exception e) {
             throw new FactoryException("Error in workflow descriptor: " + c.url, e);
         }

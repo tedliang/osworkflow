@@ -40,7 +40,7 @@ public class HTTPWorkflowFactory extends AbstractWorkflowFactory {
         return null;
     }
 
-    public WorkflowDescriptor getWorkflow(String name) throws FactoryException {
+    public WorkflowDescriptor getWorkflow(String name, boolean validate) throws FactoryException {
         HTTPWorkflowConfig c = (HTTPWorkflowConfig) workflows.get(name);
 
         if (c == null) {

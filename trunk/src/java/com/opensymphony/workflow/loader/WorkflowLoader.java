@@ -26,26 +26,27 @@ import javax.xml.parsers.*;
  * by loading the XML from various sources.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class WorkflowLoader {
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public static WorkflowDescriptor load(final InputStream is) throws SAXException, IOException, InvalidWorkflowDescriptorException {
-        return load(is, null);
+    public static WorkflowDescriptor load(final InputStream is, boolean validate) throws SAXException, IOException, InvalidWorkflowDescriptorException {
+        return load(is, null, validate);
     }
 
     /**
      * Load a workflow descriptor from a URL
      */
-    public static WorkflowDescriptor load(final URL url) throws SAXException, IOException, InvalidWorkflowDescriptorException {
-        return load(url.openStream(), url);
+    public static WorkflowDescriptor load(final URL url, boolean validate) throws SAXException, IOException, InvalidWorkflowDescriptorException {
+        return load(url.openStream(), url, validate);
     }
 
-    private static WorkflowDescriptor load(InputStream is, URL url) throws SAXException, IOException, InvalidWorkflowDescriptorException {
+    private static WorkflowDescriptor load(InputStream is, URL url, boolean validate) throws SAXException, IOException, InvalidWorkflowDescriptorException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
-        dbf.setValidating(true);
+
+        dbf.setValidating(validate);
 
         DocumentBuilder db;
 
@@ -62,8 +63,11 @@ public class WorkflowLoader {
 
         Element root = (Element) doc.getElementsByTagName("workflow").item(0);
 
-        WorkflowDescriptor descriptor = DescriptorFactory.getFactory().createWorkflowDescriptor(root);
-        descriptor.validate();
+        WorkflowDescriptor descriptor = new WorkflowDescriptor(root);
+
+        if (validate) {
+            descriptor.validate();
+        }
 
         return descriptor;
     }

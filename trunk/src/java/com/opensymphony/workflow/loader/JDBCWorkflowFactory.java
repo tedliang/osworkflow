@@ -60,7 +60,7 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public WorkflowDescriptor getWorkflow(String name) throws FactoryException {
+    public WorkflowDescriptor getWorkflow(String name, boolean validate) throws FactoryException {
         WfConfig c = (WfConfig) workflows.get(name);
 
         if (c == null) {
@@ -75,7 +75,7 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
             if (reload) {
                 //@todo check timestamp
                 try {
-                    c.descriptor = load(c.wfName);
+                    c.descriptor = load(c.wfName, validate);
                 } catch (FactoryException e) {
                     throw e;
                 } catch (Exception e) {
@@ -84,7 +84,7 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
             }
         } else {
             try {
-                c.descriptor = load(c.wfName);
+                c.descriptor = load(c.wfName, validate);
             } catch (FactoryException e) {
                 throw e;
             } catch (Exception e) {
@@ -167,9 +167,11 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
             rs.close();
             ps.close();
         } finally {
-            try {
-                conn.close();
-            } catch (Exception ex) {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception ex) {
+                }
             }
         }
 
@@ -261,9 +263,11 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
             conn.close();
             written = true;
         } finally {
-            try {
-                conn.close();
-            } catch (Exception e) {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                }
             }
         }
 
@@ -298,8 +302,8 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         ds = (DataSource) new InitialContext().lookup(getProperties().getProperty("datasource"));
     }
 
-    private WorkflowDescriptor load(final String wfName) throws IOException, SAXException, FactoryException {
-        byte[] wf = new byte[0];
+    private WorkflowDescriptor load(final String wfName, boolean validate) throws IOException, SAXException, FactoryException {
+        byte[] wf;
 
         try {
             wf = read(wfName);
@@ -309,7 +313,7 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
 
         ByteArrayInputStream is = new ByteArrayInputStream(wf);
 
-        return WorkflowLoader.load(is);
+        return WorkflowLoader.load(is, validate);
     }
 
     //~ Inner Classes //////////////////////////////////////////////////////////
