@@ -36,7 +36,7 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor
 
   public void writeXML(PrintWriter writer, int indent)
   {
-    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException();
   }
 
   protected void init(Element function)

@@ -68,7 +68,7 @@ public class ConfigConditionDescriptor extends ConditionDescriptor
 
   public void writeXML(PrintWriter writer, int indent)
   {
-    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException();
   }
 
   public String getDescription()
