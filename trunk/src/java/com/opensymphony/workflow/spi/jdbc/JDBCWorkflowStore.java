@@ -939,17 +939,27 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
         String left;
         String right;
+        String value_quoted;
+        String value_unquoted;
+
+        if (value == null) {
+            value_quoted = "null";
+            value_unquoted = "null";
+        } else {
+            value_quoted = "'" + escape(value.toString()) + "'";
+            value_unquoted = escape(value.toString()); 
+        }  
 
         switch (field) {
         case FieldExpression.ACTION: // actionId
             left = stepActionId;
-            right = escape(value.toString());
+            right = value_unquoted;
 
             break;
 
         case FieldExpression.CALLER:
             left = stepCaller;
-            right = "'" + escape(value.toString()) + "'";
+            right = value_quoted;
 
             break;
 
@@ -962,7 +972,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
         case FieldExpression.OWNER:
             left = stepOwner;
-            right = "'" + escape(value.toString()) + "'";
+            right = value_quoted;
 
             break;
 
@@ -975,25 +985,25 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
         case FieldExpression.STEP: // stepId
             left = stepStepId;
-            right = escape(value.toString());
+            right = value_unquoted;
 
             break;
 
         case FieldExpression.STATUS:
             left = stepStatus;
-            right = "'" + escape(value.toString()) + "'";
+            right = value_quoted;
 
             break;
 
         case FieldExpression.STATE:
             left = entryState;
-            right = escape(value.toString());
+            right = value_unquoted;
 
             break;
 
         case FieldExpression.NAME:
             left = entryName;
-            right = "'" + escape(value.toString()) + "'";
+            right = value_quoted;
 
             break;
 
