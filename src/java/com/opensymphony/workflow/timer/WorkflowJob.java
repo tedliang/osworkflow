@@ -30,8 +30,6 @@ import org.quartz.JobExecutionException;
 /**
  * DOCUMENT ME!
  *
- * @author $author$
- * @version $Revision: 1.5 $
  */
 public class WorkflowJob implements Job {
     //~ Static fields/initializers /////////////////////////////////////////////

@@ -22,10 +22,7 @@ import java.util.Map;
 
 
 /**
- *
- *
- * @author $Author: hani $
- * @version $Revision: 1.2 $
+ * @author Hani
  */
 public class BSFCondition implements Condition {
     //~ Static fields/initializers /////////////////////////////////////////////

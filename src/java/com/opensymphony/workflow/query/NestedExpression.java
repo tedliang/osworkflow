@@ -13,7 +13,6 @@ package com.opensymphony.workflow.query;
  *     from the specified sub expressions.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.3 $
  */
 public class NestedExpression extends Expression {
     //~ Static fields/initializers /////////////////////////////////////////////

@@ -16,7 +16,6 @@ import java.util.List;
  * It is abstract because the current and historical steps are stored in seperate tables.
  * To split the history and current steps into two tables in hibernate, the easiest approach is to use
  * two separate classes.
- * @version $Revision: 1.5 $
  */
 public abstract class HibernateStep implements Step {
     //~ Instance fields ////////////////////////////////////////////////////////

@@ -17,7 +17,6 @@ import java.util.HashMap;
  * Test Case for AbstractWorkflow.
  *
  * @author <a href="mailto:vorburger@users.sourceforge.net">Michael Vorburger</a>
- * @version $Id: ValidationTestCase.java,v 1.9 2004-12-30 18:40:50 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
  */
 public class ValidationTestCase extends TestCase {
     //~ Constructors ///////////////////////////////////////////////////////////

@@ -13,5 +13,6 @@ public interface ArgsAware
 	public String getDescription();
 	public PaletteDescriptor getPalette();
   public boolean isArgModifiable(String name);
+  public ArgType getArgType(String name); 
   public Map getArgs();
 }

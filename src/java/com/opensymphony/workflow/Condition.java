@@ -13,7 +13,6 @@ import java.util.Map;
  * Interface that must be implemented to define a java-based condition in your workflow definition.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Patrick Lightbody</a>
- * @version $Revision: 1.7 $
  */
 public interface Condition {
     //~ Methods ////////////////////////////////////////////////////////////////

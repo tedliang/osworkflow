@@ -1,5 +1,6 @@
 package com.opensymphony.workflow.designer.spi;
 
+import java.awt.Component;
 import java.util.Map;
 
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
@@ -24,9 +25,9 @@ public class BshConditionPlugin implements ConditionPlugin
 		return condition;
 	}
 
-	public boolean editCondition(Map args)
+	public boolean editCondition(Map args, Component parent)
 	{
-		String text = DialogUtils.getTextDialog((String)condition.getArgs().get("script"));
+		String text = DialogUtils.getTextDialog((String)condition.getArgs().get("script"), parent);
 		if(text!=null)
 		{
 			condition.getArgs().put("script", text);

@@ -2,7 +2,9 @@ package com.opensymphony.workflow.loader;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Element;
 
@@ -15,6 +17,7 @@ public class ConfigValidatorDescriptor extends ValidatorDescriptor implements Ar
   protected String plugin;
   protected String description;
 	protected List modifiableArgs = new ArrayList();
+	protected Map argTypeMap = new HashMap();
 	private PaletteDescriptor palette;
 
 	public ConfigValidatorDescriptor(PaletteDescriptor palette)
@@ -61,6 +64,15 @@ public class ConfigValidatorDescriptor extends ValidatorDescriptor implements Ar
       if("true".equals(arg.getAttribute("modifiable")))
       {
         modifiableArgs.add(arg.getAttribute("name"));
+				String sArgType = arg.getAttribute("argtype");
+				if (sArgType!=null)
+				{
+					ArgType at = (ArgType)palette.getArgType(sArgType);
+					if (at!=null)
+					{
+						argTypeMap.put(arg.getAttribute("name"), at);
+					}
+				}
       }
     }
     plugin = XMLUtil.getChildText(validator, "plugin");
@@ -72,6 +84,11 @@ public class ConfigValidatorDescriptor extends ValidatorDescriptor implements Ar
     return modifiableArgs.contains(name);
   }
 
+	public ArgType getArgType(String name)
+	{
+		return (ArgType)argTypeMap.get(name);
+	}
+	
   public void writeXML(PrintWriter writer, int indent)
   {
     throw new UnsupportedOperationException();

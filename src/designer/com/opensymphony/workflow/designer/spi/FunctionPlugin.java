@@ -3,6 +3,7 @@
  */
 package com.opensymphony.workflow.designer.spi;
 
+import java.awt.Component;
 import java.util.Map;
 
 import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
@@ -16,6 +17,6 @@ public interface FunctionPlugin {
 
 	public ConfigFunctionDescriptor getFunction();
 
-	public boolean editFunction(Map args);
+	public boolean editFunction(Map args, Component parent);
 
 }

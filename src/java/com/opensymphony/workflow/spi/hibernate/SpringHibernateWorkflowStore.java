@@ -43,7 +43,6 @@ import java.util.Set;
 /**
  * @author        Quake Wang
  * @since        2004-5-2
- * @version $Revision: 1.4 $
  *
  **/
 public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements WorkflowStore {

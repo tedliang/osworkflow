@@ -11,9 +11,6 @@ import java.util.Properties;
 
 /**
  * DOCUMENT ME!
- *
- * @author $author$
- * @version $Revision: 1.2 $
  */
 public class SpringWorkflowFactory extends XMLWorkflowFactory {
     //~ Instance fields ////////////////////////////////////////////////////////

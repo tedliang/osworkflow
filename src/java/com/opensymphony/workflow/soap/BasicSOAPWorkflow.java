@@ -29,9 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * Soap enabled Wrapper around a BasicWorkflow
- *
- * @author $author$
- * @version $Revision: 1.11 $
  */
 public class BasicSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////

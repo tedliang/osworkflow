@@ -16,7 +16,6 @@ import java.util.*;
  * provided to every action call.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.6 $
  */
 public class ValidatorDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////

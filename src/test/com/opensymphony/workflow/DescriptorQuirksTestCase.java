@@ -16,9 +16,6 @@ import java.util.Map;
 
 /**
  * DOCUMENT ME!
- *
- * @author $author$
- * @version $Revision: 1.5 $
  */
 public class DescriptorQuirksTestCase extends TestCase {
     //~ Instance fields ////////////////////////////////////////////////////////

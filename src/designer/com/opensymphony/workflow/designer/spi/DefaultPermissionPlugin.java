@@ -1,5 +1,6 @@
 package com.opensymphony.workflow.designer.spi;
 
+import java.awt.Component;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -25,9 +26,9 @@ public class DefaultPermissionPlugin implements PermissionCondition
     return perm;
   }
 
-  public boolean editPermissionCondition(Map args)
+  public boolean editPermissionCondition(Map args, Component parent)
   {
-    Map newArg = DialogUtils.getMapDialog(perm, perm.getType(), perm.getOwner());
+    Map newArg = DialogUtils.getMapDialog(perm, perm.getType(), perm.getOwner(), parent);
     if(newArg == null)
     {
       return false;

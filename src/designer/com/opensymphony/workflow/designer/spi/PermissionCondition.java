@@ -1,5 +1,6 @@
 package com.opensymphony.workflow.designer.spi;
 
+import java.awt.Component;
 import java.util.Map;
 
 import com.opensymphony.workflow.loader.PermissionConditionDescriptor;
@@ -13,6 +14,6 @@ public interface PermissionCondition {
 
 	public PermissionConditionDescriptor getPermissionCondition();
 
-	public boolean editPermissionCondition(Map args);
+	public boolean editPermissionCondition(Map args, Component parent);
 
 }

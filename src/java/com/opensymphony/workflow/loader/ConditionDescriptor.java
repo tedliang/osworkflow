@@ -16,9 +16,6 @@ import java.util.*;
 
 /**
  * DOCUMENT ME!
- *
- * @author $author$
- * @version $Revision: 1.8 $
  */
 public class ConditionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////

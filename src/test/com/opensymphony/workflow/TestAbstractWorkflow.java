@@ -15,9 +15,6 @@ import java.util.HashMap;
 
 /**
  * This testcase verifies that an AbstractWorkflow provided methods work properly.
- *
- * @author $Author: hani $
- * @version $Revision: 1.5 $
  */
 public class TestAbstractWorkflow extends TestCase {
     //~ Instance fields ////////////////////////////////////////////////////////

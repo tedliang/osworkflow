@@ -16,7 +16,6 @@ import java.util.Map;
  * Interface that must be implemented to define a java-based remote condition in your workflow definition.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Patrick Lightbody</a>
- * @version $Revision: 1.4 $
  */
 public interface ConditionRemote extends Remote {
     //~ Methods ////////////////////////////////////////////////////////////////

@@ -12,8 +12,7 @@ import java.io.Serializable;
 
 /**
  * @deprecated use {@link WorkflowExpressionQuery} instead
- * @author $Author: hani $
- * @version $Revision: 1.4 $
+ * @author Hani
  */
 public class WorkflowQuery implements Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////

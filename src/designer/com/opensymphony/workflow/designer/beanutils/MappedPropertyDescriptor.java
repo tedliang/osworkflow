@@ -76,7 +76,6 @@ import java.security.PrivilegedAction;
  *
  * @author Rey Fran�ois
  * @author Gregor Ra�man
- * @version $Revision: 1.2 $ $Date: 2004-12-21 16:56:08 $
  * @see java.beans.PropertyDescriptor
  */
 

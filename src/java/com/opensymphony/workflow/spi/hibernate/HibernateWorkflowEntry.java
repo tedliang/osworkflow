@@ -10,10 +10,7 @@ import java.util.List;
 
 
 /**
- *
- *
- * @author $Author: hani $
- * @version $Revision: 1.5 $
+ * @author Hani
  */
 public class HibernateWorkflowEntry implements WorkflowEntry {
     //~ Instance fields ////////////////////////////////////////////////////////

@@ -1,5 +1,6 @@
 package com.opensymphony.workflow.designer.spi;
 
+import java.awt.Component;
 import java.util.Map;
 import com.opensymphony.workflow.loader.ConfigRegisterDescriptor;
 
@@ -12,5 +13,5 @@ public interface RegisterPlugin
 {
 	public void setRegister(ConfigRegisterDescriptor descriptor);
 	public ConfigRegisterDescriptor getRegister();
-	public boolean editRegister(Map args);
+	public boolean editRegister(Map args, Component parent);
 }

@@ -1,5 +1,6 @@
 package com.opensymphony.workflow.designer.spi;
 
+import java.awt.Component;
 import java.util.Map;
 
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
@@ -24,9 +25,9 @@ public class DefaultFunctionPlugin implements FunctionPlugin
     return func;
   }
 
-  public boolean editFunction(Map args)
+  public boolean editFunction(Map args, Component parent)
   {
-    Map newArg = DialogUtils.getMapDialog(func, func.getType(), null);
+    Map newArg = DialogUtils.getMapDialog(func, func.getType(), null, parent);
     if(newArg == null)
     {
       return false;

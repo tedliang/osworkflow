@@ -42,7 +42,6 @@ import javax.naming.InitialContext;
  * stored as a long property, with the name 'workflowEntry'.
  *
  * @author Hani Suleiman
- * @version $Revision: 1.3 $
  */
 public class JMSMessage implements FunctionProvider {
     //~ Static fields/initializers /////////////////////////////////////////////

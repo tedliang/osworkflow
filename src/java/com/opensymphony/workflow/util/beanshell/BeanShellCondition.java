@@ -23,9 +23,7 @@ import java.util.Map;
 
 /**
  *
- *
- * @author $Author: hani $
- * @version $Revision: 1.3 $
+ * @author Hani
  */
 public class BeanShellCondition implements Condition {
     //~ Static fields/initializers /////////////////////////////////////////////

@@ -15,7 +15,6 @@ import java.io.Serializable;
  * whereby all expressions must return true for a result to be included.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.7 $
  */
 public class WorkflowExpressionQuery implements Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
