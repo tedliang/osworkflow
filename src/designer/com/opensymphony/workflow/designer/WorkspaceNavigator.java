@@ -3,20 +3,20 @@ package com.opensymphony.workflow.designer;
 import java.util.List;
 import java.util.*;
 import java.awt.*;
-//import java.awt.event.MouseAdapter;
-//import java.awt.event.MouseEvent;
-//import java.io.File;
-//import java.net.MalformedURLException;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+import java.net.MalformedURLException;
+import java.io.File;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
 
-//import com.opensymphony.workflow.designer.actions.AssignPalette;
-//import com.opensymphony.workflow.designer.actions.DeleteWorkflow;
-//import com.opensymphony.workflow.designer.actions.ImportWorkflow;
-//import com.opensymphony.workflow.designer.swing.FileDropHandler;
 import com.opensymphony.workflow.loader.*;
 import com.opensymphony.workflow.FactoryException;
+import com.opensymphony.workflow.designer.swing.FileDropHandler;
+import com.opensymphony.workflow.designer.actions.AssignPalette;
+import com.opensymphony.workflow.designer.actions.DeleteWorkflow;
+import com.opensymphony.workflow.designer.actions.ImportWorkflow;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -28,14 +28,12 @@ public class WorkspaceNavigator extends JTree implements TreeSelectionListener, 
   private WorkflowDesigner designer;
   private DefaultMutableTreeNode rootNode;
   private String currentWorkflow;
-  //private Workspace currentWorkspace = null;
   private AbstractWorkflowFactory currentWorkspace = null;
 	private DefaultTreeCellRenderer  cellRenderer = new WorkspaceCellRenderer();
   
-  //private JPopupMenu popup;
-  //private DeleteWorkflow deleteWorkflow;
-  //private AssignPalette assignPalette;
-  //private ImportWorkflow importWorkflow;
+  private JPopupMenu popup;
+  private DeleteWorkflow deleteWorkflow;
+  private AssignPalette assignPalette;
 
   public WorkspaceNavigator(WorkflowDesigner designer)
   {
@@ -48,12 +46,11 @@ public class WorkspaceNavigator extends JTree implements TreeSelectionListener, 
     setShowsRootHandles(true);
     setCellRenderer(cellRenderer);
     getModel().addTreeModelListener(this);
-    /*
+
     popup = new JPopupMenu();
     popup.setInvoker(this);
     //this is kinda a hack, since we assume that importworkflow has already been registered
     //(which it has, but only because the toolbar is created before the nav, so a bit fragile
-    importWorkflow = (ImportWorkflow)ActionManager.get("importflow");
     deleteWorkflow = new DeleteWorkflow(designer);
     assignPalette = new AssignPalette(designer);
     popup.add(new JMenuItem(ActionManager.register("deleteflow", deleteWorkflow)));
@@ -105,10 +102,7 @@ public class WorkspaceNavigator extends JTree implements TreeSelectionListener, 
           {
             try
             {
-              if (importWorkflow!=null)
-              {
-              	importWorkflow.importURL(file.toURL());
-              }
+              ((ImportWorkflow)ActionManager.get("importflow")).importURL(file.toURL());
             }
             catch(MalformedURLException e)
             {
@@ -118,7 +112,6 @@ public class WorkspaceNavigator extends JTree implements TreeSelectionListener, 
         }
       }
     };
-    */
   }
 
   public void selectWorkflow(String name)
@@ -814,11 +807,7 @@ public class WorkspaceNavigator extends JTree implements TreeSelectionListener, 
   
   
   /*
-   * 
    * @author acapitani
-   *
-   * To change the template for this generated type comment go to
-   * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
    */
   static class WorkspaceCellRenderer extends DefaultTreeCellRenderer
 	{ 	
