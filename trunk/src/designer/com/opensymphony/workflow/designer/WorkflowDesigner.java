@@ -13,7 +13,6 @@ import javax.swing.*;
 
 import org.jgraph.event.GraphSelectionEvent;
 import org.jgraph.event.GraphSelectionListener;
-import org.jgraph.graph.GraphModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -55,7 +54,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   private CardPanel detailPanel = new CardPanel();
   private FramePanel detailFramePanel;
   public static WorkflowDesigner INSTANCE = null;
-  public static WorkflowConfigDescriptor palette = null;
+  private WorkflowConfigDescriptor palette = null;
   private static Splash splash;
 
   public WorkflowDesigner()
@@ -232,6 +231,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       }
 
       String title = panel.getTitle();
+      WorkflowGraph currentGraph = (WorkflowGraph)((JScrollPane)graphTabs.getSelectedComponent()).getViewport().getView();
+      panel.setModel(currentGraph.getWorkflowGraphModel());
       detailFramePanel.setTitle(ResourceManager.getString("details") + (title != null ? (" - " + title) : ""));
       detailPanel.showCard(panel);
     }

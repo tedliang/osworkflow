@@ -217,6 +217,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
   private void add()
   {
     StartPermissionEditor editor = new StartPermissionEditor((InitialActionCell)getCell());
+    editor.setModel(getModel());
     ConditionDescriptor cond = editor.add();
     if(cond != null)
     {
@@ -249,6 +250,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
     ConditionDescriptor cond = (ConditionDescriptor)conditionsModel.get(selected);
 
     StartPermissionEditor editor = new StartPermissionEditor((InitialActionCell)getCell());
+    editor.setModel(getModel());
     editor.modify(cond);
 
     conditionsModel.fireTableDataChanged();
@@ -288,6 +290,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
     FunctionDescriptor func = (FunctionDescriptor)preModel.get(selected);
 
     StartFunctionEditor editor = new StartFunctionEditor((InitialActionCell)getCell());
+    editor.setModel(getModel());
     editor.modify(func);
 
     preModel.fireTableDataChanged();
@@ -296,6 +299,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
   private void postadd()
   {
     StartFunctionEditor editor = new StartFunctionEditor((InitialActionCell)getCell());
+    editor.setModel(getModel());
     FunctionDescriptor func = editor.add();
     if(func != null)
     {
@@ -327,6 +331,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
     FunctionDescriptor func = (FunctionDescriptor)postModel.get(selected);
 
     StartFunctionEditor editor = new StartFunctionEditor((InitialActionCell)getCell());
+    editor.setModel(getModel());
     editor.modify(func);
 
     postModel.fireTableDataChanged();

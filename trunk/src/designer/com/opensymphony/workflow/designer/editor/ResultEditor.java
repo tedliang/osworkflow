@@ -14,7 +14,6 @@ import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.designer.model.FunctionsTableModel;
 import com.opensymphony.workflow.designer.ResultEdge;
 import com.opensymphony.workflow.designer.UIFactory;
-import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.loader.ConditionDescriptor;
 import com.opensymphony.workflow.loader.ConditionalResultDescriptor;
 import com.opensymphony.workflow.loader.FunctionDescriptor;
@@ -22,12 +21,10 @@ import com.opensymphony.workflow.loader.ResultDescriptor;
 
 public class ResultEditor extends DetailPanel implements ActionListener
 {
-  //todo read this from model
-  private static final Object[] statusValues = WorkflowDesigner.palette.getStatusNames();
   private JTextField id = UIFactory.createReadOnlyTextField(12);
   private JTextField owner = new JTextField(12);
-  private JComboBox status = new JComboBox(statusValues);
-  private JComboBox oldStatus = new JComboBox(statusValues);
+  private JComboBox status = new JComboBox();
+  private JComboBox oldStatus = new JComboBox();
   private FunctionsTableModel preFunctionsModel = new FunctionsTableModel();
   private JTable preFunctionsTable;
   private FunctionsTableModel postFunctionsModel = new FunctionsTableModel();
@@ -146,8 +143,10 @@ public class ResultEditor extends DetailPanel implements ActionListener
 
     owner.setText(descriptor.getOwner() != null ? descriptor.getOwner() : "");
 
+    status.setModel(new DefaultComboBoxModel(getModel().getPalette().getStatusNames()));
     status.setSelectedItem(descriptor.getStatus() != null ? descriptor.getStatus() : "");
 
+    oldStatus.setModel(new DefaultComboBoxModel(getModel().getPalette().getStatusNames()));
     oldStatus.setSelectedItem(descriptor.getOldStatus() != null ? descriptor.getOldStatus() : "");
 
     if(isConditional())
@@ -219,6 +218,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
   private void preadd()
   {
     ResultFunctionEditor editor = new ResultFunctionEditor((ResultEdge)getEdge());
+    editor.setModel(getModel());
     FunctionDescriptor func = editor.add();
     if(func != null)
     {
@@ -249,6 +249,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
     FunctionDescriptor func = (FunctionDescriptor)preFunctionsModel.get(selected);
 
     ResultFunctionEditor editor = new ResultFunctionEditor((ResultEdge)getEdge());
+    editor.setModel(getModel());
     editor.modify(func);
 
     preFunctionsModel.fireTableDataChanged();
@@ -257,6 +258,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
   private void postadd()
   {
     ResultFunctionEditor editor = new ResultFunctionEditor((ResultEdge)getEdge());
+    editor.setModel(getModel());
     FunctionDescriptor func = editor.add();
     if(func != null)
     {
@@ -287,6 +289,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
     FunctionDescriptor func = (FunctionDescriptor)postFunctionsModel.get(selected);
 
     ResultFunctionEditor editor = new ResultFunctionEditor((ResultEdge)getEdge());
+    editor.setModel(getModel());
     editor.modify(func);
 
     postFunctionsModel.fireTableDataChanged();
@@ -303,6 +306,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
   private void add()
   {
     ResultConditionEditor editor = new ResultConditionEditor((ResultEdge)getEdge());
+    editor.setModel(getModel());
     ConditionDescriptor cond = editor.add();
     if(cond != null)
     {
@@ -333,6 +337,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
     ConditionDescriptor cond = (ConditionDescriptor)conditionsModel.get(selected);
 
     ResultConditionEditor editor = new ResultConditionEditor((ResultEdge)getEdge());
+    editor.setModel(getModel());
     editor.modify(cond);
 
     conditionsModel.fireTableDataChanged();
