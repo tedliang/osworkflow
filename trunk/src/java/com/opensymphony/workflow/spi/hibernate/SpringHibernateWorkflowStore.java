@@ -8,8 +8,6 @@ import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
 import com.opensymphony.module.propertyset.hibernate.DefaultHibernateConfigurationProvider;
 
-import com.opensymphony.util.TextUtils;
-
 import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.query.FieldExpression;
 import com.opensymphony.workflow.query.NestedExpression;
@@ -22,12 +20,11 @@ import com.opensymphony.workflow.util.PropertySetDelegate;
 
 import net.sf.hibernate.Criteria;
 import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
 import net.sf.hibernate.expression.Criterion;
 import net.sf.hibernate.expression.Expression;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.springframework.orm.hibernate.HibernateCallback;
 import org.springframework.orm.hibernate.support.HibernateDaoSupport;
 
 import java.util.ArrayList;
@@ -45,15 +42,25 @@ import java.util.Set;
 /**
  * @author        Quake Wang
  * @since        2004-5-2
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  *
  **/
 public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements WorkflowStore {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     private PropertySetDelegate propertySetDelegate;
+    private String cacheRegion = null;
+    private boolean cacheable = false;
 
     //~ Methods ////////////////////////////////////////////////////////////////
+
+    public void setCacheRegion(String cacheRegion) {
+        this.cacheRegion = cacheRegion;
+    }
+
+    public void setCacheable(boolean cacheable) {
+        this.cacheable = cacheable;
+    }
 
     public void setEntryState(long entryId, int state) throws StoreException {
         HibernateWorkflowEntry entry = loadEntry(entryId);
@@ -97,7 +104,7 @@ public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements
         step.setDueDate(dueDate);
         step.setStatus(status);
 
-        List stepIdList = new ArrayList(previousIds.length);
+        final List stepIdList = new ArrayList(previousIds.length);
 
         for (int i = 0; i < previousIds.length; i++) {
             long previousId = previousIds[i];
@@ -105,8 +112,11 @@ public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements
         }
 
         if (!stepIdList.isEmpty()) {
-            String stepIds = TextUtils.join(", ", stepIdList);
-            step.setPreviousSteps(getHibernateTemplate().find("FROM " + HibernateCurrentStep.class.getName() + " step WHERE step.id IN (" + stepIds + ")"));
+            step.setPreviousSteps((List) getHibernateTemplate().execute(new HibernateCallback() {
+                    public Object doInHibernate(Session session) throws HibernateException {
+                        return session.createQuery("FROM " + HibernateCurrentStep.class.getName() + " step WHERE step.id IN (:stepIds)").setParameterList("stepIds", stepIdList).setCacheable(isCacheable()).setCacheRegion(getCacheRegion()).list();
+                    }
+                }));
         } else {
             step.setPreviousSteps(Collections.EMPTY_LIST);
         }
@@ -125,16 +135,24 @@ public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements
         return entry;
     }
 
-    public List findCurrentSteps(long entryId) throws StoreException {
-        return getHibernateTemplate().find("FROM " + HibernateCurrentStep.class.getName() + " step WHERE step.entry.id = ?", new Long(entryId));
+    public List findCurrentSteps(final long entryId) throws StoreException {
+        return (List) getHibernateTemplate().execute(new HibernateCallback() {
+                public Object doInHibernate(Session session) throws HibernateException {
+                    return session.createQuery("FROM " + HibernateCurrentStep.class.getName() + " step WHERE step.entry.id = :entryId").setLong("entryId", entryId).setCacheable(isCacheable()).setCacheRegion(getCacheRegion()).list();
+                }
+            });
     }
 
     public WorkflowEntry findEntry(long entryId) throws StoreException {
         return loadEntry(entryId);
     }
 
-    public List findHistorySteps(long entryId) throws StoreException {
-        return getHibernateTemplate().find("FROM " + HibernateHistoryStep.class.getName() + " step WHERE step.entry.id = ?", new Long(entryId));
+    public List findHistorySteps(final long entryId) throws StoreException {
+        return (List) getHibernateTemplate().execute(new HibernateCallback() {
+                public Object doInHibernate(Session session) throws HibernateException {
+                    return session.createQuery("FROM " + HibernateHistoryStep.class.getName() + " step WHERE step.entry.id = :entryId").setLong("entryId", entryId).setCacheable(isCacheable()).setCacheRegion(getCacheRegion()).list();
+                }
+            });
     }
 
     public void init(Map props) throws StoreException {
@@ -240,6 +258,14 @@ public class SpringHibernateWorkflowStore extends HibernateDaoSupport implements
         } catch (HibernateException e) {
             throw new StoreException("Error executing query " + expression, e);
         }
+    }
+
+    protected String getCacheRegion() {
+        return cacheRegion;
+    }
+
+    protected boolean isCacheable() {
+        return cacheable;
     }
 
     private Criterion getExpression(WorkflowQuery query) {
