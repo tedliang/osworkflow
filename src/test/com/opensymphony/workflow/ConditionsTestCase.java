@@ -5,7 +5,6 @@
 package com.opensymphony.workflow;
 
 import com.opensymphony.workflow.basic.BasicWorkflow;
-import com.opensymphony.workflow.loader.WorkflowDescriptor;
 
 import junit.framework.TestCase;
 
@@ -15,20 +14,6 @@ import junit.framework.TestCase;
  */
 public class ConditionsTestCase extends TestCase {
     //~ Methods ////////////////////////////////////////////////////////////////
-
-    public void testInvalidNestedCondition() throws Exception {
-        WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getResource("/samples/invalid/invalid-nested-condition.xml").toString());
-
-        try {
-            descriptor.validate();
-            fail("descriptor loaded successfully, even though nested condition is invalid exists");
-        } catch (InvalidWorkflowDescriptorException e) {
-            //the descriptor is invalid, which is correct
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            fail("descriptor failed to load as expected, but a " + ex.getClass() + " exception was caught instead of InvalidWorkflowDescriptorException");
-        }
-    }
 
     public void testNestedCondition() throws Exception {
         Workflow workflow = new BasicWorkflow("test");

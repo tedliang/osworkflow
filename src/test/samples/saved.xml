@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.6//EN" "http://www.opensymphony.com/osworkflow/workflow_2_6.dtd">
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.7//EN" "http://www.opensymphony.com/osworkflow/workflow_2_7.dtd">
 <workflow>
   <initial-actions>
     <action id="1" name="Start Workflow">
@@ -9,8 +9,8 @@
             <arg name="script"><![CDATA[true]]></arg>
           </condition>
           <condition type="class">
-            <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
             <arg name="group">foos</arg>
+            <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
           </condition>
         </conditions>
       </restrict-to>
@@ -71,7 +71,7 @@
           </pre-functions>
           <results>
             <result old-status="Finished" split="1">
-              <conditions type="AND">
+              <conditions>
                 <condition type="beanshell">
                   <arg name="script"><![CDATA[
                     propertySet.getString("caller").equals("test")
@@ -137,8 +137,8 @@
                 <arg name="status">Queued</arg>
               </condition>
               <condition type="class">
-                <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
                 <arg name="group">bars</arg>
+                <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
               </condition>
             </conditions>
           </restrict-to>
@@ -317,8 +317,8 @@
                 <arg name="status">Queued</arg>
               </condition>
               <condition type="class">
-                <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
                 <arg name="group">bazs</arg>
+                <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
               </condition>
             </conditions>
           </restrict-to>
@@ -376,13 +376,13 @@
     </step>
     <step id="6" name="Foo">
       <actions>
-        <action name="Finish Foo" id="12">
+        <action id="12" name="Finish Foo">
           <restrict-to>
             <conditions type="AND">
               <condition type="class">
                 <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
-                <arg name="status">Underway</arg>
                 <arg name="stepId">6</arg>
+                <arg name="status">Underway</arg>
               </condition>
               <condition type="class">
                 <arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
@@ -398,13 +398,13 @@
     </step>
     <step id="7" name="Bar">
       <actions>
-        <action name="Finish Bar" id="13">
+        <action id="13" name="Finish Bar">
           <restrict-to>
             <conditions type="AND">
               <condition type="class">
                 <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
-                <arg name="status">Underway</arg>
                 <arg name="stepId">7</arg>
+                <arg name="status">Underway</arg>
               </condition>
               <condition type="class">
                 <arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
@@ -413,20 +413,20 @@
             </conditions>
           </restrict-to>
           <results>
-            <unconditional-result old-status="Finished" owner="test" status="Underway" step="8"/>
+            <unconditional-result old-status="Finished" status="Underway" step="8" owner="test"/>
           </results>
         </action>
       </actions>
     </step>
     <step id="8" name="Baz">
       <actions>
-        <action name="Finish Baz" id="14">
+        <action id="14" name="Finish Baz">
           <restrict-to>
             <conditions type="AND">
               <condition type="class">
                 <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
-                <arg name="status">Underway</arg>
                 <arg name="stepId">8</arg>
+                <arg name="status">Underway</arg>
               </condition>
               <condition type="class">
                 <arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
@@ -443,8 +443,8 @@
   </steps>
   <splits>
     <split id="1">
-      <unconditional-result old-status="Finished" status="Underway" owner="test" step="6"/>
-      <unconditional-result old-status="Finished" status="Underway" owner="test" step="7"/>
+      <unconditional-result old-status="Finished" status="Underway" step="6" owner="test"/>
+      <unconditional-result old-status="Finished" status="Underway" step="7" owner="test"/>
     </split>
     <split id="2">
       <unconditional-result old-status="Finished" status="Queued" step="2"/>
@@ -452,7 +452,7 @@
   </splits>
   <joins>
     <join id="1">
-      <conditions type="AND">
+      <conditions>
         <condition type="beanshell">
           <arg name="script"><![CDATA[
           "Finished".equals(jn.getStep(6).getStatus()) && "Finished".equals(jn.getStep(8).getStatus())

@@ -81,18 +81,18 @@ should be used to evaluate them all together.
 
 Use in: join, restrict-to, result
 -->
-<!ELEMENT conditions (condition+)>
+<!ELEMENT conditions (conditions*, condition*)>
 <!ATTLIST conditions
-	type (AND | OR) #REQUIRED
+	type (AND | OR) #IMPLIED
 >
 <!--
 A condition.
 
 Used in: conditions
 -->
-<!ELEMENT condition (arg*, condition*)>
+<!ELEMENT condition (arg*)>
 <!ATTLIST condition
-	type (class | jndi | local-ejb | remote-ejb | bsf | beanshell | nested) #REQUIRED
+	type (class | jndi | local-ejb | remote-ejb | bsf | beanshell) #REQUIRED
   id CDATA #IMPLIED
   negate CDATA #IMPLIED
   name CDATA #IMPLIED

@@ -13,16 +13,15 @@
       <actions>
         <action id="2" name="The first action">
           <restrict-to>
-            <conditions type="AND">
-              <condition type="nested">
-                <arg name="operator">OR</arg>
+            <conditions>
+              <conditions type="OR">
                 <condition type="beanshell">
                   <arg name="script">true</arg>
                 </condition>
                 <condition type="beanshell">
                   <arg name="script">false</arg>
                 </condition>
-              </condition>
+              </conditions>
             </conditions>
           </restrict-to>
           <results>

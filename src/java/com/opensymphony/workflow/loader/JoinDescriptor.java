@@ -8,7 +8,6 @@ import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 import com.opensymphony.workflow.util.Validatable;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 
@@ -20,14 +19,13 @@ import java.util.List;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class JoinDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected List conditions = new ArrayList();
     protected ResultDescriptor result;
-    protected String conditionType;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -39,14 +37,6 @@ public class JoinDescriptor extends AbstractDescriptor implements Validatable {
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
-
-    public void setConditionType(String conditionType) {
-        this.conditionType = conditionType;
-    }
-
-    public String getConditionType() {
-        return conditionType;
-    }
 
     public List getConditions() {
         return conditions;
@@ -73,16 +63,14 @@ public class JoinDescriptor extends AbstractDescriptor implements Validatable {
     public void writeXML(PrintWriter out, int indent) {
         XMLUtil.printIndent(out, indent++);
         out.println("<join id=\"" + getId() + "\">");
-        XMLUtil.printIndent(out, indent++);
-        out.println("<conditions type=\"" + conditionType + "\">");
 
-        for (int i = 0; i < conditions.size(); i++) {
-            ConditionDescriptor result = (ConditionDescriptor) conditions.get(i);
-            result.writeXML(out, indent);
+        if (conditions.size() > 0) {
+            for (int i = 0; i < conditions.size(); i++) {
+                ConditionsDescriptor condition = (ConditionsDescriptor) conditions.get(i);
+                condition.writeXML(out, indent);
+            }
         }
 
-        XMLUtil.printIndent(out, --indent);
-        out.println("</conditions>");
         result.writeXML(out, indent);
         XMLUtil.printIndent(out, --indent);
         out.println("</join>");
@@ -96,15 +84,12 @@ public class JoinDescriptor extends AbstractDescriptor implements Validatable {
         }
 
         // get conditions
-        Element conditions = XMLUtil.getChildElement(join, "conditions");
-        conditionType = conditions.getAttribute("type");
-
-        List conditionNodes = XMLUtil.getChildElements(conditions, "condition");
+        List conditionNodes = XMLUtil.getChildElements(join, "conditions");
         int length = conditionNodes.size();
 
         for (int i = 0; i < length; i++) {
             Element condition = (Element) conditionNodes.get(i);
-            ConditionDescriptor conditionDescriptor = new ConditionDescriptor(condition);
+            ConditionsDescriptor conditionDescriptor = new ConditionsDescriptor(condition);
             conditionDescriptor.setParent(this);
             this.conditions.add(conditionDescriptor);
         }
