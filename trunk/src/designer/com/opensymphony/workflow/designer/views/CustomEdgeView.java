@@ -1,18 +1,14 @@
 package com.opensymphony.workflow.designer.views;
 
 import java.awt.event.MouseEvent;
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.util.Map;
 
 import com.opensymphony.workflow.designer.*;
 import com.opensymphony.workflow.loader.ResultDescriptor;
 import org.jgraph.graph.*;
 
 /**
- * User: Hani Suleiman
- * Date: Dec 2, 2003
- * Time: 2:22:44 PM
+ * @author Hani Suleiman
+ * Date: Dec 2, 2003 Time: 2:22:44 PM
  */
 public class CustomEdgeView extends EdgeView
 {
@@ -20,11 +16,6 @@ public class CustomEdgeView extends EdgeView
   {
     super(obj);
     GraphConstants.setOpaque(this.attributes, true);
-    // Overrides static default renderer
-    //if(!(renderer instanceof CustomEdgeRenderer))
-    //{
-    //  renderer = new CustomEdgeRenderer();
-    //}
   }
 
   /**
