@@ -161,7 +161,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
             if (simpleStep.getId() == currentStep.getId()) {
                 iterator.remove();
-                historySteps.add(simpleStep);
+                historySteps.add(0, simpleStep);
 
                 break;
             }

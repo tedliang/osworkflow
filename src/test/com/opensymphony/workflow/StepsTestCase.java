@@ -43,7 +43,7 @@ public class StepsTestCase extends TestCase {
         List historySteps = workflow.getHistorySteps(id);
         assertEquals("Unexpected number of history steps", 3, historySteps.size());
 
-        Step step = (Step) historySteps.get(2);
+        Step step = (Step) historySteps.get(0);
         assertEquals("Unexpected last history step", 3, step.getStepId());
     }
 

@@ -73,8 +73,8 @@ public class ActionsTestCase extends TestCase {
 
         List history = workflow.getHistorySteps(id);
         assertEquals("Expected to have two history steps", 2, history.size());
-        assertEquals("Unexpected first history step", 1, ((Step) history.get(0)).getStepId());
-        assertEquals("Unexpected second history step", 2, ((Step) history.get(1)).getStepId());
+        assertEquals("Unexpected first history step", 2, ((Step) history.get(0)).getStepId());
+        assertEquals("Unexpected second history step", 1, ((Step) history.get(1)).getStepId());
     }
 
     public void testPropertySetCreated() throws Exception {
@@ -107,7 +107,7 @@ public class ActionsTestCase extends TestCase {
         List historySteps = workflow.getHistorySteps(id);
 
         //last history step should have status of LastFinished
-        assertEquals("Unexpected status of last history step", "LastFinished", ((Step) historySteps.get(historySteps.size() - 1)).getStatus());
+        assertEquals("Unexpected status of last history step", "LastFinished", ((Step) historySteps.get(0)).getStatus());
     }
 
     protected void setUp() throws Exception {
