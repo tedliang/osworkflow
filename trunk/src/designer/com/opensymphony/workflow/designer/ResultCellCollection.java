@@ -1,7 +1,3 @@
-/**
- * Created on Feb 12, 2003
- * Copyright (C) 2002  Aditisoft Inc
- */
 package com.opensymphony.workflow.designer;
 
 import java.util.*;
@@ -14,7 +10,7 @@ public class ResultCellCollection extends HashMap
     return Integer.toString(size());
   }
 
-  public List getStepEndPointResults(int stepId)
+  public List getResultsToStep(int stepId)
   {
     Iterator results = values().iterator();
     Vector returnValue = new Vector();
@@ -29,7 +25,7 @@ public class ResultCellCollection extends HashMap
     return returnValue;
   }
 
-  public List getSplitEndPointResults(int splitId)
+  public List getResultsToSplit(int splitId)
   {
     Iterator results = values().iterator();
     Vector returnValue = new Vector();
@@ -44,7 +40,7 @@ public class ResultCellCollection extends HashMap
     return returnValue;
   }
 
-  public List getJoinEndPointResults(int joinId)
+  public List getResultsToJoin(int joinId)
   {
     Iterator results = values().iterator();
     Vector returnValue = new Vector();
