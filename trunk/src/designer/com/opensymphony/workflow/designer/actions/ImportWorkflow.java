@@ -16,6 +16,8 @@ import com.opensymphony.workflow.designer.dialogs.ImportWorkflowDialog;
 import com.opensymphony.workflow.loader.Workspace;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import foxtrot.Worker;
+import foxtrot.Task;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -44,34 +46,42 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
     dialog.pack();
     Utils.centerComponent(WorkflowDesigner.INSTANCE, dialog);
     dialog.show();
-    URL inputFile = dialog.getImportURL();
-    if(inputFile!=null)
+    final URL importURL = dialog.getImportURL();
+    if(importURL!=null)
     {
-      String f = inputFile.getFile();
-      if(!"file".equals(inputFile.getProtocol()) && f.indexOf('?')>-1) f = f.substring(0, f.indexOf('?'));
+      String f = importURL.getFile();
+      if(!"file".equals(importURL.getProtocol()) && f.indexOf('?')>-1) f = f.substring(0, f.indexOf('?'));
       String fileName = f.substring(f.lastIndexOf('/')+1, f.length());
       try
       {
-        File ouputFile = new File(currentWorkspace.getLocation().getParentFile(), fileName);
+        final File ouputFile = new File(currentWorkspace.getLocation().getParentFile(), fileName);
         //don't allow importing of files within the workspace!
-        if(!"file".equals(inputFile.getProtocol()) ||
-          new File(inputFile.getFile()).getCanonicalPath().indexOf(currentWorkspace.getLocation().getParentFile().getCanonicalPath())==-1)
+        if(!"file".equals(importURL.getProtocol()) ||
+          new File(importURL.getFile()).getCanonicalPath().indexOf(currentWorkspace.getLocation().getParentFile().getCanonicalPath())==-1)
         {
           StatusDisplay status = (StatusDisplay)WorkflowDesigner.INSTANCE.statusBar.getItemByName("Status");
+          status.setProgressStatus(ResourceManager.getString("import.progress", new Object[]{fileName}));
           status.setIndeterminate(true);
-          status.setProgressStatus("Loading...");
-          FileOutputStream out = new FileOutputStream(ouputFile);
-          InputStream in = inputFile.openStream();
-          byte[] buff = new byte[4096];
-          int nch;
-          while((nch = in.read(buff, 0, buff.length)) != -1)
+          Worker.post(new Task()
           {
-            out.write(buff, 0, nch);
-          }
-          out.flush();
-          out.close();
+            public Object run() throws Exception
+            {
+              FileOutputStream out = new FileOutputStream(ouputFile);
+              InputStream in = importURL.openStream();
+              byte[] buff = new byte[4096];
+              int nch;
+              while((nch = in.read(buff, 0, buff.length)) != -1)
+              {
+                out.write(buff, 0, nch);
+              }
+              out.flush();
+              out.close();
+              return null;
+            }
+          });
           status.setIndeterminate(false);
-          currentWorkspace.importDescriptor(fileName.substring(0, fileName.lastIndexOf('.')), inputFile.openStream());
+          status.setStatus("");
+          currentWorkspace.importDescriptor(fileName.substring(0, fileName.lastIndexOf('.')), importURL.openStream());
           WorkflowDesigner.INSTANCE.navigator().setWorkspace(currentWorkspace);
         }
       }
