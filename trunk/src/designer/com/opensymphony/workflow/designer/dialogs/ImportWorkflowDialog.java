@@ -34,6 +34,7 @@ public class ImportWorkflowDialog extends JDialog implements ActionListener
     DefaultFormBuilder builder = new DefaultFormBuilder(layout, ResourceManager.getBundle());
 	  builder.setLeadingColumnOffset(1);
     builder.setDefaultDialogBorder();
+	  builder.appendI15dSeparator("import.title");
     builder.append(web, webField);
 	  webField.addFocusListener(new FocusAdapter()
 	  {
