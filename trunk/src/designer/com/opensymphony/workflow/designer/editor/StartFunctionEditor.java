@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer.editor;
 
 import com.opensymphony.workflow.designer.InitialActionCell;
+import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
 
@@ -32,7 +33,7 @@ public class StartFunctionEditor extends FunctionEditor
 
   protected String getSelection()
   {
-    return DialogUtils.getUserSelection(getModel().getPalette().getPreNames(), "Select Function", "Select Function", null);
+    return DialogUtils.getUserSelection(getModel().getPalette().getPreNames(), ResourceManager.getString("function.select"), ResourceManager.getString("function.select"), null);
   }
 
 }
