@@ -57,13 +57,13 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
       //				"pref, 2dlu, " + // 9 auto
       "pref, 2dlu, " + // 9 permission
       "pref, 2dlu, " + // 11 type
-      "50dlu, " + // 13 table
+      "50dlu:grow, " + // 13 table
       "pref, 2dlu, " + // 14 buttons
       "pref, 2dlu, " + // 16 pre-function
-      "50dlu, " + // 18 table
+      "50dlu:grow, " + // 18 table
       "pref, 2dlu, " + // 19 buttons
       "pref, 2dlu, " + // 21 post-function
-      "50dlu, " + // 23 table
+      "50dlu:grow, " + // 23 table
       "pref, 2dlu");	 // 24 buttons
 
     PanelBuilder builder = new PanelBuilder(this, layout);
@@ -102,19 +102,19 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
     builder.add(restrict, cc.xy(4, 11));
 
     conditionsTable = new JTable(conditionsModel);
-    builder.add(new JScrollPane(conditionsTable), cc.xywh(2, 13, 3, 1));
+    builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 13, 3, 1));
     builder.add(UIFactory.getTableButtonBar(this, "permission", new String[]{"add", "remove", "edit"}), cc.xywh(2, 14, 3, 1));
 
     builder.addSeparator("Pre-funtions", cc.xywh(2, 16, 3, 1));
 
     pre = new JTable(preModel);
-    builder.add(new JScrollPane(pre), cc.xywh(2, 18, 3, 1));
+    builder.add(UIFactory.createTablePanel(pre), cc.xywh(2, 18, 3, 1));
     builder.add(UIFactory.getTableButtonBar(this, "pre", new String[]{"add", "remove", "edit"}), cc.xywh(2, 19, 3, 1));
 
     builder.addSeparator("Post-functions", cc.xywh(2, 21, 3, 1));
 
     post = new JTable(postModel);
-    builder.add(new JScrollPane(post), cc.xywh(2, 23, 3, 1));
+    builder.add(UIFactory.createTablePanel(post), cc.xywh(2, 23, 3, 1));
     builder.add(UIFactory.getTableButtonBar(this, "post", new String[]{"add", "remove", "edit"}), cc.xywh(2, 24, 3, 1));
   }
 
