@@ -54,7 +54,7 @@ public class JoinEditor extends DetailPanel implements ActionListener
     conditionsTable = new JTable(conditionsModel);
     builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 9, 3, 1));
 
-    builder.add(UIFactory.getButtonBar(this, "cond", new String[]{"add", "remove", "edit"}), cc.xywh(2, 10, 3, 1));
+    builder.add(UIFactory.getAddRemovePropertiesBar(this, "cond", new String[]{"add", "remove", "edit"}), cc.xywh(2, 10, 3, 1));
 
   }
 

@@ -90,21 +90,21 @@ public class StepEditor extends DetailPanel implements ActionListener
     conditionsModel.setType(ConditionsTableModel.PERMISSION);
     conditionsModel.setGraphModel(getModel());
     builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 15, 3, 1));
-    builder.add(UIFactory.getButtonBar(this, "permission", BUTTONS), cc.xywh(2, 16, 3, 1));
+    builder.add(UIFactory.getAddRemovePropertiesBar(this, "permission", BUTTONS), cc.xywh(2, 16, 3, 1));
 
     builder.addSeparator(ResourceManager.getString("prefunctions"), cc.xywh(2, 18, 3, 1));
 
     pre = new JTable(preModel);
     preModel.setGraphModel(getModel());
     builder.add(UIFactory.createTablePanel(pre), cc.xywh(2, 20, 3, 1));
-    builder.add(UIFactory.getButtonBar(this, "pre", BUTTONS), cc.xywh(2, 21, 3, 1));
+    builder.add(UIFactory.getAddRemovePropertiesBar(this, "pre", BUTTONS), cc.xywh(2, 21, 3, 1));
 
     builder.addSeparator(ResourceManager.getString("postfunctions"), cc.xywh(2, 23, 3, 1));
 
     post = new JTable(postModel);
     postModel.setGraphModel(getModel());
     builder.add(UIFactory.createTablePanel(post), cc.xywh(2, 25, 3, 1));
-    builder.add(UIFactory.getButtonBar(this, "post", BUTTONS), cc.xywh(2, 26, 3, 1));
+    builder.add(UIFactory.getAddRemovePropertiesBar(this, "post", BUTTONS), cc.xywh(2, 26, 3, 1));
 
   }
 

@@ -6,7 +6,7 @@ import java.io.File;
 import javax.swing.*;
 
 import com.jgoodies.forms.layout.FormLayout;
-import com.opensymphony.workflow.designer.swing.DefaultFormBuilder;
+import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.opensymphony.workflow.designer.swing.FileField;
 import com.opensymphony.workflow.designer.*;
 import com.opensymphony.workflow.loader.Workspace;
@@ -69,7 +69,7 @@ public class NewWorkspaceDialog extends JDialog implements ActionListener
     });
 
     getContentPane().add(builder.getPanel(), BorderLayout.CENTER);
-    getContentPane().add(UIFactory.getButtonBar(this, "", new String[]{"ok", "cancel"}), BorderLayout.SOUTH);
+    getContentPane().add(UIFactory.getOKCancelBar(this, ""), BorderLayout.SOUTH);
     pack();
   }
 
