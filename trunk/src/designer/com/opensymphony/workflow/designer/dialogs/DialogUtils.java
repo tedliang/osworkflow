@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.swing.*;
 
 import com.opensymphony.workflow.designer.swing.MapPanel;
+import com.opensymphony.workflow.designer.swing.JavaTextPane;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.loader.ArgsAware;
 
@@ -30,20 +31,13 @@ public class DialogUtils
 	public static String getTextDialog(String initialValue)
 	{
 		JPanel panel = new JPanel(new GridLayout(1, 1));
-//		TextAreaDefaults defaults = TextAreaDefaults.getDefaults();
-//		defaults.rows = 7;
-//		defaults.cols = 40;
-//		defaults.lineHighlight = false;
-//		JEditTextArea textArea = new JEditTextArea(defaults);
-//		textArea.getPainter().setFont(new JTextArea().getFont());
-		JTextArea textArea = new JTextArea(7, 40);
+		JTextPane textArea = new JavaTextPane();
 		textArea.setText(initialValue!=null ? initialValue.trim() : "");
-//		textArea.setTokenMarker(new JavaTokenMarker());
 		panel.add(new JScrollPane(textArea));
 
 		JOptionPane pane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
 		JDialog dialog = pane.createDialog(null, ResourceManager.getString("specify.properties"));
-		dialog.pack();
+		dialog.setSize(450, 190);
 		dialog.setResizable(true);
 		dialog.show();
 
