@@ -43,4 +43,8 @@ public class StoreFactory {
 
         return store;
     }
+
+    public static void clearCache() {
+        store = null;
+    }
 }
