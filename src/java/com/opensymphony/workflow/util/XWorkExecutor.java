@@ -1,8 +1,14 @@
+/*
+ * Copyright (c) 2002-2003 by OpenSymphony
+ * All rights reserved.
+ */
 package com.opensymphony.workflow.util;
 
 import com.opensymphony.module.propertyset.PropertySet;
+
 import com.opensymphony.workflow.FunctionProvider;
 import com.opensymphony.workflow.WorkflowException;
+
 import com.opensymphony.xwork.ActionContext;
 import com.opensymphony.xwork.ActionProxy;
 import com.opensymphony.xwork.ActionProxyFactory;
@@ -11,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
 
 /**
  * Executes an XWork function The following conversion is done:
@@ -27,6 +34,8 @@ import java.util.Map;
  * </ul>
  */
 public class XWorkExecutor implements FunctionProvider {
+    //~ Methods ////////////////////////////////////////////////////////////////
+
     public void execute(Map transientVars, Map args, PropertySet ps) throws WorkflowException {
         String actionName = (String) args.get("action.name");
         String namespace = (String) args.get("namespace.name");
