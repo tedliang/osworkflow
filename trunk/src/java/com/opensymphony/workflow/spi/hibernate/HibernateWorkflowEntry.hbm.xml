@@ -10,13 +10,13 @@
         <property name="state"/>
 
         <list name="currentSteps" cascade="all" lazy="true" >
-            <key column="entryId"/>
+            <key column="entry_Id"/>
             <index column="stepIndex"/>
             <one-to-many class="com.opensymphony.workflow.spi.hibernate.HibernateCurrentStep"/>
         </list>
 
         <list name="historySteps" cascade="all" lazy="true">
-            <key column="entryId"/>
+            <key column="entry_Id"/>
             <index column="stepIndex"/>
             <one-to-many class="com.opensymphony.workflow.spi.hibernate.HibernateHistoryStep"/>
         </list>
