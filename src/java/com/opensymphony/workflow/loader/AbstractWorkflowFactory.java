@@ -33,6 +33,15 @@ public abstract class AbstractWorkflowFactory {
 
     public abstract String[] getWorkflowNames() throws FactoryException;
 
+    /**
+     * Save the workflow.
+     * @param name The name of the workflow to same.
+     * @param descriptor The descriptor for the workflow.
+     * @param replace true if an existing workflow with this name should be replaced.
+     * @return true if the workflow was saved.
+     * @throws FactoryException if there was an error saving the workflow
+     * @throws com.opensymphony.workflow.InvalidWorkflowDescriptorException if the descriptor specified is invalid
+     */
     public abstract boolean saveWorkflow(String name, WorkflowDescriptor descriptor, boolean replace) throws FactoryException;
 
     public void initDone() throws FactoryException {
