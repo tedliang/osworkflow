@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.20 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -142,6 +142,10 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
         ValidationHelper.validate(postFunctions);
         ValidationHelper.validate(validators);
         ValidationHelper.validate(conditionalResults);
+
+        if ((conditionalResults.size() > 0) && (unconditionalResult == null)) {
+            throw new InvalidWorkflowDescriptorException("Action " + name + " has conditional results but no fallback unconditional result");
+        }
 
         if (restriction != null) {
             restriction.validate();
