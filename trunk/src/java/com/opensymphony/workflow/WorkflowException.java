@@ -51,7 +51,7 @@ public class WorkflowException extends Exception {
         }
 
         if (rootCause != null) {
-            sb.append("root cause: " + rootCause);
+            sb.append("root cause: " + ((rootCause.getMessage() == null) ? rootCause.toString() : rootCause.getMessage()));
         }
 
         return sb.toString();
