@@ -30,7 +30,7 @@ public class WorkflowGraph extends JGraph
     if(descriptor != null)
     {
       this.descriptor = descriptor;
-      addInitailAction();
+      addInitialActions();
       addSteps();
       addSplits();
       addJoins();
@@ -41,9 +41,9 @@ public class WorkflowGraph extends JGraph
       autoLayout();
     }
     setSelectNewCells(true);
-    setGridEnabled(true);
-    setGridSize(6);
-    setTolerance(2);
+    //setGridEnabled(true);
+    //setGridSize(6);
+    //setTolerance(2);
     setMarqueeHandler(new WorkflowMarqueeHandler());
     setCloneable(false);
     setPortsVisible(true);
@@ -55,6 +55,7 @@ public class WorkflowGraph extends JGraph
 
   protected PortView createPortView(Object object, CellMapper mapper)
   {
+    System.out.println("createPortView " + object);
     return new CustomPortView(object, this, mapper);
   }
 
@@ -258,7 +259,7 @@ public class WorkflowGraph extends JGraph
     }
   }
 
-  public void addInitailAction()
+  public void addInitialActions()
   {
     List initialActionList = descriptor.getInitialActions();
     addInitialActionView(initialActionList);
