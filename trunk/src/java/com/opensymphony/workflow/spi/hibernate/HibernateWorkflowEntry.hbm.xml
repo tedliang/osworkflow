@@ -9,7 +9,7 @@
         <property name="workflowName" column="name"/>
         <property name="state"/>
 
-        <list name="currentSteps" cascade="all" lazy="true" >
+        <list name="currentSteps" cascade="all-delete-orphan" lazy="true" >
             <key column="entry_Id"/>
             <index column="stepIndex"/>
             <one-to-many class="com.opensymphony.workflow.spi.hibernate.HibernateCurrentStep"/>
