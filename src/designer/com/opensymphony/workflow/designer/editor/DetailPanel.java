@@ -2,8 +2,7 @@ package com.opensymphony.workflow.designer.editor;
 
 import javax.swing.*;
 
-import com.opensymphony.workflow.designer.WorkflowCell;
-import com.opensymphony.workflow.designer.WorkflowEdge;
+import com.opensymphony.workflow.designer.*;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -14,6 +13,7 @@ public abstract class DetailPanel extends JPanel
 {
   private WorkflowCell cell;
   private WorkflowEdge edge;
+  private WorkflowGraphModel model;
 
   private boolean componentsInited = false;
 
@@ -36,6 +36,16 @@ public abstract class DetailPanel extends JPanel
     viewClosed();
   }
 
+  public WorkflowGraphModel getModel()
+  {
+    return model;
+  }
+
+  public void setModel(WorkflowGraphModel model)
+  {
+    this.model = model;
+  }
+
   public final void setCell(WorkflowCell cell)
   {
     if(!componentsInited)
@@ -54,7 +64,7 @@ public abstract class DetailPanel extends JPanel
 
   public String getTitle()
   {
-    return "Details";
+    return ResourceManager.getString("details");
   }
 
   public void setEdge(WorkflowEdge edge)

@@ -1,7 +1,6 @@
 package com.opensymphony.workflow.designer.editor;
 
 import com.opensymphony.workflow.designer.StepCell;
-import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ActionDescriptor;
 import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
@@ -29,12 +28,12 @@ public class StepFunctionEditor extends FunctionEditor
 
   protected ConfigFunctionDescriptor getNewFunction(String selection)
   {
-    return new ConfigFunctionDescriptor(WorkflowDesigner.palette.getPrefunction(selection));
+    return new ConfigFunctionDescriptor(getModel().getPalette().getPrefunction(selection));
   }
 
   protected String getSelection()
   {
-    return DialogUtils.getUserSelection(WorkflowDesigner.palette.getPreNames(), "Select step function", "Select Function", null);
+    return DialogUtils.getUserSelection(getModel().getPalette().getPreNames(), "Select step function", "Select Function", null);
   }
 
 }

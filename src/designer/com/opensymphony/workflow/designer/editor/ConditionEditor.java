@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.opensymphony.workflow.designer.WorkflowCell;
-import com.opensymphony.workflow.designer.spi.DefaultConditionPlugin;
+import com.opensymphony.workflow.designer.WorkflowGraphModel;
 import com.opensymphony.workflow.designer.spi.ConditionPlugin;
+import com.opensymphony.workflow.designer.spi.DefaultConditionPlugin;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConditionDescriptor;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
@@ -13,94 +14,120 @@ import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
 /**
  * @author baab
  */
-public abstract class ConditionEditor {
-	protected WorkflowCell cell;
+public abstract class ConditionEditor
+{
+  protected WorkflowCell cell;
+  protected WorkflowGraphModel model;
 
-	public ConditionEditor(WorkflowCell cell){
-		this.cell = cell;
-	}
+  public ConditionEditor(WorkflowCell cell)
+  {
+    this.cell = cell;
+  }
 
-	public ConditionDescriptor add(){
-		String selection = getSelection();
-		if(selection == null){
-			return null;
-		}
+  public WorkflowGraphModel getModel()
+  {
+    return model;
+  }
 
-		ConfigConditionDescriptor condition = getNewCondition(selection);
+  public void setModel(WorkflowGraphModel model)
+  {
+    this.model = model;
+  }
 
-		condition = editCondition(condition);
+  public ConditionDescriptor add()
+  {
+    String selection = getSelection();
+    if(selection == null)
+    {
+      return null;
+    }
 
-		if(condition != null){
-			ConditionDescriptor cond = new ConditionDescriptor();
-//			cond.setId(0);
-//			cond.setNegate(false);
-			cond.setParent(getParent());
-			cond.setType(condition.getType());
-			cond.setName(condition.getName());
-			cond.getArgs().putAll(condition.getArgs());
+    ConfigConditionDescriptor condition = getNewCondition(selection);
 
-			return cond;
-		}
-		else{
-			return null;
-		}
+    condition = editCondition(condition);
 
-	}
+    if(condition != null)
+    {
+      ConditionDescriptor cond = new ConditionDescriptor();
+      //			cond.setId(0);
+      //			cond.setNegate(false);
+      cond.setParent(getParent());
+      cond.setType(condition.getType());
+      cond.setName(condition.getName());
+      cond.getArgs().putAll(condition.getArgs());
 
-	public void modify(ConditionDescriptor cond){
-		ConfigConditionDescriptor condition = null;
+      return cond;
+    }
+    else
+    {
+      return null;
+    }
 
-		if(cond.getName() != null){
-			condition = getNewCondition(cond.getName());
-		}
-		else{
-			condition = new ConfigConditionDescriptor();
-			condition.setType(cond.getType());
-		}
+  }
 
-		condition.getArgs().putAll(cond.getArgs());
+  public void modify(ConditionDescriptor cond)
+  {
+    ConfigConditionDescriptor condition = null;
 
+    if(cond.getName() != null)
+    {
+      condition = getNewCondition(cond.getName());
+    }
+    else
+    {
+      condition = new ConfigConditionDescriptor();
+      condition.setType(cond.getType());
+    }
 
-		condition = editCondition(condition);
+    condition.getArgs().putAll(cond.getArgs());
 
-		if(condition != null){
-			cond.getArgs().putAll(condition.getArgs());
-		}
+    condition = editCondition(condition);
 
-	}
+    if(condition != null)
+    {
+      cond.getArgs().putAll(condition.getArgs());
+    }
 
+  }
 
-	private ConfigConditionDescriptor editCondition(ConfigConditionDescriptor config){
-		// get plugin
-		String clazz = config.getPlugin();
-		if(clazz == null || clazz.length() == 0){
-			clazz = "com.opensymphony.workflow.designer.spi.DefaultConditionPlugin";
-		}
-		ConditionPlugin condImpl = null;
-		try {
-			condImpl = (ConditionPlugin)Class.forName(clazz).newInstance();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			condImpl = new DefaultConditionPlugin();
-		}
+  private ConfigConditionDescriptor editCondition(ConfigConditionDescriptor config)
+  {
+    // get plugin
+    String clazz = config.getPlugin();
+    if(clazz == null || clazz.length() == 0)
+    {
+      clazz = "com.opensymphony.workflow.designer.spi.DefaultConditionPlugin";
+    }
+    ConditionPlugin condImpl = null;
+    try
+    {
+      condImpl = (ConditionPlugin)Class.forName(clazz).newInstance();
+    }
+    catch(Exception e1)
+    {
+      e1.printStackTrace();
+      condImpl = new DefaultConditionPlugin();
+    }
 
-		condImpl.setCondition(config);
+    condImpl.setCondition(config);
 
-		// put the parameter
-		Map args = new HashMap();
-		args.put("cell", cell);
+    // put the parameter
+    Map args = new HashMap();
+    args.put("cell", cell);
 
-		if(!condImpl.editCondition(args)){
-			// cancel
-			return null;
-		}
-		config = condImpl.getCondition();
-		return config;
-	}
-	abstract protected AbstractDescriptor getParent();
+    if(!condImpl.editCondition(args))
+    {
+      // cancel
+      return null;
+    }
+    config = condImpl.getCondition();
+    return config;
+  }
 
-	abstract protected ConfigConditionDescriptor getNewCondition(String selection);
+  abstract protected AbstractDescriptor getParent();
 
-	abstract protected String getSelection();
+  abstract protected ConfigConditionDescriptor getNewCondition(String selection);
+
+  abstract protected String getSelection();
 
 }

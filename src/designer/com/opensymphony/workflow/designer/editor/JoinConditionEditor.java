@@ -1,7 +1,6 @@
 package com.opensymphony.workflow.designer.editor;
 
 import com.opensymphony.workflow.designer.JoinCell;
-import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
 
@@ -23,12 +22,12 @@ public class JoinConditionEditor extends ConditionEditor
 
   protected ConfigConditionDescriptor getNewCondition(String selection)
   {
-    return new ConfigConditionDescriptor(WorkflowDesigner.palette.getJoinCondition(selection));
+    return new ConfigConditionDescriptor(getModel().getPalette().getJoinCondition(selection));
   }
 
   protected String getSelection()
   {
-    return DialogUtils.getUserSelection(WorkflowDesigner.palette.getJoinNames(), "Select join condition", "Select Condition", null);
+    return DialogUtils.getUserSelection(getModel().getPalette().getJoinNames(), "Select join condition", "Select Condition", null);
   }
 
   protected JoinCell getCell()

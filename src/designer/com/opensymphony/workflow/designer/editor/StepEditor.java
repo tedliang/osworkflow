@@ -238,6 +238,7 @@ public class StepEditor extends DetailPanel implements ActionListener
   private void add()
   {
     StepPermissionEditor editor = new StepPermissionEditor((StepCell)getCell());
+    editor.setModel(getModel());
     ConditionDescriptor cond = editor.add();
     if(cond != null)
     {
@@ -270,6 +271,7 @@ public class StepEditor extends DetailPanel implements ActionListener
     ConditionDescriptor cond = (ConditionDescriptor)conditionsModel.get(selected);
 
     StepPermissionEditor editor = new StepPermissionEditor((StepCell)getCell());
+    editor.setModel(getModel());
     editor.modify(cond);
 
     conditionsModel.fireTableDataChanged();
@@ -278,6 +280,7 @@ public class StepEditor extends DetailPanel implements ActionListener
   private void preadd()
   {
     StepFunctionEditor editor = new StepFunctionEditor((StepCell)getCell());
+    editor.setModel(getModel());
     FunctionDescriptor func = editor.add();
     if(func != null)
     {
@@ -309,6 +312,7 @@ public class StepEditor extends DetailPanel implements ActionListener
     FunctionDescriptor func = (FunctionDescriptor)preModel.get(selected);
 
     StepFunctionEditor editor = new StepFunctionEditor((StepCell)getCell());
+    editor.setModel(getModel());
     editor.modify(func);
 
     preModel.fireTableDataChanged();
@@ -317,6 +321,7 @@ public class StepEditor extends DetailPanel implements ActionListener
   private void postadd()
   {
     StepFunctionEditor editor = new StepFunctionEditor((StepCell)getCell());
+    editor.setModel(getModel());
     FunctionDescriptor func = editor.add();
     if(func != null)
     {
@@ -348,6 +353,7 @@ public class StepEditor extends DetailPanel implements ActionListener
     FunctionDescriptor func = (FunctionDescriptor)postModel.get(selected);
 
     StepFunctionEditor editor = new StepFunctionEditor((StepCell)getCell());
+    editor.setModel(getModel());
     editor.modify(func);
 
     postModel.fireTableDataChanged();

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.opensymphony.workflow.designer.WorkflowCell;
+import com.opensymphony.workflow.designer.WorkflowGraphModel;
 import com.opensymphony.workflow.designer.spi.DefaultFunctionPluginImpl;
 import com.opensymphony.workflow.designer.spi.IFunctionPlugin;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
@@ -16,10 +17,21 @@ import com.opensymphony.workflow.loader.FunctionDescriptor;
 public abstract class FunctionEditor
 {
   protected WorkflowCell cell;
+  protected WorkflowGraphModel model;
 
   public FunctionEditor(WorkflowCell cell)
   {
     this.cell = cell;
+  }
+
+  public WorkflowGraphModel getModel()
+  {
+    return model;
+  }
+
+  public void setModel(WorkflowGraphModel model)
+  {
+    this.model = model;
   }
 
   public FunctionDescriptor add()

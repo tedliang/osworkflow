@@ -114,6 +114,7 @@ public class JoinEditor extends DetailPanel implements ActionListener
   private void add()
   {
     JoinConditionEditor editor = new JoinConditionEditor((JoinCell)this.getCell());
+    editor.setModel(getModel());
     ConditionDescriptor cond = editor.add();
     if(cond != null)
     {
@@ -143,6 +144,7 @@ public class JoinEditor extends DetailPanel implements ActionListener
   private void modify(int selected)
   {
     JoinConditionEditor editor = new JoinConditionEditor((JoinCell)getCell());
+    editor.setModel(getModel());
     ConditionDescriptor cond = (ConditionDescriptor)conditionsModel.get(selected);
     editor.modify(cond);
     conditionsModel.fireTableDataChanged();
