@@ -537,16 +537,27 @@ public class JDBCWorkflowStore implements WorkflowStore {
         Expression expression = query.getExpression();
 
         StringBuffer sel = new StringBuffer();
-        List timestamps = new ArrayList();
+        List values = new ArrayList();
         String columnName = null;
 
         if (expression.isNested()) {
-            columnName = buildNested((NestedExpression) expression, sel, timestamps);
+            columnName = buildNested((NestedExpression) expression, sel, values);
         } else {
-            columnName = buildSimple((FieldExpression) expression, sel, timestamps);
+            columnName = buildSimple((FieldExpression) expression, sel, values);
         }
 
-        List results = doExpressionQuery(sel.toString(), columnName, timestamps);
+        if (query.getSortOrder() != WorkflowExpressionQuery.SORT_NONE) {
+            sel.append(" ORDER BY ");
+            sel.append(fieldName(query.getOrderBy()));
+
+            if (query.getSortOrder() == WorkflowExpressionQuery.SORT_ASC) {
+                sel.append(" ASC");
+            } else {
+                sel.append(" DESC");
+            }
+        }
+
+        List results = doExpressionQuery(sel.toString(), columnName, values);
 
         return results;
     }
@@ -679,7 +690,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         }
     }
 
-    private String buildNested(NestedExpression nestedExpression, StringBuffer sel, List timestamps) {
+    private String buildNested(NestedExpression nestedExpression, StringBuffer sel, List values) {
         sel.append("SELECT DISTINCT(");
         sel.append(entryId);
         sel.append(") FROM ");
@@ -706,10 +717,10 @@ public class JDBCWorkflowStore implements WorkflowStore {
             sel.append(" IN (");
 
             if (expression.isNested()) {
-                this.buildNested((NestedExpression) nestedExpression.getExpression(i), sel, timestamps);
+                this.buildNested((NestedExpression) nestedExpression.getExpression(i), sel, values);
             } else {
                 FieldExpression sub = (FieldExpression) nestedExpression.getExpression(i);
-                this.buildSimple(sub, sel, timestamps);
+                this.buildSimple(sub, sel, values);
             }
 
             sel.append(")");
@@ -718,7 +729,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         return (entryId);
     }
 
-    private String buildSimple(FieldExpression fieldExpression, StringBuffer sel, List timestamps) {
+    private String buildSimple(FieldExpression fieldExpression, StringBuffer sel, List values) {
         String table;
         String columnName;
 
@@ -738,12 +749,12 @@ public class JDBCWorkflowStore implements WorkflowStore {
         sel.append(") FROM ");
         sel.append(table);
         sel.append(" WHERE ");
-        queryComparison(fieldExpression, sel, timestamps);
+        queryComparison(fieldExpression, sel, values);
 
         return columnName;
     }
 
-    private List doExpressionQuery(String sel, String columnName, List timestamps) throws StoreException {
+    private List doExpressionQuery(String sel, String columnName, List values) throws StoreException {
         if (log.isDebugEnabled()) {
             log.debug(sel);
         }
@@ -757,9 +768,9 @@ public class JDBCWorkflowStore implements WorkflowStore {
             conn = getConnection();
             stmt = conn.prepareStatement(sel);
 
-            if (!timestamps.isEmpty()) {
-                for (int i = 1; i <= timestamps.size(); i++) {
-                    stmt.setTimestamp(i, (Timestamp) timestamps.get(i - 1));
+            if (!values.isEmpty()) {
+                for (int i = 1; i <= values.size(); i++) {
+                    stmt.setObject(i, values.get(i - 1));
                 }
             }
 
@@ -802,6 +813,40 @@ public class JDBCWorkflowStore implements WorkflowStore {
         }
 
         return sb.toString();
+    }
+
+    private String fieldName(int field) {
+        switch (field) {
+        case FieldExpression.ACTION: // actionId
+            return stepActionId;
+
+        case FieldExpression.CALLER:
+            return stepCaller;
+
+        case FieldExpression.FINISH_DATE:
+            return stepFinishDate;
+
+        case FieldExpression.OWNER:
+            return stepOwner;
+
+        case FieldExpression.START_DATE:
+            return stepStartDate;
+
+        case FieldExpression.STEP: // stepId
+            return stepStepId;
+
+        case FieldExpression.STATUS:
+            return stepStatus;
+
+        case FieldExpression.STATE:
+            return entryState;
+
+        case FieldExpression.NAME:
+            return entryName;
+
+        default:
+            return "1";
+        }
     }
 
     private Object lookup(String location) throws NamingException {
@@ -911,7 +956,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
      * @param    sel                 a  StringBuffer
      *
      */
-    private void queryComparison(FieldExpression expression, StringBuffer sel, List timestamps) {
+    private void queryComparison(FieldExpression expression, StringBuffer sel, List values) {
         Object value = expression.getValue();
         int operator = expression.getOperator();
         int field = expression.getField();
@@ -953,79 +998,27 @@ public class JDBCWorkflowStore implements WorkflowStore {
             oper = " = ";
         }
 
-        String left;
-        String right;
-        String value_quoted;
-        String value_unquoted;
-
-        if (value == null) {
-            value_quoted = "null";
-            value_unquoted = "null";
-        } else {
-            value_quoted = "'" + escape(value.toString()) + "'";
-            value_unquoted = escape(value.toString());
-        }
+        String left = fieldName(field);
+        String right = "?";
 
         switch (field) {
-        case FieldExpression.ACTION: // actionId
-            left = stepActionId;
-            right = value_unquoted;
-
-            break;
-
-        case FieldExpression.CALLER:
-            left = stepCaller;
-            right = value_quoted;
-
-            break;
-
         case FieldExpression.FINISH_DATE:
-            left = stepFinishDate;
-            right = "?";
-            timestamps.add(new Timestamp(((Date) value).getTime()));
-
-            break;
-
-        case FieldExpression.OWNER:
-            left = stepOwner;
-            right = value_quoted;
+            values.add(new Timestamp(((Date) value).getTime()));
 
             break;
 
         case FieldExpression.START_DATE:
-            left = stepStartDate;
-            right = "?";
-            timestamps.add(new Timestamp(((Date) value).getTime()));
-
-            break;
-
-        case FieldExpression.STEP: // stepId
-            left = stepStepId;
-            right = value_unquoted;
-
-            break;
-
-        case FieldExpression.STATUS:
-            left = stepStatus;
-            right = value_quoted;
-
-            break;
-
-        case FieldExpression.STATE:
-            left = entryState;
-            right = value_unquoted;
-
-            break;
-
-        case FieldExpression.NAME:
-            left = entryName;
-            right = value_quoted;
+            values.add(new Timestamp(((Date) value).getTime()));
 
             break;
 
         default:
-            left = "1";
-            right = "null";
+
+            if (value == null) {
+                right = "null";
+            } else {
+                values.add(value);
+            }
         }
 
         sel.append(left);
