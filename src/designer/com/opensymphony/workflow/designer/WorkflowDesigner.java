@@ -267,7 +267,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   public void closeWorkspace()
   {
-    for(int i = 0; i < graphTabs.getComponentCount(); i++)
+	  int count = graphTabs.getComponentCount();
+    for(int i = count-1; i >= 0; i--)
     {
       graphTabs.remove(i);
     }
