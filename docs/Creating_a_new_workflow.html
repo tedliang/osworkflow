@@ -1,4 +1,5 @@
-<html><head><title>OSWorkflow Creating a new workflow</title></head><body><ul class="star">
+<html><head><title>OSWorkflow Creating a new workflow</title></head><body>
+<ul class="star">
 <li>Up to <a href="Documentation.html">Documentation</a></li>
 <li>Back to <a href="Interface_choices.html">Interface choices</a></li>
 <li>Forward to <a href="Executing_actions.html">Executing actions</a></li>
@@ -6,5 +7,4 @@
 <div class="wikicode"><pre>Workflow wf = <span class="java&#45;keyword">new</span> BasicWorkflow(username);
 HashMap inputs = <span class="java&#45;keyword">new</span> HashMap();
 inputs.put(<span class="java&#45;quote">"docTitle"</span>, request.getParameter(<span class="java&#45;quote">"title"</span>));
-wf.initialize(<span class="java&#45;quote">"workflowName"</span>, 1, inputs);</pre></div><p class="paragraph"></p>Note that usually, you would use a more appropriate Workflow implementation rather than BasicWorkflow. For example, EJBWorkflow or OfbizWorkflow. If you want to use a Workflow store that does not have a custom workflow context implementation (for example, JDBC, or Hibernate), then use BasicWorkflow. Contributions of WorkflowContexts for various stores are more than welcome!
-</div></body></html>
+wf.initialize(<span class="java&#45;quote">"workflowName"</span>, 1, inputs);</pre></div><p class="paragraph"></p>Note that usually, you would use a more appropriate Workflow implementation rather than BasicWorkflow. For example, EJBWorkflow or OfbizWorkflow. If you want to use a Workflow store that does not have a custom workflow context implementation (for example, JDBC, or Hibernate), then use BasicWorkflow. Contributions of WorkflowContexts for various stores are more than welcome!</body></html>

@@ -1,12 +1,12 @@
-<html><head><title>OSWorkflow Migrating from version 1.0</title></head><body><ul class="star">
+<html><head><title>OSWorkflow Migrating from version 1.0</title></head><body>
+<ul class="star">
 <li>Back to <a href="Documentation.html">Documentation</a></li>
 </ul><p class="paragraph"></p>Migrating from OSWorkflow 1.x to 2.1+ is slightly complex due to the introduction of joins and splits, which means that there <b class="bold">can now be more than one current step</b>. Below is an attempt to provide helpful information for migrating your application to version 2.1+:
 <ul class="minus">
 <li><b class="bold">Check your workflow XML file with the latest DTD</b> - the DTD has changed a bit, especially with regards to functions, validators, and registers. The location attribute for these has been removed and must now be set with an <b class="bold">arg</b> name/value pair. Please read the documentation for the exact values you should place here.</li>
 <li><b class="bold">Data migration</b> - the tables in version 1.x were much simpler than they are now in 2.1+. <b class="bold">Status values have changed from numbers to Strings</b>. <b class="bold">The conversion is as follows: 0 -&#62; Queued, 1 -&#62; Underway, 2 - &#62; Finished</b>. Below is a small guide to help you migrate your data so that it works under 2.1+:</li>
 </ul>
-<h3 class="heading-1-1">The old OSWorkflow schema is as follows:
-</h3><p class="paragraph"></p><div class="wikicode"><pre>entry 
+<h3 class="heading-1-1">The old OSWorkflow schema is as follows:</h3><p class="paragraph"></p><div class="wikicode"><pre>entry 
 &#45;&#45;&#45;&#45;&#45;&#45; 
 id 
 name 
@@ -20,8 +20,7 @@ startDate
 finishDate 
 actionId 
 owner</pre></div>
-<h3 class="heading-1-1">The new schema is now:
-</h3><p class="paragraph"></p><div class="wikicode"><pre>OS_WFENTRY 
+<h3 class="heading-1-1">The new schema is now:</h3><p class="paragraph"></p><div class="wikicode"><pre>OS_WFENTRY 
 &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; 
 ID 
 NAME 
@@ -54,7 +53,4 @@ OS_HISTORYSTEP_PREV
 &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; 
 ID 
 PREVIOUS_ID</pre></div>
-<h3 class="heading-1-1">How to migrate
-</h3><p class="paragraph"></p>First, dump all non-initialized workflows in your old schema with<p class="paragraph"></p><div class="wikicode"><pre>DELTE <span class="sql&#45;keyword">FROM</class> entry <span class="sql&#45;keyword">WHERE</class> currentStep is NULL or currentStep = 0;</pre></div><p class="paragraph"></p>Now we can assume the rest of the workflow instances are all initialized. Now just copy the (id, workflowName) tuple in to OS_WFENTRY as the tuple (id, name, 1) (the 1 is to mark the workflow as initialized).<p class="paragraph"></p>Next, using the currentStep attribute on the old "entry" table, make a query to populate OS_CURRENTSTEP. For the previousId attribute in the old "step" table, populate the OS_CURRENTSTEP_PREV with the tuple (currentStep, previousId).<p class="paragraph"></p>Lastly, delete all entries in the old "step" table that have a join to the "entry" table (ensuring the step table only contains history steps now). Now do the same thing you did above for the rest of the tuples in "step", except use the OS_HISTORYSTEP and OS_HISTORYSTEP_PREV tables.<p class="paragraph"></p>
-
-</div></body></html>
+<h3 class="heading-1-1">How to migrate</h3><p class="paragraph"></p>First, dump all non-initialized workflows in your old schema with<p class="paragraph"></p><div class="wikicode"><pre>DELTE <span class="sql&#45;keyword">FROM</class> entry <span class="sql&#45;keyword">WHERE</class> currentStep is NULL or currentStep = 0;</pre></div><p class="paragraph"></p>Now we can assume the rest of the workflow instances are all initialized. Now just copy the (id, workflowName) tuple in to OS_WFENTRY as the tuple (id, name, 1) (the 1 is to mark the workflow as initialized).<p class="paragraph"></p>Next, using the currentStep attribute on the old "entry" table, make a query to populate OS_CURRENTSTEP. For the previousId attribute in the old "step" table, populate the OS_CURRENTSTEP_PREV with the tuple (currentStep, previousId).<p class="paragraph"></p>Lastly, delete all entries in the old "step" table that have a join to the "entry" table (ensuring the step table only contains history steps now). Now do the same thing you did above for the rest of the tuples in "step", except use the OS_HISTORYSTEP and OS_HISTORYSTEP_PREV tables.<p class="paragraph"></p></body></html>
