@@ -179,18 +179,22 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   public void valueChanged(GraphSelectionEvent e)
   {
-    int index = e.getCells().length;
-    Object lastModified = e.getCells()[index - 1];
-    if(lastModified instanceof WorkflowCell || lastModified instanceof WorkflowEdge)
+	  Object lastAdded = null;
+	  for(int i = e.getCells().length-1; i >= 0; i--)
+	  {
+		  if(e.isAddedCell(i))
+		  {
+			  lastAdded = e.getCells()[i];
+			  break;
+		  }
+	  }
+    if(lastAdded instanceof WorkflowCell || lastAdded instanceof WorkflowEdge)
     {
-      if(e.isAddedCell(index - 1))
-      {
-        showDetails(lastModified);
-      }
+			showDetails(lastAdded);
     }
-    else if(lastModified != null)
+    else if(lastAdded != null)
     {
-      log.debug("unhandled selection:" + lastModified.getClass());
+      log.debug("unhandled selection:" + lastAdded.getClass());
     }
   }
 
