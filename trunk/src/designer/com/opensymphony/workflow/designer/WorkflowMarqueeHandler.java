@@ -7,7 +7,6 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 import org.jgraph.graph.BasicMarqueeHandler;
-import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.PortView;
 
 /**
@@ -38,10 +37,16 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     // Return Immediately
       return true;
     // Find and Remember Port
-    port = getSourcePortAt(e.getPoint());
+    port = graph.getPortViewAt(e.getX(), e.getY());
     // If Port Found and in ConnectMode (=Ports Visible)
     if(port != null && graph.isPortsVisible())
-      return true;
+    {
+      int edgeCount = ((WorkflowPort)port.getCell()).getEdgeCount();
+      //if we have any edges on this port, then assume we're trying to move the edge, rather
+      //than create a new one
+      if(edgeCount == 0)
+        return true;
+    }
     // Else Call Superclass
     return super.isForceMarqueeEvent(e);
   }
@@ -68,9 +73,10 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     if(port != null)
     {
       // If Not Floating Port...
-      boolean isFloating = (GraphConstants.getOffset(port.getAttributes()) != null);
+      //boolean isFloating = (GraphConstants.getOffset(port.getAttributes()) != null);
       // ...Then use Parent's Bounds
-      Rectangle2D r = isFloating ? port.getBounds() : port.getParentView().getBounds();
+      //Rectangle2D r = isFloating ? port.getBounds() : port.getParentView().getBounds();
+      Rectangle2D r = port.getBounds();
       // Scale from Model to Screen
       r = graph.toScreen(r);
       // Add Space For the Highlight Border
@@ -79,35 +85,6 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
       // Paint Port in Preview (=Highlight) Mode
       graph.getUI().paintCell(g, port, growRect, true);
     }
-  }
-
-  public PortView getSourcePortAt(Point point)
-  {
-    // Scale from Screen to Model
-    Point2D tmp = graph.fromScreen(new Point(point));
-    // Find a Port View in Model Coordinates and Remember
-    return graph.getPortViewAt(tmp.getX(), tmp.getY());
-  }
-
-  // Find a Cell at point and Return its first Port as a PortView
-  protected PortView getTargetPortAt(Point point)
-  {
-    // Find Cell at point (No scaling needed here)
-    Object cell = graph.getFirstCellForLocation(point.x, point.y);
-    // Loop Children to find PortView
-    for(int i = 0; i < graph.getModel().getChildCount(cell); i++)
-    {
-      // Get Child from Model
-      Object tmp = graph.getModel().getChild(cell, i);
-      // Get View for Child using the Graph's View as a Cell Mapper
-      tmp = graph.getGraphLayoutCache().getMapping(tmp, false);
-      // If Child View is a Port View and not equal to First Port
-      if(tmp instanceof PortView && tmp != firstPort)
-      // Return as PortView
-        return (PortView)tmp;
-    }
-    // No Port View found
-    return getSourcePortAt(point);
   }
 
   // Display PopupMenu or Remember Start Location and First Port
@@ -173,7 +150,7 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
       // Xor-Paint the old Connector (Hide old Connector)
       paintConnector(Color.black, graph.getBackground(), g);
       // Reset Remembered Port
-      PortView newPort = getTargetPortAt(e.getPoint());
+      PortView newPort = graph.getPortViewAt(e.getX(), e.getY());
       if(port != newPort && port != null)
       {
         paintPort(g);
@@ -203,9 +180,12 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     {
       readyToConnect = false;
       // Then Establish Connection
-      WorkflowCell source = (WorkflowCell)((WorkflowPort)firstPort.getCell()).getParent();
-      WorkflowCell target = (WorkflowCell)((WorkflowPort)port.getCell()).getParent();
-      //      System.out.println("connect " + source + "->" + target);
+      WorkflowPort sourcePort = (WorkflowPort)firstPort.getCell();
+      WorkflowCell source = (WorkflowCell)sourcePort.getParent();
+      WorkflowPort targetPort = (WorkflowPort)port.getCell();
+      WorkflowCell target = (WorkflowCell)targetPort.getParent();
+      source.setSelectedPort(source.getIndex(sourcePort));
+      target.setSelectedPort(target.getIndex(targetPort));
       ConnectHelper.connect(source, target, (WorkflowGraphModel)graph.getModel());
       //		System.out.println("connectable "+ ConnectHelper.connect(source, target, (WorkflowGraphModel)graph.getModel()));
 
@@ -225,12 +205,16 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
   public void mouseMoved(MouseEvent e)
   {
     // Check Mode and Find Port
-    if(e != null && getSourcePortAt(e.getPoint()) != null && !e.isConsumed())
+    PortView portView = graph.getPortViewAt(e.getX(), e.getY());
+    if(portView != null && !e.isConsumed())
     {
       // Set Cusor on Graph (Automatically Reset)
-      graph.setCursor(new Cursor(Cursor.HAND_CURSOR));
-      // Consume Event
-      e.consume();
+      int edgeCount = ((WorkflowPort)portView.getCell()).getEdgeCount();
+      if(edgeCount == 0)
+      {
+        graph.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        e.consume();
+      }
     }
     // Call Superclass
     super.mouseReleased(e);

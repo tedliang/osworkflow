@@ -47,7 +47,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     setSizeable(true);
     setGridColor(GRID_COLOR);
     setGridSize(12);
-    setTolerance(2);
+    //setTolerance(2);
     setGridVisible(true);
     setGridMode(JGraph.LINE_GRID_MODE);
 
@@ -114,7 +114,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
 	{
 		return descriptor;
 	}
-	
+
   public void setDescriptor(WorkflowDescriptor descriptor)
   {
     if(descriptor != null)
@@ -248,7 +248,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
 
   public void addStepDescriptor(StepDescriptor descriptor)
   {
-    StepCell step = new StepCell(descriptor);
+    StepCell step = CellFactory.createStep((WorkflowDescriptor)descriptor.getParent(), descriptor, getWorkflowGraphModel(), null);
     if(layout != null)
     {
       double[] bounds = layout.getBounds(step.getId(), "StepCell");
@@ -258,18 +258,9 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
         rect.setRect(bounds[0], bounds[1], bounds[2], bounds[3]);
         step.getAttributes().put(GraphConstants.BOUNDS, rect);
       }
-      if(step.getChildCount() == 0)
-      {
-        WorkflowPort port = new WorkflowPort();
-        step.add(port);
-      }
-
-    }
-    else
-    {
     }
     // Insert into Model
-    getWorkflowGraphModel().insertStepCell(step, null, null, null);
+   // getWorkflowGraphModel().insertStepCell(step, null, null, null);
   }
 
   public WorkflowGraphModel getWorkflowGraphModel()
