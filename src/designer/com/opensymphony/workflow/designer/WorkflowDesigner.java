@@ -117,10 +117,6 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
     mlayout.add(layout);
     WorkflowGraph graph = new WorkflowGraph(model, descriptor, layout, !hasLayout);
-    if(System.getProperty("mrj.version") != null)
-    {
-      graph.setDoubleBuffered(false);
-    }
     graph.addGraphSelectionListener(this);
     graphs.add(graph);
     graphTabs.add(workflowName, new JScrollPane(graph));
