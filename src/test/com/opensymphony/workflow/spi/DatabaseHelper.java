@@ -6,7 +6,13 @@ package com.opensymphony.workflow.spi;
 
 import com.mckoi.database.jdbc.MSQLException;
 
+import com.opensymphony.module.propertyset.hibernate.PropertySetItem;
+
 import junit.framework.Assert;
+
+import net.sf.hibernate.SessionFactory;
+import net.sf.hibernate.cfg.Configuration;
+import net.sf.hibernate.tool.hbm2ddl.SchemaExport;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -35,8 +41,52 @@ public class DatabaseHelper {
     //~ Static fields/initializers /////////////////////////////////////////////
 
     private static Log log = LogFactory.getLog(DatabaseHelper.class);
+    private static SessionFactory sessionFactory;
+    private static Configuration configuration;
 
     //~ Methods ////////////////////////////////////////////////////////////////
+
+    /**
+     * @return
+     */
+    public static Configuration getConfiguration() {
+        return configuration;
+    }
+
+    /**
+     * @return
+     */
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    /**
+      * Use the default Hibernate *.hbm.xml files.  These build the primary keys
+      * based on an identity or sequence, whatever is native to the database.
+      * @throws Exception
+      */
+    public static void exportSchemaForHibernate() throws Exception {
+        Configuration configuration = new Configuration();
+
+        //cfg.addClass(HibernateHistoryStep.class);
+        File fileHibernateCurrentStep = new File("src/java/com/opensymphony/workflow/spi/hibernate/HibernateCurrentStep.hbm.xml");
+        File fileHibernateHistoryStep = new File("src/java/com/opensymphony/workflow/spi/hibernate/HibernateHistoryStep.hbm.xml");
+        File fileHibernateWorkflowEntry = new File("src/java/com/opensymphony/workflow/spi/hibernate/HibernateWorkflowEntry.hbm.xml");
+        Assert.assertTrue(fileHibernateCurrentStep.exists());
+        Assert.assertTrue(fileHibernateHistoryStep.exists());
+        Assert.assertTrue(fileHibernateWorkflowEntry.exists());
+        configuration.addFile(fileHibernateCurrentStep);
+        configuration.addFile(fileHibernateHistoryStep);
+        configuration.addFile(fileHibernateWorkflowEntry);
+        configuration.addClass(PropertySetItem.class);
+
+        //    Use SchemaExport to see what Hibernate would have created!
+        // Seems to need to do both, I think due to the createDS having the key
+        // to create the database, but the config in hibernate not having the key..?
+        createDatabase("src/etc/deployment/hibernate/mckoi.sql");
+        new SchemaExport(configuration).create(true, true);
+        sessionFactory = configuration.buildSessionFactory();
+    }
 
     /**
      * Build the database for the JDBC SPI.  It requires that there

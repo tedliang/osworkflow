@@ -1,0 +1,6 @@
+<osworkflow>
+    <persistence class="com.opensymphony.workflow.spi.hibernate.HibernateWorkflowStore">
+      <property key="datasource" value="jdbc/CreateDS"/>
+    </persistence>
+    <factory class="com.opensymphony.workflow.loader.URLWorkflowFactory" />
+</osworkflow>
