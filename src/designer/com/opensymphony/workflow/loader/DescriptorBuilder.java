@@ -73,6 +73,7 @@ public class DescriptorBuilder
   public static ConditionalResultDescriptor createConditionalResult(WorkflowGraphModel model, AbstractDescriptor desc)
   {
     ConditionalResultDescriptor result = new ConditionalResultDescriptor();
+    result.setConditionType("AND");
     Utils.checkId(model.getContext(), desc);
     if(result.getId()==0)
       result.setId(Utils.getNextId(model.getContext()));
