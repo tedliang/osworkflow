@@ -940,7 +940,7 @@ public class SugiyamaLayoutAlgorithm implements LayoutAlgorithm
         bounds.y = min.y + spacing.y * rowCellCount;
 
         Object cell = view.getCell();
-        Map map = GraphConstants.createMap();
+        Map map = new AttributeMap();
         GraphConstants.setBounds(map, bounds);
         viewMap.put(cell, map);
       }
