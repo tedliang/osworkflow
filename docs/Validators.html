@@ -1,0 +1,27 @@
+<html><head><title>OSWorkflow Validators</title></head><body><ul>
+
+<li>Back to 
+<a href="Documentation.html">OSWorkflow Documentation</a></li>
+</ul>
+<p></p>Just like 
+<a href="Functions.html">OSWorkflow Functions</a>, OSWorkflow allows for validators in three different forms: 
+<b>Java-based</b>, 
+<b>BeanShell</b>, and 
+<b>BSF</b>. Java-based validators must implement the 
+<b>com.opensymphony.workflow.Validator</b> interface (or in the case of 
+<b>remote-ejb</b>'s, the 
+<b>com.opensymphony.workflow.ValidatorRemote</b> interface). With Java-based validators, throwing an InvalidInputException is all that is needed to mark an input as invalid and stop the workflow action from occuring.
+<p></p>But in BeanShell and BSF, things are a little different, since exceptions thrown in the scripts can't propogate out to the Java runtime environment. To get around this, any value returned in a BeanShell or BSF script will be used as the error message(s). The logic is as follows:
+
+<ul>
+
+<li>If the value returned is an InvalidInputException object, that object is immediately thrown to the client</li>
+
+<li>If the value returned is a Map, that Map is used for the error/errorMessage pairs in the InvalidInputException</li>
+
+<li>If the value returned is a String, the even numbers are used as keys, and the odd numbers are used as values to construct a Map that can then be used in the above case.</li>
+
+<li>Otherwise, the value is converted to a String and added as a generic error message.</li>
+</ul>
+<p></p>
+</div></body></html>

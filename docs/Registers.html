@@ -1,0 +1,36 @@
+<html><head><title>OSWorkflow Registers</title></head><body><ul>
+
+<li>Back to 
+<a href="Documentation.html">OSWorkflow Documentation</a></li>
+</ul>
+<p></p>A register in OSWorkflow is a runtime field that can be dynamically registered in the workflow definition file.
+<p></p>Registers are useful in a number of situations. For example, you might want to provide easy access to the entity that is progressing through the workflow (separate from the actual workflow itself) to the workflow descriptor. In this case, you would define a register that encapsulates this entity. If this entity happens to be a local session EJB, you could use the 
+<b>com.opensymphony.workflow.util.ejb.local.LocalEJBRegister</b> register class to make this entity available. Later on in a particular post-function, you will have access to the entity, and can call any of its methods through a beanshell script, for example.
+<p></p>Registers, just like 
+<a href="Validators.html">OSWorkflow Validators</a> and 
+<a href="Functions.html">OSWorkflow Functions</a>, can be implemented using three different forms: 
+<b>Java-based</b>, 
+<b>BeanShell</b>, and 
+<b>BSF</b>. 
+
+<h3>Java-based
+</h3>
+<p></p>Java-based registers must implement the 
+<b>com.opensymphony.workflow.Register</b> interface (or in the case of 
+<b>remote-ejb</b>'s, the 
+<b>com.opensymphony.workflow.RegisterRemote</b> interface).  
+
+<h3>BeanShell and BSF registers
+</h3>
+<p></p>The value or object returned by the script will be the object that is registered.
+
+<h3>One note about registers
+</h3>
+<p></p>While validators and functions both have the three parameters (
+<b>transientVars</b>, 
+<b>args</b>, and 
+<b>propertySet</b>) to work with, registers only have the args Map to use (along with the 
+<b>context</b> and 
+<b>entry</b> variables that are found in the 
+<b>propertySet</b> normally). This is because registers are called regardless of user input, and also make up the variables map, so it would not make sense to give them scope to that kind of information.
+</div></body></html>

@@ -1,0 +1,34 @@
+<html><head><title>OSWorkflow BSF Functions</title></head><body><ul>
+
+<li>Back to 
+<a href="Documentation.html">OSWorkflow Documentation</a></li>
+
+<li>Back to 
+<a href="Functions.html">OSWorkflow Functions</a></li>
+</ul>
+<p></p>In addition to OSWorkflow Java Function and 
+<a href="BeanShell_Functions.html">OSWorkflow BeanShell Functions</a>, OSWorkflow supports a third type of function: 
+<span></img>
+<a href="http://oss.software.ibm.com/developerworks/projects/bsf">Bean Scripting Framework</a></span> functions. BSF is a project by IBM's AlphaWorks group that allows for commonly used languages such as VBScript, Perlscript, Python, and JavaScript to operate in a common environment. What this means in OSWorkflow is that you can code your functions in any language supported by BSF in the following manner:
+<p></p>
+<div>
+<pre>&#60;function type=
+<span>"bsf"</span>&#62;
+	&#60;arg name=
+<span>"source"</span>&#62;foo.pl&#60;/arg&#62;
+	&#60;arg name=
+<span>"row"</span>&#62;0&#60;/arg&#62;
+	&#60;arg name=
+<span>"col"</span>&#62;0&#60;/arg&#62;
+	&#60;arg name=
+<span>"script"</span>&#62;
+		print $bsf&#45;&#62;lookupBean(
+<span>"propertySet"</span>).getString(
+<span>"foo"</span>);
+	&#60;/arg&#62;
+&#60;/function&#62;</pre></div>
+<p></p>The above code gets the 
+<b>propertySet</b> then prints out the value with the key "foo". The same variables that are in default scope in BeanShell functions are available to lookup in your BSF script. Please read the BSF guide for info on how to lookup these beans in your language of choice.
+<p></p>
+
+</div></body></html>

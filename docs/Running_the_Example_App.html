@@ -1,0 +1,398 @@
+<html><head><title>OSWorkflow Running the Example App</title></head><body><ul>
+
+<li>Up to 
+<a href="Documentation.html">OSWorkflow Documentation</a></li>
+
+<li>Back to 
+<a href="Requirements.html">OSWorkflow Requirements</a></li>
+
+<li>Forward to 
+<a href="Persistence_Options.html">OSWorkflow Persistence Options</a></li>
+</ul>
+<p></p>Note that as of version 2.5, the example war application should deploy on most web containers with no external configuration required. The example app now uses memory persistence, so no datasources need to be configured. The instructions below apply for those wishing to configure a persistent store. In order to explore the example workflow, it is recommended that you first deploy the example war as-is, without any persistence.
+<p></p>OSWorkflow comes with a very simple example application to help you get started with understanding the concepts OSWorkflow is based upon. The example application can run on any servlet container. The following guides have been provided courtesy of Ed Yu. If your application server is not listed, read one of the guides below as a starting point. Installation should be very similar.
+
+<ul>
+
+<li>
+<span></img>
+<a href="#orion">Orion</a></span></li>
+
+<li>
+<span></img>
+<a href="#jrun">JRun</a></span></li>
+
+<li>
+<span></img>
+<a href="#tomcat">Tomcat</a></span></li>
+</ul>
+
+<h3>Orion 
+<a name="orion"></a>
+<a href="Running_the_Example_App#orion.html" title="Permalink to orion"></img></a> 
+<span></img>
+<a href="#top">top</a></span>
+</h3>
+<p></p>
+<div>
+<pre>README&#45;JRun4.txt &#60;Ed Yu ekyu@asgnet.psc.sc.edu&#62;
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+This is a quick stab on how to deploy osworkflow_example.war on Orion 1.5.4.
+<p></p>
+Setting up persistence
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+It is important to properly configure pooled datasource 
+<span>for</span> good performance.
+<p></p>For Orion 1.5.4, the add the following to file config/data&#45;sources.xml
+to properly configure pooled datasource required by OSWorkflow:
+<p></p>	&#60;!&#45;&#45; Postgresql Pooled Datasource &#45;&#45;&#62;
+	&#60;data&#45;source
+                    class=
+<span>"com.evermind.sql.DriverManagerDataSource"</span>
+                    name=
+<span>"NoPoolPostgresql"</span>
+                    location=
+<span>"jdbc/NoPoolDefaultDS"</span>
+                    xa&#45;location=
+<span>"jdbc/xa/NoPoolDefaultXADS"</span>
+                    connection&#45;driver=
+<span>"org.postgresql.Driver"</span>
+                    username=
+<span>"name"</span>
+                    password=
+<span>"pass"</span>
+                    url=
+<span>"jdbc:postgresql://hostname:port/dbname"</span>
+                    inactivity&#45;timeout=
+<span>"30"</span>
+        /&#62;
+	&#60;data&#45;source
+                    class=
+<span>"com.evermind.sql.OrionPooledDataSource"</span>
+                    name=
+<span>"PooledPostgresql"</span>
+                    location=
+<span>"jdbc/DefaultDS"</span>
+                    pooled&#45;location=
+<span>"jdbc/DefaultDS"</span>
+                    xa&#45;location=
+<span>"jdbc/xa/DefaultXADS"</span>
+                    source&#45;location=
+<span>"jdbc/NoPoolDefaultDS"</span>
+                    connection&#45;driver=
+<span>"org.postgresql.Driver"</span>
+                    username=
+<span>"name"</span>
+                    password=
+<span>"pass"</span>
+                    url=
+<span>"jdbc:postgresql://hostname:port/dbname"</span>
+                    inactivity&#45;timeout=
+<span>"30"</span>
+        /&#62;
+<p></p>	&#60;!&#45;&#45; Oracle Pooled Datasource &#45;&#45;&#62;
+	&#60;data&#45;source
+                    class=
+<span>"oracle.jdbc.pool.OracleDataSource"</span>
+                    name=
+<span>"Default"</span>
+                    location=
+<span>"jdbc/DefaultDS"</span>
+                    xa&#45;location=
+<span>"jdbc/xa/DefaultXADS"</span>
+                    ejb&#45;location=
+<span>"jdbc/DefaultDS"</span>
+                    connection&#45;driver=
+<span>"oracle.jdbc.driver.OracleDriver"</span>
+                    username=
+<span>"name"</span>
+                    password=
+<span>"pass"</span>
+                    url=
+<span>"jdbc:oracle:thin:@hostname:port:SID"</span>
+                    inactivity&#45;timeout=
+<span>"30"</span>
+        /&#62;
+<p></p>
+In addition, modify the osworkflow.xml to reflect how to access sequence
+objects 
+<span>for</span> your database.
+<p></p>To use postgresql as the backend database, execute the file tables_postgres.sql
+against the database and make sure the following is defined in the file
+osworkflow.xml:
+<p></p>        &#60;!&#45;&#45; Postgresql sequence access &#45;&#45;&#62;
+        &#60;property key=
+<span>"entry.sequence"</span> value=
+<span>"SELECT nextVal('seq_os_wfentry')"</span>/&#62;
+        &#60;property key=
+<span>"step.sequence"</span> value=
+<span>"SELECT nextVal('seq_os_currentsteps')"</span>/&#62;
+<p></p>To use oracle as the backend database, execute the file tables_oracle.sql
+against the database and make sure the following is defined in the
+osworkflow.xml:
+<p></p>        &#60;!&#45;&#45; Oracle sequence access &#45;&#45;&#62;
+        &#60;property key=
+<span>"entry.sequence"</span> value=
+<span>"SELECT seq_os_wfentry.nextval FROM dual"</span>/&#62;
+        &#60;property key=
+<span>"step.sequence"</span> value=
+<span>"SELECT seq_os_currentsteps.nextval FROM dual"</span>/&#62;
+<p></p>
+WAR Deployment
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+Make a directory under the server home (e.g. C:&#111;rion&#111;swf), pleace the file
+osworkflow_example.war file under it.
+<p></p>Modify file config/application.xml and add the following line in:
+<p></p>	&#60;web&#45;module id=
+<span>"oswf"</span> path=
+<span>"../oswf/osworkflow_example.war"</span> /&#62;
+<p></p>Modify file config/
+<span>default</span>&#45;web&#45;site.xml and add the following line in:
+<p></p>	&#60;web&#45;app application=
+<span>"
+<span>default</span>"</span> load&#45;on&#45;startup=
+<span>"
+<span>true</span>"</span> name=
+<span>"oswf"</span> root=
+<span>"/oswf"</span> /&#62;
+<p></p>Finally hit the URL:
+<p></p>	
+<span></img>
+<a href="http://localhost/oswf">&#104;ttp://localhost/oswf</a></span>
+<p></p>to access the sample application.
+<p></p>
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+Contact Information
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+Edward K Yu, August 2002
+home email: ekyu@sc.rr.com
+work email: ekyu@asgnet.psc.sc.edu          
+<span></img>
+<a href="http://www.uscasg.org">&#104;ttp://www.uscasg.org</a></span>
+<p></p>PS: Please use the home email whenever possible. If you must contact me at work
+then, please cc my home at the same time.</pre></div>
+
+<h3>JRun 
+<a name="jrun"></a>
+<a href="Running_the_Example_App#jrun.html" title="Permalink to jrun"></img></a> 
+<span></img>
+<a href="#top">top</a></span>
+</h3>
+<p></p>
+<div>
+<pre>README&#45;JRun4.txt &#60;Ed Yu ekyu@asgnet.psc.sc.edu&#62;
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+This is a quick stab on how to deploy osworkflow_example.war on JRun4.
+<p></p>
+Setting up persistence
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+It is important to properly configure pooled datasource 
+<span>for</span> good performance.
+<p></p>For JRun4, it is pretty easy to configure pooled datasource when defining JDBC
+resources using the JMC. Startup the admin server and the 
+<span>default</span> server and
+then use JMC to define a JDBC datasource 
+<span>for</span> your database within the 
+<span>default</span>
+server(port 8100). Keep the checkbox clicked 
+<span>for</span> pool connection when adding
+in the datasource. Make sure to verify the datasource after adding it in.
+<p></p>JNDI Name		jdbc/DefaultDS
+Driver 
+<span>Class</span> Name	org.postgresql.Driver
+URL			jdbc:postgresql://hostname:port/dbName
+Description		OSWorkflow example Postgresql database. 
+Pool Connections	X
+Pool Statements		X
+Native Results		X
+User Name		user
+Password		pass
+Verify Password	pass	pass
+<p></p>JNDI Name		jdbc/DefaultDS
+Driver 
+<span>Class</span> Name	oracle.jdbc.pool.OracleDataSource
+URL			jdbc:oracle:thin:@hostname:port:SID
+Description		OSWorkflow example Oracle database. 
+Pool Connections	X
+Pool Statements		X
+Native Results		X
+User Name		user
+Password		pass
+Verify Password	pass	pass
+<p></p>In addition, modify the osworkflow.xml to reflect how to access sequence
+objects 
+<span>for</span> your database.
+<p></p>To use postgresql as the backend database, execute the file tables_postgres.sql
+against the database and make sure the following is defined in the file
+osworkflow.xml:
+<p></p>        &#60;!&#45;&#45; Postgresql sequence access &#45;&#45;&#62;
+        &#60;property key=
+<span>"entry.sequence"</span> value=
+<span>"SELECT nextVal('seq_os_wfentry')"</span>/&#62;
+        &#60;property key=
+<span>"step.sequence"</span> value=
+<span>"SELECT nextVal('seq_os_currentsteps')"</span>/&#62;
+<p></p>To use oracle as the backend database, execute the file tables_oracle.sql
+against the database and make sure the following is defined in the
+osworkflow.xml:
+<p></p>        &#60;!&#45;&#45; Oracle sequence access &#45;&#45;&#62;
+        &#60;property key=
+<span>"entry.sequence"</span> value=
+<span>"SELECT seq_os_wfentry.nextval FROM dual"</span>/&#62;
+        &#60;property key=
+<span>"step.sequence"</span> value=
+<span>"SELECT seq_os_currentsteps.nextval FROM dual"</span>/&#62;
+<p></p>
+WAR Deployment
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+To deploy osworkflow_example.war, place the file under the directory
+servers/
+<span>default</span> after setting up the persistence mechanism outlined above.
+Restart the 
+<span>default</span> server (port 8100). Then, hit the URL
+<p></p>	
+<span></img>
+<a href="http://localhost:8100/osworkflow_example">&#104;ttp://localhost:8100/osworkflow_example</a></span>
+<p></p>to access the sample application.
+<p></p>
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+Contact Information
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+Edward K Yu, August 2002
+home email: ekyu@sc.rr.com
+work email: ekyu@asgnet.psc.sc.edu          
+<span></img>
+<a href="http://www.uscasg.org">&#104;ttp://www.uscasg.org</a></span>
+<p></p>PS: Please use the home email whenever possible. If you must contact me at work
+then, please cc my home at the same time.</pre></div>
+
+<h3>Tomcat 
+<a name="tomcat"></a>
+<a href="Running_the_Example_App#tomcat.html" title="Permalink to tomcat"></img></a> 
+<span></img>
+<a href="#top">top</a></span>
+</h3>
+<p></p>
+<div>
+<pre>README&#45;Tomcat.txt &#60;Ed Yu ekyu@asgnet.psc.sc.edu&#62;
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+This is a quick stab on how to deploy osworkflow_example.war on Tomcat 4.0.X.
+<p></p>
+Setting up persistence
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+It is important to properly configure pooled datasource 
+<span>for</span> good performance.
+<p></p>Unfortunately, there is no good documentation on how to setup Tyrex in Tomcat
+4.0 and compounded by the fact that Tyrex will be deprecated begining in Tomcat
+version 4.1, there is no good way to improve performance under Tomcat 4.0.
+Nonetheless, there are documentation on how to configure Oracle pooled
+datasource factory in Tomcat 4.0.X. Refer to the urls
+
+<span></img>
+<a href="http://www.apachelabs.org/tomcat&amp;#45;user/20020&amp;#91;3&amp;#45;7&amp;#93;.mbox/threads.html,">&#104;ttp://www.apachelabs.org/tomcat&amp;#45;user/20020&amp;#91;3&amp;#45;7&amp;#93;.mbox/threads.html,</a></span>
+
+<span>try</span> it out and let me know 
+<span>if</span> you are successful. I've also attempted to
+use the LE version of Tomcat 4.0.4 (jakarta&#45;tomcat&#45;4.0.4&#45;LE&#45;jdk14.&#42;) without
+any luck (NPE), whereas the full version works fine 
+<span>for</span> me.
+<p></p>Please read the WAR Deployment section below and then come back here.
+<p></p>It is important to copy the osworkflow_example.war into TOMCAT_HOME/webapps
+and startup and shutdown the server before making the modifications to
+TOMCAT_HOME/conf/server.xml to include:
+<p></p>.
+.
+.
+        &#60;!&#45;&#45; OSWorkflow Example Context &#45;&#45;&#62;
+        &#60;Context path=
+<span>"/osworkflow_example"</span> docBase=
+<span>"osworkflow_example"</span> debug=
+<span>"0"</span>
+                 reloadable=
+<span>"
+<span>true</span>"</span> crossContext=
+<span>"
+<span>true</span>"</span>&#62;
+	  &#60;Resource name=
+<span>"jdbc/DefaultDS"</span> auth=
+<span>"Container"</span>
+            type=
+<span>"javax.sql.DataSource"</span>/&#62;
+	  &#60;ResourceParams name=
+<span>"jdbc/DefaultDS"</span>&#62;
+            &#60;parameter&#62;&#60;name&#62;user&#60;/name&#62;&#60;value&#62;user&#60;/value&#62;&#60;/parameter&#62;
+            &#60;parameter&#62;&#60;name&#62;password&#60;/name&#62;&#60;value&#62;pass&#60;/value&#62;&#60;/parameter&#62;
+	    &#60;parameter&#62;
+	      &#60;name&#62;driverClassName&#60;/name&#62;
+<p></p>	      &#60;!&#45;&#45; Oracle &#45;&#45;&#62;
+              &#60;value&#62;oracle.jdbc.driver.OracleDriver&#60;/value&#62;
+<p></p>	      &#60;!&#45;&#45; Postgresql
+	      &#60;value&#62;org.postgresql.Driver&#60;/value&#62;
+	      &#45;&#45;&#62;
+<p></p>	    &#60;/parameter&#62;
+	    &#60;parameter&#62;
+	      &#60;name&#62;driverName&#60;/name&#62;
+<p></p>	      &#60;!&#45;&#45; Oracle &#45;&#45;&#62;
+	      &#60;value&#62;jdbc:oracle:thin:@hostname:port:SID&#60;/value&#62;
+<p></p>	      &#60;!&#45;&#45; Postgresql
+	      &#60;value&#62;jdbc:postgresql://hostname:port/dbName&#60;/value&#62;
+	      &#45;&#45;&#62;
+<p></p>	    &#60;/parameter&#62;
+	  &#60;/ResourceParams&#62;
+	&#60;/Context&#62;
+<p></p>      &#60;/Host&#62;
+<p></p>    &#60;/Engine&#62;
+<p></p>  &#60;/Service&#62;
+.
+.
+.
+<p></p>Make sure your JDBC driver is in TOMCAT_HOME/common/lib. For oracle, you may
+need to rename classes12.zip into classes12.jar 
+<span>for</span> it to work.
+<p></p>In addition, modify the osworkflow.xml to reflect how to access sequence
+objects 
+<span>for</span> your database.
+<p></p>To use postgresql as the backend database, execute the file tables_postgres.sql
+against the database and make sure the following is defined in the file
+osworkflow.xml:
+<p></p>        &#60;!&#45;&#45; Postgresql sequence access &#45;&#45;&#62;
+        &#60;property key=
+<span>"entry.sequence"</span> value=
+<span>"SELECT nextVal('seq_os_wfentry')"</span>/&#62;
+        &#60;property key=
+<span>"step.sequence"</span> value=
+<span>"SELECT nextVal('seq_os_currentsteps')"</span>/&#62;
+<p></p>To use oracle as the backend database, execute the file tables_oracle.sql
+against the database and make sure the following is defined in the
+osworkflow.xml:
+<p></p>        &#60;!&#45;&#45; Oracle sequence access &#45;&#45;&#62;
+        &#60;property key=
+<span>"entry.sequence"</span> value=
+<span>"SELECT seq_os_wfentry.nextval FROM dual"</span>/&#62;
+        &#60;property key=
+<span>"step.sequence"</span> value=
+<span>"SELECT seq_os_currentsteps.nextval FROM dual"</span>/&#62;
+<p></p>
+WAR Deployment
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+To deploy osworkflow_example.war, place it under the directory
+TOMCAT_HOME/webapps, startup and shutdown the server. Then set up the
+persistence mechanism as outlined above. Next, modify the server.xml file to
+configure the data source as outlined above.
+<p></p>Finally, restart the server. Then, hit the URL
+<p></p>	
+<span></img>
+<a href="http://localhost:8080/osworkflow_example">&#104;ttp://localhost:8080/osworkflow_example</a></span>
+<p></p>to access the sample application.
+<p></p>
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+Contact Information
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+Edward K Yu, August 2002
+home email: ekyu@sc.rr.com
+work email: ekyu@asgnet.psc.sc.edu          
+<span></img>
+<a href="http://www.uscasg.org">&#104;ttp://www.uscasg.org</a></span>
+<p></p>PS: Please use the home email whenever possible. If you must contact me at work
+then, please cc my home at the same time.</pre></div>
+</div></body></html>
