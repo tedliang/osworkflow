@@ -913,6 +913,9 @@ public class JDBCWorkflowStore implements WorkflowStore {
         case FieldExpression.NAME:
             return entryName;
 
+        case FieldExpression.DUE_DATE:
+            return stepDueDate;
+
         default:
             return "1";
         }
@@ -966,48 +969,8 @@ public class JDBCWorkflowStore implements WorkflowStore {
             oper = " = ";
         }
 
-        String left;
+        String left = fieldName(field);
         String right;
-
-        switch (field) {
-        case WorkflowQuery.ACTION: // actionId
-            left = stepActionId;
-
-            break;
-
-        case WorkflowQuery.CALLER:
-            left = stepCaller;
-
-            break;
-
-        case WorkflowQuery.FINISH_DATE:
-            left = stepFinishDate;
-
-            break;
-
-        case WorkflowQuery.OWNER:
-            left = stepOwner;
-
-            break;
-
-        case WorkflowQuery.START_DATE:
-            left = stepStartDate;
-
-            break;
-
-        case WorkflowQuery.STEP: // stepId
-            left = stepStepId;
-
-            break;
-
-        case WorkflowQuery.STATUS:
-            left = stepStatus;
-
-            break;
-
-        default:
-            left = "1";
-        }
 
         if (value != null) {
             right = "'" + escape(value.toString()) + "'";
@@ -1080,6 +1043,11 @@ public class JDBCWorkflowStore implements WorkflowStore {
             values.add(new Timestamp(((Date) value).getTime()));
 
             break;
+
+          case FieldExpression.DUE_DATE:
+              values.add(new Timestamp(((Date) value).getTime()));
+
+              break;
 
         default:
 

@@ -14,7 +14,7 @@ package com.opensymphony.workflow.query;
  * <li>Context: The context to search in, which can be one history, current steps, or a workflow instance.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class FieldExpression extends Expression {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -87,6 +87,11 @@ public class FieldExpression extends Expression {
     * Constant for the state field.
     */
     public final static int STATE = 9;
+
+    /**
+    * Constant for the workflow due date field.
+    */
+    public final static int DUE_DATE = 10;
 
     // field context
 
