@@ -3,7 +3,6 @@ package com.opensymphony.workflow.designer.spi;
 import java.util.Map;
 
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
-import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
 
 /**
@@ -27,7 +26,7 @@ public class DefaultConditionPlugin implements ConditionPlugin
 
   public boolean editCondition(Map args)
   {
-    Map newArg = DialogUtils.getMapDialog(condition.getArgs(), condition.getType(), condition.getDisplayName(), condition.getDescription(), null);
+    Map newArg = DialogUtils.getMapDialog(condition, condition.getType(), condition.getDisplayName(), condition.getDescription(), null);
     if(newArg == null)
     {
       return false;

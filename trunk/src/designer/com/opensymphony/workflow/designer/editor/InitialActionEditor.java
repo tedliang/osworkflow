@@ -86,6 +86,8 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 		builder.add(restrict, cc.xy(4, 11));
 
 		conditionsTable = new JTable(conditionsModel);
+    conditionsModel.setType(ConditionsTableModel.PERMISSION);
+    conditionsModel.setGraphModel(getModel());
 		builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 13, 3, 1));
 		builder.add(UIFactory.getButtonBar(this, "permission", BUTTONS), cc.xywh(2, 14, 3, 1));
 

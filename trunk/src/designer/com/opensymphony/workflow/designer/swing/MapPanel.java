@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.opensymphony.workflow.designer.ResourceManager;
+import com.opensymphony.workflow.loader.ArgsAware;
 
 /**
  * @author Gulei
@@ -22,7 +23,7 @@ public class MapPanel extends JPanel
     return edits;
   }
 
-  public MapPanel(Map args, String type, String name, String description, String owner)
+  public MapPanel(ArgsAware descriptor, String type, String name, String description, String owner)
   {
     FormLayout layout = new FormLayout("2dlu, left:max(40dlu;pref), 3dlu, 110dlu:grow, 7dlu");
 		DefaultFormBuilder builder = new DefaultFormBuilder(this, layout, ResourceManager.getBundle());
@@ -38,6 +39,7 @@ public class MapPanel extends JPanel
 			builder.appendI15d("owner", tf);
 			edits.put("Owner", tf);
 		}
+    Map args = descriptor.getArgs();
     if(args.size() > 0)
     {
       builder.appendI15dSeparator("args");
@@ -47,14 +49,18 @@ public class MapPanel extends JPanel
     Iterator iter = keys.iterator();
     while(iter.hasNext())
     {
-      Object key = iter.next();
+      String key = (String)iter.next();
       JTextField field = new JTextField(25);
       if(args.get(key) != null)
       {
         field.setText((String)args.get(key));
       }
-	    builder.append((String)key, field);
+	    builder.append(key, field);
       edits.put(key, field);
+      if(!descriptor.isArgModifiable(key))
+      {
+        field.setEditable(false);
+      }
     }
   }
 

@@ -1,6 +1,8 @@
 package com.opensymphony.workflow.loader;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -8,11 +10,12 @@ import org.w3c.dom.NodeList;
 /**
  * @author baab
  */
-public class ConfigConditionDescriptor extends ConditionDescriptor
+public class ConfigConditionDescriptor extends ConditionDescriptor implements ArgsAware
 {
   protected String plugin;
   protected String description;
 	protected String displayName;
+  protected List modifiableArgs = new ArrayList();
 
   public ConfigConditionDescriptor()
   {
@@ -24,15 +27,16 @@ public class ConfigConditionDescriptor extends ConditionDescriptor
     init(condition);
   }
 
-  public ConfigConditionDescriptor(ConfigConditionDescriptor config)
+  public ConfigConditionDescriptor(ConfigConditionDescriptor other)
   {
-    this.setPlugin(config.getPlugin());
-    this.setName(config.getName());
-    this.setNegate(config.isNegate());
-    this.setType(config.getType());
-    this.getArgs().putAll(config.getArgs());
-	  displayName = config.displayName;
-	  description = config.description;
+    this.setPlugin(other.getPlugin());
+    this.setName(other.getName());
+    this.setNegate(other.isNegate());
+    this.setType(other.getType());
+    this.getArgs().putAll(other.getArgs());
+	  displayName = other.displayName;
+	  description = other.description;
+    modifiableArgs = other.modifiableArgs;
   }
 
   protected void init(Element condition)
@@ -54,10 +58,19 @@ public class ConfigConditionDescriptor extends ConditionDescriptor
     {
       Element arg = (Element)args.item(l);
       this.args.put(arg.getAttribute("name"), XMLUtil.getText(arg));
+      if("true".equals(arg.getAttribute("modifiable")))
+      {
+        modifiableArgs.add(arg.getAttribute("name"));
+      }
     }
-
     plugin = XMLUtil.getChildText(condition, "plugin");
     name = XMLUtil.getChildText(condition, "name");
+  }
+
+  public boolean isArgModifiable(String name)
+  {
+    System.out.println(getClass() + ":isModifiable " + name + " list=" + modifiableArgs);
+    return modifiableArgs.contains(name);
   }
 
   public void writeXML(PrintWriter writer, int indent)

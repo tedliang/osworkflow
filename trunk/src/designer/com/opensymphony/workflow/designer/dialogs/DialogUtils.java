@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 import com.opensymphony.workflow.designer.swing.MapPanel;
 import com.opensymphony.workflow.designer.ResourceManager;
+import com.opensymphony.workflow.loader.ArgsAware;
 
 /**
  * @author Gulei
@@ -28,9 +29,9 @@ public class DialogUtils
       null);							// initial select
   }
 
-  public static Map getMapDialog(Map args, String type, String name, String description, String owner)
+  public static Map getMapDialog(ArgsAware descriptor, String type, String name, String description, String owner)
   {
-    MapPanel panel = new MapPanel(args, type, name, description, owner);
+    MapPanel panel = new MapPanel(descriptor, type, name, description, owner);
     JOptionPane pane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
     JDialog dialog = pane.createDialog(null, ResourceManager.getString("specify.properties"));
 	  dialog.setResizable(true);
@@ -47,6 +48,7 @@ public class DialogUtils
     }
 
     Map edits = panel.getEdits();
+    Map args = descriptor.getArgs();
     Set keys = args.keySet();
     Iterator iter = keys.iterator();
     while(iter.hasNext())
