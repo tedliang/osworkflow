@@ -7,9 +7,6 @@ package com.opensymphony.workflow.loader;
 import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 import com.opensymphony.workflow.util.Validatable;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -28,13 +25,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
-    //~ Static fields/initializers /////////////////////////////////////////////
-
-    private static transient final Log log = LogFactory.getLog(WorkflowDescriptor.class);
-
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected List commonActionsList = new ArrayList(); // for preserving order
@@ -628,10 +621,6 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
             db.parse(new InputSource(new StringReader(sw.toString())));
 
             if (exceptions.size() > 0) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Invalid workflow:\n" + sw.toString());
-                }
-
                 throw new InvalidWorkflowDescriptorException(exceptions.toString());
             }
         } catch (InvalidWorkflowDescriptorException e) {
