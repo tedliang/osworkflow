@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
  * Soap enabled Wrapper around a BasicWorkflow
  *
  * @author $author$
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class BasicSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -120,7 +120,7 @@ public class BasicSOAPWorkflow implements Workflow {
         return new BasicWorkflow(getRemoteUser()).removeWorkflow(workflowName);
     }
 
-    private String getRemoteUser() {
+    protected String getRemoteUser() {
         HttpServletRequest request = (HttpServletRequest) Context.thread().getProperty("httpRequest");
 
         return request.getRemoteUser();
