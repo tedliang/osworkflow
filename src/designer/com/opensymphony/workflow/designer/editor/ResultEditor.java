@@ -192,7 +192,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
     int[] rows = preFunctionsTable.getSelectedRows();
     for(int i = 0; i < rows.length; i++)
     {
-      preFunctionsModel.remove(i);
+      preFunctionsModel.remove(rows[i]);
     }
   }
 
@@ -201,7 +201,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
     int[] rows = preFunctionsTable.getSelectedRows();
     for(int i = 0; i < rows.length; i++)
     {
-      premodify(i);
+      premodify(rows[i]);
     }
   }
 
@@ -232,7 +232,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
     int[] rows = postFunctionsTable.getSelectedRows();
     for(int i = 0; i < rows.length; i++)
     {
-      postFunctionsModel.remove(i);
+      postFunctionsModel.remove(rows[i]);
     }
   }
 
@@ -241,7 +241,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
     int[] rows = postFunctionsTable.getSelectedRows();
     for(int i = 0; i < rows.length; i++)
     {
-      postmodify(i);
+      postmodify(rows[i]);
     }
   }
 
@@ -280,7 +280,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
     int[] rows = conditionsTable.getSelectedRows();
     for(int i = 0; i < rows.length; i++)
     {
-      conditionsModel.remove(i);
+      conditionsModel.remove(rows[i]);
     }
   }
 
@@ -289,7 +289,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
     int[] rows = conditionsTable.getSelectedRows();
     for(int i = 0; i < rows.length; i++)
     {
-      modify(i);
+      modify(rows[i]);
     }
   }
 

@@ -14,6 +14,7 @@ import com.opensymphony.workflow.designer.ActionManager;
 import com.opensymphony.workflow.designer.swing.status.StatusBar;
 import com.opensymphony.workflow.designer.swing.status.StatusDisplay;
 import com.opensymphony.workflow.designer.swing.status.MemoryDisplay;
+import com.opensymphony.workflow.designer.swing.plaf.BlueButtonUI;
 import com.jgoodies.plaf.HeaderStyle;
 import com.jgoodies.plaf.Options;
 
@@ -105,12 +106,14 @@ public class BarFactory
     JToolBar bar = new JToolBar();
     bar.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
     JButton step = new JButton(ResourceManager.getIcon("newstep"));
+	  step.setUI(new BlueButtonUI());
     step.setToolTipText(ResourceManager.getString("createstep"));
     bar.add(step);
     DragSource ds = new DragSource();
     ds.createDefaultDragGestureRecognizer(step, DnDConstants.ACTION_COPY, new TypeDragGesture(ds, DragData.STEP));
 
     JButton join = new JButton(ResourceManager.getIcon("newjoin"));
+	  join.setUI(new BlueButtonUI());
     join.setToolTipText(ResourceManager.getString("createjoin"));
     bar.add(join);
     ds = new DragSource();
@@ -118,6 +121,7 @@ public class BarFactory
 
     JButton split = new JButton(ResourceManager.getIcon("newsplit"));
     split.setToolTipText(ResourceManager.getString("createsplit"));
+	  split.setUI(new BlueButtonUI());
     bar.add(split);
     ds = new DragSource();
     ds.createDefaultDragGestureRecognizer(split, DnDConstants.ACTION_COPY, new TypeDragGesture(ds, DragData.SPLIT));

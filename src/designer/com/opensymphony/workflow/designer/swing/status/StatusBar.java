@@ -18,8 +18,7 @@ public class StatusBar extends JPanel
     setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
     setRequestFocusEnabled(false);
     setFocusable(false);
-    setBorder(BorderFactory.createLineBorder(Color.gray, 1));
-    border = BorderFactory.createEmptyBorder(2, 5, 2, 5);
+    border = BorderFactory.createEmptyBorder(1, 4, 1, 4);
   }
 
   protected void addImpl(Component comp, Object constraints, int index)
@@ -70,7 +69,7 @@ public class StatusBar extends JPanel
         if(itemHeight > height) height = itemHeight;
       }
     }
-    return height;
+    return height + 5;
   }
 
   public Dimension getPreferredSize()

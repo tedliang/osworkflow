@@ -212,7 +212,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 		int[] rows = conditionsTable.getSelectedRows();
 		for(int i = 0; i < rows.length; i++)
 		{
-			conditionsModel.remove(i);
+			conditionsModel.remove(rows[i]);
 		}
 	}
 
@@ -221,7 +221,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 		int[] rows = conditionsTable.getSelectedRows();
 		for(int i = 0; i < rows.length; i++)
 		{
-			modify(i);
+			modify(rows[i]);
 		}
 
 	}
@@ -253,7 +253,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 		int[] rows = pre.getSelectedRows();
 		for(int i = 0; i < rows.length; i++)
 		{
-			preModel.remove(i);
+			preModel.remove(rows[i]);
 		}
 	}
 
@@ -262,7 +262,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 		int[] rows = pre.getSelectedRows();
 		for(int i = 0; i < rows.length; i++)
 		{
-			premodify(i);
+			premodify(rows[i]);
 		}
 
 	}
@@ -294,7 +294,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 		int[] rows = post.getSelectedRows();
 		for(int i = 0; i < rows.length; i++)
 		{
-			postModel.remove(i);
+			postModel.remove(rows[i]);
 		}
 	}
 
@@ -303,7 +303,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 		int[] rows = post.getSelectedRows();
 		for(int i = 0; i < rows.length; i++)
 		{
-			postmodify(i);
+			postmodify(rows[i]);
 		}
 
 	}
