@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.designer.Layout;
 import com.opensymphony.workflow.designer.Prefs;
+import com.opensymphony.workflow.designer.Utils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -272,7 +273,9 @@ public class Workspace extends XMLWorkflowFactory
     WorkflowConfig config = new WorkflowConfig("file", null);
     config.descriptor = new WorkflowDescriptor();
     ActionDescriptor initialAction = new ActionDescriptor();
-    initialAction.setId(1);
+    initialAction.setName("Start Workflow");
+    Utils.checkId(initialAction);
+    initialAction.setId(Utils.getNextId());
     config.descriptor.getInitialActions().add(initialAction);
     workflows.put(name, config);
   }
