@@ -396,7 +396,7 @@ public class AbstractWorkflow implements Workflow {
     }
 
     public void doAction(long id, int actionId, Map inputs) throws WorkflowException {
-        int[] availableActions = getAvailableActions(id);
+        int[] availableActions = getAvailableActions(id, null);
         boolean validAction = false;
 
         WorkflowStore store = getPersistence();
@@ -1267,7 +1267,7 @@ public class AbstractWorkflow implements Workflow {
         }
 
         //we have our results, lets check if we need to autoexec any of them
-        int[] availableActions = getAvailableActions(entry.getId());
+        int[] availableActions = getAvailableActions(entry.getId(), null);
 
         if (availableActions.length != 0) {
             for (int i = 0; i < theResults.length; i++) {
