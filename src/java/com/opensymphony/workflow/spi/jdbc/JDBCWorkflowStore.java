@@ -88,6 +88,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
     private String stepStartDate;
     private String stepStatus;
     private String stepStepId;
+    private boolean closeConnWhenDone = false;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
@@ -401,18 +402,16 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
         String jndi = (String) props.get("datasource");
 
-        try {
-            ds = (DataSource) lookup(jndi);
+        if (jndi != null) {
+            try {
+                ds = (DataSource) lookup(jndi);
 
-            if (ds == null) {
-                ds = (DataSource) new javax.naming.InitialContext().lookup(jndi);
+                if (ds == null) {
+                    ds = (DataSource) new javax.naming.InitialContext().lookup(jndi);
+                }
+            } catch (Exception e) {
+                throw new StoreException("Error looking up DataSource at " + jndi, e);
             }
-        } catch (Exception e) {
-            throw new StoreException("Error looking up DataSource at " + jndi, e);
-        }
-
-        if (ds == null) {
-            throw new StoreException("No DataSource found at " + jndi);
         }
     }
 
@@ -579,6 +578,8 @@ public class JDBCWorkflowStore implements WorkflowStore {
     }
 
     protected Connection getConnection() throws SQLException {
+        closeConnWhenDone = true;
+
         return ds.getConnection();
     }
 
@@ -641,7 +642,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
             }
         }
 
-        if (connection != null) {
+        if ((connection != null) && closeConnWhenDone) {
             try {
                 connection.close();
             } catch (SQLException ex) {
