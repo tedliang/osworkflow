@@ -70,7 +70,7 @@
     <fail message="Cannot run coverage tests. Please copy lib/build/clover-1.2.3.jar to ${ant.home}/lib"/>
   </target>
 
-  <target name="clean" depends="init">
+  <target name="clean" depends="init" description="Remove all compiled files and generated sources">
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
     <delete>
@@ -108,7 +108,7 @@
     </ejbdoclet>
   </target>
 
-  <target name="java" depends="ejbdoclet,format">
+  <target name="java" depends="ejbdoclet,format" description="Compile all java sources">
     <mkdir dir="${build.java}"/>
     <copy filtering="no" todir="${build.java}">
       <fileset dir="${src.java}">
@@ -120,7 +120,7 @@
     <javac srcdir="${src.java}" destdir="${build.java}" classpathref="cp" debug="on"/>
   </target>
 
-  <target name="test" depends="clover-check,init-clover,junit-check,ejbdoclet">
+  <target name="test" depends="clover-check,init-clover,junit-check,ejbdoclet" description="Run all unit tests">
     <jalopy fileformat="unix" convention="${src}/etc/jalopy.xml" history="file" historymethod="adler32" loglevel="error" threads="2" classpathref="cp">
       <fileset dir="${src.test}">
         <include name="**/*.java"/>
@@ -186,7 +186,7 @@
     <clover-setup initstring="clover-db/coverage.db" />
   </target>
 
-  <target name="jar" depends="java">
+  <target name="jar" depends="java" description="Build osworkflow dist jar file">
     <mkdir dir="${dist}"/>
     <copy todir="${build.java}/META-INF">
       <fileset dir="${docs}">
@@ -196,7 +196,7 @@
     <jar basedir="${build.java}" jarfile="${dist}/${name}-${version}.jar" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
   </target>
 
-  <target name="example-war" depends="jar">
+  <target name="example-war" depends="jar" description="Build example war web application">
     <war warfile="${dist}/${name}-${version}-example.war" webxml="${src.etc}/example/web.xml">
       <fileset dir="${src.webapp}"/>
       <lib dir="${lib.core}"/>
@@ -212,7 +212,7 @@
     </war>
   </target>
 
-  <target name="example-ear" depends="jar">
+  <target name="example-ear" depends="jar" description="Build ear application using the EJB store">
     <mkdir dir="${build}/tmp/lib"/>
     <war warfile="${build}/tmp/${name}-${version}-example.war" webxml="${src.etc}/example/web.xml">
       <fileset dir="${src.webapp}"/>
@@ -242,7 +242,7 @@
     </ear>
   </target>
 
-  <target name="client" depends="jar">
+  <target name="client" depends="jar" description="Build the designer client sources">
     <mkdir dir="${build.client}"/>
     <javac classpathref="client.classpath" srcdir="${src.client}" destdir="${build.client}"/>
     <copy todir="${build.client}">
@@ -252,16 +252,16 @@
     </copy>
   </target>
 
-  <target name="client-jar" depends="client">
+  <target name="client-jar" depends="client" description="Build the designer jar file">
     <jar basedir="${build.client}" jarfile="${dist}/designer.jar" manifest="${build.client}/META-INF/MANIFEST.MF"/>
   </target>
 
-  <target name="javadocs" depends="init">
+  <target name="javadocs" depends="init" description="Build javadocs">
     <mkdir dir="${dist.docs}/api"/>
     <javadoc sourcepath="${src.java}" stylesheetfile="${docs}/api.css" destdir="${dist.docs}/api" packagenames="${packages}" classpathref="cp" author="true" version="true" windowTitle="${name} ${version} API" doctitle="${name}" footer="See &lt;a href=&quot;http://www.opensymphony.com&quot;&gt;www.opensymphony.com&lt;/a&gt; for more information." use="true" verbose="false"/>
   </target>
 
-  <target name="clover.report" depends="test">
+  <target name="clover.report" depends="test" description="Generate clover coverage reports">
     <clover-report>
       <current title="OSWorkflow Coverage Report" outfile="${dist.docs}/clover">
         <format type="html" />
@@ -269,7 +269,7 @@
     </clover-report>
   </target>
 
-  <target name="junit.report" depends="test">
+  <target name="junit.report" depends="test" description="Generate junit test results reports">
     <junitreport todir="${dist.docs}/junit">
       <fileset dir="${dist.docs}/junit">
         <include name="TEST-*.xml"/>
@@ -278,15 +278,15 @@
     </junitreport>
   </target>
 
-  <target name="docs" depends="javadocs, reports">
+  <target name="docs" depends="javadocs, reports" description="Build all documentation">
     <copy todir="${dist.docs}">
       <fileset dir="${docs}"/>
     </copy>
   </target>
 
-  <target name="reports" depends="clover.report, junit.report" />
+  <target name="reports" depends="clover.report, junit.report" description="Generate junit and clover reports"/>
 
-  <target name="dist" depends="client-jar, example-war, docs">
+  <target name="dist" depends="client-jar, example-war, docs" description="Build distribution zipfile">
     <mkdir dir="${dist}/zip"/>
     <mkdir dir="${dist}/zip/docs"/>
     <mkdir dir="${dist}/zip/src"/>
