@@ -114,15 +114,15 @@ public class DatabaseHelper {
         URL currentStep = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate/HibernateCurrentStep.hbm.xml");
         URL historyStep = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate/HibernateHistoryStep.hbm.xml");
         URL workflowEntry = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate/HibernateWorkflowEntry.hbm.xml");
-	      URL propertySet = DatabaseHelper.class.getResource("/com/opensymphony/module/propertyset/hibernate/PropertySetItemImpl.hbm.xml");
+        URL propertySet = DatabaseHelper.class.getResource("/com/opensymphony/module/propertyset/hibernate/PropertySetItemImpl.hbm.xml");
         Assert.assertTrue(currentStep != null);
         Assert.assertTrue(historyStep != null);
         Assert.assertTrue(workflowEntry != null);
-		    Assert.assertTrue(propertySet != null);
+        Assert.assertTrue(propertySet != null);
         configuration.addURL(currentStep);
         configuration.addURL(historyStep);
         configuration.addURL(workflowEntry);
-	      configuration.addURL(propertySet);
+        configuration.addURL(propertySet);
 
         new SchemaExport(configuration).create(false, true);
 
