@@ -30,8 +30,9 @@ public class ImportWorkflowDialog extends JDialog implements ActionListener
   {
     super(owner, title, modal);
     getContentPane().setLayout(new BorderLayout());
-    FormLayout layout = new FormLayout("left:max(40dlu;pref), 3dlu, 110dlu:grow, 7dlu");
+    FormLayout layout = new FormLayout("2dlu, left:max(40dlu;pref), 3dlu, 110dlu:grow, 7dlu");
     DefaultFormBuilder builder = new DefaultFormBuilder(layout, ResourceManager.getBundle());
+	  builder.setLeadingColumnOffset(1);
     builder.setDefaultDialogBorder();
     builder.append(web, webField);
 	  webField.addFocusListener(new FocusAdapter()
