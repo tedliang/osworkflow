@@ -73,14 +73,6 @@ public class Navigator extends JTree implements TreeSelectionListener, TreeModel
 						popup.setLocation(p.x, p.y);
 						popup.setVisible(true);
 					}
-					else
-					{
-						popup.setVisible(false);
-					}
-				}
-				else
-				{
-					popup.setVisible(false);
 				}
 			}
 		});
