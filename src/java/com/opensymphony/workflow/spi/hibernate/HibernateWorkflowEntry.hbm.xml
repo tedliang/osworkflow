@@ -4,7 +4,7 @@
 <hibernate-mapping>
     <class name="com.opensymphony.workflow.spi.hibernate.HibernateWorkflowEntry" table="OS_WFENTRY">
         <id name="id" unsaved-value="any">
-            <generator class="vm"/>
+            <generator class="native"/>
         </id>
         <property name="workflowName"/>
         <property name="initialized"/>
