@@ -5,7 +5,6 @@
 package com.opensymphony.workflow.loader;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 
@@ -13,13 +12,17 @@ import java.util.*;
 
 
 /**
+ * A validator is a helper used to verify values in the input map that is
+ * provided to every action call.
+ *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class ValidatorDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected Map args = new HashMap();
+    protected String name;
     protected String type;
 
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -37,6 +40,14 @@ public class ValidatorDescriptor extends AbstractDescriptor {
         return args;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
@@ -47,7 +58,7 @@ public class ValidatorDescriptor extends AbstractDescriptor {
 
     public void writeXML(PrintWriter out, int indent) {
         XMLUtil.printIndent(out, indent++);
-        out.println("<validator " + (hasId() ? ("id=\"" + getId() + "\" ") : "") + "type=\"" + type + "\">");
+        out.println("<validator " + (hasId() ? ("id=\"" + getId() + "\" ") : "") + ((name != null) ? ("name=\"" + XMLUtil.encode(getName()) + "\" ") : "") + "type=\"" + type + "\">");
 
         Iterator iter = args.entrySet().iterator();
 
@@ -75,6 +86,7 @@ public class ValidatorDescriptor extends AbstractDescriptor {
 
     protected void init(Element validator) {
         type = validator.getAttribute("type");
+        name = validator.getAttribute("name");
 
         try {
             setId(Integer.parseInt(validator.getAttribute("id")));
