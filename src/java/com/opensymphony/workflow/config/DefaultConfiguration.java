@@ -11,9 +11,6 @@ import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.loader.*;
 import com.opensymphony.workflow.spi.WorkflowStore;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.w3c.dom.*;
 
 import java.io.InputStream;
@@ -29,13 +26,12 @@ import javax.xml.parsers.*;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultConfiguration implements Configuration {
     //~ Static fields/initializers /////////////////////////////////////////////
 
     public static DefaultConfiguration INSTANCE = new DefaultConfiguration();
-    private static final Log log = LogFactory.getLog(DefaultConfiguration.class);
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
@@ -81,8 +77,6 @@ public class DefaultConfiguration implements Configuration {
         if (store == null) {
             String clazz = getPersistence();
 
-            log.info("Initializing WorkflowStore: " + clazz);
-
             try {
                 store = (WorkflowStore) Class.forName(clazz).newInstance();
             } catch (Exception ex) {
@@ -107,7 +101,7 @@ public class DefaultConfiguration implements Configuration {
             try {
                 db = dbf.newDocumentBuilder();
             } catch (ParserConfigurationException e) {
-                log.fatal("Could not load config file", e);
+                throw new FactoryException("Error creating document builder", e);
             }
 
             Document doc = db.parse(is);
