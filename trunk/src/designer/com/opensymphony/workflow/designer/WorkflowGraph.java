@@ -100,6 +100,11 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     }
   }
 
+	public Layout getGraphLayout()
+	{
+		return layout;
+	}
+
   protected PortView createPortView(Object object, CellMapper mapper)
   {
     return new CustomPortView(object, this, mapper);

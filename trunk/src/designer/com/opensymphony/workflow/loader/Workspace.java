@@ -277,4 +277,22 @@ public class Workspace extends XMLWorkflowFactory
     config.descriptor.getInitialActions().add(initialAction);
     workflows.put(name, config);
   }
+
+	public void renameWorkflow(String oldName, String newName)
+	{
+		//todo need to keep track of deleted workflows and delete their files on save
+		WorkflowConfig config = (WorkflowConfig)workflows.get(oldName);
+		config.location = newName + ".xml";
+		try
+		{
+			config.url = new File(workflowsXML.getParentFile(), config.location).toURL();
+		}
+		catch(MalformedURLException e)
+		{
+			//this can't ever happen
+			e.printStackTrace();
+		}
+		workflows.remove(oldName);
+		workflows.put(newName, config);
+	}
 }
