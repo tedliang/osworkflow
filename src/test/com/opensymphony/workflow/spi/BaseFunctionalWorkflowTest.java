@@ -4,7 +4,10 @@
  */
 package com.opensymphony.workflow.spi;
 
-import com.opensymphony.user.*;
+import com.opensymphony.user.EntityNotFoundException;
+import com.opensymphony.user.Group;
+import com.opensymphony.user.User;
+import com.opensymphony.user.UserManager;
 
 import com.opensymphony.workflow.AbstractWorkflow;
 import com.opensymphony.workflow.QueryNotSupportedException;
@@ -26,6 +29,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -193,6 +197,25 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         } catch (WorkflowException e) {
             // expected, no such thing as current step for initial action
         }
+    }
+
+    public void testMetadataAccess() throws Exception {
+        String workflowName = getClass().getResource("/samples/example.xml").toString();
+
+        long workflowId = workflow.initialize(workflowName, 1, new HashMap());
+        WorkflowDescriptor wfDesc = workflow.getWorkflowDescriptor(workflowName);
+
+        Map meta = wfDesc.getMetaAttributes();
+        assertTrue("missing metadata", ((String) meta.get("workflow-meta1")).equals("workflow-meta1-value"));
+        assertTrue("missing metadata", ((String) meta.get("workflow-meta2")).equals("workflow-meta2-value"));
+
+        meta = wfDesc.getStep(1).getMetaAttributes();
+        assertTrue("missing metadata", ((String) meta.get("step-meta1")).equals("step-meta1-value"));
+        assertTrue("missing metadata", ((String) meta.get("step-meta2")).equals("step-meta2-value"));
+
+        meta = wfDesc.getAction(1).getMetaAttributes();
+        assertTrue("missing metadata", ((String) meta.get("action-meta1")).equals("action-meta1-value"));
+        assertTrue("missing metadata", ((String) meta.get("action-meta2")).equals("action-meta2-value"));
     }
 
     public void testWorkflowExpressionQuery() throws Exception {
