@@ -121,7 +121,6 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
       // Find Cell in Model Coordinates
       Object cell = graph.getFirstCellForLocation(e.getX(), e.getY());
       // Create PopupMenu for the Cell
-      System.out.println(this + " cell=" + cell);
       if(cell == null)
       {
         graph.showMenu(e.getX(), e.getY());
