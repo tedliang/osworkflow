@@ -399,6 +399,14 @@ public class AbstractWorkflow implements Workflow {
             boolean result = false;
 
             switch (newState) {
+            case WorkflowEntry.COMPLETED:
+
+                if (currentState == WorkflowEntry.ACTIVATED) {
+                    result = true;
+                }
+
+                break;
+
             case WorkflowEntry.CREATED:
                 result = false;
 
