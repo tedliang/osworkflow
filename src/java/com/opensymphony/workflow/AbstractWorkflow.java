@@ -773,9 +773,13 @@ public class AbstractWorkflow implements Workflow {
 
             return passed;
         } catch (Exception e) {
-            String message = "Unknown exception encountered when trying condition: " + clazz;
             context.setRollbackOnly();
-            throw new WorkflowException(message, e);
+
+            if (e instanceof WorkflowException) {
+                throw (WorkflowException) e;
+            }
+
+            throw new WorkflowException("Unknown exception encountered when trying condition: " + clazz, e);
         }
     }
 
@@ -851,9 +855,13 @@ public class AbstractWorkflow implements Workflow {
             try {
                 transientVars.put(register.getVariableName(), r.registerVariable(context, entry, args));
             } catch (Exception e) {
-                String message = "An unknown exception occured while registering variable using class: " + clazz;
                 context.setRollbackOnly();
-                throw new WorkflowException(message, e);
+
+                if (e instanceof WorkflowException) {
+                    throw (WorkflowException) e;
+                }
+
+                throw new WorkflowException("An unknown exception occured while registering variable using class: " + clazz, e);
             }
         }
     }
@@ -909,8 +917,13 @@ public class AbstractWorkflow implements Workflow {
                 } catch (InvalidInputException e) {
                     throw e;
                 } catch (Exception e) {
-                    String message = "An unknown exception occured executing Validator: " + clazz;
                     context.setRollbackOnly();
+
+                    if (e instanceof WorkflowException) {
+                        throw (WorkflowException) e;
+                    }
+
+                    String message = "An unknown exception occured executing Validator: " + clazz;
                     throw new WorkflowException(message, e);
                 }
             }
