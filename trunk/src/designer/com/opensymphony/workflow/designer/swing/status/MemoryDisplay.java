@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import com.opensymphony.workflow.designer.ResourceManager;
+import com.opensymphony.workflow.designer.swing.plaf.BlueButtonUI;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -18,7 +19,7 @@ public class MemoryDisplay extends DisplayItem
   private static final Color centerColor = new Color(180, 200, 230);
   private final Icon gcIcon = ResourceManager.getIcon("gc");
   private MemoryPanel panel;
-  private JLabel invokeGC;
+  private JButton invokeGC;
   private int updateInterval = 2000;
   private Timer timer;
 
@@ -58,15 +59,16 @@ public class MemoryDisplay extends DisplayItem
     setLayout(new BorderLayout(5, 0));
     panel = new MemoryPanel();
     panel.setOpaque(false);
-    invokeGC = new JLabel(gcIcon);
+    invokeGC = new JButton(gcIcon);
     invokeGC.setRequestFocusEnabled(false);
     invokeGC.setFocusable(false);
     setBorder(new EmptyBorder(1, 1, 1, 1));
     invokeGC.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
     invokeGC.setOpaque(false);
-    invokeGC.addMouseListener(new MouseAdapter()
+	  invokeGC.setUI(new BlueButtonUI());
+    invokeGC.addActionListener(new ActionListener()
     {
-	    public void mouseClicked(MouseEvent e)
+	    public void actionPerformed(ActionEvent e)
 	    {
 		    System.gc();
 		    MemoryDisplay.this.panel.repaint();

@@ -105,7 +105,6 @@ public class StepEditor extends DetailPanel implements ActionListener
     postModel.setGraphModel(getModel());
     builder.add(UIFactory.createTablePanel(post), cc.xywh(2, 25, 3, 1));
     builder.add(UIFactory.getAddRemovePropertiesBar(this, "post", BUTTONS), cc.xywh(2, 26, 3, 1));
-
   }
 
   public void actionPerformed(ActionEvent e)
@@ -160,7 +159,6 @@ public class StepEditor extends DetailPanel implements ActionListener
     {
       conditionsTable.getCellEditor().stopCellEditing();
     }
-
   }
 
   protected void updateView()
@@ -216,7 +214,6 @@ public class StepEditor extends DetailPanel implements ActionListener
     {
       conditionsModel.add(cond);
     }
-
   }
 
   private void remove()
@@ -224,7 +221,7 @@ public class StepEditor extends DetailPanel implements ActionListener
     int[] rows = conditionsTable.getSelectedRows();
     for(int i = 0; i < rows.length; i++)
     {
-      conditionsModel.remove(i);
+      conditionsModel.remove(rows[i]);
     }
   }
 
@@ -233,9 +230,8 @@ public class StepEditor extends DetailPanel implements ActionListener
     int[] rows = conditionsTable.getSelectedRows();
     for(int i = 0; i < rows.length; i++)
     {
-      modify(i);
+      modify(rows[i]);
     }
-
   }
 
   private void modify(int selected)
@@ -265,7 +261,7 @@ public class StepEditor extends DetailPanel implements ActionListener
     int[] rows = pre.getSelectedRows();
     for(int i = 0; i < rows.length; i++)
     {
-      preModel.remove(i);
+      preModel.remove(rows[i]);
     }
   }
 
@@ -274,9 +270,8 @@ public class StepEditor extends DetailPanel implements ActionListener
     int[] rows = pre.getSelectedRows();
     for(int i = 0; i < rows.length; i++)
     {
-      premodify(i);
+      premodify(rows[i]);
     }
-
   }
 
   private void premodify(int selected)
@@ -306,7 +301,7 @@ public class StepEditor extends DetailPanel implements ActionListener
     int[] rows = post.getSelectedRows();
     for(int i = 0; i < rows.length; i++)
     {
-      postModel.remove(i);
+      postModel.remove(rows[i]);
     }
   }
 
@@ -315,9 +310,8 @@ public class StepEditor extends DetailPanel implements ActionListener
     int[] rows = post.getSelectedRows();
     for(int i = 0; i < rows.length; i++)
     {
-      postmodify(i);
+      postmodify(rows[i]);
     }
-
   }
 
   private void postmodify(int selected)
@@ -330,5 +324,4 @@ public class StepEditor extends DetailPanel implements ActionListener
 
     postModel.fireTableDataChanged();
   }
-
 }
