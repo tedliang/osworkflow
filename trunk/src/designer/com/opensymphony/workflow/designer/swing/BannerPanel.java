@@ -9,11 +9,8 @@ import com.opensymphony.workflow.designer.UIFactory;
 
 public class BannerPanel extends JPanel
 {
-
   private JLabel titleLabel;
-
   private JTextArea subtitleLabel;
-
   private JLabel iconLabel;
 
   public BannerPanel()
@@ -44,10 +41,10 @@ public class BannerPanel extends JPanel
 
     JPanel nestedPane = new JPanel(new BorderLayout());
     nestedPane.setOpaque(false);
-    nestedPane.add("North", titleLabel);
-    nestedPane.add("Center", subtitleLabel);
-    add("Center", nestedPane);
-    add("East", iconLabel);
+    nestedPane.add(titleLabel, BorderLayout.NORTH);
+    nestedPane.add(subtitleLabel, BorderLayout.CENTER);
+    add(nestedPane, BorderLayout.CENTER);
+    add(iconLabel, BorderLayout.EAST);
   }
 
   public void setTitleColor(Color color)

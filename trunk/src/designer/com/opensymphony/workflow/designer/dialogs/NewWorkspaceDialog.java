@@ -16,7 +16,7 @@ import com.opensymphony.workflow.loader.Workspace;
  *         Date: Dec 28, 2003
  *         Time: 4:39:11 PM
  */
-public class NewWorkspaceDialog extends JDialog implements ActionListener
+public class NewWorkspaceDialog extends BaseDialog
 {
   private JRadioButton create = new JRadioButton(ResourceManager.getString("workspace.create"));
   private JRadioButton load = new JRadioButton(ResourceManager.getString("workspace.load"));
@@ -26,7 +26,7 @@ public class NewWorkspaceDialog extends JDialog implements ActionListener
   public NewWorkspaceDialog(Frame owner, String title, boolean modal) throws HeadlessException
   {
     super(owner, title, modal);
-    getContentPane().setLayout(new BorderLayout());
+    //getContentPane().setLayout(new BorderLayout());
     FormLayout layout = new FormLayout("2dlu, left:max(40dlu;pref), 3dlu, 110dlu:grow, 7dlu");
     DefaultFormBuilder builder = new DefaultFormBuilder(layout, ResourceManager.getBundle());
     builder.setLeadingColumnOffset(1);
@@ -68,45 +68,34 @@ public class NewWorkspaceDialog extends JDialog implements ActionListener
       }
     });
 
-    getContentPane().add(builder.getPanel(), BorderLayout.CENTER);
-    getContentPane().add(UIFactory.getOKCancelBar(this, ""), BorderLayout.SOUTH);
-    pack();
+    getContentPane().add(builder.getPanel());
   }
 
-  public void actionPerformed(ActionEvent e)
-  {
-    String command = e.getActionCommand();
-    if("ok".equals(command))
-    {
-      if(load.isSelected())
-      {
-        File file = loadField.getFile();
-        if(file==null || file.isDirectory())
-        {
-          JOptionPane.showMessageDialog((Component)e.getSource(), ResourceManager.getString("error.file.invalid"), ResourceManager.getString("error"), JOptionPane.ERROR_MESSAGE);
-          return;
-        }
-        WorkflowDesigner.INSTANCE.openWorkspace(loadField.getFile());
-        dispose();
-      }
-      else
-      {
-        File file = createField.getFile();
-        if(file == null || file.isDirectory())
-        {
-          JOptionPane.showMessageDialog((Component)e.getSource(), ResourceManager.getString("error.file.invalid"), ResourceManager.getString("error"), JOptionPane.ERROR_MESSAGE);
-          return;
-        }
-        Workspace space = WorkflowDesigner.INSTANCE.newWorkspace();
-        space.setLocation(file);
-        Prefs.INSTANCE.put(Prefs.LAST_WORKSPACE, file.toString());
-        WorkflowDesigner.INSTANCE.navigator().setWorkspace(space);
-      }
-      dispose();
-    }
-    else
-    {
-      dispose();
-    }
-  }
+	public void ok()
+	{
+		if(load.isSelected())
+		{
+		  File file = loadField.getFile();
+		  if(file==null || file.isDirectory())
+		  {
+		    JOptionPane.showMessageDialog(this, ResourceManager.getString("error.file.invalid"), ResourceManager.getString("error"), JOptionPane.ERROR_MESSAGE);
+		    return;
+		  }
+		  WorkflowDesigner.INSTANCE.openWorkspace(loadField.getFile());
+		}
+		else
+		{
+		  File file = createField.getFile();
+		  if(file == null || file.isDirectory())
+		  {
+		    JOptionPane.showMessageDialog(this, ResourceManager.getString("error.file.invalid"), ResourceManager.getString("error"), JOptionPane.ERROR_MESSAGE);
+		    return;
+		  }
+		  Workspace space = WorkflowDesigner.INSTANCE.newWorkspace();
+		  space.setLocation(file);
+		  Prefs.INSTANCE.put(Prefs.LAST_WORKSPACE, file.toString());
+		  WorkflowDesigner.INSTANCE.navigator().setWorkspace(space);
+		}
+		super.ok();
+	}
 }

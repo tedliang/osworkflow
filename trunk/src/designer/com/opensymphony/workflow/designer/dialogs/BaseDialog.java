@@ -10,11 +10,6 @@ import com.jgoodies.forms.factories.ButtonBarFactory;
 
 public class BaseDialog extends JDialog
 {
-
-  public final static int OK_CANCEL_DIALOG = 0;
-
-  public final static int CLOSE_DIALOG = 1;
-
   private BannerPanel banner;
   private JPanel contentPane;
   private boolean cancelClicked;
@@ -110,14 +105,14 @@ public class BaseDialog extends JDialog
     return !cancelClicked;
   }
 
-  public void ok()
+  protected void ok()
   {
     setVisible(false);
     dispose();
     cancelClicked = false;
   }
 
-  public void cancel()
+  protected void cancel()
   {
     setVisible(false);
     dispose();
