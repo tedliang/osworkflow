@@ -8,9 +8,11 @@ import com.opensymphony.workflow.WorkflowException;
 import com.opensymphony.workflow.spi.WorkflowEntry;
 
 
-/*
+/**
+ * Workflow listener interface to be implemented by local session
+ * beans that wish to be notified of changes in the workflow state.
  * @author Hani Suleiman
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * Date: Apr 6, 2002
  * Time: 11:48:14 PM
  */
