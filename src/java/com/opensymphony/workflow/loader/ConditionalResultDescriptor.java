@@ -4,6 +4,8 @@
  */
 package com.opensymphony.workflow.loader;
 
+import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -15,7 +17,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ConditionalResultDescriptor extends ResultDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -44,6 +46,14 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
 
     public List getConditions() {
         return conditions;
+    }
+
+    public void validate() throws InvalidWorkflowDescriptorException {
+        super.validate();
+
+        if (conditions.size() == 0) {
+            throw new InvalidWorkflowDescriptorException("Conditional result from " + ((ActionDescriptor) getParent()).getName() + " to " + getDestination() + " must have at least one condition");
+        }
     }
 
     public void writeXML(PrintWriter out, int indent) {
@@ -117,6 +127,16 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
             ConditionDescriptor conditionDescriptor = new ConditionDescriptor(condition);
             conditionDescriptor.setParent(this);
             this.conditions.add(conditionDescriptor);
+        }
+    }
+
+    private String getDestination() {
+        if (join != 0) {
+            return "join #" + join;
+        } else if (split != 0) {
+            return "split #" + split;
+        } else {
+            return "step #" + step;
         }
     }
 }
