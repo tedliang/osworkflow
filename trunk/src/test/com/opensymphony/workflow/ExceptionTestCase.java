@@ -6,8 +6,9 @@ package com.opensymphony.workflow;
 
 import junit.framework.TestCase;
 
-import java.util.HashMap;
 import java.net.URL;
+
+import java.util.HashMap;
 
 
 /**
@@ -45,8 +46,9 @@ public class ExceptionTestCase extends TestCase {
         //correct behaviour is to get a store exception since we can't look up the DS
         URL url = getClass().getResource("/samples/auto1.xml");
         assertNotNull("Unable to find resource /samples/auto1.xml", url);
+
         try {
-          workflow.initialize(url.toString(), 1, new HashMap());
+            workflow.initialize(url.toString(), 1, new HashMap());
         } catch (StoreException e) {
             return;
         }

@@ -278,6 +278,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
 
         UserManager um = UserManager.getInstance();
         assertNotNull("Could not get UserManager", um);
+
         try {
             um.getUser(USER_TEST);
         } catch (EntityNotFoundException enfe) {
