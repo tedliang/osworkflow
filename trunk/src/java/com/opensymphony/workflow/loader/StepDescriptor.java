@@ -20,7 +20,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -120,17 +120,17 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
         Iterator iter = commonActions.iterator();
 
         while (iter.hasNext()) {
-            String s = (String) iter.next();
+            Object o = iter.next();
 
             try {
-                Integer actionId = new Integer(s);
+                Integer actionId = new Integer(o.toString());
                 ActionDescriptor commonActionReference = (ActionDescriptor) ((WorkflowDescriptor) getParent()).getCommonActions().get(actionId);
 
                 if (commonActionReference == null) {
                     throw new InvalidWorkflowDescriptorException("Common action " + actionId + " specified in step " + getName() + " does not exist");
                 }
             } catch (NumberFormatException ex) {
-                throw new InvalidWorkflowDescriptorException("Common action " + s + " is not a valid action ID");
+                throw new InvalidWorkflowDescriptorException("Common action " + o + " is not a valid action ID");
             }
         }
     }
@@ -164,8 +164,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
             // special serialization common-action elements
             for (int i = 0; i < commonActions.size(); i++) {
-                String action = (String) commonActions.get(i);
-                out.println("<common-action id=\"" + action + "\" />");
+                out.println("<common-action id=\"" + commonActions.get(i) + "\" />");
             }
 
             for (int i = 0; i < actions.size(); i++) {
@@ -221,19 +220,21 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
             for (int i = 0; i < commonActions.getLength(); i++) {
                 Element commonAction = (Element) commonActions.item(i);
 
-                String actionId = commonAction.getAttribute("id");
-                WorkflowDescriptor wfDesc = (WorkflowDescriptor) (getParent());
+                WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) (getParent());
 
                 try {
-                    ActionDescriptor commonActionReference = (ActionDescriptor) wfDesc.getCommonActions().get(actionId);
+                    Integer actionId = new Integer(commonAction.getAttribute("id"));
+
+                    ActionDescriptor commonActionReference = (ActionDescriptor) workflowDescriptor.getCommonActions().get(actionId);
 
                     if (commonActionReference != null) {
                         this.actions.add(commonActionReference);
                     }
-                } catch (NumberFormatException nfe) {
-                }
 
-                this.commonActions.add(actionId);
+                    this.commonActions.add(actionId);
+                } catch (Exception ex) {
+                    log.warn("Invalid common actionId:" + ex);
+                }
             }
         }
     }
