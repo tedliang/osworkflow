@@ -804,6 +804,20 @@ public class AbstractWorkflow implements Workflow {
         }
     }
 
+    /**
+     * Mark the specified entry as completed, and move all current steps to history.
+     */
+    protected void completeEntry(long id, Collection currentSteps) throws StoreException {
+        getPersistence().setEntryState(id, WorkflowEntry.COMPLETED);
+
+        Iterator i = new ArrayList(currentSteps).iterator();
+
+        while (i.hasNext()) {
+            Step step = (Step) i.next();
+            getPersistence().moveToHistory(step);
+        }
+    }
+
     protected Object loadObject(String clazz) {
         try {
             return ClassLoaderUtil.loadClass(clazz, getClass()).newInstance();
@@ -1089,17 +1103,6 @@ public class AbstractWorkflow implements Workflow {
         }
 
         return passesConditions(conditionType, conditions, Collections.unmodifiableMap(transientVars), ps, 0);
-    }
-
-    private void completeEntry(long id, Collection currentSteps) throws StoreException {
-        getPersistence().setEntryState(id, WorkflowEntry.COMPLETED);
-
-        Iterator i = new ArrayList(currentSteps).iterator();
-
-        while (i.hasNext()) {
-            Step step = (Step) i.next();
-            getPersistence().moveToHistory(step);
-        }
     }
 
     private Step createNewCurrentStep(ResultDescriptor theResult, WorkflowEntry entry, WorkflowStore store, int actionId, Step currentStep, long[] previousIds, Map transientVars, PropertySet ps) throws WorkflowException {
