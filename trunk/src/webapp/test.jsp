@@ -1,4 +1,4 @@
-<%@ page import="com.opensymphony.module.user.User,
+<%@ page import="com.opensymphony.user.User,
                  com.opensymphony.workflow.Workflow,
                  com.opensymphony.workflow.basic.BasicWorkflow,
                  com.opensymphony.workflow.spi.Step,

@@ -1,6 +1,6 @@
-<%@ page import="com.opensymphony.module.user.UserManager,
-                 com.opensymphony.module.user.User,
-                 com.opensymphony.module.user.Group"%>
+<%@ page import="com.opensymphony.user.UserManager,
+                 com.opensymphony.user.User,
+                 com.opensymphony.user.Group"%>
 <%
     UserManager um = UserManager.getInstance();
     User test = um.createUser("test");
