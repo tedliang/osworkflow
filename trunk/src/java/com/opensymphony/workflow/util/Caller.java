@@ -13,10 +13,10 @@ import java.util.Map;
 
 
 /**
- * Sets the persistent variable "caller" to the current user executing an action.
+ * Sets the variable "caller" to the current user executing an action.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Caller implements FunctionProvider {
     //~ Methods ////////////////////////////////////////////////////////////////
