@@ -5,8 +5,8 @@ package com.opensymphony.workflow.designer.layout;
 
 import javax.swing.*;
 
-import com.jgraph.JGraph;
-import com.jgraph.graph.*;
+import org.jgraph.JGraph;
+import org.jgraph.graph.*;
 
 import java.awt.Point;
 import java.awt.Rectangle;

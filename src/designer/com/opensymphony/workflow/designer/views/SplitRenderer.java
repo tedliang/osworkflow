@@ -9,8 +9,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import com.jgraph.graph.GraphConstants;
-import com.jgraph.graph.VertexRenderer;
+import org.jgraph.graph.GraphConstants;
+import org.jgraph.graph.VertexRenderer;
 
 public class SplitRenderer extends VertexRenderer
 {

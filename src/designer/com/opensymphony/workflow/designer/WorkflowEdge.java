@@ -1,6 +1,6 @@
 package com.opensymphony.workflow.designer;
 
-import com.jgraph.graph.DefaultEdge;
+import org.jgraph.graph.DefaultEdge;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)

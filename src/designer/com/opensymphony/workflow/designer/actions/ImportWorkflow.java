@@ -36,16 +36,16 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
 
   public void actionPerformed(ActionEvent e)
   {
+    if(currentWorkspace.getLocation() == null)
+    {
+      JOptionPane.showMessageDialog((Component)e.getSource(), "Please save this workspace before importing workflows into it", "Warning", JOptionPane.WARNING_MESSAGE);
+      return;
+    }
     File inputFile = Utils.promptUserForFile((Component)e.getSource(), JFileChooser.FILES_AND_DIRECTORIES, false, ".xml", "XML Workflow Files");
     if(inputFile!=null)
     {
       try
       {
-        if(currentWorkspace.getLocation()==null)
-        {
-          JOptionPane.showMessageDialog((Component)e.getSource(), "Please save this workspace before importing workflows into it", "Warning", JOptionPane.WARNING_MESSAGE);
-          return;
-        }
         File ouputFile = new File(currentWorkspace.getLocation().getParentFile(), inputFile.getName());
         if(!ouputFile.getCanonicalPath().equals(inputFile))
         {

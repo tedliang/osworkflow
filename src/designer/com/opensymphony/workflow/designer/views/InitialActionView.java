@@ -3,10 +3,10 @@ package com.opensymphony.workflow.designer.views;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import com.jgraph.JGraph;
-import com.jgraph.graph.CellMapper;
-import com.jgraph.graph.CellViewRenderer;
-import com.jgraph.graph.VertexView;
+import org.jgraph.JGraph;
+import org.jgraph.graph.CellMapper;
+import org.jgraph.graph.CellViewRenderer;
+import org.jgraph.graph.VertexView;
 
 /**
  * @author administrator
@@ -44,8 +44,8 @@ public class InitialActionView extends VertexView {
 		int b = (r.height + 1) / 2;
 
 		// Get center
-		int xCenter = (int) (x + a);
-		int yCenter = (int) (y + b);
+		int xCenter =  x + a;
+		int yCenter =  y + b;
 
 		// Compute angle
 		int dx = p.x - xCenter;

@@ -3,7 +3,6 @@ package com.opensymphony.workflow.config;
 import java.io.*;
 import java.util.*;
 
-import com.opensymphony.workflow.config.ConfigLoader;
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
