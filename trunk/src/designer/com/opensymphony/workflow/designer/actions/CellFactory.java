@@ -13,17 +13,17 @@ import org.jgraph.graph.GraphConstants;
  */
 public class CellFactory
 {
-  public static void createCell(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location, DragData script)
+  public static void createCell(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location, DragData data)
   {
-    if(script.equals(DragData.JOIN))
+    if(data.equals(DragData.JOIN))
     {
       createJoin(workflow, model, location);
     }
-    else if(script.equals(DragData.SPLIT))
+    else if(data.equals(DragData.SPLIT))
     {
       createSplit(workflow, model, location);
     }
-    else if(script.equals(DragData.STEP))
+    else if(data.equals(DragData.STEP))
     {
       createStep(workflow, model, location);
     }
@@ -46,7 +46,6 @@ public class CellFactory
     bounds.x = location.x;
     bounds.y = location.y;
     model.insertStepCell(cell, null, null, null);
-
   }
 
   public static void createJoin(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
@@ -61,9 +60,7 @@ public class CellFactory
     Rectangle bounds = (Rectangle)cell.getAttributes().get(GraphConstants.BOUNDS);
     bounds.x = location.x;
     bounds.y = location.y;
-
     model.insertJoinCell(cell, null, null, null);
-
   }
 
   public static void createSplit(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
@@ -78,9 +75,7 @@ public class CellFactory
     Rectangle bounds = (Rectangle)cell.getAttributes().get(GraphConstants.BOUNDS);
     bounds.x = location.x;
     bounds.y = location.y;
-
     model.insertSplitCell(cell, null, null, null);
-
   }
 
 }

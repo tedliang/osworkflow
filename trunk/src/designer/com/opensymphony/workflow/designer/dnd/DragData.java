@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class DragData implements Serializable
 {
-  public static final DataFlavor scriptFlavor = new DataFlavor(DragData.class, "WORKFLOWDATA");
+  public static final DataFlavor WORKFLOW_FLAVOR = new DataFlavor(DragData.class, "WORKFLOWDATA");
 
   public static final DragData JOIN = new DragData("JOIN");
   public static final DragData STEP = new DragData("STEP");

@@ -309,14 +309,12 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
       {
         if(flavors[i].isFlavorSerializedObjectType())
         {
-          if(flavors[i].equals(DragData.scriptFlavor))
+          if(flavors[i].equals(DragData.WORKFLOW_FLAVOR))
           {
             dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
             DragData o = (DragData)tr.getTransferData(flavors[i]);
             dtde.dropComplete(true);
-
             CellFactory.createCell(this.descriptor, this.getWorkflowGraphModel(), dtde.getLocation(), o);
-
             return;
           }
         }
