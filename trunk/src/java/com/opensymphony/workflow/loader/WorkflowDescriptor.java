@@ -19,7 +19,7 @@ import java.util.*;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -253,6 +253,29 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         ValidationHelper.validate(this.getSteps());
         ValidationHelper.validate(this.getSplits());
         ValidationHelper.validate(this.getJoins());
+
+        Set actions = new HashSet();
+        Iterator i = globalActions.iterator();
+
+        while (i.hasNext()) {
+            ActionDescriptor action = (ActionDescriptor) i.next();
+            actions.add(new Integer(action.getId()));
+        }
+
+        i = getSteps().iterator();
+
+        while (i.hasNext()) {
+            StepDescriptor step = (StepDescriptor) i.next();
+            Iterator j = step.getActions().iterator();
+
+            while (j.hasNext()) {
+                ActionDescriptor action = (ActionDescriptor) j.next();
+
+                if (!actions.add(new Integer(action.getId()))) {
+                    throw new InvalidWorkflowDescriptorException("Duplicate occurance of action ID " + action.getId() + " found in step " + step.getId());
+                }
+            }
+        }
     }
 
     public void writeXML(PrintWriter out, int indent) {

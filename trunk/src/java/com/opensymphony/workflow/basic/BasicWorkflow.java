@@ -11,20 +11,12 @@
 package com.opensymphony.workflow.basic;
 
 import com.opensymphony.workflow.AbstractWorkflow;
-import com.opensymphony.workflow.FactoryException;
-import com.opensymphony.workflow.config.ConfigLoader;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
-import java.net.URL;
 
 
 /**
- * DOCUMENT ME!
- *
- * @author $author$
- * @version $Revision: 1.1.1.1 $
+ * A basic workflow implementation which does not read in
+ * the current user from any context, but allows one to be
+ * specified via the constructor. Also does not support rollbacks.
  */
 public class BasicWorkflow extends AbstractWorkflow {
     //~ Constructors ///////////////////////////////////////////////////////////

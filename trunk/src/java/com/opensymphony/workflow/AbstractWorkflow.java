@@ -1020,11 +1020,13 @@ public class AbstractWorkflow implements Workflow {
             log.debug("theResult=" + theResults[0].getStep() + " " + theResults[0].getStatus());
         }
 
-        // run any extra pre-functions that haven't been run already
-        for (Iterator iterator = extraPreFunctions.iterator();
-                iterator.hasNext();) {
-            FunctionDescriptor function = (FunctionDescriptor) iterator.next();
-            executeFunction(function, transientVars, ps);
+        if (extraPreFunctions != null) {
+            // run any extra pre-functions that haven't been run already
+            for (Iterator iterator = extraPreFunctions.iterator();
+                    iterator.hasNext();) {
+                FunctionDescriptor function = (FunctionDescriptor) iterator.next();
+                executeFunction(function, transientVars, ps);
+            }
         }
 
         // go to next step
@@ -1159,10 +1161,12 @@ public class AbstractWorkflow implements Workflow {
         }
 
         // postFunctions (BOTH)
-        for (Iterator iterator = extraPostFunctions.iterator();
-                iterator.hasNext();) {
-            FunctionDescriptor function = (FunctionDescriptor) iterator.next();
-            executeFunction(function, transientVars, ps);
+        if (extraPostFunctions != null) {
+            for (Iterator iterator = extraPostFunctions.iterator();
+                    iterator.hasNext();) {
+                FunctionDescriptor function = (FunctionDescriptor) iterator.next();
+                executeFunction(function, transientVars, ps);
+            }
         }
 
         List postFunctions = action.getPostFunctions();
@@ -1182,7 +1186,7 @@ public class AbstractWorkflow implements Workflow {
 
                 if (toCheck != null) {
                     Iterator iter = toCheck.getActions().iterator();
-
+MAIN: 
                     while (iter.hasNext()) {
                         ActionDescriptor descriptor = (ActionDescriptor) iter.next();
 
@@ -1192,7 +1196,7 @@ public class AbstractWorkflow implements Workflow {
                                 if (descriptor.getId() == availableActions[j]) {
                                     doAction(entry.getId(), descriptor.getId(), inputs);
 
-                                    break;
+                                    break MAIN;
                                 }
                             }
                         }
