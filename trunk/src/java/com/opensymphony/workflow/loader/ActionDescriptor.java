@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -33,6 +33,7 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
     protected String name;
     protected String view;
     protected boolean autoExecute = false;
+    protected boolean common;
     protected boolean finish = false;
 
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -344,5 +345,13 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
                 restriction.setParent(this);
             }
         }
+    }
+
+    void setCommon(boolean common) {
+        this.common = common;
+    }
+
+    boolean isCommon() {
+        return common;
     }
 }
