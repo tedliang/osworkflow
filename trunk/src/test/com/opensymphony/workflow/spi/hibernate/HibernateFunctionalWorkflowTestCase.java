@@ -9,6 +9,8 @@ import com.opensymphony.workflow.config.ConfigLoader;
 import com.opensymphony.workflow.spi.BaseFunctionalWorkflowTest;
 import com.opensymphony.workflow.spi.DatabaseHelper;
 
+import net.sf.hibernate.SessionFactory;
+
 
 /**
  * This test case is functional in that it attempts to validate the entire
@@ -27,11 +29,13 @@ public class HibernateFunctionalWorkflowTestCase extends BaseFunctionalWorkflowT
     //~ Methods ////////////////////////////////////////////////////////////////
 
     protected void setUp() throws Exception {
-        DatabaseHelper.exportSchemaForHibernate();
+        DatabaseHelper.createDatabase("");
+
+        SessionFactory factory = DatabaseHelper.createHibernateSessionFactory();
 
         TestWorkflow.configFile = "/osworkflow-hibernate.xml";
 
-        ConfigLoader.persistenceArgs.put("sessionFactory", DatabaseHelper.getSessionFactory());
+        ConfigLoader.persistenceArgs.put("sessionFactory", factory);
         super.setUp();
     }
 }

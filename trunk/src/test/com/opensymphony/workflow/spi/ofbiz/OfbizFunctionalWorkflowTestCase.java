@@ -24,7 +24,8 @@ public class OfbizFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest 
     //~ Methods ////////////////////////////////////////////////////////////////
 
     protected void setUp() throws Exception {
-        DatabaseHelper.createDatabase("src/etc/deployment/ofbiz/mckoi.sql");
+        //ofbiz creates its own tables
+        DatabaseHelper.createDatabase("");
         TestWorkflow.configFile = "/osworkflow-ofbiz.xml";
         super.setUp();
     }
