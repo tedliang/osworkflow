@@ -76,7 +76,7 @@ public class ExceptionTestCase extends TestCase {
 
     public void testStoreException() throws Exception {
         Configuration config = new DefaultConfiguration();
-        config.load(getClass().getResource("/osworkflow-jdbc.xml"));
+        config.load(getClass().getResource("/samples/invalid/invalid-datasource.xml"));
 
         Workflow workflow = new BasicWorkflow("testuser");
         workflow.setConfiguration(config);
@@ -86,7 +86,7 @@ public class ExceptionTestCase extends TestCase {
         assertNotNull("Unable to find resource /samples/auto1.xml", url);
 
         try {
-            workflow.initialize(url.toString(), 1, new HashMap());
+            workflow.initialize(url.toString(), 100, new HashMap());
         } catch (StoreException e) {
             return;
         }

@@ -41,16 +41,16 @@
   <field-type-def type="time" sql-type="TIMESTAMP" java-type="java.sql.Time"></field-type-def>
 
   <field-type-def type="currency-amount" sql-type="NUMERIC" java-type="Double">
-    <validate name="isSignedDouble"/>
+    <validate method="isSignedDouble"/>
   </field-type-def>
   <field-type-def type="floating-point" sql-type="NUMERIC" java-type="Double">
-    <validate name="isSignedDouble"/>
+    <validate method="isSignedDouble"/>
   </field-type-def>
   <field-type-def type="numeric" sql-type="NUMERIC" java-type="Long">
-    <validate name="isSignedLong"/>
+    <validate method="isSignedLong"/>
   </field-type-def>
   <field-type-def type="integer" sql-type="int" java-type="Integer">
-    <validate name="isSignedLong"/>
+    <validate method="isSignedLong"/>
   </field-type-def>
 
   <field-type-def type="id" sql-type="VARCHAR(20)" java-type="String"></field-type-def>
@@ -70,32 +70,26 @@
 
   <!-- Specialized Types -->
   <field-type-def type="credit-card-number" sql-type="VARCHAR(40)" java-type="String">
-    <validate name="isAnyCard"/>
+    <validate method="isAnyCard"/>
   </field-type-def>
   <field-type-def type="credit-card-date" sql-type="VARCHAR(20)" java-type="String">
-    <validate name="isDateAfterToday"/>
+    <validate method="isDateAfterToday"/>
   </field-type-def>
   <field-type-def type="email" sql-type="VARCHAR(255)" java-type="String">
-    <validate name="isEmail"/>
+    <validate method="isEmail"/>
   </field-type-def>
   <field-type-def type="url" sql-type="VARCHAR(255)" java-type="String"></field-type-def>
   <field-type-def type="id-ne" sql-type="VARCHAR(20)" java-type="String">
-    <validate name="isNotEmpty"/>
+    <validate method="isNotEmpty"/>
   </field-type-def>
   <field-type-def type="id-long-ne" sql-type="VARCHAR(60)" java-type="String">
-    <validate name="isNotEmpty"/>
+    <validate method="isNotEmpty"/>
   </field-type-def>
   <field-type-def type="id-vlong-ne" sql-type="VARCHAR(255)" java-type="String">
-    <validate name="isNotEmpty"/>
+    <validate method="isNotEmpty"/>
   </field-type-def>
   <field-type-def type="tel-number" sql-type="VARCHAR(60)" java-type="String">
-    <validate name="isInternationalPhoneNumber"/>
+    <validate method="isInternationalPhoneNumber"/>
   </field-type-def>
 
 </fieldtypemodel>
-
-ternationalPhoneNumber"/>
-  </field-type-def>
-
-</fieldtypemodel>
-
