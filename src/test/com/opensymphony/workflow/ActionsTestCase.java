@@ -48,14 +48,14 @@ public class ActionsTestCase extends TestCase {
     }
 
     public void testConditionCheck() throws Exception {
-        long id = workflow.initialize(getClass().getResource("/samples/auto4.xml").toString(), 1, null);
+        long id = workflow.initialize(getClass().getResource("/samples/auto4.xml").toString(), 100, null);
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 1, currentSteps.size());
         assertEquals("Unexpected current step", 3, ((Step) currentSteps.get(0)).getStepId());
     }
 
     public void testExecOnlyOne() throws Exception {
-        long id = workflow.initialize(getClass().getResource("/samples/auto2.xml").toString(), 1, null);
+        long id = workflow.initialize(getClass().getResource("/samples/auto2.xml").toString(), 100, null);
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 1, currentSteps.size());
         assertEquals("Unexpected current step", 4, ((Step) currentSteps.get(0)).getStepId());
@@ -66,7 +66,7 @@ public class ActionsTestCase extends TestCase {
     }
 
     public void testExecTwoActions() throws Exception {
-        long id = workflow.initialize(getClass().getResource("/samples/auto3.xml").toString(), 1, null);
+        long id = workflow.initialize(getClass().getResource("/samples/auto3.xml").toString(), 100, null);
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 1, currentSteps.size());
         assertEquals("Unexpected current step", 3, ((Step) currentSteps.get(0)).getStepId());
@@ -92,14 +92,14 @@ public class ActionsTestCase extends TestCase {
     }
 
     public void testSimpleAuto() throws Exception {
-        long id = workflow.initialize(getClass().getResource("/samples/auto1.xml").toString(), 1, null);
+        long id = workflow.initialize(getClass().getResource("/samples/auto1.xml").toString(), 100, null);
         List currentSteps = workflow.getCurrentSteps(id);
         assertEquals("Unexpected number of current steps", 1, currentSteps.size());
         assertEquals("Unexpected current step", 2, ((Step) currentSteps.get(0)).getStepId());
     }
 
     public void testSimpleFinish() throws Exception {
-        long id = workflow.initialize(getClass().getResource("/samples/finish1.xml").toString(), 1, null);
+        long id = workflow.initialize(getClass().getResource("/samples/finish1.xml").toString(), 100, null);
         workflow.doAction(id, 1, null);
         assertTrue("Finished workflow should have no current actions", workflow.getCurrentSteps(id).size() == 0);
         assertEquals("Unexpected workflow entry state", WorkflowEntry.COMPLETED, workflow.getEntryState(id));

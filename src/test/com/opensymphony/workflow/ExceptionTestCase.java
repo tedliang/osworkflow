@@ -63,7 +63,7 @@ public class ExceptionTestCase extends TestCase {
         URL url = getClass().getResource("/samples/auto1.xml");
         assertNotNull("Unable to find resource /samples/auto1.xml", url);
 
-        long id = workflow.initialize(url.toString(), 1, new HashMap());
+        long id = workflow.initialize(url.toString(), 100, new HashMap());
 
         try {
             workflow.doAction(id, 10, null);

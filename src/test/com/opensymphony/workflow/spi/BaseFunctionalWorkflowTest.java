@@ -63,9 +63,9 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         WorkflowQuery query;
 
         String workflowName = getClass().getResource("/samples/example.xml").toString();
-        assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 1));
+        assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 100));
 
-        long workflowId = workflow.initialize(workflowName, 1, new HashMap());
+        long workflowId = workflow.initialize(workflowName, 100, new HashMap());
         String workorderName = workflow.getWorkflowName(workflowId);
         workflowDescriptor = workflow.getWorkflowDescriptor(workorderName);
 
@@ -189,10 +189,10 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
 
     public void testExceptionOnIllegalStayInCurrentStep() throws Exception {
         String workflowName = getClass().getResource("/samples/example.xml").toString();
-        assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 1));
+        assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 100));
 
         try {
-            long workflowId = workflow.initialize(workflowName, 2, new HashMap());
+            long workflowId = workflow.initialize(workflowName, 200, new HashMap());
             fail("initial action result specified target step of current step. Succeeded but should not have.");
         } catch (WorkflowException e) {
             // expected, no such thing as current step for initial action
@@ -202,20 +202,20 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
     public void testMetadataAccess() throws Exception {
         String workflowName = getClass().getResource("/samples/example.xml").toString();
 
-        long workflowId = workflow.initialize(workflowName, 1, new HashMap());
+        long workflowId = workflow.initialize(workflowName, 100, new HashMap());
         WorkflowDescriptor wfDesc = workflow.getWorkflowDescriptor(workflowName);
 
         Map meta = wfDesc.getMetaAttributes();
-        assertTrue("missing metadata", ((String) meta.get("workflow-meta1")).equals("workflow-meta1-value"));
-        assertTrue("missing metadata", ((String) meta.get("workflow-meta2")).equals("workflow-meta2-value"));
+        assertTrue("missing metadata", (meta.get("workflow-meta1")).equals("workflow-meta1-value"));
+        assertTrue("missing metadata", (meta.get("workflow-meta2")).equals("workflow-meta2-value"));
 
         meta = wfDesc.getStep(1).getMetaAttributes();
-        assertTrue("missing metadata", ((String) meta.get("step-meta1")).equals("step-meta1-value"));
-        assertTrue("missing metadata", ((String) meta.get("step-meta2")).equals("step-meta2-value"));
+        assertTrue("missing metadata", (meta.get("step-meta1")).equals("step-meta1-value"));
+        assertTrue("missing metadata", (meta.get("step-meta2")).equals("step-meta2-value"));
 
         meta = wfDesc.getAction(1).getMetaAttributes();
-        assertTrue("missing metadata", ((String) meta.get("action-meta1")).equals("action-meta1-value"));
-        assertTrue("missing metadata", ((String) meta.get("action-meta2")).equals("action-meta2-value"));
+        assertTrue("missing metadata", (meta.get("action-meta1")).equals("action-meta1-value"));
+        assertTrue("missing metadata", (meta.get("action-meta2")).equals("action-meta2-value"));
     }
 
     public void testWorkflowExpressionQuery() throws Exception {
@@ -223,7 +223,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         WorkflowExpressionQuery query;
 
         String workflowName = getClass().getResource("/samples/example.xml").toString();
-        assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 1));
+        assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 100));
 
         //-------------------   FieldExpression.OWNER  +  FieldExpression.CURRENT_STEPS ----------------------
         query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.OWNER, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, USER_TEST));
@@ -237,7 +237,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
             return;
         }
 
-        long workflowId = workflow.initialize(workflowName, 1, new HashMap());
+        long workflowId = workflow.initialize(workflowName, 100, new HashMap());
         workflows = workflow.query(query);
         assertEquals("OWNER+CURRENT_STEPS", 1, workflows.size());
 
@@ -344,7 +344,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         assertEquals("ACTION + HISTORY_STEPS", 1, workflows.size());
 
         // --------------------- STEP + HISTORY_STEPS ----------------------------------------------
-        query = (new WorkflowExpressionQuery(new FieldExpression(FieldExpression.STEP, FieldExpression.HISTORY_STEPS, FieldExpression.EQUALS, new Integer(1))));
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.STEP, FieldExpression.HISTORY_STEPS, FieldExpression.EQUALS, new Integer(1)));
         workflows = workflow.query(query);
         assertEquals("STEP + HISTORY_STEPS", 1, workflows.size());
 
@@ -355,7 +355,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
 
         //----------------------------------------------------------------------------
         // ----- some more tests using nested expressions
-        long workflowId2 = workflow.initialize(workflowName, 1, Collections.EMPTY_MAP);
+        long workflowId2 = workflow.initialize(workflowName, 100, Collections.EMPTY_MAP);
         workflow.changeEntryState(workflowId, WorkflowEntry.SUSPENDED);
         queryRight = new FieldExpression(FieldExpression.STATE, FieldExpression.ENTRY, FieldExpression.EQUALS, new Integer(WorkflowEntry.ACTIVATED));
         queryLeft = new FieldExpression(FieldExpression.STATE, FieldExpression.ENTRY, FieldExpression.EQUALS, new Integer(WorkflowEntry.SUSPENDED));
@@ -379,7 +379,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         List workflows;
 
         String workflowName = getClass().getResource("/samples/example.xml").toString();
-        assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 1));
+        assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 100));
 
         try {
             query = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
@@ -390,7 +390,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         }
 
         try {
-            long workflowId = workflow.initialize(workflowName, 1, new HashMap());
+            long workflowId = workflow.initialize(workflowName, 100, new HashMap());
             workflows = workflow.query(query);
             assertEquals(1, workflows.size());
         } catch (QueryNotSupportedException e) {
