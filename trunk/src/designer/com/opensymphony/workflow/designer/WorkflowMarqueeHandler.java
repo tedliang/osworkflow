@@ -1,6 +1,8 @@
 package com.opensymphony.workflow.designer;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
@@ -17,7 +19,7 @@ import org.jgraph.graph.GraphConstants;
 public class WorkflowMarqueeHandler extends BasicMarqueeHandler
 {
   // Holds the Start and the Current Point
-  protected Point start, current;
+  protected Point2D start, current;
 
   // Holds the First and the Current Port
   protected PortView port, firstPort;
@@ -59,7 +61,7 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     // If Valid First Port, Start and Current Point
     if(firstPort != null && start != null && current != null)
     // Then Draw A Line From Start to Current Point
-      g.drawLine(start.x, start.y, current.x, current.y);
+      g.drawLine((int)start.getX(), (int)start.getY(), (int)current.getX(), (int)current.getY());
   }
 
   // Use the Preview Flag to Draw a Highlighted Port
@@ -69,24 +71,25 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     if(port != null)
     {
       // If Not Floating Port...
-      boolean o = (GraphConstants.getOffset(port.getAttributes()) != null);
+      boolean isFloating = (GraphConstants.getOffset(port.getAttributes()) != null);
       // ...Then use Parent's Bounds
-      Rectangle r = (o) ? port.getBounds() : port.getParentView().getBounds();
+      Rectangle2D r = isFloating ? port.getBounds() : port.getParentView().getBounds();
       // Scale from Model to Screen
-      r = graph.toScreen(new Rectangle(r));
+      r = graph.toScreen(r);
       // Add Space For the Highlight Border
-      r.setBounds(r.x - 3, r.y - 3, r.width + 6, r.height + 6);
+      Rectangle2D growRect = new Rectangle2D.Double(r.getX() - 3, r.getY() - 3, r.getWidth() + 6, r.getHeight() + 6);
+      //r.setFrame(r.getX() - 3, r.getY() - 3, r.getWidth() + 6, r.getHeight() + 6);
       // Paint Port in Preview (=Highlight) Mode
-      graph.getUI().paintCell(g, port, r, true);
+      graph.getUI().paintCell(g, port, growRect, true);
     }
   }
 
   public PortView getSourcePortAt(Point point)
   {
     // Scale from Screen to Model
-    Point tmp = graph.fromScreen(new Point(point));
+    Point2D tmp = graph.fromScreen(new Point(point));
     // Find a Port View in Model Coordinates and Remember
-    return graph.getPortViewAt(tmp.x, tmp.y);
+    return graph.getPortViewAt(tmp.getX(), tmp.getY());
   }
 
   // Find a Cell at point and Return its first Port as a PortView

@@ -91,7 +91,7 @@ public class Utils
     Object[] cells = graph.getRoots();
     if(cells.length > 0)
     {
-      Rectangle bounds = graph.getCellBounds(cells);
+      Rectangle bounds = graph.getCellBounds(cells).getBounds();
       graph.toScreen(bounds);
 
       // Create a Buffered Image

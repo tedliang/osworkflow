@@ -110,7 +110,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     {
 	    try
 	    {
-        if(lastOpened.indexOf("://") == -1)
+        if(lastOpened.indexOf(":/") == -1)
         {
           openWorkspace(new File(lastOpened).toURL());
         }
