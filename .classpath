@@ -19,10 +19,8 @@
 	<classpathentry kind="lib" path="lib/build/clover-1.2.3.jar"/>
 	<classpathentry kind="lib" path="lib/build/junit-3.8.1.jar"/>
 	<classpathentry kind="lib" path="lib/optional/bsf.jar"/>
-	<classpathentry kind="lib" path="lib/optional/osuser-1.0-dev-3Dec03.jar"/>
 	<classpathentry kind="lib" path="lib/optional/commons-dbcp.jar"/>
 	<classpathentry kind="lib" path="lib/optional/activation.jar"/>
-	<classpathentry kind="lib" path="lib/optional/hibernate-2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/optional/cglib2.jar"/>
 	<classpathentry kind="lib" path="lib/build/xdoclet/xdoclet-jboss-module-1.2b3.jar"/>
 	<classpathentry kind="lib" path="lib/optional/webwork.jar"/>
@@ -61,9 +59,11 @@
 	<classpathentry kind="lib" path="lib/optional/jms.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/core/oscore-2.2.2.jar"/>
-	<classpathentry kind="lib" path="lib/core/propertyset-1.3-21Apr04.jar"/>
 	<classpathentry kind="lib" path="lib/optional/prevayler2.00.001alpha.jar"/>
 	<classpathentry kind="lib" path="lib/optional/spring-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/optional/velocity-dep-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/core/propertyset-1.3-25Jan05.jar"/>
+	<classpathentry kind="lib" path="lib/optional/hibernate-2.1.7c.jar"/>
+	<classpathentry kind="lib" path="lib/optional/osuser-1.0-dev-2Feb05.jar"/>
 	<classpathentry kind="output" path="build/test"/>
 </classpath>
