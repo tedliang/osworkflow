@@ -50,8 +50,19 @@ public abstract class AbstractWorkflowFactory {
      * @param name The name of the workflow to get.
      * @return The descriptor for the specified workflow.
      * @throws FactoryException if the specified workflow name does not exist or cannot be located.
+     *
      */
-    public abstract WorkflowDescriptor getWorkflow(String name) throws FactoryException;
+    public WorkflowDescriptor getWorkflow(String name) throws FactoryException {
+        return getWorkflow(name, true);
+    }
+
+    /**
+     * Get a workflow descriptor given a workflow name.
+     * @param name The name of the workflow to get.
+     * @return The descriptor for the specified workflow.
+     * @throws FactoryException if the specified workflow name does not exist or cannot be located.
+     */
+    public abstract WorkflowDescriptor getWorkflow(String name, boolean validate) throws FactoryException;
 
     /**
      * Get all workflow names in the current factory
@@ -62,8 +73,6 @@ public abstract class AbstractWorkflowFactory {
 
     public abstract void createWorkflow(String name);
 
-    public abstract void deleteWorkflow(String name);
-
     public abstract boolean removeWorkflow(String name) throws FactoryException;
 
     public abstract void renameWorkflow(String oldName, String newName);
@@ -72,6 +81,9 @@ public abstract class AbstractWorkflowFactory {
 
     /**
      * Save the workflow.
+     * Is it the responsibility of the caller to ensure that the workflow is valid,
+     * through the {@link WorkflowDescriptor#validate()} method. Invalid workflows will
+     * be saved without being checked.
      * @param name The name of the workflow to same.
      * @param descriptor The descriptor for the workflow.
      * @param replace true if an existing workflow with this name should be replaced.

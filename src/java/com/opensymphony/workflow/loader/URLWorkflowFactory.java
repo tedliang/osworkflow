@@ -42,7 +42,7 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory implements Seria
         return "";
     }
 
-    public WorkflowDescriptor getWorkflow(String name) throws FactoryException {
+    public WorkflowDescriptor getWorkflow(String name, boolean validate) throws FactoryException {
         boolean useCache = getProperties().getProperty("cache", "false").equals("true");
 
         if (useCache) {
@@ -55,7 +55,7 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory implements Seria
 
         try {
             URL url = new URL(name);
-            WorkflowDescriptor descriptor = WorkflowLoader.load(url);
+            WorkflowDescriptor descriptor = WorkflowLoader.load(url, validate);
 
             if (useCache) {
                 cache.put(name, descriptor);
@@ -89,7 +89,7 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory implements Seria
 
     public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, boolean replace) throws FactoryException {
         WorkflowDescriptor c = (WorkflowDescriptor) cache.get(name);
-        URL url = null;
+        URL url;
 
         try {
             url = new URL(name);
@@ -107,7 +107,7 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory implements Seria
             return false;
         }
 
-        Writer out = null;
+        Writer out;
 
         try {
             out = new OutputStreamWriter(new FileOutputStream(url.getFile() + ".new"), "utf-8");

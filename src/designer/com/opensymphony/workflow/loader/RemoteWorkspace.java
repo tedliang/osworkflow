@@ -121,7 +121,7 @@ public class RemoteWorkspace extends HTTPWorkflowFactory
     return removed != null;
 	}
 
-  public WorkflowDescriptor getWorkflow(String name) throws FactoryException
+  public WorkflowDescriptor getWorkflow(String name, boolean validate) throws FactoryException
   {
     HTTPWorkflowConfig config = (HTTPWorkflowConfig)workflows.get(name);
     if(config==null) 
@@ -253,10 +253,5 @@ public class RemoteWorkspace extends HTTPWorkflowFactory
 		config.name = newName;
 		workflows.remove(oldName);
 		workflows.put(newName, config);		
-	}
-
-	public void deleteWorkflow(String name)
-	{
-		HTTPWorkflowConfig config = (HTTPWorkflowConfig)workflows.remove(name);
 	}
 }
