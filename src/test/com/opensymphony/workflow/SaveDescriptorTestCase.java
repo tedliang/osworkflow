@@ -54,6 +54,7 @@ public class SaveDescriptorTestCase extends XMLTestCase {
      */
     public void testSave() throws Exception {
         URL url = getClass().getResource("/samples/saved.xml");
+		    Document inputDocument = documentBuilder.parse(url.toString());
         WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(url.toString());
         StringWriter out = new StringWriter();
         PrintWriter writer = new PrintWriter(out);
@@ -61,15 +62,13 @@ public class SaveDescriptorTestCase extends XMLTestCase {
         writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.6//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_6.dtd\">");
         descriptor.writeXML(new PrintWriter(out), 0);
 
-        Document inputDocument = documentBuilder.parse(url.toString());
         Document outputDocument = getDocument(out.toString());
 
         Diff diff = new Diff(inputDocument, outputDocument);
         diff.overrideElementQualifier(new ElementNameAndTextQualifier());
-        assertTrue(diff.similar());
+        assertTrue(diff.toString(), diff.similar());
         assertXMLEqual("But they are equal when an ElementQualifier controls which test element is compared with each control element", diff, true);
-
-        assertTrue(diff.similar());
+        assertTrue(diff.toString(), diff.similar());
     }
 
     private Document getDocument(String xml) throws IOException, SAXException {
