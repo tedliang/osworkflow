@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.GraphConstants;
+import org.jgraph.graph.AttributeMap;
 
 /**
  * @author Harsh Vijaywargiya Mar 9, 2003 1:04:57 PM
@@ -22,7 +23,7 @@ public class WorkflowCell extends DefaultGraphCell
   public WorkflowCell(Object cellName)
   {
     super(cellName);
-    GraphConstants.setBounds(attributes, defaultBounds);
+    GraphConstants.setBounds(attributes, (Rectangle)defaultBounds.clone());
     GraphConstants.setOpaque(attributes, true);
     GraphConstants.setBackground(attributes, Color.blue.darker());
     GraphConstants.setForeground(attributes, Color.white);
