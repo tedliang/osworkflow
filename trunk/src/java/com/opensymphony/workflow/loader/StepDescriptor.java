@@ -20,7 +20,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -32,8 +32,8 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
     protected List actions = new ArrayList();
 
     /**
-     * this list maintained internally to allow for proper xml serialization. all
-     * common-action elements in the XML file are expanded into ActionDescriptors
+     * this list maintained internally to allow for proper xml serialization.
+     * All common-action elements in the XML file are expanded into ActionDescriptors
      * and are available via getActions()
      */
     protected List commonActions = new ArrayList();
