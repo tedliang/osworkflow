@@ -35,13 +35,13 @@ public class ExceptionTestCase extends TestCase {
         try {
             Configuration config = new DefaultConfiguration();
             config.load(getClass().getResource("/osworkflow-badfactory.xml"));
-
-            fail("bad factory did not throw an error");
         } catch (InternalWorkflowException ex) {
             assertTrue("Expected FactoryException, but instead got " + ex.getRootCause(), ex.getRootCause() instanceof FactoryException);
         } catch (FactoryException e) {
-            e.printStackTrace();
+            return;
         }
+
+        fail("bad factory did not throw an error");
     }
 
     public void testInitializeInvalidActionException() throws Exception {
