@@ -21,7 +21,7 @@ import javax.naming.NamingException;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class JNDIFunctionProvider implements FunctionProvider {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -32,15 +32,19 @@ public class JNDIFunctionProvider implements FunctionProvider {
 
     public void execute(Map transientVars, Map args, PropertySet ps) throws WorkflowException {
         String location = (String) args.get(AbstractWorkflow.JNDI_LOCATION);
+
+        if (location == null) {
+            throw new WorkflowException(AbstractWorkflow.JNDI_LOCATION + " argument is null");
+        }
+
         location = location.trim();
 
-        FunctionProvider provider = null;
+        FunctionProvider provider;
 
         try {
             provider = (FunctionProvider) new InitialContext().lookup(location);
         } catch (NamingException e) {
             String message = "Could not get handle to JNDI FunctionProvider at: " + location;
-            log.error(message, e);
             throw new WorkflowException(message, e);
         }
 

@@ -21,7 +21,7 @@ import javax.naming.NamingException;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class JNDIValidator implements Validator {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -32,13 +32,17 @@ public class JNDIValidator implements Validator {
 
     public void validate(Map transientVars, Map args, PropertySet ps) throws InvalidInputException, WorkflowException {
         String location = (String) args.get(AbstractWorkflow.JNDI_LOCATION);
-        Validator validator = null;
+
+        if (location == null) {
+            throw new WorkflowException(AbstractWorkflow.JNDI_LOCATION + " argument is null");
+        }
+
+        Validator validator;
 
         try {
             validator = (Validator) new InitialContext().lookup(location);
         } catch (NamingException e) {
             String message = "Could not look up JNDI Validator at: " + location;
-            log.error(message, e);
             throw new WorkflowException(message, e);
         }
 
