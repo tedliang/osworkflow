@@ -63,7 +63,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     detailFramePanel.setContent(sp);
 
     splash.setProgress(40);
-    loadConfiguration();
+    loadPalette();
     // create workspace view
     splash.setProgress(50);
     FramePanel flowsPanel = new FramePanel(ResourceManager.getString("workspace"), false);
@@ -395,7 +395,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     graphTabs.setVisible(true);
   }
 
-  private void loadConfiguration()
+  private void loadPalette()
   {
     try
     {
