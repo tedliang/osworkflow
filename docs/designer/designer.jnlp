@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp spec="1.0+" codebase="$$codebase" href="$$name">
   <information>
-    <title>OSWorkflow Designer 2.7</title>
+    <title>OSWorkflow Designer 2.8</title>
     <vendor>OpenSymphony</vendor>
     <homepage href="../index.html"/>
     <description>OSWorkflow Designer Application</description>
@@ -19,7 +19,6 @@
     <jar href="looks.jar" main="false"/>
     <jar href="foxtrot.jar" main="false"/>
     <jar href="syntax.jar" main="false"/>
-    <jar href="oscore.jar" main="false"/>
   </resources>
 
   <application-desc main-class="com.opensymphony.workflow.designer.Launcher">
