@@ -100,20 +100,20 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
     public void setEntryState(long id, int state) throws StoreException {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement ps = null;
 
         try {
             conn = getConnection();
 
             String sql = "UPDATE " + entryTable + " SET " + entryState + " = ? WHERE " + entryId + " = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
             ps.setInt(1, state);
             ps.setLong(2, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new StoreException("Unable to update state for workflow instance #" + id + " to " + state, e);
         } finally {
-            cleanup(conn, stmt, null);
+            cleanup(conn, ps, null);
         }
     }
 
@@ -315,6 +315,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
     public List findHistorySteps(long entryId) throws StoreException {
         Connection conn = null;
         PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
         ResultSet rset = null;
 
         try {
@@ -333,7 +334,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
                 log.debug("Executing SQL statement: " + sql2);
             }
 
-            PreparedStatement stmt2 = conn.prepareStatement(sql2);
+            stmt2 = conn.prepareStatement(sql2);
             stmt.setLong(1, entryId);
 
             rset = stmt.executeQuery();
@@ -379,6 +380,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         } catch (SQLException e) {
             throw new StoreException("Unable to locate history steps for workflow instance #" + entryId, e);
         } finally {
+            cleanup(null, stmt2, null);
             cleanup(conn, stmt, rset);
         }
     }
