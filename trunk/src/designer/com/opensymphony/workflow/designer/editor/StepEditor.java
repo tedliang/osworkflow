@@ -35,6 +35,7 @@ public class StepEditor extends DetailPanel implements ActionListener
     builder.addSeparator("Info", cc.xywh(2, 1, 3, 1));
     builder.addLabel("ID", cc.xy(2, 3));
     builder.add(id, cc.xy(4, 3));
+    id.setEditable(false);
     builder.addLabel("Name", cc.xy(2, 5));
     builder.add(name, cc.xy(4, 5));
 

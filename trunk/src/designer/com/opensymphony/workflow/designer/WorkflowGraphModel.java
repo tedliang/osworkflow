@@ -19,6 +19,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   private Collection initialActions = new ArrayList();
   private ResultCellCollection resultCells = new ResultCellCollection();
   private static final EdgeRouter EDGE_ROUTER = new EdgeRouter();
+  private int nextId = 0;
 
   public void insertInitialActions(List initialActions, InitialActionCell initialActionCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
@@ -26,9 +27,11 @@ public class WorkflowGraphModel extends DefaultGraphModel
     for(int i = 0; i < initialActions.size(); i++)
     {
       ActionDescriptor action = (ActionDescriptor)initialActions.get(i);
+      checkId(action);
       List conResults = action.getConditionalResults();
       recordResults(initialActionCell, conResults, action);
       ResultDescriptor result = action.getUnconditionalResult();
+      checkId(result);
       recordResult(initialActionCell, result, action);
       Object[] cells = new Object[]{initialActionCell};
       // Insert into Model
@@ -39,6 +42,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void insertStepCell(StepCell stepCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     stepCells.add(stepCell);
+    checkId(stepCell.getDescriptor());
     Object[] cells = new Object[]{stepCell};
     // Insert into Model
     insert(cells, attributes, null, pm, edits);
@@ -48,6 +52,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void insertSplitCell(SplitCell splitCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     splitCells.add(splitCell);
+    checkId(splitCell.getSplitDescriptor());
     Object[] cells = new Object[]{splitCell};
     // Insert into Model
     insert(cells, attributes, null, pm, edits);
@@ -57,6 +62,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void insertJoinCell(JoinCell joinCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     joinCells.add(joinCell);
+    checkId(joinCell.getJoinDescriptor());
     Object[] cells = new Object[]{joinCell};
     // Insert into Model
     insert(cells, attributes, null, pm, edits);
@@ -198,11 +204,17 @@ public class WorkflowGraphModel extends DefaultGraphModel
     for(int i = 0; i < actionList.size(); i++)
     {
       ActionDescriptor action = (ActionDescriptor)actionList.get(i);
+      checkId(action);
       List conResults = action.getConditionalResults();
       recordResults(fromCell, conResults, action);
       ResultDescriptor result = action.getUnconditionalResult();
       recordResult(fromCell, result, action);
     }
+  }
+
+  private void checkId(AbstractDescriptor descriptor)
+  {
+    if(descriptor.getId()>=nextId) nextId = descriptor.getId() + 1;
   }
 
   private void recordResults(DefaultGraphCell fromCell, List results, ActionDescriptor action)
@@ -229,5 +241,10 @@ public class WorkflowGraphModel extends DefaultGraphModel
     l.addAll(splitCells);
     l.addAll(joinCells);
     return l;
+  }
+
+  public int getNextId()
+  {
+    return nextId;
   }
 }

@@ -31,6 +31,7 @@ public class CreateStep extends AbstractAction
     String name = JOptionPane.showInputDialog("Step Name?");
     if(name==null || name.trim().length()==0) return;
     step.setName(name);
+    step.setId(model.getNextId());
     StepCell cell = new StepCell(step);
     WorkflowPort port = new WorkflowPort();
     cell.add(port);
