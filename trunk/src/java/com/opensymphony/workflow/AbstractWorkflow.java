@@ -101,6 +101,8 @@ public class AbstractWorkflow implements Workflow {
                 RestrictionDescriptor restriction = action.getRestriction();
                 ConditionsDescriptor conditions = null;
 
+                transientVars.put("actionId", new Integer(action.getId()));
+
                 if (restriction != null) {
                     conditions = restriction.getConditionsDescriptor();
                 }
@@ -660,6 +662,8 @@ public class AbstractWorkflow implements Workflow {
             RestrictionDescriptor restriction = action.getRestriction();
             ConditionsDescriptor conditions = null;
 
+            transientVars.put("actionId", new Integer(action.getId()));
+
             if (restriction != null) {
                 conditions = restriction.getConditionsDescriptor();
             }
@@ -706,6 +710,8 @@ public class AbstractWorkflow implements Workflow {
             for (Iterator iterator = globalActions.iterator();
                     iterator.hasNext();) {
                 ActionDescriptor action = (ActionDescriptor) iterator.next();
+
+                transientVars.put("actionId", new Integer(action.getId()));
 
                 if (action.getAutoExecute()) {
                     if (isActionAvailable(action, transientVars, ps, 0)) {
@@ -756,6 +762,8 @@ public class AbstractWorkflow implements Workflow {
 
         for (Iterator iterator2 = actions.iterator(); iterator2.hasNext();) {
             ActionDescriptor action = (ActionDescriptor) iterator2.next();
+
+            transientVars.put("actionId", new Integer(action.getId()));
 
             //check auto
             if (action.getAutoExecute()) {
