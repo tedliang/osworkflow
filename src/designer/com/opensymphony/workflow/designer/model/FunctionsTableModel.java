@@ -9,11 +9,11 @@ import com.opensymphony.workflow.loader.FunctionDescriptor;
  */
 public class FunctionsTableModel extends ListTableModel
 {
-  private String[] header = new String[]{"id", "type"};
+  private String[] header = new String[]{"name", "type"};
 
   public boolean isCellEditable(int rowIndex, int columnIndex)
   {
-    return true;
+    return false;
   }
 
   public void setValueAt(Object aValue, int rowIndex, int columnIndex)
@@ -22,11 +22,11 @@ public class FunctionsTableModel extends ListTableModel
     switch(columnIndex)
     {
       case 0:
-        if(aValue!=null)
-          function.setId(((Integer)aValue).intValue());
+        if(aValue != null)
+          function.setName(aValue.toString());
         break;
       case 1:
-        if(aValue!=null)
+        if(aValue != null)
           function.setType(aValue.toString());
         break;
     }
@@ -44,15 +44,7 @@ public class FunctionsTableModel extends ListTableModel
 
   public Class getColumnClass(int columnIndex)
   {
-    switch(columnIndex)
-    {
-      case 0:
-        return Integer.class;
-      case 1:
-        return String.class;
-      default:
-        return String.class;
-    }
+    return String.class;
   }
 
   public Object getValueAt(int rowIndex, int columnIndex)
@@ -61,7 +53,8 @@ public class FunctionsTableModel extends ListTableModel
     switch(columnIndex)
     {
       case 0:
-        return function.hasId() ? new Integer(function.getId()) : null;
+        String name = function.getName();
+        return name==null ? "<unknown>" : name;
       case 1:
         return function.getType();
       default:
