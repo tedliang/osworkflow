@@ -81,4 +81,9 @@ public class DescriptorQuirksTestCase extends TestCase {
     protected void setUp() throws Exception {
         workflow = new BasicWorkflow("testuser");
     }
+  
+  public void testVariableMutability() throws Exception
+  {
+    long id = workflow.initialize(getClass().getResource("/samples/variable-modify.xml").toString(), 100, null);
+  }
 }
