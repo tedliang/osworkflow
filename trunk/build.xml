@@ -259,7 +259,7 @@
   <target name="webstart" depends="client-jar" description="Build webstart files">
     <mkdir dir="${dist.docs}/designer" />
     <signjar signedjar="${dist.docs}/designer/designer.jar" alias="opensymphony" jar="${dist}/designer.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
-    <signjar signedjar="${dist.docs}/designer/looks-all.jar" alias="opensymphony" jar="${lib.designer}/looks-all.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
+    <signjar signedjar="${dist.docs}/designer/looks.jar" alias="opensymphony" jar="${lib.designer}/looks.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
     <signjar signedjar="${dist.docs}/designer/jgraph.jar" alias="opensymphony" jar="${lib.designer}/jgraph.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
     <signjar signedjar="${dist.docs}/designer/forms.jar" alias="opensymphony" jar="${lib.designer}/forms.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
     <signjar signedjar="${dist.docs}/designer/osworkflow.jar" alias="opensymphony" jar="${dist}/${name}-${version}.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
