@@ -26,9 +26,6 @@ public class NewWorkflow extends AbstractAction implements WorkspaceListener
   public NewWorkflow()
   {
     setEnabled(false);
-    putValue(SHORT_DESCRIPTION, "Create new workflow");
-    putValue(NAME, "New workflow");
-    putValue(LONG_DESCRIPTION, "Create a new workflow in the current workspace");
   }
 
   public void actionPerformed(ActionEvent e)

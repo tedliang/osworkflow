@@ -17,9 +17,6 @@ public class CloseWorkspace extends AbstractAction implements WorkspaceListener
   public CloseWorkspace()
   {
     setEnabled(false);
-    putValue(SHORT_DESCRIPTION, "Close current workspace");
-    putValue(NAME, "Close workspace");
-    putValue(LONG_DESCRIPTION, "Close the currently open workspace");
   }
 
   public void actionPerformed(ActionEvent e)

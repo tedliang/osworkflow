@@ -17,9 +17,6 @@ public class OpenWorkspace extends AbstractAction
 {
   public OpenWorkspace()
   {
-    putValue(SHORT_DESCRIPTION, "Open a workspace");
-    putValue(NAME, "Open workspace");
-    putValue(LONG_DESCRIPTION, "Load a workflow workspace");
   }
 
   public void actionPerformed(ActionEvent e)

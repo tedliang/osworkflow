@@ -10,6 +10,7 @@ import com.opensymphony.workflow.designer.actions.*;
 import com.opensymphony.workflow.designer.dnd.DragData;
 import com.opensymphony.workflow.designer.dnd.TypeDragGesture;
 import com.opensymphony.workflow.designer.ResourceManager;
+import com.opensymphony.workflow.designer.ActionManager;
 
 /**
  * @author jackflit
@@ -21,68 +22,58 @@ public class BarFactory
   {
     JMenuBar menuBar = new JMenuBar();
 
-    JMenu fileMenu = new JMenu("File");
+    JMenu fileMenu = new JMenu(ResourceManager.getString("menu.file"));
 
-    JMenu itemNew = new JMenu("New");
+    JMenu itemNew = new JMenu(ResourceManager.getString("menu.new"));
     itemNew.setIcon(ResourceManager.getIcon("newfile"));
-    itemNew.setHorizontalTextPosition(JButton.RIGHT);
+    itemNew.setHorizontalTextPosition(JMenu.RIGHT);
     fileMenu.add(itemNew);
 
     JMenuItem item;
 
-    item = new JMenuItem(new NewWorkspace());
-    item.setHorizontalTextPosition(JMenu.RIGHT);
-    item.setIcon(ResourceManager.getIcon("newspace"));
+    Action newSpace = new NewWorkspace();
+    item = new JMenuItem(ActionManager.register("newspace", newSpace));
     itemNew.add(item);
 
     NewWorkflow newWorkflow = new NewWorkflow();
     manager.addWorkspaceListener(newWorkflow);
-    item = new JMenuItem(newWorkflow);
-    item.setHorizontalTextPosition(JMenu.RIGHT);
-    item.setIcon(ResourceManager.getIcon("newflow"));
+    item = new JMenuItem(ActionManager.register("newflow", newWorkflow));
     itemNew.add(item);
 
-    item = new JMenuItem(new OpenWorkspace());
-    item.setIcon(ResourceManager.getIcon("openspace"));
+    item = new JMenuItem(ActionManager.register("openspace", new OpenWorkspace()));
     fileMenu.add(item);
 
     CloseWorkspace close = new CloseWorkspace();
     manager.addWorkspaceListener(close);
-    item = new JMenuItem(close);
-    item.setIcon(ResourceManager.getIcon("closespace"));
+    item = new JMenuItem(ActionManager.register("closespace", close));
     fileMenu.add(item);
 
     ImportWorkflow importWorkflow = new ImportWorkflow();
     manager.addWorkspaceListener(importWorkflow);
-    item = new JMenuItem(importWorkflow);
-    item.setIcon(ResourceManager.getIcon("importflow"));
+    item = new JMenuItem(ActionManager.register("importflow", importWorkflow));
     fileMenu.add(item);
 
     PNGExport export = new PNGExport();
     manager.addWorkspaceListener(export);
-    item = new JMenuItem(export);
-    item.setIcon(ResourceManager.getIcon("exportflow"));
+    item = new JMenuItem(ActionManager.register("pngexport", export));
     fileMenu.add(item);
 
     fileMenu.addSeparator();
 
     SaveWorkspace save = new SaveWorkspace();
     manager.addWorkspaceListener(save);
-    item = new JMenuItem(save);
-    item.setIcon(ResourceManager.getIcon("savespace"));
+    item = new JMenuItem(ActionManager.register("savespace", save));
     fileMenu.add(item);
 
     fileMenu.addSeparator();
 
-    item = new JMenuItem(new Quit());
-    item.setIcon(ResourceManager.getIcon("quit"));
+    item = new JMenuItem(ActionManager.register("quit", new Quit()));
     fileMenu.add(item);
 
-    JMenu viewMenu = new JMenu("Auto Layout");
+    JMenu viewMenu = new JMenu(ResourceManager.getString("menu.layout"));
     AutoLayout auto = new AutoLayout(null);
     manager.addWorkspaceListener(auto);
-    item = new JMenuItem(auto);
-    item.setIcon(ResourceManager.getIcon("autolayout"));
+    item = new JMenuItem(ActionManager.register("autolayout", auto));
     viewMenu.add(item);
 
     menuBar.add(fileMenu);
@@ -93,24 +84,23 @@ public class BarFactory
 
   public static JPanel createToolbar()
   {
-    JToolBar bar1 = new JToolBar("toolbar");
+    JToolBar bar1 = new JToolBar();
     bar1.addSeparator();
-    DragSource ds = new DragSource();
 
     JButton step = new JButton(ResourceManager.getIcon("newstep"));
-    step.setToolTipText("Create Step");
+    step.setToolTipText(ResourceManager.getString("createstep"));
     bar1.add(step);
-    ds = new DragSource();
+    DragSource ds = new DragSource();
     ds.createDefaultDragGestureRecognizer(step, DnDConstants.ACTION_COPY, new TypeDragGesture(ds, DragData.STEP));
 
     JButton join = new JButton(ResourceManager.getIcon("newjoin"));
-    join.setToolTipText("Create Join");
+    join.setToolTipText(ResourceManager.getString("createjoin"));
     bar1.add(join);
     ds = new DragSource();
     ds.createDefaultDragGestureRecognizer(join, DnDConstants.ACTION_COPY, new TypeDragGesture(ds, DragData.JOIN));
 
     JButton split = new JButton(ResourceManager.getIcon("newsplit"));
-    split.setToolTipText("Create Split");
+    split.setToolTipText(ResourceManager.getString("createsplit"));
     bar1.add(split);
     ds = new DragSource();
     ds.createDefaultDragGestureRecognizer(split, DnDConstants.ACTION_COPY, new TypeDragGesture(ds, DragData.SPLIT));

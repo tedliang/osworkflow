@@ -26,9 +26,6 @@ public class PNGExport extends AbstractAction implements WorkspaceListener
   public PNGExport()
   {
     setEnabled(false);
-    putValue(NAME, "PNG export");
-    putValue(SHORT_DESCRIPTION, "Export as PNG");
-    putValue(LONG_DESCRIPTION, "Export currently displayed workflow as a PNG image");
   }
 
   public void actionPerformed(ActionEvent e)
