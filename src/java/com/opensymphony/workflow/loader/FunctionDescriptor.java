@@ -4,20 +4,21 @@
  */
 package com.opensymphony.workflow.loader;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import java.io.PrintWriter;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 
 /**
  * Desrives a function that can be applied to a workflow step.
- * 
+ *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class FunctionDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////

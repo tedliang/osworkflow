@@ -6,6 +6,7 @@ package com.opensymphony.workflow.util.beanshell;
 
 import bsh.EvalError;
 import bsh.Interpreter;
+import bsh.TargetError;
 
 import com.opensymphony.workflow.*;
 import com.opensymphony.workflow.spi.WorkflowEntry;
@@ -20,7 +21,7 @@ import java.util.Map;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class BeanShellRegister implements Register {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -46,6 +47,13 @@ public class BeanShellRegister implements Register {
             Object o = i.eval(script);
 
             return o;
+        } catch (TargetError targetError) {
+            if (targetError.getTarget() instanceof WorkflowException) {
+                throw (WorkflowException) targetError.getTarget();
+            } else {
+                String message = "Could not get object registered in to variable map";
+                throw new WorkflowException(message, targetError.getTarget());
+            }
         } catch (EvalError e) {
             String message = "Could not get object registered in to variable map";
             throw new WorkflowException(message, e);

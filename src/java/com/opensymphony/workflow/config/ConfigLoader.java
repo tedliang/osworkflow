@@ -29,7 +29,7 @@ import javax.xml.parsers.*;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ConfigLoader {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -77,8 +77,8 @@ public class ConfigLoader {
             persistence = p.getAttribute("class");
 
             NodeList args = p.getElementsByTagName("property");
-            //persistenceArgs = new HashMap();
 
+            //persistenceArgs = new HashMap();
             for (int i = 0; i < args.getLength(); i++) {
                 Element e = (Element) args.item(i);
                 persistenceArgs.put(e.getAttribute("key"), e.getAttribute("value"));
