@@ -35,6 +35,13 @@ public interface Configuration {
     boolean isInitialized();
 
     /**
+     * Check if a particular workflow can be modified or not.
+     * @param name The workflow name.
+     * @return true if the workflow can be modified, false otherwise.
+     */
+    boolean isModifiable(String name);
+
+    /**
      * Get the fully qualified class name of the persistence store.
      */
     String getPersistence();
