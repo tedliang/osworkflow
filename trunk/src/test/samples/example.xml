@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.7//EN" "http://www.opensymphony.com/osworkflow/workflow_2_6_1.dtd">
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.7//EN" "http://www.opensymphony.com/osworkflow/workflow_2_8.dtd">
 <workflow>
   <meta name="workflow-meta1">workflow-meta1-value</meta>
   <meta name="workflow-meta2">workflow-meta2-value</meta>
@@ -98,9 +98,6 @@
               <arg name="script">
                                 String caller = context.getCaller();
                                 propertySet.setString("caller", caller);
-                                boolean test = true;
-                                String yuck = null;
-                                String blah = "987654321";
               </arg>
             </function>
           </pre-functions>
@@ -446,6 +443,12 @@
       </actions>
     </step>
     <step id="8" name="Baz">
+      <pre-functions>
+        <function name="verify.step" type="class">
+          <arg name="class.name">com.opensymphony.workflow.util.VerifyCurrentSteps</arg>
+          <arg name="step.id">7</arg>
+        </function>
+      </pre-functions>
       <actions>
         <action name="Finish Baz" id="14">
           <restrict-to>

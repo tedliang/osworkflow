@@ -104,7 +104,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
             currentStepsCache.put(new Long(entryId), currentSteps);
         }
 
-        return currentSteps;
+        return new ArrayList(currentSteps);
     }
 
     public WorkflowEntry findEntry(long entryId) {
@@ -119,7 +119,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
             historyStepsCache.put(new Long(entryId), historySteps);
         }
 
-        return historySteps;
+        return new ArrayList(historySteps);
     }
 
     public void init(Map props) {
