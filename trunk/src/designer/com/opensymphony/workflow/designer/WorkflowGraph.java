@@ -12,11 +12,12 @@ import com.opensymphony.workflow.loader.*;
 import com.opensymphony.workflow.designer.layout.SugiyamaLayoutAlgorithm;
 import com.opensymphony.workflow.designer.layout.LayoutAlgorithm;
 import com.opensymphony.workflow.designer.views.*;
-import com.opensymphony.workflow.designer.actions.CreateInitialAction;
+import com.opensymphony.workflow.designer.actions.CreateStep;
 
 public class WorkflowGraph extends JGraph
 {
   private Layout layout = new Layout();
+  private Point menuLocation = new Point();
 
   private WorkflowDescriptor descriptor;
   private JPopupMenu menu;
@@ -42,7 +43,7 @@ public class WorkflowGraph extends JGraph
     menu = new JPopupMenu();
     JMenu n = new JMenu("New");
     menu.add(n);
-    n.add(new CreateInitialAction(this));
+    n.add(new CreateStep(getWorkflowGraphModel(), menuLocation));
   }
 
   public void setDescriptor(WorkflowDescriptor descriptor)
@@ -170,6 +171,8 @@ public class WorkflowGraph extends JGraph
 
   public void showMenu(int x, int y)
   {
+    menuLocation.x = x;
+    menuLocation.y = y;
     menu.show(this, x, y);
   }
 }
