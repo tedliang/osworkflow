@@ -80,18 +80,6 @@ public final class ActionManager
     return action;
   }
 
-  public static List getAll(String[] allIDs)
-  {
-    List result = new LinkedList();
-    for(int i = 0; i < allIDs.length; i++)
-    {
-      Action action = get(allIDs[i]);
-      if(action != null)
-        result.add(action);
-    }
-    return result;
-  }
-
   /**
    * Retrieves and answers the small icon for the given <code>id</code>.
    */
