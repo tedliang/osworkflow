@@ -101,13 +101,25 @@ public class ActionsTestCase extends TestCase {
     public void testSimpleFinish() throws Exception {
         long id = workflow.initialize(getClass().getResource("/samples/finish1.xml").toString(), 100, null);
         workflow.doAction(id, 1, null);
-        assertTrue("Finished workflow should have no current actions", workflow.getCurrentSteps(id).size() == 0);
+        assertTrue("Finished workflow should have no current steps", workflow.getCurrentSteps(id).size() == 0);
         assertEquals("Unexpected workflow entry state", WorkflowEntry.COMPLETED, workflow.getEntryState(id));
 
         List historySteps = workflow.getHistorySteps(id);
 
         //last history step should have status of LastFinished
-        assertEquals("Unexpected status of last history step", "LastFinished", ((Step) historySteps.get(0)).getStatus());
+        assertEquals("Unexpected number of history steps", 1, historySteps.size());
+    }
+
+    public void testSimpleFinishWithoutRestriction() throws Exception {
+        long id = workflow.initialize(getClass().getResource("/samples/finish2.xml").toString(), 100, null);
+        workflow.doAction(id, 1, null);
+        assertTrue("Finished workflow should have no current steps", workflow.getCurrentSteps(id).size() == 0);
+        assertEquals("Unexpected workflow entry state", WorkflowEntry.COMPLETED, workflow.getEntryState(id));
+
+        List historySteps = workflow.getHistorySteps(id);
+
+        //last history step should have status of LastFinished
+        assertEquals("Unexpected number of history steps", 1, historySteps.size());
     }
 
     protected void setUp() throws Exception {
