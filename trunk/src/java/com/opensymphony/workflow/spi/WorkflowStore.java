@@ -93,6 +93,15 @@ public interface WorkflowStore {
      */
     public void init(Map props) throws StoreException;
 
+    /**
+     * Mark the specified step as finished.
+     * @param step the step to finish.
+     * @param actionId The action that caused the step to finish.
+     * @param finishDate the date when the step was finished.
+     * @param status The status to set the finished step to.
+     * @param caller The caller that caused the step to finish.
+     * @return the finished step
+     */
     public Step markFinished(Step step, int actionId, Date finishDate, String status, String caller) throws StoreException;
 
     /**
