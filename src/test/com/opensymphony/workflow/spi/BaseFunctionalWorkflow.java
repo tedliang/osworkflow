@@ -16,7 +16,6 @@ import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import junit.framework.TestCase;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,10 +64,14 @@ public abstract class BaseFunctionalWorkflow extends TestCase {
         test.addToGroup(bars);
         test.addToGroup(bazs);
 
-        long workflowId = workflow.initialize(getClass().getResource("/samples/example.xml").toString(), 1, new HashMap());
+        String workflowName = getClass().getResource("/samples/example.xml").toString();
+        assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 1));
+
+        long workflowId = workflow.initialize(workflowName, 1, new HashMap());
         String workorderName = workflow.getWorkflowName(workflowId);
         workflowDescriptor = workflow.getWorkflowDescriptor(workorderName);
         log("Name of workorder:" + workorderName);
+        assertTrue("Expected external-permission permA in step 1 not found", workflow.getSecurityPermissions(workflowId).contains("permA"));
 
         List currentSteps = workflow.getCurrentSteps(workflowId);
         assertEquals("Unexpected number of current steps", 1, currentSteps.size());
@@ -87,7 +90,7 @@ public abstract class BaseFunctionalWorkflow extends TestCase {
         Step historyStep = (Step) historySteps.get(0);
         assertEquals("test", historyStep.getCaller());
         assertNull(historyStep.getDueDate());
-        assertTrue(historyStep.getFinishDate().before(new Date()));
+        assertTrue("history step finish date is in the future!", historyStep.getFinishDate().getTime() < System.currentTimeMillis());
         logActions(actions);
         log("Perform Finish Foo");
         workflow.doAction(workflowId, 12, Collections.EMPTY_MAP);
