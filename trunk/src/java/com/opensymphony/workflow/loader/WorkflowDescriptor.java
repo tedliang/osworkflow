@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.28 $
+ * @version $Revision: 1.29 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -35,6 +35,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
+    protected ConditionsDescriptor globalConditions = null;
     protected List commonActionsList = new ArrayList(); // for preserving order
     protected List globalActions = new ArrayList();
     protected List initialActions = new ArrayList();
@@ -103,6 +104,10 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
      */
     public List getGlobalActions() {
         return globalActions;
+    }
+
+    public ConditionsDescriptor getGlobalConditions() {
+        return globalConditions;
     }
 
     /**
@@ -434,6 +439,15 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
             out.println("</trigger-functions>");
         }
 
+        if (getGlobalConditions() != null) {
+            XMLUtil.printIndent(out, indent++);
+            out.println("<global-conditions>");
+
+            getGlobalConditions().writeXML(out, indent);
+
+            out.println("</global-conditions>");
+        }
+
         XMLUtil.printIndent(out, indent++);
         out.println("<initial-actions>");
 
@@ -539,6 +553,17 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
                 registerDescriptor.setParent(this);
                 this.registers.add(registerDescriptor);
             }
+        }
+
+        // handle global-conditions - OPTIONAL
+        Element globalConditionsElement = XMLUtil.getChildElement(root, "global-conditions");
+
+        if (globalConditionsElement != null) {
+            Element globalConditions = XMLUtil.getChildElement(globalConditionsElement, "conditions");
+
+            ConditionsDescriptor conditionsDescriptor = new ConditionsDescriptor(globalConditions);
+            conditionsDescriptor.setParent(this);
+            this.globalConditions = conditionsDescriptor;
         }
 
         // handle initial-steps - REQUIRED
