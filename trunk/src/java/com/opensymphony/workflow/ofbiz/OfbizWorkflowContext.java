@@ -21,7 +21,7 @@ import org.ofbiz.core.entity.TransactionUtil;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class OfbizWorkflowContext extends BasicWorkflowContext {
     //~ Constructors ///////////////////////////////////////////////////////////

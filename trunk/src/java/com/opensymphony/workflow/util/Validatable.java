@@ -11,7 +11,7 @@ import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
  * Abstact base class for elements that can be validated.
  *
  * @author <a href="mailto:vorburger@users.sourceforge.net">Michael Vorburger</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface Validatable {
     //~ Methods ////////////////////////////////////////////////////////////////

@@ -17,7 +17,7 @@ import com.opensymphony.workflow.WorkflowContext;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class BasicWorkflowContext implements WorkflowContext {
     //~ Instance fields ////////////////////////////////////////////////////////

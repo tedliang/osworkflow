@@ -5,6 +5,7 @@
 package com.opensymphony.workflow.spi.ejb;
 
 import com.opensymphony.workflow.StoreException;
+import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.SimpleStep;
 import com.opensymphony.workflow.spi.SimpleWorkflowEntry;
@@ -49,7 +50,7 @@ import javax.ejb.SessionBean;
  * @ejb.transaction type="Supports"
  *
  * @author <a href="mailto:hani@formicary.net">Hani Suleiman</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  *
  * Date: Apr 7, 2003
  * Time: 10:57:28 PM
@@ -260,6 +261,14 @@ public abstract class WorkflowStoreSessionEJB implements SessionBean {
      * @ejb.interface-method
      */
     public List query(WorkflowQuery query) throws StoreException {
+        // not implemented
+        throw new StoreException("EJB store does not support queries");
+    }
+
+    /**
+     * @ejb.interface-method
+     */
+    public List query(WorkflowExpressionQuery query) throws StoreException {
         // not implemented
         throw new StoreException("EJB store does not support queries");
     }

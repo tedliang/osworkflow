@@ -28,7 +28,7 @@ import java.util.*;
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
  * @author <a href="mailto:mischwar@cisco.com">Mike Schwartz</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class MostRecentOwner implements FunctionProvider {
     //~ Methods ////////////////////////////////////////////////////////////////

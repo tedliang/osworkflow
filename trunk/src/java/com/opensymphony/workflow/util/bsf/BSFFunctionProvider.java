@@ -25,7 +25,7 @@ import java.util.Map;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class BSFFunctionProvider implements FunctionProvider {
     //~ Static fields/initializers /////////////////////////////////////////////

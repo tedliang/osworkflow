@@ -19,7 +19,7 @@ import java.util.*;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////

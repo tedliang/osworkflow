@@ -42,7 +42,7 @@ import javax.ejb.*;
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
  * @author <a href="mailto:hani@formicary.net">Hani Suleiman</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WorkflowEJB extends AbstractWorkflow implements SessionBean {
     //~ Static fields/initializers /////////////////////////////////////////////

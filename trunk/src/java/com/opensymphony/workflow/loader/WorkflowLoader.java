@@ -26,7 +26,7 @@ import javax.xml.parsers.*;
  * by loading the XML from various sources.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class WorkflowLoader {
     //~ Static fields/initializers /////////////////////////////////////////////

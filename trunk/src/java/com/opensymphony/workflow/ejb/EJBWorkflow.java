@@ -10,6 +10,7 @@ import com.opensymphony.util.EJBUtils;
 
 import com.opensymphony.workflow.*;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
+import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 
 import org.apache.commons.logging.Log;
@@ -30,7 +31,7 @@ import javax.naming.NamingException;
  * This class acts as a wrapper around a workflow session bean.
  *
  * @author plightbo
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class EJBWorkflow implements Workflow {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -219,6 +220,15 @@ public class EJBWorkflow implements Workflow {
             return wf.initialize(workflowName, initialState, inputs);
         } catch (RemoteException e) {
             log.error("Error initializing", e);
+            throw new WorkflowException(e);
+        }
+    }
+
+    public List query(WorkflowExpressionQuery query) throws WorkflowException {
+        try {
+            return wf.query(query);
+        } catch (RemoteException e) {
+            log.error("Error querying", e);
             throw new WorkflowException(e);
         }
     }

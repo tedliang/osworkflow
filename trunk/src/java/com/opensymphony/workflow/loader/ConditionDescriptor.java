@@ -18,7 +18,7 @@ import java.util.Map;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ConditionDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////

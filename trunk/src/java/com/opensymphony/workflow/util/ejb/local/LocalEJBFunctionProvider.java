@@ -26,7 +26,7 @@ import javax.rmi.PortableRemoteObject;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class LocalEJBFunctionProvider implements FunctionProvider {
     //~ Static fields/initializers /////////////////////////////////////////////

@@ -11,7 +11,7 @@ import java.util.*;
  * Exception to indicate the user input is invalid. Handles both general errors and errors specific to an input.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Patrick Lightbody</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class InvalidInputException extends WorkflowException {
     //~ Instance fields ////////////////////////////////////////////////////////

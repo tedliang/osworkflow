@@ -13,7 +13,7 @@ import java.util.Map;
  * Interface that must be implemented to define a java-based validator in your workflow definition.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Patrick Lightbody</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public interface Validator {
     //~ Methods ////////////////////////////////////////////////////////////////

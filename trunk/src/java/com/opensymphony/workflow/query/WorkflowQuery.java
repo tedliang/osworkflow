@@ -14,7 +14,7 @@ import java.io.Serializable;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WorkflowQuery implements Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////

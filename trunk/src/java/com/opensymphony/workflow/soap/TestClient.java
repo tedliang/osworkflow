@@ -21,7 +21,7 @@ import electric.util.Context;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TestClient {
     //~ Methods ////////////////////////////////////////////////////////////////

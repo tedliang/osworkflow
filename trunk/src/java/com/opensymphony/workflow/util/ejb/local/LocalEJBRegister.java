@@ -27,7 +27,7 @@ import javax.rmi.PortableRemoteObject;
  * the JNDI location of the session bean.
  *
  * @author $Author: hani $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class LocalEJBRegister implements Register {
     //~ Static fields/initializers /////////////////////////////////////////////
