@@ -150,6 +150,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     while(steps.hasNext())
     {
       StepCell stepCell = (StepCell)steps.next();
+      System.out.println("insertResltConnections");
       processStepEndPointResult(stepCell);
     }
     Iterator splits = splitCells.values().iterator();
@@ -231,7 +232,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void connectCells(ResultCell resultCell, DefaultGraphCell toCell)
   {
     Map attributeMap = new HashMap();
-    DefaultPort fromPort = null;
+    DefaultPort fromPort;
     if(resultCell.getFromCell().getChildCount()>0)
     {
       fromPort = (DefaultPort)resultCell.getFromCell().getChildAt(0);
@@ -241,7 +242,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
       fromPort = new WorkflowPort();
       resultCell.getFromCell().add(fromPort);
     }
-    DefaultPort toPort = null;
+    DefaultPort toPort;
     if(toCell.getChildCount()>0)
     {
       toPort = (DefaultPort)toCell.getChildAt(0);
