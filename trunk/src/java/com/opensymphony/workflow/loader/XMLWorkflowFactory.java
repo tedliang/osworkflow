@@ -167,7 +167,8 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
             throw new UnsupportedOperationException("Saving of new workflow is not currently supported");
         }
 
-        Writer out = null;
+        Writer out;
+        descriptor.validate();
 
         try {
             out = new OutputStreamWriter(new FileOutputStream(c.url.getFile() + ".new"), "utf-8");
