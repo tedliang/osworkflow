@@ -48,7 +48,7 @@ public class CellFactory
     String name = JOptionPane.showInputDialog("Step Name?");
     if(name == null || name.trim().length() == 0) return;
 
-    StepDescriptor step = DescriptorBuilder.createStep(name, Utils.getNextId());
+    StepDescriptor step = DescriptorBuilder.createStep(name, Utils.getNextId(model.getContext()));
     step.setParent(workflow);
     workflow.addStep(step);
 
@@ -64,7 +64,7 @@ public class CellFactory
 
   public static void createJoin(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
   {
-    JoinDescriptor join = DescriptorBuilder.createJoin(Utils.getNextId());
+    JoinDescriptor join = DescriptorBuilder.createJoin(Utils.getNextId(model.getContext()));
     join.setParent(workflow);
     workflow.addJoin(join);
 
@@ -81,7 +81,7 @@ public class CellFactory
 
   public static void createSplit(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
   {
-    SplitDescriptor split = DescriptorBuilder.createSplit(Utils.getNextId());
+    SplitDescriptor split = DescriptorBuilder.createSplit(Utils.getNextId(model.getContext()));
     split.setParent(workflow);
     workflow.addSplit(split);
 
