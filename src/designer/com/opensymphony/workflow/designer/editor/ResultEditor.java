@@ -8,16 +8,12 @@ import javax.swing.*;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.builder.PanelBuilder;
-import com.opensymphony.workflow.designer.listener.ComboListener;
-import com.opensymphony.workflow.designer.listener.TextFieldListener;
 import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.designer.model.FunctionsTableModel;
 import com.opensymphony.workflow.designer.ResultEdge;
 import com.opensymphony.workflow.designer.UIFactory;
-import com.opensymphony.workflow.loader.ConditionDescriptor;
-import com.opensymphony.workflow.loader.ConditionalResultDescriptor;
-import com.opensymphony.workflow.loader.FunctionDescriptor;
-import com.opensymphony.workflow.loader.ResultDescriptor;
+import com.opensymphony.workflow.designer.beanutils.BeanConnector;
+import com.opensymphony.workflow.loader.*;
 
 public class ResultEditor extends DetailPanel implements ActionListener
 {
@@ -33,12 +29,13 @@ public class ResultEditor extends DetailPanel implements ActionListener
   private ConditionsTableModel conditionsModel = new ConditionsTableModel();
   private JTable conditionsTable;
   private JPanel panel;
-  private ResultDescriptor descriptor;
+  private BeanConnector connector = new BeanConnector();
 
   public ResultEditor()
   {
   }
 
+  
   protected void initComponents()
   {
     String colLayout = "2dlu, max(30dlu;pref), 2dlu, pref:grow, 4dlu";
@@ -60,35 +57,19 @@ public class ResultEditor extends DetailPanel implements ActionListener
 
     builder.addLabel("ID", cc.xy(2, 3));
     builder.add(id, cc.xy(4, 3));
+    connector.connect(id, "id");
 
     builder.addLabel("Owner", cc.xy(2, 5));
-    owner.getDocument().addDocumentListener(new TextFieldListener()
-    {
-      protected void valueChanged(String msg)
-      {
-        descriptor.setOwner(msg);
-      }
-    });
+    connector.connect(owner, "owner");
     builder.add(owner, cc.xy(4, 5));
 
     builder.addLabel("Status", cc.xy(2, 7));
     builder.add(status, cc.xy(4, 7));
-    status.addActionListener(new ComboListener()
-    {
-      protected void valueChanged(String newValue)
-      {
-        descriptor.setStatus(newValue);
-      }
-    });
+    connector.connect(status, "status");
+
     builder.addLabel("Old Status", cc.xy(2, 9));
     builder.add(oldStatus, cc.xy(4, 9));
-    oldStatus.addActionListener(new ComboListener()
-    {
-      protected void valueChanged(String newValue)
-      {
-        descriptor.setOldStatus(newValue);
-      }
-    });
+    connector.connect(oldStatus, "oldStatus");
 
     builder.addSeparator("Pre-Functions", cc.xywh(2, 11, 3, 1));
     preFunctionsTable = new JTable(preFunctionsModel);
@@ -104,16 +85,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
     builder.addSeparator("Conditions", cc.xywh(2, 21, 3, 1));
 
     builder.addLabel("Type", cc.xy(2, 23));
-    type.addActionListener(new ComboListener()
-    {
-      protected void valueChanged(String newValue)
-      {
-        if(descriptor instanceof ConditionalResultDescriptor)
-        {
-          ((ConditionalResultDescriptor)descriptor).setConditionType(newValue);
-        }
-      }
-    });
+    connector.connect(type, "conditionType");
     builder.add(type, cc.xy(4, 23));
 
     conditionsTable = new JTable(conditionsModel);
@@ -130,8 +102,11 @@ public class ResultEditor extends DetailPanel implements ActionListener
 
   protected void updateView()
   {
+    WorkflowConfigDescriptor palette = getModel().getPalette();
+    status.setModel(new DefaultComboBoxModel(palette.getStatusNames()));
+    oldStatus.setModel(new DefaultComboBoxModel(palette.getStatusNames()));
     ResultEdge result = (ResultEdge)getEdge();
-    descriptor = result.getDescriptor();
+    ResultDescriptor descriptor = result.getDescriptor();
 
     preFunctionsModel.setList(descriptor.getPreFunctions());
     preFunctionsTable.getSelectionModel().clearSelection();
@@ -139,39 +114,18 @@ public class ResultEditor extends DetailPanel implements ActionListener
     postFunctionsModel.setList(descriptor.getPostFunctions());
     postFunctionsTable.getSelectionModel().clearSelection();
 
-    id.setText(descriptor.hasId() ? Integer.toString(descriptor.getId()) : "");
-
-    owner.setText(descriptor.getOwner() != null ? descriptor.getOwner() : "");
-
-    status.setModel(new DefaultComboBoxModel(getModel().getPalette().getStatusNames()));
-    status.setSelectedItem(descriptor.getStatus() != null ? descriptor.getStatus() : "");
-
-    oldStatus.setModel(new DefaultComboBoxModel(getModel().getPalette().getStatusNames()));
-    oldStatus.setSelectedItem(descriptor.getOldStatus() != null ? descriptor.getOldStatus() : "");
-
     if(isConditional())
     {
-      doConditional();
-
+      setConditional(true);
       ConditionalResultDescriptor cond = (ConditionalResultDescriptor)descriptor;
-
-      String types = cond.getConditionType();
-      if(types == null)
-      {
-        type.setSelectedIndex(-1);
-      }
-      else
-      {
-        type.setSelectedItem(types);
-      }
       conditionsModel.setList(cond.getConditions());
       conditionsTable.getSelectionModel().clearSelection();
-
     }
     else
     {
-      doUnconditional();
+      setConditional(false);
     }
+    connector.setSource(descriptor);
   }
 
   public void actionPerformed(ActionEvent e)
@@ -343,25 +297,14 @@ public class ResultEditor extends DetailPanel implements ActionListener
     conditionsModel.fireTableDataChanged();
   }
 
-  private void doConditional()
+  private void setConditional(boolean enabled)
   {
-    type.setEnabled(true);
-    conditionsTable.setEnabled(true);
+    type.setEnabled(enabled);
+    conditionsTable.setEnabled(enabled);
     Component[] comps = panel.getComponents();
     for(int i = 0; i < comps.length; i++)
     {
-      comps[i].setEnabled(true);
-    }
-  }
-
-  private void doUnconditional()
-  {
-    type.setEnabled(false);
-    conditionsTable.setEnabled(false);
-    Component[] comps = panel.getComponents();
-    for(int i = 0; i < comps.length; i++)
-    {
-      comps[i].setEnabled(false);
+      comps[i].setEnabled(enabled);
     }
   }
 }

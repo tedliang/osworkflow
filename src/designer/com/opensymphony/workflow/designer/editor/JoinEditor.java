@@ -9,7 +9,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.opensymphony.workflow.designer.JoinCell;
 import com.opensymphony.workflow.designer.UIFactory;
-import com.opensymphony.workflow.designer.listener.ComboListener;
+import com.opensymphony.workflow.designer.beanutils.BeanConnector;
 import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.designer.model.ResultsTableModel;
 import com.opensymphony.workflow.loader.ConditionDescriptor;
@@ -26,7 +26,7 @@ public class JoinEditor extends DetailPanel implements ActionListener
 
   private ResultsTableModel resultsModel = new ResultsTableModel();
   private JTable resultsTable;
-  private JoinDescriptor descriptor;
+  private BeanConnector connector = new BeanConnector();
 
   public JoinEditor()
   {
@@ -40,17 +40,12 @@ public class JoinEditor extends DetailPanel implements ActionListener
     builder.addSeparator("Info", cc.xywh(2, 1, 3, 1));
     builder.addLabel("ID", cc.xy(2, 3));
     builder.add(id, cc.xy(4, 3));
+    connector.connect(id, "id");
+
     builder.addLabel("Condition Type", cc.xy(2, 5));
 
-    //	Create and register listener
-    conditionTypes.addActionListener(new ComboListener()
-    {
-      protected void valueChanged(String newValue)
-      {
-        descriptor.setConditionType(newValue);
-      }
-    });
     builder.add(conditionTypes, cc.xy(4, 5));
+    connector.connect(conditionTypes, "conditionType");
     builder.addSeparator("Conditions", cc.xywh(2, 7, 3, 1));
 
     conditionsTable = new JTable(conditionsModel);
@@ -69,19 +64,10 @@ public class JoinEditor extends DetailPanel implements ActionListener
   {
     JoinCell cell = (JoinCell)getCell();
 
-    id.setText(Integer.toString(cell.getId(), 10));
+    JoinDescriptor descriptor = cell.getJoinDescriptor();
 
-    descriptor = cell.getJoinDescriptor();
-    String type = descriptor.getConditionType();
-    if(type == null)
-    {
-      conditionTypes.setSelectedIndex(-1);
-    }
-    else
-    {
-      conditionTypes.setSelectedItem(type);
-    }
     conditionsModel.setList(descriptor.getConditions());
+    connector.setSource(descriptor);
 
     //		if (cell.getJoinDescriptor().getResult() != null) {
     //			List list = new ArrayList();
