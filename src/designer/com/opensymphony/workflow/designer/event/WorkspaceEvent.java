@@ -11,7 +11,8 @@ import com.opensymphony.workflow.loader.Workspace;
  */
 public class WorkspaceEvent extends EventObject
 {
-  public static final int WORKSPACE_OPENED = 1;  public static final int WORKSPACE_CLOSED = 2;
+  public static final int WORKSPACE_OPENED = 1;
+  public static final int WORKSPACE_CLOSED = 2;
   private int id;
   private Workspace workspace;
   private boolean consumed;
