@@ -58,7 +58,7 @@ public class SaveDescriptorTestCase extends XMLTestCase {
         StringWriter out = new StringWriter();
         PrintWriter writer = new PrintWriter(out);
         writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.5//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_5.dtd\">");
+        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.6//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_6.dtd\">");
         descriptor.writeXML(new PrintWriter(out), 0);
 
         Document inputDocument = documentBuilder.parse(url.toString());
