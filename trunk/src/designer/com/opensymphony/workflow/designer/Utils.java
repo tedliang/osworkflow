@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
+import com.opensymphony.workflow.loader.AbstractDescriptor;
 import org.jgraph.JGraph;
 
 /**
@@ -15,6 +16,8 @@ import org.jgraph.JGraph;
  */
 public class Utils
 {
+  private static int nextId = 0;
+
   public static File promptUserForFile(Component component, int type, boolean save, final String suffix, final String description)
   {
     JFileChooser chooser = new JFileChooser(Prefs.INSTANCE.get(Prefs.CURRENT_DIR, System.getProperty("user.dir")));
@@ -54,7 +57,7 @@ public class Utils
     if(result == JFileChooser.APPROVE_OPTION)
     {
       selectedFile = chooser.getSelectedFile();
-      if(save && type==JFileChooser.FILES_AND_DIRECTORIES && !selectedFile.getName().toLowerCase().endsWith(suffix))
+      if(save && type == JFileChooser.FILES_AND_DIRECTORIES && !selectedFile.getName().toLowerCase().endsWith(suffix))
       {
         selectedFile = new File(selectedFile.toString() + suffix);
       }
@@ -92,5 +95,17 @@ public class Utils
       return img;
     }
     return null;
+  }
+
+  public static void checkId(AbstractDescriptor descriptor)
+  {
+    if(descriptor == null) return;
+    if(descriptor.getId() >= nextId) nextId = descriptor.getId() + 1;
+  }
+
+  public static int getNextId()
+  {
+    //todo needs to be per workflow, not global!
+    return nextId;
   }
 }
