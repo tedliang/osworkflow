@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class RestrictionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -54,6 +54,10 @@ public class RestrictionDescriptor extends AbstractDescriptor implements Validat
     }
 
     public void writeXML(PrintWriter out, int indent) {
+        if (conditions.size() == 0) {
+            return;
+        }
+
         XMLUtil.printIndent(out, indent++);
         out.println("<restrict-to>");
 
