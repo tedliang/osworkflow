@@ -7,6 +7,7 @@ package com.opensymphony.workflow.util;
 import com.opensymphony.module.propertyset.PropertySet;
 
 import com.opensymphony.workflow.FunctionProvider;
+import com.opensymphony.workflow.config.Configuration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,6 +50,7 @@ public class SendEmail implements FunctionProvider {
         String m = (String) args.get("message");
         String smtpHost = (String) args.get("smtpHost");
         boolean parseVariables = "true".equals(args.get("parseVariables"));
+        Configuration config = (Configuration) transientVars.get("configuration");
 
         try {
             Properties props = new Properties();
@@ -61,7 +63,8 @@ public class SendEmail implements FunctionProvider {
             message.setFrom(new InternetAddress(from));
 
             Set toSet = new HashSet();
-            StringTokenizer st = new StringTokenizer(parseVariables ? ScriptVariableParser.translateVariables(to, transientVars, ps).toString() : to, ", ");
+            VariableResolver variableResolver = config.getVariableResolver();
+            StringTokenizer st = new StringTokenizer(parseVariables ? variableResolver.translateVariables(to, transientVars, ps).toString() : to, ", ");
 
             while (st.hasMoreTokens()) {
                 String user = st.nextToken();
@@ -76,7 +79,7 @@ public class SendEmail implements FunctionProvider {
                 ccSet = new HashSet();
 
                 if (parseVariables) {
-                    cc = ScriptVariableParser.translateVariables(cc, transientVars, ps).toString();
+                    cc = variableResolver.translateVariables(cc, transientVars, ps).toString();
                 }
 
                 st = new StringTokenizer(cc, ", ");
@@ -91,9 +94,9 @@ public class SendEmail implements FunctionProvider {
                 message.setRecipients(Message.RecipientType.CC, (InternetAddress[]) ccSet.toArray(new InternetAddress[ccSet.size()]));
             }
 
-            message.setSubject(parseVariables ? ScriptVariableParser.translateVariables(subject, transientVars, ps).toString() : subject);
+            message.setSubject(parseVariables ? variableResolver.translateVariables(subject, transientVars, ps).toString() : subject);
             message.setSentDate(new Date());
-            message.setText(parseVariables ? ScriptVariableParser.translateVariables(m, transientVars, ps).toString() : m);
+            message.setText(parseVariables ? variableResolver.translateVariables(m, transientVars, ps).toString() : m);
             message.saveChanges();
 
             transport.connect();

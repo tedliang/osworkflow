@@ -9,6 +9,8 @@ import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.loader.*;
 import com.opensymphony.workflow.loader.ClassLoaderUtil;
 import com.opensymphony.workflow.spi.WorkflowStore;
+import com.opensymphony.workflow.util.DefaultVariableResolver;
+import com.opensymphony.workflow.util.VariableResolver;
 
 import org.w3c.dom.*;
 
@@ -34,7 +36,7 @@ import javax.xml.parsers.*;
  * rather than in the calling client.
  *
  * @author Hani Suleiman
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class DefaultConfiguration implements Configuration, Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -47,6 +49,7 @@ public class DefaultConfiguration implements Configuration, Serializable {
     private String persistenceClass;
     private WorkflowFactory factory = new URLWorkflowFactory();
     private transient WorkflowStore store = null;
+    private VariableResolver variableResolver = new DefaultVariableResolver();
     private boolean initialized;
 
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -69,6 +72,10 @@ public class DefaultConfiguration implements Configuration, Serializable {
 
     public Map getPersistenceArgs() {
         return persistenceArgs;
+    }
+
+    public VariableResolver getVariableResolver() {
+        return variableResolver;
     }
 
     public WorkflowDescriptor getWorkflow(String name) throws FactoryException {
@@ -108,7 +115,7 @@ public class DefaultConfiguration implements Configuration, Serializable {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             dbf.setNamespaceAware(true);
 
-            DocumentBuilder db = null;
+            DocumentBuilder db;
 
             try {
                 db = dbf.newDocumentBuilder();
@@ -120,7 +127,16 @@ public class DefaultConfiguration implements Configuration, Serializable {
 
             Element root = (Element) doc.getElementsByTagName("osworkflow").item(0);
             Element p = XMLUtil.getChildElement(root, "persistence");
+            Element resolver = XMLUtil.getChildElement(root, "resolver");
             Element factoryElement = XMLUtil.getChildElement(root, "factory");
+
+            if (resolver != null) {
+                String resolverClass = resolver.getAttribute("class");
+
+                if (resolverClass != null) {
+                    variableResolver = (VariableResolver) ClassLoaderUtil.loadClass(resolverClass, getClass()).newInstance();
+                }
+            }
 
             persistenceClass = p.getAttribute("class");
 

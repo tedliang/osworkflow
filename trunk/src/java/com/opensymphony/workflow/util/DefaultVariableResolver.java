@@ -9,6 +9,8 @@ import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.provider.BeanProvider;
 import com.opensymphony.provider.bean.DefaultBeanProvider;
 
+import java.io.Serializable;
+
 import java.util.Map;
 
 
@@ -17,14 +19,14 @@ import java.util.Map;
  * Date: Oct 14, 2003
  * Time: 11:58:12 PM
  */
-public class ScriptVariableParser {
-    //~ Static fields/initializers /////////////////////////////////////////////
+public class DefaultVariableResolver implements VariableResolver, Serializable {
+    //~ Instance fields ////////////////////////////////////////////////////////
 
-    private static BeanProvider beanProvider = new DefaultBeanProvider();
+    private transient BeanProvider beanProvider = null;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public static Object getVariableFromMaps(String var, Map transientVars, PropertySet ps) {
+    public Object getVariableFromMaps(String var, Map transientVars, PropertySet ps) {
         int firstDot = var.indexOf('.');
         String actualVar = var;
 
@@ -39,6 +41,10 @@ public class ScriptVariableParser {
         }
 
         if (firstDot != -1) {
+            if (beanProvider == null) {
+                beanProvider = new DefaultBeanProvider();
+            }
+
             o = beanProvider.getProperty(o, var.substring(firstDot + 1));
         }
 
@@ -51,7 +57,7 @@ public class ScriptVariableParser {
        * in only refers to a single variable and contains no other characters (for example: ${foo}),
        * then the actual object is returned instead of converting it to a string.
        */
-    public static Object translateVariables(String s, Map transientVars, PropertySet ps) {
+    public Object translateVariables(String s, Map transientVars, PropertySet ps) {
         String temp = s.trim();
 
         if (temp.startsWith("${") && temp.endsWith("}") && (temp.indexOf('$', 1) == -1)) {
