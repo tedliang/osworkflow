@@ -50,6 +50,7 @@ public class OfbizWorkflowStore implements WorkflowStore {
         try {
             GenericValue gv = gd.findByPrimaryKey("OSWorkflowEntry", UtilMisc.toMap("id", new Long(entryId)));
             gv.set("state", new Integer(state));
+            gd.store(gv);
         } catch (GenericEntityException e) {
             throw new StoreException("Could not update workflow instance #" + entryId + " to status " + state, e);
         }
