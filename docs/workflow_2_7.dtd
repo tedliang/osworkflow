@@ -263,7 +263,7 @@ A unique step in the workflow (id must be unique among steps).
 
 Used in: steps
 -->
-<!ELEMENT step (meta*, external-permissions?, actions?)>
+<!ELEMENT step (meta*, pre-functions?, external-permissions?, actions?, post-functions?)>
 <!ATTLIST step
 	id CDATA #REQUIRED
 	name CDATA #REQUIRED
