@@ -26,7 +26,7 @@ public class SaveWorkspace extends AbstractAction implements WorkspaceListener
     setEnabled(false);
     putValue(SHORT_DESCRIPTION, "Save current workspace");
     putValue(NAME, "Save workspace");
-    putValue(LONG_DESCRIPTION, "Save the currently loaded workspace");    
+    putValue(LONG_DESCRIPTION, "Save the currently loaded workspace");
   }
 
   public void actionPerformed(ActionEvent e)
@@ -39,6 +39,10 @@ public class SaveWorkspace extends AbstractAction implements WorkspaceListener
         currentWorkspace.setLocation(toSave);
         Prefs.INSTANCE.put(Prefs.LAST_WORKSPACE, toSave.toString());
         WorkflowDesigner.INSTANCE.navigator().setWorkspace(currentWorkspace);
+      }
+      else
+      {
+        return;
       }
     }
     WorkflowDesigner.INSTANCE.saveWorkspace();
