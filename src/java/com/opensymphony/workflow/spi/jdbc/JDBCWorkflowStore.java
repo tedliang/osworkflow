@@ -400,8 +400,16 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
         try {
             ds = (DataSource) EJBUtils.lookup(jndi);
+
+            if (ds == null) {
+                ds = (DataSource) new javax.naming.InitialContext().lookup(jndi);
+            }
         } catch (Exception e) {
             throw new StoreException("Error looking up DataSource at " + jndi, e);
+        }
+
+        if (ds == null) {
+            throw new StoreException("No DataSource found at " + jndi);
         }
     }
 
