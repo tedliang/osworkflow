@@ -4,14 +4,23 @@
  */
 package com.opensymphony.workflow.spi.memory;
 
-import com.opensymphony.module.propertyset.*;
+import com.opensymphony.module.propertyset.PropertySet;
+import com.opensymphony.module.propertyset.PropertySetManager;
 
 import com.opensymphony.util.DataUtil;
 import com.opensymphony.util.TextUtils;
 
 import com.opensymphony.workflow.StoreException;
+import com.opensymphony.workflow.query.Expression;
+import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
-import com.opensymphony.workflow.spi.*;
+import com.opensymphony.workflow.spi.SimpleStep;
+import com.opensymphony.workflow.spi.SimpleWorkflowEntry;
+import com.opensymphony.workflow.spi.Step;
+import com.opensymphony.workflow.spi.WorkflowEntry;
+import com.opensymphony.workflow.spi.WorkflowStore;
+
+import java.security.InvalidParameterException;
 
 import java.util.*;
 
@@ -173,6 +182,215 @@ public class MemoryWorkflowStore implements WorkflowStore {
         return results;
     }
 
+    public List query(WorkflowExpressionQuery query) {
+        ArrayList results = new ArrayList();
+
+        for (Iterator iterator = entryCache.entrySet().iterator();
+                iterator.hasNext();) {
+            Map.Entry mapEntry = (Map.Entry) iterator.next();
+            Long entryId = (Long) mapEntry.getKey();
+
+            if (query(entryId.longValue(), query)) {
+                results.add(entryId);
+            }
+        }
+
+        return results;
+    }
+
+    private boolean checkExpression(long entryId, Expression expression) {
+        Object value = expression.getValue();
+        int operator = expression.getOperator();
+        int field = expression.getField();
+        int context = expression.getContext();
+
+        Long id = new Long(entryId);
+
+        if (context == Expression.ENTRY) {
+            SimpleWorkflowEntry theEntry = (SimpleWorkflowEntry) entryCache.get(id);
+
+            if (field == Expression.NAME) {
+                return this.compareText(theEntry.getWorkflowName(), (String) value, operator);
+            }
+
+            if (field == Expression.STATE) {
+                return this.compareLong(DataUtil.getInt((Integer) value), theEntry.getState(), operator);
+            }
+
+            throw new InvalidParameterException("unknown field");
+        }
+
+        List steps;
+
+        if (context == Expression.CURRENT_STEPS) {
+            steps = (List) currentStepsCache.get(id);
+        } else if (context == Expression.HISTORY_STEPS) {
+            steps = (List) historyStepsCache.get(id);
+        } else {
+            throw new InvalidParameterException("unknown field context");
+        }
+
+        if (steps == null) {
+            return false;
+        }
+
+        switch (field) {
+        case Expression.ACTION:
+
+            long actionId = DataUtil.getLong((Long) value);
+
+            for (Iterator iterator = steps.iterator(); iterator.hasNext();) {
+                SimpleStep step = (SimpleStep) iterator.next();
+
+                if (this.compareLong(step.getActionId(), actionId, operator)) {
+                    return true;
+                }
+            }
+
+            return false;
+
+        case Expression.CALLER:
+
+            String caller = (String) value;
+
+            for (Iterator iterator = steps.iterator(); iterator.hasNext();) {
+                SimpleStep step = (SimpleStep) iterator.next();
+
+                if (this.compareText(step.getCaller(), caller, operator)) {
+                    return true;
+                }
+            }
+
+            return false;
+
+        case Expression.FINISH_DATE:
+
+            Date finishDate = (Date) value;
+
+            for (Iterator iterator = steps.iterator(); iterator.hasNext();) {
+                SimpleStep step = (SimpleStep) iterator.next();
+
+                if (this.compareDate(step.getFinishDate(), finishDate, operator)) {
+                    return true;
+                }
+            }
+
+            return false;
+
+        case Expression.OWNER:
+
+            String owner = (String) value;
+
+            for (Iterator iterator = steps.iterator(); iterator.hasNext();) {
+                SimpleStep step = (SimpleStep) iterator.next();
+
+                if (this.compareText(step.getOwner(), owner, operator)) {
+                    return true;
+                }
+            }
+
+            return false;
+
+        case Expression.START_DATE:
+
+            Date startDate = (Date) value;
+
+            for (Iterator iterator = steps.iterator(); iterator.hasNext();) {
+                SimpleStep step = (SimpleStep) iterator.next();
+
+                if (this.compareDate(step.getStartDate(), startDate, operator)) {
+                    return true;
+                }
+            }
+
+            return false;
+
+        case Expression.STEP:
+
+            int stepId = DataUtil.getInt((Integer) value);
+
+            for (Iterator iterator = steps.iterator(); iterator.hasNext();) {
+                SimpleStep step = (SimpleStep) iterator.next();
+
+                if (this.compareLong(step.getStepId(), stepId, operator)) {
+                    return true;
+                }
+            }
+
+            return false;
+
+        case Expression.STATUS:
+
+            String status = (String) value;
+
+            for (Iterator iterator = steps.iterator(); iterator.hasNext();) {
+                SimpleStep step = (SimpleStep) iterator.next();
+
+                if (this.compareText(step.getStatus(), status, operator)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+    private boolean compareDate(Date value1, Date value2, int operator) {
+        switch (operator) {
+        case Expression.EQUALS:
+            return value1.compareTo(value2) == 0;
+
+        case Expression.NOT_EQUALS:
+            return value1.compareTo(value2) != 0;
+
+        case Expression.GT:
+            return (value1.compareTo(value2) > 0);
+
+        case Expression.LT:
+            return value1.compareTo(value2) < 0;
+        }
+
+        throw new InvalidParameterException("unknown field operator");
+    }
+
+    private boolean compareLong(long value1, long value2, int operator) {
+        switch (operator) {
+        case Expression.EQUALS:
+            return value1 == value2;
+
+        case Expression.NOT_EQUALS:
+            return value1 != value2;
+
+        case Expression.GT:
+            return value1 > value2;
+
+        case Expression.LT:
+            return value1 < value2;
+        }
+
+        throw new InvalidParameterException("unknown field operator");
+    }
+
+    private boolean compareText(String value1, String value2, int operator) {
+        switch (operator) {
+        case Expression.EQUALS:
+            return TextUtils.noNull(value1).equals(value2);
+
+        case Expression.NOT_EQUALS:
+            return !TextUtils.noNull(value1).equals(value2);
+
+        case Expression.GT:
+            return TextUtils.noNull(value1).compareTo(value2) > 0;
+
+        case Expression.LT:
+            return TextUtils.noNull(value1).compareTo(value2) < 0;
+        }
+
+        throw new InvalidParameterException("unknown field operator");
+    }
+
     private boolean query(Long entryId, WorkflowQuery query) {
         if (query.getLeft() == null) {
             return queryBasic(entryId, query);
@@ -194,6 +412,30 @@ public class MemoryWorkflowStore implements WorkflowStore {
         }
 
         return false;
+    }
+
+    private boolean query(long entryId, WorkflowExpressionQuery query) {
+        for (int i = 0; i < query.getExpressionCount(); i++) {
+            boolean expressionResult = this.checkExpression(entryId, query.getExpression(i));
+
+            if (query.getOperator() == WorkflowExpressionQuery.AND) {
+                if (expressionResult == false) {
+                    return false;
+                }
+            } else if (query.getOperator() == WorkflowExpressionQuery.OR) {
+                if (expressionResult == true) {
+                    return true;
+                }
+            }
+        }
+
+        if (query.getOperator() == WorkflowExpressionQuery.AND) {
+            return true;
+        } else if (query.getOperator() == WorkflowExpressionQuery.OR) {
+            return false;
+        }
+
+        throw new InvalidParameterException("unknown operator");
     }
 
     private boolean queryBasic(Long entryId, WorkflowQuery query) {
@@ -221,7 +463,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
     }
 
     private boolean queryEquals(Long entryId, int field, int type, Object value) {
-        List steps = null;
+        List steps;
 
         if (type == WorkflowQuery.CURRENT) {
             steps = (List) currentStepsCache.get(entryId);
@@ -333,7 +575,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
     }
 
     private boolean queryGreaterThan(Long entryId, int field, int type, Object value) {
-        List steps = null;
+        List steps;
 
         if (type == WorkflowQuery.CURRENT) {
             steps = (List) currentStepsCache.get(entryId);
@@ -445,7 +687,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
     }
 
     private boolean queryLessThan(Long entryId, int field, int type, Object value) {
-        List steps = null;
+        List steps;
 
         if (type == WorkflowQuery.CURRENT) {
             steps = (List) currentStepsCache.get(entryId);
@@ -557,7 +799,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
     }
 
     private boolean queryNotEquals(Long entryId, int field, int type, Object value) {
-        List steps = null;
+        List steps;
 
         if (type == WorkflowQuery.CURRENT) {
             steps = (List) currentStepsCache.get(entryId);

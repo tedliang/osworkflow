@@ -12,13 +12,13 @@ import com.opensymphony.module.user.UserManager;
 import com.opensymphony.workflow.AbstractWorkflow;
 import com.opensymphony.workflow.TestWorkflow;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
+import com.opensymphony.workflow.query.Expression;
+import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 
 import junit.framework.TestCase;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -125,6 +125,54 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         query = new WorkflowQuery(queryLeft, WorkflowQuery.AND, queryRight);
         workflows = workflow.query(query);
         assertEquals("Unexpected number of workflow query results", 1, workflows.size());
+    }
+
+    public void testWorkflowExpressionQuery() throws Exception {
+        WorkflowExpressionQuery query = new WorkflowExpressionQuery(new Expression(Expression.OWNER, Expression.CURRENT_STEPS, Expression.EQUALS, USER_TEST));
+        List workflows;
+
+        String workflowName = getClass().getResource("/samples/example.xml").toString();
+        assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 1));
+
+        workflows = workflow.query(query);
+        assertEquals(0, workflows.size());
+
+        long workflowId = workflow.initialize(workflowName, 1, new HashMap());
+        workflows = workflow.query(query);
+        assertEquals(1, workflows.size());
+
+        Expression queryLeft = new Expression(Expression.OWNER, Expression.CURRENT_STEPS, Expression.EQUALS, USER_TEST);
+        Expression queryRight = new Expression(Expression.STATUS, Expression.CURRENT_STEPS, Expression.EQUALS, "Finished");
+        query = new WorkflowExpressionQuery(new Expression[] {
+                    queryLeft, queryRight
+                }, WorkflowExpressionQuery.AND);
+        workflows = workflow.query(query);
+        assertEquals(0, workflows.size());
+
+        queryRight = new Expression(Expression.STATUS, Expression.CURRENT_STEPS, Expression.EQUALS, "Underway");
+        query = new WorkflowExpressionQuery(new Expression[] {
+                    queryLeft, queryRight
+                }, WorkflowExpressionQuery.AND);
+        workflows = workflow.query(query);
+        assertEquals(1, workflows.size());
+
+        //there should be one step that has been started
+        workflows = workflow.query(new WorkflowExpressionQuery(new Expression(Expression.START_DATE, Expression.CURRENT_STEPS, Expression.LT, new Date())));
+        assertEquals("Expected to find one workflow step that was started", 1, workflows.size());
+
+        //there should be no steps that have been completed
+        workflows = workflow.query(new WorkflowExpressionQuery(new Expression(Expression.FINISH_DATE, Expression.HISTORY_STEPS, Expression.LT, new Date())));
+        assertEquals("Expected to find no history steps that were completed", 0, workflows.size());
+
+        workflow.doAction(workflowId, 1, Collections.EMPTY_MAP);
+
+        //there should be two step that have been started
+        workflows = workflow.query(new WorkflowExpressionQuery(new Expression(Expression.START_DATE, Expression.HISTORY_STEPS, Expression.LT, new Date())));
+        assertEquals("Expected to find 2 workflow steps that were started", 1, workflows.size());
+
+        //there should be 1 steps that has been completed
+        workflows = workflow.query(new WorkflowExpressionQuery(new Expression(Expression.FINISH_DATE, Expression.HISTORY_STEPS, Expression.LT, new Date())));
+        assertEquals("Expected to find 1 history steps that was completed", 1, workflows.size());
     }
 
     public void testWorkflowQuery() throws Exception {

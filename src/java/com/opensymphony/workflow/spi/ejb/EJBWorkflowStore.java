@@ -8,6 +8,7 @@ import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
 
 import com.opensymphony.workflow.StoreException;
+import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.*;
 
@@ -152,6 +153,10 @@ public class EJBWorkflowStore implements WorkflowStore {
 
     public List query(WorkflowQuery query) {
         // not implemented
+        throw new UnsupportedOperationException("EJB store does not support queries");
+    }
+
+    public List query(WorkflowExpressionQuery query) throws StoreException {
         throw new UnsupportedOperationException("EJB store does not support queries");
     }
 }

@@ -7,6 +7,7 @@ package com.opensymphony.workflow.spi;
 import com.opensymphony.module.propertyset.PropertySet;
 
 import com.opensymphony.workflow.StoreException;
+import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 
 import java.util.*;
@@ -102,4 +103,6 @@ public interface WorkflowStore {
     public void moveToHistory(Step step) throws StoreException;
 
     public List query(WorkflowQuery query) throws StoreException;
+
+    public List query(WorkflowExpressionQuery query) throws StoreException;
 }

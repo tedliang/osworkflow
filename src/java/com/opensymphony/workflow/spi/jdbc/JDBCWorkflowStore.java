@@ -10,6 +10,7 @@ import com.opensymphony.module.propertyset.PropertySetManager;
 import com.opensymphony.util.EJBUtils;
 
 import com.opensymphony.workflow.StoreException;
+import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.*;
 
@@ -515,6 +516,10 @@ public class JDBCWorkflowStore implements WorkflowStore {
         } finally {
             cleanup(conn, stmt, null);
         }
+    }
+
+    public List query(WorkflowExpressionQuery query) throws StoreException {
+        throw new UnsupportedOperationException("JDBC store does not yet support WorkflowExpressionQuery");
     }
 
     public List query(WorkflowQuery query) throws StoreException {
