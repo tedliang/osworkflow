@@ -97,7 +97,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
             String sql = "UPDATE " + entryTable + " SET " + entryState + " = ? WHERE " + entryId + " = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, WorkflowEntry.SUSPENDED);
+            ps.setInt(1, state);
             ps.setLong(2, id);
             ps.executeUpdate();
         } catch (SQLException e) {
