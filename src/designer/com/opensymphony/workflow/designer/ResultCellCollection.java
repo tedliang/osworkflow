@@ -1,19 +1,17 @@
 package com.opensymphony.workflow.designer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-public class ResultCellCollection extends HashMap
+import com.opensymphony.workflow.loader.ResultDescriptor;
+
+public class ResultCellCollection extends ArrayList
 {
-
-  public String getNextKey()
-  {
-    return Integer.toString(size());
-  }
-
   public List getResultsToStep(int stepId)
   {
-    Iterator results = values().iterator();
-    Vector returnValue = new Vector();
+    Iterator results = iterator();
+    List returnValue = new ArrayList();
     while(results.hasNext())
     {
       ResultCell result = (ResultCell)results.next();
@@ -27,8 +25,8 @@ public class ResultCellCollection extends HashMap
 
   public List getResultsToSplit(int splitId)
   {
-    Iterator results = values().iterator();
-    Vector returnValue = new Vector();
+    Iterator results = iterator();
+    List returnValue = new ArrayList();
     while(results.hasNext())
     {
       ResultCell result = (ResultCell)results.next();
@@ -42,8 +40,8 @@ public class ResultCellCollection extends HashMap
 
   public List getResultsToJoin(int joinId)
   {
-    Iterator results = values().iterator();
-    Vector returnValue = new Vector();
+    Iterator results = iterator();
+    List returnValue = new ArrayList();
     while(results.hasNext())
     {
       ResultCell result = (ResultCell)results.next();
@@ -55,4 +53,20 @@ public class ResultCellCollection extends HashMap
     return returnValue;
   }
 
+  public ResultCell getResultCell(ResultDescriptor result)
+  {
+    ResultCell ret = null;
+
+    Iterator iter = iterator();
+    while(iter.hasNext())
+    {
+      ret = (ResultCell)iter.next();
+      if(ret.getDescriptor() == result)
+      {
+        return ret;
+      }
+    }
+
+    return null;
+  }
 }
