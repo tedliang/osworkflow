@@ -102,6 +102,12 @@ public interface WorkflowStore {
      */
     public void moveToHistory(Step step) throws StoreException;
 
+    /**
+     * @deprecated use {@link WorkflowStore#query(WorkflowExpressionQuery)} instead.
+     * @param query
+     * @return
+     * @throws StoreException
+     */
     public List query(WorkflowQuery query) throws StoreException;
 
     public List query(WorkflowExpressionQuery query) throws StoreException;

@@ -2,145 +2,31 @@
  * Copyright (c) 2002-2003 by OpenSymphony
  * All rights reserved.
  */
+
 package com.opensymphony.workflow.query;
 
-
 /**
- * Workflow expressions are used when constructing a workflow query.
- * Expressions have three attributes. These are:
- * <li>operator: This is the operator to apply on the expression.
- * <li>field: The workflow field to test agains
- * <li>Context: The context to search in, which can be one history, current steps, or a workflow instance.
+ * Abstract base class for expressions used in a workflow query.
+ * Expressions can be negate and/or nested. The default is not negate.
+ * <p></p>
+ * Expressions which are supported by all stores are {@link FieldExpression} and {@link NestedExpression}.
+ * <p></p>
+ * Store specific expressions like XPathExpression can be added.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
-public class Expression {
-    //~ Static fields/initializers /////////////////////////////////////////////
 
-    // field operators
 
-    /**
-     * Constant for the equality operator.
-     */
-    public final static int EQUALS = 1;
+public abstract class Expression
+{
+	protected boolean negate= false;
 
-    /**
-     * Constant for the less than operator.
-     */
-    public final static int LT = 2;
+	public boolean isNegate() { return negate; }
 
-    /**
-     * Constant for the greater than operator.
-     */
-    public final static int GT = 3;
+	abstract public boolean isNested();
 
-    /**
-     * Constant for the not equals operator.
-     */
-    public final static int NOT_EQUALS = 5;
+	protected Expression(){ }
 
-    // fields
-
-    /**
-     * Constant for the workflow owner field.
-     */
-    public final static int OWNER = 1;
-
-    /**
-     * Constant for the workflow start date field.
-     */
-    public final static int START_DATE = 2;
-
-    /**
-     * Constant for the workflow finish date field.
-     */
-    public final static int FINISH_DATE = 3;
-
-    /**
-     * Constant for the workflow action field.
-     */
-    public final static int ACTION = 4;
-
-    /**
-     * Constant for the workflow step field.
-     */
-    public final static int STEP = 5;
-
-    /**
-     * Constant for the workflow caller field.
-     */
-    public final static int CALLER = 6;
-
-    /**
-     * Constant for the workflow status field.
-     */
-    public final static int STATUS = 7;
-
-    /**
-     * Constant for the workflow name field.
-     */
-    public final static int NAME = 8;
-
-    /**
-    * Constant for the state field.
-    */
-    public final static int STATE = 9;
-
-    // field context
-
-    /**
-     * Constant for the history steps context.
-     * Specifying this context means that the search
-     * should be performed against the workflow steps.
-     */
-    public final static int HISTORY_STEPS = 1;
-
-    /**
-     * Constant for the history steps context.
-     * Specifying this context means that the search
-     * should be performed against the workflow current steps.
-     */
-    public final static int CURRENT_STEPS = 2;
-
-    /**
-     * Constant for the workflow entry context.
-     * Specifying this context means that the search
-     * should be performed against the workflow entries.
-     */
-    public final static int ENTRY = 3;
-
-    //~ Instance fields ////////////////////////////////////////////////////////
-
-    private Object value;
-    private int context;
-    private int field;
-    private int operator;
-
-    //~ Constructors ///////////////////////////////////////////////////////////
-
-    public Expression(int field, int context, int operator, Object value) {
-        this.context = context;
-        this.operator = operator;
-        this.field = field;
-        this.value = value;
-    }
-
-    //~ Methods ////////////////////////////////////////////////////////////////
-
-    public int getContext() {
-        return context;
-    }
-
-    public int getField() {
-        return field;
-    }
-
-    public int getOperator() {
-        return operator;
-    }
-
-    public Object getValue() {
-        return value;
-    }
 }
+
