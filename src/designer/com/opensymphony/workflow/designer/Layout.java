@@ -1,8 +1,7 @@
 package com.opensymphony.workflow.designer;
 
 import java.awt.*;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,14 +25,14 @@ public class Layout
    */
   private Map cellsByType = new HashMap();
 
-  private class ResultLayout
+  private static class ResultLayout
   {
-    public float fLineWidth;
-    public Color cColor;
-    public Point pLabelPosition;
-    public java.util.List routingPoints = new ArrayList();
+    float fLineWidth;
+    int cColor;
+    Point pLabelPosition;
+    java.util.List routingPoints = new ArrayList();
 
-    ResultLayout(Point labelPosition, float lineWidth, Color color)
+    ResultLayout(Point labelPosition, float lineWidth, int color)
     {
       if(labelPosition != null)
         pLabelPosition = new Point(labelPosition.x, labelPosition.y);
@@ -122,6 +121,11 @@ public class Layout
     }
   }
 
+	public Layout(String in)
+	{
+    this(new ByteArrayInputStream(in.getBytes()));
+	}
+	
   public void writeXML(PrintWriter out, int indent, WorkflowGraph graph)
   {
     out.println("<?xml version=\"1.0\"?>");
@@ -167,7 +171,7 @@ public class Layout
   public Color getColor(int resultKey)
   {
     ResultLayout rl = ((ResultLayout)results.get(new Integer(resultKey)));
-    return rl != null && rl.cColor != null ? rl.cColor : Color.black;
+    return rl != null ? new Color(rl.cColor) : Color.black;
   }
 
   public float getLineWidth(int resultKey)

@@ -20,7 +20,7 @@ public class ResultPosition implements XMLizable
   private Point labelPos;
   private int id;
   private float lineWidth = 1;
-  private Color color = Color.black;
+  private int color = 0;
   private java.util.List routingPoints = new ArrayList();
 
   public ResultPosition(WorkflowGraph graph, ResultEdge edge)
@@ -28,7 +28,7 @@ public class ResultPosition implements XMLizable
     id = edge.getDescriptor().getId();
     labelPos = GraphConstants.getLabelPosition(edge.getAttributes());
     lineWidth = GraphConstants.getLineWidth(edge.getAttributes());
-    color = GraphConstants.getForeground(edge.getAttributes());
+    color = GraphConstants.getForeground(edge.getAttributes()).getRGB();
     CustomEdgeView view = (CustomEdgeView)(graph.getGraphLayoutCache().getMapping(edge, false));
     if(view != null)
     {
@@ -49,11 +49,11 @@ public class ResultPosition implements XMLizable
 
       attr = edge.getAttribute("linewidth");
       if(attr != null && attr.length() > 0)
-        lineWidth = Float.parseFloat(edge.getAttribute("linewidth"));
+        lineWidth = Float.parseFloat(attr);
 
       attr = edge.getAttribute("color");
       if(attr != null && attr.length() > 0)
-        color = new Color(Integer.parseInt(attr));
+        color = Integer.parseInt(attr);
 
       labelPos = new Point();
       attr = edge.getAttribute("labelx");
@@ -75,21 +75,21 @@ public class ResultPosition implements XMLizable
     XMLUtil.printIndent(writer, indent);
     StringBuffer buf = new StringBuffer();
     buf.append("<connector ");
-    buf.append("id=\"").append(id).append("\"");
-    buf.append(" linewidth=\"").append(lineWidth).append("\"");
-    buf.append(" color=\"").append(Integer.toString(color.getRGB())).append("\"");
-    buf.append(" labelx=\"").append(labelPos.x).append("\"");
-    buf.append(" labely=\"").append(labelPos.y).append("\"");
-    buf.append(">");
+    buf.append("id=\"").append(id).append('\"');
+    buf.append(" linewidth=\"").append(lineWidth).append('\"');
+    buf.append(" color=\"").append(Integer.toString(color)).append('\"');
+    buf.append(" labelx=\"").append(labelPos.x).append('\"');
+    buf.append(" labely=\"").append(labelPos.y).append('\"');
+    buf.append('>');
     writer.println(buf.toString());
     for(int i = 0; i < routingPoints.size(); i++)
     {
       StringBuffer pointbuf = new StringBuffer();
       XMLUtil.printIndent(writer, indent + 1);
       pointbuf.append("<routing");
-      pointbuf.append(" id=\"").append(id).append("\"");
-      pointbuf.append(" x=\"").append(((Point)routingPoints.get(i)).x).append("\"");
-      pointbuf.append(" y=\"").append(((Point)routingPoints.get(i)).y).append("\"");
+      pointbuf.append(" id=\"").append(id).append('\"');
+      pointbuf.append(" x=\"").append(((Point)routingPoints.get(i)).x).append('\"');
+      pointbuf.append(" y=\"").append(((Point)routingPoints.get(i)).y).append('\"');
       pointbuf.append("/>");
       writer.println(pointbuf.toString());
     }
@@ -107,7 +107,7 @@ public class ResultPosition implements XMLizable
     return lineWidth;
   }
 
-  public Color getColor()
+  public int getColor()
   {
     return color;
   }
