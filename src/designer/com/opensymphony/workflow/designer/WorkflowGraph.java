@@ -13,10 +13,7 @@ import com.opensymphony.workflow.designer.dnd.DragData;
 import com.opensymphony.workflow.designer.layout.LayoutAlgorithm;
 import com.opensymphony.workflow.designer.layout.SugiyamaLayoutAlgorithm;
 import com.opensymphony.workflow.designer.views.*;
-import com.opensymphony.workflow.loader.JoinDescriptor;
-import com.opensymphony.workflow.loader.SplitDescriptor;
-import com.opensymphony.workflow.loader.StepDescriptor;
-import com.opensymphony.workflow.loader.WorkflowDescriptor;
+import com.opensymphony.workflow.loader.*;
 import org.jgraph.JGraph;
 import org.jgraph.graph.*;
 
@@ -28,6 +25,9 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
   private WorkflowDescriptor descriptor;
   private JPopupMenu genericMenu;
   private JPopupMenu cellMenu;
+
+  private UndoManager undoManager = new UndoManager();
+  private static final Color GRID_COLOR = new Color(240, 240, 240);
 
   public WorkflowGraph(GraphModel model, WorkflowDescriptor descriptor, Layout layout, boolean doAutoLayout)
   {
@@ -42,8 +42,8 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     setSelectNewCells(true);
 
     setGridEnabled(true);
-	  setSizeable(true);
-    setGridColor(new Color(240, 240, 240));
+    setSizeable(true);
+    setGridColor(GRID_COLOR);
     setGridSize(12);
     setTolerance(2);
     setGridVisible(true);
@@ -65,7 +65,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
 
     cellMenu = new JPopupMenu();
     cellMenu.add(new Delete(descriptor, this, menuLocation));
-
+    model.addUndoableEditListener(undoManager);
     new DropTarget(this, this);
   }
 
@@ -100,10 +100,10 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     }
   }
 
-	public Layout getGraphLayout()
-	{
-		return layout;
-	}
+  public Layout getGraphLayout()
+  {
+    return layout;
+  }
 
   protected PortView createPortView(JGraph graph, CellMapper mapper, Object cell)
   {
@@ -233,8 +233,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
   }
 
   /**
-   * Overriding method as required by JGraph API,
-   * In order to return right View object corresponding to Cell.
+   * Overriding method as required by JGraph API, In order to return right View object corresponding to Cell.
    */
   protected VertexView createVertexView(JGraph graph, CellMapper cm, Object v)
   {
@@ -333,4 +332,8 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
 
   }
 
+  public UndoManager getUndoManager()
+  {
+    return undoManager;
+  }
 }

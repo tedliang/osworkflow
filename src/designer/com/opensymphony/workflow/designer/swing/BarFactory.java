@@ -86,7 +86,14 @@ public class BarFactory
     item = new JMenuItem(ActionManager.register("autolayout", auto));
     viewMenu.add(item);
 
+    JMenu editMenu = new JMenu(ResourceManager.getString("menu.edit"));
+    item = new JMenuItem(ActionManager.register("undo", new EditUndo()));
+    editMenu.add(item);
+    item = new JMenuItem(ActionManager.register("redo", new EditRedo()));
+    editMenu.add(item);
+	
     menuBar.add(fileMenu);
+    menuBar.add(editMenu);
     menuBar.add(viewMenu);
 
     return menuBar;
