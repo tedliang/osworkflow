@@ -52,7 +52,6 @@ import java.util.Map;
  * <li> jobClass - the class implementing 'Job' to run, defaults to WorkflowJob. If not specified,
  * defaults to either a WorkflowJob or a LocalWorkflowJob if "local" is set to true.
  *  <li>schedulerName - the name of an existing scheduler to use</li>
- *  <li>schedulerInstance - the instance of an existing scheduler to use</li>
  *  <li>schdulerStart - if "true", start the scheduler if it hasn't been started already</li>
  *  <li>txHack - set this to true if you are getting lockups while running with transactions (defaults to false)</li>
  * </ul>
@@ -108,17 +107,14 @@ public class ScheduleJob implements FunctionProvider {
             groupName = groupName + ":" + entry.getId();
 
             String schedulerName = (String) args.get("schedulerName");
-            String schedulerInstance = (String) args.get("schedulerInstance");
-            Scheduler s = null;
+            Scheduler s;
+
+            SchedulerFactory factory = new StdSchedulerFactory();
 
             if ((schedulerName == null) || ("".equals(schedulerName.trim()))) {
-                s = new StdSchedulerFactory().getScheduler();
+                s = factory.getScheduler();
             } else {
-                if ((schedulerInstance == null) || ("".equals(schedulerInstance.trim()))) {
-                    s = StdSchedulerFactory.getScheduler(schedulerName);
-                } else {
-                    s = StdSchedulerFactory.getScheduler(schedulerName, schedulerInstance);
-                }
+                s = factory.getScheduler(schedulerName);
             }
 
             if (TextUtils.parseBoolean((String) args.get("schedulerStart"))) {
@@ -126,7 +122,7 @@ public class ScheduleJob implements FunctionProvider {
                 s.start();
             }
 
-            Class jobClass = null;
+            Class jobClass;
             String jobClassArg = (String) args.get("jobClass");
 
             if (jobClassArg != null) {
@@ -138,7 +134,7 @@ public class ScheduleJob implements FunctionProvider {
             }
 
             JobDetail jobDetail = new JobDetail(jobName, groupName, jobClass);
-            Trigger trigger = null;
+            Trigger trigger;
 
             if (cronExpression == null) {
                 long now = System.currentTimeMillis();

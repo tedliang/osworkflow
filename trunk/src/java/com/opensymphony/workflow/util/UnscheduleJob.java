@@ -35,13 +35,12 @@ import java.util.Map;
  *  <li>triggerName - the name of the trigger previously scheduled</li>
  *  <li>groupName - the name of the group previously scheduled</li>
  *  <li>schedulerName - the name of an existing scheduler to use (optional)</li>
- *  <li>schedulerInstance - the instance of an existing scheduler to use (optional)</li>
  *  <li>txHack - set this to true if you are getting lockups while running with transactions (optional, defaults to false)</li>
  * </ul>
  *
  * @author <a href="mike.g.slack@usahq.unitedspacealliance.com ">Michael G. Slack</a>
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class UnscheduleJob implements FunctionProvider {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -57,17 +56,14 @@ public class UnscheduleJob implements FunctionProvider {
             log.info("Starting to unschedule job for WF #" + entry.getId());
 
             String schedulerName = (String) args.get("schedulerName");
-            String schedulerInstance = (String) args.get("schedulerInstance");
             Scheduler s = null;
 
+            StdSchedulerFactory factory = new StdSchedulerFactory();
+
             if ((schedulerName == null) || ("".equals(schedulerName.trim()))) {
-                s = new StdSchedulerFactory().getScheduler();
+                s = factory.getScheduler();
             } else {
-                if ((schedulerInstance == null) || ("".equals(schedulerInstance.trim()))) {
-                    s = StdSchedulerFactory.getScheduler(schedulerName);
-                } else {
-                    s = StdSchedulerFactory.getScheduler(schedulerName, schedulerInstance);
-                }
+                s = factory.getScheduler(schedulerName);
             }
 
             boolean txHack = TextUtils.parseBoolean((String) args.get("txHack"));
