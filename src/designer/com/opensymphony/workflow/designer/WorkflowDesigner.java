@@ -418,7 +418,9 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     {
       UIManager.put("ClassLoader", LookUtils.class.getClassLoader());
     }
+    Options.setGlobalFontSizeHints(com.jgoodies.plaf.FontSizeHints.MIXED);
     Options.setDefaultIconSize(new Dimension(18, 18));
+    Options.setUseNarrowButtons(true);
     UIManager.put(com.jgoodies.plaf.Options.DEFAULT_ICON_SIZE_KEY, new Dimension(18, 18));
     if(LookUtils.IS_OS_WINDOWS_MODERN)
     {
