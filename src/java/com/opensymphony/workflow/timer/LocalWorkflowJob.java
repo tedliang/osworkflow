@@ -7,6 +7,7 @@ package com.opensymphony.workflow.timer;
 import com.opensymphony.workflow.Workflow;
 import com.opensymphony.workflow.WorkflowException;
 import com.opensymphony.workflow.basic.BasicWorkflow;
+import com.opensymphony.workflow.config.Configuration;
 
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -18,7 +19,7 @@ import org.quartz.JobExecutionException;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class LocalWorkflowJob implements Job {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -29,6 +30,7 @@ public class LocalWorkflowJob implements Job {
         int triggerId = data.getInt("triggerId");
         String username = data.getString("username");
         Workflow wf = new BasicWorkflow(username);
+        wf.setConfiguration((Configuration) data.get("configuration"));
 
         try {
             wf.executeTriggerFunction(id, triggerId);

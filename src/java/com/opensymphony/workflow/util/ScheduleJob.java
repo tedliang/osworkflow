@@ -111,7 +111,7 @@ public class ScheduleJob implements FunctionProvider {
 
             SchedulerFactory factory = new StdSchedulerFactory();
 
-            if ((schedulerName == null) || ("".equals(schedulerName.trim()))) {
+            if ((schedulerName == null) || "".equals(schedulerName.trim())) {
                 s = factory.getScheduler();
             } else {
                 s = factory.getScheduler(schedulerName);
@@ -205,6 +205,11 @@ public class ScheduleJob implements FunctionProvider {
             dataMap.put("entryId", entry.getId());
             dataMap.put("username", username);
             dataMap.put("password", password);
+
+            if (TextUtils.parseBoolean((String) args.get("local"))) {
+                dataMap.put("configuration", transientVars.get("configuration"));
+            }
+
             jobDetail.setJobDataMap(dataMap);
             jobDetail.setDurability(true);
 
