@@ -58,16 +58,6 @@ public class ConnectHelper
       return false;
     }
 
-    // choose unconditional or conditional
-    //		int value = JOptionPane.showOptionDialog(null,
-    //									  "请选择状态转换条件类型",
-    //									  "选择条件类型",
-    //									  JOptionPane.DEFAULT_OPTION,
-    //									  JOptionPane.PLAIN_MESSAGE,
-    //									  null,
-    //									  new Object[]{"无条件", "有条件", "取消"},
-    //									  "有条件");
-
     if(source instanceof SplitCell && target instanceof StepCell)
     {
       return connectSplitToStep((SplitCell)source, (StepCell)target, model);
@@ -214,7 +204,7 @@ public class ConnectHelper
       return UNKNOWN;
     }
 
-    int type = UNKNOWN;
+    int type;
     if(result != null)
     {
       type = CONDITIONAL;
@@ -222,7 +212,10 @@ public class ConnectHelper
     else
     {
       // choose unconditional or conditional
-      type = JOptionPane.showOptionDialog(null, "Please select result type", "Select Type", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Conditional", "Unconditional", "Cancel"}, "Conditional");
+      String conditional = ResourceManager.getString("result.conditional");
+      String unconditional = ResourceManager.getString("result.unconditional");
+      String cancel = ResourceManager.getString("cancel");
+      type = JOptionPane.showOptionDialog(null, ResourceManager.getString("result.select.long"), ResourceManager.getString("result.select"), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{conditional, unconditional, cancel}, conditional);
       if(type != 0 && type != 1)
       {
         // cancel

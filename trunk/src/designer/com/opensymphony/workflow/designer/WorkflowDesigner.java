@@ -60,20 +60,20 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   public WorkflowDesigner()
   {
-    super("OSWorkflow Designer");
+    super(ResourceManager.getString("app.name"));
     INSTANCE = this;
     navigator = new Navigator(this);
     splash.setProgress(30);
     setJMenuBar(BarFactory.createMenubar(manager));
     JScrollPane sp = new JScrollPane(detailPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    detailFramePanel = new FramePanel("Details", false);
+    detailFramePanel = new FramePanel(ResourceManager.getString("details"), false);
     detailFramePanel.setContent(sp);
 
     splash.setProgress(40);
     loadConfiguration();
     // create workspace view
     splash.setProgress(50);
-    FramePanel flowsPanel = new FramePanel("Workspace", false);
+    FramePanel flowsPanel = new FramePanel(ResourceManager.getString("workspace"), false);
     flowsPanel.setContent(new JScrollPane(navigator));
 
     // layout
@@ -230,7 +230,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       }
 
       String title = panel.getTitle();
-      detailFramePanel.setTitle("Details" + (title != null ? (" - " + title) : ""));
+      detailFramePanel.setTitle(ResourceManager.getString("details") + (title != null ? (" - " + title) : ""));
       detailPanel.showCard(panel);
     }
     else
@@ -269,7 +269,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
     catch(InvalidWorkflowDescriptorException e)
     {
-      JOptionPane.showMessageDialog(this, "Invalid workflow: " + e.getMessage(), "Error saving workflow " + workflowName, JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(this, ResourceManager.getString("error.save.workflow", new Object[]{e.getMessage()}),
+                                    ResourceManager.getString("error.save.workflow.long", new Object[]{workflowName}), JOptionPane.ERROR_MESSAGE);
     }
     catch(FactoryException e)
     {
@@ -387,7 +388,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       System.out.println("Workflow Designer requires JDK 1.4.0 or higher");
       System.exit(1);
     }
-    splash = new Splash(new Frame(), ResourceManager.getIcon("splash").getImage(), "OSWorkflow Designer", true);
+    splash = new Splash(new Frame(), ResourceManager.getIcon("splash").getImage(), ResourceManager.getString("app.name"), true);
     splash.openSplash();
     splash.setProgress(10);
     if(System.getProperty("os.name").startsWith("Windows"))
