@@ -1,6 +1,5 @@
 package com.opensymphony.workflow.designer.editor;
 
-import com.opensymphony.workflow.designer.InitialActionCell;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.*;
@@ -12,19 +11,14 @@ import com.opensymphony.workflow.loader.*;
 public class StartPermissionEditor extends ConditionEditor
 {
 
-  public StartPermissionEditor(InitialActionCell cell)
+  public StartPermissionEditor(ActionDescriptor desc)
   {
-    super(cell);
-  }
-
-  protected InitialActionCell getCell()
-  {
-    return (InitialActionCell)cell;
+    super(desc);
   }
 
   protected AbstractDescriptor getParent()
   {
-    return getCell().getActionDescriptor();
+    return getDescriptor();
   }
 
 	protected ConfigConditionDescriptor getConfigDescriptor(ConditionDescriptor cond)

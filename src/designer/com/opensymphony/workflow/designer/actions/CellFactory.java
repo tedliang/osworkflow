@@ -13,27 +13,29 @@ import org.jgraph.graph.GraphConstants;
  */
 public class CellFactory
 {
-  public static void createCell(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location, DragData data)
+  public static WorkflowCell createCell(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location, DragData data)
   {
     if(data.equals(DragData.JOIN))
     {
-      createJoin(workflow, model, location);
+      return createJoin(workflow, model, location);
     }
     else if(data.equals(DragData.SPLIT))
     {
-      createSplit(workflow, model, location);
+      return createSplit(workflow, model, location);
     }
     else if(data.equals(DragData.STEP))
     {
-      createStep(workflow, model, location);
+      return createStep(workflow, model, location);
     }
+    return null;
   }
 
-  public static void createStep(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
+  public static StepCell createStep(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
   {
     // create new step
     String name = JOptionPane.showInputDialog(ResourceManager.getString("step.add.name"));
-    if(name == null || name.trim().length() == 0) return;
+    if (name == null || name.trim().length() == 0) 
+    	return null;
 
     StepDescriptor step = DescriptorBuilder.createStep(name, Utils.getNextId(model.getContext()));
     step.setParent(workflow);
@@ -46,9 +48,14 @@ public class CellFactory
     bounds.x = location.x;
     bounds.y = location.y;
     model.insertStepCell(cell, null, null, null);
+    
+		WorkflowDesigner.INSTANCE.navigator().reloadSteps(workflow);
+		WorkflowDesigner.INSTANCE.navigator().selectTreeNode(workflow, step);
+    
+    return cell;
   }
 
-  public static void createJoin(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
+  public static JoinCell createJoin(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
   {
     JoinDescriptor join = DescriptorBuilder.createJoin(Utils.getNextId(model.getContext()));
     join.setParent(workflow);
@@ -61,9 +68,14 @@ public class CellFactory
     bounds.x = location.x;
     bounds.y = location.y;
     model.insertJoinCell(cell, null, null, null);
+    
+		WorkflowDesigner.INSTANCE.navigator().reloadJoins(workflow);
+		WorkflowDesigner.INSTANCE.navigator().selectTreeNode(workflow, join);
+    
+    return cell;
   }
 
-  public static void createSplit(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
+  public static SplitCell createSplit(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
   {
     SplitDescriptor split = DescriptorBuilder.createSplit(Utils.getNextId(model.getContext()));
     split.setParent(workflow);
@@ -76,6 +88,10 @@ public class CellFactory
     bounds.x = location.x;
     bounds.y = location.y;
     model.insertSplitCell(cell, null, null, null);
-  }
 
+		WorkflowDesigner.INSTANCE.navigator().reloadSplits(workflow);
+		WorkflowDesigner.INSTANCE.navigator().selectTreeNode(workflow, split);	
+    
+    return cell;
+  }
 }

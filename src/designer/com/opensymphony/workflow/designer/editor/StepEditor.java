@@ -8,12 +8,14 @@ import javax.swing.*;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import com.opensymphony.workflow.designer.StepCell;
+import com.opensymphony.workflow.designer.dialogs.AttributeDialog;
+import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.designer.UIFactory;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.beanutils.BeanConnector;
 import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.designer.model.FunctionsTableModel;
+import com.opensymphony.workflow.designer.model.AttributesTableModel;
 import com.opensymphony.workflow.loader.*;
 
 public class StepEditor extends DetailPanel implements ActionListener
@@ -23,7 +25,6 @@ public class StepEditor extends DetailPanel implements ActionListener
   private JTextField id = UIFactory.createReadOnlyTextField(12);
   private JTextField name = new JTextField(12);
   private JTextField view = new JTextField(12);
-  private JCheckBox auto = new JCheckBox();
   private JComboBox restrict = new JComboBox(new String[]{"AND", "OR"});
 
   private ConditionsTableModel conditionsModel = new ConditionsTableModel();
@@ -35,6 +36,10 @@ public class StepEditor extends DetailPanel implements ActionListener
   private FunctionsTableModel postModel = new FunctionsTableModel();
   private JTable post;
 
+	private AttributesTableModel attributesModel = new AttributesTableModel();
+	private JTable attributesTable;
+
+	
   private BeanConnector connector = new BeanConnector();
 
   public StepEditor()
@@ -46,9 +51,6 @@ public class StepEditor extends DetailPanel implements ActionListener
 		String colLayout = "2dlu, max(32dlu;pref), 2dlu, pref:grow, 4dlu";
 		String rowLayout = "4dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref";
 
-    StepCell cell = (StepCell)getCell();
-
-		//FormLayout layout = new FormLayout("2dlu, 50dlu:grow, 2dlu", "2dlu, pref, 2dlu");
 		FormLayout layout = new FormLayout("2dlu, pref:grow, 2dlu", "2dlu, pref, 2dlu");
 		PanelBuilder builder = new PanelBuilder(this, layout);
 
@@ -73,13 +75,31 @@ public class StepEditor extends DetailPanel implements ActionListener
     connector.connect(view, "actions[0].view");
     builderInfo.add(view, cc.xy(4, 6));
 
+    /*
     builderInfo.addLabel(ResourceManager.getString("auto"), cc.xy(2, 8));
     connector.connect(auto, "actions[0].autoExecute");
     builderInfo.add(auto, cc.xy(4, 8));
+		*/
 
 		tabbedPane.add(ResourceManager.getString("info"), panelInfo);
 
-		// Tab2 (Permissions)
+		///////////////////////////
+		// Tab2 (meta attributes)
+		///////////////////////////
+		FormLayout layoutAttrib = new FormLayout(colLayout, rowLayout);
+		JPanel panelAttrib = new JPanel();
+		PanelBuilder builderAttrib = new PanelBuilder(panelAttrib, layoutAttrib);
+
+		attributesTable = new JTable(attributesModel);
+		attributesTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		builderAttrib.add(UIFactory.createTablePanel(attributesTable), cc.xywh(2, 2, 3, 1));		// 2, 15, 3, 1
+		builderAttrib.add(UIFactory.getAddRemovePropertiesBar(this, "attribute", BUTTONS), cc.xywh(2, 4, 3, 1));	// 2, 16, 3, 1
+
+		tabbedPane.add(ResourceManager.getString("attributes"), panelAttrib);
+		
+		/////////////////////////////
+		// Tab3 (Permissions)
+		/////////////////////////////
 		FormLayout layoutPerm = new FormLayout(colLayout, rowLayout);
 		JPanel panelPerm = new JPanel();
 		PanelBuilder builderPerm = new PanelBuilder(panelPerm, layoutPerm);
@@ -89,6 +109,7 @@ public class StepEditor extends DetailPanel implements ActionListener
     builderPerm.add(restrict, cc.xy(4, 2));
 
     conditionsTable = new JTable(conditionsModel);
+    conditionsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     conditionsModel.setType(ConditionsTableModel.PERMISSION);
     conditionsModel.setGraphModel(getModel());
     builderPerm.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 4, 3, 1));
@@ -96,24 +117,30 @@ public class StepEditor extends DetailPanel implements ActionListener
 
 		tabbedPane.add(ResourceManager.getString("permissions"), panelPerm);
 
-		// Tab3 (pre-functions)
+		/////////////////////////////
+		// Tab4 (pre-functions)
+		/////////////////////////////
 		FormLayout layoutPrefunc = new FormLayout(colLayout, rowLayout);
 		JPanel panelPrefunc = new JPanel();
 		PanelBuilder builderPrefunc = new PanelBuilder(panelPrefunc, layoutPrefunc);
 
     pre = new JTable(preModel);
+    pre.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     preModel.setGraphModel(getModel());
     builderPrefunc.add(UIFactory.createTablePanel(pre), cc.xywh(2, 2, 3, 1));
     builderPrefunc.add(UIFactory.getAddRemovePropertiesBar(this, "pre", BUTTONS), cc.xywh(2, 4, 3, 1));
 
 		tabbedPane.add(ResourceManager.getString("prefunctions"), panelPrefunc);
 
-		// Tab4 (post-functions)
+		/////////////////////////////
+		// Tab5 (post-functions)
+		/////////////////////////////
 		FormLayout layoutPostfunc = new FormLayout(colLayout, rowLayout);
 		JPanel panelPostfunc = new JPanel();
 		PanelBuilder builderPostfunc = new PanelBuilder(panelPostfunc, layoutPostfunc);
 
     post = new JTable(postModel);
+    post.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     postModel.setGraphModel(getModel());
     builderPostfunc.add(UIFactory.createTablePanel(post), cc.xywh(2, 2, 3, 1));
     builderPostfunc.add(UIFactory.getAddRemovePropertiesBar(this, "post", BUTTONS), cc.xywh(2, 4, 3, 1));
@@ -126,17 +153,29 @@ public class StepEditor extends DetailPanel implements ActionListener
   public void actionPerformed(ActionEvent e)
   {
     String command = e.getActionCommand().toLowerCase();
-    if(command.equals("permissionadd"))
+		if(command.equals("attributeadd"))
+		{
+			attributeadd();
+		}
+		else if(command.equals("attributeremove"))
+		{
+			attributeremove();
+		}
+		else if(command.equals("attributeedit"))
     {
-      add();
+			attributemodify();
+		}
+    else if(command.equals("permissionadd"))
+    {
+      //add();
     }
     else if(command.equals("permissionremove"))
     {
-      remove();
+      //remove();
     }
     else if(command.equals("permissionedit"))
     {
-      modify();
+      //modify();
     }
     else if(command.equals("preadd"))
     {
@@ -175,13 +214,72 @@ public class StepEditor extends DetailPanel implements ActionListener
     {
       conditionsTable.getCellEditor().stopCellEditing();
     }
+    if (pre.isEditing())
+    {
+    	pre.getCellEditor().stopCellEditing();
+    }
+    if (post.isEditing())
+    {
+    	post.getCellEditor().stopCellEditing();
+    }
+    if (attributesTable.isEditing())
+    {
+    	attributesTable.getCellEditor().stopCellEditing();
+    }
   }
+
+	/*
+  protected void updateView()
+  {
+    StepDescriptor stepDescriptor = (StepDescriptor)getDescriptor();
+		
+		ActionDescriptor firstAction;
+
+    //todo need to do this in some way that handles multiple actions
+    if(stepDescriptor.getActions().size()>0)
+    {
+      firstAction = (ActionDescriptor)stepDescriptor.getActions().get(0);
+    }
+    else
+    {
+      firstAction = null;
+    }
+
+    if(firstAction!=null)
+    {
+      RestrictionDescriptor rd = firstAction.getRestriction();
+      if(rd==null)
+      {
+        rd = new RestrictionDescriptor();
+        rd.setParent(firstAction);
+        ConditionsDescriptor conditions = new ConditionsDescriptor();
+        rd.getConditions().add(conditions);
+        conditions.setParent(rd);
+        conditions.setType((String)restrict.getSelectedItem());
+        firstAction.setRestriction(rd);
+      }
+      //todo no nested conditions allowed
+      conditionsModel.setList(((ConditionsDescriptor)rd.getConditions().get(0)).getConditions());
+    }
+    else
+    {
+      conditionsModel.setList(new ArrayList());
+    }
+    conditionsTable.getSelectionModel().clearSelection();
+
+    preModel.setList(firstAction==null ? new ArrayList() : firstAction.getPreFunctions());
+    pre.getSelectionModel().clearSelection();
+
+    postModel.setList(firstAction==null ? new ArrayList() : firstAction.getPostFunctions());
+    post.getSelectionModel().clearSelection();
+
+    connector.setSource(stepDescriptor);
+  }
+	*/
 
   protected void updateView()
   {
-    StepCell cell = (StepCell)getCell();
-    StepDescriptor stepDescriptor = cell.getDescriptor();
-
+		StepDescriptor stepDescriptor = (StepDescriptor)getDescriptor();
     ActionDescriptor firstAction;
 
     //todo need to do this in some way that handles multiple actions
@@ -214,6 +312,11 @@ public class StepEditor extends DetailPanel implements ActionListener
     {
       conditionsModel.setList(new ArrayList());
     }
+		
+		// prova kap
+		conditionsModel.setList(stepDescriptor.getPermissions()); 
+		// fine prova kap
+		
     conditionsTable.getSelectionModel().clearSelection();
 
     preModel.setList(firstAction==null ? new ArrayList() : firstAction.getPreFunctions());
@@ -222,52 +325,63 @@ public class StepEditor extends DetailPanel implements ActionListener
     postModel.setList(firstAction==null ? new ArrayList() : firstAction.getPostFunctions());
     post.getSelectionModel().clearSelection();
 
+		attributesModel.setMap(stepDescriptor.getMetaAttributes());
+		attributesTable.getSelectionModel().clearSelection();
+		
     connector.setSource(stepDescriptor);
   }
 
-  private void add()
-  {
-    StepPermissionEditor editor = new StepPermissionEditor((StepCell)getCell());
-    editor.setModel(getModel());
-    ConditionDescriptor cond = editor.add();
-    if(cond != null)
-    {
-      conditionsModel.add(cond);
-    }
-  }
+	private void attributeadd()
+	{
+		AttributeDialog dlg = new AttributeDialog(WorkflowDesigner.INSTANCE, "", "", true);
+		if (dlg.ask(WorkflowDesigner.INSTANCE))
+		{
+			String sKey = dlg.keyField.getText();
+			String sValue = dlg.valueField.getText();
+			if (sKey.length()>0)
+			{
+				attributesModel.add(sKey, sValue);
+			}
+		}
+	}
 
-  private void remove()
-  {
-    int[] rows = conditionsTable.getSelectedRows();
-    for(int i = 0; i < rows.length; i++)
-    {
-      conditionsModel.remove(rows[i]);
-    }
-  }
+	private void attributeremove()
+	{
+		int[] rows = attributesTable.getSelectedRows();
+		for(int i = 0; i < rows.length; i++)
+		{
+			String sKey = (String)attributesModel.getValueAt(rows[i], 0);
+			attributesModel.remove(sKey);
+		}		
+	}
 
-  private void modify()
-  {
-    int[] rows = conditionsTable.getSelectedRows();
-    for(int i = 0; i < rows.length; i++)
-    {
-      modify(rows[i]);
-    }
-  }
+	private void attributemodify()
+	{
+		int[] rows = attributesTable.getSelectedRows();
+		for(int i = 0; i < rows.length; i++)
+		{
+			attributemodify(rows[i]);
+		}
+	}
 
-  private void modify(int selected)
-  {
-    ConditionDescriptor cond = (ConditionDescriptor)conditionsModel.get(selected);
-
-    StepPermissionEditor editor = new StepPermissionEditor((StepCell)getCell());
-    editor.setModel(getModel());
-    editor.modify(cond);
-
-    conditionsModel.fireTableDataChanged();
-  }
-
+	private void attributemodify(int selected)
+	{
+		String sKey = (String)attributesModel.getValueAt(selected, 0);
+		String sValue = (String)attributesModel.getValueAt(selected, 1);
+		if ((sKey!=null)&&(sKey.length()>0))
+		{
+			AttributeDialog dlg = new AttributeDialog(WorkflowDesigner.INSTANCE, sKey, sValue, false);
+			if (dlg.ask(WorkflowDesigner.INSTANCE))
+			{
+				sValue = dlg.valueField.getText();
+				attributesModel.add(sKey, sValue);
+			}
+		}
+	}
+	
   private void preadd()
   {
-    StepFunctionEditor editor = new StepFunctionEditor((StepCell)getCell());
+    StepFunctionEditor editor = new StepFunctionEditor((StepDescriptor)getDescriptor());
     editor.setModel(getModel());
     FunctionDescriptor func = editor.add();
     if(func != null)
@@ -298,7 +412,7 @@ public class StepEditor extends DetailPanel implements ActionListener
   {
     FunctionDescriptor func = (FunctionDescriptor)preModel.get(selected);
 
-    StepFunctionEditor editor = new StepFunctionEditor((StepCell)getCell());
+    StepFunctionEditor editor = new StepFunctionEditor((StepDescriptor)getDescriptor());
     editor.setModel(getModel());
     editor.modify(func);
 
@@ -307,7 +421,7 @@ public class StepEditor extends DetailPanel implements ActionListener
 
   private void postadd()
   {
-    StepFunctionEditor editor = new StepFunctionEditor((StepCell)getCell());
+    StepFunctionEditor editor = new StepFunctionEditor((StepDescriptor)getDescriptor());
     editor.setModel(getModel());
     FunctionDescriptor func = editor.add();
     if(func != null)
@@ -338,7 +452,7 @@ public class StepEditor extends DetailPanel implements ActionListener
   {
     FunctionDescriptor func = (FunctionDescriptor)postModel.get(selected);
 
-    StepFunctionEditor editor = new StepFunctionEditor((StepCell)getCell());
+    StepFunctionEditor editor = new StepFunctionEditor((StepDescriptor)getDescriptor());
     editor.setModel(getModel());
     editor.modify(func);
 

@@ -38,18 +38,15 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
 {
   public static final String WORKSPACE_SUFFIX = ".wsf";
 
-  private Navigator navigator;
-  private RelationshipsNavigator relationshipsNavigator;
+	private WorkspaceNavigator navigator;
   private WorkspaceManager manager = new WorkspaceManager();
   private GraphTabbedPane graphTabs = new GraphTabbedPane();
+  private DesignerService service = null;
   private JSplitPane mainSplitPane;
-  private EmptyBorderSplitPane detailsRelationsSplitPane;
   private EmptyBorderSplitPane leftSplitPane;
   private CardPanel detailPanel = new CardPanel();
   private FramePanel detailFramePanel;
-  private FramePanel relationshipsFramePanel;
   private Object currentDetailObject = null;
-  private Object currentRelationsObject = null;
   public static WorkflowDesigner INSTANCE = null;
   private PaletteDescriptor palette = null;
   public StatusBar statusBar;
@@ -59,13 +56,14 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     super(ResourceManager.getString("app.name"));
     INSTANCE = this;
 
-    setJMenuBar(BarFactory.createMenubar(manager));
+		service = new DesignerService(null);
+		
+		setJMenuBar(BarFactory.createMenubar(manager, service.getVerb()));
     splash.setProgress(30);
-    navigator = new Navigator(this);
+    navigator = new WorkspaceNavigator(this);
     JScrollPane sp = new JScrollPane(detailPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     detailFramePanel = new FramePanel(ResourceManager.getString("details"), false);
     detailFramePanel.setContent(sp);
-		relationshipsNavigator = new RelationshipsNavigator(this);
 
     splash.setProgress(40);
     loadPalette();
@@ -75,19 +73,12 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     FramePanel flowsPanel = new FramePanel(ResourceManager.getString("workspace"), false);
     flowsPanel.setContent(new JScrollPane(navigator));
 
-		// create workspace view
-		relationshipsFramePanel = new FramePanel(ResourceManager.getString("relationships"), false);
-		relationshipsFramePanel.setContent(new JScrollPane(relationshipsNavigator));
-
     // layout
-		detailsRelationsSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, relationshipsFramePanel, detailFramePanel);
-		//leftSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, testSplitPane, flowsPanel);
-		leftSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, flowsPanel, detailsRelationsSplitPane);
+		leftSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, flowsPanel, detailFramePanel);
     mainSplitPane = new EmptyBorderSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSplitPane, new JScrollPane(graphTabs));
     graphTabs.setVisible(false);
     mainSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.MAIN_DIVIDER_LOCATION, 150));
     leftSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 50));
-		detailsRelationsSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 150));
 
     splash.setProgress(60);
     //Provide a preferred size for the split pane
@@ -115,6 +106,17 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
         quit();
       }
     });
+    if (service.getVerb().equals("new"))
+    {
+    	newRemoteWorkspace();
+    }
+    else if (service.getVerb().equals("modify"))
+    {
+    	newRemoteWorkspace();
+    	openServiceWorkspace();
+    }
+    else
+    {
     String lastOpened = Prefs.INSTANCE.get(Prefs.LAST_WORKSPACE, null);
     if(lastOpened != null)
     {
@@ -140,6 +142,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
       }
     }
   }
+  }
 
   public void graphChanged(GraphModelEvent e)
   {
@@ -150,7 +153,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
 
 	WorkflowCell      detailCell = ((DetailPanel)detailPanel.getVisibleCard()).getCell();
 	WorkflowEdge      detailEdge = ((DetailPanel)detailPanel.getVisibleCard()).getEdge();
-	DefaultGraphCell  relationsCell = relationshipsNavigator.getCell();
+		AbstractDescriptor desc = ((DetailPanel)detailPanel.getVisibleCard()).getDescriptor(); 
+		//DefaultGraphCell  relationsCell = relationshipsNavigator.getCell();
 
 	Object[] cells = e.getChange().getChanged();
 	for (int i=0; i<cells.length; i++)
@@ -159,19 +163,19 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
 		{
 			if (cells[i]==detailCell)
 			{
-				showDetails(detailCell);
+					showDetails(desc);
 			}
 		}
 		else if (cells[i] instanceof WorkflowEdge)
 		{
 			if (cells[i]==detailEdge)
 			{
-				showDetails(detailEdge);
+					showDetails(desc);
 			}
 		}
 		if (cells[i] instanceof DefaultGraphCell)
 		{
-			showRelationships(relationsCell);
+				//showRelationships(relationsCell);
 		}
 	}
   }
@@ -188,15 +192,106 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
 		manager.getCurrentWorkspace().deleteWorkflow(workflowName);
 	}
 
+	public void validateCurrentWorkflow()
+	{
+    WorkflowGraph graph = graphTabs.getCurrentGraph();
+		if (graph!=null)
+		{
+			validateWorkflow(graph.getName());
+		} 		
+	}
+	
+	public void validateSaveCurrentWorkflow()
+	{
+    WorkflowGraph graph = graphTabs.getCurrentGraph();
+		if (graph!=null)
+		{
+			validateSaveWorkflow(graph.getName());
+		}
+	}
+	
+	public void validateWorkflow(String workflowName)
+	{
+		WorkflowGraph graph = graphTabs.getGraph(workflowName);
+		if (graph!=null)
+		{
+			workflowName = graph.getName();
+			WorkflowDescriptor d = graph.getDescriptor(); 
+			if (d!=null)
+			{
+				try
+				{
+					d.validate();
+				}
+				catch(InvalidWorkflowDescriptorException e)
+				{
+					System.out.println("Error validating workflow: " + e);	
+					JOptionPane.showMessageDialog(this, 
+														ResourceManager.getString("error.validate.workflow", new Object[]{e.getMessage()}),
+														ResourceManager.getString("title.validate.workflow", new Object[]{workflowName}),
+														JOptionPane.ERROR_MESSAGE);																
+					return;
+				}
+				
+				JOptionPane.showMessageDialog(this, 
+							ResourceManager.getString("success.validate.workflow"),
+							ResourceManager.getString("title.validate.workflow", new Object[]{workflowName}), 
+							JOptionPane.INFORMATION_MESSAGE);			
+			}
+		}
+	}
+	
+	public void validateSaveWorkflow(String workflowName)
+	{
+		boolean bsaveok;
+		WorkflowGraph graph = graphTabs.getGraph(workflowName);
+		if (graph!=null)
+		{
+			workflowName = graph.getName();
+			WorkflowDescriptor d = graph.getDescriptor(); 
+			if (d!=null)
+			{
+				try
+				{
+					d.validate();
+					bsaveok = save(graph);
+				}
+				catch(InvalidWorkflowDescriptorException e)
+				{
+					System.out.println("Error validating workflow: " + e);	
+					JOptionPane.showMessageDialog(this, 
+														ResourceManager.getString("error.validate.workflow", new Object[]{e.getMessage()}),
+														ResourceManager.getString("title.validate.workflow", new Object[]{workflowName}),
+														JOptionPane.ERROR_MESSAGE);																
+					return;
+				}
+			
+				if (bsaveok)
+				{
+					JOptionPane.showMessageDialog(this, 
+								ResourceManager.getString("success.validatesave.workflow"),
+								ResourceManager.getString("title.validatesave.workflow", new Object[]{workflowName}), 
+								JOptionPane.INFORMATION_MESSAGE);
+				}			
+			}
+		}
+	}
+
   public void closeCurrentWorkflow()
   {
-    graphTabs.removeGraph(graphTabs.getCurrentGraph());
+    WorkflowGraph graph = graphTabs.getCurrentGraph();
+    if (graph!=null)
+    {
+    	deleteWorkflow(graph.getDescriptor().getName()); 	 
+    }
+    //graphTabs.removeGraph(graphTabs.getCurrentGraph());
   }
 
   public void createGraph(String workflowName)
   {
-    Workspace currentWorkspace = manager.getCurrentWorkspace();
-    Layout layout = currentWorkspace.getLayout(workflowName);
+    //Workspace currentWorkspace = manager.getCurrentWorkspace();
+    AbstractWorkflowFactory currentWorkspace = manager.getCurrentWorkspace();
+    Layout layout = (Layout)currentWorkspace.getLayout(workflowName);
     WorkflowGraphModel model = new WorkflowGraphModel(layout);
     model.setPalette(palette);
 	model.addGraphModelListener(this);
@@ -214,6 +309,10 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     }
     WorkflowGraph graph = new WorkflowGraph(model, descriptor, layout, !hasLayout);
     graph.addGraphSelectionListener(this);
+		//graph.setName(workflowName);
+		if (descriptor!=null)
+			graph.setName(descriptor.getName());
+		else
 	  graph.setName(workflowName);
 	  graphTabs.addGraph(graph);
 	  graphTabs.setVisible(true);
@@ -224,7 +323,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     Point location = getLocation();
     Prefs.INSTANCE.putInt(Prefs.MAIN_DIVIDER_LOCATION, mainSplitPane.getDividerLocation());
     Prefs.INSTANCE.putInt(Prefs.DETAIL_DIVIDER_LOCATION, leftSplitPane.getDividerLocation());
-    Prefs.INSTANCE.put(Prefs.DESIGNER_BOUNDS, location.x + "," + location.y + "," + mainSplitPane.getWidth() + "," + mainSplitPane.getHeight());
+    Prefs.INSTANCE.put(Prefs.DESIGNER_BOUNDS, location.x + "," + location.y + ',' + mainSplitPane.getWidth() + ',' + mainSplitPane.getHeight());
     try
     {
       Prefs.INSTANCE.flush();
@@ -255,8 +354,27 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
 	  }
     if(lastAdded instanceof WorkflowCell || lastAdded instanceof WorkflowEdge)
     {
-		showDetails(lastAdded);
-		showRelationships(lastAdded);
+			AbstractDescriptor desc = getCellDescriptor(lastAdded);
+			showDetails(desc);
+			navigator.selectTreeNode(graphTabs.getCurrentGraph().getDescriptor(), desc);
+    }
+  }
+  
+  public void showSelectedCellDetails()
+  {
+  	WorkflowGraph graph = graphTabs.getCurrentGraph();
+  	if (graph!=null)
+  	{
+  		Object cell = graph.getSelectionModel().getSelectionCell();  
+  		if (cell!=null)
+  		{
+  			if (cell instanceof WorkflowCell || cell instanceof WorkflowEdge)
+  			{
+  				AbstractDescriptor desc = getCellDescriptor(cell);
+  				showDetails(desc);
+  				navigator.selectTreeNode(graphTabs.getCurrentGraph().getDescriptor(), desc); 
+  			}
+  		}
     }
   }
 
@@ -266,82 +384,85 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
   	{
   		showDetails(currentDetailObject);
   	}
-  	if (currentRelationsObject!=null)
-  	{
-		relationshipsFramePanel.repaint();
-  		WorkflowGraph currentGraph = graphTabs.getCurrentGraph();
-		String title = currentGraph.convertValueToString(currentRelationsObject);
-		relationshipsFramePanel.setTitle(ResourceManager.getString("relationships") + (title != null ? (" - " + title) : ""));
-  	}
   }
 
-  public void showDetails(Object node)
-  {
-	  currentDetailObject = node;
-    String panelName = node.getClass().getName();
-    DetailPanel current = (DetailPanel)detailPanel.getVisibleCard();
-    if(current != null) current.closeView();
-    DetailPanel panel = (DetailPanel)detailPanel.showCard(panelName);
-    if(panel == null)
-    {
-      if(node instanceof StepCell)
-      {
-        panel = new StepEditor();
-      }
-      else if(node instanceof SplitCell)
-      {
-        panel = new SplitEditor();
-      }
-      else if(node instanceof JoinCell)
-      {
-        panel = new JoinEditor();
-      }
-      else if(node instanceof ResultEdge)
-      {
-        panel = new ResultEditor();
-      }
-      else if(node instanceof InitialActionCell)
-      {
-        panel = new InitialActionEditor();
-      }
-      if(panel != null)
-      {
-        panel.setName(panelName);
-        //detailPanel.showCard(panel);
-      }
-    }
-    if(panel != null)
-    {
-      WorkflowGraph currentGraph = graphTabs.getCurrentGraph();
-      panel.setModel(currentGraph.getWorkflowGraphModel());
-	  	panel.setGraph(currentGraph);
-      if(node instanceof WorkflowCell)
-      {
-        panel.setCell((WorkflowCell)node);
-      }
-      else if(node instanceof WorkflowEdge)
-      {
-        panel.setEdge((WorkflowEdge)node);
-      }
+	public void showDetails(Object node)
+	{
+		String title = getDescriptorTitle(node);
+		AbstractDescriptor descriptor = null;
+		currentDetailObject = node;
+		String panelName = node.getClass().getName();
+		DetailPanel current = (DetailPanel)detailPanel.getVisibleCard();
+		if(current != null) 
+			current.closeView();
+		DetailPanel panel = (DetailPanel)detailPanel.showCard(panelName);
+		if(panel == null)
+		{
+			if(node instanceof StepDescriptor)
+			{
+				panel = new StepEditor();
+			}
+			else if(node instanceof SplitDescriptor)
+			{
+				panel = new SplitEditor();
+			}
+			else if(node instanceof JoinDescriptor)
+			{
+				panel = new JoinEditor();
+			}
+			else if(node instanceof ResultDescriptor)
+			{
+				panel = new ResultEditor();
+			}
+			else if(node instanceof ActionDescriptor)
+			{
+				panel = new ActionEditor();
+			}
+			else if (node instanceof WorkflowDescriptor)
+			{
+				panel = new WorkflowEditor();
+			}
+			else if (node instanceof String)
+			{
+				panel = new GenericEditor();
+			}
+		}
+		
+		if(panel != null)
+		{
+			if (node instanceof String)
+			{
+				((GenericEditor)panel).setLabel((String)node);
+				panel.setName(panelName);
+				detailFramePanel.setTitle(ResourceManager.getString("details") + (title != null ? (" - " + title) : ""));
+				detailPanel.showCard(panel);
+				return;
+			}
+			descriptor = (AbstractDescriptor)node;
+		}
 
-      //String title = panel.getTitle();
-      String title = currentGraph.convertValueToString(node);
-      detailFramePanel.setTitle(ResourceManager.getString("details") + (title != null ? (" - " + title) : ""));
-      detailPanel.showCard(panel);
-    }
-    else
-    {
-      System.out.println("WARN: no detail panel for " + node.getClass());
-    }
-  }
-
-  public void showRelationships(Object node)
+		if ((panel != null)&&(descriptor!=null))
   {
-		currentRelationsObject = node;
 		WorkflowGraph currentGraph = graphTabs.getCurrentGraph();
-  	relationshipsNavigator.showRelationships(node, currentGraph);
-		String title = currentGraph.convertValueToString(node);
-		relationshipsFramePanel.setTitle(ResourceManager.getString("relationships") + (title != null ? (" - " + title) : ""));
+			panel.setModel(currentGraph.getWorkflowGraphModel());
+			panel.setGraph(currentGraph);
+			panel.setDescriptor(descriptor);
+			if (node instanceof WorkflowCell)
+			{
+				panel.setCell((WorkflowCell)node);
+			}
+			else if(node instanceof WorkflowEdge)
+			{
+				panel.setEdge((WorkflowEdge)node);
+			}
+
+			detailFramePanel.setTitle(ResourceManager.getString("details") + (title != null ? (" - " + title) : ""));
+			detailPanel.showCard(panel);
+		}
+		else
+		{
+			System.out.println("WARN: no detail panel for " + node.getClass());
+		}
   }
 
   public void openWorkspace(URL file)
@@ -352,7 +473,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
       {
         Prefs.INSTANCE.put(Prefs.LAST_WORKSPACE, file.toString());
         manager.loadWorkspace(file);
-	      Workspace workspace = manager.getCurrentWorkspace();
+	      AbstractWorkflowFactory workspace = manager.getCurrentWorkspace();
 	      navigator.setWorkspace(workspace);
 	      String[] workflows = workspace.getWorkflowNames();
 	      for(int i = 0; i < workflows.length; i++)
@@ -366,6 +487,26 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
       }
     }
   }
+
+	public void openServiceWorkspace()
+	{
+		// apre il workspace attraverso il webservice	
+		try
+		{
+			manager.loadServiceWorkspace(service);
+			RemoteWorkspace workspace = (RemoteWorkspace)manager.getCurrentWorkspace();
+			navigator.setWorkspace(workspace);
+			String[] workflows = workspace.getWorkflowNames();
+			for(int i = 0; i < workflows.length; i++)
+			{
+				createGraph(workflows[i]);
+			}
+		}
+		catch(Exception t)
+		{
+			t.printStackTrace();
+		}
+	}
 
   public void checkWorkspaceExists()
   {
@@ -382,8 +523,10 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     }
   }
 
-  private void save(WorkflowGraph graph)
+  private boolean save(WorkflowGraph graph)
   {
+		boolean saved = false;
+     
     Layout layout = graph.getGraphLayout();
     WorkflowGraphModel model = (WorkflowGraphModel)graph.getModel();
     layout.setAllEntries(model.getActivitiesList());
@@ -391,7 +534,14 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     manager.getCurrentWorkspace().setLayout(workflowName, layout);
     try
     {
-      manager.getCurrentWorkspace().saveWorkflow(workflowName, manager.getCurrentWorkspace().getWorkflow(workflowName), graph, true);
+      if (manager.getCurrentWorkspace() instanceof Workspace) 
+      	saved = ((Workspace)manager.getCurrentWorkspace()).saveWorkflow(workflowName, manager.getCurrentWorkspace().getWorkflow(workflowName), graph, true);
+      else if (manager.getCurrentWorkspace() instanceof RemoteWorkspace)
+				saved = ((RemoteWorkspace)manager.getCurrentWorkspace()).saveWorkflow(workflowName, manager.getCurrentWorkspace().getWorkflow(workflowName), graph, true);
+    	if (!saved)
+    	{
+    		JOptionPane.showMessageDialog(this, "Error", ResourceManager.getString("error.save.workflow.long", new Object[]{workflowName}), JOptionPane.ERROR_MESSAGE);
+    	}
     }
     catch(InvalidWorkflowDescriptorException e)
     {
@@ -413,6 +563,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     {
       e.printStackTrace();
     }
+    return saved;
   }
 
   public void saveOpenGraphs()
@@ -429,7 +580,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     manager.saveWorkspace();
   }
 
-  public Workspace newWorkspace()
+  public Workspace newLocalWorkspace()
   {
     closeWorkspace();
     Workspace workspace = new Workspace();
@@ -438,6 +589,15 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     return workspace;
   }
 
+	public RemoteWorkspace newRemoteWorkspace()
+	{
+		closeWorkspace();
+		RemoteWorkspace workspace = new RemoteWorkspace(service);
+		manager.setCurrentWorkspace(workspace);
+		navigator.setWorkspace(workspace);
+		return workspace;
+	}
+	
   public void closeWorkspace()
   {
     //don't bother doing anything if we have no workspace visible
@@ -455,7 +615,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     navigator.selectWorkflow(name);
   }
 
-  public Navigator navigator()
+  public WorkspaceNavigator navigator()
   {
     return navigator;
   }
@@ -470,6 +630,45 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     createGraph(workflowName);
     Prefs.INSTANCE.put(Prefs.WORKFLOW_CURRENT, workflowName);
     graphTabs.setVisible(true);
+  }
+
+  public void selectCell(AbstractDescriptor descriptor)
+  {
+  	WorkflowGraph graph = getCurrentGraph();
+  	graph.getSelectionModel().clearSelection();
+  	WorkflowGraphModel model = (WorkflowGraphModel)graph.getModel(); 
+  	if (descriptor instanceof StepDescriptor)
+  	{ 
+  		StepCell cell = model.getStepCell(descriptor.getId());	
+  		if (cell!=null)
+  		{
+  			graph.getSelectionModel().setSelectionCell(cell); 
+  		}
+  	}
+		else if (descriptor instanceof SplitDescriptor)
+		{ 
+			SplitCell cell = model.getSplitCell(descriptor.getId());	
+			if (cell!=null)
+			{
+				graph.getSelectionModel().setSelectionCell(cell); 
+			}
+		}
+		else if (descriptor instanceof JoinDescriptor)
+		{ 
+			JoinCell cell = model.getJoinCell(descriptor.getId());	
+			if (cell!=null)
+			{
+				graph.getSelectionModel().setSelectionCell(cell); 
+			}
+		}
+		else if (descriptor instanceof ResultDescriptor)
+		{
+			ResultEdge edge = model.getResultCell((ResultDescriptor)descriptor);
+			if (edge!=null)
+			{
+				graph.getSelectionModel().setSelectionCell(edge); 
+			}
+		}
   }
 
   private void loadPalette()
@@ -502,5 +701,60 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     {
       e.printStackTrace();
     }
+  }
+  
+  private AbstractDescriptor getCellDescriptor(Object cell)
+  {
+  	if (cell instanceof StepCell)
+  	{
+  		return ((StepCell)cell).getDescriptor(); 	 
+  	}
+  	else if (cell instanceof JoinCell)
+  	{
+  		return ((JoinCell)cell).getJoinDescriptor(); 
+  	}
+  	else if (cell instanceof SplitCell)
+  	{
+  		return ((SplitCell)cell).getSplitDescriptor(); 
+  	}
+  	else if (cell instanceof InitialActionCell)
+  	{
+  		return ((InitialActionCell)cell).getActionDescriptor();
+  	} 
+  	else if (cell instanceof ResultEdge)
+  	{
+  		return ((ResultEdge)cell).getDescriptor(); 
+  	}
+  	return null;
+  }
+  
+  private String getDescriptorTitle(Object desc)
+  {
+		String title = "";
+		if(desc instanceof StepDescriptor)
+		{
+			title = ((StepDescriptor)desc).getName();
+		}
+		else if(desc instanceof SplitDescriptor)
+		{
+			title = "Split #" + ((SplitDescriptor)desc).getId(); 
+		}
+		else if(desc instanceof JoinDescriptor)
+		{
+			title = "Join #" + ((JoinDescriptor)desc).getId();
+		}
+		else if(desc instanceof ResultDescriptor)
+		{
+			title = ((ResultDescriptor)desc).getDisplayName(); 
+		}
+		else if(desc instanceof ActionDescriptor)
+		{
+			title = ((ActionDescriptor)desc).getName();
+		}
+		else if (desc instanceof WorkflowDescriptor)
+		{
+			title = ((WorkflowDescriptor)desc).getName(); 
+		}
+		return title;
   }
 }

@@ -21,52 +21,71 @@ import com.jgoodies.plaf.LookUtils;
 
 /**
  * @author jackflit
- * Date: 2003-11-27
+ *         Date: 2003-11-27
  */
 public class BarFactory
 {
-  public static JMenuBar createMenubar(WorkspaceManager manager)
+  public static JMenuBar createMenubar(WorkspaceManager manager, String mode)
   {
+    JMenuItem item;
     JMenuBar menuBar = new JMenuBar();
-
     JMenu fileMenu = new JMenu(ResourceManager.getString("menu.file"));
 
-    JMenu itemNew = new JMenu(ResourceManager.getString("menu.new"));
-    itemNew.setIcon(ResourceManager.getIcon("newfile"));
-    itemNew.setHorizontalTextPosition(JMenu.RIGHT);
-    fileMenu.add(itemNew);
+    if((mode.equals("new")) || (mode.equals("none")))
+    {
+      JMenu itemNew = new JMenu(ResourceManager.getString("menu.new"));
+      itemNew.setIcon(ResourceManager.getIcon("newfile"));
+      itemNew.setHorizontalTextPosition(JMenu.RIGHT);
+      fileMenu.add(itemNew);
 
-    JMenuItem item;
+      if(mode.equals("none"))
+      {
+        Action newSpace = new NewWorkspace();
+        item = new JMenuItem(ActionManager.register("newspace", newSpace));
+        itemNew.add(item);
+      }
 
-    Action newSpace = new NewWorkspace();
-    item = new JMenuItem(ActionManager.register("newspace", newSpace));
-    itemNew.add(item);
+      NewWorkflow newWorkflow = new NewWorkflow();
+      manager.addWorkspaceListener(newWorkflow);
+      item = new JMenuItem(ActionManager.register("newflow", newWorkflow));
+      itemNew.add(item);
 
-    NewWorkflow newWorkflow = new NewWorkflow();
-    manager.addWorkspaceListener(newWorkflow);
-    item = new JMenuItem(ActionManager.register("newflow", newWorkflow));
-    itemNew.add(item);
+      if(mode.equals("none"))
+      {
+        item = new JMenuItem(ActionManager.register("openspace", new OpenWorkspace()));
+        fileMenu.add(item);
 
-    item = new JMenuItem(ActionManager.register("openspace", new OpenWorkspace()));
-    fileMenu.add(item);
+        CloseWorkspace closeSpace = new CloseWorkspace();
+        manager.addWorkspaceListener(closeSpace);
+        item = new JMenuItem(ActionManager.register("closespace", closeSpace));
+        fileMenu.add(item);
 
-    CloseWorkspace closeSpace = new CloseWorkspace();
-    manager.addWorkspaceListener(closeSpace);
-    item = new JMenuItem(ActionManager.register("closespace", closeSpace));
-    fileMenu.add(item);
+        CloseWorkflow closeWorkflow = new CloseWorkflow();
+        item = new JMenuItem(ActionManager.register("closeflow", closeWorkflow));
+        fileMenu.add(item);
 
-    CloseWorkflow closeWorkflow = new CloseWorkflow();
-    item = new JMenuItem(ActionManager.register("closeflow", closeWorkflow));
-    fileMenu.add(item);
-
-    ImportWorkflow importWorkflow = new ImportWorkflow();
-    manager.addWorkspaceListener(importWorkflow);
-    item = new JMenuItem(ActionManager.register("importflow", importWorkflow));
-    fileMenu.add(item);
+        ImportWorkflow importWorkflow = new ImportWorkflow();
+        manager.addWorkspaceListener(importWorkflow);
+        item = new JMenuItem(ActionManager.register("importflow", importWorkflow));
+        fileMenu.add(item);
+      }
+    }
 
     PNGExport export = new PNGExport();
     manager.addWorkspaceListener(export);
     item = new JMenuItem(ActionManager.register("pngexport", export));
+    fileMenu.add(item);
+
+    fileMenu.addSeparator();
+
+    ValidateWorkflow validateWorkflow = new ValidateWorkflow();
+    manager.addWorkspaceListener(validateWorkflow);
+    item = new JMenuItem(ActionManager.register("validateflow", validateWorkflow));
+    fileMenu.add(item);
+
+    ValidateSaveWorkflow validateSaveWorkflow = new ValidateSaveWorkflow();
+    manager.addWorkspaceListener(validateSaveWorkflow);
+    item = new JMenuItem(ActionManager.register("validatesaveflow", validateSaveWorkflow));
     fileMenu.add(item);
 
     fileMenu.addSeparator();
@@ -94,7 +113,7 @@ public class BarFactory
     editMenu.add(item);
     item = new JMenuItem(ActionManager.register("redo", new EditRedo()));
     editMenu.add(item);
-	
+
     menuBar.add(fileMenu);
     menuBar.add(editMenu);
     menuBar.add(viewMenu);
@@ -121,14 +140,14 @@ public class BarFactory
     bar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
     bar.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
     JButton step = new JButton(ResourceManager.getIcon("newstep"));
-	  step.setUI(new BlueButtonUI());
+    step.setUI(new BlueButtonUI());
     step.setToolTipText(ResourceManager.getString("createstep"));
     bar.add(step);
     DragSource ds = new DragSource();
     ds.createDefaultDragGestureRecognizer(step, DnDConstants.ACTION_COPY, new TypeDragGesture(ds, DragData.STEP));
 
     JButton join = new JButton(ResourceManager.getIcon("newjoin"));
-	  join.setUI(new BlueButtonUI());
+    join.setUI(new BlueButtonUI());
     join.setToolTipText(ResourceManager.getString("createjoin"));
     bar.add(join);
     ds = new DragSource();
@@ -136,7 +155,7 @@ public class BarFactory
 
     JButton split = new JButton(ResourceManager.getIcon("newsplit"));
     split.setToolTipText(ResourceManager.getString("createsplit"));
-	  split.setUI(new BlueButtonUI());
+    split.setUI(new BlueButtonUI());
     bar.add(split);
     ds = new DragSource();
     ds.createDefaultDragGestureRecognizer(split, DnDConstants.ACTION_COPY, new TypeDragGesture(ds, DragData.SPLIT));

@@ -1,10 +1,10 @@
 package com.opensymphony.workflow.designer.editor;
 
-import com.opensymphony.workflow.designer.InitialActionCell;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
-import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
+import com.opensymphony.workflow.loader.*;
+
 
 /**
  * @author jackflit
@@ -12,19 +12,14 @@ import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
  */
 public class StartFunctionEditor extends FunctionEditor
 {
-  public StartFunctionEditor(InitialActionCell cell)
+  public StartFunctionEditor(ActionDescriptor desc)
   {
-    super(cell);
-  }
-
-  protected InitialActionCell getCell()
-  {
-    return (InitialActionCell)cell;
+    super(desc);
   }
 
   protected AbstractDescriptor getParent()
   {
-    return getCell().getActionDescriptor();
+    return getDescriptor();
   }
 
 	protected ConfigFunctionDescriptor getFunction()

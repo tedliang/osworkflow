@@ -1,10 +1,4 @@
 /*
- * $Header: /zpool01/javanet/scm/svn/tmp/cvs2svn/osworkflow/src/designer/com/opensymphony/workflow/designer/beanutils/PropertyUtils.java,v 1.1 2003-12-06 18:05:58 hani Exp $
- * $Revision: 1.1 $
- * $Date: 2003-12-06 18:05:58 $
- *
- * ====================================================================
- *
  * The Apache Software License, Version 1.1
  *
  * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
@@ -77,11 +71,10 @@ import java.util.Map;
  * @author Craig R. McClanahan
  * @author Ralph Schaer
  * @author Chris Audley
- * @author Rey François
- * @author Gregor Raýman
+ * @author Rey Franï¿½ois
+ * @author Gregor Raï¿½man
  * @author Jan Sorensen
  * @author Scott Sanders
- * @version $Revision: 1.1 $ $Date: 2003-12-06 18:05:58 $
  * @see PropertyUtilsBean
  */
 

@@ -7,7 +7,6 @@
 	<classpathentry kind="lib" path="lib/optional/dom4j-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/optional/commons-lang-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/optional/commons-collections-2.1.jar"/>
-	<classpathentry kind="lib" path="lib/optional/velocity-dep-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/build/jalopy/jalopy-ant-0.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/build/jta.jar"/>
 	<classpathentry kind="lib" path="lib/optional/servlet.jar"/>
@@ -27,7 +26,6 @@
 	<classpathentry kind="lib" path="lib/optional/cglib2.jar"/>
 	<classpathentry kind="lib" path="lib/build/xdoclet/xdoclet-jboss-module-1.2b3.jar"/>
 	<classpathentry kind="lib" path="lib/optional/webwork.jar"/>
-	<classpathentry kind="lib" path="lib/build/velocity.jar"/>
 	<classpathentry kind="lib" path="lib/build/jalopy/aelfred-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/build/xdoclet/xdoclet-orion-module-1.2b3.jar"/>
 	<classpathentry kind="lib" path="lib/build/xdoclet/xdoclet-macromedia-module-1.2b3.jar"/>

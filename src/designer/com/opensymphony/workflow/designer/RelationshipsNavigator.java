@@ -1,13 +1,12 @@
 package com.opensymphony.workflow.designer;
 
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
 
-import com.opensymphony.workflow.loader.ActionDescriptor;
-import com.opensymphony.workflow.loader.ConditionalResultDescriptor;
-import com.opensymphony.workflow.loader.StepDescriptor;
+import java.awt.Component;
+
+import com.opensymphony.workflow.loader.*;
 import org.jgraph.graph.CellView;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.GraphConstants;
@@ -45,8 +44,6 @@ public class RelationshipsNavigator extends JTree implements TreeSelectionListen
 
   public void showRelationships(Object node, WorkflowGraph graph)
   {
-    String rootName;
-
     if(node instanceof DefaultGraphCell)
     {
       currentGraph = graph;
@@ -66,12 +63,11 @@ public class RelationshipsNavigator extends JTree implements TreeSelectionListen
     DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
     StepDescriptor stepDescriptor = cell.getDescriptor();
     Object[] cells = new Object[]{cell};
-    java.util.Set edgeSet = WorkflowGraphModel.getEdges(((WorkflowGraphModel)currentGraph.getModel()), cells);
+    java.util.Set edgeSet = WorkflowGraphModel.getEdges(currentGraph.getModel(), cells);
     for(int i = 0; i < stepDescriptor.getActions().size(); i++)
     {
       ActionDescriptor action = (ActionDescriptor)(stepDescriptor.getActions().get(i));
-      DefaultMutableTreeNode actionNode = new DefaultMutableTreeNode(action)
-      {
+	  DefaultMutableTreeNode actionNode = new DefaultMutableTreeNode(action) {
         public String toString()
         {
           if(getUserObject() instanceof ActionDescriptor)
@@ -126,7 +122,6 @@ public class RelationshipsNavigator extends JTree implements TreeSelectionListen
   public void treeNodesChanged(TreeModelEvent e)
   {
     DefaultMutableTreeNode node;
-    CellView currentView = null;
 
     node = (DefaultMutableTreeNode)(e.getTreePath().getLastPathComponent());
     try
@@ -143,17 +138,16 @@ public class RelationshipsNavigator extends JTree implements TreeSelectionListen
     }
     else if(currentObject instanceof ResultEdge)
     {
-      ((ResultEdge)currentObject).getDescriptor().setDisplayName(new String((String)node.getUserObject()));
+      ((ResultEdge)currentObject).getDescriptor().setDisplayName((String)node.getUserObject());
     }
     else if(currentObject instanceof StepCell)
     {
-      ((StepCell)currentObject).getDescriptor().setName(new String((String)node.getUserObject()));
+      ((StepCell)currentObject).getDescriptor().setName((String)node.getUserObject());
     }
     node.setUserObject(currentObject);
     RefreshUIForNode(node);
     currentGraph.paintAll(currentGraph.getGraphics());
     DefaultTreeModel model = (DefaultTreeModel)getModel();
-    DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
     model.reload(node);
     designer.refreshUI();
   }
@@ -189,7 +183,7 @@ public class RelationshipsNavigator extends JTree implements TreeSelectionListen
   {
   }
 
-  class WorkflowCellRenderer extends DefaultTreeCellRenderer
+  static class WorkflowCellRenderer extends DefaultTreeCellRenderer
   {
 
     public WorkflowCellRenderer()
@@ -232,6 +226,6 @@ public class RelationshipsNavigator extends JTree implements TreeSelectionListen
       return result;
     }
 
-  };
+  }
 
 }

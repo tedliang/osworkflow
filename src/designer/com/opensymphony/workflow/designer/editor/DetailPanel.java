@@ -3,6 +3,7 @@ package com.opensymphony.workflow.designer.editor;
 import javax.swing.*;
 
 import com.opensymphony.workflow.designer.*;
+import com.opensymphony.workflow.loader.AbstractDescriptor;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -11,21 +12,17 @@ import com.opensymphony.workflow.designer.*;
  */
 public abstract class DetailPanel extends JPanel
 {
-  private WorkflowCell cell;
-  private WorkflowEdge edge;
+  private AbstractDescriptor descriptor;
   private WorkflowGraphModel model;
   private WorkflowGraph graph;
+  private WorkflowCell cell;
+  private WorkflowEdge edge;
 
   private boolean componentsInited = false;
 
-  public WorkflowCell getCell()
+  public AbstractDescriptor getDescriptor()
   {
-    return cell;
-  }
-
-  public WorkflowEdge getEdge()
-  {
-    return edge;
+    return descriptor;
   }
 
   protected void viewClosed()
@@ -57,18 +54,38 @@ public abstract class DetailPanel extends JPanel
   	this.graph = graph;
   }
 
-  public final void setCell(WorkflowCell cell)
+	public void setCell(WorkflowCell cell)
+  {
+    this.cell = cell;
+  }
+
+	public WorkflowCell getCell()
+	{
+		return cell;
+	}
+
+	public void setEdge(WorkflowEdge edge)
+	{
+		this.edge = edge;
+	}
+
+	public WorkflowEdge getEdge()
+  {
+		return edge;
+  }
+
+  public final void setDescriptor(AbstractDescriptor descriptor)
   {
     if(!componentsInited)
     {
       initComponents();
       componentsInited = true;
     }
-    this.cell = cell;
-    setName(cell.getClass().getName());
+    this.descriptor = descriptor;
+    setName(descriptor.getClass().getName());
     updateView();
   }
-
+	
   protected abstract void initComponents();
 
   protected abstract void updateView();
@@ -76,18 +93,5 @@ public abstract class DetailPanel extends JPanel
   public String getTitle()
   {
     return ResourceManager.getString("details");
-  }
-
-  public void setEdge(WorkflowEdge edge)
-  {
-    if(!componentsInited)
-    {
-      initComponents();
-      componentsInited = true;
-    }
-    componentsInited = true;
-    this.edge = edge;
-    setName(edge.getClass().getName());
-    updateView();
   }
 }

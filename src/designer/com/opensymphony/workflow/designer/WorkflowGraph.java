@@ -104,7 +104,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     }
     else if(value instanceof ResultEdge)
     {
-      return ((ResultEdge)value).toString();
+      return value.toString();
     }
     else
     {
@@ -112,6 +112,11 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     }
   }
 
+	public WorkflowDescriptor getDescriptor()
+	{
+		return descriptor;
+	}
+	
   public void setDescriptor(WorkflowDescriptor descriptor)
   {
     if(descriptor != null)

@@ -1,6 +1,8 @@
 package com.opensymphony.workflow.designer.model;
 
+import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConditionDescriptor;
+import com.opensymphony.workflow.loader.ConditionsDescriptor;
 import com.opensymphony.workflow.loader.PaletteDescriptor;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
 import com.opensymphony.workflow.designer.ResourceManager;
@@ -62,6 +64,10 @@ public class ConditionsTableModel extends ListTableModel
 
   public Object getValueAt(int rowIndex, int columnIndex)
   {
+		AbstractDescriptor dd = (AbstractDescriptor)list.get(rowIndex); 
+    if (dd instanceof ConditionsDescriptor)
+   		return null;
+    
     ConditionDescriptor condition = (ConditionDescriptor)list.get(rowIndex);
     PaletteDescriptor palette = graphModel.getPalette();
     switch(columnIndex)

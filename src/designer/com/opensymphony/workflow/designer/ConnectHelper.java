@@ -11,6 +11,7 @@ import com.opensymphony.workflow.loader.JoinDescriptor;
 import com.opensymphony.workflow.loader.ResultDescriptor;
 import com.opensymphony.workflow.loader.SplitDescriptor;
 import com.opensymphony.workflow.loader.StepDescriptor;
+import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.designer.dialogs.ActionTypeDialog;
 
 /**
@@ -282,6 +283,11 @@ public class ConnectHelper
     model.recordResult(source, result, sourceAction);
     model.connectCells(source, sourceAction, target, result);
 
+		// update the workspace navigator
+		WorkflowDescriptor workflow = WorkflowDesigner.INSTANCE.getCurrentGraph().getDescriptor();   
+		WorkflowDesigner.INSTANCE.navigator().reloadStep(workflow, source.getDescriptor());
+		WorkflowDesigner.INSTANCE.navigator().selectTreeNode(workflow, result);	
+		
     return true;
   }
 
@@ -318,9 +324,13 @@ public class ConnectHelper
 
     // create new resultCell
     model.recordResult(source, result, start);
-
     model.connectCells(source, start, target, result);
 
+		//	update the workspace navigator
+		WorkflowDescriptor workflow = WorkflowDesigner.INSTANCE.getCurrentGraph().getDescriptor();   
+		WorkflowDesigner.INSTANCE.navigator().reloadInitialAction(workflow);
+		WorkflowDesigner.INSTANCE.navigator().selectTreeNode(workflow, result);
+		
     return true;
   }
 
@@ -348,6 +358,11 @@ public class ConnectHelper
     // update the graph
     model.connectCells(source, null, target, result);
 
+		// update the workspace navigator
+		WorkflowDescriptor workflow = WorkflowDesigner.INSTANCE.getCurrentGraph().getDescriptor();   
+		WorkflowDesigner.INSTANCE.navigator().reloadSplit(workflow, source.getSplitDescriptor()); 
+		WorkflowDesigner.INSTANCE.navigator().selectTreeNode(workflow, result);
+		
     return true;
   }
 
@@ -372,6 +387,11 @@ public class ConnectHelper
     // update the graph
     model.connectCells(source, null, target, result);
 
+		// update the workspace navigator
+		WorkflowDescriptor workflow = WorkflowDesigner.INSTANCE.getCurrentGraph().getDescriptor();   
+		WorkflowDesigner.INSTANCE.navigator().reloadJoin(workflow, source.getJoinDescriptor()); 
+		WorkflowDesigner.INSTANCE.navigator().selectTreeNode(workflow, result);
+		
     return true;
   }
 

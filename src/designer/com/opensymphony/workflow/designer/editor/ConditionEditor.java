@@ -3,23 +3,26 @@ package com.opensymphony.workflow.designer.editor;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.opensymphony.workflow.designer.WorkflowCell;
 import com.opensymphony.workflow.designer.WorkflowGraphModel;
 import com.opensymphony.workflow.designer.spi.ConditionPlugin;
 import com.opensymphony.workflow.designer.spi.DefaultConditionPlugin;
-import com.opensymphony.workflow.loader.*;
+import com.opensymphony.workflow.loader.AbstractDescriptor;
+import com.opensymphony.workflow.loader.ConditionDescriptor;
+import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
+import com.opensymphony.workflow.loader.DescriptorFactory;
 
 /**
  * @author baab
  */
 public abstract class ConditionEditor
 {
-  protected WorkflowCell cell;
+  //protected WorkflowCell cell;
+  protected AbstractDescriptor descriptor;
   protected WorkflowGraphModel model;
 
-  public ConditionEditor(WorkflowCell cell)
+  public ConditionEditor(AbstractDescriptor descriptor)
   {
-    this.cell = cell;
+    this.descriptor = descriptor;
   }
 
   public WorkflowGraphModel getModel()
@@ -27,6 +30,11 @@ public abstract class ConditionEditor
     return model;
   }
 
+	public AbstractDescriptor getDescriptor()
+	{
+		return descriptor;
+	}
+	
   public void setModel(WorkflowGraphModel model)
   {
     this.model = model;
@@ -110,7 +118,7 @@ public abstract class ConditionEditor
 
     // put the parameter
     Map args = new HashMap();
-    args.put("cell", cell);
+    args.put("cell", descriptor);
 
     if(!condImpl.editCondition(args))
     {

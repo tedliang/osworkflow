@@ -1,25 +1,25 @@
 package com.opensymphony.workflow.designer.editor;
 
-import com.opensymphony.workflow.designer.JoinCell;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
 import com.opensymphony.workflow.loader.ConditionDescriptor;
+import com.opensymphony.workflow.loader.JoinDescriptor;
 
 /**
  * @author baab
  */
 public class JoinConditionEditor extends ConditionEditor
 {
-  public JoinConditionEditor(JoinCell cell)
+  public JoinConditionEditor(JoinDescriptor desc)
   {
-    super(cell);
+    super(desc);
   }
 
   protected AbstractDescriptor getParent()
   {
-    return getCell().getJoinDescriptor();
+    return getDescriptor();
   }
 
   protected ConfigConditionDescriptor getCondition()
@@ -36,10 +36,4 @@ public class JoinConditionEditor extends ConditionEditor
 	{
 		return getModel().getPalette().getJoinCondition(cond.getName());
 	}
-
-  protected JoinCell getCell()
-  {
-    return (JoinCell)cell;
-  }
-
 }

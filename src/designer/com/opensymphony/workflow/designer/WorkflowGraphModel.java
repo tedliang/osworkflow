@@ -41,7 +41,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     this.palette = palette;
   }
 
-  private JoinCell getJoinCell(int id)
+  public JoinCell getJoinCell(int id)
   {
     Iterator iter = joinCells.iterator();
     while(iter.hasNext())
@@ -55,6 +55,85 @@ public class WorkflowGraphModel extends DefaultGraphModel
     return null;
   }
 
+	public StepCell getStepCell(int id)
+	{
+		Iterator iter = stepCells.iterator();
+		while(iter.hasNext())
+		{
+			StepCell cell = (StepCell)iter.next();
+			if(cell.getDescriptor().getId() == id)
+			{
+				return cell;
+			}
+		}
+		return null;
+	}
+	
+	public SplitCell getSplitCell(int id)
+	{
+		Iterator iter = splitCells.iterator();
+		while(iter.hasNext())
+		{
+			SplitCell cell = (SplitCell)iter.next();
+			if(cell.getSplitDescriptor().getId() == id)
+			{
+				return cell;
+			}
+		}
+		return null;
+	}
+  
+  public ResultEdge getResultCell(ResultDescriptor desc)
+  {
+  	// TODO
+  	/*
+  	Iterator iter = results.iterator();
+  	while (iter.hasNext())
+  	{
+  		ResultHolder holder = (ResultHolder)iter.next();
+  		if (holder.getDescriptor()==desc)
+  		{
+  			return holder.  
+  		}
+  	}
+  	*/
+  	if (desc==null)
+  		return null;
+  	WorkflowCell cell = null;
+  	if (desc.getStep()!=0)
+  		cell = getStepCell(desc.getStep());  		
+  	else if (desc.getSplit()!=0)
+  		cell  = getSplitCell(desc.getSplit());
+  	else if (desc.getJoin()!=0)
+  		cell = getJoinCell(desc.getJoin());
+  	else if (desc.getParent() instanceof ActionDescriptor)
+  	{
+  		if (desc.getParent().getParent()==null)
+  		{	
+  			Iterator it = initialActions.iterator(); 
+  			if (it.hasNext())
+  			{
+  				cell = (WorkflowCell)it.next();   
+  			}
+  		}
+  	}
+  	if (cell!=null)
+  	{
+			Object[] cells = new Object[]{cell};
+			Set edgeSet = WorkflowGraphModel.getEdges(this, cells);	
+			Iterator edges = edgeSet.iterator();
+			while(edges.hasNext())
+			{
+				ResultEdge edge = (ResultEdge)edges.next();
+				if(edge.getDescriptor() == desc)
+				{
+					return edge;
+				}
+			}
+  	}
+  	return null;
+  }
+  
   public boolean acceptsTarget(Object edge, Object port)
   {
     if(port == null) return false;
@@ -322,7 +401,10 @@ public class WorkflowGraphModel extends DefaultGraphModel
       recordResults(fromCell, conResults, action);
       ResultDescriptor result = action.getUnconditionalResult();
       if(result != null)
+     	{
         recordResult(fromCell, result, action);
+    }
+        
     }
   }
 
@@ -337,6 +419,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
   public ResultHolder recordResult(WorkflowCell fromCell, ResultDescriptor result, ActionDescriptor action)
   {
+		Utils.checkId(context, result);		// [KAP] This fixes the ID duplication bug
     ResultHolder newCell = new ResultHolder(fromCell, result, action);
     results.add(newCell);
     return newCell;
