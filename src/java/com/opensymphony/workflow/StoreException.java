@@ -17,11 +17,11 @@ public class StoreException extends WorkflowException {
         super(s);
     }
 
-    public StoreException(String s, Exception ex) {
+    public StoreException(String s, Throwable ex) {
         super(s, ex);
     }
 
-    public StoreException(Exception ex) {
+    public StoreException(Throwable ex) {
         super(ex);
     }
 }
