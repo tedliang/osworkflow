@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin>
+  <!-- a list of status values available. The old-default is the value to set
+  the oldStatus value to when a result is executed. The next-default is the default
+  status to go to in the new step after a result is executed -->
+  <statusvalues old-default="Finished" next-default="Queued">
+    <status name="Queued" />
+    <status name="Underway"/>
+    <status name="Finished"/>
+  </statusvalues>
 	<joinconditions>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
@@ -50,7 +58,7 @@
       <description>Check that the current user belongs in the specified group</description>
     </condition>
 	</permissionconditions>
-  
+
 	<resultconditions>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>

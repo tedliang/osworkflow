@@ -25,12 +25,12 @@ public class ResultConditionEditor extends ConditionEditor
 
   protected ConfigConditionDescriptor getNewCondition(String selection)
   {
-    return new ConfigConditionDescriptor(WorkflowDesigner.config.getResultCondition(selection));
+    return new ConfigConditionDescriptor(WorkflowDesigner.palette.getResultCondition(selection));
   }
 
   protected String getSelection()
   {
-    return DialogUtils.getUserSelection(WorkflowDesigner.config.getResultNames(), "Select result condition", "Select Condition", null);
+    return DialogUtils.getUserSelection(WorkflowDesigner.palette.getResultNames(), "Select result condition", "Select Condition", null);
   }
 
 }

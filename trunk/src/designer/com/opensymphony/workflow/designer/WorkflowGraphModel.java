@@ -19,6 +19,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   private IDGenerator resultIdGenerator = new IDGenerator();
   private Layout layout;
   private Object context = new Object();
+  private WorkflowConfigDescriptor palette;
 
   public WorkflowGraphModel(Layout layout)
   {
@@ -28,6 +29,16 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public Object getContext()
   {
     return context;
+  }
+
+  public WorkflowConfigDescriptor getPalette()
+  {
+    return palette;
+  }
+
+  public void setPalette(WorkflowConfigDescriptor palette)
+  {
+    this.palette = palette;
   }
 
   private JoinCell getJoinCell(int id)
@@ -496,6 +507,4 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
     return true;
   }
-
-
 }

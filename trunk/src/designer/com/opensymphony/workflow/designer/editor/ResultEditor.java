@@ -14,6 +14,7 @@ import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.designer.model.FunctionsTableModel;
 import com.opensymphony.workflow.designer.ResultEdge;
 import com.opensymphony.workflow.designer.UIFactory;
+import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.loader.ConditionDescriptor;
 import com.opensymphony.workflow.loader.ConditionalResultDescriptor;
 import com.opensymphony.workflow.loader.FunctionDescriptor;
@@ -21,8 +22,8 @@ import com.opensymphony.workflow.loader.ResultDescriptor;
 
 public class ResultEditor extends DetailPanel implements ActionListener
 {
-  //todo add this to config file
-  private static final Object[] statusValues = new String[]{"Queued", "Underway", "Finished"};
+  //todo read this from model
+  private static final Object[] statusValues = WorkflowDesigner.palette.getStatusNames();
   private JTextField id = UIFactory.createReadOnlyTextField(12);
   private JTextField owner = new JTextField(12);
   private JComboBox status = new JComboBox(statusValues);

@@ -29,12 +29,12 @@ public class StepFunctionEditor extends FunctionEditor
 
   protected ConfigFunctionDescriptor getNewFunction(String selection)
   {
-    return new ConfigFunctionDescriptor(WorkflowDesigner.config.getPrefunction(selection));
+    return new ConfigFunctionDescriptor(WorkflowDesigner.palette.getPrefunction(selection));
   }
 
   protected String getSelection()
   {
-    return DialogUtils.getUserSelection(WorkflowDesigner.config.getPreNames(), "Select step function", "Select Function", null);
+    return DialogUtils.getUserSelection(WorkflowDesigner.palette.getPreNames(), "Select step function", "Select Function", null);
   }
 
 }

@@ -30,12 +30,12 @@ public class StartPermissionEditor extends ConditionEditor
 
   protected ConfigConditionDescriptor getNewCondition(String selection)
   {
-    return new PermissionConditionDescriptor(WorkflowDesigner.config.getPermissionCondition(selection));
+    return new PermissionConditionDescriptor(WorkflowDesigner.palette.getPermissionCondition(selection));
   }
 
   protected String getSelection()
   {
-    return DialogUtils.getUserSelection(WorkflowDesigner.config.getPermissionNames(), "Select Permission", "Select Permission", null);
+    return DialogUtils.getUserSelection(WorkflowDesigner.palette.getPermissionNames(), "Select Permission", "Select Permission", null);
   }
 
 }

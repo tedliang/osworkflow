@@ -13,11 +13,18 @@ import org.w3c.dom.NodeList;
  */
 public class WorkflowConfigDescriptor extends AbstractDescriptor
 {
-
+  protected List statusList = new ArrayList();
   protected List joinList = new ArrayList();
   protected List preList = new ArrayList();
   protected List permissionList = new ArrayList();
   protected List resultList = new ArrayList();
+  protected String defaultOldStatus = null;
+  protected String defaultNextStatus = null;
+
+  public WorkflowConfigDescriptor(Element root)
+  {
+    init(root);
+  }
 
   public String[] getJoinNames()
   {
@@ -28,7 +35,6 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
       ConfigConditionDescriptor condition = (ConfigConditionDescriptor)joinList.get(i);
       names[i] = condition.getName();
     }
-
     return names;
   }
 
@@ -41,7 +47,6 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
       ConfigFunctionDescriptor pre = (ConfigFunctionDescriptor)preList.get(i);
       names[i] = pre.getName();
     }
-
     return names;
   }
 
@@ -54,7 +59,18 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
       PermissionConditionDescriptor perm = (PermissionConditionDescriptor)permissionList.get(i);
       names[i] = perm.getName();
     }
+    return names;
+  }
 
+  public String[] getStatusNames()
+  {
+    String[] names = new String[statusList.size()];
+
+    for(int i = 0; i < names.length; i++)
+    {
+      StatusDescriptor status = (StatusDescriptor)statusList.get(i);
+      names[i] = status.getName();
+    }
     return names;
   }
 
@@ -67,7 +83,6 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
       ConfigConditionDescriptor result = (ConfigConditionDescriptor)resultList.get(i);
       names[i] = result.getName();
     }
-
     return names;
   }
 
@@ -139,14 +154,14 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
     return null;
   }
 
-  public WorkflowConfigDescriptor()
+  public String getDefaultOldStatus()
   {
-
+    return defaultOldStatus;
   }
 
-  public WorkflowConfigDescriptor(Element root)
+  public String getDefaultNextStatus()
   {
-    init(root);
+    return defaultNextStatus;
   }
 
   public void writeXML(PrintWriter writer, int indent)
@@ -157,6 +172,17 @@ public class WorkflowConfigDescriptor extends AbstractDescriptor
   protected void init(Element root)
   {
     // joinconditions
+    Element s = XMLUtil.getChildElement(root, "statusvalues");
+    defaultNextStatus = s.getAttribute("default-next");
+    defaultOldStatus = s.getAttribute("default-old");
+    NodeList l = s.getElementsByTagName("status");
+    for(int i = 0; i < l.getLength(); i++)
+    {
+      Element status = (Element)l.item(i);
+      StatusDescriptor statusDescriptor = new StatusDescriptor(status);
+      statusDescriptor.setParent(this);
+      statusList.add(statusDescriptor);
+    }
     Element j = XMLUtil.getChildElement(root, "joinconditions");
     if(j != null)
     {

@@ -55,7 +55,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   private CardPanel detailPanel = new CardPanel();
   private FramePanel detailFramePanel;
   public static WorkflowDesigner INSTANCE = null;
-  public static WorkflowConfigDescriptor config = null;
+  public static WorkflowConfigDescriptor palette = null;
   private static Splash splash;
 
   public WorkflowDesigner()
@@ -128,14 +128,16 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   public void createGraph(String workflowName)
   {
-    Layout layout = manager.getCurrentWorkspace().getLayout(workflowName);
-    GraphModel model = new WorkflowGraphModel(layout);
+    Workspace currentWorkspace = manager.getCurrentWorkspace();
+    Layout layout = currentWorkspace.getLayout(workflowName);
+    WorkflowGraphModel model = new WorkflowGraphModel(layout);
+    model.setPalette(palette);
     boolean hasLayout = layout != null;
     if(layout == null) layout = new Layout();
     WorkflowDescriptor descriptor;
     try
     {
-      descriptor = manager.getCurrentWorkspace().getWorkflow(workflowName);
+      descriptor = currentWorkspace.getWorkflow(workflowName);
     }
     catch(FactoryException e)
     {
@@ -368,7 +370,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
       Element root = (Element)doc.getElementsByTagName("plugin").item(0);
 
-      config = new WorkflowConfigDescriptor(root);
+      palette = new WorkflowConfigDescriptor(root);
     }
     catch(SAXException e)
     {

@@ -38,7 +38,6 @@ public class PermissionConditionDescriptor extends ConfigConditionDescriptor
   public void writeXML(PrintWriter writer, int indent)
   {
     throw new UnsupportedOperationException();
-
   }
 
   protected void init(Element condition)
