@@ -83,14 +83,12 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
                 }
             }
         } else {
-            if (log.isDebugEnabled()) {
-                try {
-                    c.descriptor = load(c.wfName);
-                } catch (FactoryException e) {
-                    throw e;
-                } catch (Exception e) {
-                    throw new FactoryException("Error loading workflow", e);
-                }
+            try {
+                c.descriptor = load(c.wfName);
+            } catch (FactoryException e) {
+                throw e;
+            } catch (Exception e) {
+                throw new FactoryException("Error loading workflow", e);
             }
         }
 
