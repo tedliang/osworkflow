@@ -24,7 +24,7 @@ import java.util.Map;
  * Date: May 9, 2003
  * Time: 10:26:48 PM
  */
-public class AutoExecuteTestCase extends TestCase {
+public class ActionsTestCase extends TestCase {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     //string used by propertyset-create.xml
@@ -33,7 +33,7 @@ public class AutoExecuteTestCase extends TestCase {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public AutoExecuteTestCase(String s) {
+    public ActionsTestCase(String s) {
         super(s);
     }
 
