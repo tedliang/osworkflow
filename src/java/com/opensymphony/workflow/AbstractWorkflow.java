@@ -99,7 +99,7 @@ public class AbstractWorkflow implements Workflow {
                 }
 
                 //todo verify that 0 is the right currentStepId
-                if (passesConditions(conditions, transientVars, ps, 0)) {
+                if (passesConditions(wf.getGlobalConditions(), transientVars, ps, 0) && passesConditions(conditions, transientVars, ps, 0)) {
                     l.add(new Integer(action.getId()));
                 }
             }
@@ -657,7 +657,7 @@ public class AbstractWorkflow implements Workflow {
                 conditions = restriction.getConditionsDescriptor();
             }
 
-            if (passesConditions(conditions, Collections.unmodifiableMap(transientVars), ps, s.getId())) {
+            if (passesConditions(wf.getGlobalConditions(), Collections.unmodifiableMap(transientVars), ps, s.getId()) && passesConditions(conditions, Collections.unmodifiableMap(transientVars), ps, s.getId())) {
                 l.add(new Integer(action.getId()));
             }
         }
@@ -954,6 +954,7 @@ public class AbstractWorkflow implements Workflow {
         transientVars.put("context", context);
         transientVars.put("entry", entry);
         transientVars.put("store", getPersistence());
+        transientVars.put("configuration", getConfiguration());
         transientVars.put("descriptor", getConfiguration().getWorkflow(entry.getWorkflowName()));
 
         if (actionId != null) {
@@ -1342,6 +1343,8 @@ public class AbstractWorkflow implements Workflow {
             return false;
         }
 
+        WorkflowDescriptor wf = getWorkflowDescriptorForAction(action);
+
         RestrictionDescriptor restriction = action.getRestriction();
         ConditionsDescriptor conditions = null;
 
@@ -1349,7 +1352,7 @@ public class AbstractWorkflow implements Workflow {
             conditions = restriction.getConditionsDescriptor();
         }
 
-        return passesConditions(conditions, Collections.unmodifiableMap(transientVars), ps, stepId);
+        return passesConditions(wf.getGlobalConditions(), Collections.unmodifiableMap(transientVars), ps, stepId) && passesConditions(conditions, Collections.unmodifiableMap(transientVars), ps, stepId);
     }
 
     private Step getCurrentStep(WorkflowDescriptor wfDesc, int actionId, List currentSteps, Map transientVars, PropertySet ps) throws WorkflowException {
@@ -1370,6 +1373,18 @@ public class AbstractWorkflow implements Workflow {
         }
 
         return null;
+    }
+
+    private WorkflowDescriptor getWorkflowDescriptorForAction(ActionDescriptor action) {
+        AbstractDescriptor objWfd = action;
+
+        while (!(objWfd instanceof WorkflowDescriptor)) {
+            objWfd = objWfd.getParent();
+        }
+
+        WorkflowDescriptor wf = (WorkflowDescriptor) objWfd;
+
+        return wf;
     }
 
     private boolean canInitialize(String workflowName, int initialAction, Map transientVars, PropertySet ps) throws WorkflowException {

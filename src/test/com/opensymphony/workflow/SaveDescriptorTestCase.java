@@ -62,10 +62,9 @@ public class SaveDescriptorTestCase extends XMLTestCase {
         writer.println(WorkflowDescriptor.DOCTYPE_DECL);
         descriptor.writeXML(new PrintWriter(out), 0);
 
-//        PrintWriter blah = new PrintWriter(new FileWriter("foo.xml"));
-//        descriptor.writeXML(blah, 0);
-//        blah.flush();
-
+        //        PrintWriter blah = new PrintWriter(new FileWriter("foo.xml"));
+        //        descriptor.writeXML(blah, 0);
+        //        blah.flush();
         Document outputDocument = getDocument(out.toString());
 
         Diff diff = new Diff(inputDocument, outputDocument);
