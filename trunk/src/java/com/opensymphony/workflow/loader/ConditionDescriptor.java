@@ -18,7 +18,7 @@ import java.util.Map;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ConditionDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ public class ConditionDescriptor extends AbstractDescriptor {
 
     public void writeXML(PrintWriter out, int indent) {
         XMLUtil.printIndent(out, indent++);
-        out.println("<condition " + (hasId() ? ("id=\"" + getId() + "\" ") : "") + ((getName() != null) ? ("name=\"" + getName() + "\" ") : "") + (negate ? ("negate=\"true\" ") : "") + "type=\"" + type + "\">");
+        out.println("<condition " + (hasId() ? ("id=\"" + getId() + "\" ") : "") + (((name != null) && (name.length() > 0)) ? ("name=\"" + getName() + "\" ") : "") + (negate ? ("negate=\"true\" ") : "") + "type=\"" + type + "\">");
 
         Iterator iter = args.entrySet().iterator();
 
