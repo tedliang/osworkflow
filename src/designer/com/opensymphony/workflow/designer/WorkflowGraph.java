@@ -55,7 +55,6 @@ public class WorkflowGraph extends JGraph
 
   protected PortView createPortView(Object object, CellMapper mapper)
   {
-    System.out.println("createPortView " + object);
     return new CustomPortView(object, this, mapper);
   }
 
@@ -153,9 +152,9 @@ public class WorkflowGraph extends JGraph
       if(SwingUtilities.isRightMouseButton(e))
       {
         // Scale From Screen to Model
-        Point loc = fromScreen(e.getPoint());
+        //Point loc = fromScreen(e.getPoint());
         // Find Cell in Model Coordinates
-        Object cell = getFirstCellForLocation(loc.x, loc.y);
+        //Object cell = getFirstCellForLocation(loc.x, loc.y);
         // Create PopupMenu for the Cell
         menu.show(WorkflowGraph.this, e.getX(), e.getY());
 //				JPopupMenu menu = createPopupMenu(e.getPoint(), cell);
@@ -216,14 +215,15 @@ public class WorkflowGraph extends JGraph
       if(e != null && !e.isConsumed() && port != null && firstPort != null && firstPort != port)
       {
         // Then Establish Connection
-        System.out.println("connect " + firstPort.getCell() + "->" + port.getCell());
+        WorkflowCell source = (WorkflowCell)((WorkflowPort)firstPort.getCell()).getParent();
+        WorkflowCell target = (WorkflowCell)((WorkflowPort)port.getCell()).getParent();
+        System.out.println("connect " + source + "->" + target);
 //				connect((Port) firstPort.getCell(), (Port) port.getCell());
         // Consume Event
         e.consume();
         // Else Repaint the Graph
       }
-      else
-        repaint();
+      repaint();
       // Reset Global Vars
       firstPort = port = null;
       start = current = null;
