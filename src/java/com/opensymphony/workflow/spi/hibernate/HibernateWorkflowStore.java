@@ -22,6 +22,7 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
 import net.sf.hibernate.Transaction;
+import net.sf.hibernate.expression.Criterion;
 import net.sf.hibernate.expression.Expression;
 
 import org.apache.commons.logging.Log;
@@ -38,7 +39,7 @@ import java.util.*;
  * See the HibernateFunctionalWorkflowTestCase for more help.
  *
  * @author $Author: hani $
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -293,7 +294,7 @@ public class HibernateWorkflowStore implements WorkflowStore {
     public List query(WorkflowExpressionQuery query) throws StoreException {
         com.opensymphony.workflow.query.Expression expression = query.getExpression();
 
-        Expression expr;
+        Criterion expr;
 
         Class entityClass = getQueryClass(expression, null);
 
@@ -352,7 +353,7 @@ public class HibernateWorkflowStore implements WorkflowStore {
         }
 
         Criteria criteria = session.createCriteria(entityClass);
-        Expression expression = buildExpression(query);
+        Criterion expression = buildExpression(query);
         criteria.add(expression);
 
         //get results and send them back
@@ -374,7 +375,7 @@ public class HibernateWorkflowStore implements WorkflowStore {
     /**
      * Returns an expression generated from this query
      */
-    private Expression getExpression(WorkflowQuery query) {
+    private Criterion getExpression(WorkflowQuery query) {
         int operator = query.getOperator();
 
         switch (operator) {
@@ -486,7 +487,7 @@ public class HibernateWorkflowStore implements WorkflowStore {
     /**
      *  Recursive method for building Expressions using Query objects.
      */
-    private Expression buildExpression(WorkflowQuery query) throws StoreException {
+    private Criterion buildExpression(WorkflowQuery query) throws StoreException {
         if (query.getLeft() == null) {
             if (query.getRight() == null) {
                 return getExpression(query); //leaf node
@@ -518,11 +519,11 @@ public class HibernateWorkflowStore implements WorkflowStore {
         }
     }
 
-    private Expression buildNested(NestedExpression nestedExpression) throws StoreException {
-        Expression full = null;
+    private Criterion buildNested(NestedExpression nestedExpression) throws StoreException {
+        Criterion full = null;
 
         for (int i = 0; i < nestedExpression.getExpressionCount(); i++) {
-            Expression expr;
+            Criterion expr;
             com.opensymphony.workflow.query.Expression expression = nestedExpression.getExpression(i);
 
             if (expression.isNested()) {
@@ -554,7 +555,7 @@ public class HibernateWorkflowStore implements WorkflowStore {
         return full;
     }
 
-    private Expression queryComparison(FieldExpression expression) {
+    private Criterion queryComparison(FieldExpression expression) {
         int operator = expression.getOperator();
 
         switch (operator) {
