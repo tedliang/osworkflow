@@ -24,8 +24,7 @@ import java.sql.Statement;
 /**
  * @author Eric Pugh
  *
- * This helper class populates our various databases. Using the hibernate schemaexport
- * allows us to easily export to multiple databases.
+ * This helper class populates a test mckoi database.
  */
 public class DatabaseHelper {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -63,7 +62,7 @@ public class DatabaseHelper {
 
         try {
             Class.forName("com.mckoi.JDBCDriver");
-            connection = DriverManager.getConnection("jdbc:mckoi:local://./src/test/mcKoi.conf?create=true", "test", "test");
+            connection = DriverManager.getConnection("jdbc:mckoi:local://./src/test/mckoi.conf?create=true", "test", "test");
             statement = connection.createStatement();
 
             String sql = getDatabaseCreationScript();
@@ -80,9 +79,7 @@ public class DatabaseHelper {
                 }
             }
         } catch (Exception e) {
-            log.error("Database did't go off perfect:" + e.getMessage());
-
-            e.printStackTrace();
+            log.error("Database creation error", e);
         } finally {
             if (statement != null) {
                 try {
