@@ -1,6 +1,10 @@
 package com.opensymphony.workflow.designer;
 
+import java.awt.*;
+
 import com.opensymphony.workflow.loader.ResultDescriptor;
+import com.opensymphony.workflow.designer.views.EdgeRouter;
+import org.jgraph.graph.GraphConstants;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -9,9 +13,24 @@ import com.opensymphony.workflow.loader.ResultDescriptor;
  */
 public class ResultEdge extends WorkflowEdge
 {
+  private static final EdgeRouter EDGE_ROUTER = new EdgeRouter();
   private int index;
 
   private ResultDescriptor descriptor;
+
+  public ResultEdge(ResultDescriptor descriptor, Point labelPos)
+  {
+    setDescriptor(descriptor);
+    int arrow = GraphConstants.ARROW_CLASSIC;
+    GraphConstants.setLineEnd(attributes, arrow);
+    GraphConstants.setEndFill(attributes, true);
+    GraphConstants.setDisconnectable(attributes, false);
+    GraphConstants.setRouting(attributes, EDGE_ROUTER);
+    if(labelPos!=null)
+    {
+      GraphConstants.setLabelPosition(attributes, labelPos);
+    }
+  }
 
   public ResultDescriptor getDescriptor()
   {
