@@ -1,8 +1,7 @@
 package com.opensymphony.workflow.designer.views;
 
-import java.awt.*;
-
-import com.opensymphony.workflow.designer.WorkflowGraph;
+import com.opensymphony.workflow.designer.*;
+import com.opensymphony.workflow.loader.ResultDescriptor;
 import org.jgraph.graph.*;
 
 /**
@@ -17,46 +16,23 @@ public class CustomEdgeView extends EdgeView
     super(obj, graph, cm);
   }
 
-  public CellHandle getHandle(GraphContext context)
+  public void setTarget(CellView targetView)
   {
-    return new CustomEdgeHandle(this, context);
-  }
-
-  public class CustomEdgeHandle extends EdgeView.EdgeHandle
-  {
-    public CustomEdgeHandle(EdgeView edge, GraphContext ctx)
+    super.setTarget(targetView);
+    if(targetView==null || targetView.getParentView()==null) return;
+    WorkflowCell cell = (WorkflowCell)targetView.getParentView().getCell();
+    ResultDescriptor d = ((ResultEdge)getCell()).getDescriptor();
+    if(cell instanceof StepCell)
     {
-      super(edge, ctx);
+      d.setStep(cell.getId());
     }
-
-    protected boolean snap(boolean source, Point point)
+    else if(cell instanceof JoinCell)
     {
-      boolean connect = graph.isConnectable() && isEdgeConnectable;
-      Object port = graph.getPortForLocation(point.x, point.y);
-      if(port != null && connect)
-      {
-        CellView portView = graph.getGraphLayoutCache().getMapping(port, false);
-        if(GraphConstants.isConnectable(portView.getParentView().getAllAttributes()))
-        {
-          Object cell = edge.getCell();
-          if(source && edge.getSource() != portView && getModel().acceptsSource(cell, port))
-          {
-            overlay(graph.getGraphics());
-            edge.setSource(portView);
-            edge.update();
-            overlay(graph.getGraphics());
-          }
-          else if(!source && edge.getTarget() != portView && getModel().acceptsTarget(cell, port))
-          {
-            overlay(graph.getGraphics());
-            edge.setTarget(portView);
-            edge.update();
-            overlay(graph.getGraphics());
-          }
-          return true;
-        }
-      }
-      return false;
+      d.setJoin(cell.getId());
+    }
+    else if(cell instanceof SplitCell)
+    {
+      d.setSplit(cell.getId());
     }
   }
 }
