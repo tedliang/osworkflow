@@ -316,6 +316,7 @@ Used in: validators
 <!ELEMENT validator (arg*)>
 <!ATTLIST validator
 	type CDATA #REQUIRED
+  name CDATA #IMPLIED
   id CDATA #IMPLIED
 >
 <!--
