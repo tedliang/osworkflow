@@ -38,6 +38,40 @@ public class ExceptionTestCase extends TestCase {
         }
     }
 
+    public void testInitializeInvalidActionException() throws Exception {
+        TestWorkflow.configFile = "/osworkflow.xml";
+
+        TestWorkflow workflow = new TestWorkflow("testuser");
+        URL url = getClass().getResource("/samples/auto1.xml");
+        assertNotNull("Unable to find resource /samples/auto1.xml", url);
+
+        try {
+            workflow.initialize(url.toString(), 2, new HashMap());
+        } catch (InvalidActionException e) {
+            return;
+        }
+
+        fail("Expected InvalidActionException but did not get one for a bad action in initialize");
+    }
+
+    public void testInvalidActionException() throws Exception {
+        TestWorkflow.configFile = "/osworkflow.xml";
+
+        TestWorkflow workflow = new TestWorkflow("testuser");
+        URL url = getClass().getResource("/samples/auto1.xml");
+        assertNotNull("Unable to find resource /samples/auto1.xml", url);
+
+        long id = workflow.initialize(url.toString(), 1, new HashMap());
+
+        try {
+            workflow.doAction(id, 10, null);
+        } catch (InvalidActionException e) {
+            return;
+        }
+
+        fail("Expected InvalidActionException but did not get one for a bad action");
+    }
+
     public void testStoreException() throws Exception {
         TestWorkflow.configFile = "/osworkflow-jdbc.xml";
 
