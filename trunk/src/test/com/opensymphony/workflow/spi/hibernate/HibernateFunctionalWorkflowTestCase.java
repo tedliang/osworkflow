@@ -20,8 +20,11 @@ import net.sf.hibernate.SessionFactory;
  * @author Eric Pugh (epugh@upstate.com)
  */
 public class HibernateFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest {
-  private SessionFactory factory;
-  //~ Constructors ///////////////////////////////////////////////////////////
+    //~ Instance fields ////////////////////////////////////////////////////////
+
+    private SessionFactory factory;
+
+    //~ Constructors ///////////////////////////////////////////////////////////
 
     public HibernateFunctionalWorkflowTestCase(String s) {
         super(s);
@@ -32,7 +35,7 @@ public class HibernateFunctionalWorkflowTestCase extends BaseFunctionalWorkflowT
     protected void setUp() throws Exception {
         DatabaseHelper.createDatabase("");
 
-      factory = DatabaseHelper.createHibernateSessionFactory();
+        factory = DatabaseHelper.createHibernateSessionFactory();
 
         TestWorkflow.configFile = "/osworkflow-hibernate.xml";
 
@@ -41,6 +44,6 @@ public class HibernateFunctionalWorkflowTestCase extends BaseFunctionalWorkflowT
     }
 
     protected void tearDown() throws Exception {
-      factory.close();
+        factory.close();
     }
 }
