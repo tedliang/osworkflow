@@ -42,10 +42,11 @@ public class DatabaseHelper {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    /**
+     * Create the database by loading a URL pointing at a SQL script.
+     */
     public static void createDatabase(URL url) {
-        if (url == null) {
-            Assert.fail("database url is null");
-        }
+        Assert.assertNotNull("Database url is null", url);
 
         try {
             String sql = getDatabaseCreationScript(url);
@@ -99,8 +100,6 @@ public class DatabaseHelper {
                 }
             }
         }
-
-        //  return connection;
     }
 
     /**
