@@ -1,8 +1,7 @@
 package com.opensymphony.workflow.designer.swing.status;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -16,10 +15,10 @@ import com.opensymphony.workflow.designer.ResourceManager;
 public class MemoryDisplay extends DisplayItem
 {
   private static final Color edgeColor = new Color(82, 115, 214);
-  private static final Color centerColor = new Color(166, 181, 230);
+  private static final Color centerColor = new Color(180, 200, 230);
   private final Icon gcIcon = ResourceManager.getIcon("gc");
   private MemoryPanel panel;
-  private JButton invokeGC;
+  private JLabel invokeGC;
   private int updateInterval = 2000;
   private Timer timer;
 
@@ -59,19 +58,19 @@ public class MemoryDisplay extends DisplayItem
     setLayout(new BorderLayout(5, 0));
     panel = new MemoryPanel();
     panel.setOpaque(false);
-    invokeGC = new JButton(gcIcon);
+    invokeGC = new JLabel(gcIcon);
     invokeGC.setRequestFocusEnabled(false);
     invokeGC.setFocusable(false);
-    setBorder(new EmptyBorder(0, 1, 1, 1));
-    invokeGC.setBorder(BorderFactory.createEmptyBorder());
+    setBorder(new EmptyBorder(1, 1, 1, 1));
+    invokeGC.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
     invokeGC.setOpaque(false);
-    invokeGC.addActionListener(new AbstractAction()
+    invokeGC.addMouseListener(new MouseAdapter()
     {
-      public void actionPerformed(ActionEvent actionevent)
-      {
-        System.gc();
-        MemoryDisplay.this.panel.repaint();
-      }
+	    public void mouseClicked(MouseEvent e)
+	    {
+		    System.gc();
+		    MemoryDisplay.this.panel.repaint();
+	    }
     });
     add(panel, BorderLayout.CENTER);
     add(invokeGC, BorderLayout.WEST);
