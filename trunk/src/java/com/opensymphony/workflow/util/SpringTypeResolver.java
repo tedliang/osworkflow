@@ -15,7 +15,7 @@ import java.util.Map;
 
 
 /**
- * @author hani Date: Dec 8, 2004 Time: 7:24:55 PM
+ * Spring-aware type resolver.
  */
 public class SpringTypeResolver extends TypeResolver implements ApplicationContextAware {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -41,12 +41,20 @@ public class SpringTypeResolver extends TypeResolver implements ApplicationConte
         return super.getCondition(type, args);
     }
 
+    public void setConditions(Map conditions) {
+        this.conditions = conditions;
+    }
+
     public FunctionProvider getFunction(String type, Map args) throws WorkflowException {
         if (SPRING.equals(type)) {
             return (FunctionProvider) getApplicationContext().getBean((String) args.get(BEANNAME));
         }
 
         return super.getFunction(type, args);
+    }
+
+    public void setFunctions(Map functions) {
+        this.functions = functions;
     }
 
     public Register getRegister(String type, Map args) throws WorkflowException {
@@ -57,12 +65,20 @@ public class SpringTypeResolver extends TypeResolver implements ApplicationConte
         return super.getRegister(type, args);
     }
 
+    public void setRegisters(Map registers) {
+        this.registers = registers;
+    }
+
     public Validator getValidator(String type, Map args) throws WorkflowException {
         if (SPRING.equals(type)) {
             return (Validator) getApplicationContext().getBean((String) args.get(BEANNAME));
         }
 
         return super.getValidator(type, args);
+    }
+
+    public void setValidators(Map validators) {
+        this.validators = validators;
     }
 
     private ApplicationContext getApplicationContext() {
