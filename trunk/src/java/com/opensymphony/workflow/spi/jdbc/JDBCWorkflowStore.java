@@ -947,8 +947,8 @@ public class JDBCWorkflowStore implements WorkflowStore {
             value_unquoted = "null";
         } else {
             value_quoted = "'" + escape(value.toString()) + "'";
-            value_unquoted = escape(value.toString()); 
-        }  
+            value_unquoted = escape(value.toString());
+        }
 
         switch (field) {
         case FieldExpression.ACTION: // actionId

@@ -104,11 +104,14 @@ public interface WorkflowStore {
 
     /**
      * @deprecated use {@link WorkflowStore#query(WorkflowExpressionQuery)} instead.
-     * @param query
-     * @return
-     * @throws StoreException
+     * @param query the query to use
+     * @return a List of workflow instance ID's
      */
     public List query(WorkflowQuery query) throws StoreException;
 
+    /**
+     * @param query the query to use
+     * @return a List of workflow instance ID's
+     */
     public List query(WorkflowExpressionQuery query) throws StoreException;
 }
