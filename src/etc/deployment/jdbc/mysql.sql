@@ -75,9 +75,9 @@
      index (ENTRY_ID),
      foreign key (ENTRY_ID) references OS_WFENTRY(ID),
      index (OWNER),
-     foreign key (OWNER) references A_PERSONS(USERNAME),
+     foreign key (OWNER) references OS_USER(USERNAME),
      index (CALLER),
-     foreign key (CALLER) references A_PERSONS(USERNAME)
+     foreign key (CALLER) references OS_USER(USERNAME)
  )TYPE=InnoDB;
 
  drop table if exists OS_HISTORYSTEP;
@@ -98,9 +98,9 @@
      index (ENTRY_ID),
      foreign key (ENTRY_ID) references OS_WFENTRY(ID),
      index (OWNER),
-     foreign key (OWNER) references A_PERSONS(USERNAME),
+     foreign key (OWNER) references OS_USER(USERNAME),
      index (CALLER),
-     foreign key (CALLER) references A_PERSONS(USERNAME)
+     foreign key (CALLER) references OS_USER(USERNAME)
  )TYPE=InnoDB;
 
  drop table if exists OS_CURRENTSTEP_PREV;
