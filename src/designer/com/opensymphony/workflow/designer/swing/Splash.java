@@ -32,11 +32,6 @@ public final class Splash extends Window
     ScreenUtils.center(this);
   }
 
-  public Color getTextColor()
-  {
-    return textColor;
-  }
-
   public void setProgressBarBounds(Rectangle r)
   {
     progressBarBounds = new Rectangle(r);
@@ -115,9 +110,4 @@ public final class Splash extends Window
     this.percent = percent;
     repaint(progressBarBounds.x, progressBarBounds.y, progressBarBounds.width, progressBarBounds.height);
   }
-
-  public void setNote(String message)
-  {
-  }
-
 }

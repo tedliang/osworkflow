@@ -9,6 +9,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.opensymphony.workflow.designer.JoinCell;
 import com.opensymphony.workflow.designer.UIFactory;
+import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.beanutils.BeanConnector;
 import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.designer.model.ResultsTableModel;
@@ -37,16 +38,16 @@ public class JoinEditor extends DetailPanel implements ActionListener
     FormLayout layout = new FormLayout("2dlu, max(30dlu;pref), 2dlu, pref:grow, 4dlu", "pref, 2dlu, pref, 2dlu, pref, 3dlu, pref, 2dlu, 60dlu, pref, 2dlu");
     PanelBuilder builder = new PanelBuilder(this, layout);
     CellConstraints cc = new CellConstraints();
-    builder.addSeparator("Info", cc.xywh(2, 1, 3, 1));
-    builder.addLabel("ID", cc.xy(2, 3));
+    builder.addSeparator(ResourceManager.getString("info"), cc.xywh(2, 1, 3, 1));
+    builder.addLabel(ResourceManager.getString("id"), cc.xy(2, 3));
     builder.add(id, cc.xy(4, 3));
     connector.connect(id, "id");
 
-    builder.addLabel("Condition Type", cc.xy(2, 5));
+    builder.addLabel(ResourceManager.getString("condition.type"), cc.xy(2, 5));
 
     builder.add(conditionTypes, cc.xy(4, 5));
     connector.connect(conditionTypes, "conditionType");
-    builder.addSeparator("Conditions", cc.xywh(2, 7, 3, 1));
+    builder.addSeparator(ResourceManager.getString("conditions"), cc.xywh(2, 7, 3, 1));
 
     conditionsTable = new JTable(conditionsModel);
     builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 9, 3, 1));
@@ -57,7 +58,7 @@ public class JoinEditor extends DetailPanel implements ActionListener
 
   public String getTitle()
   {
-    return "Join #" + id.getText();
+    return ResourceManager.getString("title.join", new Object[]{id.getText()});
   }
 
   protected void updateView()

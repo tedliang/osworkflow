@@ -18,7 +18,7 @@ import com.opensymphony.workflow.loader.*;
 
 public class ResultEditor extends DetailPanel implements ActionListener
 {
-  private static final String[] BUTTONS = new String[]{ResourceManager.getString("add"), ResourceManager.getString("remove"), ResourceManager.getString("edit")};
+  private static final String[] BUTTONS = new String[]{"add", "remove", "edit"};
 
   private JTextField id = UIFactory.createReadOnlyTextField(12);
   private JTextField owner = new JTextField(12);

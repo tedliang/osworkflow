@@ -25,7 +25,7 @@ import com.opensymphony.workflow.loader.RestrictionDescriptor;
  */
 public class InitialActionEditor extends DetailPanel implements ActionListener
 {
-  private static final String[] BUTTONS = new String[]{ResourceManager.getString("add"), ResourceManager.getString("remove"), ResourceManager.getString("edit")};
+  private static final String[] BUTTONS = new String[]{"add", "remove", "edit"};
 
   private JTextField id = UIFactory.createReadOnlyTextField(12);
   private JTextField name = new JTextField(12);

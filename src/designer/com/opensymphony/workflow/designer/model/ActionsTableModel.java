@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer.model;
 
 import com.opensymphony.workflow.loader.ActionDescriptor;
+import com.opensymphony.workflow.designer.ResourceManager;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -9,7 +10,8 @@ import com.opensymphony.workflow.loader.ActionDescriptor;
  */
 public class ActionsTableModel extends ListTableModel
 {
-  private String[] header = new String[]{"id", "name", "view", "auto"};
+  private String[] header = new String[]{ResourceManager.getString("id"), ResourceManager.getString("name"),
+                                         ResourceManager.getString("view"), ResourceManager.getString("auto")};
 
   public ActionsTableModel()
   {

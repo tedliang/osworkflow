@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer.model;
 
 import com.opensymphony.workflow.loader.PermissionDescriptor;
+import com.opensymphony.workflow.designer.ResourceManager;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -9,7 +10,7 @@ import com.opensymphony.workflow.loader.PermissionDescriptor;
  */
 public class PermissionsTableModel extends ListTableModel
 {
-  private String[] header = new String[]{"id", "name"};
+  private String[] header = new String[]{ResourceManager.getString("id"), ResourceManager.getString("name")};
 
   public PermissionsTableModel()
   {
