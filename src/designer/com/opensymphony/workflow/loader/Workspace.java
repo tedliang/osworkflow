@@ -7,11 +7,8 @@ import java.util.Iterator;
 import java.net.URL;
 import java.net.MalformedURLException;
 
-import com.opensymphony.workflow.loader.XMLWorkflowFactory;
-import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.designer.Layout;
-import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.designer.Prefs;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
