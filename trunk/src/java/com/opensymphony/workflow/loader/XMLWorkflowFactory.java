@@ -86,6 +86,9 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
     public void createWorkflow(String name) {
     }
 
+    public void deleteWorkflow(String name) {
+    }
+
     public void initDone() throws FactoryException {
         reload = getProperties().getProperty("reload", "false").equals("true");
 
