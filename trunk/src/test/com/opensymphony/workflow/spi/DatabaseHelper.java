@@ -4,6 +4,8 @@
  */
 package com.opensymphony.workflow.spi;
 
+import com.mckoi.database.jdbc.MSQLException;
+
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,7 +35,6 @@ public class DatabaseHelper {
     //~ Static fields/initializers /////////////////////////////////////////////
 
     private static Log log = LogFactory.getLog(DatabaseHelper.class);
-    private static boolean databaseBuilt = false;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
@@ -56,12 +57,9 @@ public class DatabaseHelper {
     }
 
     private static void openDatabase() {
-        if (databaseBuilt) {
-            return;
-        }
-
         Connection connection;
         Statement statement = null;
+        String sqlLine = null;
 
         try {
             InitialContext context = new InitialContext();
@@ -73,17 +71,24 @@ public class DatabaseHelper {
             String[] sqls = StringUtils.split(sql, ";");
 
             for (int i = 0; i < sqls.length; i++) {
-                String s = StringUtils.stripToEmpty(sqls[i]);
-                s = StringUtils.replace(s, "\r", "");
-                s = StringUtils.replace(s, "\n", "");
+                sqlLine = StringUtils.stripToEmpty(sqls[i]);
+                sqlLine = StringUtils.replace(sqlLine, "\r", "");
+                sqlLine = StringUtils.replace(sqlLine, "\n", "");
 
                 //String s = sqls[i];
-                if (s.length() > 0) {
-                    statement.executeQuery(s);
+                if (sqlLine.length() > 0) {
+                    try {
+                        statement.executeQuery(sqlLine);
+                    } catch (MSQLException msqlEx) {
+                        // Eat any drop tables that fail.  The IF EXISTS clause doesn't seem to work.
+                        if (msqlEx.getMessage().indexOf("does not exist") == -1) {
+                            throw msqlEx;
+                        }
+                    }
                 }
             }
         } catch (Exception e) {
-            log.error("Database creation error", e);
+            log.error("Database creation error.  sqlLine:" + sqlLine, e);
         } finally {
             if (statement != null) {
                 try {
@@ -93,8 +98,6 @@ public class DatabaseHelper {
                 }
             }
         }
-
-        databaseBuilt = true;
 
         //  return connection;
     }
