@@ -28,11 +28,12 @@ import javax.mail.internet.MimeMessage;
  *  <li>cc - comma seperated list of email addresses (optional)</li>
  *  <li>message - the message body</li>
  *  <li>smtpHost - the SMTP host that will relay the message</li>
- *  <li>parseVariables - if 'true', then variables of the form ${} in subject and message will be parsed</li>
+ *  <li>parseVariables - if 'true', then variables of the form ${} in subject,
+ *   message, to, and cc fields will be parsed</li>
  * </ul>
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class SendEmail implements FunctionProvider {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -61,7 +62,7 @@ public class SendEmail implements FunctionProvider {
             message.setFrom(new InternetAddress(from));
 
             Set toSet = new HashSet();
-            StringTokenizer st = new StringTokenizer(to, ", ");
+            StringTokenizer st = new StringTokenizer(parseVariables ? ScriptVariableParser.translateVariables(to, transientVars, ps).toString() : to, ", ");
 
             while (st.hasMoreTokens()) {
                 String user = st.nextToken();
@@ -74,6 +75,11 @@ public class SendEmail implements FunctionProvider {
 
             if (cc != null) {
                 ccSet = new HashSet();
+
+                if (parseVariables) {
+                    cc = ScriptVariableParser.translateVariables(cc, transientVars, ps).toString();
+                }
+
                 st = new StringTokenizer(cc, ", ");
 
                 while (st.hasMoreTokens()) {
