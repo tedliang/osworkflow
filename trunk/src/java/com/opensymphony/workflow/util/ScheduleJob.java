@@ -206,6 +206,7 @@ public class ScheduleJob implements FunctionProvider {
             dataMap.put("username", username);
             dataMap.put("password", password);
             jobDetail.setJobDataMap(dataMap);
+            jobDetail.setDurability(true);
 
             trigger.setJobName(jobDetail.getName());
             trigger.setJobGroup(jobDetail.getGroup());
