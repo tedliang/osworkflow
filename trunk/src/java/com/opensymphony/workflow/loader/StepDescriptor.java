@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -119,6 +119,15 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
     public List getPreFunctions() {
         return preFunctions;
+    }
+
+    /**
+     * Remove all common and regular actions for this step.
+     */
+    public void removeActions() {
+        commonActions.clear();
+        actions.clear();
+        hasActions = false;
     }
 
     public boolean resultsInJoin(int join) {
