@@ -204,7 +204,7 @@
       <fileset dir="${src.webapp}"/>
       <lib dir="${lib.core}"/>
       <lib file="${dist}/${name}-${version}.jar"/>
-      <lib file="${lib.optional}/osuser-1.0-dev-3Dec03.jar"/>
+      <lib file="${lib.optional}/osuser-1.0-dev-2Feb05.jar"/>
       <lib file="${lib.optional}/mail.jar"/>
       <lib file="${lib.optional}/activation.jar"/>
       <lib file="${lib.optional}/quartz.jar"/>
@@ -233,7 +233,7 @@
     <copy file="${lib.core}/${oscore.jar}" todir="${build}/tmp"/>
     <copy file="${lib.core}/${propertyset.jar}" todir="${build}/tmp"/>
     <copy file="${lib.core}/commons-logging.jar" todir="${build}/tmp/lib"/>
-    <copy file="${lib.optional}/osuser-1.0-dev-3Dec03.jar" todir="${build}/tmp/lib"/>
+    <copy file="${lib.optional}/osuser-1.0-dev-2Feb05.jar" todir="${build}/tmp/lib"/>
     <copy file="${lib.optional}/quartz.jar" todir="${build}/tmp/lib"/>
     <copy file="${lib.optional}/bsh-1.2b7.jar" todir="${build}/tmp/lib"/>
     <!-- update the manifests of the other ejb modules -->
