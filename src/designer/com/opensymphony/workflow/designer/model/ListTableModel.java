@@ -15,7 +15,7 @@ public abstract class ListTableModel extends AbstractTableModel
 
   public int getRowCount()
   {
-    return list==null ? 0 : list.size();
+    return list == null ? 0 : list.size();
   }
 
   public void setList(List l)
@@ -34,5 +34,10 @@ public abstract class ListTableModel extends AbstractTableModel
   {
     list.remove(index);
     fireTableRowsDeleted(index, index);
+  }
+
+  public Object get(int i)
+  {
+    return list.get(i);
   }
 }
