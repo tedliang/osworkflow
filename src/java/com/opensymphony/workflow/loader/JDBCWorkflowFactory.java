@@ -55,9 +55,9 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private DataSource ds;
-    private Map workflows;
-    private boolean reload;
+    protected DataSource ds;
+    protected Map workflows;
+    protected boolean reload;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -71,11 +71,6 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    /**
-     *
-     * @param name
-     * @return
-     */
     public WorkflowDescriptor getWorkflow(String name) {
         WfConfig c = (WfConfig) workflows.get(name);
 
@@ -103,10 +98,6 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         return c.descriptor;
     }
 
-    /**
-     *
-     * @return
-     */
     public String[] getWorkflowNames() {
         int i = 0;
         String[] res = new String[workflows.keySet().size()];
@@ -129,10 +120,6 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         }
     }
 
-    /**
-     *
-     * @throws FactoryException
-     */
     public void initDone() throws FactoryException {
         try {
             reload = getProperties().getProperty("reload", "false").equals("true");
@@ -159,11 +146,6 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         }
     }
 
-    /**
-     *
-     * @param workflowname
-     * @return
-     */
     public byte[] read(String workflowname) {
         byte[] wf = {};
 
@@ -188,11 +170,6 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         return wf;
     }
 
-    /**
-     *
-     * @param name
-     * @return
-     */
     public boolean removeWorkflow(String name) {
         boolean removed = false;
 
@@ -216,14 +193,6 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         return removed;
     }
 
-    /**
-     *
-     * @param name
-     * @param descriptor
-     * @param replace
-     * @return
-     * @throws com.opensymphony.workflow.FactoryException
-     */
     public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, boolean replace) throws FactoryException {
         WfConfig c = (WfConfig) workflows.get(name);
 
@@ -245,12 +214,6 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         return write(name, bout.toByteArray());
     }
 
-    /**
-     *
-     * @param workflowname
-     * @param wf
-     * @return
-     */
     public boolean write(String workflowname, byte[] wf) {
         boolean written = false;
 
@@ -288,12 +251,6 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         return written;
     }
 
-    /**
-     *
-     * @param workflowname
-     * @param conn
-     * @return
-     */
     private boolean exists(String workflowname, Connection conn) {
         boolean exists = false;
 
@@ -316,10 +273,6 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         return exists;
     }
 
-    /**
-     *
-     * @throws javax.naming.NamingException
-     */
     private void init() throws NamingException {
         workflows = new HashMap();
 
@@ -333,12 +286,6 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         }
     }
 
-    /**
-     *
-     * @param wfName
-     * @return
-     * @throws java.io.IOException
-     */
     private WorkflowDescriptor load(final String wfName) throws IOException, SAXException, InvalidWorkflowDescriptorException {
         byte[] wf = read(wfName);
 
@@ -355,10 +302,6 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         }
     }
 
-    /**
-     *
-     * @param c
-     */
     private void loadWorkflow(WfConfig c) {
         try {
             c.descriptor = load(c.wfName);
