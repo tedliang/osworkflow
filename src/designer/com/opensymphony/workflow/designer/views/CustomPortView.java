@@ -1,10 +1,14 @@
 package com.opensymphony.workflow.designer.views;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import javax.swing.*;
 
-import org.jgraph.graph.*;
 import org.jgraph.JGraph;
+import org.jgraph.graph.*;
+import com.opensymphony.workflow.designer.WorkflowPort;
 
 /**
  * User: Hani Suleiman
@@ -30,10 +34,20 @@ public class CustomPortView extends PortView
   {
     Rectangle bounds = new Rectangle(getLocation(null));
     bounds.x = bounds.x - WIDTH / 2;
-//    bounds.y = bounds.y - height / 2;
     bounds.width = WIDTH;
     bounds.height = HEIGHT;
     return bounds;
+  }
+
+  public Point getLocation(EdgeView edge)
+  {
+    Point p = super.getLocation(edge);
+//    if(edge!=null && edge.getSource()==edge.getTarget())
+//    {
+//      int index = ((WorkflowPort)getCell()).getEdgeIndex((Edge)edge.getCell());
+//      p.y = p.y - (5 * index);
+//    }
+    return p;
   }
 
   public CellViewRenderer getRenderer()
@@ -50,7 +64,7 @@ public class CustomPortView extends PortView
       if(preview)
       {
         Dimension d = getSize();
-        g.setColor(Color.red);
+        g.setColor(java.awt.Color.red);
         g.drawRect(1, 1, d.width - 3, d.height - 3);
         g.drawRect(2, 2, d.width - 5, d.height - 5);
       }
