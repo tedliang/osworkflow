@@ -4,6 +4,8 @@
  */
 package com.opensymphony.workflow.ejb;
 
+import com.opensymphony.util.ClassLoaderUtil;
+
 import com.opensymphony.workflow.*;
 
 import java.util.Map;
@@ -39,13 +41,19 @@ import javax.ejb.*;
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
  * @author <a href="mailto:hani@formicary.net">Hani Suleiman</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class WorkflowEJB extends AbstractWorkflow implements SessionBean {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public void setSessionContext(SessionContext context) {
-        WorkflowContext workflowContext = (WorkflowContext) loadObject(getPersistenceProperties().getProperty("workflowContext", "com.opensymphony.workflow.ejb.EJBWorkflowContext"));
+        WorkflowContext workflowContext = null;
+
+        try {
+            workflowContext = (WorkflowContext) ClassLoaderUtil.loadClass(getPersistenceProperties().getProperty("workflowContext", "com.opensymphony.workflow.ejb.EJBWorkflowContext"), getClass()).newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (workflowContext instanceof EJBWorkflowContext) {
             ((EJBWorkflowContext) workflowContext).setSessionContext(context);
