@@ -142,20 +142,20 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void connectCells(ResultCell resultCell, DefaultGraphCell toCell)
   {
     Map attributeMap = new HashMap();
-    DefaultPort fromPort;
+    WorkflowPort fromPort;
     if(resultCell.getFromCell().getChildCount() > 0)
     {
-      fromPort = (DefaultPort)resultCell.getFromCell().getChildAt(0);
+      fromPort = (WorkflowPort)resultCell.getFromCell().getChildAt(0);
     }
     else
     {
       fromPort = new WorkflowPort();
       resultCell.getFromCell().add(fromPort);
     }
-    DefaultPort toPort;
+    WorkflowPort toPort;
     if(toCell.getChildCount() > 0)
     {
-      toPort = (DefaultPort)toCell.getChildAt(0);
+      toPort = (WorkflowPort)toCell.getChildAt(0);
     }
     else
     {
@@ -165,6 +165,8 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
     // Create Edge
     ResultEdge edge = new ResultEdge();
+    //edge.setSource(fromPort);
+//    edge.setTarget(toPort);
     edge.setUserObject(resultCell.getUserObject());
     edge.setDescriptor(resultCell.getDescriptor());
     // Create Edge Attributes
@@ -181,6 +183,8 @@ public class WorkflowGraphModel extends DefaultGraphModel
     // Insert into Model
     attributeMap.put(edge, edgeAttrib);
     insert(cells, attributeMap, cs, null, null);
+    toPort.assignIndex(edge);
+    fromPort.assignIndex(edge);
   }
 
   /**
