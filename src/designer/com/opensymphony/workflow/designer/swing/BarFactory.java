@@ -14,6 +14,8 @@ import com.opensymphony.workflow.designer.ActionManager;
 import com.opensymphony.workflow.designer.swing.status.StatusBar;
 import com.opensymphony.workflow.designer.swing.status.StatusDisplay;
 import com.opensymphony.workflow.designer.swing.status.MemoryDisplay;
+import com.jgoodies.plaf.HeaderStyle;
+import com.jgoodies.plaf.Options;
 
 /**
  * @author jackflit
@@ -100,27 +102,28 @@ public class BarFactory
 
   public static JPanel createToolbar()
   {
-    JToolBar bar1 = new JToolBar();
+    JToolBar bar = new JToolBar();
+    bar.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
     JButton step = new JButton(ResourceManager.getIcon("newstep"));
     step.setToolTipText(ResourceManager.getString("createstep"));
-    bar1.add(step);
+    bar.add(step);
     DragSource ds = new DragSource();
     ds.createDefaultDragGestureRecognizer(step, DnDConstants.ACTION_COPY, new TypeDragGesture(ds, DragData.STEP));
 
     JButton join = new JButton(ResourceManager.getIcon("newjoin"));
     join.setToolTipText(ResourceManager.getString("createjoin"));
-    bar1.add(join);
+    bar.add(join);
     ds = new DragSource();
     ds.createDefaultDragGestureRecognizer(join, DnDConstants.ACTION_COPY, new TypeDragGesture(ds, DragData.JOIN));
 
     JButton split = new JButton(ResourceManager.getIcon("newsplit"));
     split.setToolTipText(ResourceManager.getString("createsplit"));
-    bar1.add(split);
+    bar.add(split);
     ds = new DragSource();
     ds.createDefaultDragGestureRecognizer(split, DnDConstants.ACTION_COPY, new TypeDragGesture(ds, DragData.SPLIT));
 
     JPanel panel = new JPanel(new BorderLayout());
-    panel.add(bar1, BorderLayout.NORTH);
+    panel.add(bar, BorderLayout.NORTH);
 
     return panel;
   }
