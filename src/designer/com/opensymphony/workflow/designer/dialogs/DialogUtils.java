@@ -17,9 +17,9 @@ import com.opensymphony.workflow.designer.ResourceManager;
  */
 public class DialogUtils
 {
-  public static String getUserSelection(String[] values, String message, String title, Component parent)
+  public static Object getUserSelection(Object[] values, String message, String title, Component parent)
   {
-    return (String)JOptionPane.showInputDialog(parent, // parent component
+    return JOptionPane.showInputDialog(parent, // parent component
       message, // dialog message
       title, // dialog title
       JOptionPane.QUESTION_MESSAGE, // question message type
@@ -32,7 +32,8 @@ public class DialogUtils
   {
     MapPanel panel = new MapPanel(args, type, name, description);
     JOptionPane pane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
-    JDialog dialog = pane.createDialog(null, "title");
+    JDialog dialog = pane.createDialog(null, ResourceManager.getString("specify.properties"));
+	  dialog.setResizable(true);
     dialog.show();
 
     Integer value = (Integer)pane.getValue();
@@ -63,7 +64,8 @@ public class DialogUtils
   {
     MapPanel panel = new MapPanel(args, type, name, description, owner);
     JOptionPane pane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
-    JDialog dialog = pane.createDialog(null, "title");
+    JDialog dialog = pane.createDialog(null, ResourceManager.getString("specify.properties"));
+	  dialog.setResizable(true);
     dialog.show();
 
     Integer value = (Integer)pane.getValue();

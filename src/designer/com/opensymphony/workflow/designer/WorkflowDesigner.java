@@ -6,9 +6,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.StringTokenizer;
 import javax.swing.*;
 
 import org.jgraph.event.GraphSelectionEvent;
@@ -373,10 +372,10 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
       InputStream is = WorkflowDesigner.class.getResourceAsStream("/META-INF/palette.xml");
       Document doc = db.parse(is);
-
+	    ResourceBundle bundle = ResourceBundle.getBundle("META-INF/palette", Locale.getDefault(), getClass().getClassLoader());
       Element root = (Element)doc.getElementsByTagName("plugin").item(0);
 
-      palette = new WorkflowConfigDescriptor(root);
+      palette = new WorkflowConfigDescriptor(root, bundle);
     }
     catch(SAXException e)
     {

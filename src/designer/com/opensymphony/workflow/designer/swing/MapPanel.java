@@ -68,7 +68,7 @@ public class MapPanel extends JPanel
     {
       Object key = iter.next();
       builder.addLabel((String)key, cc.xy(2, base));
-      JTextField field = new JTextField(15);
+      JTextField field = new JTextField(25);
       if(args.get(key) != null)
       {
         field.setText((String)args.get(key));

@@ -11,7 +11,6 @@ import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
  */
 public class JoinConditionEditor extends ConditionEditor
 {
-
   public JoinConditionEditor(JoinCell cell)
   {
     super(cell);
@@ -22,14 +21,14 @@ public class JoinConditionEditor extends ConditionEditor
     return getCell().getJoinDescriptor();
   }
 
-  protected ConfigConditionDescriptor getNewCondition(String selection)
+  protected ConfigConditionDescriptor getCondition()
   {
-    return new ConfigConditionDescriptor(getModel().getPalette().getJoinCondition(selection));
-  }
-
-  protected String getSelection()
-  {
-    return DialogUtils.getUserSelection(getModel().getPalette().getJoinNames(), ResourceManager.getString("condition.select.join"), ResourceManager.getString("condition.select"), null);
+	  ConfigConditionDescriptor template = (ConfigConditionDescriptor)DialogUtils.getUserSelection(getModel().getPalette().getJoinConditions(),
+	    ResourceManager.getString("condition.select.join"),
+	    ResourceManager.getString("condition.select"), null);
+	  if(template!=null)
+	    return new ConfigConditionDescriptor(template);
+	  return null;
   }
 
   protected JoinCell getCell()

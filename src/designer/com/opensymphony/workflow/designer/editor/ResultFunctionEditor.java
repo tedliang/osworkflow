@@ -25,14 +25,13 @@ public class ResultFunctionEditor extends FunctionEditor
     return edge.getDescriptor();
   }
 
-  protected ConfigFunctionDescriptor getNewFunction(String selection)
-  {
-    return new ConfigFunctionDescriptor(getModel().getPalette().getPrefunction(selection));
-  }
-
-  protected String getSelection()
-  {
-    return DialogUtils.getUserSelection(getModel().getPalette().getPreNames(), ResourceManager.getString("function.select.pre"), ResourceManager.getString("function.select"), null);
-  }
-
+	protected ConfigFunctionDescriptor getFunction()
+	{
+		ConfigFunctionDescriptor template = (ConfigFunctionDescriptor)DialogUtils.getUserSelection(getModel().getPalette().getPreFunctions(),
+		  ResourceManager.getString("function.select.pre"),
+		  ResourceManager.getString("function.select"), null);
+		if(template!=null)
+		  return new ConfigFunctionDescriptor(template);
+		return null;
+	}
 }

@@ -13,6 +13,7 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor
 {
   protected String plugin;
   protected String description;
+	protected String displayName;
 
   public ConfigFunctionDescriptor()
   {
@@ -28,10 +29,9 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor
     type = other.getType();
     plugin = other.getPlugin();
     name = other.getName();
-    description = other.getDescription();
-
     args.putAll(other.getArgs());
-
+	  displayName = other.displayName;
+	  description = other.description;
   }
 
   public void writeXML(PrintWriter writer, int indent)
@@ -55,7 +55,6 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor
     }
 
     NodeList args = function.getElementsByTagName("arg");
-
     for(int l = 0; l < args.getLength(); l++)
     {
       Element arg = (Element)args.item(l);
@@ -63,11 +62,7 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor
     }
 
     plugin = XMLUtil.getChildText(function, "plugin");
-
     name = XMLUtil.getChildText(function, "name");
-
-    description = XMLUtil.getChildText(function, "description");
-
   }
 
   public String getDescription()
@@ -90,4 +85,18 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor
     plugin = string;
   }
 
+	public String getDisplayName()
+	{
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName)
+	{
+		this.displayName = displayName;
+	}
+
+	public String toString()
+	{
+		return displayName!=null ? displayName : name;
+	}
 }

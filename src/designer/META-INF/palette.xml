@@ -12,28 +12,24 @@
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
       <arg name="stepId"></arg>
-      <name>Allow Owner Only</name>
-      <description>Allow Owner Only</description>
+      <name>allow.owner.only</name>
     </condition>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
       <arg name="stepId"></arg>
       <arg name="status"></arg>
-      <name>Check Status</name>
-      <description>Check whether the workflow is in the specified status</description>
+      <name>check.status</name>
     </condition>
   </joinconditions>
 
 	<functions>
 		<function type="class">
 			<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
-			<name>Set Caller</name>
-			<description>Set caller variable</description>
+			<name>set.caller</name>
 		</function>
     <function type="class">
       <arg name="class.name">com.opensymphony.workflow.util.MostRecentOwner</arg>
-      <name>Set Most Recent Owner</name>
-      <description>Sets mostRecentOwner variable</description>
+      <name>set.most.recent.owner</name>
     </function>
 	</functions>
 
@@ -41,21 +37,18 @@
 		<condition type="class">
 			<arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
 			<arg name="stepId"></arg>
-			<name>Allow Owner Only</name>
-			<description>Allow Owner Only</description>
+			<name>allow.owner.only</name>
 		</condition>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
       <arg name="stepId"></arg>
       <arg name="status"></arg>
-      <name>Check Status</name>
-      <description>Check whether the workflow is in the specified status</description>
+      <name>check.status</name>
     </condition>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
       <arg name="group"></arg>
-      <name>Check User Group</name>
-      <description>Check that the current user belongs in the specified group</description>
+      <name>check.usergroup</name>
     </condition>
 	</permissionconditions>
 
@@ -63,21 +56,18 @@
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
       <arg name="stepId"></arg>
-      <name>Allow Owner Only</name>
-      <description>Allow Owner Only</description>
+      <name>allow.owner.only</name>
     </condition>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
       <arg name="stepId"></arg>
       <arg name="status"></arg>
-      <name>Check Status</name>
-      <description>Check whether the workflow is in the specified status</description>
+      <name>check.status</name>
     </condition>
     <condition type="class">
       <arg name="class.name">com.opensymphony.workflow.util.OSUserGroupCondition</arg>
       <arg name="group"></arg>
-      <name>Check User Group</name>
-      <description>Check that the current user belongs in the specified group</description>
+      <name>check.usergroup</name>
     </condition>
   </resultconditions>
 </plugin>

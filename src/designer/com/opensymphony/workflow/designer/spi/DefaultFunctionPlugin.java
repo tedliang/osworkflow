@@ -3,13 +3,12 @@ package com.opensymphony.workflow.designer.spi;
 import java.util.Map;
 
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
-import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
 
 /**
  * @author Gulei
  */
-public class DefaultFunctionPluginImpl implements IFunctionPlugin
+public class DefaultFunctionPlugin implements FunctionPlugin
 {
 
   ConfigFunctionDescriptor func;
@@ -27,7 +26,7 @@ public class DefaultFunctionPluginImpl implements IFunctionPlugin
 
   public boolean editFunction(Map args)
   {
-    Map newArg = DialogUtils.getMapDialog(func.getArgs(), func.getType(), func.getName(), func.getDescription());
+    Map newArg = DialogUtils.getMapDialog(func.getArgs(), func.getType(), func.getDisplayName(), func.getDescription());
     if(newArg == null)
     {
       return false;

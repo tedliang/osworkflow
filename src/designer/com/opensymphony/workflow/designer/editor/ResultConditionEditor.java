@@ -24,14 +24,13 @@ public class ResultConditionEditor extends ConditionEditor
     return edge.getDescriptor();
   }
 
-  protected ConfigConditionDescriptor getNewCondition(String selection)
-  {
-    return new ConfigConditionDescriptor(getModel().getPalette().getResultCondition(selection));
-  }
-
-  protected String getSelection()
-  {
-    return DialogUtils.getUserSelection(getModel().getPalette().getResultNames(), ResourceManager.getString("condition.select.result"), ResourceManager.getString("condition.select"), null);
-  }
-
+	protected ConfigConditionDescriptor getCondition()
+	{
+		ConfigConditionDescriptor template = (ConfigConditionDescriptor)DialogUtils.getUserSelection(getModel().getPalette().getResultConditions(),
+		  ResourceManager.getString("condition.select.result"),
+		  ResourceManager.getString("condition.select"), null);
+		if(template!=null)
+		  return new ConfigConditionDescriptor(template);
+		return null;
+	}
 }
