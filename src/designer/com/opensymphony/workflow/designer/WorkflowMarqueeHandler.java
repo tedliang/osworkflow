@@ -205,7 +205,6 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
       //				connect((Port) firstPort.getCell(), (Port) port.getCell());
       // Consume Event
       e.consume();
-      // Else Repaint the Graph
     }
     graph.repaint();
     // Reset Global Vars
