@@ -29,7 +29,7 @@ public class WorkflowCell extends DefaultGraphCell
     GraphConstants.setForeground(attributes, Color.white);
     GraphConstants.setBorder(attributes, BorderFactory.createRaisedBevelBorder());
     GraphConstants.setEditable(attributes, false);
-    //GraphConstants.setVerticalAlignment(attributes, SwingConstants.TOP);
+    GraphConstants.setVerticalAlignment(attributes, SwingConstants.TOP);
     //GraphConstants.setFont(attributes, GraphConstants.defaultFont.deriveFont(Font.BOLD, 12));
   }
 

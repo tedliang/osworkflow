@@ -43,27 +43,12 @@ public class WorkflowGraph extends JGraph
     setGridSize(6);
     setTolerance(2);
     setMarqueeHandler(new WorkflowMarqueeHandler());
+    setPortsVisible(true);
   }
 
-  // Insert a new Edge between source and target
-  public void connect(Port source, Port target)
+  protected PortView createPortView(Object object, CellMapper mapper)
   {
-    // Connections that will be inserted into the Model
-    ConnectionSet cs = new ConnectionSet();
-    // Construct Edge with no label
-    DefaultEdge edge = new DefaultEdge();
-    // Create Connection between source and target using edge
-    cs.connect(edge, source, target);
-    // Create a Map thath holds the attributes for the edge
-    Map map = GraphConstants.createMap();
-    // Add a Line End Attribute
-    GraphConstants.setLineEnd(map, GraphConstants.ARROW_SIMPLE);
-    // Construct a Map from cells to Maps (for insert)
-    Hashtable attributes = new Hashtable();
-    // Associate the Edge with its Attributes
-    attributes.put(edge, map);
-    // Insert the Edge and its Attributes
-    getGraphLayoutCache().insert(new Object[]{edge}, attributes, cs, null, null);
+    return new CustomPortView(object, this, mapper);
   }
 
   public class WorkflowMarqueeHandler extends BasicMarqueeHandler
