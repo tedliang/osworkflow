@@ -26,7 +26,7 @@ public class StoreFactory {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public static WorkflowStore getPersistence(WorkflowContext context) throws StoreException {
+    public static WorkflowStore getPersistence() throws StoreException {
         if (store == null) {
             String clazz = ConfigLoader.persistence;
 

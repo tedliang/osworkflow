@@ -610,7 +610,7 @@ public class AbstractWorkflow implements Workflow {
     }
 
     protected WorkflowStore getPersistence() throws StoreException {
-        return StoreFactory.getPersistence(context);
+        return StoreFactory.getPersistence();
     }
 
     /**
