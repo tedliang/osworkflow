@@ -4,6 +4,16 @@ import java.net.URL;
 import java.util.*;
 import javax.swing.*;
 
+/**
+ * Central repository for all Actions.
+ * On startup, the application is responsible for registering all actions via the {@link #register(java.lang.String, javax.swing.Action)}
+ * method. Once this is done, any action can be retrieved via the {@link #get(java.lang.String)} method.
+ * The action manager will look for an actions.properties file in the same package, and will read all properties
+ * specified in it for a given action.
+ * <p>
+ * The benefit of specifying actions in the external file is that actions themselves need not be aware of their textual or
+ * graphic representation or key bindings.
+ */
 public final class ActionManager
 {
 	private static final String OS_NAME_STRING = System.getProperty("os.name").replace(' ', '_').toLowerCase();
@@ -22,6 +32,14 @@ public final class ActionManager
     bundle = ResourceBundle.getBundle("com.opensymphony.workflow.designer.actions");
   }
 
+  /**
+   * Register an action.
+   * @param id The action id denotes the set of properties that will be read for the action
+   * @param action The action instance to bind to the specified id.
+   * @return The action, once it has been initialised. If the id is not specified in the
+   * properties file, then null is returned.
+   * @throws NullPointerException if the specified action is null
+   */
   public static Action register(String id, Action action)
   {
     if(action == null)
@@ -46,6 +64,11 @@ public final class ActionManager
 		return (Action)INSTANCE.actions.remove(id);
 	}
 
+  /**
+   * Get a previously registered action
+   * @param id The action id
+   * @return The action bound to the specified id, or null if no action is bound.
+   */
   public static Action get(String id)
   {
     Action action = (Action)(INSTANCE.actions.get(id));
@@ -80,6 +103,12 @@ public final class ActionManager
     return (Icon)action.getValue(Action.SMALL_ICON);
   }
 
+  /**
+   * Alias a particular id to another one.
+   * This allows one action to be bound to multiple keys.
+   * @param newKey The new alias to bind to.
+   * @param oldKey The old id to bind to.
+   */
 	public static void alias(String newKey, String oldKey)
 	{
 		Object oldValue = INSTANCE.actions.put(newKey, INSTANCE.actions.get(oldKey));
