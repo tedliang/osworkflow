@@ -88,9 +88,11 @@ public class WorkflowFactoryServlet extends HttpServlet {
         if ("layout".equals(command)) {
             factory.setLayout(docId, data.toString());
         } else if ("workflow".equals(command)) {
+            boolean replace = "true".equals(req.getParameter("replace"));
+
             try {
                 WorkflowDescriptor descriptor = WorkflowLoader.load(new ByteArrayInputStream(data.getBytes()), false);
-                factory.saveWorkflow(docId, descriptor, true);
+                factory.saveWorkflow(docId, descriptor, replace);
             } catch (Exception e) {
                 e.printStackTrace(resp.getWriter());
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
