@@ -7,7 +7,7 @@ import com.opensymphony.workflow.loader.WorkflowDescriptor;
  * Test Case for AbstractWorkflow.
  *
  * @author <a href="mailto:vorburger@users.sourceforge.net">Michael Vorburger</a>
- * @version $Id: UnconditionalResultTestCase.java,v 1.1.1.1 2003-02-13 01:05:14 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
+ * @version $Id: UnconditionalResultTestCase.java,v 1.2 2003-07-28 03:10:44 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
  */
 public class UnconditionalResultTestCase extends TestCase {
 
@@ -25,7 +25,7 @@ public class UnconditionalResultTestCase extends TestCase {
 
       try
       {
-        WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor("file:unconditional-result.xml");
+        WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getClassLoader().getResource("/unconditional-result.xml").toString());
         descriptor.validate();
         fail("descriptor loaded successfully, even though unconditional-result element is incorrect");
       }

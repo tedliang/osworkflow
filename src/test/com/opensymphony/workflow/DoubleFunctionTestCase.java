@@ -16,7 +16,7 @@ public class DoubleFunctionTestCase extends TestCase {
 
   protected void setUp() throws Exception
   {
-    TestWorkflow.configFile = "osworkflow.xml";
+    TestWorkflow.configFile = "/osworkflow.xml";
     workflow = new TestWorkflow("testuser");
   }
 
@@ -26,7 +26,7 @@ public class DoubleFunctionTestCase extends TestCase {
      * @throws Exception If error while executing testing
      */
     public void testDoubleFunctionExecution() throws Exception {
-     long id = workflow.initialize("file:double.xml", 1, new HashMap());
+     long id = workflow.initialize(getClass().getClassLoader().getResource("/double.xml").toString(), 1, new HashMap());
       Map inputs = new HashMap();
       inputs.put("test", this);
       workflow.doAction(id, 3, inputs);

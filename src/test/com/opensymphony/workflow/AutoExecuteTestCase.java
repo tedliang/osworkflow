@@ -22,19 +22,19 @@ public class AutoExecuteTestCase extends TestCase {
 
   protected void setUp() throws Exception
   {
-    TestWorkflow.configFile = "osworkflow.xml";
+    TestWorkflow.configFile = "/osworkflow.xml";
     workflow = new TestWorkflow("testuser");
   }
 
     public void testSimpleAuto() throws Exception {
-     long id = workflow.initialize("file:auto1.xml", 1, new HashMap());
+     long id = workflow.initialize(getClass().getClassLoader().getResource("/auto1.xml").toString(), 1, new HashMap());
      List currentSteps = workflow.getCurrentSteps(id);
       assertEquals("Unexpected number of current steps", 1, currentSteps.size());
       assertEquals("Unexpected current step", 2, ((Step)currentSteps.get(0)).getStepId());
     }
 
   public void testExecOnlyOne() throws Exception {
-   long id = workflow.initialize("file:auto2.xml", 1, new HashMap());
+   long id = workflow.initialize(getClass().getClassLoader().getResource("/auto2.xml").toString(), 1, new HashMap());
    List currentSteps = workflow.getCurrentSteps(id);
     assertEquals("Unexpected number of current steps", 1, currentSteps.size());
     assertEquals("Unexpected current step", 4, ((Step)currentSteps.get(0)).getStepId());
@@ -44,7 +44,7 @@ public class AutoExecuteTestCase extends TestCase {
   }
 
   public void testExecTwoActions() throws Exception {
-   long id = workflow.initialize("file:auto3.xml", 1, new HashMap());
+   long id = workflow.initialize(getClass().getClassLoader().getResource("/auto3.xml").toString(), 1, new HashMap());
    List currentSteps = workflow.getCurrentSteps(id);
     assertEquals("Unexpected number of current steps", 1, currentSteps.size());
     assertEquals("Unexpected current step", 3, ((Step)currentSteps.get(0)).getStepId());
@@ -55,7 +55,7 @@ public class AutoExecuteTestCase extends TestCase {
   }
 
   public void testConditionCheck() throws Exception {
-    long id = workflow.initialize("file:auto4.xml", 1, new HashMap());
+    long id = workflow.initialize(getClass().getClassLoader().getResource("/auto4.xml").toString(), 1, new HashMap());
     List currentSteps = workflow.getCurrentSteps(id);
      assertEquals("Unexpected number of current steps", 1, currentSteps.size());
      assertEquals("Unexpected current step", 3, ((Step)currentSteps.get(0)).getStepId());
@@ -65,7 +65,7 @@ public class AutoExecuteTestCase extends TestCase {
     Map inputs = new HashMap();
     List list = new ArrayList();
     inputs.put("list", list);
-    long id = workflow.initialize("file:propertyset-create.xml", 1, inputs);
+    long id = workflow.initialize(getClass().getClassLoader().getResource("/propertyset-create.xml").toString(), 1, inputs);
     String value = (String)list.get(0);
     assertEquals("Unexpected property set value for key myvar", "anything", value);
     List currentSteps = workflow.getCurrentSteps(id);
