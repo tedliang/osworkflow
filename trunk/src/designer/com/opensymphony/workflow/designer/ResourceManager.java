@@ -21,10 +21,6 @@ public final class ResourceManager
     bundle = ResourceBundle.getBundle(getClass().getName());
   }
 
-  /**
-   * Retrieves and answers a <code>String</code> for the given key from the
-   * bundle.
-   */
   public static String getString(String key)
   {
     try
@@ -51,10 +47,7 @@ public final class ResourceManager
       return key;
     }
   }
-  /**
-   * Retrieves and answers an <code>ImageIcon</code> for the given key from
-   * the bundle.
-   */
+  
   public static ImageIcon getIcon(String key)
   {
     String path = getString("image." + key);

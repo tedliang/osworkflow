@@ -7,9 +7,7 @@ import javax.swing.*;
 
 import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
-import com.opensymphony.workflow.designer.Utils;
-import com.opensymphony.workflow.designer.Prefs;
-import com.opensymphony.workflow.designer.WorkflowDesigner;
+import com.opensymphony.workflow.designer.*;
 import com.opensymphony.workflow.loader.Workspace;
 
 /**
@@ -30,7 +28,7 @@ public class SaveWorkspace extends AbstractAction implements WorkspaceListener
   {
     if(currentWorkspace.getLocation()==null)
     {
-      File toSave = Utils.promptUserForFile((Component)e.getSource(), JFileChooser.FILES_AND_DIRECTORIES, true, WorkflowDesigner.WORKSPACE_SUFFIX, "Workspace Files");
+      File toSave = Utils.promptUserForFile((Component)e.getSource(), JFileChooser.FILES_AND_DIRECTORIES, true, WorkflowDesigner.WORKSPACE_SUFFIX, ResourceManager.getString("workspace.files"));
       if(toSave!=null)
       {
         currentWorkspace.setLocation(toSave);

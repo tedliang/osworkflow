@@ -14,9 +14,6 @@ public class Quit extends AbstractAction
 {
   public Quit()
   {
-    putValue(SHORT_DESCRIPTION, "Exit designer");
-    putValue(NAME, "Exit");
-    putValue(LONG_DESCRIPTION, "Exit the designer application");
   }
 
   public void actionPerformed(ActionEvent e)

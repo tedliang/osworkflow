@@ -7,6 +7,7 @@ import javax.swing.*;
 import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
 import com.opensymphony.workflow.designer.WorkflowDesigner;
+import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.loader.Workspace;
 import com.opensymphony.workflow.FactoryException;
 import org.apache.commons.logging.LogFactory;
@@ -30,13 +31,13 @@ public class NewWorkflow extends AbstractAction implements WorkspaceListener
 
   public void actionPerformed(ActionEvent e)
   {
-    String name = JOptionPane.showInputDialog("Create Workflow", "Please specify a new workflow name");
+    String name = JOptionPane.showInputDialog(ResourceManager.getString("createflow"), ResourceManager.getString("createflow.long"));
     if(name==null) return;
     try
     {
       if(currentWorkspace.getWorkflow(name)!=null)
       {
-        JOptionPane.showMessageDialog((Component)e.getSource(), "A workflow with the name " + name + " already exists.", "Error adding workflow", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog((Component)e.getSource(), ResourceManager.getString("createflow.error", new Object[]{name}), ResourceManager.getString("createflow.error"), JOptionPane.ERROR_MESSAGE);
         return;
       }
     }

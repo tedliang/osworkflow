@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import com.opensymphony.workflow.designer.Utils;
 import com.opensymphony.workflow.designer.WorkflowDesigner;
+import com.opensymphony.workflow.designer.ResourceManager;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -21,7 +22,7 @@ public class OpenWorkspace extends AbstractAction
 
   public void actionPerformed(ActionEvent e)
   {
-    File file = Utils.promptUserForFile((Component)e.getSource(), JFileChooser.FILES_AND_DIRECTORIES, false, WorkflowDesigner.WORKSPACE_SUFFIX, "Workspace Files");
+    File file = Utils.promptUserForFile((Component)e.getSource(), JFileChooser.FILES_AND_DIRECTORIES, false, WorkflowDesigner.WORKSPACE_SUFFIX, ResourceManager.getString("workspace.files"));
     WorkflowDesigner.INSTANCE.openWorkspace(file);
   }
 }

@@ -81,7 +81,7 @@ public class JoinEditor extends DetailPanel implements ActionListener
 
   public void actionPerformed(ActionEvent e)
   {
-    String command = e.getActionCommand();
+    String command = e.getActionCommand().toLowerCase();
     if(command.equals("condadd"))
     {
       add();
