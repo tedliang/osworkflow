@@ -30,8 +30,6 @@ import java.util.List;
 public abstract class BaseFunctionalWorkflow extends TestCase {
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    //string used by propertyset-create.xml
-    public String myvar;
     protected AbstractWorkflow workflow;
     protected WorkflowDescriptor workflowDescriptor;
 
