@@ -14,7 +14,7 @@ public final class ResourceManager
 
   private ResourceManager()
   {
-    bundle = new EnhancedResourceBundle(getClass().getName());
+    bundle = new EnhancedResourceBundle("com.opensymphony.workflow.designer.resources");
   }
 
   public static ResourceBundle getBundle()
