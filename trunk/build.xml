@@ -150,7 +150,7 @@
       </fileset>
     </copy>
     <mkdir dir="${dist.docs}/junit"/>
-    <junit printsummary="withOutAndErr" haltonfailure="no" haltonerror="no" showoutput="yes">
+    <junit printsummary="withOutAndErr" haltonfailure="no" haltonerror="no" showoutput="true" fork="true">
       <classpath>
         <pathelement location="${build.test}"/>
         <path refid="cp"/>
