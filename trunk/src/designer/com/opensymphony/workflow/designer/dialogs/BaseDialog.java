@@ -96,8 +96,6 @@ public class BaseDialog extends JDialog
 
   /**
    * Returns true if OK was clicked, false if CANCEL or CLOSE was clicked
-   *
-   * @return
    */
   public boolean ask()
   {
@@ -107,16 +105,14 @@ public class BaseDialog extends JDialog
 
   protected void ok()
   {
-    setVisible(false);
-    dispose();
     cancelClicked = false;
+    setVisible(false);
   }
 
   protected void cancel()
   {
-    setVisible(false);
-    dispose();
     cancelClicked = true;
+    setVisible(false);
   }
 
   private void buildUI()
