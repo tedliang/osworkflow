@@ -2,9 +2,12 @@ package com.opensymphony.workflow.designer;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import javax.swing.*;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.View;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -17,6 +20,22 @@ import com.jgoodies.forms.layout.FormLayout;
  */
 public class UIFactory
 {
+  private static final DefaultFormatterFactory INT_FORMATTER_FACTORY;
+
+  static
+  {
+    NumberFormat format = NumberFormat.getIntegerInstance();
+    format.setGroupingUsed(false);
+    INT_FORMATTER_FACTORY = new DefaultFormatterFactory(new NumberFormatter(format));
+  }
+
+  public static JFormattedTextField createIntegerField()
+  {
+    JFormattedTextField field = new JFormattedTextField();
+    field.setFormatterFactory(INT_FORMATTER_FACTORY);
+    return field;
+  }
+
   public static JPanel getAddRemovePropertiesBar(ActionListener listener, String prefix, String[] names)
   {
     if(prefix == null) prefix = "";
@@ -33,10 +52,23 @@ public class UIFactory
   public static DefaultFormBuilder getDialogBuilder(String separator, Container contentPane)
   {
     FormLayout layout = new FormLayout("2dlu, left:max(40dlu;pref), 3dlu, 110dlu:grow, 7dlu");
-    DefaultFormBuilder builder = new DefaultFormBuilder((JPanel)contentPane, layout, ResourceManager.getBundle());
-	  builder.setLeadingColumnOffset(1);
+    DefaultFormBuilder builder = createBuilder((JPanel)contentPane, layout, separator);
     builder.setDefaultDialogBorder();
-    if(separator == null)
+    return builder;
+  }
+
+  public static DefaultFormBuilder getTwoColumnBuilder(String separator, JPanel panel)
+  {
+    FormLayout layout = new FormLayout("2dlu, left:pref, 3dlu, pref:grow, 2dlu", "");
+    DefaultFormBuilder builder = createBuilder(panel, layout, separator);
+    return builder;
+  }
+
+  private static DefaultFormBuilder createBuilder(JPanel panel, FormLayout layout, String separator)
+  {
+    DefaultFormBuilder builder = new DefaultFormBuilder(panel, layout, ResourceManager.getBundle());
+    builder.setLeadingColumnOffset(1);
+    if(separator==null)
     {
       builder.appendRow(builder.getLineGapSpec());
       builder.nextLine();
@@ -98,7 +130,7 @@ public class UIFactory
 
   public static JTextField createReadOnlyTextField(int width)
   {
-    JTextField field = new JTextField(width)
+    JTextField field = new JTextField()
     {
       public boolean isFocusable()
       {
@@ -111,10 +143,19 @@ public class UIFactory
     };
     field.setEditable(false);
     field.setOpaque(false);
-    field.setForeground(Color.black);
+    field.setForeground(UIManager.getColor("TextField.foreground"));
+    if(width!=-1)
+    {
+      field.setColumns(width);
+    }
     return field;
   }
 
+  public static JTextField createReadOnlyTextField()
+  {
+    return createReadOnlyTextField(-1);
+  }
+  
   public static void htmlize(JComponent component)
   {
     Font defaultFont = UIManager.getFont("Button.font");
