@@ -72,6 +72,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
+    protected boolean closeConnWhenDone = false;
     private DataSource ds;
     private String currentPrevTable;
     private String currentTable;
@@ -94,7 +95,6 @@ public class JDBCWorkflowStore implements WorkflowStore {
     private String stepStartDate;
     private String stepStatus;
     private String stepStepId;
-    protected boolean closeConnWhenDone = false;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
@@ -647,6 +647,32 @@ public class JDBCWorkflowStore implements WorkflowStore {
         }
     }
 
+    protected void cleanup(Connection connection, Statement statement, ResultSet result) {
+        if (result != null) {
+            try {
+                result.close();
+            } catch (SQLException ex) {
+                log.error("Error closing resultset", ex);
+            }
+        }
+
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException ex) {
+                log.error("Error closing statement", ex);
+            }
+        }
+
+        if ((connection != null) && closeConnWhenDone) {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                log.error("Error closing connection", ex);
+            }
+        }
+    }
+
     private String buildNested(NestedExpression nestedExpression, StringBuffer sel, List timestamps) {
         sel.append("SELECT DISTINCT(");
         sel.append(entryId);
@@ -709,32 +735,6 @@ public class JDBCWorkflowStore implements WorkflowStore {
         queryComparison(fieldExpression, sel, timestamps);
 
         return columnName;
-    }
-
-    protected void cleanup(Connection connection, Statement statement, ResultSet result) {
-        if (result != null) {
-            try {
-                result.close();
-            } catch (SQLException ex) {
-                log.error("Error closing resultset", ex);
-            }
-        }
-
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException ex) {
-                log.error("Error closing statement", ex);
-            }
-        }
-
-        if ((connection != null) && closeConnWhenDone) {
-            try {
-                connection.close();
-            } catch (SQLException ex) {
-                log.error("Error closing connection", ex);
-            }
-        }
     }
 
     private List doExpressionQuery(String sel, String columnName, List timestamps) throws StoreException {
