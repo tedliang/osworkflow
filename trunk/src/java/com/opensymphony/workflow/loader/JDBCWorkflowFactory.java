@@ -213,8 +213,8 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         Writer out = new OutputStreamWriter(bout);
 
         PrintWriter writer = new PrintWriter(out);
-        writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.7//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_7.dtd\">");
+        writer.println(WorkflowDescriptor.XML_HEADER);
+        writer.println(WorkflowDescriptor.DOCTYPE_DECL);
         descriptor.writeXML(writer, 0);
         writer.flush();
         writer.close();
