@@ -7,91 +7,77 @@ package com.opensymphony.workflow.designer;
 import java.util.*;
 import javax.swing.undo.UndoableEdit;
 
-import org.jgraph.graph.*;
-import com.opensymphony.workflow.loader.*;
 import com.opensymphony.workflow.designer.views.EdgeRouter;
+import com.opensymphony.workflow.loader.*;
+import org.jgraph.graph.*;
 
 public class WorkflowGraphModel extends DefaultGraphModel
 {
-  private Map stepCells = new HashMap();
-  private Map splitCells = new HashMap();
-  private Map joinCells = new HashMap();
-  private Map initialActions = new HashMap();
+  private Collection stepCells = new HashSet();
+  private Collection splitCells = new HashSet();
+  private Collection joinCells = new HashSet();
+  private Collection initialActions = new ArrayList();
   private ResultCellCollection resultCells = new ResultCellCollection();
   private static final EdgeRouter EDGE_ROUTER = new EdgeRouter();
 
   public void insertInitialActions(List initialActions, InitialActionCell initialActionCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
-    if(!this.initialActions.containsKey(initialActionCell.getKey()))
+    this.initialActions.add(initialActionCell);
+    for(int i = 0; i < initialActions.size(); i++)
     {
-      this.initialActions.put(initialActionCell.getKey(), initialActionCell);
-      for(int i = 0; i < initialActions.size(); i++)
-      {
-        ActionDescriptor action = (ActionDescriptor)initialActions.get(i);
-        List conResults = action.getConditionalResults();
-        recordResults(initialActionCell, conResults, action);
-        ResultDescriptor result = action.getUnconditionalResult();
-        recordResult(initialActionCell, result, action);
-        Object[] cells = new Object[]{initialActionCell};
-        // Insert into Model
-        insert(cells, attributes, null, pm, edits);
-      }
+      ActionDescriptor action = (ActionDescriptor)initialActions.get(i);
+      List conResults = action.getConditionalResults();
+      recordResults(initialActionCell, conResults, action);
+      ResultDescriptor result = action.getUnconditionalResult();
+      recordResult(initialActionCell, result, action);
+      Object[] cells = new Object[]{initialActionCell};
+      // Insert into Model
+      insert(cells, attributes, null, pm, edits);
     }
   }
 
   public void insertStepCell(StepCell stepCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
-    if(!stepCells.containsKey(stepCell.getKey()))
-    {
-      stepCells.put(stepCell.getKey(), stepCell);
-      Object[] cells = new Object[]{stepCell};
-      // Insert into Model
-      insert(cells, attributes, null, pm, edits);
-      recordResults(stepCell);
-    }
+    stepCells.add(stepCell);
+    Object[] cells = new Object[]{stepCell};
+    // Insert into Model
+    insert(cells, attributes, null, pm, edits);
+    recordResults(stepCell);
   }
 
   public void insertSplitCell(SplitCell splitCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
-    if(!splitCells.containsKey(splitCell.getKey()))
-    {
-
-      splitCells.put(splitCell.getKey(), splitCell);
-      Object[] cells = new Object[]{splitCell};
-      // Insert into Model
-      insert(cells, attributes, null, pm, edits);
-      recordResults(splitCell);
-    }
+    splitCells.add(splitCell);
+    Object[] cells = new Object[]{splitCell};
+    // Insert into Model
+    insert(cells, attributes, null, pm, edits);
+    recordResults(splitCell);
   }
 
   public void insertJoinCell(JoinCell joinCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
-    if(!joinCells.containsKey(joinCell.getKey()))
-    {
-
-      joinCells.put(joinCell.getKey(), joinCell);
-      Object[] cells = new Object[]{joinCell};
-      // Insert into Model
-      insert(cells, attributes, null, pm, edits);
-      recordResults(joinCell);
-    }
+    joinCells.add(joinCell);
+    Object[] cells = new Object[]{joinCell};
+    // Insert into Model
+    insert(cells, attributes, null, pm, edits);
+    recordResults(joinCell);
   }
 
   public void insertResultConnections()
   {
-    Iterator steps = stepCells.values().iterator();
+    Iterator steps = stepCells.iterator();
     while(steps.hasNext())
     {
       StepCell stepCell = (StepCell)steps.next();
       processStepEndPointResult(stepCell);
     }
-    Iterator splits = splitCells.values().iterator();
+    Iterator splits = splitCells.iterator();
     while(splits.hasNext())
     {
       SplitCell splitCell = (SplitCell)splits.next();
       processSplitEndPointResult(splitCell);
     }
-    Iterator joins = joinCells.values().iterator();
+    Iterator joins = joinCells.iterator();
     while(joins.hasNext())
     {
       JoinCell joinCell = (JoinCell)joins.next();
@@ -157,7 +143,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   {
     Map attributeMap = new HashMap();
     DefaultPort fromPort;
-    if(resultCell.getFromCell().getChildCount()>0)
+    if(resultCell.getFromCell().getChildCount() > 0)
     {
       fromPort = (DefaultPort)resultCell.getFromCell().getChildAt(0);
     }
@@ -167,7 +153,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
       resultCell.getFromCell().add(fromPort);
     }
     DefaultPort toPort;
-    if(toCell.getChildCount()>0)
+    if(toCell.getChildCount() > 0)
     {
       toPort = (DefaultPort)toCell.getChildAt(0);
     }
@@ -198,10 +184,8 @@ public class WorkflowGraphModel extends DefaultGraphModel
   }
 
   /**
-   *
    * When a Step is inserted, introspect it. find all the actions and add them to the GraphModel.
    * Introspect each action and record results.
-   *
    */
   public void recordResults(StepCell fromCell)
   {
@@ -233,38 +217,13 @@ public class WorkflowGraphModel extends DefaultGraphModel
     resultCells.put(key, newCell);
   }
 
-  public Map getActivitiesList()
+  public Collection getActivitiesList()
   {
-    Map map = new HashMap();
-    map.putAll(initialActions);
-    map.putAll(stepCells);
-    map.putAll(splitCells);
-    map.putAll(joinCells);
-    return map;
+    List l = new ArrayList();
+    l.addAll(initialActions);
+    l.addAll(stepCells);
+    l.addAll(splitCells);
+    l.addAll(joinCells);
+    return l;
   }
-
-  public Map getStep()
-  {
-    return stepCells;
-  }
-
-  /**
-   * Method getSplit.
-   * @return Map
-   */
-  public Map getSplit()
-  {
-    return splitCells;
-  }
-
-  public Map getJoin()
-  {
-    return joinCells;
-  }
-
-  public Map getInitialsAction()
-  {
-    return initialActions;
-  }
-
 }

@@ -1,47 +1,37 @@
 package com.opensymphony.workflow.designer;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
+import java.util.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import com.opensymphony.workflow.loader.XMLUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import com.opensymphony.workflow.loader.XMLUtil;
 
 public class Layout
 {
   private String url;
 
-  Map map = new HashMap();
-  Hashtable activities = new Hashtable();
-
-  public Layout(Map map)
-  {
-    this.map = map;
-  }
-
-  public void setActivity(Map map)
-  {
-    this.map = map;
-  }
-
-  /* public void addActivity(Map map) {
-
-  } */
+  Collection entries;
+  Map activities = new HashMap();
 
   public Layout()
   {
+    entries = new ArrayList();
+  }
 
+  public Layout(Collection entries)
+  {
+    this.entries = entries;
+  }
+
+  public void setActivity(Collection entries)
+  {
+    this.entries = entries;
   }
 
   public String getUrl()
@@ -58,7 +48,7 @@ public class Layout
   {
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     dbf.setNamespaceAware(true);
-    DocumentBuilder db = null;
+    DocumentBuilder db;
     try
     {
       db = dbf.newDocumentBuilder();
@@ -87,12 +77,10 @@ public class Layout
     out.println("<layout>");
 
     XMLUtil.printIndent(out, indent++);
-    Set set = map.keySet();
-    Iterator it = set.iterator();
+    Iterator it = entries.iterator();
     while(it.hasNext())
     {
-      String key = (String)it.next();
-      WorkflowCell cell = (WorkflowCell)map.get(key);
+      WorkflowCell cell = (WorkflowCell)it.next();
       Activity activityCell = new Activity(cell);
       activityCell.writeXML(out, indent);
     }
