@@ -134,6 +134,8 @@ public class BaseDialog extends JDialog
 
     container.add(new JSeparator(JSeparator.HORIZONTAL));
     JButton ok = new JButton(ResourceManager.getString("ok"));
+    ok.setDefaultCapable(true);
+    getRootPane().setDefaultButton(ok);
     ok.addActionListener(okAction);
     JButton cancel = new JButton(ResourceManager.getString("cancel"));
     cancel.addActionListener(cancelOrCloseAction);
