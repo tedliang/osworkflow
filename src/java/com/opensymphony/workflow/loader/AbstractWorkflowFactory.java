@@ -12,7 +12,8 @@ import java.util.Properties;
 /**
  * Abstract base class for all workflow factories.
  * A workflow factory is a factory class that is able
- * to provide workflows given a workflow name.
+ * to provide workflow descriptors given a workflow name,
+ * as well as save descriptors.
  *
  * @author Hani Suleiman
  * Date: May 10, 2002
