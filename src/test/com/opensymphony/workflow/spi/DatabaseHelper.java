@@ -12,16 +12,13 @@ import junit.framework.Assert;
 
 import net.sf.hibernate.SessionFactory;
 import net.sf.hibernate.cfg.Configuration;
+import net.sf.hibernate.tool.hbm2ddl.SchemaExport;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import java.net.URL;
 
@@ -41,23 +38,28 @@ import javax.sql.DataSource;
 public class DatabaseHelper {
     //~ Static fields/initializers /////////////////////////////////////////////
 
-    private static Log log = LogFactory.getLog(DatabaseHelper.class);
-    private static SessionFactory sessionFactory;
+    private static final Log log = LogFactory.getLog(DatabaseHelper.class);
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    /**
-     * @return
-     */
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public static void createDatabase(URL url) {
+        if (url == null) {
+            Assert.fail("database url is null");
+        }
+
+        try {
+            String sql = getDatabaseCreationScript(url);
+            createDatabase(sql);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        }
     }
 
     /**
      * Create a new database and initialize it with the specified sql script.
-     * @param scriptFile
+     * @param sql the sql to execute
      */
-    public static void createDatabase(String scriptFile) {
+    public static void createDatabase(String sql) {
         Connection connection;
         Statement statement = null;
         String sqlLine = null;
@@ -68,7 +70,6 @@ public class DatabaseHelper {
             connection = ds.getConnection();
             statement = connection.createStatement();
 
-            String sql = getDatabaseCreationScript(scriptFile);
             String[] sqls = StringUtils.split(sql, ";");
 
             for (int i = 0; i < sqls.length; i++) {
@@ -107,9 +108,7 @@ public class DatabaseHelper {
       * based on an identity or sequence, whatever is native to the database.
       * @throws Exception
       */
-    public static void exportSchemaForHibernate() throws Exception {
-        createDatabase("src/etc/deployment/hibernate/mckoi.sql");
-
+    public static SessionFactory createHibernateSessionFactory() throws Exception {
         Configuration configuration = new Configuration();
 
         //cfg.addClass(HibernateHistoryStep.class);
@@ -124,22 +123,13 @@ public class DatabaseHelper {
         configuration.addURL(workflowEntry);
         configuration.addClass(PropertySetItem.class);
 
-        //new SchemaExport(configuration).create(true, false);
-        sessionFactory = configuration.buildSessionFactory();
+        new SchemaExport(configuration).create(true, true);
+
+        return configuration.buildSessionFactory();
     }
 
-    private static String getDatabaseCreationScript(String scriptFile) throws Exception {
-        File file = new File(scriptFile);
-        Assert.assertTrue(file.exists());
-
-        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-
-        return readTextStream(bis);
-    }
-
-    private static String readTextStream(InputStream is) throws Exception {
-        //System.out.println("InputStream" + is.toString());
-        InputStreamReader reader = new InputStreamReader(is);
+    private static String getDatabaseCreationScript(URL url) throws IOException {
+        InputStreamReader reader = new InputStreamReader(url.openStream());
         StringBuffer sb = new StringBuffer(100);
         int c = 0;
 

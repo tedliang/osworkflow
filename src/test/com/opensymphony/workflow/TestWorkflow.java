@@ -7,8 +7,6 @@ package com.opensymphony.workflow;
 import com.opensymphony.workflow.basic.BasicWorkflow;
 import com.opensymphony.workflow.config.ConfigLoader;
 
-import java.io.*;
-
 import java.net.URL;
 
 
@@ -32,7 +30,6 @@ public class TestWorkflow extends BasicWorkflow {
 
     protected void loadConfig(URL url) throws FactoryException {
         if (url == null) {
-            File file = new File(configFile);
             ConfigLoader.load(getClass().getResourceAsStream(configFile));
         }
     }
