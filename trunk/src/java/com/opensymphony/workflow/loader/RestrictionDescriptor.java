@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class RestrictionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -35,11 +35,35 @@ public class RestrictionDescriptor extends AbstractDescriptor implements Validat
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated A restrict-to can only have one conditions element,
+     * please use {@link #getConditionsDescriptor()} instead.
+     */
     public List getConditions() {
         return conditions;
     }
 
+    public void setConditionsDescriptor(ConditionsDescriptor descriptor) {
+        if (conditions.size() == 1) {
+            conditions.set(0, descriptor);
+        } else {
+            conditions.add(descriptor);
+        }
+    }
+
+    public ConditionsDescriptor getConditionsDescriptor() {
+        if (conditions.size() == 0) {
+            return null;
+        }
+
+        return (ConditionsDescriptor) conditions.get(0);
+    }
+
     public void validate() throws InvalidWorkflowDescriptorException {
+        if (conditions.size() > 1) {
+            throw new InvalidWorkflowDescriptorException("A restrict-to element can only have one conditions child element");
+        }
+
         ValidationHelper.validate(conditions);
     }
 

@@ -47,7 +47,7 @@ public class ResultPosition implements XMLizable
       if(attr != null && attr.length() > 0)
         id = Integer.parseInt(attr);
 
-      attr = edge.getAttribute("lineWidth");
+      attr = edge.getAttribute("linewidth");
       if(attr != null && attr.length() > 0)
         lineWidth = Float.parseFloat(edge.getAttribute("linewidth"));
 
