@@ -21,6 +21,11 @@ public final class ResourceManager
     bundle = ResourceBundle.getBundle(getClass().getName());
   }
 
+  public static ResourceBundle getBundle()
+  {
+    return INSTANCE.bundle;
+  }
+
   public static String getString(String key)
   {
     try
@@ -47,7 +52,7 @@ public final class ResourceManager
       return key;
     }
   }
-  
+
   public static ImageIcon getIcon(String key)
   {
     String path = getString("image." + key);

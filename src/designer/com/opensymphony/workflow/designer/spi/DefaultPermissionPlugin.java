@@ -4,7 +4,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import com.opensymphony.workflow.designer.editor.DialogUtils;
+import com.opensymphony.workflow.designer.dialogs.DialogUtils;
+import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.PermissionConditionDescriptor;
 
 /**

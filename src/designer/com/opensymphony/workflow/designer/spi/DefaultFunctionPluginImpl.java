@@ -2,7 +2,8 @@ package com.opensymphony.workflow.designer.spi;
 
 import java.util.Map;
 
-import com.opensymphony.workflow.designer.editor.DialogUtils;
+import com.opensymphony.workflow.designer.dialogs.DialogUtils;
+import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
 
 /**
