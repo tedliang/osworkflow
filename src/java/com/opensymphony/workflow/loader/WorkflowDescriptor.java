@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -336,12 +336,23 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
             while (j.hasNext()) {
                 ActionDescriptor action = (ActionDescriptor) j.next();
 
-                // check to see if it's a common action (dups are ok)
+                // check to see if it's a common action (dups are ok, since that's the point of common actions!)
                 if (!this.getCommonActions().containsKey(new Integer(action.getId()))) {
                     if (!actions.add(new Integer(action.getId()))) {
                         throw new InvalidWorkflowDescriptorException("Duplicate occurance of action ID " + action.getId() + " found in step " + step.getId());
                     }
                 }
+            }
+        }
+
+        //now we have all our unique actions, let's check that no common action id's exist in them
+        i = commonActions.keySet().iterator();
+
+        while (i.hasNext()) {
+            Integer action = (Integer) i.next();
+
+            if (actions.contains(action)) {
+                throw new InvalidWorkflowDescriptorException("common-action ID " + action + " is duplicated in a step action");
             }
         }
 
