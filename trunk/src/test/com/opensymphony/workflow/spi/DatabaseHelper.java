@@ -6,8 +6,6 @@ package com.opensymphony.workflow.spi;
 
 import com.mckoi.database.jdbc.MSQLException;
 
-import com.opensymphony.module.propertyset.hibernate.PropertySetItem;
-
 import junit.framework.Assert;
 
 import net.sf.hibernate.SessionFactory;
