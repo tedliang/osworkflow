@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.25 $
+ * @version $Revision: 1.26 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -398,6 +398,30 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
             out.println("</registers>");
         }
 
+        if (timerFunctions.size() > 0) {
+            XMLUtil.printIndent(out, indent++);
+            out.println("<trigger-functions>");
+
+            Iterator iterator = timerFunctions.entrySet().iterator();
+
+            while (iterator.hasNext()) {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                XMLUtil.printIndent(out, indent++);
+                out.println("<trigger-function id=\"" + entry.getKey() + "\">");
+
+                FunctionDescriptor trigger = (FunctionDescriptor) entry.getValue();
+                trigger.writeXML(out, indent);
+                XMLUtil.printIndent(out, --indent);
+                out.println("</trigger-function>");
+            }
+
+            while (iterator.hasNext()) {
+            }
+
+            XMLUtil.printIndent(out, --indent);
+            out.println("</trigger-functions>");
+        }
+
         XMLUtil.printIndent(out, indent++);
         out.println("<initial-actions>");
 
@@ -435,21 +459,6 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
             XMLUtil.printIndent(out, --indent);
             out.println("</common-actions>");
-        }
-
-        if (timerFunctions.size() > 0) {
-            XMLUtil.printIndent(out, indent++);
-            out.println("<trigger-functions>");
-
-            Iterator iterator = timerFunctions.values().iterator();
-
-            while (iterator.hasNext()) {
-                FunctionDescriptor trigger = (FunctionDescriptor) iterator.next();
-                trigger.writeXML(out, indent);
-            }
-
-            XMLUtil.printIndent(out, --indent);
-            out.println("</trigger-functions>");
         }
 
         XMLUtil.printIndent(out, indent++);

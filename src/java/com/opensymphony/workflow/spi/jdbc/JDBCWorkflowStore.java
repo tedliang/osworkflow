@@ -510,13 +510,47 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
         if (query.getSortOrder() != WorkflowExpressionQuery.SORT_NONE) {
             sel.append(" ORDER BY ");
-            sel.append(fieldName(query.getOrderBy()));
 
-            if (query.getSortOrder() == WorkflowExpressionQuery.SORT_ASC) {
-                sel.append(" ASC");
+            if (query.getOrderBy() != 0) {
+                // Had the unexpected result of doing a "ORDER BY 1" w/o this in place
+                String fName = fieldName(query.getOrderBy());
+
+                if (log.isDebugEnabled()) {
+                    log.debug("Found fieldName as: " + fName);
+                }
+
+                sel.append(fName);
+
+                // In MySQL and Informix, you have to select any field you order by -- others?
+                String current = sel.toString();
+
+                // Remember that it will be surrounded by "DISTINCT (XXXX)"
+                // Should already be formatted as:
+                //      SELECT DISTINCT(columnName) FROM table WHERE ......
+                // Want to be in the format:
+                //      SELECT DISTINCT(columnName), fName FROM table WHERE .......
+                String entry = current.substring(0, current.indexOf(columnName)) + columnName + ") , " + fName + " ";
+                entry += current.substring(current.indexOf(columnName) + columnName.length() + 1);
+
+                sel = new StringBuffer(entry);
+
+                if (query.getSortOrder() == WorkflowExpressionQuery.SORT_ASC) {
+                    sel.append(" ASC");
+                } else {
+                    sel.append(" DESC");
+                }
+
+                if (log.isDebugEnabled()) {
+                    log.debug("Finalized query: " + sel.toString());
+                }
             } else {
-                sel.append(" DESC");
+                // Order by is empty, so order by the columnName
+                sel.append(columnName);
             }
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("Finished query is: " + sel.toString());
         }
 
         List results = doExpressionQuery(sel.toString(), columnName, values);
@@ -713,9 +747,19 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
     private String buildNested(NestedExpression nestedExpression, StringBuffer sel, List values) {
         sel.append("SELECT DISTINCT(");
-        sel.append(entryId);
+
+        // Changed by Anthony on 2 June 2004, to query from OS_CURRENTSTEP instead
+        //sel.append(entryId);
+        sel.append(stepEntryId);
         sel.append(") FROM ");
-        sel.append(entryTable);
+
+        // Changed by Anthony on 2 June 2004, to query from OS_CURRENTSTEP instead
+        // sel.append(entryTable);
+        sel.append(currentTable);
+
+        if (log.isDebugEnabled()) {
+            log.debug("Thus far, query is: " + sel.toString());
+        }
 
         for (int i = 0; i < nestedExpression.getExpressionCount(); i++) {
             Expression expression = nestedExpression.getExpression(i);
@@ -734,7 +778,9 @@ public class JDBCWorkflowStore implements WorkflowStore {
                 sel.append(" NOT ");
             }
 
-            sel.append(entryId);
+            // Changed by Anthony on 2 June 2004, to query from OS_CURRENTSTEP instead
+            // sel.append(entryId);
+            sel.append(stepEntryId);
             sel.append(" IN (");
 
             if (expression.isNested()) {
@@ -747,7 +793,9 @@ public class JDBCWorkflowStore implements WorkflowStore {
             sel.append(")");
         }
 
-        return (entryId);
+        // Changed by Anthony on 2 June 2004, to query from OS_CURRENTSTEP instead
+        // return (entryId);
+        return (stepEntryId);
     }
 
     private String buildSimple(FieldExpression fieldExpression, StringBuffer sel, List values) {
