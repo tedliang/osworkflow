@@ -18,7 +18,7 @@ import java.util.Map;
  * Desrives a function that can be applied to a workflow step.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class FunctionDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -64,7 +64,7 @@ public class FunctionDescriptor extends AbstractDescriptor {
 
     public void writeXML(PrintWriter out, int indent) {
         XMLUtil.printIndent(out, indent++);
-        out.println("<function " + (hasId() ? ("id=\"" + getId() + "\" ") : "") + ((name != null) ? ("name=\"" + getName() + "\" ") : "") + "type=\"" + type + "\">");
+        out.println("<function " + (hasId() ? ("id=\"" + getId() + "\" ") : "") + (((name != null) && (name.length() > 0)) ? ("name=\"" + getName() + "\" ") : "") + "type=\"" + type + "\">");
 
         Iterator iter = args.entrySet().iterator();
 
