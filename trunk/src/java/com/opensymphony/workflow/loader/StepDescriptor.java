@@ -21,7 +21,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -256,7 +256,9 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
             for (int i = 0; i < actions.getLength(); i++) {
                 Element action = (Element) actions.item(i);
-                this.actions.add(new ActionDescriptor(action));
+                ActionDescriptor actionDescriptor = new ActionDescriptor(action);
+                actionDescriptor.setParent(this);
+                this.actions.add(actionDescriptor);
             }
 
             // look for common-action elements
