@@ -1,23 +1,24 @@
 package com.opensymphony.workflow.designer.beanutils;
 
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.text.ParseException;
+import javax.swing.*;
+import javax.swing.event.*;
 
-/**
- * @author Rickard Öberg
- */
+import com.opensymphony.workflow.designer.editor.DetailPanel;
+import com.opensymphony.workflow.designer.editor.ResultEditor;
+import com.opensymphony.workflow.designer.views.CustomEdgeView;
+import org.jgraph.graph.CellView;
+import org.jgraph.graph.DefaultGraphCell;
+
 public class BeanConnector
 {
   Object source;
+  DetailPanel panel = null;
 
   Map mappings = new HashMap();
 
@@ -35,6 +36,11 @@ public class BeanConnector
     source = aSource;
 
     update();
+  }
+
+  public void setPanel(DetailPanel panel)
+  {
+    this.panel = panel;
   }
 
   public void update()
@@ -104,6 +110,31 @@ public class BeanConnector
         public void focusLost(FocusEvent e)
         {
           setProperty(e.getComponent());
+          if(panel != null)
+          {
+            if(panel instanceof ResultEditor)
+            {
+              if(panel.getGraph() != null)
+              {
+                DefaultGraphCell cell = panel.getCell();
+                if(cell == null)
+                {
+                  cell = panel.getEdge();
+                }
+                if(cell != null)
+                {
+                  CellView view = panel.getGraph().getGraphLayoutCache().getMapping(cell, false);
+                  if(view instanceof CustomEdgeView)
+                  {
+                    view.update();
+                    view.refresh(false);
+                    panel.getGraph().getSelectionModel().setSelectionCell(view.getCell());
+                    panel.getGraph().repaint();
+                  }
+                }
+              }
+            }
+          }
         }
       });
     }

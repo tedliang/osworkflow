@@ -41,7 +41,8 @@ public class ResultEdgeColor extends JMenuItem
         {
           GraphConstants.setForeground(((ResultEdge)cell).getAttributes(), cColor);
           view.update();
-          ((CustomEdgeView)view).getGraph().paint(((CustomEdgeView)view).getGraph().getGraphics());
+          view.refresh(false);
+          graph.getSelectionModel().setSelectionCell(view.getCell());
         }
       }
     }

@@ -63,6 +63,14 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     //	n.add(new CreateInitialAction(descriptor, getWorkflowGraphModel(), menuLocation));
     n.add(new CreateJoin(descriptor, getWorkflowGraphModel(), menuLocation));
     n.add(new CreateSplit(descriptor, getWorkflowGraphModel(), menuLocation));
+    JMenu g = new JMenu(ResourceManager.getString("grid.size"));
+    genericMenu.add(g);
+    g.add(new SetGridSize(this, menuLocation, 1));
+    g.add(new SetGridSize(this, menuLocation, 2));
+    g.add(new SetGridSize(this, menuLocation, 4));
+    g.add(new SetGridSize(this, menuLocation, 8));
+    g.add(new SetGridSize(this, menuLocation, 12));
+    g.add(new SetGridSize(this, menuLocation, 16));
 
     cellMenu = new JPopupMenu();
     cellMenu.add(new Delete(descriptor, this, menuLocation));

@@ -12,7 +12,6 @@ import com.opensymphony.workflow.designer.UIFactory;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.beanutils.BeanConnector;
 import com.opensymphony.workflow.designer.model.ConditionsTableModel;
-import com.opensymphony.workflow.designer.model.ResultsTableModel;
 import com.opensymphony.workflow.loader.ConditionDescriptor;
 import com.opensymphony.workflow.loader.JoinDescriptor;
 
@@ -25,8 +24,8 @@ public class JoinEditor extends DetailPanel implements ActionListener
   private ConditionsTableModel conditionsModel = new ConditionsTableModel();
   private JTable conditionsTable;
 
-  private ResultsTableModel resultsModel = new ResultsTableModel();
-  private JTable resultsTable;
+  //private ResultsTableModel resultsModel = new ResultsTableModel();
+  //private JTable resultsTable;
   private BeanConnector connector = new BeanConnector();
 
   public JoinEditor()
@@ -35,26 +34,48 @@ public class JoinEditor extends DetailPanel implements ActionListener
 
   protected void initComponents()
   {
-    FormLayout layout = new FormLayout("2dlu, max(30dlu;pref), 2dlu, pref:grow, 4dlu", "pref, 2dlu, pref, 2dlu, pref, 3dlu, pref, 2dlu, 60dlu, pref, 2dlu");
+		String colLayout = "2dlu, max(32dlu;pref), 2dlu, pref:grow, 4dlu";
+		String rowLayout = "4dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref";
+
+		JTabbedPane tabbedPane = new JTabbedPane();
+    //FormLayout layout = new FormLayout("2dlu, max(30dlu;pref), 2dlu, pref:grow, 4dlu", "pref, 2dlu, pref, 2dlu, pref, 3dlu, pref, 2dlu, 60dlu, pref, 2dlu");
+		FormLayout layout = new FormLayout("2dlu, 50dlu:grow, 2dlu", "2dlu, pref, 2dlu");
     PanelBuilder builder = new PanelBuilder(this, layout);
     CellConstraints cc = new CellConstraints();
-    builder.addSeparator(ResourceManager.getString("info"), cc.xywh(2, 1, 3, 1));
-    builder.addLabel(ResourceManager.getString("id"), cc.xy(2, 3));
-    builder.add(id, cc.xy(4, 3));
+
+    // Tab1 (info)
+		FormLayout layoutInfo = new FormLayout(colLayout, rowLayout);
+		JPanel panelInfo = new JPanel();
+		PanelBuilder builderInfo = new PanelBuilder(panelInfo, layoutInfo);
+    //builder.addSeparator(ResourceManager.getString("info"), cc.xywh(2, 1, 3, 1));
+    builderInfo.addLabel(ResourceManager.getString("id"), cc.xy(2, 2));
+    builderInfo.add(id, cc.xy(4, 2));
     connector.connect(id, "id");
 
-    builder.addLabel(ResourceManager.getString("condition.type"), cc.xy(2, 5));
+    builderInfo.addLabel(ResourceManager.getString("condition.type"), cc.xy(2, 4));
 
-    builder.add(conditionTypes, cc.xy(4, 5));
+    builderInfo.add(conditionTypes, cc.xy(4, 4));
     connector.connect(conditionTypes, "conditionType");
-    builder.addSeparator(ResourceManager.getString("conditions"), cc.xywh(2, 7, 3, 1));
+
+		tabbedPane.add(ResourceManager.getString("info"), panelInfo);
+
+		/////////////////////////////////////////
+		// Tab2 (Conditions)
+		/////////////////////////////////////////
+		FormLayout layoutCond = new FormLayout(colLayout, rowLayout);
+		JPanel panelCond = new JPanel();
+		PanelBuilder builderCond = new PanelBuilder(panelCond, layoutCond);
+    //builder.addSeparator(ResourceManager.getString("conditions"), cc.xywh(2, 7, 3, 1));
 
     conditionsModel.setGraphModel(getModel());
     conditionsModel.setType(ConditionsTableModel.JOIN);
     conditionsTable = new JTable(conditionsModel);
-    builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 9, 3, 1));
+    builderCond.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 2, 3, 1));
+    builderCond.add(UIFactory.getAddRemovePropertiesBar(this, "cond", new String[]{"add", "remove", "edit"}), cc.xywh(2, 4, 3, 1));
 
-    builder.add(UIFactory.getAddRemovePropertiesBar(this, "cond", new String[]{"add", "remove", "edit"}), cc.xywh(2, 10, 3, 1));
+    tabbedPane.add(ResourceManager.getString("conditions"), panelCond);
+
+		builder.add(tabbedPane, cc.xy(2,2));
 
   }
 
