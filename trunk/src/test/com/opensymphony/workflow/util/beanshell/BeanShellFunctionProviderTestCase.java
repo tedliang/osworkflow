@@ -46,28 +46,23 @@ public class BeanShellFunctionProviderTestCase extends TestCase {
      * exception location of the script instead.
      *
      * What I want somewhere:
+     * <pre>
      * java.lang.NullPointerException
-    at com.opensymphony.module.propertyset.database.JDBCPropertySet.setImpl(JDBCPropertySet.java:267)
-    at com.opensymphony.module.propertyset.AbstractPropertySet.set(AbstractPropertySet.java:565)
-    at com.opensymphony.module.propertyset.AbstractPropertySet.setString(AbstractPropertySet.java:363)
-    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
-    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
-    at java.lang.reflect.Method.invoke(Method.java:324)
-    at bsh.Reflect.invokeMethod(Unknown Source)
-    at bsh.Reflect.invokeObjectMethod(Unknown Source)
-    at bsh.Name.invokeMethod(Unknown Source)
-    at bsh.BSHMethodInvocation.eval(Unknown Source)
+     * at com.opensymphony.module.propertyset.database.JDBCPropertySet.setImpl(JDBCPropertySet.java:267)
+     * at com.opensymphony.module.propertyset.AbstractPropertySet.set(AbstractPropertySet.java:565)
+     * at com.opensymphony.module.propertyset.AbstractPropertySet.setString(AbstractPropertySet.java:363)
+     * at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+     * at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+     * at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+     * at java.lang.reflect.Method.invoke(Method.java:324)
+     * at bsh.Reflect.invokeMethod(Unknown Source)
+     * at bsh.Reflect.invokeObjectMethod(Unknown Source)
+     * at bsh.Name.invokeMethod(Unknown Source)
+     * at bsh.BSHMethodInvocation.eval(Unknown Source)
+     </pre>
      *
      */
     public void testThrowingException() throws Exception {
-        Configuration config = new DefaultConfiguration();
-        config.load(getClass().getResource("/osworkflow-jdbc.xml"));
-
-        Workflow workflow = new BasicWorkflow("test");
-        workflow.setConfiguration(config);
-
-        // long workflowId = workflow.initialize(getClass().getResource("/example.xml").toString(), 1, new HashMap());
         BeanShellFunctionProvider function = new BeanShellFunctionProvider();
         PropertySet ps = new JDBCPropertySet();
         Map transientVars = new HashMap();

@@ -48,6 +48,22 @@ public class DescriptorQuirksTestCase extends TestCase {
     }
 
     /**
+     * Test if comments in args are correctly ignored.
+     * @see <a href="http://jira.opensymphony.com/secure/ViewIssue.jspa?key=WF-178">Jira issue WF-178</a>
+     * @throws Exception If error while executing testing
+     */
+    public void testArgMultiText() throws Exception {
+        counter = 0;
+
+        Map inputs = new HashMap();
+        inputs.put("test", this);
+
+        URL resource = getClass().getResource("/samples/multitext-arg.xml");
+        long id = workflow.initialize(resource.toString(), 1, inputs);
+        assertEquals("beanshell script not parsed correctly", 2, counter);
+    }
+
+    /**
      * Test if functions are executed once in an unconditional-result
      * @see <a href="http://jira.opensymphony.com/secure/ViewIssue.jspa?key=WF-118">Jira issue WF-118</a>
      * @throws Exception If error while executing testing
