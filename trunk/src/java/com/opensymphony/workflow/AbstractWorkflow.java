@@ -1102,7 +1102,11 @@ public class AbstractWorkflow implements Workflow {
             if (passesConditions(conditionalResult.getConditionType(), conditionalResult.getConditions(), Collections.unmodifiableMap(transientVars), ps)) {
                 //if (evaluateExpression(conditionalResult.getCondition(), entry, wf.getRegisters(), null, transientVars)) {
                 theResults[0] = conditionalResult;
-                verifyInputs(entry, conditionalResult.getValidators(), Collections.unmodifiableMap(transientVars), ps);
+
+                if (conditionalResult.getValidators().size() > 0) {
+                    verifyInputs(entry, conditionalResult.getValidators(), Collections.unmodifiableMap(transientVars), ps);
+                }
+
                 extraPreFunctions = conditionalResult.getPreFunctions();
                 extraPostFunctions = conditionalResult.getPostFunctions();
 
@@ -1139,9 +1143,15 @@ public class AbstractWorkflow implements Workflow {
             List splitPreFunctions = new ArrayList();
             List splitPostFunctions = new ArrayList();
 
+            //check all results in the split and verify the input against any validators specified
+            //also build up all the pre and post functions that should be called.
             for (Iterator iterator = results.iterator(); iterator.hasNext();) {
                 ResultDescriptor resultDescriptor = (ResultDescriptor) iterator.next();
-                verifyInputs(entry, resultDescriptor.getValidators(), Collections.unmodifiableMap(transientVars), ps);
+
+                if (resultDescriptor.getValidators().size() > 0) {
+                    verifyInputs(entry, resultDescriptor.getValidators(), Collections.unmodifiableMap(transientVars), ps);
+                }
+
                 splitPreFunctions.addAll(resultDescriptor.getPreFunctions());
                 splitPostFunctions.addAll(resultDescriptor.getPostFunctions());
             }
@@ -1213,7 +1223,10 @@ public class AbstractWorkflow implements Workflow {
             if (passesConditions(joinDesc.getConditionType(), joinDesc.getConditions(), Collections.unmodifiableMap(transientVars), ps)) {
                 // move the rest without creating a new step ...
                 ResultDescriptor joinresult = joinDesc.getResult();
-                verifyInputs(entry, joinresult.getValidators(), Collections.unmodifiableMap(transientVars), ps);
+
+                if (joinresult.getValidators().size() > 0) {
+                    verifyInputs(entry, joinresult.getValidators(), Collections.unmodifiableMap(transientVars), ps);
+                }
 
                 // now execute the pre-functions
                 for (Iterator iterator = joinresult.getPreFunctions().iterator();
