@@ -7,9 +7,6 @@ package com.opensymphony.workflow.loader;
 import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 import com.opensymphony.workflow.util.Validatable;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -21,13 +18,9 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
-    //~ Static fields/initializers /////////////////////////////////////////////
-
-    private static final Log log = LogFactory.getLog(StepDescriptor.class);
-
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected List actions = new ArrayList();
@@ -280,7 +273,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
                     this.commonActions.add(actionId);
                 } catch (Exception ex) {
-                    log.warn("Invalid common actionId:" + ex);
+                    //log.warn("Invalid common actionId:" + ex);
                 }
             }
         }

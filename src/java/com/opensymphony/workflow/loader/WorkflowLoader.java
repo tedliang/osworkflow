@@ -6,9 +6,6 @@ package com.opensymphony.workflow.loader;
 
 import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -26,13 +23,9 @@ import javax.xml.parsers.*;
  * by loading the XML from various sources.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WorkflowLoader {
-    //~ Static fields/initializers /////////////////////////////////////////////
-
-    private static final Log log = LogFactory.getLog(WorkflowLoader.class);
-
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public static WorkflowDescriptor load(final InputStream is) throws SAXException, IOException, InvalidWorkflowDescriptorException {
@@ -57,9 +50,7 @@ public class WorkflowLoader {
             db = dbf.newDocumentBuilder();
             db.setEntityResolver(new DTDEntityResolver());
         } catch (ParserConfigurationException e) {
-            log.fatal("Could not load workflow file", e);
-
-            return null;
+            throw new SAXException("Error creating document builder", e);
         }
 
         db.setErrorHandler(new WorkflowErrorHandler(url));
@@ -92,7 +83,6 @@ public class WorkflowLoader {
         }
 
         public void warning(SAXParseException exception) throws SAXException {
-            log.warn(getMessage(exception));
         }
 
         private String getMessage(SAXParseException exception) {

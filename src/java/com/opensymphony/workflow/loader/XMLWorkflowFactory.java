@@ -7,9 +7,6 @@ package com.opensymphony.workflow.loader;
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.w3c.dom.*;
 
 import java.io.*;
@@ -29,10 +26,6 @@ import javax.xml.parsers.*;
  * Time: 11:30:41 AM
  */
 public class XMLWorkflowFactory extends AbstractWorkflowFactory {
-    //~ Static fields/initializers /////////////////////////////////////////////
-
-    private static final Log log = LogFactory.getLog(XMLWorkflowFactory.class);
-
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected Map workflows;
@@ -47,25 +40,16 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
             throw new FactoryException("Unknown workflow name \"" + name + "\"");
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug("getWorkflow " + name + " descriptor=" + c.descriptor);
-        }
-
         if (c.descriptor != null) {
             if (reload) {
                 File file = new File(c.url.getFile());
 
                 if (file.exists() && (file.lastModified() > c.lastModified)) {
                     c.lastModified = file.lastModified();
-                    log.debug("Reloading workflow " + name);
                     loadWorkflow(c);
                 }
             }
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("Loading workflow " + name);
-            }
-
             loadWorkflow(c);
         }
 
@@ -135,7 +119,7 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
             try {
                 db = dbf.newDocumentBuilder();
             } catch (ParserConfigurationException e) {
-                log.fatal("Error creating document builder", e);
+                throw new FactoryException("Error creating document builder", e);
             }
 
             Document doc = db.parse(is);
@@ -151,8 +135,7 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
                 workflows.put(e.getAttribute("name"), config);
             }
         } catch (Exception e) {
-            log.fatal("Error reading xml workflow", e);
-            throw new InvalidWorkflowDescriptorException("Error in workflow config: " + e.getMessage());
+            throw new InvalidWorkflowDescriptorException("Error in workflow config", e);
         }
     }
 
@@ -188,17 +171,13 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
         boolean isOK = !original.exists() || original.renameTo(backup);
 
         if (!isOK) {
-            log.warn("Unable to backup original workflow file " + original + ", aborting save");
-
-            return false;
+            throw new FactoryException("Unable to backup original workflow file " + original + " to " + backup + ", aborting save");
         }
 
         isOK = updated.renameTo(original);
 
         if (!isOK) {
-            log.warn("Unable to rename new file " + updated + " to " + original + ", aborting save");
-
-            return false;
+            throw new FactoryException("Unable to rename new  workflow file " + updated + " to " + original + ", aborting save");
         }
 
         backup.delete();

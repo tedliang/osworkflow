@@ -6,9 +6,6 @@ package com.opensymphony.workflow.loader;
 
 import com.opensymphony.workflow.FactoryException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.io.*;
 
 import java.net.MalformedURLException;
@@ -24,10 +21,6 @@ import java.util.Map;
  * Time: 11:59:47 AM
  */
 public class URLWorkflowFactory extends AbstractWorkflowFactory {
-    //~ Static fields/initializers /////////////////////////////////////////////
-
-    private static final Log log = LogFactory.getLog(URLWorkflowFactory.class);
-
     //~ Instance fields ////////////////////////////////////////////////////////
 
     private Map cache = new HashMap();
@@ -109,17 +102,13 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory {
         boolean isOK = original.renameTo(backup);
 
         if (!isOK) {
-            log.warn("Unable to backup original workflow file " + original + ", aborting save");
-
-            return false;
+            throw new FactoryException("Unable to backup original workflow file " + original + " to " + backup + ", aborting save");
         }
 
         isOK = updated.renameTo(original);
 
         if (!isOK) {
-            log.warn("Unable to rename new file " + updated + " to " + original + ", aborting save");
-
-            return false;
+            throw new FactoryException("Unable to rename new  workflow file " + updated + " to " + original + ", aborting save");
         }
 
         backup.delete();
