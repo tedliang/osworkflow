@@ -30,7 +30,7 @@ import javax.naming.NamingException;
  * This class acts as a wrapper around a workflow session bean.
  *
  * @author plightbo
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class EJBWorkflow implements Workflow {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -83,6 +83,15 @@ public class EJBWorkflow implements Workflow {
             return wf.getCurrentSteps(id);
         } catch (RemoteException e) {
             log.error("Error getting current steps", e);
+            throw new WorkflowException(e);
+        }
+    }
+
+    public int getEntryState(long id) throws WorkflowException {
+        try {
+            return wf.getEntryState(id);
+        } catch (RemoteException e) {
+            log.error("Error getting entry state", e);
             throw new WorkflowException(e);
         }
     }
@@ -156,6 +165,24 @@ public class EJBWorkflow implements Workflow {
             return wf.canInitialize(workflowName, initialAction, inputs);
         } catch (RemoteException e) {
             log.error("Error checking canInitialize", e);
+            throw new WorkflowException(e);
+        }
+    }
+
+    public boolean canModifyEntryState(long id, int newState) throws WorkflowException {
+        try {
+            return wf.canModifyEntryState(id, newState);
+        } catch (RemoteException e) {
+            log.error("Error checking modifying entry state", e);
+            throw new WorkflowException(e);
+        }
+    }
+
+    public void changeEntryState(long id, int newState) throws WorkflowException {
+        try {
+            wf.changeEntryState(id, newState);
+        } catch (RemoteException e) {
+            log.error("Error modifying entry state", e);
             throw new WorkflowException(e);
         }
     }

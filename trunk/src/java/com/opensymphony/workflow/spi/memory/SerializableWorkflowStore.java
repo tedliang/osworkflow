@@ -60,16 +60,16 @@ public class SerializableWorkflowStore extends MemoryWorkflowStore {
         }
 
         currentSteps.add(step);
-        SerializableCache.getInstance().store();
+        SerializableCache.store();
 
         return step;
     }
 
     public WorkflowEntry createEntry(String workflowName) {
         long id = SerializableCache.getInstance().globalEntryId++;
-        SimpleWorkflowEntry entry = new SimpleWorkflowEntry(id, workflowName, false);
+        SimpleWorkflowEntry entry = new SimpleWorkflowEntry(id, workflowName, WorkflowEntry.CREATED);
         SerializableCache.getInstance().entryCache.put(new Long(id), entry);
-        SerializableCache.getInstance().store();
+        SerializableCache.store();
 
         return entry;
     }
@@ -130,7 +130,7 @@ public class SerializableWorkflowStore extends MemoryWorkflowStore {
             }
         }
 
-        SerializableCache.getInstance().store();
+        SerializableCache.store();
 
         return null;
     }
@@ -158,7 +158,7 @@ public class SerializableWorkflowStore extends MemoryWorkflowStore {
             }
         }
 
-        SerializableCache.getInstance().store();
+        SerializableCache.store();
     }
 }
 

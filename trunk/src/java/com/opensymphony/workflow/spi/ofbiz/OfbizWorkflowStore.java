@@ -45,6 +45,15 @@ public class OfbizWorkflowStore implements WorkflowStore {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public void setEntryState(long entryId, int state) throws StoreException {
+        try {
+            GenericValue gv = gd.findByPrimaryKey("OSWorkflowEntry", UtilMisc.toMap("id", new Long(entryId)));
+            gv.set("state", new Integer(state));
+        } catch (GenericEntityException e) {
+            throw new StoreException("Could not update workflow instance #" + entryId + " to status " + state, e);
+        }
+    }
+
     public PropertySet getPropertySet(long entryId) {
         HashMap args = new HashMap(2);
         args.put("entityId", new Long(entryId));
@@ -99,12 +108,12 @@ public class OfbizWorkflowStore implements WorkflowStore {
     public WorkflowEntry createEntry(String workflowName) throws StoreException {
         try {
             Long id = gd.getNextSeqId("OSWorkflowEntry");
-            GenericValue gv = gd.create("OSWorkflowEntry", UtilMisc.toMap("id", id, "name", workflowName, "initialized", new Integer(0)));
+            GenericValue gv = gd.create("OSWorkflowEntry", UtilMisc.toMap("id", id, "name", workflowName, "state", new Integer(WorkflowEntry.CREATED)));
             gd.storeAll(UtilMisc.toList(gv));
 
-            return new SimpleWorkflowEntry(id.longValue(), workflowName, false);
+            return new SimpleWorkflowEntry(id.longValue(), workflowName, WorkflowEntry.CREATED);
         } catch (GenericEntityException e) {
-            throw new StoreException("Could not create workflow entry", e);
+            throw new StoreException("Could not create workflow instance", e);
         }
     }
 
@@ -150,11 +159,10 @@ public class OfbizWorkflowStore implements WorkflowStore {
         try {
             GenericValue gv = gd.findByPrimaryKey("OSWorkflowEntry", UtilMisc.toMap("id", new Long(entryId)));
             String workflowName = gv.getString("name");
-            boolean init = gv.getInteger("initialized").intValue() != 0;
 
-            return new SimpleWorkflowEntry(entryId, workflowName, init);
+            return new SimpleWorkflowEntry(entryId, workflowName, gv.getInteger("state").intValue());
         } catch (GenericEntityException e) {
-            throw new StoreException("Could not find workflow entry #" + entryId, e);
+            throw new StoreException("Could not find workflow instance #" + entryId, e);
         }
     }
 

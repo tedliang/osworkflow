@@ -11,9 +11,6 @@ import com.opensymphony.workflow.spi.SimpleWorkflowEntry;
 import com.opensymphony.workflow.spi.Step;
 import com.opensymphony.workflow.spi.WorkflowEntry;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.sql.Timestamp;
 
 import java.util.*;
@@ -52,17 +49,25 @@ import javax.ejb.SessionBean;
  * @ejb.transaction type="Supports"
  *
  * @author <a href="mailto:hani@formicary.net">Hani Suleiman</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  *
  * Date: Apr 7, 2003
  * Time: 10:57:28 PM
  */
 public abstract class WorkflowStoreSessionEJB implements SessionBean {
-    //~ Static fields/initializers /////////////////////////////////////////////
-
-    private static final Log log = LogFactory.getLog(WorkflowStoreSessionEJB.class);
-
     //~ Methods ////////////////////////////////////////////////////////////////
+
+    /**
+     * @ejb.interface-method
+     */
+    public void setEntryState(long entryId, int state) throws StoreException {
+        try {
+            WorkflowEntryLocal entry = WorkflowEntryHomeFactory.getLocalHome().findByPrimaryKey(new Long(entryId));
+            entry.setState(state);
+        } catch (Exception e) {
+            throw new StoreException("Could not find workflow instance #" + entryId, e);
+        }
+    }
 
     /**
      * @ejb.interface-method
@@ -70,7 +75,7 @@ public abstract class WorkflowStoreSessionEJB implements SessionBean {
     public Step createCurrentStep(long entryId, int stepId, String owner, Date startDate, Date dueDate, String status, long[] previousIds) throws StoreException {
         try {
             WorkflowEntryLocal entry = WorkflowEntryHomeFactory.getLocalHome().findByPrimaryKey(new Long(entryId));
-            entry.setInitialized(1);
+            entry.setState(WorkflowEntry.ACTIVATED);
 
             Timestamp realDueDate = null;
 
@@ -89,7 +94,7 @@ public abstract class WorkflowStoreSessionEJB implements SessionBean {
 
             return new SimpleStep(id, entryId, stepId, 0, owner, startDate, dueDate, null, status, previousIds, null);
         } catch (Exception e) {
-            throw new StoreException("Could not create new current step for workflow #" + entryId + " step #" + stepId + ":" + e, e);
+            throw new StoreException("Could not create new current step for workflow instance #" + entryId + " step #" + stepId + ":" + e, e);
         }
     }
 
@@ -100,9 +105,9 @@ public abstract class WorkflowStoreSessionEJB implements SessionBean {
         try {
             WorkflowEntryLocal entry = WorkflowEntryHomeFactory.getLocalHome().create(workflowName);
 
-            return new SimpleWorkflowEntry(entry.getId().longValue(), entry.getWorkflowName(), false);
+            return new SimpleWorkflowEntry(entry.getId().longValue(), entry.getWorkflowName(), WorkflowEntry.CREATED);
         } catch (Exception e) {
-            throw new StoreException("Could not create new workflow entry", e);
+            throw new StoreException("Could not create new workflow instance", e);
         }
     }
 
@@ -146,9 +151,9 @@ public abstract class WorkflowStoreSessionEJB implements SessionBean {
         try {
             WorkflowEntryLocal entry = WorkflowEntryHomeFactory.getLocalHome().findByPrimaryKey(new Long(entryId));
 
-            return new SimpleWorkflowEntry(entry.getId().longValue(), entry.getWorkflowName(), entry.getInitialized() == 1);
+            return new SimpleWorkflowEntry(entry.getId().longValue(), entry.getWorkflowName(), entry.getState());
         } catch (Exception e) {
-            throw new StoreException("Could not find workflow entry #" + entryId, e);
+            throw new StoreException("Could not find workflow instance #" + entryId, e);
         }
     }
 
@@ -181,7 +186,7 @@ public abstract class WorkflowStoreSessionEJB implements SessionBean {
 
             return new ArrayList(set);
         } catch (Exception e) {
-            throw new StoreException("Could not find history steps for entry #" + entryId, e);
+            throw new StoreException("Could not find history steps for workflow instance #" + entryId, e);
         }
     }
 
@@ -247,7 +252,7 @@ public abstract class WorkflowStoreSessionEJB implements SessionBean {
 
             currentStep.remove();
         } catch (Exception e) {
-            throw new StoreException("Could not move step to history for workflow #" + id, e);
+            throw new StoreException("Could not move step to history for workflow instance #" + id, e);
         }
     }
 

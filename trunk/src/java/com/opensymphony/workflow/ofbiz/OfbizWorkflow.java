@@ -22,7 +22,7 @@ import java.util.Map;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class OfbizWorkflow extends AbstractWorkflow {
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -33,6 +33,22 @@ public class OfbizWorkflow extends AbstractWorkflow {
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
+
+    public void changeEntryState(long id, int newState) throws WorkflowException {
+        try {
+            TransactionUtil.begin();
+        } catch (GenericTransactionException e) {
+            throw new WorkflowException(e);
+        }
+
+        super.changeEntryState(id, newState);
+
+        try {
+            TransactionUtil.commit();
+        } catch (GenericTransactionException e) {
+            throw new WorkflowException(e);
+        }
+    }
 
     public void doAction(long id, int actionId, Map inputs) throws WorkflowException {
         try {

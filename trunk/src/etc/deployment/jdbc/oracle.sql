@@ -49,7 +49,7 @@ create table OS_WFENTRY
 (
     ID number,
     NAME varchar(20),
-    INITIALIZED integer,
+    STATE integer,
     primary key (ID)
 );
 

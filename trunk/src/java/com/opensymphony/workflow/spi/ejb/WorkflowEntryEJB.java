@@ -62,13 +62,13 @@ public abstract class WorkflowEntryEJB extends ExceptionlessEntityAdapter {
     /**
      * @ejb.interface-method
      */
-    public abstract void setInitialized(int initialized);
+    public abstract void setState(int state);
 
     /**
      * @ejb.interface-method
-     * @ejb.persistence column-name="INITIALIZED"
+     * @ejb.persistence column-name="STATE"
      */
-    public abstract int getInitialized();
+    public abstract int getState();
 
     public abstract void setWorkflowName(String workflowName);
 
@@ -86,7 +86,7 @@ public abstract class WorkflowEntryEJB extends ExceptionlessEntityAdapter {
             Long id = new Long(nextLong());
             setId(id);
             setWorkflowName(workflowName);
-            setInitialized(0);
+            setState(0);
 
             return null;
         } catch (Exception e) {

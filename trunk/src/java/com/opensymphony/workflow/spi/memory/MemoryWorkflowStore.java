@@ -9,6 +9,7 @@ import com.opensymphony.module.propertyset.*;
 import com.opensymphony.util.DataUtil;
 import com.opensymphony.util.TextUtils;
 
+import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.*;
 
@@ -31,6 +32,11 @@ public class MemoryWorkflowStore implements WorkflowStore {
     private static long globalStepId = 1;
 
     //~ Methods ////////////////////////////////////////////////////////////////
+
+    public void setEntryState(long entryId, int state) throws StoreException {
+        SimpleWorkflowEntry theEntry = (SimpleWorkflowEntry) findEntry(entryId);
+        theEntry.setState(state);
+    }
 
     public PropertySet getPropertySet(long entryId) {
         PropertySet ps = (PropertySet) propertySetCache.get(new Long(entryId));
@@ -61,7 +67,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
     public WorkflowEntry createEntry(String workflowName) {
         long id = globalEntryId++;
-        SimpleWorkflowEntry entry = new SimpleWorkflowEntry(id, workflowName, false);
+        SimpleWorkflowEntry entry = new SimpleWorkflowEntry(id, workflowName, WorkflowEntry.CREATED);
         entryCache.put(new Long(id), entry);
 
         return entry;

@@ -9,6 +9,7 @@ import com.opensymphony.module.propertyset.PropertySetManager;
 
 import com.opensymphony.util.TextUtils;
 
+import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.Step;
 import com.opensymphony.workflow.spi.WorkflowEntry;
@@ -28,7 +29,7 @@ import java.util.*;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -46,6 +47,18 @@ public class HibernateWorkflowStore implements WorkflowStore {
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
+
+    public void setEntryState(long entryId, int state) throws StoreException {
+        try {
+            HibernateWorkflowEntry entry = (HibernateWorkflowEntry) session.find("FROM entry IN CLASS " + HibernateWorkflowEntry.class.getName() + " WHERE entry.id = ?", new Long(entryId), Hibernate.LONG).get(0);
+            entry.setState(state);
+            session.save(entry);
+        } catch (HibernateException e) {
+            log.error("An exception occured", e);
+
+            return;
+        }
+    }
 
     public PropertySet getPropertySet(long entryId) {
         HashMap args = new HashMap();

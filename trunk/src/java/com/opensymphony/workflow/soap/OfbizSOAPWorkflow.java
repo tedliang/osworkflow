@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class OfbizSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -40,6 +40,10 @@ public class OfbizSOAPWorkflow implements Workflow {
 
     public List getCurrentSteps(long id) throws StoreException, FactoryException {
         return new OfbizWorkflow(getRemoteUser()).getCurrentSteps(id);
+    }
+
+    public int getEntryState(long id) throws WorkflowException {
+        return new OfbizWorkflow(getRemoteUser()).getEntryState(id);
     }
 
     public List getHistorySteps(long id) throws StoreException, FactoryException {
@@ -72,6 +76,14 @@ public class OfbizSOAPWorkflow implements Workflow {
 
     public boolean canInitialize(String workflowName, int initialAction, Map inputs) throws WorkflowException {
         return new OfbizWorkflow(getRemoteUser()).canInitialize(workflowName, initialAction, inputs);
+    }
+
+    public boolean canModifyEntryState(long id, int newState) throws WorkflowException {
+        return new OfbizWorkflow(getRemoteUser()).canModifyEntryState(id, newState);
+    }
+
+    public void changeEntryState(long id, int newState) throws WorkflowException {
+        new OfbizWorkflow(getRemoteUser()).changeEntryState(id, newState);
     }
 
     public void doAction(long id, int actionId, Map inputs) throws WorkflowException, StoreException {

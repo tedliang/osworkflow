@@ -13,7 +13,7 @@ import java.util.List;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class HibernateWorkflowEntry implements WorkflowEntry {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -23,6 +23,7 @@ public class HibernateWorkflowEntry implements WorkflowEntry {
     String workflowName;
     boolean initialized;
     long id;
+    private int state;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
@@ -56,6 +57,14 @@ public class HibernateWorkflowEntry implements WorkflowEntry {
 
     public boolean isInitialized() {
         return initialized;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public int getState() {
+        return state;
     }
 
     public void setWorkflowName(String workflowName) {
