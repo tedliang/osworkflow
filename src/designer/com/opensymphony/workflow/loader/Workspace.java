@@ -9,6 +9,7 @@ import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.designer.Layout;
 import com.opensymphony.workflow.designer.Prefs;
 import com.opensymphony.workflow.designer.ResourceManager;
+import com.opensymphony.workflow.designer.WorkflowGraph;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -219,7 +220,7 @@ public class Workspace extends XMLWorkflowFactory
     return super.getWorkflow(name);
   }
 
-  public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, boolean replace) throws FactoryException
+  public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, WorkflowGraph graph, boolean replace) throws FactoryException
   {
     Object obj = layouts.get(name);
     if(obj instanceof Layout)
@@ -231,7 +232,7 @@ public class Workspace extends XMLWorkflowFactory
         URL url = new URL(getLayoutURL(config, name));
         File file = new File(url.getFile());
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-        layout.writeXML(out, 0);
+        layout.writeXML(out, 0, graph);
         out.flush();
         out.close();
         if(config.location==null)

@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class ResultDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -26,6 +26,7 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
     protected List postFunctions = new ArrayList();
     protected List preFunctions = new ArrayList();
     protected List validators = new ArrayList();
+    protected String displayName;
     protected String dueDate;
     protected String oldStatus;
     protected String owner;
@@ -45,6 +46,14 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 
     public String getDueDate() {
         return dueDate;
@@ -168,6 +177,10 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
             if ((owner != null) && (owner.length() > 0)) {
                 buf.append(" owner=\"").append(owner).append("\"");
             }
+
+            if ((displayName != null) && (displayName.length() > 0)) {
+                buf.append(" display-name=\"").append(displayName).append("\"");
+            }
         }
 
         if ((preFunctions.size() == 0) && (postFunctions.size() == 0)) {
@@ -211,6 +224,7 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
         }
 
         owner = result.getAttribute("owner");
+        displayName = result.getAttribute("display-name");
 
         // set up validators -- OPTIONAL
         Element v = XMLUtil.getChildElement(result, "validators");

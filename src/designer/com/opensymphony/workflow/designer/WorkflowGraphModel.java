@@ -5,7 +5,7 @@ import javax.swing.undo.UndoableEdit;
 
 import com.opensymphony.workflow.designer.event.JoinChangedEvent;
 import com.opensymphony.workflow.designer.event.JoinChangedListener;
-import com.opensymphony.workflow.designer.proxy.ActionProxy;
+import com.opensymphony.workflow.designer.proxy.ResultProxy;
 import com.opensymphony.workflow.loader.*;
 import org.jgraph.graph.*;
 
@@ -57,7 +57,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
   public boolean acceptsTarget(Object edge, Object port)
   {
-    if(port==null) return false;
+    if(port == null) return false;
     WorkflowCell cell = (WorkflowCell)((WorkflowPort)port).getParent();
     if(cell instanceof InitialActionCell) return false;
     return true;
@@ -65,8 +65,8 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
   public boolean acceptsSource(Object edge, Object port)
   {
-//    if(port==null) return false;
-//    WorkflowCell cell = (WorkflowCell)((WorkflowPort)port).getParent();
+    //    if(port==null) return false;
+    //    WorkflowCell cell = (WorkflowCell)((WorkflowPort)port).getParent();
     return false;
   }
 
@@ -251,8 +251,8 @@ public class WorkflowGraphModel extends DefaultGraphModel
     resultIdGenerator.checkId(result.getId());
     if(result.getId() == 0) result.setId(resultIdGenerator.generateId());
     // Create Edge
-    ResultEdge edge = new ResultEdge(result, layout!=null ? layout.getLabelPosition(result.getId()) : null);
-    edge.setUserObject(action==null ? null : new ActionProxy(action));
+    ResultEdge edge = new ResultEdge(result, layout != null ? layout.getLabelPosition(result.getId()) : null);
+    edge.setUserObject(new ResultProxy(result));
 
     // Connect Edge
     ConnectionSet cs = new ConnectionSet(edge, fromPort, toPort);
@@ -280,11 +280,23 @@ public class WorkflowGraphModel extends DefaultGraphModel
     // Create Edge
     ResultDescriptor descriptor = resultCell.getDescriptor();
     resultIdGenerator.checkId(descriptor.getId());
-    if(descriptor.getId()==0) descriptor.setId(resultIdGenerator.generateId());
-    ResultEdge edge = new ResultEdge(descriptor, layout != null ? layout.getLabelPosition(descriptor.getId()) : null);
+    if(descriptor.getId() == 0) descriptor.setId(resultIdGenerator.generateId());
+    ResultEdge edge;
+    if(layout != null)
+    {
+      edge = new ResultEdge(descriptor,
+                            layout.getLabelPosition(descriptor.getId()),
+                            layout.getLineWidth(descriptor.getId()),
+                            layout.getColor(descriptor.getId()),
+                            layout.getRoutingPoints(descriptor.getId()));
+    }
+    else
+    {
+      edge = new ResultEdge(descriptor, layout != null ? layout.getLabelPosition(descriptor.getId()) : null);
+    }
 
-    // this is action, why?
-    edge.setUserObject(new ActionProxy(resultCell.getAction()));
+    edge.setUserObject(new ResultProxy(descriptor));
+
     ConnectionSet cs = new ConnectionSet(edge, fromPort, toPort);
     Object[] cells = new Object[]{edge};
     // Insert into Model
@@ -308,7 +320,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
       List conResults = action.getConditionalResults();
       recordResults(fromCell, conResults, action);
       ResultDescriptor result = action.getUnconditionalResult();
-      if(result!=null)
+      if(result != null)
         recordResult(fromCell, result, action);
     }
   }

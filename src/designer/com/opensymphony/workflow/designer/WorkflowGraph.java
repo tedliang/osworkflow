@@ -24,6 +24,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
 
   private WorkflowDescriptor descriptor;
   private JPopupMenu genericMenu;
+  private JPopupMenu edgeMenu;
   private JPopupMenu cellMenu;
 
   private UndoManager undoManager = new UndoManager();
@@ -65,8 +66,42 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
 
     cellMenu = new JPopupMenu();
     cellMenu.add(new Delete(descriptor, this, menuLocation));
+
+    edgeMenu = new JPopupMenu();
+    n = new JMenu(ResourceManager.getString("edge.color"));
+    edgeMenu.add(n);
+    n.add(new ResultEdgeColor(this, menuLocation, Color.black, ResourceManager.getString("edge.color.black")));
+    n.add(new ResultEdgeColor(this, menuLocation, Color.LIGHT_GRAY, ResourceManager.getString("edge.color.gray")));
+    n.add(new ResultEdgeColor(this, menuLocation, Color.red, ResourceManager.getString("edge.color.red")));
+    n.add(new ResultEdgeColor(this, menuLocation, Color.ORANGE, ResourceManager.getString("edge.color.orange")));
+    n.add(new ResultEdgeColor(this, menuLocation, new Color(0, 200, 0), ResourceManager.getString("edge.color.green")));
+    n.add(new ResultEdgeColor(this, menuLocation, Color.MAGENTA, ResourceManager.getString("edge.color.magenta")));
+    n.add(new ResultEdgeColor(this, menuLocation, Color.blue, ResourceManager.getString("edge.color.blue")));
+    n = new JMenu(ResourceManager.getString("edge.width"));
+    edgeMenu.add(n);
+    for(int i = 1; i <= 5; i++)
+    {
+      n.add(new ResultEdgeLineWidth(this, menuLocation, i));
+    }
+    edgeMenu.add(new Delete(descriptor, this, menuLocation));
     model.addUndoableEditListener(undoManager);
     new DropTarget(this, this);
+  }
+
+  public String convertValueToString(Object value)
+  {
+    if(value instanceof CustomEdgeView)
+    {
+      return ((CustomEdgeView)value).getCell().toString();
+    }
+    else if(value instanceof ResultEdge)
+    {
+      return ((ResultEdge)value).toString();
+    }
+    else
+    {
+      return super.convertValueToString(value);
+    }
   }
 
   public void setDescriptor(WorkflowDescriptor descriptor)
@@ -109,10 +144,10 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     return new CustomPortView(cell, graph, mapper);
   }
 
-  //protected EdgeView createEdgeView(JGraph graph, CellMapper mapper, Object cell)
-  //{
-  //  return new CustomEdgeView(cell, (WorkflowGraph)graph, mapper);
-  //}
+  protected EdgeView createEdgeView(JGraph graph, CellMapper mapper, Object cell)
+  {
+    return new CustomEdgeView(cell, (WorkflowGraph)graph, mapper);
+  }
 
   public void autoLayout()
   {
@@ -259,6 +294,13 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     menuLocation.x = x;
     menuLocation.y = y;
     cellMenu.show(this, x, y);
+  }
+
+  public void showEdgeMenu(int x, int y)
+  {
+    menuLocation.x = x;
+    menuLocation.y = y;
+    edgeMenu.show(this, x, y);
   }
 
   public boolean removeEdge(ResultEdge edge)

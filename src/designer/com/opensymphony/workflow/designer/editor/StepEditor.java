@@ -59,6 +59,8 @@ public class StepEditor extends DetailPanel implements ActionListener
       "40dlu:grow, " + // 25 table
       "pref, 2dlu");	 // 26 buttons
 
+	StepCell cell = (StepCell)getCell();
+
     PanelBuilder builder = new PanelBuilder(this, layout);
     CellConstraints cc = new CellConstraints();
 
