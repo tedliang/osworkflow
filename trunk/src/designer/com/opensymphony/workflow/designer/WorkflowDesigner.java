@@ -5,6 +5,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.*;
 import java.net.URL;
 import java.net.MalformedURLException;
@@ -321,6 +322,17 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
     catch(InvalidWorkflowDescriptorException e)
     {
+      try
+      {
+        System.out.println("Error saving workflow: " + e);
+        PrintWriter out = new PrintWriter(System.out);
+        manager.getCurrentWorkspace().getWorkflow(workflowName).writeXML(out, 0);
+        out.flush();
+      }
+      catch(FactoryException e1)
+      {
+        e1.printStackTrace();
+      }
       JOptionPane.showMessageDialog(this, ResourceManager.getString("error.save.workflow", new Object[]{e.getMessage()}),
                                     ResourceManager.getString("error.save.workflow.long", new Object[]{workflowName}), JOptionPane.ERROR_MESSAGE);
     }
