@@ -130,7 +130,7 @@ public interface Workflow {
 
     /**
      * Executes a special trigger-function using the context of the given workflow instance id.
-     *
+     * Note that this method is exposed for Quartz trigger jobs, user code should never call it.
      * @param id The workflow instance id
      * @param triggerId The id of the speciail trigger-function
      */
