@@ -38,7 +38,7 @@ public class XWorkExecutor implements FunctionProvider {
 
     public void execute(Map transientVars, Map args, PropertySet ps) throws WorkflowException {
         String actionName = (String) args.get("action.name");
-        String namespace = (String) args.get("namespace.name");
+        String namespace = (String) args.get("namespace");
 
         Map extraContext = new HashMap();
         extraContext.put(ActionContext.APPLICATION, args);
