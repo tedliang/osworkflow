@@ -15,7 +15,7 @@ import java.util.Map;
  * will be mapped to the properties parameter.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface FunctionProvider {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -24,9 +24,13 @@ public interface FunctionProvider {
      * Execute this function
      * @param transientVars Variables that will not be persisted. These include inputs
      * given in the {@link Workflow#initialize} and {@link Workflow#doAction} method calls.
-     * There are two special variable names: <b>entry</b> (object type:
-     * {@link com.opensymphony.workflow.spi.WorkflowEntry}) and <b>context</b>
-     * (object type: {@link com.opensymphony.workflow.WorkflowContext}).
+     * There are a number of special variable names:
+     * <li><b>entry</b>: (object type: {@link com.opensymphony.workflow.spi.WorkflowEntry})
+     *  The workflow instance
+     * <li><b>context</b>:
+     * (object type: {@link com.opensymphony.workflow.WorkflowContext}). The workflow context.
+     * <li><b>actionId</b>: The Integer ID of the current action that was taken.
+     * <li><b>currentSteps</b>: A Collection of the current steps in the workflow instance.<p>
      * Also, any variable set as a {@link com.opensymphony.workflow.Register}), will also be
      * available in the transient map, no matter what. These transient variables only last through
      * the method call that they were invoked in, such as {@link Workflow#initialize}
