@@ -6,7 +6,6 @@ import javax.swing.*;
 
 import com.opensymphony.workflow.designer.ResultEdge;
 import com.opensymphony.workflow.designer.WorkflowGraph;
-import com.opensymphony.workflow.designer.views.CustomEdgeView;
 import org.jgraph.graph.CellView;
 import org.jgraph.graph.GraphConstants;
 
@@ -18,14 +17,14 @@ public class ResultEdgeLineWidth extends JMenuItem
   {
     private WorkflowGraph graph;
     private Point location;
-    private int iWidth;
+    private int width;
 
     ResultEdgeLineWidthHandler(WorkflowGraph graph, Point location, int lineWidth, String name)
     {
       super(name);
       this.graph = graph;
       this.location = location;
-      this.iWidth = lineWidth;
+      this.width = lineWidth;
     }
 
     public void actionPerformed(ActionEvent e)
@@ -38,9 +37,9 @@ public class ResultEdgeLineWidth extends JMenuItem
       else
       {
         CellView view = (graph.getGraphLayoutCache().getMapping(cell, false));
-        if(view instanceof CustomEdgeView)
+        if(graph.getModel().isEdge(cell))
         {
-          GraphConstants.setLineWidth(((ResultEdge)cell).getAttributes(), iWidth);
+          GraphConstants.setLineWidth(((ResultEdge)cell).getAttributes(), width);
           view.update();
           view.refresh(graph.getModel(), graph.getGraphLayoutCache(), false);
           graph.getSelectionModel().setSelectionCell(view.getCell());

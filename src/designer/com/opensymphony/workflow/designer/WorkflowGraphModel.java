@@ -211,7 +211,10 @@ public class WorkflowGraphModel extends DefaultGraphModel
   {
     stepCells.add(stepCell);
     Utils.checkId(context, stepCell.getDescriptor());
-    Object[] cells = new Object[]{stepCell};
+    Object[] cells = new Object[1 + stepCell.getChildCount()];
+    cells[0] = stepCell;
+    Object[] children = stepCell.getChildren().toArray();
+    System.arraycopy(children, 0, cells, 1, children.length);
     // Insert into Model
     insert(cells, attributes, null, pm, edits);
     recordResults(stepCell);
