@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.loader;
 
 import com.opensymphony.workflow.designer.Utils;
+import com.opensymphony.workflow.designer.WorkflowGraphModel;
 
 /**
  * @author jackflit
@@ -42,12 +43,12 @@ public class DescriptorBuilder
     return split;
   }
 
-  public static ResultDescriptor createResult(AbstractDescriptor desc)
+  public static ResultDescriptor createResult(WorkflowGraphModel model, AbstractDescriptor desc)
   {
     ResultDescriptor result = new ResultDescriptor();
-    Utils.checkId(desc);
+    Utils.checkId(model.getContext(), desc);
     if(result.getId()==0)
-      result.setId(Utils.getNextId());
+      result.setId(Utils.getNextId(model.getContext()));
     result.setOldStatus("Finished");
     result.setStatus("Underway");
     if(desc instanceof StepDescriptor)
@@ -69,12 +70,12 @@ public class DescriptorBuilder
     return result;
   }
 
-  public static ConditionalResultDescriptor createConditionalResult(AbstractDescriptor desc)
+  public static ConditionalResultDescriptor createConditionalResult(WorkflowGraphModel model, AbstractDescriptor desc)
   {
     ConditionalResultDescriptor result = new ConditionalResultDescriptor();
-    Utils.checkId(desc);
+    Utils.checkId(model.getContext(), desc);
     if(result.getId()==0)
-      result.setId(Utils.getNextId());
+      result.setId(Utils.getNextId(model.getContext()));
     result.setOldStatus("Finished");
     result.setStatus("Underway");
     result.setOwner("$$$");
@@ -94,7 +95,7 @@ public class DescriptorBuilder
     {
       return null;
     }
-    
+
     return result;
   }
 }

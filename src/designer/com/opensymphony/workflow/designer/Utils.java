@@ -3,6 +3,8 @@ package com.opensymphony.workflow.designer;
 import java.io.File;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Map;
+import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
@@ -16,7 +18,7 @@ import org.jgraph.JGraph;
  */
 public class Utils
 {
-  private static int nextId = 0;
+  private static Map contexts = new HashMap();
 
   public static File promptUserForFile(Component component, int type, boolean save, final String suffix, final String description)
   {
@@ -97,15 +99,19 @@ public class Utils
     return null;
   }
 
-  public static void checkId(AbstractDescriptor descriptor)
+  public static void checkId(Object context, AbstractDescriptor descriptor)
   {
     if(descriptor == null) return;
+    Integer i = (Integer)contexts.get(context);
+    int nextId = i==null ? 0 : i.intValue();
     if(descriptor.getId() >= nextId) nextId = descriptor.getId() + 1;
+    contexts.put(context, new Integer(nextId));
   }
 
-  public static int getNextId()
+  public static int getNextId(Object context)
   {
-    //todo needs to be per workflow, not global!
-    return nextId;
+    Integer i = (Integer)contexts.get(context);
+    if(i==null) return 0;
+    return i.intValue();
   }
 }

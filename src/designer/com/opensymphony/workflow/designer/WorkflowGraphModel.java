@@ -18,10 +18,16 @@ public class WorkflowGraphModel extends DefaultGraphModel
   private ResultHolderList results = new ResultHolderList();
   private IDGenerator resultIdGenerator = new IDGenerator();
   private Layout layout;
+  private Object context = new Object();
 
   public WorkflowGraphModel(Layout layout)
   {
     this.layout = layout;
+  }
+
+  public Object getContext()
+  {
+    return context;
   }
 
   private JoinCell getJoinCell(int id)
@@ -95,7 +101,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
       }
 
       ActionDescriptor action = (ActionDescriptor)initialActions.get(i);
-      Utils.checkId(action);
+      Utils.checkId(context, action);
       List conResults = action.getConditionalResults();
       recordResults(initialActionCell, conResults, action);
       ResultDescriptor result = action.getUnconditionalResult();
@@ -112,7 +118,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void insertStepCell(StepCell stepCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     stepCells.add(stepCell);
-    Utils.checkId(stepCell.getDescriptor());
+    Utils.checkId(context, stepCell.getDescriptor());
     Object[] cells = new Object[]{stepCell};
     // Insert into Model
     insert(cells, attributes, null, pm, edits);
@@ -122,7 +128,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void insertSplitCell(SplitCell splitCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     splitCells.add(splitCell);
-    Utils.checkId(splitCell.getSplitDescriptor());
+    Utils.checkId(context, splitCell.getSplitDescriptor());
     Object[] cells = new Object[]{splitCell};
     // Insert into Model
     insert(cells, attributes, null, pm, edits);
@@ -132,7 +138,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void insertJoinCell(JoinCell joinCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     joinCells.add(joinCell);
-    Utils.checkId(joinCell.getJoinDescriptor());
+    Utils.checkId(context, joinCell.getJoinDescriptor());
     Object[] cells = new Object[]{joinCell};
     // Insert into Model
     insert(cells, attributes, null, pm, edits);
@@ -287,7 +293,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     for(int i = 0; i < actionList.size(); i++)
     {
       ActionDescriptor action = (ActionDescriptor)actionList.get(i);
-      Utils.checkId(action);
+      Utils.checkId(context, action);
       List conResults = action.getConditionalResults();
       recordResults(fromCell, conResults, action);
       ResultDescriptor result = action.getUnconditionalResult();
@@ -307,7 +313,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
   public ResultHolder recordResult(WorkflowCell fromCell, ResultDescriptor result, ActionDescriptor action)
   {
-    Utils.checkId(result);
     ResultHolder newCell = new ResultHolder(fromCell, result, action);
     results.add(newCell);
     return newCell;

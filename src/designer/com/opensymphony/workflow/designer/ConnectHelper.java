@@ -234,7 +234,7 @@ public class ConnectHelper
 
   private static boolean connectStepTo(StepCell source, WorkflowCell target, WorkflowGraphModel model)
   {
-    ActionDescriptor sourceAction = DescriptorBuilder.createAction(source.getDescriptor(), source.getDescriptor().getName(), Utils.getNextId());
+    ActionDescriptor sourceAction = DescriptorBuilder.createAction(source.getDescriptor(), source.getDescriptor().getName(), Utils.getNextId(model.getContext()));
     AbstractDescriptor to;
     if(target instanceof StepCell)
     {
@@ -253,17 +253,17 @@ public class ConnectHelper
       return false;
     }
 
-    ResultDescriptor result = null;
+    ResultDescriptor result;
 
     int type = getConnectType(sourceAction, to);
 
     if(type == CONDITIONAL)
     {
-      result = DescriptorBuilder.createConditionalResult(to);
+      result = DescriptorBuilder.createConditionalResult(model, to);
     }
     else if(type == UNCONDITIONAL)
     {
-      result = DescriptorBuilder.createResult(to);
+      result = DescriptorBuilder.createResult(model, to);
     }
     else
     {
@@ -290,17 +290,17 @@ public class ConnectHelper
   {
     ActionDescriptor start = source.getActionDescriptor();
     StepDescriptor step = target.getDescriptor();
-    ResultDescriptor result = null;
+    ResultDescriptor result;
 
     int type = getConnectType(start, step);
 
     if(type == CONDITIONAL)
     {
-      result = DescriptorBuilder.createConditionalResult(step);
+      result = DescriptorBuilder.createConditionalResult(model, step);
     }
     else if(type == UNCONDITIONAL)
     {
-      result = DescriptorBuilder.createResult(step);
+      result = DescriptorBuilder.createResult(model, step);
     }
     else
     {
@@ -338,7 +338,7 @@ public class ConnectHelper
     }
 
     // create new unconditional result
-    ResultDescriptor result = DescriptorBuilder.createResult(step);
+    ResultDescriptor result = DescriptorBuilder.createResult(model, step);
     result.setParent(split);
 
     // add to split's result list
@@ -364,7 +364,7 @@ public class ConnectHelper
     }
 
     // create new unconditional result
-    result = DescriptorBuilder.createResult(step);
+    result = DescriptorBuilder.createResult(model, step);
     result.setParent(join);
     join.setResult(result);
 
