@@ -39,7 +39,7 @@ import java.util.*;
  * See the HibernateFunctionalWorkflowTestCase for more help.
  *
  * @author $Author: hani $
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -280,6 +280,7 @@ public class HibernateWorkflowStore implements WorkflowStore {
         }
 
         try {
+            session.save(hStep);
             session.save(entry);
             tx.commit();
 
