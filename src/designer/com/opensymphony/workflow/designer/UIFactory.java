@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
 
 /**
