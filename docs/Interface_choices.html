@@ -1,5 +1,7 @@
 <html><head><title>OSWorkflow Interface choices</title></head><body><ul class="star">
-<li>Back to <a href="Documentation.html">OSWorkflow Documentation</a></li>
+<li>Up to <a href="Documentation.html">Documentation</a></li>
+<li>Back to <a href="SOAP_Support.html">SOAP Support</a></li>
+<li>Forward to <a href="Creating_a_new_workflow.html">Creating a new workflow</a></li>
 </ul><p class="paragraph"></p>OSWorkflow provides several implementations of the <b class="bold">com.opensymphony.workflow.Workflow</b> interface that can be used in your application.
 <h3 class="heading-1">BasicWorkflow
 </h3><p class="paragraph"></p>The BasicWorkflow has no transactional support, though depending upon your persistence implementation, transactional support can be wrapped around this. It is created by doing  <div class="wikicode"><pre>Workflow wf = <span class="java&#45;keyword">new</span> BasicWorkflow(username)</pre></div> where username is the user who is associated with the current request.

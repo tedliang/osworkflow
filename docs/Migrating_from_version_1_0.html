@@ -1,5 +1,5 @@
 <html><head><title>OSWorkflow Migrating from version 1.0</title></head><body><ul class="star">
-<li>Back to <a href="Documentation.html">OSWorkflow Documentation</a></li>
+<li>Back to <a href="Documentation.html">Documentation</a></li>
 </ul><p class="paragraph"></p>Migrating from OSWorkflow 1.x to 2.1+ is slightly complex due to the introduction of joins and splits, which means that there <b class="bold">can now be more than one current step</b>. Below is an attempt to provide helpful information for migrating your application to version 2.1+:
 <ul class="minus">
 <li><b class="bold">Check your workflow XML file with the latest DTD</b> - the DTD has changed a bit, especially with regards to functions, validators, and registers. The location attribute for these has been removed and must now be set with an <b class="bold">arg</b> name/value pair. Please read the documentation for the exact values you should place here.</li>
