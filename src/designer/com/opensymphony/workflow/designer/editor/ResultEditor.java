@@ -148,7 +148,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
       ConditionalResultDescriptor cond = (ConditionalResultDescriptor)descriptor;
       if(cond.getConditions().size() == 0)
       {
-        ConditionsDescriptor conditions = new ConditionsDescriptor();
+        ConditionsDescriptor conditions = DescriptorFactory.getFactory().createConditionsDescriptor();
         conditions.setParent(cond);
         cond.getConditions().add(conditions);
       }

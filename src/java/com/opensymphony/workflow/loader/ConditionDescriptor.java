@@ -18,7 +18,7 @@ import java.util.*;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class ConditionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -34,10 +34,10 @@ public class ConditionDescriptor extends AbstractDescriptor implements Validatab
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public ConditionDescriptor() {
+    ConditionDescriptor() {
     }
 
-    public ConditionDescriptor(Element function) {
+    ConditionDescriptor(Element function) {
         init(function);
     }
 

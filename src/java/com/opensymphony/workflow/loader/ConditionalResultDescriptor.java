@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class ConditionalResultDescriptor extends ResultDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -117,7 +117,7 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
 
         for (int i = 0; i < length; i++) {
             Element condition = (Element) conditionNodes.get(i);
-            ConditionsDescriptor conditionDescriptor = new ConditionsDescriptor(condition);
+            ConditionsDescriptor conditionDescriptor = DescriptorFactory.getFactory().createConditionsDescriptor(condition);
             conditionDescriptor.setParent(this);
             this.conditions.add(conditionDescriptor);
         }

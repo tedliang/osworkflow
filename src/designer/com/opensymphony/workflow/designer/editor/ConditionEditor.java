@@ -7,9 +7,7 @@ import com.opensymphony.workflow.designer.WorkflowCell;
 import com.opensymphony.workflow.designer.WorkflowGraphModel;
 import com.opensymphony.workflow.designer.spi.ConditionPlugin;
 import com.opensymphony.workflow.designer.spi.DefaultConditionPlugin;
-import com.opensymphony.workflow.loader.AbstractDescriptor;
-import com.opensymphony.workflow.loader.ConditionDescriptor;
-import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
+import com.opensymphony.workflow.loader.*;
 
 /**
  * @author baab
@@ -46,7 +44,7 @@ public abstract class ConditionEditor
 
     if(condition != null)
     {
-      ConditionDescriptor cond = new ConditionDescriptor();
+      ConditionDescriptor cond = DescriptorFactory.getFactory().createConditionDescriptor();
       //			cond.setId(0);
       //			cond.setNegate(false);
       cond.setParent(getParent());

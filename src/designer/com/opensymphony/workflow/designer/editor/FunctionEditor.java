@@ -7,9 +7,7 @@ import com.opensymphony.workflow.designer.WorkflowCell;
 import com.opensymphony.workflow.designer.WorkflowGraphModel;
 import com.opensymphony.workflow.designer.spi.DefaultFunctionPlugin;
 import com.opensymphony.workflow.designer.spi.FunctionPlugin;
-import com.opensymphony.workflow.loader.AbstractDescriptor;
-import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
-import com.opensymphony.workflow.loader.FunctionDescriptor;
+import com.opensymphony.workflow.loader.*;
 
 /**
  * @author baab
@@ -46,7 +44,7 @@ public abstract class FunctionEditor
 
     if(function != null)
     {
-      FunctionDescriptor func = new FunctionDescriptor();
+      FunctionDescriptor func = DescriptorFactory.getFactory().createFunctionDescriptor();
       //			cond.setId(0);
       func.setParent(getParent());
       func.setType(function.getType());

@@ -23,9 +23,7 @@ import com.opensymphony.workflow.designer.editor.*;
 import com.opensymphony.workflow.designer.swing.*;
 import com.opensymphony.workflow.designer.swing.status.StatusBar;
 import com.opensymphony.workflow.designer.dialogs.NewWorkspaceDialog;
-import com.opensymphony.workflow.loader.PaletteDescriptor;
-import com.opensymphony.workflow.loader.WorkflowDescriptor;
-import com.opensymphony.workflow.loader.Workspace;
+import com.opensymphony.workflow.loader.*;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
