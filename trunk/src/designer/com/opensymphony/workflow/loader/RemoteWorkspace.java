@@ -39,7 +39,7 @@ public class RemoteWorkspace extends HTTPWorkflowFactory
 		while (iter.hasNext()) 
 		{
 			Map.Entry entry = (Map.Entry) iter.next();
-			HTTPWorkflowConfig config = new HTTPWorkflowConfig(service.getServiceAddr(), entry.getValue().toString(), entry.getKey().toString());
+			HTTPWorkflowConfig config = new HTTPWorkflowConfig(service.getRemoteAddress(), entry.getValue().toString(), entry.getKey().toString());
 			workflows.put(entry.getValue(), config);
 		} 
 		
@@ -95,7 +95,7 @@ public class RemoteWorkspace extends HTTPWorkflowFactory
     String docId = obj.toString();
     try
     {
-      String layBuffer = readLayoutBuffer(service.getServiceAddr(), docId); 
+      String layBuffer = readLayoutBuffer(service.getRemoteAddress(), docId);
       if(layBuffer!=null)
       {
         Layout layout = new Layout(layBuffer);
@@ -137,7 +137,7 @@ public class RemoteWorkspace extends HTTPWorkflowFactory
 			String docId = config.docId; 
 			try
 			{
-				String workflowBuffer = readWorkflowBuffer(service.getServiceAddr(), docId); 
+				String workflowBuffer = readWorkflowBuffer(service.getRemoteAddress(), docId);
 				if (workflowBuffer!=null)
 				{
 					config.descriptor = WorkflowLoader.load(new ByteArrayInputStream(workflowBuffer.getBytes()), validate);
@@ -206,7 +206,7 @@ public class RemoteWorkspace extends HTTPWorkflowFactory
 				writer.close();
 				//workflowBuffer = writer.toString();
 				workflowBuffer = sw.getBuffer().toString();
-				String ret = writeWorkflowBuffer(service.getServiceAddr(), config.docId, name, workflowBuffer, layoutBuffer);
+				String ret = writeWorkflowBuffer(service.getRemoteAddress(), config.docId, name, workflowBuffer, layoutBuffer);
 				if (ret.length() == 0)
 					return false;
 				config.docId = ret;		// set the new document ID
@@ -241,7 +241,7 @@ public class RemoteWorkspace extends HTTPWorkflowFactory
 
   public void createWorkflow(String name)
   {
-    HTTPWorkflowConfig config = new HTTPWorkflowConfig(service.getServiceAddr(), name, "");
+    HTTPWorkflowConfig config = new HTTPWorkflowConfig(service.getRemoteAddress(), name, "");
     config.descriptor = new WorkflowDescriptor();
     config.descriptor.setName(name);
     ActionDescriptor initialAction = new ActionDescriptor();

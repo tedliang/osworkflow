@@ -53,7 +53,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     super(ResourceManager.getString("app.name"));
     INSTANCE = this;
 
-    service = new DesignerService(null);
+    service = new DesignerService();
 
     setJMenuBar(BarFactory.createMenubar(manager, service.getVerb()));
     splash.setProgress(30);
@@ -103,14 +103,14 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
         quit();
       }
     });
-    if(service.getVerb().equals("new"))
+    if("new".equals(service.getVerb()))
     {
       newRemoteWorkspace();
     }
-    else if(service.getVerb().equals("modify"))
+    else if("modify".equals(service.getVerb()))
     {
       newRemoteWorkspace();
-      openServiceWorkspace();
+      openRemoteWorkspace();
     }
     else
     {
@@ -441,7 +441,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     }
   }
 
-  public void openServiceWorkspace()
+  public void openRemoteWorkspace()
   {
     // apre il workspace attraverso il webservice
     try

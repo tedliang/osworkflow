@@ -31,14 +31,14 @@ public class BarFactory
     JMenuBar menuBar = new JMenuBar();
     JMenu fileMenu = new JMenu(ResourceManager.getString("menu.file"));
 
-    if((mode.equals("new")) || (mode.equals("none")))
+    if(mode == null || mode.equals("new"))
     {
       JMenu itemNew = new JMenu(ResourceManager.getString("menu.new"));
       itemNew.setIcon(ResourceManager.getIcon("newfile"));
       itemNew.setHorizontalTextPosition(JMenu.RIGHT);
       fileMenu.add(itemNew);
 
-      if(mode.equals("none"))
+      if(mode == null)
       {
         Action newSpace = new NewWorkspace();
         item = new JMenuItem(ActionManager.register("newspace", newSpace));
@@ -50,7 +50,7 @@ public class BarFactory
       item = new JMenuItem(ActionManager.register("newflow", newWorkflow));
       itemNew.add(item);
 
-      if(mode.equals("none"))
+      if(mode == null)
       {
         item = new JMenuItem(ActionManager.register("openspace", new OpenWorkspace()));
         fileMenu.add(item);
