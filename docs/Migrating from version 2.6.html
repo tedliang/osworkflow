@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Migrating from version 2.6</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+    </head>
+
+    <body>
+	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <p class="paragraph">OSWorkflow 2.7 introduces a special stepId value that can be specified in results, to denote that the workflow should remain in the same current step at that result. The value of this special ID is -1. Therefore, if you have any workflows that currently use a step ID of -1, you should change it to something else, or your workflow descriptor will be marked as invalid.</p>Another major change in OSWorkflow 2.7 is the introduction of a Configuration interface, with the accompanying implementation, DefaultConfiguration. A number of internally used classes and interfaces have been removed (StoreFactory, and ConfigLoader). If your application made any calls to ConfigLoader, you should migrate to the new Configuration mechanism which should be very straightforward.<p class="paragraph">The major advantage of this approach is that it is now possible to run multiple configurations of OSWorkflow concurrently, since there are no statics involved except for backward compatibility.</p>This change is fully backward compatible, so if you do not need an extra level of configurability, then you can basically ignore the new Configuration mechanism.
+
+				    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>
