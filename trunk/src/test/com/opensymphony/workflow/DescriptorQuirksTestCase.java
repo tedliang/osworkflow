@@ -4,6 +4,8 @@
  */
 package com.opensymphony.workflow;
 
+import com.opensymphony.workflow.basic.BasicWorkflow;
+
 import junit.framework.TestCase;
 
 import java.net.URL;
@@ -16,7 +18,7 @@ import java.util.Map;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DescriptorQuirksTestCase extends TestCase {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -64,7 +66,6 @@ public class DescriptorQuirksTestCase extends TestCase {
     }
 
     protected void setUp() throws Exception {
-        TestWorkflow.configFile = "/osworkflow.xml";
-        workflow = new TestWorkflow("testuser");
+        workflow = new BasicWorkflow("testuser");
     }
 }

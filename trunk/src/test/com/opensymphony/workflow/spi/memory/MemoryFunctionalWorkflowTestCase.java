@@ -4,7 +4,6 @@
  */
 package com.opensymphony.workflow.spi.memory;
 
-import com.opensymphony.workflow.TestWorkflow;
 import com.opensymphony.workflow.spi.BaseFunctionalWorkflowTest;
 
 
@@ -26,7 +25,6 @@ public class MemoryFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest
 
     protected void setUp() throws Exception {
         MemoryWorkflowStore.reset();
-        TestWorkflow.configFile = "/osworkflow.xml";
         super.setUp();
     }
 }

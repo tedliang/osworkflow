@@ -8,7 +8,10 @@ import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.database.JDBCPropertySet;
 
 import com.opensymphony.workflow.AbstractWorkflow;
-import com.opensymphony.workflow.TestWorkflow;
+import com.opensymphony.workflow.Workflow;
+import com.opensymphony.workflow.basic.BasicWorkflow;
+import com.opensymphony.workflow.config.Configuration;
+import com.opensymphony.workflow.config.DefaultConfiguration;
 
 import junit.framework.TestCase;
 
@@ -58,9 +61,11 @@ public class BeanShellFunctionProviderTestCase extends TestCase {
      *
      */
     public void testThrowingException() throws Exception {
-        TestWorkflow.configFile = "/osworkflow-jdbc.xml";
+        Configuration config = new DefaultConfiguration();
+        config.load(getClass().getResource("/osworkflow-jdbc.xml"));
 
-        TestWorkflow workflow = new TestWorkflow("test");
+        Workflow workflow = new BasicWorkflow("test");
+        workflow.setConfiguration(config);
 
         // long workflowId = workflow.initialize(getClass().getResource("/example.xml").toString(), 1, new HashMap());
         BeanShellFunctionProvider function = new BeanShellFunctionProvider();
