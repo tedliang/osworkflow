@@ -22,10 +22,12 @@ import javax.rmi.PortableRemoteObject;
 
 
 /**
- *
+ * A register helper that exposes a local session bean as a register.
+ * This register takes in one argument, <code>ejb.location</code> that specifies
+ * the JNDI location of the session bean.
  *
  * @author $Author: hani $
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class LocalEJBRegister implements Register {
     //~ Static fields/initializers /////////////////////////////////////////////

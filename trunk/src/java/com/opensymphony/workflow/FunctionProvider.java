@@ -15,7 +15,7 @@ import java.util.Map;
  * will be mapped to the properties parameter.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface FunctionProvider {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ public interface FunctionProvider {
      * {@link com.opensymphony.workflow.spi.WorkflowEntry}) and <b>context</b>
      * (object type: {@link com.opensymphony.workflow.WorkflowContext}).
      * Also, any variable set as a {@link com.opensymphony.workflow.Register}), will also be
-     * available in the variable map, no matter what. These variables only last through
+     * available in the transient map, no matter what. These transient variables only last through
      * the method call that they were invoked in, such as {@link Workflow#initialize}
      * and {@link Workflow#doAction}.
      * @param args The properties for this function invocation. Properties are created
@@ -36,8 +36,8 @@ public interface FunctionProvider {
      * which is the properties key, and the CDATA text contents of the element map to
      * the property value.
      * @param ps The persistent variables that are associated with the current
-     * instance of the workflow. Any change made to this will be seen on the next
-     * function call in the workflow lifetime.
+     * instance of the workflow. Any change made to the propertyset are persisted to
+     * the propertyset implementation's persistent store.
      */
     public void execute(Map transientVars, Map args, PropertySet ps) throws WorkflowException;
 }

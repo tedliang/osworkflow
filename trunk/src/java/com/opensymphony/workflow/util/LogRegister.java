@@ -29,7 +29,7 @@ import java.util.Map;
  *
  * If you register this class as "Logger", then you may use it from a Beanshell script like:
  * <pre>
- * logger = variables.get("logger");
+ * logger = transientVars.get("logger");
  * logger.debug("hello logger!");
  * </pre>
  *
