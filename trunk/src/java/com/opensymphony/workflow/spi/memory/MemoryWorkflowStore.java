@@ -236,20 +236,24 @@ public class MemoryWorkflowStore implements WorkflowStore {
             return false;
         }
 
+        boolean expressionResult = false;
+
         switch (field) {
         case FieldExpression.ACTION:
 
-            long actionId = DataUtil.getLong((Long) value);
+            long actionId = DataUtil.getInt((Integer) value);
 
             for (Iterator iterator = steps.iterator(); iterator.hasNext();) {
                 SimpleStep step = (SimpleStep) iterator.next();
 
                 if (this.compareLong(step.getActionId(), actionId, operator)) {
-                    return true;
+                    expressionResult = true;
+
+                    break;
                 }
             }
 
-            return false;
+            break;
 
         case FieldExpression.CALLER:
 
@@ -259,11 +263,13 @@ public class MemoryWorkflowStore implements WorkflowStore {
                 SimpleStep step = (SimpleStep) iterator.next();
 
                 if (this.compareText(step.getCaller(), caller, operator)) {
-                    return true;
+                    expressionResult = true;
+
+                    break;
                 }
             }
 
-            return false;
+            break;
 
         case FieldExpression.FINISH_DATE:
 
@@ -273,11 +279,13 @@ public class MemoryWorkflowStore implements WorkflowStore {
                 SimpleStep step = (SimpleStep) iterator.next();
 
                 if (this.compareDate(step.getFinishDate(), finishDate, operator)) {
-                    return true;
+                    expressionResult = true;
+
+                    break;
                 }
             }
 
-            return false;
+            break;
 
         case FieldExpression.OWNER:
 
@@ -287,11 +295,13 @@ public class MemoryWorkflowStore implements WorkflowStore {
                 SimpleStep step = (SimpleStep) iterator.next();
 
                 if (this.compareText(step.getOwner(), owner, operator)) {
-                    return true;
+                    expressionResult = true;
+
+                    break;
                 }
             }
 
-            return false;
+            break;
 
         case FieldExpression.START_DATE:
 
@@ -301,11 +311,13 @@ public class MemoryWorkflowStore implements WorkflowStore {
                 SimpleStep step = (SimpleStep) iterator.next();
 
                 if (this.compareDate(step.getStartDate(), startDate, operator)) {
-                    return true;
+                    expressionResult = true;
+
+                    break;
                 }
             }
 
-            return false;
+            break;
 
         case FieldExpression.STEP:
 
@@ -315,11 +327,13 @@ public class MemoryWorkflowStore implements WorkflowStore {
                 SimpleStep step = (SimpleStep) iterator.next();
 
                 if (this.compareLong(step.getStepId(), stepId, operator)) {
-                    return true;
+                    expressionResult = true;
+
+                    break;
                 }
             }
 
-            return false;
+            break;
 
         case FieldExpression.STATUS:
 
@@ -329,14 +343,20 @@ public class MemoryWorkflowStore implements WorkflowStore {
                 SimpleStep step = (SimpleStep) iterator.next();
 
                 if (this.compareText(step.getStatus(), status, operator)) {
-                    return true;
+                    expressionResult = true;
+
+                    break;
                 }
             }
 
-            return false;
+            break;
         }
 
-        return false;
+        if (expression.isNegate()) {
+            return !expressionResult;
+        } else {
+            return expressionResult;
+        }
     }
 
     private boolean checkNestedExpression(long entryId, NestedExpression nestedExpression) {
@@ -493,7 +513,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
         switch (field) {
         case WorkflowQuery.ACTION:
 
-            long actionId = DataUtil.getLong((Long) value);
+            long actionId = DataUtil.getInt((Integer) value);
 
             for (Iterator iterator = steps.iterator(); iterator.hasNext();) {
                 SimpleStep step = (SimpleStep) iterator.next();
