@@ -76,9 +76,6 @@ public class HTTPWorkflowFactory extends AbstractWorkflowFactory {
     public void createWorkflow(String name) {
     }
 
-    public void deleteWorkflow(String name) {
-    }
-
     public void initDone() throws FactoryException {
     }
 
