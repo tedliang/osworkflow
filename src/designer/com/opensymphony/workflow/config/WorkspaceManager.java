@@ -7,8 +7,8 @@ import java.net.URL;
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
-import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
 import com.opensymphony.workflow.loader.RemoteWorkspace;
+import com.opensymphony.workflow.loader.WorkflowFactory;
 import com.opensymphony.workflow.designer.DesignerService;
 
 /**
@@ -19,7 +19,7 @@ import com.opensymphony.workflow.designer.DesignerService;
 public class WorkspaceManager
 {
   //private Workspace currentWorkspace = null;
-  private AbstractWorkflowFactory currentWorkspace = null;
+  private WorkflowFactory currentWorkspace = null;
   private Collection listeners;
 
   public void loadWorkspace(URL url) throws FactoryException, IOException
@@ -82,7 +82,7 @@ public class WorkspaceManager
     }
   }
 
-  public void setCurrentWorkspace(AbstractWorkflowFactory current)
+  public void setCurrentWorkspace(WorkflowFactory current)
   {
     saveWorkspace();
     if(this.currentWorkspace!=null)
@@ -100,7 +100,7 @@ public class WorkspaceManager
     }
   }
 
-  public AbstractWorkflowFactory getCurrentWorkspace()
+  public WorkflowFactory getCurrentWorkspace()
   {
     return currentWorkspace;
   }

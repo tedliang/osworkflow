@@ -13,8 +13,8 @@ import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.Utils;
 import com.opensymphony.workflow.designer.swing.status.StatusDisplay;
 import com.opensymphony.workflow.designer.dialogs.ImportWorkflowDialog;
-import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
 import com.opensymphony.workflow.loader.Workspace;
+import com.opensymphony.workflow.loader.WorkflowFactory;
 import com.opensymphony.workflow.FactoryException;
 import foxtrot.Worker;
 import foxtrot.Task;
@@ -27,7 +27,7 @@ import foxtrot.Task;
 public class ImportWorkflow extends AbstractAction implements WorkspaceListener
 {
   //private Workspace currentWorkspace;
-  private AbstractWorkflowFactory currentWorkspace;
+  private WorkflowFactory currentWorkspace;
 
   public ImportWorkflow()
   {

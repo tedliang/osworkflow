@@ -5,9 +5,7 @@
 package com.opensymphony.workflow.config;
 
 import com.opensymphony.workflow.FactoryException;
-import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
-import com.opensymphony.workflow.loader.WorkflowDescriptor;
-import com.opensymphony.workflow.loader.WorkflowLoader;
+import com.opensymphony.workflow.loader.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -27,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 public class WorkflowFactoryServlet extends HttpServlet {
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private AbstractWorkflowFactory factory;
+    private WorkflowFactory factory;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 

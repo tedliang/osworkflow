@@ -28,7 +28,7 @@ public class WorkspaceNavigator extends JTree implements TreeSelectionListener, 
   private WorkflowDesigner designer;
   private DefaultMutableTreeNode rootNode;
   private String currentWorkflow;
-  private AbstractWorkflowFactory currentWorkspace = null;
+  private WorkflowFactory currentWorkspace = null;
 	private DefaultTreeCellRenderer  cellRenderer = new WorkspaceCellRenderer();
   
   private JPopupMenu popup;
@@ -218,7 +218,7 @@ public class WorkspaceNavigator extends JTree implements TreeSelectionListener, 
     currentWorkflow = newValue;
   }
 
-  public void setWorkspace(AbstractWorkflowFactory workspace)
+  public void setWorkspace(WorkflowFactory workspace)
   {
     removeChildNodes(rootNode);
     ((DefaultTreeModel)getModel()).reload();

@@ -9,7 +9,7 @@ import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
 import com.opensymphony.workflow.designer.*;
 import com.opensymphony.workflow.loader.Workspace;
-import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
+import com.opensymphony.workflow.loader.WorkflowFactory;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -19,7 +19,7 @@ import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
 public class SaveWorkspace extends AbstractAction implements WorkspaceListener
 {
   //private Workspace currentWorkspace;
-  private AbstractWorkflowFactory currentWorkspace;
+  private WorkflowFactory currentWorkspace;
 
   public SaveWorkspace()
   {

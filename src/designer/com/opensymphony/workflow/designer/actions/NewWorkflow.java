@@ -7,7 +7,7 @@ import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
 import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.designer.ResourceManager;
-import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
+import com.opensymphony.workflow.loader.WorkflowFactory;
 import com.opensymphony.workflow.FactoryException;
 
 /**
@@ -18,7 +18,7 @@ import com.opensymphony.workflow.FactoryException;
 public class NewWorkflow extends AbstractAction implements WorkspaceListener
 {
   //private Workspace currentWorkspace;
-  private AbstractWorkflowFactory currentWorkspace;
+  private WorkflowFactory currentWorkspace;
 
   public NewWorkflow()
   {
