@@ -24,6 +24,10 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void insertInitialActions(List initialActions, InitialActionCell initialActionCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     this.initialActions.add(initialActionCell);
+    if(initialActionCell.getChildCount()==0)
+    {
+      initialActionCell.add(new WorkflowPort());
+    }
     for(int i = 0; i < initialActions.size(); i++)
     {
       ActionDescriptor action = (ActionDescriptor)initialActions.get(i);
@@ -31,8 +35,11 @@ public class WorkflowGraphModel extends DefaultGraphModel
       List conResults = action.getConditionalResults();
       recordResults(initialActionCell, conResults, action);
       ResultDescriptor result = action.getUnconditionalResult();
-      checkId(result);
-      recordResult(initialActionCell, result, action);
+      if(result!=null)
+      {
+        checkId(result);
+        recordResult(initialActionCell, result, action);
+      }
       Object[] cells = new Object[]{initialActionCell};
       // Insert into Model
       insert(cells, attributes, null, pm, edits);
@@ -97,7 +104,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     ResultDescriptor result = joinDescriptor.getResult();
     recordResult(fromCell, result, null);
   }
-  
+
   private void processJoinEndPointResult(JoinCell joinCell)
   {
     int joinId = joinCell.getJoinDescriptor().getId();
@@ -214,6 +221,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
   private void checkId(AbstractDescriptor descriptor)
   {
+    if(descriptor==null) return;
     if(descriptor.getId()>=nextId) nextId = descriptor.getId() + 1;
   }
 
@@ -226,11 +234,12 @@ public class WorkflowGraphModel extends DefaultGraphModel
     }
   }
 
-  private void recordResult(DefaultGraphCell fromCell, ResultDescriptor result, ActionDescriptor action)
+  public ResultCell recordResult(DefaultGraphCell fromCell, ResultDescriptor result, ActionDescriptor action)
   {
     String key = resultCells.getNextKey();
     ResultCell newCell = new ResultCell(fromCell, result, action);
     resultCells.put(key, newCell);
+    return newCell;
   }
 
   public Collection getActivitiesList()
