@@ -28,39 +28,7 @@ public class DialogUtils
       null);							// initial select
   }
 
-  public static Map getMapDialog(Map args, String type, String name, String description)
-  {
-    MapPanel panel = new MapPanel(args, type, name, description);
-    JOptionPane pane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
-    JDialog dialog = pane.createDialog(null, ResourceManager.getString("specify.properties"));
-	  dialog.setResizable(true);
-    dialog.show();
-
-    Integer value = (Integer)pane.getValue();
-    if(value == null)
-    {
-      return null;
-    }
-    if(value.intValue() != JOptionPane.OK_OPTION)
-    {
-      return null;
-    }
-
-    Map edits = panel.getEdits();
-    Set keys = args.keySet();
-    Iterator iter = keys.iterator();
-    while(iter.hasNext())
-    {
-      Object key = iter.next();
-      JTextField field = (JTextField)edits.get(key);
-      String newValue = field.getText();
-      args.put(key, newValue);
-    }
-
-    return args;
-  }
-
-  public static Map getMapDialogWithOwner(Map args, String type, String name, String description, String owner)
+  public static Map getMapDialog(Map args, String type, String name, String description, String owner)
   {
     MapPanel panel = new MapPanel(args, type, name, description, owner);
     JOptionPane pane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
@@ -69,13 +37,10 @@ public class DialogUtils
     dialog.show();
 
     Integer value = (Integer)pane.getValue();
-
-    // dialog canceled
     if(value == null)
     {
       return null;
     }
-
     if(value.intValue() != JOptionPane.OK_OPTION)
     {
       return null;
@@ -94,5 +59,4 @@ public class DialogUtils
 
     return args;
   }
-
 }
