@@ -19,6 +19,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import com.opensymphony.workflow.FactoryException;
+import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 import com.opensymphony.workflow.config.WorkspaceManager;
 import com.opensymphony.workflow.designer.editor.*;
 import com.opensymphony.workflow.designer.swing.*;
@@ -265,6 +266,10 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     try
     {
       manager.getCurrentWorkspace().saveWorkflow(workflowName, manager.getCurrentWorkspace().getWorkflow(workflowName), true);
+    }
+    catch(InvalidWorkflowDescriptorException e)
+    {
+      JOptionPane.showMessageDialog(this, "Invalid workflow: " + e.getMessage(), "Error saving workflow " + workflowName, JOptionPane.ERROR_MESSAGE);
     }
     catch(FactoryException e)
     {
