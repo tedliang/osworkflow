@@ -20,7 +20,7 @@ import javax.naming.NamingException;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class JNDIRegister implements Register {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -32,7 +32,11 @@ public class JNDIRegister implements Register {
     public Object registerVariable(WorkflowContext context, WorkflowEntry entry, Map args) throws WorkflowException {
         String location = (String) args.get(AbstractWorkflow.JNDI_LOCATION);
 
-        Register r = null;
+        if (location == null) {
+            throw new WorkflowException(AbstractWorkflow.JNDI_LOCATION + " argument is null");
+        }
+
+        Register r;
 
         try {
             r = (Register) new InitialContext().lookup(location);
