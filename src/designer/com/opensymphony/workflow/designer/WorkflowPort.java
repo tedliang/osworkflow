@@ -3,7 +3,6 @@ package com.opensymphony.workflow.designer;
 import java.util.Iterator;
 
 import org.jgraph.graph.DefaultPort;
-import org.jgraph.graph.Edge;
 
 /**
  * User: Hani Suleiman
@@ -21,16 +20,27 @@ public class WorkflowPort extends DefaultPort
     return edges.size();
   }
 
-  public int getEdgeIndex(Edge e)
+  /**
+   * Check all existing edges for this port and assign the edge an index.
+   * If there are no edges that would overlap edge, then the index
+   * is 0. The index ensures that it is possible to uniquely
+   * identify any overlapping edges.
+   * @param edge
+   */
+  public void assignIndex(ResultEdge edge)
   {
+    WorkflowPort source = (WorkflowPort)edge.getSource();
+    WorkflowPort target = (WorkflowPort)edge.getTarget();
+    int index = 0;
     Iterator i = edges.iterator();
-    int counter = -1;
     while(i.hasNext())
     {
-      counter++;
-      Edge edge = (Edge)i.next();
-      if(edge==e) return counter;
+      ResultEdge e = (ResultEdge)i.next();
+      if(e.getTarget().equals(source) && e.getSource().equals(target))
+      {
+        index++;
+      }
     }
-    return -1;
+    edge.setIndex(index);
   }
 }
