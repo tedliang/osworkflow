@@ -92,7 +92,7 @@ public class Navigator extends JTree implements TreeSelectionListener, TreeModel
         for(int i = 0; i < files.length; i++)
         {
           File file = files[i];
-          if(file.getName().endsWith(".xml"))
+          if(file.getName().endsWith(".xml") && !file.isDirectory())
           {
             try
             {
