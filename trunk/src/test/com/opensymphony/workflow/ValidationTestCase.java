@@ -15,7 +15,7 @@ import java.util.HashMap;
  * Test Case for AbstractWorkflow.
  *
  * @author <a href="mailto:vorburger@users.sourceforge.net">Michael Vorburger</a>
- * @version $Id: ValidationTestCase.java,v 1.4 2003-09-14 23:47:55 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
+ * @version $Id: ValidationTestCase.java,v 1.5 2003-10-21 02:44:52 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
  */
 public class ValidationTestCase extends TestCase {
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ public class ValidationTestCase extends TestCase {
      */
     public void testCheckResultInitialActionUnconditionalResult() throws Exception {
         try {
-            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getClassLoader().getResource("/samples/unconditional-result.xml").toString());
+            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getClassLoader().getResource("samples/unconditional-result.xml").toString());
             descriptor.validate();
             fail("descriptor loaded successfully, even though unconditional-result element is incorrect");
         } catch (InvalidWorkflowDescriptorException e) {
@@ -46,6 +46,28 @@ public class ValidationTestCase extends TestCase {
     }
 
     /**
+     * Tests whether common-actions are implemented correctly.
+     *
+     * @throws Exception If error while executing testing
+     */
+    public void testCommonActions() throws Exception {
+        try {
+            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getClassLoader().getResource("samples/common-actions.xml").toString());
+            descriptor.validate();
+        } catch (InvalidWorkflowDescriptorException e) {
+            e.printStackTrace();
+            fail("Descriptor did not recognized common-actions!");
+        }
+
+        try {
+            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getClassLoader().getResource("samples/common-actions-bad.xml").toString());
+            descriptor.validate();
+            fail("Invalid common-actions not detected correctly");
+        } catch (InvalidWorkflowDescriptorException e) {
+        }
+    }
+
+    /**
      * Test whether a duplicate action is correctly marked as invalid
      *
      * @see <a href="http://jira.opensymphony.com/secure/ViewIssue.jspa?key=WF-192">Jira issue WF-192</a>
@@ -53,7 +75,7 @@ public class ValidationTestCase extends TestCase {
      */
     public void testDuplicateActionID() throws Exception {
         try {
-            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getClassLoader().getResource("/samples/duplicate-action.xml").toString());
+            WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getClassLoader().getResource("samples/duplicate-action.xml").toString());
             descriptor.validate();
             fail("descriptor loaded successfully, even though duplicate action exists");
         } catch (InvalidWorkflowDescriptorException e) {
@@ -73,7 +95,7 @@ public class ValidationTestCase extends TestCase {
         Workflow workflow = new TestWorkflow("testuser");
 
         try {
-            long id = workflow.initialize(getClass().getResource("/samples/validator.xml").toString(), 1, new HashMap());
+            long id = workflow.initialize(getClass().getClassLoader().getResource("samples/validator.xml").toString(), 1, new HashMap());
         } catch (InvalidInputException e) {
             //the descriptor is invalid, which is correct
             return;
