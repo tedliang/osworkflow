@@ -482,7 +482,7 @@ public class AbstractWorkflow implements Workflow {
                 Collection currentSteps = getCurrentSteps(id);
 
                 if (currentSteps.size() > 0) {
-                    completeEntry(null, id, currentSteps);
+                    completeEntry(null, id, currentSteps, newState);
                 }
             }
 
@@ -813,15 +813,15 @@ public class AbstractWorkflow implements Workflow {
         }
 
         if (isCompleted) {
-            completeEntry(action, id, currentSteps);
+            completeEntry(action, id, currentSteps, WorkflowEntry.COMPLETED);
         }
     }
 
     /**
      * Mark the specified entry as completed, and move all current steps to history.
      */
-    protected void completeEntry(ActionDescriptor action, long id, Collection currentSteps) throws StoreException {
-        getPersistence().setEntryState(id, WorkflowEntry.COMPLETED);
+    protected void completeEntry(ActionDescriptor action, long id, Collection currentSteps, int state) throws StoreException {
+        getPersistence().setEntryState(id, state);
 
         Iterator i = new ArrayList(currentSteps).iterator();
 
@@ -1277,7 +1277,7 @@ public class AbstractWorkflow implements Workflow {
 
         //if it's a finish action, then we halt
         if (action.isFinish()) {
-            completeEntry(action, entry.getId(), getCurrentSteps(entry.getId()));
+            completeEntry(action, entry.getId(), getCurrentSteps(entry.getId()), WorkflowEntry.COMPLETED);
 
             return true;
         }
