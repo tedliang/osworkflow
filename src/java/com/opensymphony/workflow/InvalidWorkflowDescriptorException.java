@@ -10,12 +10,16 @@ package com.opensymphony.workflow;
  * Usually this indicates a semantically incorrect XML workflow definition.
  *
  * @author <a href="mailto:vorburger@users.sourceforge.net">Michael Vorburger</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class InvalidWorkflowDescriptorException extends FactoryException {
     //~ Constructors ///////////////////////////////////////////////////////////
 
     public InvalidWorkflowDescriptorException(String message) {
         super(message);
+    }
+
+    public InvalidWorkflowDescriptorException(String message, Exception cause) {
+        super(message, cause);
     }
 }
