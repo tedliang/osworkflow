@@ -39,6 +39,7 @@ public class AbstractWorkflow implements Workflow {
     protected WorkflowContext context;
     private Configuration configuration;
     private ThreadLocal stateCache = new ThreadLocal();
+    private TypeResolver resolver;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -239,6 +240,18 @@ public class AbstractWorkflow implements Workflow {
         }
 
         return ps;
+    }
+
+    public void setResolver(TypeResolver resolver) {
+        this.resolver = resolver;
+    }
+
+    public TypeResolver getResolver() {
+        if (resolver == null) {
+            resolver = TypeResolver.getResolver();
+        }
+
+        return resolver;
     }
 
     /**
@@ -838,7 +851,7 @@ public class AbstractWorkflow implements Workflow {
                 mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
             }
 
-            FunctionProvider provider = TypeResolver.getResolver().getFunction(type, args);
+            FunctionProvider provider = getResolver().getFunction(type, args);
 
             if (provider == null) {
                 String message = "Could not load FunctionProvider class";
@@ -874,7 +887,7 @@ public class AbstractWorkflow implements Workflow {
             }
         }
 
-        Condition condition = TypeResolver.getResolver().getCondition(type, args);
+        Condition condition = getResolver().getCondition(type, args);
 
         if (condition == null) {
             context.setRollbackOnly();
@@ -962,7 +975,7 @@ public class AbstractWorkflow implements Workflow {
             Map args = register.getArgs();
 
             String type = register.getType();
-            Register r = TypeResolver.getResolver().getRegister(type, args);
+            Register r = getResolver().getRegister(type, args);
 
             if (r == null) {
                 String message = "Could not load register class";
@@ -1293,7 +1306,7 @@ public class AbstractWorkflow implements Workflow {
                     mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
                 }
 
-                Validator validator = TypeResolver.getResolver().getValidator(type, args);
+                Validator validator = getResolver().getValidator(type, args);
 
                 if (validator == null) {
                     String message = "Could not load validator class";

@@ -110,7 +110,7 @@ public class TypeResolver {
     }
 
     public Validator getValidator(String type, Map args) throws WorkflowException {
-        String className = (String) registers.get(type);
+        String className = (String) validators.get(type);
 
         if (className == null) {
             className = (String) args.get(Workflow.CLASS_NAME);
