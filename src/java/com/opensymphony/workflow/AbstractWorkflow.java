@@ -416,7 +416,7 @@ public class AbstractWorkflow implements Workflow {
         }
 
         if (!validAction) {
-            throw new IllegalArgumentException("Action " + actionId + " is invalid");
+            throw new InvalidActionException("Action " + actionId + " is invalid");
         }
 
         WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
@@ -1291,7 +1291,7 @@ public class AbstractWorkflow implements Workflow {
 
                 if (toCheck != null) {
                     Iterator iter = toCheck.getActions().iterator();
-MAIN:
+MAIN: 
                     while (iter.hasNext()) {
                         ActionDescriptor descriptor = (ActionDescriptor) iter.next();
 

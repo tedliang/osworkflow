@@ -105,6 +105,8 @@ public interface Workflow {
      * @param actionId The action id to perform (action id's are listed in the workflow descriptor).
      * @param inputs The inputs to the workflow instance.
      * @throws InvalidInputException if a validator is specified and an input is invalid.
+     * @throws InvalidActionException if the action is invalid for the specified workflow
+     * instance's current state.
      */
     public void doAction(long id, int actionId, Map inputs) throws InvalidInputException, WorkflowException;
 
