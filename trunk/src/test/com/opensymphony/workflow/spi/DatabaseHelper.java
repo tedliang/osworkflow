@@ -17,7 +17,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.Statement;
 
 import javax.naming.InitialContext;
@@ -61,7 +60,7 @@ public class DatabaseHelper {
             return;
         }
 
-        Connection connection = null;
+        Connection connection;
         Statement statement = null;
 
         try {
