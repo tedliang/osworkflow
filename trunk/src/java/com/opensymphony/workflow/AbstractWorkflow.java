@@ -120,7 +120,7 @@ public class AbstractWorkflow implements Workflow {
                     conditions = restriction.getConditions();
                 }
 
-                      //todo verify that 0 is the right currentStepId
+                //todo verify that 0 is the right currentStepId
                 if (passesConditions(conditionType, conditions, transientVars, ps, 0)) {
                     l.add(new Integer(action.getId()));
                 }
@@ -822,14 +822,14 @@ public class AbstractWorkflow implements Workflow {
             mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
         }
 
-      if(currentStepId != -1)
-      {
-        Object stepId = args.get("stepId");
+        if (currentStepId != -1) {
+            Object stepId = args.get("stepId");
 
-        if ((stepId != null) && stepId.equals("-1")) {
-            args.put("stepId", String.valueOf(currentStepId));
+            if ((stepId != null) && stepId.equals("-1")) {
+                args.put("stepId", String.valueOf(currentStepId));
+            }
         }
-      }
+
         String clazz;
 
         if ("remote-ejb".equals(type)) {
@@ -1374,7 +1374,7 @@ public class AbstractWorkflow implements Workflow {
             JoinNodes jn = new JoinNodes(joinSteps);
             transientVars.put("jn", jn);
 
-          //todo verify that 0 is the right value for currentstep here
+            //todo verify that 0 is the right value for currentstep here
             if (passesConditions(joinDesc.getConditionType(), joinDesc.getConditions(), unmodifiableTransients, ps, 0)) {
                 // move the rest without creating a new step ...
                 ResultDescriptor joinresult = joinDesc.getResult();
