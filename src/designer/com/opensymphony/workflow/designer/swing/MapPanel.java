@@ -5,6 +5,7 @@ import java.util.*;
 import javax.swing.*;
 
 import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.UIFactory;
 import com.opensymphony.workflow.loader.ArgsAware;

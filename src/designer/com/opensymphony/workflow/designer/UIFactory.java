@@ -13,7 +13,7 @@ import com.jgoodies.forms.factories.ButtonBarFactory;
  */
 public class UIFactory
 {
-  public static JPanel getButtonBar(ActionListener listener, String prefix, String[] names)
+  public static JPanel getAddRemovePropertiesBar(ActionListener listener, String prefix, String[] names)
   {
     if(prefix == null) prefix = "";
     JButton[] buttons = new JButton[names.length];
@@ -23,7 +23,19 @@ public class UIFactory
       buttons[i].setActionCommand(prefix + names[i]);
       buttons[i].addActionListener(listener);
     }
-	  return ButtonBarFactory.buildCenteredBar(buttons);
+	  return ButtonBarFactory.buildAddRemovePropertiesBar(buttons[0], buttons[1], buttons[2]);
+  }
+
+  public static JPanel getOKCancelBar(ActionListener listener, String prefix)
+  {
+    if(prefix == null) prefix = "";
+    JButton ok = new JButton(ResourceManager.getString("ok"));
+    ok.setActionCommand(prefix + "ok");
+    JButton cancel = new JButton(ResourceManager.getString("cancel"));
+    cancel.setActionCommand(prefix + "cancel");
+    ok.addActionListener(listener);
+    cancel.addActionListener(listener);
+    return ButtonBarFactory.buildOKCancelBar(ok, cancel);
   }
 
   public static JPanel getButtonBar(ActionListener[] listener, String prefix, String[] names)

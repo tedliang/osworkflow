@@ -9,9 +9,9 @@ import javax.swing.*;
 
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.UIFactory;
-import com.opensymphony.workflow.designer.swing.DefaultFormBuilder;
 import com.opensymphony.workflow.designer.swing.FileField;
 import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.builder.DefaultFormBuilder;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -63,7 +63,7 @@ public class ImportWorkflowDialog extends JDialog implements ActionListener
       }
     });
     getContentPane().add(builder.getPanel(), BorderLayout.CENTER);
-    getContentPane().add(UIFactory.getButtonBar(this, "", new String[]{"ok", "cancel"}), BorderLayout.SOUTH);
+    getContentPane().add(UIFactory.getOKCancelBar(this, ""), BorderLayout.SOUTH);
   }
 
   public void actionPerformed(ActionEvent e)
