@@ -50,6 +50,8 @@
 
     <property name="packages" value="com.opensymphony.*"/>
 
+    <property name="test" value="*"/>
+
     <available property="junit.available" classname="junit.framework.TestCase"/>
     <available property="clover.available" classname="org.apache.tools.ant.taskdefs.CloverCompilerAdapter"/>
 
@@ -160,7 +162,7 @@
 
       <batchtest todir="${dist.docs}/junit">
         <fileset dir="${src.test}">
-          <include name="**/*TestCase.java"/>
+          <include name="**/${test}TestCase.java"/>
         </fileset>
       </batchtest>
     </junit>
