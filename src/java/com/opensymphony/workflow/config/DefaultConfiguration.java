@@ -23,10 +23,18 @@ import javax.xml.parsers.*;
 
 
 /**
- * DOCUMENT ME!
+ * Default implementation for a configuration object.
+ * This configuration object is passed to the {@link com.opensymphony.workflow.Workflow#setConfiguration(Configuration)}
+ * method. If the configuration is not initialized, the {@link #load(java.net.URL)} method will be called by
+ * the workflow. Alternatively, the caller can explicitly load the configuration by calling that method before
+ * calling {@link com.opensymphony.workflow.Workflow#setConfiguration(Configuration)}.
+ * <p>
+ * The loading behaviour comes into play when specifying a configuration remotely, for example in an EJB
+ * environment. It might be desirable to ensure that the configuration is loaded from within the EJB server,
+ * rather than in the calling client.
  *
- * @author $author$
- * @version $Revision: 1.6 $
+ * @author Hani Suleiman
+ * @version $Revision: 1.7 $
  */
 public class DefaultConfiguration implements Configuration {
     //~ Static fields/initializers /////////////////////////////////////////////
