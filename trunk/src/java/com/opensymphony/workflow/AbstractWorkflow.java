@@ -290,7 +290,7 @@ public class AbstractWorkflow implements Workflow {
      * @ejb.interface-method
      */
     public boolean canInitialize(String workflowName, int initialAction) throws WorkflowException {
-      return canInitialize(workflowName, initialAction, null);
+        return canInitialize(workflowName, initialAction, null);
     }
 
     /**
@@ -396,7 +396,7 @@ public class AbstractWorkflow implements Workflow {
     }
 
     public void doAction(long id, int actionId, Map inputs) throws WorkflowException {
-        int[] availableActions = getAvailableActions(id, null);
+        int[] availableActions = getAvailableActions(id, inputs);
         boolean validAction = false;
 
         WorkflowStore store = getPersistence();
@@ -1267,7 +1267,7 @@ public class AbstractWorkflow implements Workflow {
         }
 
         //we have our results, lets check if we need to autoexec any of them
-        int[] availableActions = getAvailableActions(entry.getId(), null);
+        int[] availableActions = getAvailableActions(entry.getId(), inputs);
 
         if (availableActions.length != 0) {
             for (int i = 0; i < theResults.length; i++) {
@@ -1276,7 +1276,7 @@ public class AbstractWorkflow implements Workflow {
 
                 if (toCheck != null) {
                     Iterator iter = toCheck.getActions().iterator();
-MAIN:
+MAIN: 
                     while (iter.hasNext()) {
                         ActionDescriptor descriptor = (ActionDescriptor) iter.next();
 
