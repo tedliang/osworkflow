@@ -1,7 +1,6 @@
 package com.opensymphony.workflow.designer;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -228,12 +227,6 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
   }
 
-  public void save(ActionEvent event)
-  {
-    int index = graphTabs.getSelectedIndex();
-    save(index);
-  }
-
   public void save(int index)
   {
     Layout layout = (Layout)mlayout.get(index);
@@ -249,11 +242,6 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     {
       log.error("Error saving " + workflowName + ": " + e);
     }
-  }
-
-  public void quit(ActionEvent event)
-  {
-    quit();
   }
 
   public void saveOpenGraphs()
