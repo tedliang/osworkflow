@@ -503,6 +503,20 @@ public class AbstractWorkflow implements Workflow {
 
         boolean validAction = false;
 
+        //check global actions
+        for (Iterator gIter = wf.getGlobalActions().iterator();
+                !validAction && gIter.hasNext();) {
+            ActionDescriptor actionDesc = (ActionDescriptor) gIter.next();
+
+            if (actionDesc.getId() == actionId) {
+                action = actionDesc;
+
+                if (isActionAvailable(action, transientVars, ps)) {
+                    validAction = true;
+                }
+            }
+        }
+
         for (Iterator iter = currentSteps.iterator();
                 !validAction && iter.hasNext();) {
             Step step = (Step) iter.next();
@@ -513,7 +527,7 @@ public class AbstractWorkflow implements Workflow {
                 ActionDescriptor actionDesc = (ActionDescriptor) iterator.next();
 
                 if (actionDesc.getId() == actionId) {
-                    action = wf.getAction(actionId);
+                    action = actionDesc;
 
                     if (isActionAvailable(action, transientVars, ps)) {
                         validAction = true;
