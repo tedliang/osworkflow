@@ -20,7 +20,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   private Collection splitCells = new HashSet();
   private Collection joinCells = new HashSet();
   private Collection initialActions = new ArrayList();
-  private ResultCellCollection resultCells = new ResultCellCollection();
+  private ResultHolderList resultCells = new ResultHolderList();
   private static final EdgeRouter EDGE_ROUTER = new EdgeRouter();
 
   private JoinCell getJoinCell(int id)
@@ -167,7 +167,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     Iterator results = resultCells.getResultsToJoin(joinId).iterator();
     while(results.hasNext())
     {
-      ResultCell result = (ResultCell)results.next();
+      ResultHolder result = (ResultHolder)results.next();
       connectCells(result, joinCell);
     }
   }
@@ -178,7 +178,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     Iterator results = resultCells.getResultsToSplit(splitId).iterator();
     while(results.hasNext())
     {
-      ResultCell result = (ResultCell)results.next();
+      ResultHolder result = (ResultHolder)results.next();
       connectCells(result, splitCell);
     }
 
@@ -205,7 +205,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     Iterator results = resultCells.getResultsToStep(stepId).iterator();
     while(results.hasNext())
     {
-      ResultCell result = (ResultCell)results.next();
+      ResultHolder result = (ResultHolder)results.next();
       connectCells(result, stepCell);
     }
   }
@@ -251,7 +251,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   /**
    * Connects fromCell contained in resultCell to the toCell passed in.
    */
-  public void connectCells(ResultCell resultCell, DefaultGraphCell toCell)
+  public void connectCells(ResultHolder resultCell, DefaultGraphCell toCell)
   {
     Map attributeMap = new HashMap();
     WorkflowPort fromPort;
@@ -281,8 +281,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     //    edge.setTarget(toPort);
 
     // this is action, why?
-    Object obj = resultCell.getUserObject();
-    edge.setUserObject(new ActionProxy(obj));
+    edge.setUserObject(new ActionProxy(resultCell.getAction()));
     edge.setDescriptor(resultCell.getDescriptor());
     // Create Edge Attributes
     Map edgeAttrib = GraphConstants.createMap();
@@ -322,7 +321,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     }
   }
 
-  private void recordResults(DefaultGraphCell fromCell, List results, ActionDescriptor action)
+  private void recordResults(WorkflowCell fromCell, List results, ActionDescriptor action)
   {
     for(int i = 0; i < results.size(); i++)
     {
@@ -331,10 +330,10 @@ public class WorkflowGraphModel extends DefaultGraphModel
     }
   }
 
-  public ResultCell recordResult(DefaultGraphCell fromCell, ResultDescriptor result, ActionDescriptor action)
+  public ResultHolder recordResult(WorkflowCell fromCell, ResultDescriptor result, ActionDescriptor action)
   {
     Utils.checkId(result);
-    ResultCell newCell = new ResultCell(fromCell, result, action);
+    ResultHolder newCell = new ResultHolder(fromCell, result, action);
     resultCells.add(newCell);
     return newCell;
   }
@@ -353,7 +352,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   {
     ResultDescriptor result = edge.getDescriptor();
 
-    ResultCell cell = resultCells.getResultCell(result);
+    ResultHolder cell = resultCells.getResultCell(result);
     DefaultGraphCell from = cell.getFromCell();
     if(from instanceof ResultAware)
     {

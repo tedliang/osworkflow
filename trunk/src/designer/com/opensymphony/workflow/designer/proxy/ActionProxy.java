@@ -10,21 +10,9 @@ public class ActionProxy implements DefaultGraphCell.ValueChangeHandler
 {
   private ActionDescriptor action;
 
-  public ActionProxy(Object obj)
+  public ActionProxy(ActionDescriptor d)
   {
-    if(obj == null || !(obj instanceof ActionDescriptor))
-    {
-      action = null;
-      if(obj!=null)
-      {
-        System.out.println("WARNING Unexpected action " + obj);
-        new Throwable().printStackTrace();
-      }
-    }
-    else
-    {
-      action = (ActionDescriptor)obj;
-    }
+    action = d;
   }
 
   public String toString()

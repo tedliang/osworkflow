@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.opensymphony.workflow.loader.ResultDescriptor;
 
-public class ResultCellCollection extends ArrayList
+public class ResultHolderList extends ArrayList
 {
   public List getResultsToStep(int stepId)
   {
@@ -14,7 +14,7 @@ public class ResultCellCollection extends ArrayList
     List returnValue = new ArrayList();
     while(results.hasNext())
     {
-      ResultCell result = (ResultCell)results.next();
+      ResultHolder result = (ResultHolder)results.next();
       if(stepId == result.getStep())
       {
         returnValue.add(result);
@@ -29,7 +29,7 @@ public class ResultCellCollection extends ArrayList
     List returnValue = new ArrayList();
     while(results.hasNext())
     {
-      ResultCell result = (ResultCell)results.next();
+      ResultHolder result = (ResultHolder)results.next();
       if(splitId == result.getSplit())
       {
         returnValue.add(result);
@@ -44,7 +44,7 @@ public class ResultCellCollection extends ArrayList
     List returnValue = new ArrayList();
     while(results.hasNext())
     {
-      ResultCell result = (ResultCell)results.next();
+      ResultHolder result = (ResultHolder)results.next();
       if(joinId == result.getJoin())
       {
         returnValue.add(result);
@@ -53,14 +53,14 @@ public class ResultCellCollection extends ArrayList
     return returnValue;
   }
 
-  public ResultCell getResultCell(ResultDescriptor result)
+  public ResultHolder getResultCell(ResultDescriptor result)
   {
-    ResultCell ret = null;
+    ResultHolder ret = null;
 
     Iterator iter = iterator();
     while(iter.hasNext())
     {
-      ret = (ResultCell)iter.next();
+      ret = (ResultHolder)iter.next();
       if(ret.getDescriptor() == result)
       {
         return ret;
