@@ -8,7 +8,6 @@ import com.opensymphony.module.propertyset.PropertySet;
 
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.FunctionProvider;
-import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,19 +58,9 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
     protected Map workflows;
     protected boolean reload;
 
-    //~ Constructors ///////////////////////////////////////////////////////////
-
-    public JDBCWorkflowFactory() {
-        try {
-            init();
-        } catch (Exception e) {
-            log.fatal("Could not initialize db connection for workflow factory.");
-        }
-    }
-
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public WorkflowDescriptor getWorkflow(String name) {
+    public WorkflowDescriptor getWorkflow(String name) throws FactoryException {
         WfConfig c = (WfConfig) workflows.get(name);
 
         if (c == null) {
@@ -85,13 +74,23 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         if (c.descriptor != null) {
             if (reload) {
                 //@todo check timestamp
-                log.debug("Reloading workflow " + name);
-                loadWorkflow(c);
+                try {
+                    c.descriptor = load(c.wfName);
+                } catch (FactoryException e) {
+                    throw e;
+                } catch (Exception e) {
+                    throw new FactoryException("Error reloading workflow", e);
+                }
             }
         } else {
             if (log.isDebugEnabled()) {
-                log.debug("Loading workflow " + name);
-                loadWorkflow(c);
+                try {
+                    c.descriptor = load(c.wfName);
+                } catch (FactoryException e) {
+                    throw e;
+                } catch (Exception e) {
+                    throw new FactoryException("Error loading workflow", e);
+                }
             }
         }
 
@@ -121,10 +120,14 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
     }
 
     public void initDone() throws FactoryException {
-        try {
-            reload = getProperties().getProperty("reload", "false").equals("true");
+        Connection conn = null;
 
-            Connection conn = ds.getConnection();
+        try {
+            init();
+            reload = getProperties().getProperty("reload", "false").equalsIgnoreCase("true");
+
+            conn = ds.getConnection();
+
             PreparedStatement ps = conn.prepareStatement("SELECT " + wfName + "," + wfDefinition + " FROM " + wfTable);
             ResultSet rs = ps.executeQuery();
 
@@ -136,21 +139,24 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
 
             rs.close();
             ps.close();
-            conn.close();
-        } catch (SQLException e) {
-            log.fatal("Could not read workflow names from db.");
-            throw new FactoryException(e);
         } catch (Exception e) {
-            log.fatal("Could not read workflow names from db.");
-            throw new FactoryException(e);
+            throw new FactoryException("Could not read workflow names from datasource", e);
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception ex) {
+            }
         }
     }
 
-    public byte[] read(String workflowname) {
-        byte[] wf = {};
+    public byte[] read(String workflowname) throws SQLException {
+        byte[] wf = new byte[0];
+
+        Connection conn = null;
 
         try {
-            Connection conn = ds.getConnection();
+            conn = ds.getConnection();
+
             PreparedStatement ps = conn.prepareStatement("SELECT " + wfDefinition + " FROM " + wfTable + " WHERE " + wfName + " = ?");
             ps.setString(1, workflowname);
 
@@ -162,9 +168,11 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
 
             rs.close();
             ps.close();
-            conn.close();
-        } catch (SQLException e) {
-            log.fatal("Could not read workflow [" + workflowname + "]", e);
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception ex) {
+            }
         }
 
         return wf;
@@ -211,14 +219,20 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         writer.close();
 
         //@todo is a backup necessary?
-        return write(name, bout.toByteArray());
+        try {
+            return write(name, bout.toByteArray());
+        } catch (SQLException e) {
+            throw new FactoryException("Unable to save workflow: " + e.toString(), e);
+        }
     }
 
-    public boolean write(String workflowname, byte[] wf) {
+    public boolean write(String workflowname, byte[] wf) throws SQLException {
         boolean written = false;
+        Connection conn = null;
 
         try {
-            Connection conn = ds.getConnection();
+            conn = ds.getConnection();
+
             PreparedStatement ps;
 
             if (exists(workflowname, conn)) {
@@ -244,8 +258,11 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
             ps.close();
             conn.close();
             written = true;
-        } catch (SQLException e) {
-            log.fatal("Could not write workflow [" + workflowname + "]", e);
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+            }
         }
 
         return written;
@@ -276,39 +293,21 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
     private void init() throws NamingException {
         workflows = new HashMap();
 
-        String dsName = "";
-
-        try {
-            ds = (DataSource) new InitialContext().lookup(getProperties().getProperty("datasource"));
-        } catch (NamingException e) {
-            log.fatal("Could not look up DataSource using JNDI location: " + dsName, e);
-            throw (e);
-        }
+        ds = (DataSource) new InitialContext().lookup(getProperties().getProperty("datasource"));
     }
 
-    private WorkflowDescriptor load(final String wfName) throws IOException, SAXException, InvalidWorkflowDescriptorException {
-        byte[] wf = read(wfName);
+    private WorkflowDescriptor load(final String wfName) throws IOException, SAXException, FactoryException {
+        byte[] wf = new byte[0];
 
-        if (wf == null) {
-            throw new IOException();
+        try {
+            wf = read(wfName);
+        } catch (SQLException e) {
+            throw new FactoryException("Error loading workflow:" + e, e);
         }
 
         ByteArrayInputStream is = new ByteArrayInputStream(wf);
 
-        try {
-            return WorkflowLoader.load(is);
-        } catch (InvalidWorkflowDescriptorException e) {
-            throw e;
-        }
-    }
-
-    private void loadWorkflow(WfConfig c) {
-        try {
-            c.descriptor = load(c.wfName);
-        } catch (Exception e) {
-            log.fatal("Error creating workflow descriptor" + e.getMessage(), e);
-            throw new RuntimeException("Error in workflow descriptor: " + e.getMessage());
-        }
+        return WorkflowLoader.load(is);
     }
 
     //~ Inner Classes //////////////////////////////////////////////////////////
