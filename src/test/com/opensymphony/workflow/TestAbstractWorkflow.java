@@ -6,6 +6,8 @@ package com.opensymphony.workflow;
 
 import com.opensymphony.module.propertyset.memory.MemoryPropertySet;
 
+import com.opensymphony.workflow.util.ScriptVariableParser;
+
 import junit.framework.TestCase;
 
 import java.util.HashMap;
@@ -14,8 +16,8 @@ import java.util.HashMap;
 /**
  * This testcase verifies that an AbstractWorkflow provided methods work properly.
  *
- * @author $Author: dep4b $
- * @version $Revision: 1.3 $
+ * @author $Author: hani $
+ * @version $Revision: 1.4 $
  */
 public class TestAbstractWorkflow extends TestCase {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -37,15 +39,15 @@ public class TestAbstractWorkflow extends TestCase {
         ps.setObject("a2", a2);
         ps.setString("foo", "bar");
 
-        assertEquals("aName", wf.getVariableFromMaps("a.name", transients, ps));
-        assertEquals(a, wf.getVariableFromMaps("a", transients, ps));
-        assertEquals("blah", wf.getVariableFromMaps("blah", transients, ps));
-        assertEquals("jack", wf.getVariableFromMaps("a2.b.name", transients, ps));
-        assertEquals(new Integer(-1), wf.getVariableFromMaps("a2.b.age", transients, ps));
-        assertEquals("bar", wf.getVariableFromMaps("foo", transients, ps));
+        assertEquals("aName", ScriptVariableParser.getVariableFromMaps("a.name", transients, ps));
+        assertEquals(a, ScriptVariableParser.getVariableFromMaps("a", transients, ps));
+        assertEquals("blah", ScriptVariableParser.getVariableFromMaps("blah", transients, ps));
+        assertEquals("jack", ScriptVariableParser.getVariableFromMaps("a2.b.name", transients, ps));
+        assertEquals(new Integer(-1), ScriptVariableParser.getVariableFromMaps("a2.b.age", transients, ps));
+        assertEquals("bar", ScriptVariableParser.getVariableFromMaps("foo", transients, ps));
 
-        assertEquals("hello, jack, what is your age? -1", wf.translateVariables("hello, ${a2.b.name}, what is your age? ${a2.b.age}", transients, ps));
-        assertEquals("hello, , what is your age? -1", wf.translateVariables("hello, ${I.Don't.EXIST}, what is your age? ${a2.b.age}", transients, ps));
+        assertEquals("hello, jack, what is your age? -1", ScriptVariableParser.translateVariables("hello, ${a2.b.name}, what is your age? ${a2.b.age}", transients, ps));
+        assertEquals("hello, , what is your age? -1", ScriptVariableParser.translateVariables("hello, ${I.Don't.EXIST}, what is your age? ${a2.b.age}", transients, ps));
     }
 
     //~ Inner Classes //////////////////////////////////////////////////////////
