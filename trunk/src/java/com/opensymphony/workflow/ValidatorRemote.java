@@ -6,6 +6,7 @@ package com.opensymphony.workflow;
 
 import com.opensymphony.module.propertyset.PropertySet;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import java.util.Map;
@@ -15,9 +16,9 @@ import java.util.Map;
  * Remote interface that must be implemented to define a java-based validator in your workflow definition.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Patrick Lightbody</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
-public interface ValidatorRemote {
+public interface ValidatorRemote extends Remote {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     /**
