@@ -47,9 +47,9 @@ public class MemoryDisplay extends DisplayItem
       g.setColor(Color.black);
       String memory = (Long.toString((totalMemory - freeMemory) / 1048576L) + "M of " + Long.toString(totalMemory / 1048576L) + 'M');
       FontMetrics fontmetrics = g.getFontMetrics();
-      int k1 = fontmetrics.charsWidth(memory.toCharArray(), 0, memory.length());
-      int i2 = fontmetrics.getHeight() - fontmetrics.getDescent();
-      g.drawString(memory, left + (insideWidth - k1) / 2, top + (insideHeight + i2) / 2);
+      int stringWidth = fontmetrics.charsWidth(memory.toCharArray(), 0, memory.length());
+      int stringHeight = fontmetrics.getHeight() - fontmetrics.getDescent();
+      g.drawString(memory, left + (insideWidth - stringWidth) / 2, top + (insideHeight + stringHeight) / 2);
     }
   }
 
