@@ -218,7 +218,16 @@ public class Workspace extends XMLWorkflowFactory
     {
       return config.descriptor;
     }
-    return super.getWorkflow(name, validate);
+    try
+    {
+      return super.getWorkflow(name, validate);
+    }
+    catch(FactoryException e)
+    {
+      //something went wrong, so lets delete the workflow from our list
+      workflows.remove(name);
+      throw e;
+    }
   }
 
   public boolean saveWorkflow(String name, WorkflowDescriptor descriptor, WorkflowGraph graph, boolean replace) throws FactoryException
