@@ -1,0 +1,37 @@
+<html><head><title>OSWorkflow Java-based Function</title></head><body>
+<ul class="star">
+<li>Up to <a href="Documentation.html">Documentation</a></li>
+<li>Back to <a href="Functions.html">Functions</a></li>
+<li>Forward to <a href="BeanShell_Functions.html">BeanShell Functions</a></li>
+</ul><p class="paragraph"></p>Java-based functions must implement the interface <b class="bold">com.opensymphony.workflow.FunctionProvider</b>. This interface has a single method, <b class="bold">execute</b>. This method takes three arguments:
+<ul class="minus">
+<li><b class="bold">The transientVars Map</b> is the exact Map passed by the client code that called <b class="bold">Workflow.doAction()</b>. This is useful for functions that behave differently based on user input when the action is finished. It also includes a number of special variables that are helpful in accessing various aspects of the workflow. This includes all the variables configured in Registers (see <a href="Workflow_Concepts.html">Workflow Concepts</a>) as well as the following two special variables: <b class="bold">entry</b> (com.opensymphony.workflow.spi.WorkflowEntry) and <b class="bold">context</b> (com.opensymphony.workflow.WorkflowContext).</li>
+</ul>
+<br></br>
+<ul class="minus">
+<li><b class="bold">The args Map</b> is a map that contains all the &#60;arg/&#62; tags embedded in the &#60;function/&#62; tag. These arguments are all of type String and have been parsed for any variable interpolation. This means that <i class="italic">&#60;arg name="foo"&#62;this is ${someVar}&#60;/arg&#62;</i> would result in a mapping from "foo" to "this is &#91;contents of someVar&#93;".</li>
+</ul>
+<br></br>
+<ul class="minus">
+<li><b class="bold">The propertySet</b> contains all the persistent variables associated with the workflow instance.</li>
+</ul><p class="paragraph"></p>Java-based functions are available in the following <b class="bold">types</b>:
+<h3 class="heading-1-1">class
+</h3><p class="paragraph"></p>For a class function, the ClassLoader must know the class name of your function. This can be accomplished with the argument class.name. An example is:<p class="paragraph"></p><div class="wikicode"><pre>&#60;function type=<span class="java&#45;quote">"class"</span>&#62;
+	&#60;arg name=<span class="java&#45;quote">"class.name"</span>&#62;com.acme.FooFunction&#60;/arg&#62;
+	&#60;arg name=<span class="java&#45;quote">"message"</span>&#62;The message is $&#123;message&#125;&#60;/arg&#62;
+&#60;/function&#62;</pre></div>
+<h3 class="heading-1-1">jndi
+</h3><p class="paragraph"></p>JNDI functions are just like class functions except they must already exist in the JNDI tree. Instead of a class.name argument, the argument <b class="bold">jndi.location</b> is required. Example:<p class="paragraph"></p><div class="wikicode"><pre>&#60;function type=<span class="java&#45;quote">"jndi"</span>&#62;
+	&#60;arg name=<span class="java&#45;quote">"jndi.location"</span>&#62;java:/FooFunction&#60;/arg&#62;
+	&#60;arg name=<span class="java&#45;quote">"message"</span>&#62;The message is $&#123;message&#125;&#60;/arg&#62;
+&#60;/function&#62;</pre></div>
+<h3 class="heading-1-1">remote-ejb
+</h3><p class="paragraph"></p>Remote EJBs can be used as a function in OSWorkflow provided a few things happen first. The remote interface of the EJB must extend <b class="bold">com.opensymphony.workflow.FunctionProviderRemote</b>. Also, the required argument ejb.location must be given. Example:<p class="paragraph"></p><div class="wikicode"><pre>&#60;function type=<span class="java&#45;quote">"remote&#45;ejb"</span>&#62;
+	&#60;arg name=<span class="java&#45;quote">"ejb.location"</span>&#62;java:/comp/env/FooEJB&#60;/arg&#62;
+	&#60;arg name=<span class="java&#45;quote">"message"</span>&#62;The message is $&#123;message&#125;&#60;/arg&#62;
+&#60;/function&#62;</pre></div>
+<h3 class="heading-1-1">local-ejb
+</h3><p class="paragraph"></p>Local EJBs are exactly like remote EJBs, except that the local interface of the EJB must extend <b class="bold">com.opensymphony.workflow.FunctionProvider</b>, just like the other Java-based functions. Example:<p class="paragraph"></p><div class="wikicode"><pre>&#60;function type=<span class="java&#45;quote">"local&#45;ejb"</span>&#62;
+	&#60;arg name=<span class="java&#45;quote">"ejb.location"</span>&#62;java:/comp/env/FooEJB&#60;/arg&#62;
+	&#60;arg name=<span class="java&#45;quote">"message"</span>&#62;The message is $&#123;message&#125;&#60;/arg&#62;
+&#60;/function&#62;</pre></div></body></html>

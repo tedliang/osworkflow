@@ -1,0 +1,10 @@
+<html><head><title>OSWorkflow Compiling from CVS</title></head><body>
+<ul class="star">
+<li>Up to <a href="Documentation.html">Documentation</a></li>
+</ul><p class="paragraph"></p>To get the latest version of OSWorkflow, we recommend that you download the source via CVS and compile using the <span class="nobr"></img><a href="http://jakarta.apache.org/ant/index.html">Jakarta Ant</a></span> build script provided there. Compiling OSWorkflow from source is trivial with the following two ant targets:
+<ul class="minus">
+<li><b class="bold">jar</b> <i class="italic">(default)</i> - compiles the library <b class="bold">osworkflow.jar</b></li>
+<li><b class="bold">example-war</b> - compiles and assembles <b class="bold">osworkflow-2.6.0-example.war</b>, which is configured to use memory persistence and should deploy without any configuration into most web containers.</li>
+<li><b class="bold">example-ear</b> - compiled and assembles <b class="bold">osworkflow-2.6.0-example.ear</b>, which is a J2EE application that is configured to use osworkflow with the EJB persistence store. Some configuration of data sources is required, as well as a full J2EE application server.</li>
+<li><b class="bold">client-jar</b> - compiled and assembles <b class="bold">designer.jar</b>, which is a Swing GUI workflow designer application that can be used to visually inspect and edit workflows.</li>
+</ul></body></html>

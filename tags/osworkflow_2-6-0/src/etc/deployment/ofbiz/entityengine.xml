@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE entity-config PUBLIC "-//OFBiz//DTD Entity Engine Config//EN" "http://www.ofbiz.org/dtds/entity-config.dtd">
+<!--
+
+You can modify this file at length to use your own transaction factory, jndi server, resource loader, datasources etc.
+
+However, normally you will only need to change a few things (the defaults should be sensible for most cases).
+
+Here are the most common modifications:
+- the database type - edit the datasource-name attribute of the <group-map> tag
+- the datasource location - edit the jndi-name attribute of the <jndi-jdbc> tag relevant to your database
+
+The following changes are less common but often required:
+- user-transaction and transaction-manager JNDI locations (for servers other than Orion these locations will change)
+- the transaction factory (if not using a server which can use InitialContext() to lookup a default)
+- if not using the 7 preconfigured DBs, you may need to add your own datasource tag and field type
+- if you're not using a JNDI lookup to get a datasource, you can configure the driver using <inline-jdbc> (slow!)
+
+-->
+<entity-config>
+
+	<!-- RESOURCE LOADER -->
+	<!--
+		This determines where resources (other XML files) are loaded from.
+
+		Other resource loaders include:
+			org.ofbiz.core.entity.config.FileLoader - load resources from the file system
+            org.ofbiz.core.entity.config.UrlLoader - load resources from external URLs
+	-->
+	<resource-loader name="maincp" class="org.ofbiz.core.config.ClasspathLoader"/>
+
+
+	<!-- JNDI SERVER -->
+	<!--
+		The JNDI server to use for all JNDI lookups.
+
+		You can also specify these attributes: (to lookup other JNDI servers)
+			context-provider-url="rmi://127.0.0.1:1099"
+            initial-context-factory="com.sun.jndi.rmi.registry.RegistryContextFactory"
+            url-pkg-prefixes="java.naming.rmi.security.manager"
+            security-principal=""
+            security-credentials=""
+
+		This will work with Orion and JBoss.
+	-->
+	<jndi-server name="default"/>
+
+
+	<!-- TRANSACTION FACTORY -->
+	<!--
+		The transaction factory class to use, one is needed for each way of getting JTA interfaces
+
+		Other tranasction factories include:
+			org.ofbiz.core.entity.transaction.WeblogicFactory - for use with Weblogic
+			org.ofbiz.core.entity.transaction.TyrexFactory - for use with Tyrex (third party TX manager)
+
+		For JBoss, change the TransactionManager JNDI name to "java:/TransactionManager"
+	-->
+	<transaction-factory class="org.ofbiz.core.entity.transaction.JNDIFactory">
+		<user-transaction-jndi jndi-server-name="default" jndi-name="java:comp/UserTransaction"/>
+		<transaction-manager-jndi jndi-server-name="default" jndi-name="java:comp/UserTransaction"/>
+	</transaction-factory>
+
+
+
+	<!-- DELEGATOR -->
+	<delegator name="default" entity-model-reader="main" entity-group-reader="main">
+		<!-- DATABASE TYPE -->
+		<!--
+		Valid datasource-names are: (obviously choose the one that matches your db)
+			postgresDS       hsqlDS
+			cloudscapeDS     mysqlDS
+			mssqlDS          oracleDS
+			sapdbDS
+		-->
+		<group-map group-name="default" datasource-name="postgresDS"/>
+	</delegator>
+
+
+	<!-- ENTITY MODEL / GROUP -->
+	<entity-model-reader name="main">
+		<resource loader="maincp" location="entitydefs/entitymodel.xml"/>
+	</entity-model-reader>
+
+	<entity-group-reader name="main" loader="maincp" location="entitydefs/entitygroup.xml"/>
+
+
+	<!-- FIELD TYPES -->
+    <field-type name="postgres" loader="maincp" location="entitydefs/fieldtype-postgres.xml"/>
+    <field-type name="postgres72" loader="maincp" location="entitydefs/fieldtype-postgres72.xml"/>
+	<field-type name="hsql" loader="maincp" location="entitydefs/fieldtype-hsql.xml"/>
+	<field-type name="cloudscape" loader="maincp" location="entitydefs/fieldtype-cloudscape.xml"/>
+	<field-type name="mysql" loader="maincp" location="entitydefs/fieldtype-mysql.xml"/>
+	<field-type name="mssql" loader="maincp" location="entitydefs/fieldtype-mssql.xml"/>
+	<field-type name="oracle" loader="maincp" location="entitydefs/fieldtype-oracle.xml"/>
+	<field-type name="sapdb" loader="maincp" location="entitydefs/fieldtype-sapdb.xml"/>
+
+
+	<!-- DATASOURCE -->
+	<!--
+		For DAO/JDBC Helper: Tries:
+		  1. JNDI Datasource IF jdbc.jndi.name, context.provider, etc are specified
+		  2. Tyrex if available (uses jdbc.driver, jdbc.uri, jdbc.username, jdbc.password, isolation.level)
+		  3. Direct to manually laoded JDBC driver (uses jdbc.driver, jdbc.uri, jdbc.username, jdbc.password)
+
+		Transaction Isolation Levels - For Tyrex (<helperName>.isolation.level) can be as follows:
+		 * ReadCommitted
+		 * ReadUncommitted
+		 * RepeatableRead
+		 * Serializable (default)
+
+		The first datasource is commented heavily - these comments apply to all other datasources below
+	-->
+	<datasource name="postgresDS"
+		helper-class="org.ofbiz.core.entity.GenericHelperDAO"
+		field-type-name="postgres"
+		check-on-start="true"
+		add-missing-on-start="true">
+		<!--
+			Either use a <jndi-jdbc> tag OR an <inline-jdbc> tag.
+			Comment out whichever tag you are not using.
+		-->
+
+		<!--
+			Connect to a datasource from the JNDI server configured above.
+
+			This JNDI name works on Orion - make sure with Orion you use the xa-location
+
+			For Jboss you need something like java:/MinervaDS (we recommend you use Minerva DS pooling for speed)
+		-->
+		<jndi-jdbc jndi-server-name="default" jndi-name="jdbc/xa/DefaultXADS"/>
+
+		<!-- connect to a datasource directly via JDBC driver -->
+		<!--
+        <inline-jdbc
+                jdbc-driver="org.postgresql.Driver"
+                jdbc-uri="jdbc:postgresql://192.168.0.67/osworkflow"
+                jdbc-username="postgres"
+                jdbc-password="postgres"
+                isolation-level="Serializable"/>
+		-->
+	</datasource>
+
+	<datasource name="hsqlDS"
+		helper-class="org.ofbiz.core.entity.GenericHelperDAO"
+		field-type-name="hsql"
+		check-on-start="true"
+		add-missing-on-start="true">
+		<jndi-jdbc jndi-server-name="default" jndi-name="java:/HsqlDataSource"/>
+
+		<!--
+        <inline-jdbc
+                jdbc-driver="org.hsqldb.jdbcDriver"
+                jdbc-uri="jdbc:hsqldb:../../data/ofbiz"
+                jdbc-username="sa"
+                jdbc-password=""
+                isolation-level="Serializable"/>
+		-->
+	</datasource>
+
+	<datasource name="cloudscapeDS"
+		helper-class="org.ofbiz.core.entity.GenericHelperDAO"
+		field-type-name="cloudscape"
+		check-on-start="true"
+		add-missing-on-start="true">
+		<jndi-jdbc jndi-server-name="default" jndi-name="java:/CloudscapeDataSource"/>
+
+		<!--
+		<inline-jdbc
+                jdbc-driver="COM.cloudscape.core.JDBCDriver"
+                jdbc-uri="jdbc:cloudscape:../../data/ofbiz; create=true"
+                jdbc-username="ofbiz"
+                jdbc-password="ofbiz"
+                isolation-level="Serializable"/>
+		-->
+	</datasource>
+
+	<datasource name="mysqlDS"
+		helper-class="org.ofbiz.core.entity.GenericHelperDAO"
+		field-type-name="mysql"
+		check-on-start="true"
+		add-missing-on-start="true">
+		<jndi-jdbc jndi-server-name="default" jndi-name="java:/MySqlDataSource"/>
+
+		<!--
+        <inline-jdbc
+                jdbc-driver="org.gjt.mm.mysql.Driver"
+                jdbc-uri="jdbc:mysql://127.0.0.1/ofbiz"
+                jdbc-username="ofbiz"
+                jdbc-password="ofbiz"
+                isolation-level="Serializable"/>
+		-->
+	</datasource>
+
+
+	<datasource name="oracleDS"
+		helper-class="org.ofbiz.core.entity.GenericHelperDAO"
+		field-type-name="oracle"
+		check-on-start="true"
+		add-missing-on-start="true">
+		<jndi-jdbc jndi-server-name="default" jndi-name="jdbc/DefaultDS"/>
+
+		<!--
+		<inline-jdbc
+                jdbc-driver="oracle.jdbc.driver.OracleDriver"
+                jdbc-uri="jdbc:oracle:thin:@localhost:1521:ofbiz"
+                jdbc-username="ofbiz"
+                jdbc-password="ofbiz"
+                isolation-level="Serializable"/>
+		-->
+	</datasource>
+
+	<datasource name="sapdbDS"
+		helper-class="org.ofbiz.core.entity.GenericHelperDAO"
+		field-type-name="sapdb"
+		check-on-start="true"
+		add-missing-on-start="true">
+		<jndi-jdbc jndi-server-name="default" jndi-name="java:/SapDBDataSource"/>
+
+		<!--
+        <inline-jdbc
+                jdbc-driver="com.sap.dbtech.jdbc.DriverSapDB"
+                jdbc-uri="jdbc:sapdb://localhost/ofbiz"
+                jdbc-username="ofbiz"
+                jdbc-password="ofbiz"
+                isolation-level="Serializable"/>
+		-->
+	</datasource>
+</entity-config>
