@@ -16,7 +16,6 @@ public class VerifyArg implements FunctionProvider
   {
     Object expected = args.get("expected");
     Object actual = args.get("actual");
-    System.out.println("expected is " + expected + " actual is " + actual);
     TestCase.assertEquals(expected, actual);
   }
 }
