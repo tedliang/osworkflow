@@ -4,6 +4,7 @@
  */
 package com.opensymphony.workflow;
 
+import com.opensymphony.workflow.basic.BasicWorkflow;
 import com.opensymphony.workflow.spi.Step;
 
 import junit.framework.TestCase;
@@ -98,7 +99,6 @@ public class AutoExecuteTestCase extends TestCase {
     }
 
     protected void setUp() throws Exception {
-        TestWorkflow.configFile = "/osworkflow.xml";
-        workflow = new TestWorkflow("testuser");
+        workflow = new BasicWorkflow("testuser");
     }
 }

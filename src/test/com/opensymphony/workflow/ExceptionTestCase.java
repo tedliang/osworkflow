@@ -4,6 +4,10 @@
  */
 package com.opensymphony.workflow;
 
+import com.opensymphony.workflow.basic.BasicWorkflow;
+import com.opensymphony.workflow.config.Configuration;
+import com.opensymphony.workflow.config.DefaultConfiguration;
+
 import junit.framework.TestCase;
 
 import java.net.URL;
@@ -26,22 +30,22 @@ public class ExceptionTestCase extends TestCase {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public void testFactoryException() {
-        TestWorkflow.configFile = "/osworkflow-badfactory.xml";
-
         //we expect an InternalWorkflowException (can't throw a checked exception in constructor, otherwise the ejb provider
         //will break spec by having a constructor
         try {
-            TestWorkflow workflow = new TestWorkflow("testuser");
+            Configuration config = new DefaultConfiguration();
+            config.load(getClass().getResource("/osworkflow-badfactory.xml"));
+
             fail("bad factory did not throw an error");
         } catch (InternalWorkflowException ex) {
             assertTrue("Expected FactoryException, but instead got " + ex.getRootCause(), ex.getRootCause() instanceof FactoryException);
+        } catch (FactoryException e) {
+            e.printStackTrace();
         }
     }
 
     public void testInitializeInvalidActionException() throws Exception {
-        TestWorkflow.configFile = "/osworkflow.xml";
-
-        TestWorkflow workflow = new TestWorkflow("testuser");
+        Workflow workflow = new BasicWorkflow("testuser");
         URL url = getClass().getResource("/samples/auto1.xml");
         assertNotNull("Unable to find resource /samples/auto1.xml", url);
 
@@ -55,9 +59,7 @@ public class ExceptionTestCase extends TestCase {
     }
 
     public void testInvalidActionException() throws Exception {
-        TestWorkflow.configFile = "/osworkflow.xml";
-
-        TestWorkflow workflow = new TestWorkflow("testuser");
+        Workflow workflow = new BasicWorkflow("testuser");
         URL url = getClass().getResource("/samples/auto1.xml");
         assertNotNull("Unable to find resource /samples/auto1.xml", url);
 
@@ -73,9 +75,11 @@ public class ExceptionTestCase extends TestCase {
     }
 
     public void testStoreException() throws Exception {
-        TestWorkflow.configFile = "/osworkflow-jdbc.xml";
+        Configuration config = new DefaultConfiguration();
+        config.load(getClass().getResource("/osworkflow-jdbc.xml"));
 
-        TestWorkflow workflow = new TestWorkflow("testuser");
+        Workflow workflow = new BasicWorkflow("testuser");
+        workflow.setConfiguration(config);
 
         //correct behaviour is to get a store exception since we can't look up the DS
         URL url = getClass().getResource("/samples/auto1.xml");

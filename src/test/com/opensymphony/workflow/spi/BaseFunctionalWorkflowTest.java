@@ -11,8 +11,8 @@ import com.opensymphony.user.UserManager;
 
 import com.opensymphony.workflow.AbstractWorkflow;
 import com.opensymphony.workflow.QueryNotSupportedException;
-import com.opensymphony.workflow.TestWorkflow;
 import com.opensymphony.workflow.WorkflowException;
+import com.opensymphony.workflow.basic.BasicWorkflow;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.query.Expression;
 import com.opensymphony.workflow.query.FieldExpression;
@@ -414,8 +414,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
     }
 
     protected void setUp() throws Exception {
-        assertNotNull(TestWorkflow.configFile);
-        workflow = new TestWorkflow(USER_TEST);
+        workflow = new BasicWorkflow(USER_TEST);
 
         UserManager um = UserManager.getInstance();
         assertNotNull("Could not get UserManager", um);

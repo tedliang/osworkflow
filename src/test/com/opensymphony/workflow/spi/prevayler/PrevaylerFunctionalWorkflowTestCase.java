@@ -9,7 +9,8 @@
  */
 package com.opensymphony.workflow.spi.prevayler;
 
-import com.opensymphony.workflow.TestWorkflow;
+import com.opensymphony.workflow.config.Configuration;
+import com.opensymphony.workflow.config.DefaultConfiguration;
 import com.opensymphony.workflow.spi.BaseFunctionalWorkflowTest;
 
 
@@ -35,7 +36,10 @@ public class PrevaylerFunctionalWorkflowTestCase extends BaseFunctionalWorkflowT
      * @see junit.framework.TestCase#setUp()
      */
     protected void setUp() throws Exception {
-        TestWorkflow.configFile = "/osworkflow-prevayler.xml";
         super.setUp();
+
+        Configuration config = new DefaultConfiguration();
+        config.load(getClass().getResource("/osworkflow-prevayler.xml"));
+        workflow.setConfiguration(config);
     }
 }
