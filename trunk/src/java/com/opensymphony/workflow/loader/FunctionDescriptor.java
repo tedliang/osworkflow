@@ -18,12 +18,17 @@ import java.util.Map;
  * Desrives a function that can be applied to a workflow step.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class FunctionDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected Map args = new HashMap();
+
+    /**
+     * The name field helps the editor identify the condition template used.
+     */
+    protected String name;
     protected String type;
 
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -41,6 +46,14 @@ public class FunctionDescriptor extends AbstractDescriptor {
         return args;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
@@ -51,7 +64,7 @@ public class FunctionDescriptor extends AbstractDescriptor {
 
     public void writeXML(PrintWriter out, int indent) {
         XMLUtil.printIndent(out, indent++);
-        out.println("<function " + (hasId() ? ("id=\"" + getId() + "\" ") : "") + "type=\"" + type + "\">");
+        out.println("<function " + (hasId() ? ("id=\"" + getId() + "\" ") : "") + ((name != null) ? ("name=\"" + getName() + "\" ") : "") + "type=\"" + type + "\">");
 
         Iterator iter = args.entrySet().iterator();
 
@@ -83,6 +96,10 @@ public class FunctionDescriptor extends AbstractDescriptor {
         try {
             setId(Integer.parseInt(function.getAttribute("id")));
         } catch (NumberFormatException e) {
+        }
+
+        if (function.getAttribute("name") != null) {
+            name = function.getAttribute("name");
         }
 
         NodeList args = function.getElementsByTagName("arg");

@@ -18,12 +18,17 @@ import java.util.Map;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ConditionDescriptor extends AbstractDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected Map args = new HashMap();
+
+    /**
+     * The name field helps the editor identify the condition template used.
+     */
+    protected String name;
     protected String type;
     protected boolean negate = false;
 
@@ -40,6 +45,14 @@ public class ConditionDescriptor extends AbstractDescriptor {
 
     public Map getArgs() {
         return args;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setNegate(boolean negate) {
@@ -60,7 +73,7 @@ public class ConditionDescriptor extends AbstractDescriptor {
 
     public void writeXML(PrintWriter out, int indent) {
         XMLUtil.printIndent(out, indent++);
-        out.println("<condition " + (hasId() ? ("id=\"" + getId() + "\" ") : "") + (negate ? ("negate=\"true\" ") : "") + "type=\"" + type + "\">");
+        out.println("<condition " + (hasId() ? ("id=\"" + getId() + "\" ") : "") + ((getName() != null) ? ("name=\"" + getName() + "\" ") : "") + (negate ? ("negate=\"true\" ") : "") + "type=\"" + type + "\">");
 
         Iterator iter = args.entrySet().iterator();
 
@@ -86,15 +99,15 @@ public class ConditionDescriptor extends AbstractDescriptor {
         out.println("</condition>");
     }
 
-    protected void init(Element function) {
-        type = function.getAttribute("type");
+    protected void init(Element condition) {
+        type = condition.getAttribute("type");
 
         try {
-            setId(Integer.parseInt(function.getAttribute("id")));
+            setId(Integer.parseInt(condition.getAttribute("id")));
         } catch (NumberFormatException e) {
         }
 
-        String n = function.getAttribute("negate");
+        String n = condition.getAttribute("negate");
 
         if ("true".equalsIgnoreCase(n) || "yes".equalsIgnoreCase(n)) {
             negate = true;
@@ -102,7 +115,11 @@ public class ConditionDescriptor extends AbstractDescriptor {
             negate = false;
         }
 
-        NodeList args = function.getElementsByTagName("arg");
+        if (condition.getAttribute("name") != null) {
+            name = condition.getAttribute("name");
+        }
+
+        NodeList args = condition.getElementsByTagName("arg");
 
         for (int l = 0; l < args.getLength(); l++) {
             Element arg = (Element) args.item(l);
