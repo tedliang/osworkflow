@@ -10,7 +10,6 @@ import com.opensymphony.module.propertyset.hibernate.DefaultHibernateConfigurati
 
 import com.opensymphony.util.TextUtils;
 
-import com.opensymphony.workflow.QueryNotSupportedException;
 import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.query.*;
 import com.opensymphony.workflow.spi.Step;
@@ -28,8 +27,6 @@ import net.sf.hibernate.expression.Expression;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.sql.Timestamp;
-
 import java.util.*;
 
 
@@ -41,7 +38,7 @@ import java.util.*;
  * See the HibernateFunctionalWorkflowTestCase for more help.
  *
  * @author $Author: hani $
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -533,6 +530,10 @@ public class HibernateWorkflowStore implements WorkflowStore {
             } else {
                 FieldExpression sub = (FieldExpression) nestedExpression.getExpression(i);
                 expr = queryComparison(sub);
+
+                if (sub.isNegate()) {
+                    expr = Expression.not(expr);
+                }
             }
 
             if (full == null) {
