@@ -42,6 +42,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     setSelectNewCells(true);
 
     setGridEnabled(true);
+	  setSizeable(true);
     setGridColor(new Color(240, 240, 240));
     setGridSize(12);
     setTolerance(2);
