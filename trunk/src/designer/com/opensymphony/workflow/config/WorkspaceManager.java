@@ -8,8 +8,6 @@ import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
 import com.opensymphony.workflow.loader.Workspace;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -18,8 +16,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class WorkspaceManager
 {
-  private static final Log log = LogFactory.getLog(WorkspaceManager.class);
-
   private Workspace currentWorkspace = null;
   private Collection listeners;
 
@@ -31,7 +27,6 @@ public class WorkspaceManager
     config.load(url);
     currentWorkspace  = (Workspace)config.getFactory();
     fireWorkspaceOpened();
-    log.debug("loaded workspace " + currentWorkspace);
   }
 
   public void addWorkspaceListener(WorkspaceListener listener)

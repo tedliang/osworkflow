@@ -3,7 +3,6 @@ package com.opensymphony.workflow.designer;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.*;
@@ -15,7 +14,6 @@ import org.jgraph.event.GraphSelectionEvent;
 import org.jgraph.event.GraphSelectionListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
@@ -29,8 +27,6 @@ import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.loader.Workspace;
 import com.jgoodies.plaf.Options;
 import com.jgoodies.plaf.LookUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -43,8 +39,6 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 {
-  private static final Log log = LogFactory.getLog(WorkflowDesigner.class);
-
   public static final String WORKSPACE_SUFFIX = ".wsf";
 
   private Navigator navigator;
@@ -160,7 +154,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
     catch(FactoryException e)
     {
-      log.error("Error creating graph:" + e.getMessage());
+      e.printStackTrace();
       return;
     }
     WorkflowGraph graph = new WorkflowGraph(model, descriptor, layout, !hasLayout);
@@ -182,7 +176,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
     catch(Exception e)
     {
-      log.error("Error saving prefs", e);
+      e.printStackTrace();
     }
     System.exit(0);
   }
@@ -207,10 +201,6 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     if(lastAdded instanceof WorkflowCell || lastAdded instanceof WorkflowEdge)
     {
 			showDetails(lastAdded);
-    }
-    else if(lastAdded != null)
-    {
-      log.debug("unhandled selection:" + lastAdded.getClass());
     }
   }
 
@@ -267,7 +257,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
     else
     {
-      log.warn("no detail panel for " + node.getClass());
+      System.out.println("WARN: no detail panel for " + node.getClass());
     }
   }
 
@@ -289,7 +279,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       }
       catch(Exception t)
       {
-        log.error("Error opening workspace", t);
+        t.printStackTrace();
       }
     }
   }
@@ -338,7 +328,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
     catch(FactoryException e)
     {
-      log.error("Error saving " + workflowName + ": " + e);
+      e.printStackTrace();
     }
   }
 
@@ -414,7 +404,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       }
       catch(ParserConfigurationException e)
       {
-        log.fatal("Could not create XML parser", e);
+        e.printStackTrace();
         System.exit(1);
       }
 
@@ -425,13 +415,9 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
       palette = new PaletteDescriptor(root, new EnhancedResourceBundle(bundle));
     }
-    catch(SAXException e)
+    catch(Exception e)
     {
-      log.fatal("Syntax error in plugin file", e);
-    }
-    catch(IOException e)
-    {
-      log.fatal("Plugin file does not exist", e);
+      e.printStackTrace();
     }
   }
 

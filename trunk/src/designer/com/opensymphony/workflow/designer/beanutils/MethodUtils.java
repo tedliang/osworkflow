@@ -1,7 +1,7 @@
 /*
- * $Header: /zpool01/javanet/scm/svn/tmp/cvs2svn/osworkflow/src/designer/com/opensymphony/workflow/designer/beanutils/MethodUtils.java,v 1.1 2003-12-06 18:05:58 hani Exp $
- * $Revision: 1.1 $
- * $Date: 2003-12-06 18:05:58 $
+ * $Header: /zpool01/javanet/scm/svn/tmp/cvs2svn/osworkflow/src/designer/com/opensymphony/workflow/designer/beanutils/MethodUtils.java,v 1.2 2004-04-16 10:36:29 hani Exp $
+ * $Revision: 1.2 $
+ * $Date: 2004-04-16 10:36:29 $
  *
  * ====================================================================
  *
@@ -68,11 +68,6 @@ import java.lang.reflect.Modifier;
 
 import java.util.WeakHashMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-
-
 /**
  * <p> Utility reflection methods focussed on methods in general rather than properties in particular. </p>
  *
@@ -101,10 +96,6 @@ public class MethodUtils {
 
     // --------------------------------------------------------- Private Methods
 
-    /**
-     * All logging goes through this logger
-     */
-    private static Log log = LogFactory.getLog(MethodUtils.class);
     /** Only log warning about accessibility work around once */
     private static boolean loggedAccessibleWarning = false;
 
@@ -562,10 +553,6 @@ public class MethodUtils {
                                                 Class clazz,
                                                 String methodName,
                                                 Class[] parameterTypes) {
-        // trace logging
-        if (log.isTraceEnabled()) {
-            log.trace("Matching name=" + methodName + " on " + clazz);
-        }
         MethodDescriptor md = new MethodDescriptor(clazz, methodName, parameterTypes, false);
 
         // see if we can find the method directly
@@ -578,10 +565,6 @@ public class MethodUtils {
             }
 
             method = clazz.getMethod(methodName, parameterTypes);
-            if (log.isTraceEnabled()) {
-                log.trace("Found straight match: " + method);
-                log.trace("isPublic:" + Modifier.isPublic(method.getModifiers()));
-            }
 
             try {
                 //
@@ -620,16 +603,8 @@ public class MethodUtils {
                         // don't know - so display warning
                         vunerableJVM = true;
                     }
-                    if (vunerableJVM) {
-                        log.warn(
-                            "Current Security Manager restricts use of workarounds for reflection bugs "
-                            + " in pre-1.4 JVMs.");
-                    }
                     loggedAccessibleWarning = true;
                 }
-                log.debug(
-                        "Cannot setAccessible on method. Therefore cannot use jvm access bug workaround.",
-                        se);
             }
             cache.put(md, method);
             return method;
@@ -641,11 +616,6 @@ public class MethodUtils {
         Method[] methods = clazz.getMethods();
         for (int i = 0, size = methods.length; i < size ; i++) {
             if (methods[i].getName().equals(methodName)) {
-                // log some trace information
-                if (log.isTraceEnabled()) {
-                    log.trace("Found matching name:");
-                    log.trace(methods[i]);
-                }
 
                 // compare parameters
                 Class[] methodsParams = methods[i].getParameterTypes();
@@ -653,15 +623,7 @@ public class MethodUtils {
                 if (methodParamSize == paramSize) {
                     boolean match = true;
                     for (int n = 0 ; n < methodParamSize; n++) {
-                        if (log.isTraceEnabled()) {
-                            log.trace("Param=" + parameterTypes[n].getName());
-                            log.trace("Method=" + methodsParams[n].getName());
-                        }
                         if (!isAssignmentCompatible(methodsParams[n], parameterTypes[n])) {
-                            if (log.isTraceEnabled()) {
-                                log.trace(methodsParams[n] + " is not assignable from "
-                                            + parameterTypes[n]);
-                            }
                             match = false;
                             break;
                         }
@@ -671,10 +633,6 @@ public class MethodUtils {
                         // get accessible version of method
                         Method method = getAccessibleMethod(methods[i]);
                         if (method != null) {
-                            if (log.isTraceEnabled()) {
-                                log.trace(method + " accessible version of "
-                                            + methods[i]);
-                            }
                             try {
                                 //
                                 // XXX Default access superclass workaround
@@ -684,27 +642,17 @@ public class MethodUtils {
 
                             } catch (SecurityException se) {
                                 // log but continue just in case the method.invoke works anyway
-                                if (!loggedAccessibleWarning) {
-                                    log.warn(
-            "Cannot use JVM pre-1.4 access bug workaround die to restrictive security manager.");
-                                    loggedAccessibleWarning = true;
-                                }
-                                log.debug(
-            "Cannot setAccessible on method. Therefore cannot use jvm access bug workaround.",
-                                        se);
                             }
                             cache.put(md, method);
                             return method;
                         }
 
-                        log.trace("Couldn't find accessible method.");
                     }
                 }
             }
         }
 
         // didn't find a match
-        log.trace("No match found.");
         return null;
     }
 
@@ -800,9 +748,6 @@ public class MethodUtils {
         } else if (Character.class.equals(wrapperType)) {
             return char.class;
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("Not a known primitive wrapper class: " + wrapperType);
-            }
             return null;
         }
     }

@@ -1,7 +1,5 @@
 package com.opensymphony.workflow.designer.beanutils;
 
-import org.apache.commons.logging.LogFactory;
-
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -157,8 +155,6 @@ public class BeanConnector
       value = ((JComboBox)comp).getSelectedItem();
     }
 
-    LogFactory.getLog(this.getClass()).debug("Set " + name + "=" + value);
-
     if(source instanceof Map)
     {
       if(value == null)
@@ -185,7 +181,7 @@ public class BeanConnector
       }
       catch(IndexOutOfBoundsException e)
       {
-        LogFactory.getLog(this.getClass()).info("Unable to index into property " + name);
+        e.printStackTrace();
       }
       catch(Exception e)
       {
@@ -215,12 +211,10 @@ public class BeanConnector
         }
         catch(NullPointerException ex)
         {
-          LogFactory.getLog(this.getClass()).debug("Null property " + name + " found in " + source);
           value = null;
         }
         catch(NoSuchMethodException ex)
         {
-          LogFactory.getLog(this.getClass()).debug("No property " + name + " found in " + source);
           value = null;
         }
         catch(IndexOutOfBoundsException ex)

@@ -3,9 +3,6 @@ package com.opensymphony.workflow.designer;
 import java.util.*;
 import javax.swing.*;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public final class ActionManager
 {
 
@@ -13,7 +10,6 @@ public final class ActionManager
   private static final String DISPLAYED_MNEMONIC_INDEX = "mnemonicIndex";
 
   private static final ActionManager INSTANCE = new ActionManager();
-  private static final Log LOGGER = LogFactory.getLog(ActionManager.class);
 
   private final Map actions;
   private ResourceBundle bundle;
@@ -32,7 +28,7 @@ public final class ActionManager
     ActionReader.readAndPutValues(action, INSTANCE.bundle, id);
     Object oldValue = INSTANCE.actions.put(id, action);
     if(oldValue != null)
-      LOGGER.warn("Duplicate action id: " + id);
+      System.out.println("WARN: Duplicate action id: " + id);
     return action;
   }
 
@@ -41,7 +37,7 @@ public final class ActionManager
     Action action = (Action)(INSTANCE.actions.get(id));
     if(null == action)
     {
-      LOGGER.error("No action found for id: " + id);
+      System.out.println("WARN: No action found for id: " + id);
       return null;
     }
     return action;
@@ -170,17 +166,17 @@ public final class ActionManager
       return nameWithDots.endsWith(DOT_STRING) ? (nameWithDots.substring(0, nameWithDots.length() - DOT_STRING.length())) : nameWithDots;
     }
 
-    private KeyStroke getKeyStroke(String accelleratorString)
+    private KeyStroke getKeyStroke(String acceleratorString)
     {
-      if(accelleratorString == null)
+      if(acceleratorString == null)
       {
         return null;
       }
       else
       {
-        KeyStroke keyStroke = KeyStroke.getKeyStroke(accelleratorString);
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(acceleratorString);
         if(keyStroke == null)
-          LogFactory.getLog(getClass()).warn("Action " + id + " has an invalid accellerator " + accelleratorString);
+          System.out.println("WARN: Action " + id + " has an invalid accelerator " + acceleratorString);
         return keyStroke;
       }
     }

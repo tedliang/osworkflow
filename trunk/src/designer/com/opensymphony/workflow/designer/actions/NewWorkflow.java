@@ -10,8 +10,6 @@ import com.opensymphony.workflow.designer.WorkflowDesigner;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.loader.Workspace;
 import com.opensymphony.workflow.FactoryException;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -20,8 +18,6 @@ import org.apache.commons.logging.Log;
  */
 public class NewWorkflow extends AbstractAction implements WorkspaceListener
 {
-  private static final Log log = LogFactory.getLog(NewWorkflow.class);
-
   private Workspace currentWorkspace;
 
   public NewWorkflow()
@@ -43,7 +39,7 @@ public class NewWorkflow extends AbstractAction implements WorkspaceListener
     }
     catch(FactoryException ex)
     {
-      log.error("Error creating definition:" + ex.toString());
+      ex.printStackTrace();
       return;
     }
     currentWorkspace.createWorkflow(name);
