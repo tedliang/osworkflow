@@ -76,6 +76,10 @@ public class ConditionsDescriptor extends AbstractDescriptor implements Validata
 
     public void validate() throws InvalidWorkflowDescriptorException {
         ValidationHelper.validate(conditions);
+
+        if ((conditions.size() > 1) && (type == null)) {
+            throw new InvalidWorkflowDescriptorException("Conditions must have AND or OR type specified");
+        }
     }
 
     public void writeXML(PrintWriter out, int indent) {
