@@ -47,7 +47,7 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
       try
       {
         File ouputFile = new File(currentWorkspace.getLocation().getParentFile(), inputFile.getName());
-        if(!ouputFile.getCanonicalPath().equals(inputFile))
+        if(!ouputFile.getCanonicalPath().equals(inputFile.getCanonicalPath()))
         {
           FileOutputStream out = new FileOutputStream(ouputFile);
           FileInputStream in = new FileInputStream(inputFile);
