@@ -5,7 +5,8 @@
 package com.opensymphony.workflow.util;
 
 import com.opensymphony.module.propertyset.PropertySet;
-import com.opensymphony.module.user.*;
+
+import com.opensymphony.user.*;
 
 import com.opensymphony.workflow.*;
 
