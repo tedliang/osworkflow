@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.opensymphony.workflow.designer.WorkflowCell;
-import com.opensymphony.workflow.designer.spi.DefaultConditionPluginImpl;
-import com.opensymphony.workflow.designer.spi.IConditionPlugin;
+import com.opensymphony.workflow.designer.spi.DefaultConditionPlugin;
+import com.opensymphony.workflow.designer.spi.ConditionPlugin;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConditionDescriptor;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
@@ -74,14 +74,14 @@ public abstract class ConditionEditor {
 		// get plugin
 		String clazz = config.getPlugin();
 		if(clazz == null || clazz.length() == 0){
-			clazz = "com.opensymphony.workflow.designer.spi.DefaultConditionPluginImpl";
+			clazz = "com.opensymphony.workflow.designer.spi.DefaultConditionPlugin";
 		}
-		IConditionPlugin condImpl = null;
+		ConditionPlugin condImpl = null;
 		try {
-			condImpl = (IConditionPlugin)Class.forName(clazz).newInstance();
+			condImpl = (ConditionPlugin)Class.forName(clazz).newInstance();
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			condImpl = new DefaultConditionPluginImpl();
+			condImpl = new DefaultConditionPlugin();
 		}
 
 		condImpl.setCondition(config);
