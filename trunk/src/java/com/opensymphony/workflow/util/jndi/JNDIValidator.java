@@ -21,7 +21,7 @@ import javax.naming.NamingException;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class JNDIValidator implements Validator {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -40,7 +40,11 @@ public class JNDIValidator implements Validator {
         Validator validator;
 
         try {
-            validator = (Validator) new InitialContext().lookup(location);
+            try {
+                validator = (Validator) new InitialContext().lookup(location);
+            } catch (NamingException e) {
+                validator = (Validator) new InitialContext().lookup("java:comp/env/" + location);
+            }
         } catch (NamingException e) {
             String message = "Could not look up JNDI Validator at: " + location;
             throw new WorkflowException(message, e);

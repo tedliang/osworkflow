@@ -21,7 +21,7 @@ import javax.naming.NamingException;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class JNDICondition implements Condition {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -37,7 +37,12 @@ public class JNDICondition implements Condition {
         Condition condition = null;
 
         try {
-            condition = (Condition) new InitialContext().lookup(location);
+            try {
+                condition = (Condition) new InitialContext().lookup(location);
+            } catch (NamingException e) {
+                //ok, couldn't find it, look in env
+                condition = (Condition) new InitialContext().lookup("java:comp/env/" + location);
+            }
         } catch (NamingException e) {
             String message = "Could not lookup JNDI condition at: " + location;
             throw new WorkflowException(message, e);
