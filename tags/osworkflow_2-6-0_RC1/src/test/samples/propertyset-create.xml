@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.6//EN" "http://www.opensymphony.com/osworkflow/workflow_2_6.dtd">
+<workflow>
+	<initial-actions>
+		<action id="1" name="Start Workflow">
+			<restrict-to>
+			</restrict-to>
+			<pre-functions>
+				<function type="beanshell">
+					<arg name="script">
+					  propertySet.setString("myvar","anything"); // put something in propertyset
+					</arg>
+				</function>
+			</pre-functions>
+			<results>
+				<unconditional-result old-status="Finished" status="Underway" step="0"/>
+			</results>
+		</action>
+	</initial-actions>
+
+	<steps>
+    <step id="0" name="Start">
+      <actions>
+        <action id="50" name="Start Workflow" auto="true">
+					<pre-functions>
+						<function type="beanshell">
+							<arg name="script"><![CDATA[
+                List list = transientVars.get("list");
+						    list.add(propertySet.getString("myvar"));
+ 							]]></arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result old-status="Finished" status="Underway" step="1"/>
+					</results>
+        </action>
+      </actions>
+    </step>
+
+    <step id="1" name="Step 1">
+      <actions>
+        <action id="101" name="Stop Workflow">
+          <results>
+            <unconditional-result old-status="Finished" status="Finished" step="1"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+	</steps>
+
+</workflow>
+

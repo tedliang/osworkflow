@@ -1,0 +1,3 @@
+<jndi-config>
+  <jndi-server name="default" />
+</jndi-config>

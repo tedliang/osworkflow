@@ -1,0 +1,3 @@
+<commands>
+    <invoke> electric.registry.Registry.publishInstance( "oswf", "com.opensymphony.workflow.ejb.EJBWorkflow") </invoke>
+</commands>
