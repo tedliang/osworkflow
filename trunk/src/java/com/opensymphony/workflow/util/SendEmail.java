@@ -28,10 +28,11 @@ import javax.mail.internet.MimeMessage;
  *  <li>cc - comma seperated list of email addresses (optional)</li>
  *  <li>message - the message body</li>
  *  <li>smtpHost - the SMTP host that will relay the message</li>
+ *  <li>parseVariables - if 'true', then variables of the form ${} in subject and message will be parsed</li>
  * </ul>
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class SendEmail implements FunctionProvider {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -47,30 +48,7 @@ public class SendEmail implements FunctionProvider {
         String cc = (String) args.get("cc");
         String m = (String) args.get("message");
         String smtpHost = (String) args.get("smtpHost");
-
-        if (log.isDebugEnabled()) {
-            log.debug("Host: " + smtpHost);
-        }
-
-        if (log.isDebugEnabled()) {
-            log.debug("To: " + to);
-        }
-
-        if (log.isDebugEnabled()) {
-            log.debug("Cc: " + cc);
-        }
-
-        if (log.isDebugEnabled()) {
-            log.debug("From: " + from);
-        }
-
-        if (log.isDebugEnabled()) {
-            log.debug("Subject: " + subject);
-        }
-
-        if (log.isDebugEnabled()) {
-            log.debug("Message: " + m);
-        }
+        boolean parseVariables = "true".equals(args.get("parseVariables"));
 
         try {
             Properties props = new Properties();
@@ -108,9 +86,9 @@ public class SendEmail implements FunctionProvider {
                 message.setRecipients(Message.RecipientType.CC, (InternetAddress[]) ccSet.toArray(new InternetAddress[ccSet.size()]));
             }
 
-            message.setSubject(subject);
+            message.setSubject(parseVariables ? ScriptVariableParser.translateVariables(subject, transientVars, ps).toString() : subject);
             message.setSentDate(new Date());
-            message.setText(m);
+            message.setText(parseVariables ? ScriptVariableParser.translateVariables(m, transientVars, ps).toString() : m);
             message.saveChanges();
 
             transport.connect();
