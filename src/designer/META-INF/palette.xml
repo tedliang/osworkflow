@@ -64,6 +64,7 @@
       <arg name="subject" modifiable="true"/>
       <arg name="message" modifiable="true"/>
       <arg name="smtpHost" modifiable="true"/>
+      <arg name="parseVariables" modifiable="true"/>
       <name>send.email</name>
     </function>
     <function type="class">
