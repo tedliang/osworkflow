@@ -1,6 +1,7 @@
 <html><head><title>OSWorkflow BeanShell Functions</title></head><body><ul class="star">
-<li>Back to <a href="Documentation.html">OSWorkflow Documentation</a></li>
-<li>Back to <a href="Functions.html">OSWorkflow Functions</a></li>
+<li>Up to <a href="Documentation.html">Documentation</a></li>
+<li>Back to <a href="Java-based_Function.html">Java-based Function</a></li>
+<li>Forward to <a href="BSF_Functions.html">BSF Functions</a></li>
 </ul><p class="paragraph"></p>OSWorkflow supports BeanShell as a scripting language. You can find out more about BeanShell at the <span class="nobr"></img><a href="http://www.beanshell.org/">BeanShell website</a></span>. Reading the documentation for BeanShell should be more than enough to get started with scripting for your own workflow definition file. There are a few behaviors that you should be aware of before starting, however:<p class="paragraph"></p>The <b class="bold">type</b> that must be chosen for BeanShell functions is <b class="bold">beanshell</b>. There is one required argument: <b class="bold">script</b>. The value for this argument is the actual script that is to be executed. Example:<p class="paragraph"></p><div class="wikicode"><pre>&#60;function type=<span class="java&#45;quote">"beanshell"</span>&#62;
 	&#60;arg name=<span class="java&#45;quote">"script"</span>&#62;	
 		<span class="java&#45;object">System</span>.out.println(<span class="java&#45;quote">"Hello, World!"</span>);

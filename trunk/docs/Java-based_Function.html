@@ -1,9 +1,10 @@
 <html><head><title>OSWorkflow Java-based Function</title></head><body><ul class="star">
-<li>Back to <a href="Documentation.html">OSWorkflow Documentation</a></li>
-<li>Back to <a href="Functions.html">OSWorkflow Functions</a></li>
+<li>Up to <a href="Documentation.html">Documentation</a></li>
+<li>Back to <a href="Functions.html">Functions</a></li>
+<li>Forward to <a href="BeanShell_Functions.html">BeanShell Functions</a></li>
 </ul><p class="paragraph"></p>Java-based functions must implement the interface <b class="bold">com.opensymphony.workflow.FunctionProvider</b>. This interface has a single method, <b class="bold">execute</b>. This method takes three arguments:
 <ul class="minus">
-<li><b class="bold">The transientVars Map</b> is the exact Map passed by the client code that called <b class="bold">Workflow.doAction()</b>. This is useful for functions that behave differently based on user input when the action is finished. It also includes a number of special variables that are helpful in accessing various aspects of the workflow. This includes all the variables configured in Registers (see <a href="Workflow_Concepts.html">OSWorkflow Workflow Concepts</a>) as well as the following two special variables: <b class="bold">entry</b> (com.opensymphony.workflow.spi.WorkflowEntry) and <b class="bold">context</b> (com.opensymphony.workflow.WorkflowContext).</li>
+<li><b class="bold">The transientVars Map</b> is the exact Map passed by the client code that called <b class="bold">Workflow.doAction()</b>. This is useful for functions that behave differently based on user input when the action is finished. It also includes a number of special variables that are helpful in accessing various aspects of the workflow. This includes all the variables configured in Registers (see <a href="Workflow_Concepts.html">Workflow Concepts</a>) as well as the following two special variables: <b class="bold">entry</b> (com.opensymphony.workflow.spi.WorkflowEntry) and <b class="bold">context</b> (com.opensymphony.workflow.WorkflowContext).</li>
 </ul>
 <br></br>
 <ul class="minus">

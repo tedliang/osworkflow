@@ -1,7 +1,7 @@
 <html><head><title>OSWorkflow Running the Example App</title></head><body><ul class="star">
-<li>Up to <a href="Documentation.html">OSWorkflow Documentation</a></li>
-<li>Back to <a href="Requirements.html">OSWorkflow Requirements</a></li>
-<li>Forward to <a href="Persistence_Options.html">OSWorkflow Persistence Options</a></li>
+<li>Up to <a href="Documentation.html">Documentation</a></li>
+<li>Back to <a href="Requirements.html">Requirements</a></li>
+<li>Forward to <a href="Persistence_Options.html">Persistence Options</a></li>
 </ul><p class="paragraph"></p>Note that as of version 2.5, the example war application should deploy on most web containers with no external configuration required. The example app now uses memory persistence, so no datasources need to be configured. The instructions below apply for those wishing to configure a persistent store. In order to explore the example workflow, it is recommended that you first deploy the example war as-is, without any persistence.<p class="paragraph"></p>OSWorkflow comes with a very simple example application to help you get started with understanding the concepts OSWorkflow is based upon. The example application can run on any servlet container. The following guides have been provided courtesy of Ed Yu. If your application server is not listed, read one of the guides below as a starting point. Installation should be very similar.
 <ul class="star">
 <li><span class="nobr"></img><a href="#orion">Orion</a></span></li>
@@ -14,7 +14,7 @@
 This is a quick stab on how to deploy osworkflow_example.war on Orion 1.5.4.<p class="paragraph"></p>
 Setting up persistence
 &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
-It is important to properly configure pooled datasource <span class="java&#45;keyword">for</span> good performance.<p class="paragraph"></p>For Orion 1.5.4, the add the following to file config/data&#45;sources.xml
+It is important to properly configure pooled datasource <span class="java&#45;keyword">for</span> good performance.<p class="paragraph"></p>For Orion 1.5.4+, the add the following to file config/data&#45;sources.xml
 to properly configure pooled datasource required by OSWorkflow:<p class="paragraph"></p>	&#60;!&#45;&#45; Postgresql Pooled Datasource &#45;&#45;&#62;
 	&#60;data&#45;source
                     class=<span class="java&#45;quote">"com.evermind.sql.DriverManagerDataSource"</span>
@@ -65,14 +65,7 @@ osworkflow.xml:<p class="paragraph"></p>        &#60;!&#45;&#45; Oracle sequence
 WAR Deployment
 &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
 Make a directory under the server home (e.g. C:&#111;rion&#111;swf), pleace the file
-osworkflow_example.war file under it.<p class="paragraph"></p>Modify file config/application.xml and add the following line in:<p class="paragraph"></p>	&#60;web&#45;module id=<span class="java&#45;quote">"oswf"</span> path=<span class="java&#45;quote">"../oswf/osworkflow_example.war"</span> /&#62;<p class="paragraph"></p>Modify file config/<span class="java&#45;keyword">default</span>&#45;web&#45;site.xml and add the following line in:<p class="paragraph"></p>	&#60;web&#45;app application=<span class="java&#45;quote">"<span class="java&#45;keyword">default</span>"</span> load&#45;on&#45;startup=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> name=<span class="java&#45;quote">"oswf"</span> root=<span class="java&#45;quote">"/oswf"</span> /&#62;<p class="paragraph"></p>Finally hit the URL:<p class="paragraph"></p>	<span class="nobr"></img><a href="http://localhost/oswf">&#104;ttp://localhost/oswf</a></span><p class="paragraph"></p>to access the sample application.<p class="paragraph"></p>
-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
-Contact Information
-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
-Edward K Yu, August 2002
-home email: ekyu@sc.rr.com
-work email: ekyu@asgnet.psc.sc.edu          <span class="nobr"></img><a href="http://www.uscasg.org">&#104;ttp://www.uscasg.org</a></span><p class="paragraph"></p>PS: Please use the home email whenever possible. If you must contact me at work
-then, please cc my home at the same time.</pre></div>
+osworkflow_example.war file under it.<p class="paragraph"></p>Modify file config/application.xml and add the following line in:<p class="paragraph"></p>	&#60;web&#45;module id=<span class="java&#45;quote">"oswf"</span> path=<span class="java&#45;quote">"../oswf/osworkflow_example.war"</span> /&#62;<p class="paragraph"></p>Modify file config/<span class="java&#45;keyword">default</span>&#45;web&#45;site.xml and add the following line in:<p class="paragraph"></p>	&#60;web&#45;app application=<span class="java&#45;quote">"<span class="java&#45;keyword">default</span>"</span> load&#45;on&#45;startup=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> name=<span class="java&#45;quote">"oswf"</span> root=<span class="java&#45;quote">"/oswf"</span> /&#62;<p class="paragraph"></p>Finally go to <span class="nobr"></img><a href="http://localhost/oswf">&#104;ttp://localhost/oswf</a></span> to access the sample application.</pre></div>
 <h3 class="heading-1-1">JRun <a name="jrun"></a><a href="Running_the_Example_App#jrun.html" title="Permalink to jrun"></img></a> <span class="nobr"></img><a href="#top">top</a></span>
 </h3><p class="paragraph"></p><div class="wikicode"><pre>README&#45;JRun4.txt &#60;Ed Yu ekyu@asgnet.psc.sc.edu&#62;
 &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
@@ -115,16 +108,9 @@ WAR Deployment
 &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
 To deploy osworkflow_example.war, place the file under the directory
 servers/<span class="java&#45;keyword">default</span> after setting up the persistence mechanism outlined above.
-Restart the <span class="java&#45;keyword">default</span> server (port 8100). Then, hit the URL<p class="paragraph"></p>	<span class="nobr"></img><a href="http://localhost:8100/osworkflow_example">&#104;ttp://localhost:8100/osworkflow_example</a></span><p class="paragraph"></p>to access the sample application.<p class="paragraph"></p>
-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
-Contact Information
-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
-Edward K Yu, August 2002
-home email: ekyu@sc.rr.com
-work email: ekyu@asgnet.psc.sc.edu          <span class="nobr"></img><a href="http://www.uscasg.org">&#104;ttp://www.uscasg.org</a></span><p class="paragraph"></p>PS: Please use the home email whenever possible. If you must contact me at work
-then, please cc my home at the same time.</pre></div>
+Restart the <span class="java&#45;keyword">default</span> server (port 8100).<p class="paragraph"></p>Finally, go to <span class="nobr"></img><a href="http://localhost:8100/osworkflow_example">&#104;ttp://localhost:8100/osworkflow_example</a></span> to access the sample application.</pre></div>
 <h3 class="heading-1-1">Tomcat <a name="tomcat"></a><a href="Running_the_Example_App#tomcat.html" title="Permalink to tomcat"></img></a> <span class="nobr"></img><a href="#top">top</a></span>
-</h3><p class="paragraph"></p><div class="wikicode"><pre>README&#45;Tomcat.txt &#60;Ed Yu ekyu@asgnet.psc.sc.edu&#62;
+</h3><p class="paragraph"></p><div class="wikicode"><pre>README&#45;Tomcat.txt
 &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
 This is a quick stab on how to deploy osworkflow_example.war on Tomcat 4.0.X.<p class="paragraph"></p>
 Setting up persistence
@@ -180,12 +166,5 @@ WAR Deployment
 To deploy osworkflow_example.war, place it under the directory
 TOMCAT_HOME/webapps, startup and shutdown the server. Then set up the
 persistence mechanism as outlined above. Next, modify the server.xml file to
-configure the data source as outlined above.<p class="paragraph"></p>Finally, restart the server. Then, hit the URL<p class="paragraph"></p>	<span class="nobr"></img><a href="http://localhost:8080/osworkflow_example">&#104;ttp://localhost:8080/osworkflow_example</a></span><p class="paragraph"></p>to access the sample application.<p class="paragraph"></p>
-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
-Contact Information
-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
-Edward K Yu, August 2002
-home email: ekyu@sc.rr.com
-work email: ekyu@asgnet.psc.sc.edu          <span class="nobr"></img><a href="http://www.uscasg.org">&#104;ttp://www.uscasg.org</a></span><p class="paragraph"></p>PS: Please use the home email whenever possible. If you must contact me at work
-then, please cc my home at the same time.</pre></div>
+configure the data source as outlined above.<p class="paragraph"></p>Finally, restart the server. Then, go to <span class="nobr"></img><a href="http://localhost:8080/osworkflow_example">&#104;ttp://localhost:8080/osworkflow_example</a></span> to access the sample application.</pre></div>
 </div></body></html>

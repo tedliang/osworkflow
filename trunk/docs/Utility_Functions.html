@@ -1,6 +1,7 @@
 <html><head><title>OSWorkflow Utility Functions</title></head><body><ul class="star">
-<li>Back to <a href="Documentation.html">OSWorkflow Documentation</a></li>
-<li>Back to <a href="Functions.html">OSWorkflow Functions</a></li>
+<li>Up to <a href="Documentation.html">Documentation</a></li>
+<li>Back to <a href="BSF_Functions.html">BSF Functions</a></li>
+<li>Forward to <a href="Validators.html">Validators</a></li>
 </ul><p class="paragraph"></p>OSWorkflow comes with several very useful utility functions, all implementing the interface <i class="italic">com.opensymphony.workflow.FunctionProvider</i>. For more detailed information, please see the javadocs for these utility functions. Below is only a brief description of each utility function. All classes are found in the <i class="italic">com.opensymphony.workflow.util</i> package. 
 <h3 class="heading-1">Caller
 </h3><p class="paragraph"></p>Sets the persistent variable caller with the username of the person doing the current action.
@@ -13,7 +14,7 @@
 <h3 class="heading-1">MostRecentOwner
 </h3><p class="paragraph"></p>Sets the persistent variable <b class="bold">mostRecentOwner</b> with the username of the owner of the most recent step specified. Optional features allow for the variable be set to nothing if no owner is found, or to return with an internal error.
 <h3 class="heading-1">ScheduleJob
-</h3><p class="paragraph"></p>Schedules a <a href="trigger_function.html">trigger function</a> to be executed at some time later. Supports both <b class="bold">cron expressions</b> and <b class="bold">simple repeat/delay counts</b>. 
+</h3><p class="paragraph"></p>Schedules a <a href="trigger_function.html">ction</a> to be executed at some time later. Supports both <b class="bold">cron expressions</b> and <b class="bold">simple repeat/delay counts</b>. 
 <h3 class="heading-1">UnschduleJob
 </h3><p class="paragraph"></p>Deletes a scheduled job and all triggers associated with that job. This is useful in the case where the workflow state has changed such that you no longer wish for scheduled jobs to occur.
 <h3 class="heading-1">SendEmail
