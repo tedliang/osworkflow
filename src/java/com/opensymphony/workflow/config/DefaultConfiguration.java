@@ -4,6 +4,8 @@
  */
 package com.opensymphony.workflow.config;
 
+import com.opensymphony.util.ClassLoaderUtil;
+
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.loader.*;
@@ -27,7 +29,7 @@ import javax.xml.parsers.*;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultConfiguration implements Configuration {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -134,17 +136,7 @@ public class DefaultConfiguration implements Configuration {
                         throw new FactoryException("factory does not specify a class attribute");
                     }
 
-                    if (Thread.currentThread().getContextClassLoader() != null) {
-                        try {
-                            factory = (AbstractWorkflowFactory) Thread.currentThread().getContextClassLoader().loadClass(clazz).newInstance();
-                        } catch (ClassNotFoundException e) {
-                            //fall back to this class' classloader.
-                            factory = (AbstractWorkflowFactory) Class.forName(clazz).newInstance();
-                        }
-                    } else {
-                        //no context classloader, so use current one
-                        factory = (AbstractWorkflowFactory) Class.forName(clazz).newInstance();
-                    }
+                    factory = (AbstractWorkflowFactory) ClassLoaderUtil.loadClass(clazz, getClass()).newInstance();
 
                     Properties properties = new Properties();
                     NodeList props = factoryElement.getElementsByTagName("property");
