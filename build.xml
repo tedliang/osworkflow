@@ -216,7 +216,7 @@
     </ear>
   </target>
 
-  <target name="client" depends="init">
+  <target name="client" depends="jar">
     <mkdir dir="${build.client}"/>
     <javac classpathref="client.classpath" srcdir="${src.client}" destdir="${build.client}"/>
     <copy todir="${build.client}">
