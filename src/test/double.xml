@@ -20,7 +20,7 @@
               <pre-functions>
                 <function type="beanshell">
                   <arg name="script">
-                    com.opensymphony.workflow.DoubleFunctionTestCase test = transientVars.get("test");
+                    com.opensymphony.workflow.DescriptorQuirksTestCase test = transientVars.get("test");
                     test.counter++;
                   </arg>
                 </function>
@@ -28,7 +28,7 @@
               <post-functions>
                 <function type="beanshell">
                   <arg name="script">
-                    com.opensymphony.workflow.DoubleFunctionTestCase test = transientVars.get("test");
+                    com.opensymphony.workflow.DescriptorQuirksTestCase test = transientVars.get("test");
                     test.counter++;
                   </arg>
                 </function>
