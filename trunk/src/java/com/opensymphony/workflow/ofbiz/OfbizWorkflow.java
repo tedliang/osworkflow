@@ -12,6 +12,9 @@ package com.opensymphony.workflow.ofbiz;
 
 import com.opensymphony.workflow.*;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.ofbiz.core.entity.GenericTransactionException;
 import org.ofbiz.core.entity.TransactionUtil;
 
@@ -22,14 +25,23 @@ import java.util.Map;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class OfbizWorkflow extends AbstractWorkflow {
+    //~ Static fields/initializers /////////////////////////////////////////////
+
+    private static final Log log = LogFactory.getLog(OfbizWorkflow.class);
+
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public OfbizWorkflow(String caller) throws FactoryException {
+    public OfbizWorkflow(String caller) {
         super.context = new OfbizWorkflowContext(caller);
-        loadConfig();
+
+        try {
+            loadConfig();
+        } catch (FactoryException e) {
+            log.fatal("Could not initialize workflow", e);
+        }
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////

@@ -30,60 +30,60 @@ import javax.servlet.http.HttpServletRequest;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class OfbizSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public int[] getAvailableActions(long id) throws WorkflowException {
+    public int[] getAvailableActions(long id) {
         return new OfbizWorkflow(getRemoteUser()).getAvailableActions(id);
     }
 
-    public int[] getAvailableActions(long id, Map inputs) throws WorkflowException {
+    public int[] getAvailableActions(long id, Map inputs) {
         return new OfbizWorkflow(getRemoteUser()).getAvailableActions(id, inputs);
     }
 
-    public List getCurrentSteps(long id) throws StoreException, FactoryException {
+    public List getCurrentSteps(long id) {
         return new OfbizWorkflow(getRemoteUser()).getCurrentSteps(id);
     }
 
-    public int getEntryState(long id) throws WorkflowException {
+    public int getEntryState(long id) {
         return new OfbizWorkflow(getRemoteUser()).getEntryState(id);
     }
 
-    public List getHistorySteps(long id) throws StoreException, FactoryException {
+    public List getHistorySteps(long id) {
         return new OfbizWorkflow(getRemoteUser()).getHistorySteps(id);
     }
 
-    public PropertySet getPropertySet(long id) throws StoreException, FactoryException {
+    public PropertySet getPropertySet(long id) {
         return new OfbizWorkflow(getRemoteUser()).getPropertySet(id);
     }
 
-    public List getSecurityPermissions(long id) throws WorkflowException {
+    public List getSecurityPermissions(long id) {
         return new OfbizWorkflow(getRemoteUser()).getSecurityPermissions(id);
     }
 
-    public WorkflowDescriptor getWorkflowDescriptor(String workflowName) throws FactoryException {
+    public WorkflowDescriptor getWorkflowDescriptor(String workflowName) {
         return new OfbizWorkflow(getRemoteUser()).getWorkflowDescriptor(workflowName);
     }
 
-    public String getWorkflowName(long id) throws StoreException, FactoryException {
+    public String getWorkflowName(long id) {
         return new OfbizWorkflow(getRemoteUser()).getWorkflowName(id);
     }
 
-    public String[] getWorkflowNames() throws FactoryException {
+    public String[] getWorkflowNames() {
         return new OfbizWorkflow(getRemoteUser()).getWorkflowNames();
     }
 
-    public boolean canInitialize(String workflowName, int initialState) throws WorkflowException {
+    public boolean canInitialize(String workflowName, int initialState) {
         return new OfbizWorkflow(getRemoteUser()).canInitialize(workflowName, initialState);
     }
 
-    public boolean canInitialize(String workflowName, int initialAction, Map inputs) throws WorkflowException {
+    public boolean canInitialize(String workflowName, int initialAction, Map inputs) {
         return new OfbizWorkflow(getRemoteUser()).canInitialize(workflowName, initialAction, inputs);
     }
 
-    public boolean canModifyEntryState(long id, int newState) throws WorkflowException {
+    public boolean canModifyEntryState(long id, int newState) {
         return new OfbizWorkflow(getRemoteUser()).canModifyEntryState(id, newState);
     }
 

@@ -18,6 +18,7 @@ public interface WorkflowEntry {
     public static final int SUSPENDED = 2;
     public static final int KILLED = 3;
     public static final int COMPLETED = 4;
+    public static final int UNKNOWN = -1;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 

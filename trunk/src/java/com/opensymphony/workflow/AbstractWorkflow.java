@@ -87,7 +87,7 @@ public class AbstractWorkflow implements Workflow {
      * @ejb.interface-method
      * @deprecated use {@link #getAvailableActions(long, Map)}  with an empty Map instead.
      */
-    public int[] getAvailableActions(long id) throws WorkflowException {
+    public int[] getAvailableActions(long id) {
         return getAvailableActions(id, new HashMap());
     }
 
@@ -96,96 +96,122 @@ public class AbstractWorkflow implements Workflow {
      * @ejb.interface-method
      * @param id The workflow instance id.
      * @param inputs The inputs map to pass on to conditions
-     * @return An array of action id's that can be performed on the specified entry
+     * @return An array of action id's that can be performed on the specified entry.
      * @throws IllegalArgumentException if the specified id does not exist, or if its workflow
      * descriptor is no longer available or has become invalid.
      */
-    public int[] getAvailableActions(long id, Map inputs) throws WorkflowException {
-        WorkflowStore store = getPersistence();
-        WorkflowEntry entry = store.findEntry(id);
+    public int[] getAvailableActions(long id, Map inputs) {
+        try {
+            WorkflowStore store = getPersistence();
+            WorkflowEntry entry = store.findEntry(id);
 
-        if (entry == null) {
-            throw new IllegalArgumentException("No such workflow id " + id);
-        }
+            if (entry == null) {
+                throw new IllegalArgumentException("No such workflow id " + id);
+            }
 
-        if (entry.getState() != WorkflowEntry.ACTIVATED) {
-            log.debug("--> state is " + entry.getState());
+            if (entry.getState() != WorkflowEntry.ACTIVATED) {
+                log.debug("--> state is " + entry.getState());
+
+                return new int[0];
+            }
+
+            WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
+
+            if (wf == null) {
+                throw new IllegalArgumentException("No such workflow " + entry.getWorkflowName());
+            }
+
+            List l = new ArrayList();
+            PropertySet ps = store.getPropertySet(id);
+            Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
+            Collection currentSteps = store.findCurrentSteps(id);
+
+            populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(0), currentSteps);
+
+            // get global actions
+            List globalActions = wf.getGlobalActions();
+
+            for (Iterator iterator = globalActions.iterator();
+                    iterator.hasNext();) {
+                ActionDescriptor action = (ActionDescriptor) iterator.next();
+                RestrictionDescriptor restriction = action.getRestriction();
+                String conditionType = null;
+                List conditions = null;
+
+                if (restriction != null) {
+                    conditionType = restriction.getConditionType();
+                    conditions = restriction.getConditions();
+                }
+
+                if (passesConditions(conditionType, conditions, transientVars, ps)) {
+                    l.add(new Integer(action.getId()));
+                }
+            }
+
+            // get normal actions
+            for (Iterator iterator = currentSteps.iterator();
+                    iterator.hasNext();) {
+                Step step = (Step) iterator.next();
+                l.addAll(getAvailableActionsForStep(wf, step, transientVars, ps));
+            }
+
+            int[] actions = new int[l.size()];
+
+            for (int i = 0; i < actions.length; i++) {
+                actions[i] = ((Integer) l.get(i)).intValue();
+            }
+
+            return actions;
+        } catch (Exception e) {
+            log.error("Error checking available actions", e);
 
             return new int[0];
         }
-
-        WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
-
-        if (wf == null) {
-            throw new IllegalArgumentException("No such workflow " + entry.getWorkflowName());
-        }
-
-        List l = new ArrayList();
-        PropertySet ps = store.getPropertySet(id);
-        Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
-        Collection currentSteps = store.findCurrentSteps(id);
-
-        populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(0), currentSteps);
-
-        // get global actions
-        List globalActions = wf.getGlobalActions();
-
-        for (Iterator iterator = globalActions.iterator(); iterator.hasNext();) {
-            ActionDescriptor action = (ActionDescriptor) iterator.next();
-            RestrictionDescriptor restriction = action.getRestriction();
-            String conditionType = null;
-            List conditions = null;
-
-            if (restriction != null) {
-                conditionType = restriction.getConditionType();
-                conditions = restriction.getConditions();
-            }
-
-            if (passesConditions(conditionType, conditions, transientVars, ps)) {
-                l.add(new Integer(action.getId()));
-            }
-        }
-
-        // get normal actions
-        for (Iterator iterator = currentSteps.iterator(); iterator.hasNext();) {
-            Step step = (Step) iterator.next();
-            l.addAll(getAvailableActionsForStep(wf, step, transientVars, ps));
-        }
-
-        int[] actions = new int[l.size()];
-
-        for (int i = 0; i < actions.length; i++) {
-            actions[i] = ((Integer) l.get(i)).intValue();
-        }
-
-        return actions;
     }
 
     /**
      * @ejb.interface-method
      */
-    public List getCurrentSteps(long id) throws StoreException {
-        WorkflowStore store = getPersistence();
+    public List getCurrentSteps(long id) {
+        try {
+            WorkflowStore store = getPersistence();
 
-        return store.findCurrentSteps(id);
+            return store.findCurrentSteps(id);
+        } catch (StoreException e) {
+            log.error("Error checking current steps for instance #" + id, e);
+
+            return Collections.EMPTY_LIST;
+        }
     }
 
     /**
      * @ejb.interface-method
      */
-    public int getEntryState(long id) throws StoreException {
-        WorkflowStore store = getPersistence();
+    public int getEntryState(long id) {
+        try {
+            WorkflowStore store = getPersistence();
 
-        return store.findEntry(id).getState();
+            return store.findEntry(id).getState();
+        } catch (StoreException e) {
+            log.error("Error checking instance state for instance #" + id, e);
+        }
+
+        return WorkflowEntry.UNKNOWN;
     }
 
     /**
      * @ejb.interface-method
      */
-    public List getHistorySteps(long id) throws StoreException {
-        WorkflowStore store = getPersistence();
+    public List getHistorySteps(long id) {
+        try {
+            WorkflowStore store = getPersistence();
 
-        return store.findHistorySteps(id);
+            return store.findHistorySteps(id);
+        } catch (StoreException e) {
+            log.error("Error getting history steps for instance #" + id, e);
+        }
+
+        return Collections.EMPTY_LIST;
     }
 
     /**
@@ -208,8 +234,14 @@ public class AbstractWorkflow implements Workflow {
      * @ejb.interface-method
      * @param id The workflow ID
      */
-    public PropertySet getPropertySet(long id) throws StoreException {
-        PropertySet ps = getPersistence().getPropertySet(id);
+    public PropertySet getPropertySet(long id) {
+        PropertySet ps = null;
+
+        try {
+            ps = getPersistence().getPropertySet(id);
+        } catch (StoreException e) {
+            log.error("Error getting propertyset for instance #" + id, e);
+        }
 
         return ps;
     }
@@ -217,61 +249,72 @@ public class AbstractWorkflow implements Workflow {
     /**
      * @ejb.interface-method
      */
-    public List getSecurityPermissions(long id) throws WorkflowException {
-        WorkflowStore store = getPersistence();
-        WorkflowEntry entry = store.findEntry(id);
-        WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
+    public List getSecurityPermissions(long id) {
+        try {
+            WorkflowStore store = getPersistence();
+            WorkflowEntry entry = store.findEntry(id);
+            WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
 
-        PropertySet ps = store.getPropertySet(id);
-        Map transientVars = new HashMap();
-        Collection currentSteps = store.findCurrentSteps(id);
-        populateTransientMap(entry, transientVars, wf.getRegisters(), null, currentSteps);
+            PropertySet ps = store.getPropertySet(id);
+            Map transientVars = new HashMap();
+            Collection currentSteps = store.findCurrentSteps(id);
+            populateTransientMap(entry, transientVars, wf.getRegisters(), null, currentSteps);
 
-        List s = new ArrayList();
+            List s = new ArrayList();
 
-        for (Iterator interator = currentSteps.iterator(); interator.hasNext();) {
-            Step step = (Step) interator.next();
+            for (Iterator interator = currentSteps.iterator();
+                    interator.hasNext();) {
+                Step step = (Step) interator.next();
 
-            int stepId = step.getStepId();
+                int stepId = step.getStepId();
 
-            StepDescriptor xmlStep = wf.getStep(stepId);
+                StepDescriptor xmlStep = wf.getStep(stepId);
 
-            List securities = xmlStep.getPermissions();
+                List securities = xmlStep.getPermissions();
 
-            for (Iterator iterator2 = securities.iterator();
-                    iterator2.hasNext();) {
-                PermissionDescriptor security = (PermissionDescriptor) iterator2.next();
+                for (Iterator iterator2 = securities.iterator();
+                        iterator2.hasNext();) {
+                    PermissionDescriptor security = (PermissionDescriptor) iterator2.next();
 
-                // to have the permission, the condition must be met or not specified
-                // securities can't have restrictions based on inputs, so it's null
-                if (passesConditions(security.getRestriction().getConditionType(), security.getRestriction().getConditions(), transientVars, ps)) {
-                    s.add(security.getName());
+                    // to have the permission, the condition must be met or not specified
+                    // securities can't have restrictions based on inputs, so it's null
+                    if (passesConditions(security.getRestriction().getConditionType(), security.getRestriction().getConditions(), transientVars, ps)) {
+                        s.add(security.getName());
+                    }
                 }
             }
+
+            return s;
+        } catch (Exception e) {
+            log.error("Error getting security permissions for instance #" + id, e);
         }
 
-        return s;
+        return Collections.EMPTY_LIST;
     }
 
     /**
      * @ejb.interface-method
      */
-    public WorkflowDescriptor getWorkflowDescriptor(String workflowName) throws FactoryException {
+    public WorkflowDescriptor getWorkflowDescriptor(String workflowName) {
         return getWorkflow(workflowName);
     }
 
     /**
      * @ejb.interface-method
      */
-    public String getWorkflowName(long id) throws StoreException {
-        WorkflowStore store = getPersistence();
-        WorkflowEntry entry = store.findEntry(id);
+    public String getWorkflowName(long id) {
+        try {
+            WorkflowStore store = getPersistence();
+            WorkflowEntry entry = store.findEntry(id);
 
-        if (entry != null) {
-            return entry.getWorkflowName();
-        } else {
-            return null;
+            if (entry != null) {
+                return entry.getWorkflowName();
+            }
+        } catch (StoreException e) {
+            log.error("Error getting instance name for instance #" + id, e);
         }
+
+        return null;
     }
 
     /**
@@ -280,14 +323,20 @@ public class AbstractWorkflow implements Workflow {
      * @return String[] an array of workflow names.
      * @throws UnsupportedOperationException if the underlying workflow factory cannot obtain a list of workflow names.
      */
-    public String[] getWorkflowNames() throws FactoryException {
-        return ConfigLoader.getWorkflowNames();
+    public String[] getWorkflowNames() {
+        try {
+            return ConfigLoader.getWorkflowNames();
+        } catch (FactoryException e) {
+            log.error("Error getting workflow names", e);
+        }
+
+        return new String[0];
     }
 
     /**
      * @ejb.interface-method
      */
-    public boolean canInitialize(String workflowName, int initialAction) throws WorkflowException {
+    public boolean canInitialize(String workflowName, int initialAction) {
         return canInitialize(workflowName, initialAction, null);
     }
 
@@ -297,9 +346,8 @@ public class AbstractWorkflow implements Workflow {
      * @param initialAction The initial action to check
      * @param inputs the inputs map
      * @return true if the workflow can be initialized
-     * @throws WorkflowException if an unexpected error happens
      */
-    public boolean canInitialize(String workflowName, int initialAction, Map inputs) throws WorkflowException {
+    public boolean canInitialize(String workflowName, int initialAction, Map inputs) {
         final String mockWorkflowName = workflowName;
         WorkflowEntry mockEntry = new WorkflowEntry() {
             public long getId() {
@@ -327,55 +375,67 @@ public class AbstractWorkflow implements Workflow {
             transientVars.putAll(inputs);
         }
 
-        populateTransientMap(mockEntry, transientVars, Collections.EMPTY_LIST, new Integer(initialAction), Collections.EMPTY_LIST);
+        try {
+            populateTransientMap(mockEntry, transientVars, Collections.EMPTY_LIST, new Integer(initialAction), Collections.EMPTY_LIST);
 
-        return canInitialize(workflowName, initialAction, transientVars, ps);
+            return canInitialize(workflowName, initialAction, transientVars, ps);
+        } catch (WorkflowException e) {
+            log.error("Error checking canInitialize", e);
+
+            return false;
+        }
     }
 
     /**
      * @ejb.interface-method
      */
-    public boolean canModifyEntryState(long id, int newState) throws WorkflowException {
-        WorkflowStore store = getPersistence();
-        WorkflowEntry entry = store.findEntry(id);
-        int currentState = entry.getState();
-        boolean result = false;
+    public boolean canModifyEntryState(long id, int newState) {
+        try {
+            WorkflowStore store = getPersistence();
+            WorkflowEntry entry = store.findEntry(id);
+            int currentState = entry.getState();
+            boolean result = false;
 
-        switch (newState) {
-        case WorkflowEntry.CREATED:
-            result = false;
+            switch (newState) {
+            case WorkflowEntry.CREATED:
+                result = false;
 
-        case WorkflowEntry.ACTIVATED:
+            case WorkflowEntry.ACTIVATED:
 
-            if ((currentState == WorkflowEntry.CREATED) || (currentState == WorkflowEntry.SUSPENDED)) {
-                result = true;
+                if ((currentState == WorkflowEntry.CREATED) || (currentState == WorkflowEntry.SUSPENDED)) {
+                    result = true;
+                }
+
+                break;
+
+            case WorkflowEntry.SUSPENDED:
+
+                if (currentState == WorkflowEntry.ACTIVATED) {
+                    result = true;
+                }
+
+                break;
+
+            case WorkflowEntry.KILLED:
+
+                if ((currentState == WorkflowEntry.CREATED) || (currentState == WorkflowEntry.ACTIVATED) || (currentState == WorkflowEntry.SUSPENDED)) {
+                    result = true;
+                }
+
+                break;
+
+            default:
+                result = false;
+
+                break;
             }
 
-            break;
-
-        case WorkflowEntry.SUSPENDED:
-
-            if (currentState == WorkflowEntry.ACTIVATED) {
-                result = true;
-            }
-
-            break;
-
-        case WorkflowEntry.KILLED:
-
-            if ((currentState == WorkflowEntry.CREATED) || (currentState == WorkflowEntry.ACTIVATED) || (currentState == WorkflowEntry.SUSPENDED)) {
-                result = true;
-            }
-
-            break;
-
-        default:
-            result = false;
-
-            break;
+            return result;
+        } catch (StoreException e) {
+            log.error("Error checking state modifiable for instance #" + id, e);
         }
 
-        return result;
+        return false;
     }
 
     public void changeEntryState(long id, int newState) throws WorkflowException {
@@ -555,8 +615,14 @@ public class AbstractWorkflow implements Workflow {
      * @param name the name of the workflow
      * @return the object graph that represents a workflow definition
      */
-    protected synchronized WorkflowDescriptor getWorkflow(String name) throws FactoryException {
-        return ConfigLoader.getWorkflow(name);
+    protected synchronized WorkflowDescriptor getWorkflow(String name) {
+        try {
+            return ConfigLoader.getWorkflow(name);
+        } catch (FactoryException e) {
+            log.error("Error loading workflow " + name, e);
+        }
+
+        return null;
     }
 
     protected void completeEntry(long id) throws WorkflowException {
