@@ -32,7 +32,7 @@ public class WorkflowException extends Exception {
         this.rootCause = rootCause;
     }
 
-    public WorkflowException(Exception rootCause) {
+    public WorkflowException(Throwable rootCause) {
         this.rootCause = rootCause;
     }
 
