@@ -29,7 +29,7 @@ import javax.xml.parsers.*;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ConfigLoader {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -112,6 +112,8 @@ public class ConfigLoader {
 
                     factory.init(properties);
                     factory.initDone();
+                } catch (FactoryException ex) {
+                    throw ex;
                 } catch (Exception ex) {
                     throw new FactoryException("Error creating workflow factory " + clazz + ": " + ex.getMessage());
                 }
