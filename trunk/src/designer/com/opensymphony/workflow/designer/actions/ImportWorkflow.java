@@ -49,24 +49,25 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
     final URL importURL = dialog.getImportURL();
     if(importURL!=null)
     {
+	    StatusDisplay status = (StatusDisplay)WorkflowDesigner.INSTANCE.statusBar.getItemByName("Status");
       String f = importURL.getFile();
       if(!"file".equals(importURL.getProtocol()) && f.indexOf('?')>-1) f = f.substring(0, f.indexOf('?'));
       String fileName = f.substring(f.lastIndexOf('/')+1, f.length());
       try
       {
-        final File ouputFile = new File(currentWorkspace.getLocation().getParentFile(), fileName);
+        final File outputFile = new File(currentWorkspace.getLocation().getParentFile(), fileName);
+	      if(outputFile.isDirectory()) throw new Exception("Output file is a directory!");
         //don't allow importing of files within the workspace!
         if(!"file".equals(importURL.getProtocol()) ||
           new File(importURL.getFile()).getCanonicalPath().indexOf(currentWorkspace.getLocation().getParentFile().getCanonicalPath())==-1)
         {
-          StatusDisplay status = (StatusDisplay)WorkflowDesigner.INSTANCE.statusBar.getItemByName("Status");
           status.setProgressStatus(ResourceManager.getString("import.progress", new Object[]{fileName}));
           status.setIndeterminate(true);
           Worker.post(new Task()
           {
             public Object run() throws Exception
             {
-              FileOutputStream out = new FileOutputStream(ouputFile);
+              FileOutputStream out = new FileOutputStream(outputFile);
               InputStream in = importURL.openStream();
               byte[] buff = new byte[4096];
               int nch;
@@ -79,8 +80,6 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
               return null;
             }
           });
-          status.setIndeterminate(false);
-          status.setStatus("");
           currentWorkspace.importDescriptor(fileName.substring(0, fileName.lastIndexOf('.')), importURL.openStream());
           WorkflowDesigner.INSTANCE.navigator().setWorkspace(currentWorkspace);
         }
@@ -88,6 +87,11 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
       catch(Exception t)
       {
         log.error("Error importing descriptor", t);
+      }
+	    finally
+      {
+	      status.setIndeterminate(false);
+	      status.setStatus("");
       }
     }
   }
