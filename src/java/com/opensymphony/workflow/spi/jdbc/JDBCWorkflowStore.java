@@ -94,7 +94,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
     private String stepStartDate;
     private String stepStatus;
     private String stepStepId;
-    private boolean closeConnWhenDone = false;
+    protected boolean closeConnWhenDone = false;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
@@ -711,7 +711,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         return columnName;
     }
 
-    private void cleanup(Connection connection, Statement statement, ResultSet result) {
+    protected void cleanup(Connection connection, Statement statement, ResultSet result) {
         if (result != null) {
             try {
                 result.close();
