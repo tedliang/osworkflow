@@ -41,7 +41,7 @@ import java.util.*;
  * See the HibernateFunctionalWorkflowTestCase for more help.
  *
  * @author $Author: hani $
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -427,6 +427,12 @@ public class HibernateWorkflowStore implements WorkflowStore {
         case FieldExpression.STATUS:
             return "status";
 
+        case FieldExpression.STATE:
+            return "state";
+
+        case FieldExpression.NAME:
+            return "workflowName";
+
         default:
             return "1";
         }
@@ -468,7 +474,6 @@ public class HibernateWorkflowStore implements WorkflowStore {
                 if (expression.isNested()) {
                     classesCache.add(getQueryClass(nestedExpression.getExpression(i), classesCache));
                 } else {
-                    FieldExpression sub = (FieldExpression) nestedExpression.getExpression(i);
                     classesCache.add(getQueryClass(expression, classesCache));
                 }
             }

@@ -939,7 +939,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         switch (field) {
         case FieldExpression.ACTION: // actionId
             left = stepActionId;
-            right = "'" + escape(value.toString()) + "'";
+            right = escape(value.toString());
 
             break;
 
@@ -971,12 +971,24 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
         case FieldExpression.STEP: // stepId
             left = stepStepId;
-            right = "'" + escape(value.toString()) + "'";
+            right = escape(value.toString());
 
             break;
 
         case FieldExpression.STATUS:
             left = stepStatus;
+            right = "'" + escape(value.toString()) + "'";
+
+            break;
+
+        case FieldExpression.STATE:
+            left = entryState;
+            right = escape(value.toString());
+
+            break;
+
+        case FieldExpression.NAME:
+            left = entryName;
             right = "'" + escape(value.toString()) + "'";
 
             break;
