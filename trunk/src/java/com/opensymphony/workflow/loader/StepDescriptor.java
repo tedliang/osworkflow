@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
@@ -20,7 +21,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -219,13 +220,14 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
         name = step.getAttribute("name");
 
-        NodeList attributs = step.getElementsByTagName("meta");
-
-        for (int i = 0; i < attributs.getLength(); i++) {
-            Element meta = (Element) attributs.item(i);
+        NodeList children = step.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+          Node child = (Node) children.item(i);
+          if (child.getNodeName().equals("meta")) {
+            Element meta = (Element) child;
             String value = XMLUtil.getText(meta);
-
             this.metaAttributes.put(meta.getAttribute("name"), value);
+          }
         }
 
         // set up permissions - OPTIONAL

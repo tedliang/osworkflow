@@ -9,7 +9,7 @@ refer to a common-action to make it available. Note that all actions id's must b
 A workflow consists of a number of steps, split definitions that determine the states to move to within a split,
 and join definitions to determine the conditions and steps for a join.
 -->
-<!ELEMENT workflow (meta?, registers?, trigger-functions?, initial-actions, global-actions?, common-actions?, steps, splits?, joins?)>
+<!ELEMENT workflow (meta*, registers?, trigger-functions?, initial-actions, global-actions?, common-actions?, steps, splits?, joins?)>
 <!--
 An action that can be executed. The action id must be unique for the entire workflow definition, and
 not just within the enclosing step.
@@ -34,7 +34,7 @@ action satisfies the above criteria, only the first match (in xml file order) is
 
 Used in: actions
 -->
-<!ELEMENT action (meta?, restrict-to? , validators?, pre-functions?, results, post-functions?)>
+<!ELEMENT action (meta*, restrict-to? , validators?, pre-functions?, results, post-functions?)>
 <!ATTLIST action
 	id CDATA #REQUIRED
 	name CDATA #REQUIRED
@@ -259,7 +259,7 @@ A unique step in the workflow (id must be unique among steps).
 
 Used in: steps
 -->
-<!ELEMENT step (meta?, external-permissions?, actions?)>
+<!ELEMENT step (meta*, external-permissions?, actions?)>
 <!ATTLIST step
 	id CDATA #REQUIRED
 	name CDATA #REQUIRED

@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import org.xml.sax.*;
@@ -27,7 +28,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -130,9 +131,9 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
     }
 
     /**
-    * Get a List of initial steps for this workflow
-    * @return A list of {@link JoinDescriptor} objects
-    */
+     * Get a List of initial steps for this workflow
+     * @return A list of {@link JoinDescriptor} objects
+     */
     public List getJoins() {
         return joins;
     }
@@ -158,9 +159,9 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
     }
 
     /**
-    * Get a List of initial steps for this workflow
-    * @return A list of {@link SplitDescriptor} objects
-    */
+     * Get a List of initial steps for this workflow
+     * @return A list of {@link SplitDescriptor} objects
+     */
     public List getSplits() {
         return splits;
     }
@@ -209,8 +210,8 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
     /**
      * Add a common action
-     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      * @param descriptor The action descriptor to add
+     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      */
     public void addCommonAction(ActionDescriptor descriptor) {
         addAction(commonActions, descriptor);
@@ -219,8 +220,8 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
     /**
      * Add a global action
-     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      * @param descriptor The action descriptor to add
+     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      */
     public void addGlobalAction(ActionDescriptor descriptor) {
         addAction(globalActions, descriptor);
@@ -228,8 +229,8 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
     /**
      * Add an initial action
-     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      * @param descriptor The action descriptor to add
+     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      */
     public void addInitialAction(ActionDescriptor descriptor) {
         addAction(initialActions, descriptor);
@@ -237,8 +238,8 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
     /**
      * Add a join
-     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      * @param descriptor The join descriptor to add
+     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      */
     public void addJoin(JoinDescriptor descriptor) {
         if (getJoin(descriptor.getId()) != null) {
@@ -250,8 +251,8 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
     /**
      * Add a split
-     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      * @param descriptor The split descriptor to add
+     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      */
     public void addSplit(SplitDescriptor descriptor) {
         if (getSplit(descriptor.getId()) != null) {
@@ -263,8 +264,8 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
     /**
      * Add a step
-     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      * @param descriptor The step descriptor to add
+     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      */
     public void addStep(StepDescriptor descriptor) {
         if (getStep(descriptor.getId()) != null) {
@@ -423,13 +424,15 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
     }
 
     protected void init(Element root) {
-        NodeList attributs = root.getElementsByTagName("meta");
+        NodeList children = root.getChildNodes();
 
-        for (int i = 0; i < attributs.getLength(); i++) {
-            Element meta = (Element) attributs.item(i);
-            String value = XMLUtil.getText(meta);
-
-            this.metaAttributes.put(meta.getAttribute("name"), value);
+        for (int i = 0; i < children.getLength(); i++) {
+            Node child = (Node) children.item(i);
+            if (child.getNodeName().equals("meta")) {
+              Element meta = (Element) child;
+              String value = XMLUtil.getText(meta);
+              this.metaAttributes.put(meta.getAttribute("name"), value);
+            }
         }
 
         // handle registers - OPTIONAL
