@@ -6,7 +6,9 @@ package com.opensymphony.workflow.loader;
 
 import com.opensymphony.workflow.util.XMLizable;
 
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.io.StringWriter;
 
 
 /**
@@ -38,6 +40,15 @@ public abstract class AbstractDescriptor implements XMLizable, Serializable {
 
     public AbstractDescriptor getParent() {
         return parent;
+    }
+
+    public String asXML() {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        this.writeXML(writer, 0);
+        writer.close();
+
+        return stringWriter.toString();
     }
 
     public boolean hasId() {
