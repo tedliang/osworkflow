@@ -468,7 +468,7 @@ public class AbstractWorkflow implements Workflow {
         WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
 
         List currentSteps = store.findCurrentSteps(id);
-        ActionDescriptor action = wf.getAction(actionId);
+        ActionDescriptor action = null;
 
         PropertySet ps = store.getPropertySet(id);
         Map transientVars = new HashMap();
@@ -483,7 +483,28 @@ public class AbstractWorkflow implements Workflow {
 
         populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(actionId), currentSteps);
 
-        boolean validAction = isActionAvailable(action, transientVars, ps);
+        boolean validAction = false;
+
+LABEL: 
+        for (Iterator iter = currentSteps.iterator(); iter.hasNext();) {
+            Step step = (Step) iter.next();
+            StepDescriptor s = wf.getStep(step.getStepId());
+
+            for (Iterator iterator = s.getActions().iterator();
+                    iterator.hasNext();) {
+                ActionDescriptor actionDesc = (ActionDescriptor) iterator.next();
+
+                if (actionDesc.getId() == actionId) {
+                    action = wf.getAction(actionId);
+
+                    if (isActionAvailable(action, transientVars, ps)) {
+                        validAction = true;
+
+                        break LABEL;
+                    }
+                }
+            }
+        }
 
         if (!validAction) {
             throw new InvalidActionException("Action " + actionId + " is invalid");
