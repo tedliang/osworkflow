@@ -180,7 +180,19 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
       WorkflowCell source = (WorkflowCell)((WorkflowPort)firstPort.getCell()).getParent();
       WorkflowCell target = (WorkflowCell)((WorkflowPort)port.getCell()).getParent();
       System.out.println("connect " + source + "->" + target);
+//      ResultEditor editor = new ResultEditor();
+//      ResultDescriptor result = new ResultDescriptor();
+//      result.setId(graph.getWorkflowGraphModel().getNextId());
+//      result.setOldStatus("Finished");
+//      result.setOwner("${caller}");
+//      ActionDescriptor action = new ActionDescriptor();
+//      action.setId(graph.getWorkflowGraphModel().getNextId());
+//      editor.setCell(new ResultCell(source, result, action));
+//      int ok = JOptionPane.showConfirmDialog(graph, editor, "Specify Result", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+//      if(ok==JOptionPane.OK_OPTION)
+      {
 //				connect((Port) firstPort.getCell(), (Port) port.getCell());
+      }
       // Consume Event
       e.consume();
       // Else Repaint the Graph
