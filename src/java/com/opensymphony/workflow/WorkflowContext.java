@@ -14,14 +14,12 @@ public interface WorkflowContext extends java.io.Serializable {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     /**
-     * Returns the caller's String representation that is to be looked up using OSUser.
-     *
-     * @return the caller's String representation that is to be looked up using OSUser
+     * @return the workflow caller.
      */
     public String getCaller();
 
     /**
-     * Sets the transaction to be rolled back.
+     * Sets the current transaction to be rolled back.
      */
     public void setRollbackOnly();
 }
