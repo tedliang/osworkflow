@@ -113,42 +113,9 @@
                   </arg>
                 </condition>
               </conditions>
-              <post-functions>
-                <function type="beanshell" name="bsh.function">
-                  <arg name="script">
-                                        transientVars.get("log").info("111111");
-                  </arg>
-                </function>
-              </post-functions>
             </result>
             <unconditional-result old-status="Finished" split="2"/>
           </results>
-          <post-functions>
-            <function type="beanshell" name="bsh.function">
-              <arg name="script">
-                transientVars.get("log").info("222222");
-              </arg>
-            </function>
-            <!--
-            <function type="class">
-            <arg name="class.name">com.opensymphony.workflow.util.ScheduleJob</arg>
-            <arg name="triggerId">1</arg>
-            <arg name="jobName">testJob</arg>
-            <arg name="triggerName">testTrigger</arg>
-            <arg name="groupName">test</arg>
-
-            <arg name="repeat">10</arg>
-            <arg name="repeatDelay">2000</arg>
-            <arg name="cronExpression">0,5,10,15,20,25,30,35,40,45,50,55 * * * * ?</arg>
-
-            <arg name="username">test</arg>
-            <arg name="password">test</arg>
-
-            <arg name="local">true</arg>
-            <arg name="schedulerStart">true</arg>
-            </function>
-            -->
-          </post-functions>
         </action>
       </actions>
     </step>

@@ -12,7 +12,6 @@
   </initial-actions>
 
   <steps>
-
     <step id="11" name="Step 11">
       <actions>
         <action id="1101" name="action-1101-auto" auto="true">
@@ -25,11 +24,6 @@
               </condition>
             </conditions>
           </restrict-to>
-          <pre-functions>
-            <function type="beanshell">
-              <arg name="script">System.out.println("Executing action 1101");</arg>
-            </function>
-          </pre-functions>
           <results>
             <unconditional-result old-status="Underway" status="Finished" step="11"/>
           </results>
@@ -49,11 +43,6 @@
               </condition>
             </conditions>
           </restrict-to>
-          <pre-functions>
-            <function type="beanshell">
-              <arg name="script">System.out.println("Executing action 1201");</arg>
-            </function>
-          </pre-functions>
           <results>
             <unconditional-result old-status="Underway" status="Finished" step="12"/>
           </results>
@@ -63,12 +52,10 @@
   </steps>
 
   <splits>
-
     <split id="10">
       <unconditional-result old-status="Split" status="Underway" step="11"/>
       <unconditional-result old-status="Split" status="Underway" step="12"/>
     </split>
-
   </splits>
 
 </workflow>
