@@ -5,6 +5,7 @@ import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.dialogs.DialogUtils;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
+import com.opensymphony.workflow.loader.ConditionDescriptor;
 
 /**
  * @author baab
@@ -30,6 +31,11 @@ public class JoinConditionEditor extends ConditionEditor
 	    return new ConfigConditionDescriptor(template);
 	  return null;
   }
+
+	protected ConfigConditionDescriptor getConfigDescriptor(ConditionDescriptor cond)
+	{
+		return getModel().getPalette().getJoinCondition(cond.getName());
+	}
 
   protected JoinCell getCell()
   {
