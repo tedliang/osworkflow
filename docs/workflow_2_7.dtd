@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-The main element.
+The main workflow element. A workflow includes a set of meta properties that are global, as well as global registers
+and trigger functions. It also defines a set of initial actions that are available to kick off the workflow.
+The global actions are actions that can be executed from any step. They are available to all steps.
+common-actions are actions that can be reused in steps. They are specified here, and a step can optionally
+refer to a common-action to make it available. Note that all actions id's must be globally unique.
+
+A workflow consists of a number of steps, split definitions that determine the states to move to within a split,
+and join definitions to determine the conditions and steps for a join.
 -->
-<!ELEMENT workflow (attributes?, registers?, trigger-functions?, initial-actions, global-actions?, common-actions?, steps, splits?, joins?)>
+<!ELEMENT workflow (meta?, registers?, trigger-functions?, initial-actions, global-actions?, common-actions?, steps, splits?, joins?)>
 <!--
 An action that can be executed. The action id must be unique for the entire workflow definition, and
 not just within the enclosing step.
@@ -27,7 +34,7 @@ action satisfies the above criteria, only the first match (in xml file order) is
 
 Used in: actions
 -->
-<!ELEMENT action (restrict-to? , validators?, pre-functions?, results, post-functions?)>
+<!ELEMENT action (meta?, restrict-to? , validators?, pre-functions?, results, post-functions?)>
 <!ATTLIST action
 	id CDATA #REQUIRED
 	name CDATA #REQUIRED
@@ -63,13 +70,7 @@ Used in: function
 <!ATTLIST arg
 	name CDATA #REQUIRED
 >
-<!--
-A list of meta properties that are static and apply to the workflow descriptor.
-This can include items like author, date modified, and so on.
 
-Used in: workflow
--->
-<!ELEMENT attributes (meta+)>
 <!--
 Holds one or more condition elements and defined if AND or OR logic
 should be used to evaluate them all together.
@@ -156,9 +157,9 @@ Used in: workflow
 -->
 <!ELEMENT joins (join*)>
 <!--
-A static meta property of the workflow.
+A static meta property of the workflow, action, or step.
 
-Used in: attributes
+Used in: workflow, step, action
 -->
 <!ELEMENT meta (#PCDATA)>
 <!ATTLIST meta
@@ -258,7 +259,7 @@ A unique step in the workflow (id must be unique among steps).
 
 Used in: steps
 -->
-<!ELEMENT step (external-permissions?, actions?)>
+<!ELEMENT step (meta?, external-permissions?, actions?)>
 <!ATTLIST step
 	id CDATA #REQUIRED
 	name CDATA #REQUIRED

@@ -20,7 +20,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -38,6 +38,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
      */
     protected List commonActions = new ArrayList();
     protected List permissions = new ArrayList();
+    protected Map metaAttributes = new HashMap();
     protected String name;
     protected boolean hasActions = false;
 
@@ -150,6 +151,18 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
         out.println(">");
 
+        Iterator iter = metaAttributes.entrySet().iterator();
+
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            XMLUtil.printIndent(out, indent);
+            out.print("<meta name=\"");
+            out.print(entry.getKey());
+            out.print("\">");
+            out.print(entry.getValue());
+            out.println("</meta>");
+        }
+
         if (permissions.size() > 0) {
             XMLUtil.printIndent(out, indent++);
             out.println("<external-permissions>");
@@ -193,6 +206,15 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
         }
 
         name = step.getAttribute("name");
+
+        NodeList attributs = step.getElementsByTagName("meta");
+
+        for (int i = 0; i < attributs.getLength(); i++) {
+            Element meta = (Element) attributs.item(i);
+            String value = XMLUtil.getText(meta);
+
+            this.metaAttributes.put(meta.getAttribute("name"), value);
+        }
 
         // set up permissions - OPTIONAL
         Element p = XMLUtil.getChildElement(step, "external-permissions");

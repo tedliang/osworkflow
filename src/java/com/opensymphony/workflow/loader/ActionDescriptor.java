@@ -12,13 +12,12 @@ import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -27,6 +26,7 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
     protected List postFunctions = new ArrayList();
     protected List preFunctions = new ArrayList();
     protected List validators = new ArrayList();
+    protected Map metaAttributes = new HashMap();
     protected RestrictionDescriptor restriction;
     protected ResultDescriptor unconditionalResult;
     protected String name;
@@ -155,6 +155,18 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
         buf.append(">");
         out.println(buf.toString());
 
+        Iterator iter = metaAttributes.entrySet().iterator();
+
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            XMLUtil.printIndent(out, indent);
+            out.print("<meta name=\"");
+            out.print(entry.getKey());
+            out.print("\">");
+            out.print(entry.getValue());
+            out.println("</meta>");
+        }
+
         if (restriction != null) {
             restriction.writeXML(out, indent);
         }
@@ -227,6 +239,15 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
         this.name = action.getAttribute("name");
         this.view = action.getAttribute("view");
         this.autoExecute = "true".equals(action.getAttribute("auto"));
+
+        NodeList attributs = action.getElementsByTagName("meta");
+
+        for (int i = 0; i < attributs.getLength(); i++) {
+            Element meta = (Element) attributs.item(i);
+            String value = XMLUtil.getText(meta);
+
+            this.metaAttributes.put(meta.getAttribute("name"), value);
+        }
 
         // set up validators - OPTIONAL
         Element v = XMLUtil.getChildElement(action, "validators");
