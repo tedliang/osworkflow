@@ -387,7 +387,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       System.out.println("Workflow Designer requires JDK 1.4.0 or higher");
       System.exit(1);
     }
-    splash = new Splash(new Frame(), ImageLoader.getIcon("splash.gif").getImage(), "OSWorkflow Designer", true);
+    splash = new Splash(new Frame(), ResourceManager.getIcon("splash").getImage(), "OSWorkflow Designer", true);
     splash.openSplash();
     splash.setProgress(10);
     if(System.getProperty("os.name").startsWith("Windows"))
