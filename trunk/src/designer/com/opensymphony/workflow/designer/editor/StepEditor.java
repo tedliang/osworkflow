@@ -18,7 +18,7 @@ import com.opensymphony.workflow.loader.*;
 
 public class StepEditor extends DetailPanel implements ActionListener
 {
-  private JTextField id = new JTextField(12);
+  private JTextField id = UIFactory.createReadOnlyTextField(12);
   private JTextField name = new JTextField(12);
   private JTextField view = new JTextField(12);
   private JCheckBox auto = new JCheckBox();
@@ -64,7 +64,6 @@ public class StepEditor extends DetailPanel implements ActionListener
     builder.addSeparator("Info", cc.xywh(2, 1, 3, 1));
 
     builder.addLabel("ID", cc.xy(2, 3));
-    id.setEditable(false);
     builder.add(id, cc.xy(4, 3));
 
     builder.addLabel("Name", cc.xy(2, 5));
@@ -105,19 +104,19 @@ public class StepEditor extends DetailPanel implements ActionListener
 
     conditionsTable = new JTable(conditionsModel);
     conditionsTable.setShowGrid(true);
-    builder.add(new JScrollPane(conditionsTable), cc.xywh(2, 15, 3, 1));
+    builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 15, 3, 1));
     builder.add(UIFactory.getTableButtonBar(this, "permission", new String[]{"add", "remove", "edit"}), cc.xywh(2, 16, 3, 1));
 
     builder.addSeparator("Pre-funtions", cc.xywh(2, 18, 3, 1));
 
     pre = new JTable(preModel);
-    builder.add(new JScrollPane(pre), cc.xywh(2, 20, 3, 1));
+    builder.add(UIFactory.createTablePanel(pre), cc.xywh(2, 20, 3, 1));
     builder.add(UIFactory.getTableButtonBar(this, "pre", new String[]{"add", "remove", "edit"}), cc.xywh(2, 21, 3, 1));
 
     builder.addSeparator("Post-functions", cc.xywh(2, 23, 3, 1));
 
     post = new JTable(postModel);
-    builder.add(new JScrollPane(post), cc.xywh(2, 25, 3, 1));
+    builder.add(UIFactory.createTablePanel(post), cc.xywh(2, 25, 3, 1));
     builder.add(UIFactory.getTableButtonBar(this, "post", new String[]{"add", "remove", "edit"}), cc.xywh(2, 26, 3, 1));
 
   }

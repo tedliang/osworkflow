@@ -23,7 +23,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
 {
   //todo add this to config file
   private static final Object[] statusValues = new String[]{"Queued", "Underway", "Finished"};
-  private JTextField id = new JTextField(12);
+  private JTextField id = UIFactory.createReadOnlyTextField(12);
   private JTextField owner = new JTextField(12);
   private JComboBox status = new JComboBox(statusValues);
   private JComboBox oldStatus = new JComboBox(statusValues);
@@ -61,7 +61,6 @@ public class ResultEditor extends DetailPanel implements ActionListener
     builder.addSeparator("Info", cc.xywh(2, 1, 3, 1));
 
     builder.addLabel("ID", cc.xy(2, 3));
-    id.setEditable(false);
     builder.add(id, cc.xy(4, 3));
 
     builder.addLabel("Owner", cc.xy(2, 5));
@@ -95,12 +94,12 @@ public class ResultEditor extends DetailPanel implements ActionListener
 
     builder.addSeparator("Pre-Functions", cc.xywh(2, 11, 3, 1));
     preFunctionsTable = new JTable(preFunctionsModel);
-    builder.add(new JScrollPane(preFunctionsTable), cc.xywh(2, 13, 3, 1));
+    builder.add(UIFactory.createTablePanel(preFunctionsTable), cc.xywh(2, 13, 3, 1));
     builder.add(UIFactory.getTableButtonBar(this, "pre", new String[]{"add", "remove", "edit"}), cc.xywh(2, 14, 3, 1));
 
     builder.addSeparator("Post-Functions", cc.xywh(2, 16, 3, 1));
     postFunctionsTable = new JTable(postFunctionsModel);
-    builder.add(new JScrollPane(postFunctionsTable), cc.xywh(2, 18, 3, 1));
+    builder.add(UIFactory.createTablePanel(postFunctionsTable), cc.xywh(2, 18, 3, 1));
     builder.add(UIFactory.getTableButtonBar(this, "post", new String[]{"add", "remove", "edit"}), cc.xywh(2, 19, 3, 1));
 
     //		if(isConditional()){
@@ -120,7 +119,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
     builder.add(type, cc.xy(4, 23));
 
     conditionsTable = new JTable(conditionsModel);
-    builder.add(new JScrollPane(conditionsTable), cc.xywh(2, 25, 3, 1));
+    builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 25, 3, 1));
     panel = UIFactory.getTableButtonBar(this, "condition", new String[]{"add", "remove", "edit"});
     builder.add(panel, cc.xywh(2, 26, 3, 1));
     //		}
