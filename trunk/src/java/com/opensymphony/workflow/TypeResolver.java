@@ -4,7 +4,7 @@
  */
 package com.opensymphony.workflow;
 
-import com.opensymphony.util.ClassLoaderUtil;
+import com.opensymphony.workflow.loader.ClassLoaderUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

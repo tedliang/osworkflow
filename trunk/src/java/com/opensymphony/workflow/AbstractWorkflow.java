@@ -1453,11 +1453,9 @@ public class AbstractWorkflow implements Workflow {
                 previousIds = new long[0];
             }
 
-            String owner = TextUtils.noNull(theResult.getOwner());
+            String owner = theResult.getOwner();
 
-            if (owner.equals("")) {
-                owner = null;
-            } else {
+            if (owner != null) {
                 Object o = ScriptVariableParser.translateVariables(owner, transientVars, ps);
                 owner = (o != null) ? o.toString() : null;
             }
@@ -1485,7 +1483,12 @@ public class AbstractWorkflow implements Workflow {
                 if (dueDateObject instanceof Date) {
                     dueDate = (Date) dueDateObject;
                 } else if (dueDateObject instanceof String) {
-                    long offset = TextUtils.parseLong((String) dueDateObject);
+                    long offset = 0;
+
+                    try {
+                        offset = Long.parseLong((String) dueDateObject);
+                    } catch (NumberFormatException e) {
+                    }
 
                     if (offset > 0) {
                         dueDate = new Date(startDate.getTime() + offset);

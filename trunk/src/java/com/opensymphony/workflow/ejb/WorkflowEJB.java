@@ -4,9 +4,8 @@
  */
 package com.opensymphony.workflow.ejb;
 
-import com.opensymphony.util.ClassLoaderUtil;
-
 import com.opensymphony.workflow.*;
+import com.opensymphony.workflow.loader.ClassLoaderUtil;
 
 import java.util.Map;
 
@@ -41,7 +40,7 @@ import javax.ejb.*;
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
  * @author <a href="mailto:hani@formicary.net">Hani Suleiman</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class WorkflowEJB extends AbstractWorkflow implements SessionBean {
     //~ Methods ////////////////////////////////////////////////////////////////
