@@ -29,12 +29,7 @@ import net.sf.hibernate.expression.Expression;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -45,7 +40,7 @@ import java.util.Map;
  * See the HibernateFunctionalWorkflowTestCase for more help.
  *
  * @author $Author: hani $
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -191,7 +186,7 @@ public class HibernateWorkflowStore implements WorkflowStore {
         }
 
         try {
-            return session.find("FROM step IN CLASS " + HibernateCurrentStep.class.getName() + " WHERE step.entry = ?", entry, Hibernate.association(entry.getClass()));
+            return session.find("FROM step IN CLASS " + HibernateCurrentStep.class.getName() + " WHERE step.entry = ?", entry, Hibernate.entity(entry.getClass()));
         } catch (HibernateException he) {
             log.error("Looking for step id" + entry, he);
             throw new StoreException("Looking for step id" + entry, he);
@@ -220,7 +215,7 @@ public class HibernateWorkflowStore implements WorkflowStore {
         }
 
         try {
-            return session.find("FROM step IN CLASS " + HibernateHistoryStep.class.getName() + " WHERE step.entry = ?", entry, Hibernate.association(entry.getClass()));
+            return session.find("FROM step IN CLASS " + HibernateHistoryStep.class.getName() + " WHERE step.entry = ?", entry, Hibernate.entity(entry.getClass()));
         } catch (HibernateException he) {
             log.error("Looking for step with entry " + entry, he);
             throw new StoreException("Looking for step with entry " + entry, he);
@@ -302,10 +297,6 @@ public class HibernateWorkflowStore implements WorkflowStore {
     }
 
     public List query(WorkflowQuery query) throws StoreException {
-        List results = new ArrayList();
-
-        // going to try to do all the comparisons in one query
-        String sel;
         Class entityClass;
 
         int qtype = query.getType();
@@ -324,10 +315,23 @@ public class HibernateWorkflowStore implements WorkflowStore {
         }
 
         Criteria criteria = session.createCriteria(entityClass);
-        criteria.add(buildExpression(query));
+        Expression expression = buildExpression(query);
+        criteria.add(expression);
 
         //get results and send them back
-        return results;
+        try {
+            Set results = new HashSet();
+            Iterator iter = criteria.list().iterator();
+
+            while (iter.hasNext()) {
+                HibernateStep step = (HibernateStep) iter.next();
+                results.add(new Long(step.getEntryId()));
+            }
+
+            return new ArrayList(results);
+        } catch (HibernateException e) {
+            throw new StoreException("Error executing query " + expression, e);
+        }
     }
 
     /**
@@ -338,19 +342,19 @@ public class HibernateWorkflowStore implements WorkflowStore {
 
         switch (operator) {
         case WorkflowQuery.EQUALS:
-            return Expression.eq(getFieldName(query.getField()), getSafeValue(query.getValue()));
+            return Expression.eq(getFieldName(query.getField()), query.getValue());
 
         case WorkflowQuery.NOT_EQUALS:
-            return Expression.not(Expression.like(getFieldName(query.getField()), getSafeValue(query.getValue())));
+            return Expression.not(Expression.like(getFieldName(query.getField()), query.getValue()));
 
         case WorkflowQuery.GT:
-            return Expression.gt(getFieldName(query.getField()), getSafeValue(query.getValue()));
+            return Expression.gt(getFieldName(query.getField()), query.getValue());
 
         case WorkflowQuery.LT:
-            return Expression.lt(getFieldName(query.getField()), getSafeValue(query.getValue()));
+            return Expression.lt(getFieldName(query.getField()), query.getValue());
 
         default:
-            return Expression.eq(getFieldName(query.getField()), getSafeValue(query.getValue()));
+            return Expression.eq(getFieldName(query.getField()), query.getValue());
         }
     }
 
@@ -389,20 +393,6 @@ public class HibernateWorkflowStore implements WorkflowStore {
     }
 
     /**
-     * Returns a useabley formatted version of this object.
-     * i.e. a toString() is done and escape sequences are removed
-     * @param value
-     * @return
-     */
-    private String getSafeValue(Object value) {
-        if (value != null) {
-            return "'" + escape(value.toString()) + "'";
-        } else {
-            return "null";
-        }
-    }
-
-    /**
      *  Recursive method for building Expressions using Query objects.
      */
     private Expression buildExpression(WorkflowQuery query) throws StoreException {
@@ -423,10 +413,10 @@ public class HibernateWorkflowStore implements WorkflowStore {
 
             switch (operator) {
             case WorkflowQuery.AND:
-                return Expression.and(buildExpression(query), buildExpression(query));
+                return Expression.and(buildExpression(left), buildExpression(right));
 
             case WorkflowQuery.OR:
-                return Expression.or(buildExpression(query), buildExpression(query));
+                return Expression.or(buildExpression(left), buildExpression(right));
 
             case WorkflowQuery.XOR:
                 throw new StoreException("XOR Operator in Queries not supported by " + this.getClass().getName());
@@ -435,35 +425,5 @@ public class HibernateWorkflowStore implements WorkflowStore {
                 throw new StoreException("Operator '" + operator + "' is not supported by " + this.getClass().getName());
             }
         }
-    }
-
-    /**
-     * Removes the escape sequences from this string.
-     * @param s
-     * @return
-     */
-    private static String escape(String s) {
-        StringBuffer sb = new StringBuffer(s);
-
-        char c;
-        char[] chars = s.toCharArray();
-
-        for (int i = 0; i < chars.length; i++) {
-            c = chars[i];
-
-            switch (c) {
-            case '\'':
-                sb.insert(i, '\'');
-                i++;
-
-                break;
-
-            case '\\':
-                sb.insert(i, '\\');
-                i++;
-            }
-        }
-
-        return sb.toString();
     }
 }
