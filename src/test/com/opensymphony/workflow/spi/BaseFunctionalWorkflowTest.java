@@ -4,13 +4,15 @@
  */
 package com.opensymphony.workflow.spi;
 
-import com.opensymphony.module.user.*;
+import com.opensymphony.user.*;
 
 import com.opensymphony.workflow.AbstractWorkflow;
 import com.opensymphony.workflow.QueryNotSupportedException;
 import com.opensymphony.workflow.TestWorkflow;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.query.Expression;
+import com.opensymphony.workflow.query.FieldExpression;
+import com.opensymphony.workflow.query.NestedExpression;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 
@@ -19,7 +21,10 @@ import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -168,7 +173,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
     }
 
     public void testWorkflowExpressionQuery() throws Exception {
-        WorkflowExpressionQuery query = new WorkflowExpressionQuery(new Expression(Expression.OWNER, Expression.CURRENT_STEPS, Expression.EQUALS, USER_TEST));
+        WorkflowExpressionQuery query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.OWNER, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, USER_TEST));
         List workflows;
 
         String workflowName = getClass().getResource("/samples/example.xml").toString();
@@ -187,11 +192,11 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         workflows = workflow.query(query);
         assertEquals(1, workflows.size());
 
-        Expression queryLeft = new Expression(Expression.OWNER, Expression.CURRENT_STEPS, Expression.EQUALS, USER_TEST);
-        Expression queryRight = new Expression(Expression.STATUS, Expression.CURRENT_STEPS, Expression.EQUALS, "Finished");
-        query = new WorkflowExpressionQuery(new Expression[] {
-                    queryLeft, queryRight
-                }, WorkflowExpressionQuery.AND);
+        Expression queryLeft = new FieldExpression(FieldExpression.OWNER, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, USER_TEST);
+        Expression queryRight = new FieldExpression(FieldExpression.STATUS, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, "Finished");
+        query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
+                        queryLeft, queryRight
+                    }, NestedExpression.AND));
 
         try {
             workflows = workflow.query(query);
@@ -202,29 +207,29 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
             return;
         }
 
-        queryRight = new Expression(Expression.STATUS, Expression.CURRENT_STEPS, Expression.EQUALS, "Underway");
-        query = new WorkflowExpressionQuery(new Expression[] {
-                    queryLeft, queryRight
-                }, WorkflowExpressionQuery.AND);
+        queryRight = new FieldExpression(FieldExpression.STATUS, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, "Underway");
+        query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
+                        queryLeft, queryRight
+                    }, NestedExpression.AND));
         workflows = workflow.query(query);
         assertEquals(1, workflows.size());
 
         //there should be one step that has been started
-        workflows = workflow.query(new WorkflowExpressionQuery(new Expression(Expression.START_DATE, Expression.CURRENT_STEPS, Expression.LT, new Date())));
+        workflows = workflow.query(new WorkflowExpressionQuery(new FieldExpression(FieldExpression.START_DATE, FieldExpression.CURRENT_STEPS, FieldExpression.LT, new Date())));
         assertEquals("Expected to find one workflow step that was started", 1, workflows.size());
 
         //there should be no steps that have been completed
-        workflows = workflow.query(new WorkflowExpressionQuery(new Expression(Expression.FINISH_DATE, Expression.HISTORY_STEPS, Expression.LT, new Date())));
+        workflows = workflow.query(new WorkflowExpressionQuery(new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date())));
         assertEquals("Expected to find no history steps that were completed", 0, workflows.size());
 
         workflow.doAction(workflowId, 1, Collections.EMPTY_MAP);
 
         //there should be two step that have been started
-        workflows = workflow.query(new WorkflowExpressionQuery(new Expression(Expression.START_DATE, Expression.HISTORY_STEPS, Expression.LT, new Date())));
+        workflows = workflow.query(new WorkflowExpressionQuery(new FieldExpression(FieldExpression.START_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date())));
         assertEquals("Expected to find 2 workflow steps that were started", 1, workflows.size());
 
         //there should be 1 steps that has been completed
-        workflows = workflow.query(new WorkflowExpressionQuery(new Expression(Expression.FINISH_DATE, Expression.HISTORY_STEPS, Expression.LT, new Date())));
+        workflows = workflow.query(new WorkflowExpressionQuery(new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date())));
         assertEquals("Expected to find 1 history steps that was completed", 1, workflows.size());
     }
 
@@ -272,7 +277,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         workflow = new TestWorkflow(USER_TEST);
 
         UserManager um = UserManager.getInstance();
-
+        assertNotNull("Could not get UserManager", um);
         try {
             um.getUser(USER_TEST);
         } catch (EntityNotFoundException enfe) {

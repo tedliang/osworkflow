@@ -13,27 +13,14 @@ package com.opensymphony.workflow.query;
  * whereby all expressions must return true for a result to be included.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WorkflowExpressionQuery {
     //~ Static fields/initializers /////////////////////////////////////////////
 
-    /**
-     * Constant to specify that all the expressions specified must evaluate to true for
-     * an item to be included in the search results.
-     */
-    public final static int AND = 6;
-
-    /**
-     * Constant to specify that at least one of the expressions specified must evaluate to true
-     * for an item to be included in the search results.
-     */
-    public final static int OR = 7;
-
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private Expression[] expressions = null;
-    private int operator = AND;
+	private Expression expression = null;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -41,37 +28,14 @@ public class WorkflowExpressionQuery {
      * Create a WorkflowExpressionQuery that consists of one expression.
      */
     public WorkflowExpressionQuery(Expression expression) {
-        expressions = new Expression[] {expression};
+        this.expression = expression;
     }
 
-    /**
-     * Create a WorkflowExpressionQuery that consists of multiple expressions.
-     * @param expressions an array of expressions for this query.
-     * @param operator {@link WorkflowExpressionQuery#AND} or {@link WorkflowExpressionQuery#OR}.
-     */
-    public WorkflowExpressionQuery(Expression[] expressions, int operator) {
-        this.expressions = expressions;
-        this.operator = operator;
-    }
-
+   
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public Expression getExpression(int index) {
-        return expressions[index];
+    public Expression getExpression() {
+        return expression;
     }
 
-    /**
-     * Get the number of expressions in this query.
-     */
-    public int getExpressionCount() {
-        return expressions.length;
-    }
-
-    /**
-     * @return {@link WorkflowExpressionQuery#AND} if all the expressions must match,
-     * or {@link WorkflowExpressionQuery#OR} if only one must match.
-     */
-    public int getOperator() {
-        return this.operator;
-    }
 }

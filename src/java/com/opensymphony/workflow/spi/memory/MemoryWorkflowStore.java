@@ -4,14 +4,16 @@
  */
 package com.opensymphony.workflow.spi.memory;
 
+import java.util.*;
+
 import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
-
 import com.opensymphony.util.DataUtil;
 import com.opensymphony.util.TextUtils;
-
 import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.query.Expression;
+import com.opensymphony.workflow.query.FieldExpression;
+import com.opensymphony.workflow.query.NestedExpression;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.SimpleStep;
@@ -19,10 +21,7 @@ import com.opensymphony.workflow.spi.SimpleWorkflowEntry;
 import com.opensymphony.workflow.spi.Step;
 import com.opensymphony.workflow.spi.WorkflowEntry;
 import com.opensymphony.workflow.spi.WorkflowStore;
-
 import java.security.InvalidParameterException;
-
-import java.util.*;
 
 
 /**
@@ -198,7 +197,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
         return results;
     }
 
-    private boolean checkExpression(long entryId, Expression expression) {
+    private boolean checkExpression(long entryId, FieldExpression expression) {
         Object value = expression.getValue();
         int operator = expression.getOperator();
         int field = expression.getField();
@@ -206,14 +205,14 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
         Long id = new Long(entryId);
 
-        if (context == Expression.ENTRY) {
+        if (context == FieldExpression.ENTRY) {
             SimpleWorkflowEntry theEntry = (SimpleWorkflowEntry) entryCache.get(id);
 
-            if (field == Expression.NAME) {
+            if (field == FieldExpression.NAME) {
                 return this.compareText(theEntry.getWorkflowName(), (String) value, operator);
             }
 
-            if (field == Expression.STATE) {
+            if (field == FieldExpression.STATE) {
                 return this.compareLong(DataUtil.getInt((Integer) value), theEntry.getState(), operator);
             }
 
@@ -222,9 +221,9 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
         List steps;
 
-        if (context == Expression.CURRENT_STEPS) {
+        if (context == FieldExpression.CURRENT_STEPS) {
             steps = (List) currentStepsCache.get(id);
-        } else if (context == Expression.HISTORY_STEPS) {
+        } else if (context == FieldExpression.HISTORY_STEPS) {
             steps = (List) historyStepsCache.get(id);
         } else {
             throw new InvalidParameterException("unknown field context");
@@ -235,7 +234,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
         }
 
         switch (field) {
-        case Expression.ACTION:
+        case FieldExpression.ACTION:
 
             long actionId = DataUtil.getLong((Long) value);
 
@@ -249,7 +248,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
             return false;
 
-        case Expression.CALLER:
+        case FieldExpression.CALLER:
 
             String caller = (String) value;
 
@@ -263,7 +262,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
             return false;
 
-        case Expression.FINISH_DATE:
+        case FieldExpression.FINISH_DATE:
 
             Date finishDate = (Date) value;
 
@@ -277,7 +276,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
             return false;
 
-        case Expression.OWNER:
+        case FieldExpression.OWNER:
 
             String owner = (String) value;
 
@@ -291,7 +290,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
             return false;
 
-        case Expression.START_DATE:
+        case FieldExpression.START_DATE:
 
             Date startDate = (Date) value;
 
@@ -305,7 +304,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
             return false;
 
-        case Expression.STEP:
+        case FieldExpression.STEP:
 
             int stepId = DataUtil.getInt((Integer) value);
 
@@ -319,7 +318,7 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
             return false;
 
-        case Expression.STATUS:
+        case FieldExpression.STATUS:
 
             String status = (String) value;
 
@@ -339,16 +338,16 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
     private boolean compareDate(Date value1, Date value2, int operator) {
         switch (operator) {
-        case Expression.EQUALS:
+        case FieldExpression.EQUALS:
             return value1.compareTo(value2) == 0;
 
-        case Expression.NOT_EQUALS:
+        case FieldExpression.NOT_EQUALS:
             return value1.compareTo(value2) != 0;
 
-        case Expression.GT:
+        case FieldExpression.GT:
             return (value1.compareTo(value2) > 0);
 
-        case Expression.LT:
+        case FieldExpression.LT:
             return value1.compareTo(value2) < 0;
         }
 
@@ -357,16 +356,16 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
     private boolean compareLong(long value1, long value2, int operator) {
         switch (operator) {
-        case Expression.EQUALS:
+        case FieldExpression.EQUALS:
             return value1 == value2;
 
-        case Expression.NOT_EQUALS:
+        case FieldExpression.NOT_EQUALS:
             return value1 != value2;
 
-        case Expression.GT:
+        case FieldExpression.GT:
             return value1 > value2;
 
-        case Expression.LT:
+        case FieldExpression.LT:
             return value1 < value2;
         }
 
@@ -375,16 +374,16 @@ public class MemoryWorkflowStore implements WorkflowStore {
 
     private boolean compareText(String value1, String value2, int operator) {
         switch (operator) {
-        case Expression.EQUALS:
+        case FieldExpression.EQUALS:
             return TextUtils.noNull(value1).equals(value2);
 
-        case Expression.NOT_EQUALS:
+        case FieldExpression.NOT_EQUALS:
             return !TextUtils.noNull(value1).equals(value2);
 
-        case Expression.GT:
+        case FieldExpression.GT:
             return TextUtils.noNull(value1).compareTo(value2) > 0;
 
-        case Expression.LT:
+        case FieldExpression.LT:
             return TextUtils.noNull(value1).compareTo(value2) < 0;
         }
 
@@ -415,24 +414,37 @@ public class MemoryWorkflowStore implements WorkflowStore {
     }
 
     private boolean query(long entryId, WorkflowExpressionQuery query) {
-        for (int i = 0; i < query.getExpressionCount(); i++) {
-            boolean expressionResult = this.checkExpression(entryId, query.getExpression(i));
+		Expression expression = query.getExpression();
+		if ( expression.isNested() )
+			return this.checkNestedExpression(entryId, (NestedExpression) expression);
+		else
+			return this.checkExpression(entryId, (FieldExpression) expression);
+	}
+	
+	private boolean checkNestedExpression (long entryId, NestedExpression nestedExpression ){
+        for (int i = 0; i < nestedExpression.getExpressionCount(); i++) {
+			boolean expressionResult;
+			Expression expression = nestedExpression.getExpression(i);
+			if ( expression.isNested() )
+			   expressionResult = this.checkNestedExpression(entryId, (NestedExpression) expression);
+			else
+			   expressionResult = this.checkExpression(entryId, (FieldExpression) expression);
 
-            if (query.getOperator() == WorkflowExpressionQuery.AND) {
+            if (nestedExpression.getOperator() == NestedExpression.AND) {
                 if (expressionResult == false) {
-                    return false;
+                    return nestedExpression.isNegate();
                 }
-            } else if (query.getOperator() == WorkflowExpressionQuery.OR) {
+            } else if (nestedExpression.getOperator() == NestedExpression.OR) {
                 if (expressionResult == true) {
-                    return true;
+                    return !nestedExpression.isNegate();
                 }
             }
         }
 
-        if (query.getOperator() == WorkflowExpressionQuery.AND) {
-            return true;
-        } else if (query.getOperator() == WorkflowExpressionQuery.OR) {
-            return false;
+        if (nestedExpression.getOperator() == NestedExpression.AND) {
+            return !nestedExpression.isNegate();
+        } else if (nestedExpression.getOperator() == NestedExpression.OR) {
+            return nestedExpression.isNegate();
         }
 
         throw new InvalidParameterException("unknown operator");
