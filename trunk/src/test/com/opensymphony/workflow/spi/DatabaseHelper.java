@@ -20,6 +20,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+import javax.naming.InitialContext;
+
+import javax.sql.DataSource;
+
 
 /**
  * @author Eric Pugh
@@ -61,8 +65,9 @@ public class DatabaseHelper {
         Statement statement = null;
 
         try {
-            Class.forName("com.mckoi.JDBCDriver");
-            connection = DriverManager.getConnection("jdbc:mckoi:local://./src/test/mckoi.conf?create=true", "test", "test");
+            InitialContext context = new InitialContext();
+            DataSource ds = (DataSource) context.lookup("jdbc/CreateDS");
+            connection = ds.getConnection();
             statement = connection.createStatement();
 
             String sql = getDatabaseCreationScript();
