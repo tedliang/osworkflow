@@ -462,27 +462,8 @@ public class AbstractWorkflow implements Workflow {
     }
 
     public void doAction(long id, int actionId, Map inputs) throws WorkflowException {
-        int[] availableActions = getAvailableActions(id, inputs);
-        boolean validAction = false;
-
         WorkflowStore store = getPersistence();
         WorkflowEntry entry = store.findEntry(id);
-
-        if (entry.getState() != WorkflowEntry.ACTIVATED) {
-            return;
-        }
-
-        for (int i = 0; i < availableActions.length; i++) {
-            if (availableActions[i] == actionId) {
-                validAction = true;
-
-                break;
-            }
-        }
-
-        if (!validAction) {
-            throw new InvalidActionException("Action " + actionId + " is invalid");
-        }
 
         WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
 
@@ -492,11 +473,21 @@ public class AbstractWorkflow implements Workflow {
         PropertySet ps = store.getPropertySet(id);
         Map transientVars = new HashMap();
 
-        if (inputs != null) {
-            transientVars.putAll(inputs);
+        if (entry.getState() != WorkflowEntry.ACTIVATED) {
+            return;
         }
 
-        populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(actionId), currentSteps);
+      if (inputs != null) {
+          transientVars.putAll(inputs);
+      }
+
+      populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(actionId), currentSteps);
+
+        boolean validAction = isActionAvailable(action, transientVars, ps);
+
+        if (!validAction) {
+            throw new InvalidActionException("Action " + actionId + " is invalid");
+        }
 
         try {
             transitionWorkflow(entry, currentSteps, store, wf, action, transientVars, inputs, ps);
@@ -613,6 +604,103 @@ public class AbstractWorkflow implements Workflow {
         return l;
     }
 
+    protected int[] getAvailableAutoActions(long id, Map inputs) {
+        try {
+            WorkflowStore store = getPersistence();
+            WorkflowEntry entry = store.findEntry(id);
+
+            if (entry == null) {
+                throw new IllegalArgumentException("No such workflow id " + id);
+            }
+
+            if (entry.getState() != WorkflowEntry.ACTIVATED) {
+                log.debug("--> state is " + entry.getState());
+
+                return new int[0];
+            }
+
+            WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
+
+            if (wf == null) {
+                throw new IllegalArgumentException("No such workflow " + entry.getWorkflowName());
+            }
+
+            List l = new ArrayList();
+            PropertySet ps = store.getPropertySet(id);
+            Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
+            Collection currentSteps = store.findCurrentSteps(id);
+
+            populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(0), currentSteps);
+
+            // get global actions
+            List globalActions = wf.getGlobalActions();
+
+            for (Iterator iterator = globalActions.iterator();
+                    iterator.hasNext();) {
+                ActionDescriptor action = (ActionDescriptor) iterator.next();
+
+                if (action.getAutoExecute()) {
+                    if (isActionAvailable(action, transientVars, ps)) {
+                        l.add(new Integer(action.getId()));
+                    }
+                }
+            }
+
+            // get normal actions
+            for (Iterator iterator = currentSteps.iterator();
+                    iterator.hasNext();) {
+                Step step = (Step) iterator.next();
+                l.addAll(getAvailableAutoActionsForStep(wf, step, transientVars, ps));
+            }
+
+            int[] actions = new int[l.size()];
+
+            for (int i = 0; i < actions.length; i++) {
+                actions[i] = ((Integer) l.get(i)).intValue();
+            }
+
+            return actions;
+        } catch (Exception e) {
+            log.error("Error checking available actions", e);
+
+            return new int[0];
+        }
+    }
+
+    /**
+     * Get just auto action availables for a step
+     */
+    protected List getAvailableAutoActionsForStep(WorkflowDescriptor wf, Step step, Map transientVars, PropertySet ps) throws WorkflowException {
+        List l = new ArrayList();
+        StepDescriptor s = wf.getStep(step.getStepId());
+
+        if (s == null) {
+            log.warn("getAvailableAutoActionsForStep called for non-existent step Id #" + step.getStepId());
+
+            return l;
+        }
+
+        List actions = s.getActions();
+
+        if ((actions == null) || (actions.size() == 0)) {
+            return l;
+        }
+
+        for (Iterator iterator2 = actions.iterator(); iterator2.hasNext();) {
+            ActionDescriptor action = (ActionDescriptor) iterator2.next();
+
+            //check auto
+            if (action.getAutoExecute()) {
+                if (isActionAvailable(action, transientVars, ps)) {
+                    l.add(new Integer(action.getId()));
+                }
+            }
+        }
+
+        return l;
+    }
+
+    //$AR end
     protected WorkflowStore getPersistence() throws StoreException {
         return StoreFactory.getPersistence();
     }
@@ -934,6 +1022,24 @@ public class AbstractWorkflow implements Workflow {
         }
     }
 
+    /**
+     * check if an action is available or not
+     * @param action The action descriptor
+     * @return true if the action is available
+     */
+    private boolean isActionAvailable(ActionDescriptor action, Map transientVars, PropertySet ps) throws WorkflowException {
+        RestrictionDescriptor restriction = action.getRestriction();
+        String conditionType = null;
+        List conditions = null;
+
+        if (restriction != null) {
+            conditionType = restriction.getConditionType();
+            conditions = restriction.getConditions();
+        }
+
+        return passesConditions(conditionType, conditions, Collections.unmodifiableMap(transientVars), ps);
+    }
+
     private Step getCurrentStep(WorkflowDescriptor wfDesc, int actionId, List currentSteps, Map transientVars, PropertySet ps) throws WorkflowException {
         if (currentSteps.size() == 1) {
             return (Step) currentSteps.get(0);
@@ -943,13 +1049,12 @@ public class AbstractWorkflow implements Workflow {
             Step step = (Step) iterator.next();
             ActionDescriptor action = wfDesc.getStep(step.getStepId()).getAction(actionId);
 
-            if (action != null) {
-                List availActions = getAvailableActionsForStep(wfDesc, step, transientVars, ps);
-
-                if (availActions.contains(new Integer(action.getId()))) {
-                    return step;
-                }
+            //$AR init
+            if (isActionAvailable(action, transientVars, ps)) {
+                return step;
             }
+
+            //$AR end
         }
 
         return null;
@@ -1348,33 +1453,13 @@ public class AbstractWorkflow implements Workflow {
             changeEntryState(entry.getId(), WorkflowEntry.ACTIVATED);
         }
 
-        //we have our results, lets check if we need to autoexec any of them
-        int[] availableActions = getAvailableActions(entry.getId(), inputs);
+        //get available autoexec actions
+        int[] availableAutoActions = getAvailableAutoActions(entry.getId(), inputs);
 
-        if (availableActions.length != 0) {
-            for (int i = 0; i < theResults.length; i++) {
-                ResultDescriptor theResult = theResults[i];
-                StepDescriptor toCheck = wf.getStep(theResult.getStep());
-
-                if (toCheck != null) {
-                    Iterator iter = toCheck.getActions().iterator();
-MAIN: 
-                    while (iter.hasNext()) {
-                        ActionDescriptor descriptor = (ActionDescriptor) iter.next();
-
-                        if (descriptor.getAutoExecute()) {
-                            //check if it's an action we can actually perform
-                            for (int j = 0; j < availableActions.length; j++) {
-                                if (descriptor.getId() == availableActions[j]) {
-                                    doAction(entry.getId(), descriptor.getId(), inputs);
-
-                                    break MAIN;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        for (int j = 0; j < availableAutoActions.length; j++) {
+            int actionId = availableAutoActions[j];
+            doAction(entry.getId(), actionId, inputs);
+            break;
         }
     }
 }
