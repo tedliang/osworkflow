@@ -26,7 +26,7 @@ import javax.xml.parsers.*;
  * by loading the XML from various sources.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WorkflowLoader {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -55,38 +55,7 @@ public class WorkflowLoader {
 
         try {
             db = dbf.newDocumentBuilder();
-            db.setEntityResolver(new EntityResolver() {
-                    public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-                        if (systemId == null) {
-                            return null;
-                        }
-
-                        URL url = new URL(systemId);
-                        String file = url.getFile();
-
-                        if ((file != null) && (file.indexOf('/') > -1)) {
-                            file = file.substring(file.lastIndexOf('/') + 1);
-                        }
-
-                        if ("www.opensymphony.com".equals(url.getHost())) {
-                            InputStream workflowIs = getClass().getResourceAsStream("/META-INF/" + file);
-
-                            if (workflowIs == null) {
-                                workflowIs = getClass().getResourceAsStream("/" + file);
-                            }
-
-                            if (workflowIs == null) {
-                                log.info("Cannot find " + file + " locally");
-                            }
-
-                            if (workflowIs != null) {
-                                return new InputSource(workflowIs);
-                            }
-                        }
-
-                        return null;
-                    }
-                });
+            db.setEntityResolver(new DTDEntityResolver());
         } catch (ParserConfigurationException e) {
             log.fatal("Could not load workflow file", e);
         }
