@@ -30,10 +30,10 @@ public class UIFactory
 	  return ButtonBarFactory.buildAddRemovePropertiesBar(buttons[0], buttons[1], buttons[2]);
   }
 
-  public static DefaultFormBuilder getDialogBuilder(String separator)
+  public static DefaultFormBuilder getDialogBuilder(String separator, Container contentPane)
   {
     FormLayout layout = new FormLayout("2dlu, left:max(40dlu;pref), 3dlu, 110dlu:grow, 7dlu");
-    DefaultFormBuilder builder = new DefaultFormBuilder(layout, ResourceManager.getBundle());
+    DefaultFormBuilder builder = new DefaultFormBuilder((JPanel)contentPane, layout, ResourceManager.getBundle());
 	  builder.setLeadingColumnOffset(1);
     builder.setDefaultDialogBorder();
     if(separator == null)
