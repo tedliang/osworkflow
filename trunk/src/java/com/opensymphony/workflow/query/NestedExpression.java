@@ -2,8 +2,8 @@
  * Copyright (c) 2002-2003 by OpenSymphony
  * All rights reserved.
  */
-
 package com.opensymphony.workflow.query;
+
 
 /**
  * Nested expressions are used when constructing a workflow query.
@@ -13,16 +13,15 @@ package com.opensymphony.workflow.query;
  *     from the specified sub expressions.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class NestedExpression extends Expression
-{
-	//~ Static fields/initializers /////////////////////////////////////////////
+public class NestedExpression extends Expression {
+    //~ Static fields/initializers /////////////////////////////////////////////
 
-	/**
-     * Constant to specify that all the expressions specified must evaluate to true for
-     * an item to be included in the search results.
-     */
+    /**
+    * Constant to specify that all the expressions specified must evaluate to true for
+    * an item to be included in the search results.
+    */
     public final static int AND = 6;
 
     /**
@@ -31,22 +30,24 @@ public class NestedExpression extends Expression
      */
     public final static int OR = 7;
 
-	
     //~ Instance fields ////////////////////////////////////////////////////////
-	private Expression[] expressions = null;
+
+    private Expression[] expressions = null;
     private int operator = AND;
-	
-	/**
-     * Create a NestedExpression that consists of multiple expressions.
-     * @param expressions an array of expressions for this query.
-     * @param operator {@link NestedExpression#AND} or {@link NestedExpression#OR}.
-     */
+
+    //~ Constructors ///////////////////////////////////////////////////////////
+
+    /**
+    * Create a NestedExpression that consists of multiple expressions.
+    * @param expressions an array of expressions for this query.
+    * @param operator {@link NestedExpression#AND} or {@link NestedExpression#OR}.
+    */
     public NestedExpression(Expression[] expressions, int operator) {
         this.expressions = expressions;
         this.operator = operator;
     }
-	
-	//~ Methods ////////////////////////////////////////////////////////////////
+
+    //~ Methods ////////////////////////////////////////////////////////////////
 
     public Expression getExpression(int index) {
         return expressions[index];
@@ -59,6 +60,10 @@ public class NestedExpression extends Expression
         return expressions.length;
     }
 
+    public boolean isNested() {
+        return true;
+    }
+
     /**
      * @return {@link NestedExpression#AND} if all the expressions must match,
      * or {@link NestedExpression#OR} if only one must match.
@@ -66,8 +71,4 @@ public class NestedExpression extends Expression
     public int getOperator() {
         return this.operator;
     }
-	
-	public boolean isNested() { return true;}
-
 }
-

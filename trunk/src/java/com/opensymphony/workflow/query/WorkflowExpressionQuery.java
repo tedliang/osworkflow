@@ -13,14 +13,12 @@ package com.opensymphony.workflow.query;
  * whereby all expressions must return true for a result to be included.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class WorkflowExpressionQuery {
-    //~ Static fields/initializers /////////////////////////////////////////////
-
     //~ Instance fields ////////////////////////////////////////////////////////
 
-	private Expression expression = null;
+    private Expression expression = null;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -31,11 +29,9 @@ public class WorkflowExpressionQuery {
         this.expression = expression;
     }
 
-   
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public Expression getExpression() {
         return expression;
     }
-
 }
