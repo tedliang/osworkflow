@@ -5,7 +5,7 @@ import javax.swing.AbstractAction;
 
 import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
-import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
+import com.opensymphony.workflow.loader.WorkflowFactory;
 import com.opensymphony.workflow.designer.WorkflowDesigner;
 
 /**
@@ -13,7 +13,7 @@ import com.opensymphony.workflow.designer.WorkflowDesigner;
  */
 public class ValidateWorkflow extends AbstractAction implements WorkspaceListener
 {
-	private AbstractWorkflowFactory currentWorkspace;
+	private WorkflowFactory currentWorkspace;
 	
 	public ValidateWorkflow()
 	{

@@ -2,7 +2,7 @@ package com.opensymphony.workflow.designer.event;
 
 import java.util.EventObject;
 
-import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
+import com.opensymphony.workflow.loader.WorkflowFactory;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -14,7 +14,7 @@ public class WorkspaceEvent extends EventObject
   public static final int WORKSPACE_OPENED = 1;
   public static final int WORKSPACE_CLOSED = 2;
   private int id;
-  private AbstractWorkflowFactory workspace;
+  private WorkflowFactory workspace;
   private boolean consumed;
 
   public WorkspaceEvent(Object source)
@@ -22,7 +22,7 @@ public class WorkspaceEvent extends EventObject
     super(source);
   }
 
-  public WorkspaceEvent(Object source, AbstractWorkflowFactory workspace, int id)
+  public WorkspaceEvent(Object source, WorkflowFactory workspace, int id)
   {
     super(source);
     this.id = id;
@@ -34,7 +34,7 @@ public class WorkspaceEvent extends EventObject
     return id;
   }
 
-  public AbstractWorkflowFactory getWorkspace()
+  public WorkflowFactory getWorkspace()
   {
     return workspace;
   }

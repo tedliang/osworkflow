@@ -34,7 +34,7 @@ import javax.xml.parsers.*;
  * rather than in the calling client.
  *
  * @author Hani Suleiman
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class DefaultConfiguration implements Configuration, Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -43,9 +43,9 @@ public class DefaultConfiguration implements Configuration, Serializable {
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private AbstractWorkflowFactory factory = new URLWorkflowFactory();
     private Map persistenceArgs = new HashMap();
     private String persistenceClass;
+    private WorkflowFactory factory = new URLWorkflowFactory();
     private transient WorkflowStore store = null;
     private boolean initialized;
 
@@ -142,7 +142,7 @@ public class DefaultConfiguration implements Configuration, Serializable {
                         throw new FactoryException("factory does not specify a class attribute");
                     }
 
-                    factory = (AbstractWorkflowFactory) ClassLoaderUtil.loadClass(clazz, getClass()).newInstance();
+                    factory = (WorkflowFactory) ClassLoaderUtil.loadClass(clazz, getClass()).newInstance();
 
                     Properties properties = new Properties();
                     List props = XMLUtil.getChildElements(factoryElement, "property");
@@ -233,7 +233,7 @@ public class DefaultConfiguration implements Configuration, Serializable {
      * Get the workflow factory for this configuration.
      * This method should never ever be called from client code!
      */
-    AbstractWorkflowFactory getFactory() {
+    WorkflowFactory getFactory() {
         return factory;
     }
 }

@@ -264,7 +264,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
   public void createGraph(String workflowName)
   {
     //Workspace currentWorkspace = manager.getCurrentWorkspace();
-    AbstractWorkflowFactory currentWorkspace = manager.getCurrentWorkspace();
+    WorkflowFactory currentWorkspace = manager.getCurrentWorkspace();
     Layout layout = (Layout)currentWorkspace.getLayout(workflowName);
     WorkflowGraphModel model = new WorkflowGraphModel(layout);
     model.setPalette(palette);
@@ -443,7 +443,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
         graphTabs.removeAll();
         Prefs.INSTANCE.put(Prefs.LAST_WORKSPACE, file.toString());
         manager.loadWorkspace(file);
-        AbstractWorkflowFactory workspace = manager.getCurrentWorkspace();
+        WorkflowFactory workspace = manager.getCurrentWorkspace();
         navigator.setWorkspace(workspace);
         String[] workflows = workspace.getWorkflowNames();
         for(int i = 0; i < workflows.length; i++)

@@ -6,8 +6,8 @@ package com.opensymphony.workflow.config;
 
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.StoreException;
-import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
+import com.opensymphony.workflow.loader.WorkflowFactory;
 import com.opensymphony.workflow.spi.WorkflowStore;
 
 import java.net.URL;
@@ -18,18 +18,18 @@ import java.util.Map;
 /**
  * @author        Quake Wang
  * @since        2004-5-2
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  *
  **/
 public class SpringConfiguration implements Configuration {
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private AbstractWorkflowFactory factory;
+    private WorkflowFactory factory;
     private WorkflowStore store;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public void setFactory(AbstractWorkflowFactory factory) {
+    public void setFactory(WorkflowFactory factory) {
         this.factory = factory;
     }
 
