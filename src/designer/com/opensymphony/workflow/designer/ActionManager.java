@@ -21,7 +21,7 @@ public final class ActionManager
   private ActionManager()
   {
     this.actions = new HashMap(50);
-    bundle = ResourceBundle.getBundle(getClass().getName());
+    bundle = ResourceBundle.getBundle("com.opensymphony.workflow.designer.actions");
   }
 
   public static Action register(String id, Action action)
