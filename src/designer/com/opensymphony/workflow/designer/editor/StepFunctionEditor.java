@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer.editor;
 
 import com.opensymphony.workflow.designer.StepCell;
+import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ActionDescriptor;
 import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
@@ -33,7 +34,7 @@ public class StepFunctionEditor extends FunctionEditor
 
   protected String getSelection()
   {
-    return DialogUtils.getUserSelection(getModel().getPalette().getPreNames(), "Select step function", "Select Function", null);
+    return DialogUtils.getUserSelection(getModel().getPalette().getPreNames(), ResourceManager.getString("function.select.step"), ResourceManager.getString("function.select"), null);
   }
 
 }

@@ -2,6 +2,7 @@ package com.opensymphony.workflow.designer.editor;
 
 import com.opensymphony.workflow.designer.InitialActionCell;
 import com.opensymphony.workflow.designer.WorkflowDesigner;
+import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
 import com.opensymphony.workflow.loader.PermissionConditionDescriptor;
@@ -35,7 +36,7 @@ public class StartPermissionEditor extends ConditionEditor
 
   protected String getSelection()
   {
-    return DialogUtils.getUserSelection(getModel().getPalette().getPermissionNames(), "Select Permission", "Select Permission", null);
+    return DialogUtils.getUserSelection(getModel().getPalette().getPermissionNames(), ResourceManager.getString("permission.select"), ResourceManager.getString("permission.select"), null);
   }
 
 }
