@@ -271,6 +271,9 @@ public class Workspace extends XMLWorkflowFactory
   {
     WorkflowConfig config = new WorkflowConfig("file", null);
     config.descriptor = new WorkflowDescriptor();
+    ActionDescriptor initialAction = new ActionDescriptor();
+    initialAction.setId(1);
+    config.descriptor.getInitialActions().add(initialAction);
     workflows.put(name, config);
   }
 }
