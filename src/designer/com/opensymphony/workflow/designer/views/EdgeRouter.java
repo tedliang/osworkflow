@@ -1,10 +1,10 @@
 package com.opensymphony.workflow.designer.views;
 
 import java.awt.*;
-import java.util.Iterator;
-import java.util.ArrayList;
+import java.util.*;
 
 import org.jgraph.graph.*;
+import com.opensymphony.workflow.designer.WorkflowPort;
 
 /**
  * User: Hani Suleiman
@@ -15,16 +15,16 @@ public class EdgeRouter implements Edge.Routing
 {
   public void route(EdgeView edge, java.util.List points)
   {
-    CellView sourceView = edge.getSource();
-    CellView targetView = edge.getTarget();
+    CustomPortView sourceView = (CustomPortView)edge.getSource();
+    CustomPortView targetView = (CustomPortView)edge.getTarget();
     if(sourceView==null || targetView==null) return;
 
-    DefaultPort sourcePort = (DefaultPort)sourceView.getCell();
-    DefaultPort targetPort = (DefaultPort)targetView.getCell();
-    Point from = ((PortView)sourceView).getLocation(null);
-    Point to = ((PortView)targetView).getLocation(null);
+    WorkflowPort sourcePort = (WorkflowPort)sourceView.getCell();
+    WorkflowPort targetPort = (WorkflowPort)targetView.getCell();
+    Point from = sourceView.getLocation(null);
+    Point to = targetView.getLocation(null);
     //check if this is a dup route
-//    java.util.List duplicates = new ArrayList();
+//    Collection duplicates = new HashSet();
 //    if(sourcePort!=targetPort)
 //    {
 //      Iterator iter = sourcePort.edges();
@@ -45,12 +45,13 @@ public class EdgeRouter implements Edge.Routing
       if(sourcePort == targetPort)
       {
         Rectangle bounds = sourceView.getParentView().getBounds();
-        int size = 35;
+        int edgeIndex = sourcePort.getEdgeIndex((Edge)edge.getCell());
+        int size = 25 + (edgeIndex * 5);
         routed = new Point[4];
-        routed[0] = new Point(bounds.x + bounds.width, bounds.y + bounds.height);
-        routed[1] = new Point(bounds.x + bounds.width, bounds.y + bounds.height + size);
-        routed[2] = new Point(bounds.x + (size) + bounds.width, bounds.y + bounds.height + size);
-        routed[3] = new Point(bounds.x + (size) + bounds.width, bounds.y + bounds.height);
+        routed[0] = new Point(bounds.x + bounds.width - (edgeIndex * 5), bounds.y + bounds.height);
+        routed[1] = new Point(bounds.x + bounds.width - (edgeIndex * 5), bounds.y + bounds.height + size);
+        routed[2] = new Point(bounds.x + size + bounds.width, bounds.y + bounds.height + size);
+        routed[3] = new Point(bounds.x + size + bounds.width, bounds.y + bounds.height);
       }
       else
       {
