@@ -20,7 +20,7 @@ import java.util.List;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class JoinDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -62,6 +62,11 @@ public class JoinDescriptor extends AbstractDescriptor implements Validatable {
 
     public void validate() throws InvalidWorkflowDescriptorException {
         ValidationHelper.validate(conditions);
+
+        if (result == null) {
+            throw new InvalidWorkflowDescriptorException("Join has no result");
+        }
+
         result.validate();
     }
 
