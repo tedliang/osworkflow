@@ -5,25 +5,16 @@ import javax.swing.AbstractAction;
 
 import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
-import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
 import com.opensymphony.workflow.designer.WorkflowDesigner;
 
-/**
- * @author acapitani
- */
 public class ValidateSaveWorkflow extends AbstractAction implements WorkspaceListener
 {
-	private AbstractWorkflowFactory currentWorkspace;
-
 	public ValidateSaveWorkflow()
 	{
 		setEnabled(false);
 	}
 
-  /* (non-Javadoc)
-   * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-   */
-  public void actionPerformed(ActionEvent arg0) 
+  public void actionPerformed(ActionEvent arg0)
   {
   	WorkflowDesigner.INSTANCE.validateSaveCurrentWorkflow(); 
   }
@@ -33,12 +24,10 @@ public class ValidateSaveWorkflow extends AbstractAction implements WorkspaceLis
 		if(event.getId()==WorkspaceEvent.WORKSPACE_OPENED)
 		{
 			setEnabled(true);
-			currentWorkspace = event.getWorkspace();
 		}
 		else
 		{
 			setEnabled(false);
-			currentWorkspace = null;
 		}
 	}
 

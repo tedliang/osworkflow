@@ -36,9 +36,6 @@ public class Delete extends AbstractAction
     }
     else if(cell instanceof ResultEdge)
     {
-//      ResultDescriptor result = ((ResultEdge)cell).getDescriptor();
-			// update the workspace navigator
-//      AbstractDescriptor parent = result.getParent();
 			// update the graph
       graph.removeEdge((ResultEdge)cell);
       WorkflowDesigner.INSTANCE.navigator().reloadWorkflow(workflow);
