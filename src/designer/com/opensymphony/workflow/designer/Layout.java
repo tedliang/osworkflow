@@ -30,15 +30,19 @@ public class Layout
   {
     float lineWidth;
     int color;
+    int from;
+    int to;
     Point2D labelPosition;
     java.util.List routingPoints = new ArrayList();
 
-    ResultLayout(Point2D labelPosition, float lineWidth, int color)
+    ResultLayout(Point2D labelPosition, float lineWidth, int color, int from, int to)
     {
       if(labelPosition != null)
         this.labelPosition = labelPosition;
       this.lineWidth = lineWidth;
       this.color = color;
+      this.from = from;
+      this.to = to;
     }
   }
 
@@ -92,7 +96,7 @@ public class Layout
       {
         Element element = (Element)list.item(k);
         ResultPosition pos = new ResultPosition(element);
-        ResultLayout r = new ResultLayout(pos.getLabelPosition(), pos.getLineWidth(), pos.getColor());
+        ResultLayout r = new ResultLayout(pos.getLabelPosition(), pos.getLineWidth(), pos.getColor(), pos.getFrom(), pos.getTo());
         results.put(new Integer(pos.getId()), r);
       }
       NodeList routing = doc.getElementsByTagName("routing");
@@ -179,6 +183,18 @@ public class Layout
   {
     ResultLayout rl = ((ResultLayout)results.get(new Integer(resultKey)));
     return rl != null  ? rl.color : 0;
+  }
+
+  public int getFromPort(int resultKey)
+  {
+    ResultLayout rl = ((ResultLayout)results.get(new Integer(resultKey)));
+    return rl != null  ? rl.from : 0;
+  }
+
+  public int getToPort(int resultKey)
+  {
+    ResultLayout rl = ((ResultLayout)results.get(new Integer(resultKey)));
+    return rl != null  ? rl.to : 0;
   }
 
   public float getLineWidth(int resultKey)

@@ -145,9 +145,9 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
   public boolean acceptsSource(Object edge, Object port)
   {
-    //    if(port==null) return false;
-    //    WorkflowCell cell = (WorkflowCell)((WorkflowPort)port).getParent();
-    return false;
+    if(port == null)
+      return false;
+    return true;
   }
 
   public void processJoinChangeEvent(JoinCell cell)
@@ -329,8 +329,8 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
   public void connectCells(WorkflowCell from, ActionDescriptor action, WorkflowCell to, ResultDescriptor result)
   {
-    WorkflowPort fromPort = (WorkflowPort)from.getChildAt(0);
-    WorkflowPort toPort = (WorkflowPort)to.getChildAt(0);
+    WorkflowPort fromPort = (WorkflowPort)from.getChildAt(from.getSelectedPort());
+    WorkflowPort toPort = (WorkflowPort)to.getChildAt(to.getSelectedPort());
 
     resultIdGenerator.checkId(result.getId());
     if(result.getId() == 0) result.setId(resultIdGenerator.generateId());
@@ -355,10 +355,10 @@ public class WorkflowGraphModel extends DefaultGraphModel
   /**
    * Connects fromCell contained in resultCell to the toCell passed in.
    */
-  private void connectCells(ResultHolder resultCell, DefaultGraphCell toCell)
+  private void connectCells(ResultHolder resultCell, WorkflowCell toCell)
   {
-    WorkflowPort fromPort = (WorkflowPort)resultCell.getFromCell().getChildAt(0);
-    WorkflowPort toPort = (WorkflowPort)toCell.getChildAt(0);
+    WorkflowPort fromPort;
+    WorkflowPort toPort;
 
     // Create Edge
     ResultDescriptor descriptor = resultCell.getDescriptor();
@@ -372,10 +372,14 @@ public class WorkflowGraphModel extends DefaultGraphModel
                             layout.getLineWidth(descriptor.getId()),
                             new Color(layout.getColor(descriptor.getId())),
                             layout.getRoutingPoints(descriptor.getId()));
+      fromPort = (WorkflowPort)resultCell.getFromCell().getChildAt(layout.getFromPort(descriptor.getId()));
+      toPort = (WorkflowPort)toCell.getChildAt(layout.getToPort(descriptor.getId()));
     }
     else
     {
       edge = new ResultEdge(descriptor, null);
+      fromPort = (WorkflowPort)resultCell.getFromCell().getChildAt(resultCell.getFromCell().getSelectedPort());
+      toPort = (WorkflowPort)toCell.getChildAt(toCell.getSelectedPort());
     }
 
     ConnectionSet cs = new ConnectionSet(edge, fromPort, toPort);
@@ -434,19 +438,25 @@ public class WorkflowGraphModel extends DefaultGraphModel
     l.addAll(splitCells);
     l.addAll(joinCells);
     Iterator i = l.iterator();
-    Set edges = new HashSet();
+    Map edges = new HashMap();
     while(i.hasNext())
     {
       WorkflowCell cell = (WorkflowCell)i.next();
       //we know every edge has to start somewhere, so we don't need to check to cells
-      Iterator j = edges(cell.getFirstChild());
+      Iterator j = cell.getChildren().iterator();
       while(j.hasNext())
       {
-        WorkflowEdge edge = (WorkflowEdge)j.next();
-        edges.add(edge);
+        Object port = j.next();
+        Iterator k = edges(port);
+        while(k.hasNext())
+        {
+          WorkflowEdge edge = (WorkflowEdge)k.next();
+          ResultDescriptor descriptor = (ResultDescriptor)edge.getUserObject();
+          edges.put(new Integer(descriptor.getId()), edge);
+        }
       }
     }
-    l.addAll(edges);
+    l.addAll(edges.values());
     return l;
   }
 

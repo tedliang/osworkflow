@@ -2,7 +2,6 @@ package com.opensymphony.workflow.designer;
 
 import com.opensymphony.workflow.loader.ResultDescriptor;
 import com.opensymphony.workflow.loader.ActionDescriptor;
-import org.jgraph.graph.DefaultGraphCell;
 
 public class ResultHolder
 {
@@ -18,7 +17,7 @@ public class ResultHolder
     this.action = action;
   }
 
-  public DefaultGraphCell getFromCell()
+  public WorkflowCell getFromCell()
   {
     return fromCell;
   }
