@@ -9,6 +9,8 @@ import com.opensymphony.workflow.loader.ResultDescriptor;
  */
 public class ResultEdge extends WorkflowEdge
 {
+  private int index;
+
   private ResultDescriptor descriptor;
 
   public ResultDescriptor getDescriptor()
@@ -19,5 +21,21 @@ public class ResultEdge extends WorkflowEdge
   public void setDescriptor(ResultDescriptor descriptor)
   {
     this.descriptor = descriptor;
+  }
+
+  /**
+   * The index of the result.
+   * For any given source and target, each result between them
+   * (in any direction) will have a unique index.
+   * @return
+   */
+  public int getIndex()
+  {
+    return index;
+  }
+
+  public void setIndex(int index)
+  {
+    this.index = index;
   }
 }
