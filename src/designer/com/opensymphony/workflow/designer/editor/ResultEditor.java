@@ -63,13 +63,16 @@ public class ResultEditor extends DetailPanel implements ActionListener
   protected void updateView()
   {
     ResultEdge result = (ResultEdge)getEdge();
-    ResultDescriptor descriptor = result.getDescriptor();
-    preFunctionsModel.setList(descriptor.getPreFunctions());
-    postFunctionsModel.setList(descriptor.getPostFunctions());
-    id.setText(descriptor.hasId() ? Integer.toString(descriptor.getId()) : "");
-    owner.setText(descriptor.getOwner()!=null ? descriptor.getOwner() : "");
-    status.setText(descriptor.getStatus()!=null ? descriptor.getStatus() : "");
-    oldStatus.setText(descriptor.getOldStatus()!=null ? descriptor.getOldStatus() : "");
+    if(result!=null)
+    {
+      ResultDescriptor descriptor = result.getDescriptor();
+      preFunctionsModel.setList(descriptor.getPreFunctions());
+      postFunctionsModel.setList(descriptor.getPostFunctions());
+      id.setText(descriptor.hasId() ? Integer.toString(descriptor.getId()) : "");
+      owner.setText(descriptor.getOwner()!=null ? descriptor.getOwner() : "");
+      status.setText(descriptor.getStatus()!=null ? descriptor.getStatus() : "");
+      oldStatus.setText(descriptor.getOldStatus()!=null ? descriptor.getOldStatus() : "");
+    }
   }
 
   public void actionPerformed(ActionEvent e)
