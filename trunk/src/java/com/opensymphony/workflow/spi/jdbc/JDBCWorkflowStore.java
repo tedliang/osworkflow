@@ -438,7 +438,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, status);
-            stmt.setLong(2, actionId);
+            stmt.setInt(2, actionId);
             stmt.setTimestamp(3, new Timestamp(finishDate.getTime()));
             stmt.setString(4, caller);
             stmt.setLong(5, step.getId());
@@ -798,7 +798,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         return sb.toString();
     }
 
-    private Object lookup(String location) {
+    private Object lookup(String location) throws NamingException {
         try {
             InitialContext context = new InitialContext();
 
@@ -809,10 +809,8 @@ public class JDBCWorkflowStore implements WorkflowStore {
                 return context.lookup("java:comp/env/" + location);
             }
         } catch (NamingException e) {
-            log.error("Unable to find name " + location + " in initial context", e);
+            throw e;
         }
-
-        return null;
     }
 
     private String queryComparison(WorkflowQuery query) {
