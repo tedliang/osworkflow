@@ -1,17 +1,20 @@
 package com.opensymphony.workflow;
 
+import java.io.File;
+
 import junit.framework.TestCase;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
+import com.opensymphony.workflow.loader.StepDescriptor;
 
 /**
  * Test Case for AbstractWorkflow.
  *
  * @author <a href="mailto:vorburger@users.sourceforge.net">Michael Vorburger</a>
- * @version $Id: UnconditionalResultTestCase.java,v 1.2 2003-07-28 03:10:44 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
+ * @version $Id: ValidationTestCase.java,v 1.1 2003-08-07 00:52:44 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
  */
-public class UnconditionalResultTestCase extends TestCase {
+public class ValidationTestCase extends TestCase {
 
-    public UnconditionalResultTestCase(String s) {
+    public ValidationTestCase(String s) {
         super(s);
     }
 
@@ -39,4 +42,30 @@ public class UnconditionalResultTestCase extends TestCase {
         fail("descriptor failed to load as expected, but a " + ex.getClass() + " exception was caught instead of InvalidWorkflowDescriptorException");
       }
     }
+
+  /**
+   * Test whether a duplicate action is correctly marked as invalid
+   *
+   * @see <a href="http://jira.opensymphony.com/secure/ViewIssue.jspa?key=WF-192">Jira issue WF-192</a>
+   * @throws Exception If error while executing testing
+   */
+  public void testDuplicateActionID() throws Exception
+  {
+    try
+    {
+      WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(getClass().getClassLoader().getResource("/duplicate-action.xml").toString());
+      descriptor.validate();
+      fail("descriptor loaded successfully, even though duplicate action exists");
+    }
+    catch(InvalidWorkflowDescriptorException e)
+    {
+      //the descriptor is invalid, which is correct
+    }
+    catch(Exception ex)
+    {
+      ex.printStackTrace();
+      fail("descriptor failed to load as expected, but a " + ex.getClass() + " exception was caught instead of InvalidWorkflowDescriptorException");
+    }
+
+  }
 }
