@@ -1,20 +1,32 @@
+/*
+ * Copyright (c) 2002-2003 by OpenSymphony
+ * All rights reserved.
+ */
 package com.opensymphony.workflow;
 
-import junit.framework.TestCase;
-import com.opensymphony.workflow.basic.BasicWorkflow;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.memory.MemoryPropertySet;
 
+import com.opensymphony.workflow.basic.BasicWorkflow;
+
+import junit.framework.TestCase;
+
 import java.util.HashMap;
+
 
 /**
  *
- * 
+ *
  * @author $Author: hani $
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TestAbstractWorkflow extends TestCase {
+    //~ Instance fields ////////////////////////////////////////////////////////
+
     AbstractWorkflow wf = new AbstractWorkflow();
+
+    //~ Methods ////////////////////////////////////////////////////////////////
+
     public void testVariableTranslation() {
         HashMap transients = new HashMap();
         MemoryPropertySet ps = new MemoryPropertySet();
@@ -39,28 +51,29 @@ public class TestAbstractWorkflow extends TestCase {
         assertEquals("hello, , what is your age? -1", wf.translateVariables("hello, ${I.Don't.EXIST}, what is your age? ${a2.b.age}", transients, ps));
     }
 
+    //~ Inner Classes //////////////////////////////////////////////////////////
+
     public class A {
-        String name;
         B b;
+        String name;
 
         public A(String name, B b) {
             this.name = name;
             this.b = b;
         }
 
-        public String getName() {
-            return name;
-        }
-
         public B getB() {
             return b;
         }
 
+        public String getName() {
+            return name;
+        }
     }
 
     public class B {
-        int age;
         String name;
+        int age;
 
         public B(int age, String name) {
             this.age = age;

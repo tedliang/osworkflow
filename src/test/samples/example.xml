@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.5//EN" "http://www.opensymphony.com/osworkflow/workflow_2_5.dtd">
 <workflow>
+  <registers>
+    <register type="class" variable-name="log">
+      <arg name="class.name">com.opensymphony.workflow.util.LogRegister</arg>
+      <arg name="addInstanceId">true</arg>
+    </register>    
+  </registers>
 	<initial-actions>
 		<action id="1" name="Start Workflow">
 			<restrict-to>
@@ -65,7 +71,6 @@
                                 boolean test = true;
                                 String yuck = null;
                                 String blah = "987654321";
-                                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
                             </arg>
 						</function>
 					</pre-functions>
@@ -81,13 +86,7 @@
 							<post-functions>
 								<function type="beanshell">
 									<arg name="script">
-                                        System.out.println("11111111111111");
-                                        System.out.println("11111111111111");
-                                        System.out.println("11111111111111");
-                                        System.out.println("11111111111111");
-                                        System.out.println("11111111111111");
-                                        System.out.println("11111111111111");
-                                        System.out.println("11111111111111");
+                                        transientVars.get("log").info("111111");
                                     </arg>
 								</function>
 							</post-functions>
@@ -97,15 +96,7 @@
 					<post-functions>
 						<function type="beanshell">
 							<arg name="script">
-                                System.out.println("22222222222222");
-                                System.out.println("22222222222222");
-                                System.out.println("22222222222222");
-                                System.out.println("22222222222222");
-                                System.out.println("22222222222222");
-                                System.out.println("22222222222222");
-                                System.out.println("22222222222222");
-                                System.out.println("22222222222222");
-                                System.out.println("22222222222222");
+                transientVars.get("log").info("222222");
                             </arg>
 						</function>
                         <!--
