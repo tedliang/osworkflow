@@ -143,6 +143,11 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 		manager.getCurrentWorkspace().deleteWorkflow(workflowName);
 	}
 
+  public void closeCurrentWorkflow()
+  {
+    graphTabs.removeGraph(graphTabs.getCurrentGraph());
+  }
+
   public void createGraph(String workflowName)
   {
     Workspace currentWorkspace = manager.getCurrentWorkspace();
