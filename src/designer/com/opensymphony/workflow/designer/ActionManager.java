@@ -1,10 +1,12 @@
 package com.opensymphony.workflow.designer;
 
+import java.net.URL;
 import java.util.*;
 import javax.swing.*;
 
 public final class ActionManager
 {
+	private static final String OS_NAME_STRING = System.getProperty("os.name").replace(' ', '_').toLowerCase();
 
   private static final String SMALL_GRAY_ICON = "smallGrayIcon";
   private static final String DISPLAYED_MNEMONIC_INDEX = "mnemonicIndex";
@@ -25,19 +27,31 @@ public final class ActionManager
     if(action == null)
       throw new NullPointerException("Registered actions must not be null.");
 
-    ActionReader.readAndPutValues(action, INSTANCE.bundle, id);
+		boolean exists = ActionReader.readAndPutValues(action, INSTANCE.bundle, id);
+		if(!exists) return null;
+
     Object oldValue = INSTANCE.actions.put(id, action);
     if(oldValue != null)
-      System.out.println("WARN: Duplicate action id: " + id);
+			System.out.println("WARNING: Duplicate action id: " + id);
     return action;
   }
+
+	/**
+	 * Remove a registered action
+	 * @param id the action id
+	 * @return The removed action, if it existed.
+	 */
+	public static Action deregister(String id)
+	{
+		return (Action)INSTANCE.actions.remove(id);
+	}
 
   public static Action get(String id)
   {
     Action action = (Action)(INSTANCE.actions.get(id));
     if(null == action)
     {
-      System.out.println("WARN: No action found for id: " + id);
+			System.out.println("ERROR: No action found for id: " + id);
       return null;
     }
     return action;
@@ -66,6 +80,13 @@ public final class ActionManager
     return (Icon)action.getValue(Action.SMALL_ICON);
   }
 
+	public static void alias(String newKey, String oldKey)
+	{
+		Object oldValue = INSTANCE.actions.put(newKey, INSTANCE.actions.get(oldKey));
+		if(oldValue != null)
+			System.out.println("WARNING: Duplicate action id: " + newKey);
+	}
+
   private static class ActionReader
   {
     private static final String LABEL = "label";
@@ -76,16 +97,19 @@ public final class ActionManager
     private static final String ICON = "icon";
     private static final String GRAY_ICON = ICON + ".gray";
     private static final String ACCELERATOR = "accelerator";
+		private static final String COMMAND = "command";
 
-    private final String id;
-    private final String name;
-    private final Integer mnemonic;
-    private final Integer aMnemonicIndex;
-    private final String shortDescription;
-    private final String longDescription;
-    private final ImageIcon icon;
-    private final ImageIcon grayIcon;
-    private final KeyStroke accelerator;
+		private String id;
+		private String name;
+		private Integer mnemonic;
+		private Integer aMnemonicIndex;
+		private String shortDescription;
+		private String longDescription;
+		private ImageIcon icon;
+		private ImageIcon grayIcon;
+		private KeyStroke accelerator;
+		private String command;
+		private boolean exists = true;
 
     /**
      * Reads properties for <code>id</code> in <code>bundle</code>.
@@ -99,14 +123,23 @@ public final class ActionManager
      * Reads properties for <code>id</code> in <code>bundle</code> and
      * sets the approriate values in the given <code>action</code>.
      */
-    static void readAndPutValues(Action action, ResourceBundle bundle, String id)
+		static boolean readAndPutValues(Action action, ResourceBundle bundle, String id)
     {
       ActionReader reader = new ActionReader(bundle, id);
+			if(!reader.actionExists()) return false;
       reader.putValues(action);
+			return true;
     }
 
     private ActionReader(ResourceBundle bundle, String id)
     {
+			String iconPath = getString(bundle, id + '.' + ICON, null);
+			if(getString(bundle, id + "." + LABEL, null) == null && iconPath == null)
+			{
+				exists = false;
+				return;
+			}
+
       this.id = id;
       String nameWithMnemonic = getString(bundle, id + "." + LABEL, id);
       int index = mnemonicIndex(nameWithMnemonic);
@@ -117,14 +150,33 @@ public final class ActionManager
       shortDescription = getString(bundle, id + '.' + SHORT_DESCRIPTION, defaultShortDescription(name));
       longDescription = getString(bundle, id + '.' + LONG_DESCRIPTION, name);
 
-      String iconPath = getString(bundle, id + '.' + ICON, null);
-      icon = (iconPath == null) ? null : new ImageIcon(getClass().getClassLoader().getResource(iconPath));
+			URL iconURL = iconPath != null ? getClass().getClassLoader().getResource(iconPath) : null;
+			if(iconURL == null)
+			{
+				System.out.println("WARNING Invalid icon " + iconPath + " specified in actions.properties");
+				icon = null;
+			}
+			else
+			{
+				icon = (iconPath == null) ? null : new ImageIcon(iconURL);
+			}
 
       String grayIconPath = getString(bundle, id + '.' + GRAY_ICON, null);
       grayIcon = (grayIconPath == null) ? null : new ImageIcon(getClass().getClassLoader().getResource(grayIconPath));
 
-      String shortcut = getString(bundle, id + '.' + ACCELERATOR, null);
+			String shortcut = getString(bundle, id + '.' + ACCELERATOR + '.' + OS_NAME_STRING, null);
+			if(shortcut == null)
+			{
+				shortcut = getString(bundle, id + '.' + ACCELERATOR, null);
+			}
       accelerator = getKeyStroke(shortcut);
+
+			command = getString(bundle, id + '.' + COMMAND, null);
+		}
+
+		public boolean actionExists()
+		{
+			return exists;
     }
 
     /**
@@ -135,14 +187,16 @@ public final class ActionManager
       action.putValue(Action.NAME, name);
       action.putValue(Action.SHORT_DESCRIPTION, shortDescription);
       action.putValue(Action.LONG_DESCRIPTION, longDescription);
-      if(icon!=null)
+			if(icon != null)
         action.putValue(Action.SMALL_ICON, icon);
-      if(grayIcon!=null)
+			if(grayIcon != null)
         action.putValue(ActionManager.SMALL_GRAY_ICON, grayIcon);
-      if(accelerator!=null)
+			if(accelerator != null)
         action.putValue(Action.ACCELERATOR_KEY, accelerator);
-      if(mnemonic!=null)
+			if(mnemonic != null)
       action.putValue(Action.MNEMONIC_KEY, mnemonic);
+			if(command != null)
+				action.putValue(Action.ACTION_COMMAND_KEY, command);
       action.putValue(ActionManager.DISPLAYED_MNEMONIC_INDEX, aMnemonicIndex);
     }
 
@@ -166,17 +220,17 @@ public final class ActionManager
       return nameWithDots.endsWith(DOT_STRING) ? (nameWithDots.substring(0, nameWithDots.length() - DOT_STRING.length())) : nameWithDots;
     }
 
-    private KeyStroke getKeyStroke(String acceleratorString)
+		private KeyStroke getKeyStroke(String accelerator)
     {
-      if(acceleratorString == null)
+			if(accelerator == null)
       {
         return null;
       }
       else
       {
-        KeyStroke keyStroke = KeyStroke.getKeyStroke(acceleratorString);
+				KeyStroke keyStroke = KeyStroke.getKeyStroke(accelerator);
         if(keyStroke == null)
-          System.out.println("WARN: Action " + id + " has an invalid accelerator " + acceleratorString);
+					System.out.println("WARNING: Action " + id + " has an invalid accelerator " + accelerator);
         return keyStroke;
       }
     }
