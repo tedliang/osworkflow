@@ -8,6 +8,7 @@ import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
 
 import com.opensymphony.workflow.StoreException;
+import com.opensymphony.workflow.QueryNotSupportedException;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.*;
@@ -286,11 +287,10 @@ public class OfbizWorkflowStore implements WorkflowStore {
     }
 
     public List query(WorkflowExpressionQuery query) throws StoreException {
-        throw new UnsupportedOperationException("Ofbiz store does not yet support WorkflowExpressionQuery");
+      throw new QueryNotSupportedException("Ofbiz Store does not support queries");
     }
 
     public List query(WorkflowQuery query) throws StoreException {
-        // not implemented
-        throw new StoreException("queries not implemented for this store");
+      throw new QueryNotSupportedException("Ofbiz Store does not support queries");
     }
 }
