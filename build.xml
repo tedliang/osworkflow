@@ -88,8 +88,6 @@
   </target>
 
   <target name="ejbdoclet" depends="init">
-    <!-- work around a bug in xdoclet -->
-    <delete file="${build.java}/META-INF/orion-ejb-jar.xml"/>
     <ejbdoclet ejbspec="2.0" verbose="false" destdir="${src.java}">
       <fileset dir="${src.java}">
         <include name="**/ejb/**/*EJB.java"/>
