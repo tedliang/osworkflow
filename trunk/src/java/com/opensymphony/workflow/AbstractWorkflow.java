@@ -126,7 +126,9 @@ public class AbstractWorkflow implements Workflow {
         List l = new ArrayList();
         PropertySet ps = store.getPropertySet(id);
         Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
-        populateTransientMap(entry, transientVars, wf.getRegisters());
+      Collection currentSteps = store.findCurrentSteps(id);
+
+        populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(0), currentSteps);
 
         // get global actions
         List globalActions = wf.getGlobalActions();
@@ -148,7 +150,6 @@ public class AbstractWorkflow implements Workflow {
         }
 
         // get normal actions
-        Collection currentSteps = store.findCurrentSteps(id);
 
         for (Iterator iterator = currentSteps.iterator(); iterator.hasNext();) {
             Step step = (Step) iterator.next();
@@ -227,10 +228,10 @@ public class AbstractWorkflow implements Workflow {
 
         PropertySet ps = store.getPropertySet(id);
         Map transientVars = new HashMap();
-        populateTransientMap(entry, transientVars, wf.getRegisters());
+      Collection currentSteps = store.findCurrentSteps(id);
+        populateTransientMap(entry, transientVars, wf.getRegisters(), null, currentSteps);
 
         List s = new ArrayList();
-        Collection currentSteps = store.findCurrentSteps(id);
 
         for (Iterator interator = currentSteps.iterator(); interator.hasNext();) {
             Step step = (Step) interator.next();
@@ -330,7 +331,7 @@ public class AbstractWorkflow implements Workflow {
             transientVars.putAll(inputs);
         }
 
-        populateTransientMap(mockEntry, transientVars, Collections.EMPTY_LIST);
+        populateTransientMap(mockEntry, transientVars, Collections.EMPTY_LIST, new Integer(initialAction),  Collections.EMPTY_LIST);
 
         return canInitialize(workflowName, initialAction, transientVars, ps);
     }
@@ -431,7 +432,7 @@ public class AbstractWorkflow implements Workflow {
             transientVars.putAll(inputs);
         }
 
-        populateTransientMap(entry, transientVars, wf.getRegisters());
+        populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(actionId), currentSteps);
 
         try {
             transitionWorkflow(entry, currentSteps, store, wf, action, transientVars, inputs, ps);
@@ -449,7 +450,7 @@ public class AbstractWorkflow implements Workflow {
 
         PropertySet ps = store.getPropertySet(id);
         Map transientVars = new HashMap();
-        populateTransientMap(entry, transientVars, wf.getRegisters());
+        populateTransientMap(entry, transientVars, wf.getRegisters(), null, store.findCurrentSteps(id));
 
         executeFunction(wf.getTriggerFunction(triggerId), transientVars, ps);
     }
@@ -468,7 +469,7 @@ public class AbstractWorkflow implements Workflow {
             transientVars.putAll(inputs);
         }
 
-        populateTransientMap(entry, transientVars, wf.getRegisters());
+        populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(initialAction), Collections.EMPTY_LIST);
 
         if (!canInitialize(workflowName, initialAction, transientVars, ps)) {
             context.setRollbackOnly();
@@ -738,12 +739,14 @@ public class AbstractWorkflow implements Workflow {
         }
     }
 
-    protected void populateTransientMap(WorkflowEntry entry, Map transientVars, List registers) throws WorkflowException {
+    protected void populateTransientMap(WorkflowEntry entry, Map transientVars, List registers, Integer actionId, Collection currentSteps) throws WorkflowException {
         transientVars.put("context", context);
         transientVars.put("entry", entry);
         transientVars.put("store", getPersistence());
         transientVars.put("descriptor", getWorkflow(entry.getWorkflowName()));
-
+      if(actionId!=null)
+        transientVars.put("actionId", actionId);
+        transientVars.put("currentSteps", Collections.unmodifiableCollection(currentSteps));
         // now talk to the registers for any extra objects needed in scope
         for (Iterator iterator = registers.iterator(); iterator.hasNext();) {
             RegisterDescriptor register = (RegisterDescriptor) iterator.next();
@@ -1281,7 +1284,7 @@ public class AbstractWorkflow implements Workflow {
 
                 if (toCheck != null) {
                     Iterator iter = toCheck.getActions().iterator();
-MAIN: 
+MAIN:
                     while (iter.hasNext()) {
                         ActionDescriptor descriptor = (ActionDescriptor) iter.next();
 
