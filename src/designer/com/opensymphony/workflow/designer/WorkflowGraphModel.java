@@ -256,7 +256,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   /**
    * Connects fromCell contained in resultCell to the toCell passed in.
    */
-  public void connectCells(ResultHolder resultCell, DefaultGraphCell toCell)
+  private void connectCells(ResultHolder resultCell, DefaultGraphCell toCell)
   {
     WorkflowPort fromPort = (WorkflowPort)resultCell.getFromCell().getChildAt(0);
     WorkflowPort toPort = (WorkflowPort)toCell.getChildAt(0);
