@@ -89,14 +89,21 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
         String workflowName = fileName.substring(0, fileName.lastIndexOf('.'));
         currentWorkspace.importDescriptor(workflowName, url.openStream());
         //this ensures that the descriptor is loaded into the cache
-        currentWorkspace.getWorkflow(workflowName);
-        WorkflowDesigner.INSTANCE.navigator().setWorkspace(currentWorkspace);
+	      try
+	      {
+		      currentWorkspace.getWorkflow(workflowName);
+		      WorkflowDesigner.INSTANCE.navigator().setWorkspace(currentWorkspace);
+	      }
+	      catch(FactoryException e)
+	      {
+		      JOptionPane.showMessageDialog(WorkflowDesigner.INSTANCE, ResourceManager.getString("import.factory.error.long", new Object[]{fileName, e.getMessage()}),
+		                                    ResourceManager.getString("import.factory.error"), JOptionPane.ERROR_MESSAGE);
+		      currentWorkspace.deleteWorkflow(workflowName);
+	      }
       }
     }
     catch(FactoryException ex)
     {
-      JOptionPane.showMessageDialog(WorkflowDesigner.INSTANCE, ResourceManager.getString("import.factory.error.long", new Object[]{fileName, ex.getMessage()}),
-                                    ResourceManager.getString("import.factory.error"), JOptionPane.ERROR_MESSAGE);
     }
     catch(Exception t)
     {
