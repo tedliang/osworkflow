@@ -131,6 +131,10 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
             }
         }
 
+        if (is == null) {
+            throw new FactoryException("Unable to find workflows file '" + name + "' in classpath");
+        }
+
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             dbf.setNamespaceAware(true);
