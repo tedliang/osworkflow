@@ -14,6 +14,7 @@ import com.opensymphony.util.TextUtils;
 
 import com.opensymphony.workflow.config.ConfigLoader;
 import com.opensymphony.workflow.loader.*;
+import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.*;
 import com.opensymphony.workflow.util.beanshell.BeanShellCondition;
@@ -494,6 +495,10 @@ public class AbstractWorkflow implements Workflow {
      * @ejb.interface-method
      */
     public List query(WorkflowQuery query) throws StoreException {
+        return getPersistence().query(query);
+    }
+
+    public List query(WorkflowExpressionQuery query) throws WorkflowException {
         return getPersistence().query(query);
     }
 

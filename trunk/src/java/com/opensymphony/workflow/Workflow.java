@@ -7,6 +7,7 @@ package com.opensymphony.workflow;
 import com.opensymphony.module.propertyset.PropertySet;
 
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
+import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 
 import java.util.List;
@@ -127,7 +128,16 @@ public interface Workflow {
     */
     public long initialize(String workflowName, int initialAction, Map inputs) throws InvalidRoleException, InvalidInputException, WorkflowException, InvalidEntryStateException;
 
+    /**
+     * Query the workflow store for matching instances
+     * @deprecated use {@link Workflow#query(WorkflowExpressionQuery)} instead.
+     */
     public List query(WorkflowQuery query) throws WorkflowException;
+
+    /**
+     * Query the workflow store for matching instances
+     */
+    public List query(WorkflowExpressionQuery query) throws WorkflowException;
 
     /**
      * Get the available actions for the specified workflow instance.

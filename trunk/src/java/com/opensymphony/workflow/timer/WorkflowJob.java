@@ -31,7 +31,7 @@ import org.quartz.JobExecutionException;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WorkflowJob implements Job {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -58,9 +58,10 @@ public class WorkflowJob implements Job {
             throw new JobExecutionException("Error using GLUE to make remote call", e, true);
         } catch (WorkflowException e) {
             log.error("Error Executing trigger", e);
-          //this cast is a fairly horrible hack, but it's more due to the fact that quartz is stupid enough to have wrapped exceptions
-          //wrap Exception, instead of Throwable.
-            throw new JobExecutionException("Error Executing trigger", (e.getRootCause() != null) ? (Exception)e.getRootCause() : e, true);
+
+            //this cast is a fairly horrible hack, but it's more due to the fact that quartz is stupid enough to have wrapped exceptions
+            //wrap Exception, instead of Throwable.
+            throw new JobExecutionException("Error Executing trigger", (e.getRootCause() != null) ? (Exception) e.getRootCause() : e, true);
         }
     }
 }

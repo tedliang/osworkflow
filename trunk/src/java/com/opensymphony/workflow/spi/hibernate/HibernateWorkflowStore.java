@@ -11,6 +11,7 @@ import com.opensymphony.module.propertyset.hibernate.DefaultHibernateConfigurati
 import com.opensymphony.util.TextUtils;
 
 import com.opensymphony.workflow.StoreException;
+import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.Step;
 import com.opensymphony.workflow.spi.WorkflowEntry;
@@ -43,7 +44,7 @@ import java.util.Map;
  * See the HibernateFunctionalWorkflowTestCase for more help.
  *
  * @author $Author: hani $
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class HibernateWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -293,6 +294,10 @@ public class HibernateWorkflowStore implements WorkflowStore {
             log.error("Saving workflow entry " + entry.getId(), he);
             throw new StoreException("Saving workflow entry " + entry.getId(), he);
         }
+    }
+
+    public List query(WorkflowExpressionQuery query) throws StoreException {
+        throw new UnsupportedOperationException("hibernate store does not support yet support WorkflowExpressionQuery");
     }
 
     public List query(WorkflowQuery query) throws StoreException {
