@@ -1113,28 +1113,31 @@ public class AbstractWorkflow implements Workflow {
                 executeFunction(function, transientVars, ps);
             }
 
-            // now make these steps...
-            boolean moveFirst = true;
+            if (!action.isFinish()) {
+                // now make these steps...
+                boolean moveFirst = true;
 
-            theResults = new ResultDescriptor[results.size()];
-            results.toArray(theResults);
+                theResults = new ResultDescriptor[results.size()];
+                results.toArray(theResults);
 
-            for (Iterator iterator = results.iterator(); iterator.hasNext();) {
-                ResultDescriptor resultDescriptor = (ResultDescriptor) iterator.next();
-                Step moveToHistoryStep = null;
+                for (Iterator iterator = results.iterator();
+                        iterator.hasNext();) {
+                    ResultDescriptor resultDescriptor = (ResultDescriptor) iterator.next();
+                    Step moveToHistoryStep = null;
 
-                if (moveFirst) {
-                    moveToHistoryStep = step;
+                    if (moveFirst) {
+                        moveToHistoryStep = step;
+                    }
+
+                    long[] previousIds = null;
+
+                    if (step != null) {
+                        previousIds = new long[] {step.getId()};
+                    }
+
+                    createNewCurrentStep(resultDescriptor, entry, store, action.getId(), moveToHistoryStep, previousIds, transientVars, ps);
+                    moveFirst = false;
                 }
-
-                long[] previousIds = null;
-
-                if (step != null) {
-                    previousIds = new long[] {step.getId()};
-                }
-
-                createNewCurrentStep(resultDescriptor, entry, store, action.getId(), moveToHistoryStep, previousIds, transientVars, ps);
-                moveFirst = false;
             }
 
             // now execute the post-functions
@@ -1222,12 +1225,14 @@ public class AbstractWorkflow implements Workflow {
                     }
                 }
 
-                // ... now finish this step normally
-                previousIds[0] = step.getId();
-                theResults[0] = joinDesc.getResult();
+                if (!action.isFinish()) {
+                    // ... now finish this step normally
+                    previousIds[0] = step.getId();
+                    theResults[0] = joinDesc.getResult();
 
-                //we pass in null for the current step since we've already moved it to history above
-                createNewCurrentStep(joinDesc.getResult(), entry, store, action.getId(), null, previousIds, transientVars, ps);
+                    //we pass in null for the current step since we've already moved it to history above
+                    createNewCurrentStep(joinDesc.getResult(), entry, store, action.getId(), null, previousIds, transientVars, ps);
+                }
 
                 // now execute the post-functions
                 for (Iterator iterator = joinresult.getPostFunctions().iterator();
@@ -1244,7 +1249,9 @@ public class AbstractWorkflow implements Workflow {
                 previousIds = new long[] {step.getId()};
             }
 
-            createNewCurrentStep(theResults[0], entry, store, action.getId(), step, previousIds, transientVars, ps);
+            if (!action.isFinish()) {
+                createNewCurrentStep(theResults[0], entry, store, action.getId(), step, previousIds, transientVars, ps);
+            }
         }
 
         // postFunctions (BOTH)
