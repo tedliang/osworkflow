@@ -5,9 +5,10 @@
     </head>
 
     <body>
-	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
 		    <tr>
 			    <td valign="top" class="pagebody">
+
 				    <ul class="star">
 <li> Back to <a href="5.4 Queries.html">5.4 Queries</a></li>
 </ul><br/>
@@ -15,7 +16,8 @@ Previous to OSWorkflow 2.7, state was maintained using static fields in a number
 <div class="code"><pre>Workflow workflow = <span class="java&#45;keyword">new</span> BasicWorkflow(&quot;blah&quot;);&#10;<span class="java&#45;object">long</span> workflowId = workflow.initialize(&quot;someflow&quot;, 1, <span class="java&#45;keyword">new</span> HashMap());&#10;workflow.doAction(workflowId, 2, <span class="java&#45;keyword">new</span> HashMap());&#10;...&#10;//in some other class, called later on&#10;Workflow workflow = <span class="java&#45;keyword">new</span> BasicWorkflow(&quot;blah&quot;);&#10;workflow.doAction(workflowId, 3, <span class="java&#45;keyword">new</span> HashMap());</pre></div><p class="paragraph"><h3 class="heading3"> Recommend approach:</h3>
 <div class="code"><pre>Workflow workflow = <span class="java&#45;keyword">new</span> BasicWorkflow(&quot;blah&quot;);&#10;Configuration config = <span class="java&#45;keyword">new</span> DefaultConfiguration();&#10;workflow.setConfiguration(config);&#10;<span class="java&#45;object">long</span> workflowId = workflow.initialize(&quot;someflow&quot;, 1, <span class="java&#45;keyword">new</span> HashMap());&#10;workflow.doAction(workflowId, 2, <span class="java&#45;keyword">new</span> HashMap());&#10;//keep track of Workflow object somewhere&#33;&#10;...&#10;//in some other class, called later on&#10;//look up Workflow instance that was held onto earlier&#10;Workflow workflow = ...; //note, <span class="java&#45;keyword">do</span> NOT create a <span class="java&#45;keyword">new</span> one&#33;&#10;workflow.doAction(workflowId, 3, <span class="java&#45;keyword">new</span> HashMap());</pre></div></p>
 
-				    			    </td>
+				    
+			    </td>
 		    </tr>
 	    </table>
     </body>

@@ -5,9 +5,10 @@
     </head>
 
     <body>
-	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
 		    <tr>
 			    <td valign="top" class="pagebody">
+
 				    <ul class="star">
 <li> Back to <a href="3.7 Conditions.html">3.7 Conditions</a></li>
 <li> Forward to <a href="4. GUI Designer.html">4. GUI Designer</a></li>
@@ -16,7 +17,8 @@ OSWorkflow comes with support for remote invocation using SOAP. This is accompli
 
 <div class="code"><pre><span class="java&#45;keyword">import</span> electric.util.Context;&#10;<span class="java&#45;keyword">import</span> electric.registry.Registry;&#10;<span class="java&#45;keyword">import</span> electric.registry.RegistryException;&#10;&#10;...&#10;&#10;Context context = <span class="java&#45;keyword">new</span> Context();&#10;context.setProperty( &quot;authUser&quot;, username );&#10;context.setProperty( &quot;authPassword&quot;, password );&#10;Workflow wf = (Workflow) Registry.bind(&#10;  &quot;http&#58;//localhost/osworkflow/glue/oswf.wsdl&quot;, Workflow.class, context);</pre></div><p class="paragraph">From this point onward, you can use the Workflow interface just as you normally would.</p>
 
-				    			    </td>
+				    
+			    </td>
 		    </tr>
 	    </table>
     </body>

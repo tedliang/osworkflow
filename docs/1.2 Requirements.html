@@ -5,9 +5,10 @@
     </head>
 
     <body>
-	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
 		    <tr>
 			    <td valign="top" class="pagebody">
+
 				    <ul class="star">
 <li> Back to <a href="1.1 Introduction.html">1.1 Introduction</a></li>
 <li> Forward to <a href="1.3 Running the Example App.html">1.3 Running the Example App</a></li>
@@ -25,7 +26,8 @@ Almost all of the required libraries for OSWorkflow are included in the distribu
 The core API of OSWorkflow will work with JDK 1.3+. However, the GUI designer application required a 1.4 JVM.<p class="paragraph"><b class="strong">A note about SOAP and job scheduling:</b> GLUE is the SOAP implementation that OSWorkflow uses. We chose to go with GLUE due to the ease of setup as well as the incredible power it offers. GLUE is freely available from <span class="nobr"><a href="http://www.webmethods.com/solutions/wM_Glue_OEM_ISV/">WebMethods<sup><img src="./icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="&gt;&gt;" border="0"/></sup></a></span>. If you are going to require SOAP support or <b class="strong">remote</b> Job Scheduling support, you must download the <b class="strong">GLUE Professional</b> libraries. In addition to GLUE, you&#039;ll also need <span class="nobr"><a href="http://www.part.net/quartz.html">Quartz<sup><img src="./icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="&gt;&gt;" border="0"/></sup></a></span> for job scheduling. If you don&#039;t wish to use GLUE and/or Quartz, you can provide alternate implementations very easily by using the OSWorkflow API. *If you are going to run Quartz from within your application server or any place that has OSWorkflow properly configured, you do not need GLUE and must configure the JobScheduler to have the arg &quot;local&quot; set to <em class="emphasis">true</em>.</p>In addition to the above libraries, you will have different required libraries or install bases based on the persistence mechanism (WorkflowStore) you choose to use in your application. You can read more about these requirements in the <a href="1.4 Persistence Options.html">1.4 Persistence Options</a> section. You may also need other libraries based on any utility functions you decide to use. For example, if you use the <b class="strong">OSUserGroupCondition</b> you will need <span class="nobr"><a href="http://www.opensymphony.com/osuser">OSUser<sup><img src="./icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="&gt;&gt;" border="0"/></sup></a></span> installed as well. 
 
 
-				    			    </td>
+				    
+			    </td>
 		    </tr>
 	    </table>
     </body>
