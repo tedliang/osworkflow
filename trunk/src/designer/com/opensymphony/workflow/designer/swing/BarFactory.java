@@ -11,6 +11,9 @@ import com.opensymphony.workflow.designer.dnd.DragData;
 import com.opensymphony.workflow.designer.dnd.TypeDragGesture;
 import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.ActionManager;
+import com.opensymphony.workflow.designer.swing.status.StatusBar;
+import com.opensymphony.workflow.designer.swing.status.StatusDisplay;
+import com.opensymphony.workflow.designer.swing.status.MemoryDisplay;
 
 /**
  * @author jackflit
@@ -80,6 +83,19 @@ public class BarFactory
     menuBar.add(viewMenu);
 
     return menuBar;
+  }
+
+  public static StatusBar createStatusBar()
+  {
+    StatusBar bar = new StatusBar();
+    StatusDisplay progress = new StatusDisplay();
+    bar.add(progress);
+    bar.add(Box.createHorizontalStrut(30));
+    bar.add(Box.createHorizontalGlue());
+    MemoryDisplay memory = new MemoryDisplay();
+    memory.setMaximumSize(new Dimension(180, memory.getMaximumSize().height));
+    bar.add(memory);
+    return bar;
   }
 
   public static JPanel createToolbar()
