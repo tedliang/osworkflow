@@ -13,7 +13,7 @@ import java.util.Map;
  * Interface that must be implemented to define a java-based condition in your workflow definition.
  *
  * @author <a href="mailto:plightbo@hotmail.com">Patrick Lightbody</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public interface Condition {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -24,14 +24,16 @@ public interface Condition {
      * @param transientVars Variables that will not be persisted. These include inputs
      * given in the {@link Workflow#initialize} and {@link Workflow#doAction} method calls.
      * There are a number of special variable names:
-     * <li><b>entry</b>: (object type: {@link com.opensymphony.workflow.spi.WorkflowEntry})
+     * <ul>
+     * <li><code>entry</code>: (object type: {@link com.opensymphony.workflow.spi.WorkflowEntry})
      *  The workflow instance
-     * <li><b>context</b>:
+     * <li><code>context</code>:
      * (object type: {@link com.opensymphony.workflow.WorkflowContext}). The workflow context.
      * <li><code>actionId</code>: The Integer ID of the current action that was take (if applicable).
      * <li><code>currentSteps</code>: A Collection of the current steps in the workflow instance.
      * <li><code>store</code>: The {@link com.opensymphony.workflow.spi.WorkflowStore}.
      * <li><code>descriptor</code>: The {@link com.opensymphony.workflow.loader.WorkflowDescriptor}.
+     * </ul>
      * <p>
      * Also, any variable set as a {@link com.opensymphony.workflow.Register}), will also be
      * available in the transient map, no matter what. These transient variables only last through
