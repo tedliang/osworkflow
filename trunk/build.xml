@@ -4,6 +4,7 @@
   <path id="cp">
     <fileset dir="lib">
       <include name="**/*.jar"/>
+      <exclude name="**/jalopy/**" />
     </fileset>
   </path>
 
