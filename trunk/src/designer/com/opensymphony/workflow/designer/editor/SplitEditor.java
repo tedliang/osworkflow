@@ -11,7 +11,7 @@ import com.opensymphony.workflow.designer.model.ResultsTableModel;
 
 public class SplitEditor extends DetailPanel
 {
-  private JTextField id = new JTextField(12);
+  private JTextField id = UIFactory.createReadOnlyTextField(12);
   private ResultsTableModel resultsModel = new ResultsTableModel();
 
   public SplitEditor()

@@ -25,7 +25,7 @@ import com.opensymphony.workflow.loader.RestrictionDescriptor;
  */
 public class InitialActionEditor extends DetailPanel implements ActionListener
 {
-  private JTextField id = new JTextField(12);
+  private JTextField id = UIFactory.createReadOnlyTextField(12);
 
   private JTextField name = new JTextField(12);
 
@@ -72,7 +72,6 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
     builder.addSeparator("Info", cc.xywh(2, 1, 3, 1));
 
     builder.addLabel("ID", cc.xy(2, 3));
-    id.setEditable(false);
     builder.add(id, cc.xy(4, 3));
 
     builder.addLabel("Name", cc.xy(2, 5));
