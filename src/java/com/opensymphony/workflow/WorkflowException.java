@@ -38,6 +38,10 @@ public class WorkflowException extends Exception {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public Throwable getCause() {
+        return rootCause;
+    }
+
     public String getMessage() {
         StringBuffer sb = new StringBuffer();
         String msg = super.getMessage();
