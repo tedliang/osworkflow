@@ -27,7 +27,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -317,24 +317,16 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         XMLUtil.printIndent(out, indent++);
         out.println("<workflow>");
 
-        if (metaAttributes.size() > 0) {
-            XMLUtil.printIndent(out, indent++);
-            out.println("<attributes>");
+        Iterator iter = metaAttributes.entrySet().iterator();
 
-            Iterator iter = metaAttributes.entrySet().iterator();
-
-            while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next();
-                XMLUtil.printIndent(out, indent);
-                out.print("<meta name=\"");
-                out.print(entry.getKey());
-                out.print("\">");
-                out.print(entry.getValue());
-                out.println("</meta>");
-            }
-
-            XMLUtil.printIndent(out, --indent);
-            out.println("</attributes>");
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            XMLUtil.printIndent(out, indent);
+            out.print("<meta name=\"");
+            out.print(entry.getKey());
+            out.print("\">");
+            out.print(entry.getValue());
+            out.println("</meta>");
         }
 
         if (registers.size() > 0) {
@@ -431,17 +423,13 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
     }
 
     protected void init(Element root) {
-        Element att = XMLUtil.getChildElement(root, "attributes");
+        NodeList attributs = root.getElementsByTagName("meta");
 
-        if (att != null) {
-            NodeList attributs = att.getElementsByTagName("meta");
+        for (int i = 0; i < attributs.getLength(); i++) {
+            Element meta = (Element) attributs.item(i);
+            String value = XMLUtil.getText(meta);
 
-            for (int i = 0; i < attributs.getLength(); i++) {
-                Element meta = (Element) attributs.item(i);
-                String value = XMLUtil.getText(meta);
-
-                this.metaAttributes.put(meta.getAttribute("name"), value);
-            }
+            this.metaAttributes.put(meta.getAttribute("name"), value);
         }
 
         // handle registers - OPTIONAL
