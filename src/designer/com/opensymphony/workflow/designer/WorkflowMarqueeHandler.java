@@ -41,11 +41,14 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     // If Port Found and in ConnectMode (=Ports Visible)
     if(port != null && graph.isPortsVisible())
     {
-      int edgeCount = ((WorkflowPort)port.getCell()).getEdgeCount();
+      WorkflowPort workflowPort = (WorkflowPort)port.getCell();
+      //int edgeCount = workflowPort.getEdgeCount();
       //if we have any edges on this port, then assume we're trying to move the edge, rather
       //than create a new one
-      if(edgeCount == 0)
+      if(workflowPort.getIndex() == 0)
+      {
         return true;
+      }
     }
     // Else Call Superclass
     return super.isForceMarqueeEvent(e);
@@ -209,8 +212,11 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     if(portView != null && !e.isConsumed())
     {
       // Set Cusor on Graph (Automatically Reset)
-      int edgeCount = ((WorkflowPort)portView.getCell()).getEdgeCount();
-      if(edgeCount == 0)
+      WorkflowPort workflowPort = (WorkflowPort)portView.getCell();
+      if(workflowPort.getIndex() == 0)
+      //
+      //int edgeCount = workflowPort.getEdgeCount();
+      //if(edgeCount == 0)
       {
         graph.setCursor(new Cursor(Cursor.HAND_CURSOR));
         e.consume();
