@@ -67,7 +67,7 @@
   </target>
 
   <target name="clover-check" depends="init" unless="clover.available">
-    <fail message="Cannot run coverage tests. Please copy lib/build/clover-1.2.jar to ${ant.home}/lib"/>
+    <fail message="Cannot run coverage tests. Please copy lib/build/clover-1.2.2.jar to ${ant.home}/lib"/>
   </target>
 
   <target name="clean" depends="init">
