@@ -26,8 +26,6 @@ import com.opensymphony.workflow.designer.dialogs.NewWorkspaceDialog;
 import com.opensymphony.workflow.loader.PaletteDescriptor;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.loader.Workspace;
-import com.jgoodies.plaf.Options;
-import com.jgoodies.plaf.LookUtils;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -51,10 +49,9 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   private FramePanel detailFramePanel;
   public static WorkflowDesigner INSTANCE = null;
   private PaletteDescriptor palette = null;
-  private static Splash splash;
   public StatusBar statusBar;
 
-  public WorkflowDesigner()
+  public WorkflowDesigner(Splash splash)
   {
     super(ResourceManager.getString("app.name"));
     INSTANCE = this;
@@ -428,62 +425,5 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     {
       e.printStackTrace();
     }
-  }
-
-  public static void main(String[] args)
-  {
-    System.getProperties().put("apple.laf.useScreenMenuBar", "true");
-    String spec = System.getProperty("java.specification.version");
-    if(spec.startsWith("1.3") || spec.startsWith("1.2") || spec.startsWith("1.1"))
-    {
-      System.out.println("Workflow Designer requires JDK 1.4.0 or higher");
-      System.exit(1);
-    }
-    splash = new Splash(new Frame(), ResourceManager.getIcon("splash").getImage(), ResourceManager.getString("app.name"), true);
-    splash.openSplash();
-    splash.setProgress(10);
-
-    if(LookUtils.class.getClassLoader() != null)
-    {
-      UIManager.put("ClassLoader", LookUtils.class.getClassLoader());
-    }
-    Options.setGlobalFontSizeHints(com.jgoodies.plaf.FontSizeHints.MIXED);
-    Options.setDefaultIconSize(new Dimension(18, 18));
-    Options.setUseNarrowButtons(true);
-    UIManager.put(com.jgoodies.plaf.Options.DEFAULT_ICON_SIZE_KEY, new Dimension(18, 18));
-    if(LookUtils.IS_OS_WINDOWS_MODERN)
-    {
-      try
-      {
-        UIManager.setLookAndFeel((LookAndFeel)Class.forName("com.jgoodies.plaf.windows.ExtWindowsLookAndFeel", true, com.jgoodies.plaf.windows.ExtWindowsLookAndFeel.class.getClassLoader()).newInstance());
-      }
-      catch(Exception e)
-      {
-	      e.printStackTrace();
-      }
-    }
-    //all other platforms except for OSX get the plastic LAF
-    else
-    {
-      try
-      {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-      }
-      catch(Exception e)
-      {
-      }
-    }
-
-    splash.setProgress(20);
-
-    WorkflowDesigner d = new WorkflowDesigner();
-    splash.setProgress(80);
-    d.pack();
-    splash.setProgress(90);
-    d.show();
-    splash.setProgress(100);
-    splash.closeSplash();
-    splash = null;
-    d.checkWorkspaceExists();
   }
 }

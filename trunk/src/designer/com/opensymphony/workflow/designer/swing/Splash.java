@@ -17,7 +17,7 @@ public final class Splash extends Window
   private Rectangle progressBarBounds;
   private int percent;
 
-  public Splash(Frame owner, Image image, String text, boolean showProgress)
+  public Splash(Window owner, Image image, String text, boolean showProgress)
   {
     super(owner);
     this.image = image;

@@ -264,7 +264,7 @@
     <jar jarfile="${dist}/designer.jar">
 	    <manifest>
 				<attribute name="Built-By" value="${user.name}"/>
-		    <attribute name="Main-Class" value="com.opensymphony.workflow.designer.WorkflowDesigner" />
+		    <attribute name="Main-Class" value="com.opensymphony.workflow.designer.Launcher" />
 		    <attribute name="Class-Path" value="../lib/designer/looks.jar ../lib/designer/forms.jar ../lib/designer/syntax.jar ../lib/designer/jgraph.jar ../lib/designer/foxtrot.jar ../lib/core/${oscore.jar}" />
 	    </manifest>
 	    <fileset dir="${build.client}" />
