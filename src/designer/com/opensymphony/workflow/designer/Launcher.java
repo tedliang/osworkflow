@@ -14,6 +14,28 @@ public class Launcher
 {
   public static void main(String[] args)
   {
+    // test - simulate System properties via JNLP
+    if(args.length > 0)
+    {
+      if(args[0].equals("testnew"))
+      {
+        System.getProperties().put("com.opensymphony.workflow.jws.verb", "new");
+        System.getProperties().put("com.opensymphony.workflow.jws.service", "http://wrk-03:8080/axis/OSWorkflowService.jws");
+        System.getProperties().put("com.opensymphony.workflow.jws.workspace", "DocWay");
+      }
+      else if(args[0].equals("testmodify"))
+      {
+        System.getProperties().put("com.opensymphony.workflow.jws.verb", "modify");
+        System.getProperties().put("com.opensymphony.workflow.jws.service", "http://localhost:8090/axis/oswfdesigner/OSWorkflowService.jws");
+        //System.getProperties().put("com.opensymphony.workflow.jws.service", "http://wrk-03:8080/axis/OSWorkflowService.jws");
+        System.getProperties().put("com.opensymphony.workflow.jws.workspace", "DocWay");
+        //System.getProperties().put("com.opensymphony.workflow.jws.id_1", "workflow2");
+        System.getProperties().put("com.opensymphony.workflow.jws.id_1", "MD00000008");
+        //System.getProperties().put("com.opensymphony.workflow.jws.name_1", "workflow2");
+        System.getProperties().put("com.opensymphony.workflow.jws.name_1", "Approvazione documento");
+      }
+    }
+
     System.getProperties().put("apple.laf.useScreenMenuBar", "true");
     System.getProperties().put("com.apple.mrj.application.apple.menu.about.name", "OSWorkflow Designer");
     String spec = System.getProperty("java.specification.version");
@@ -66,7 +88,6 @@ public class Launcher
     d.show();
     splash.setProgress(100);
     splash.closeSplash();
-    splash = null;
     d.checkWorkspaceExists();
   }
 
