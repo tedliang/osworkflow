@@ -64,9 +64,9 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   {
     super(ResourceManager.getString("app.name"));
     INSTANCE = this;
-    navigator = new Navigator(this);
-    splash.setProgress(30);
     setJMenuBar(BarFactory.createMenubar(manager));
+    splash.setProgress(30);
+    navigator = new Navigator(this);
     JScrollPane sp = new JScrollPane(detailPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     detailFramePanel = new FramePanel(ResourceManager.getString("details"), false);
     detailFramePanel.setContent(sp);

@@ -14,6 +14,7 @@ import com.opensymphony.workflow.designer.Utils;
 import com.opensymphony.workflow.designer.swing.status.StatusDisplay;
 import com.opensymphony.workflow.designer.dialogs.ImportWorkflowDialog;
 import com.opensymphony.workflow.loader.Workspace;
+import com.opensymphony.workflow.FactoryException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import foxtrot.Worker;
@@ -48,53 +49,63 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
     dialog.getBanner().setSubtitle(ResourceManager.getString("import.long"));
     Utils.centerComponent(WorkflowDesigner.INSTANCE, dialog);
     if(!dialog.ask()) return;
-    final URL importURL = dialog.getImportURL();
-    if(importURL!=null)
+    importURL(dialog.getImportURL());
+  }
+
+  public void importURL(final URL url)
+  {
+    if(url==null) return;
+    StatusDisplay status = (StatusDisplay)WorkflowDesigner.INSTANCE.statusBar.getItemByName("Status");
+    String f = url.getFile();
+    if(!"file".equals(url.getProtocol()) && f.indexOf('?')>-1) f = f.substring(0, f.indexOf('?'));
+    String fileName = f.substring(f.lastIndexOf('/')+1, f.length());
+    try
     {
-	    StatusDisplay status = (StatusDisplay)WorkflowDesigner.INSTANCE.statusBar.getItemByName("Status");
-      String f = importURL.getFile();
-      if(!"file".equals(importURL.getProtocol()) && f.indexOf('?')>-1) f = f.substring(0, f.indexOf('?'));
-      String fileName = f.substring(f.lastIndexOf('/')+1, f.length());
-      try
+      final File outputFile = new File(currentWorkspace.getLocation().getParentFile(), fileName);
+      if(outputFile.isDirectory()) throw new Exception("Output file is a directory!");
+      //don't allow importing of files within the workspace!
+      if(!"file".equals(url.getProtocol()) ||
+        !new File(url.getFile()).getParentFile().getCanonicalPath().equals(currentWorkspace.getLocation().getParentFile().getCanonicalPath()))
       {
-        final File outputFile = new File(currentWorkspace.getLocation().getParentFile(), fileName);
-	      if(outputFile.isDirectory()) throw new Exception("Output file is a directory!");
-        //don't allow importing of files within the workspace!
-        if(!"file".equals(importURL.getProtocol()) ||
-          !new File(importURL.getFile()).getParentFile().getCanonicalPath().equals(currentWorkspace.getLocation().getParentFile().getCanonicalPath()))
+        status.setProgressStatus(ResourceManager.getString("import.progress", new Object[]{fileName}));
+        status.setIndeterminate(true);
+        Worker.post(new Task()
         {
-          status.setProgressStatus(ResourceManager.getString("import.progress", new Object[]{fileName}));
-          status.setIndeterminate(true);
-          Worker.post(new Task()
+          public Object run() throws Exception
           {
-            public Object run() throws Exception
+            FileOutputStream out = new FileOutputStream(outputFile);
+            InputStream in = url.openStream();
+            byte[] buff = new byte[4096];
+            int nch;
+            while((nch = in.read(buff, 0, buff.length)) != -1)
             {
-              FileOutputStream out = new FileOutputStream(outputFile);
-              InputStream in = importURL.openStream();
-              byte[] buff = new byte[4096];
-              int nch;
-              while((nch = in.read(buff, 0, buff.length)) != -1)
-              {
-                out.write(buff, 0, nch);
-              }
-              out.flush();
-              out.close();
-              return null;
+              out.write(buff, 0, nch);
             }
-          });
-          currentWorkspace.importDescriptor(fileName.substring(0, fileName.lastIndexOf('.')), importURL.openStream());
-          WorkflowDesigner.INSTANCE.navigator().setWorkspace(currentWorkspace);
-        }
+            out.flush();
+            out.close();
+            return null;
+          }
+        });
+        String workflowName = fileName.substring(0, fileName.lastIndexOf('.'));
+        currentWorkspace.importDescriptor(workflowName, url.openStream());
+        //this ensures that the descriptor is loaded into the cache
+        currentWorkspace.getWorkflow(workflowName);
+        WorkflowDesigner.INSTANCE.navigator().setWorkspace(currentWorkspace);
       }
-      catch(Exception t)
-      {
-        log.error("Error importing descriptor", t);
-      }
-	    finally
-      {
-	      status.setIndeterminate(false);
-	      status.setStatus("");
-      }
+    }
+    catch(FactoryException ex)
+    {
+      JOptionPane.showMessageDialog(WorkflowDesigner.INSTANCE, ResourceManager.getString("import.factory.error.long", new Object[]{fileName, ex.getMessage()}),
+                                    ResourceManager.getString("import.factory.error"), JOptionPane.ERROR_MESSAGE);
+    }
+    catch(Exception t)
+    {
+      log.error("Error importing descriptor", t);
+    }
+    finally
+    {
+      status.setIndeterminate(false);
+      status.setStatus("");
     }
   }
 
