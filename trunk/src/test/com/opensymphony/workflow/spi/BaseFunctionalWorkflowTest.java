@@ -62,7 +62,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
     public void testExampleWorkflow() throws Exception {
         WorkflowQuery query;
 
-        String workflowName = getClass().getResource("/samples/example.xml").toString();
+        String workflowName = getWorkflowName();
         assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 100));
 
         long workflowId = workflow.initialize(workflowName, 100, new HashMap());
@@ -188,7 +188,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
     }
 
     public void testExceptionOnIllegalStayInCurrentStep() throws Exception {
-        String workflowName = getClass().getResource("/samples/example.xml").toString();
+        String workflowName = getWorkflowName();
         assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 100));
 
         try {
@@ -200,8 +200,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
     }
 
     public void testMetadataAccess() throws Exception {
-        String workflowName = getClass().getResource("/samples/example.xml").toString();
-
+        String workflowName = getWorkflowName();
         long workflowId = workflow.initialize(workflowName, 100, new HashMap());
         WorkflowDescriptor wfDesc = workflow.getWorkflowDescriptor(workflowName);
 
@@ -222,7 +221,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         List workflows;
         WorkflowExpressionQuery query;
 
-        String workflowName = getClass().getResource("/samples/example.xml").toString();
+        String workflowName = getWorkflowName();
         assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 100));
 
         //-------------------   FieldExpression.OWNER  +  FieldExpression.CURRENT_STEPS ----------------------
@@ -378,7 +377,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         WorkflowQuery query = null;
         List workflows;
 
-        String workflowName = getClass().getResource("/samples/example.xml").toString();
+        String workflowName = getWorkflowName();
         assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 100));
 
         try {
@@ -432,6 +431,10 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
             test.addToGroup(bars);
             test.addToGroup(bazs);
         }
+    }
+
+    protected String getWorkflowName() {
+        return getClass().getResource("/samples/example.xml").toString();
     }
 
     protected void logActions(int[] actions) {
