@@ -1,2 +1,2 @@
 Main-Class: com.opensymphony.workflow.designer.WorkflowDesigner
-Class-Path: ../lib/designer/looks.jar ../lib/designer/forms.jar ../lib/designer/jgraph.jar osworkflow-2.6.0-dev.jar ../lib/core/commons-logging.jar
+Class-Path: ../lib/designer/looks.jar ../lib/designer/forms.jar ../lib/designer/jgraph.jar ../lib/designer/foxtrot.jar osworkflow-2.6.0-dev.jar ../lib/core/commons-logging.jar
