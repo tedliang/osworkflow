@@ -64,7 +64,7 @@
 						</conditions>
 					</restrict-to>
 					<pre-functions>
-						<function type="beanshell">
+						<function type="beanshell" name="bsh.function">
 							<arg name="script">
                                 String caller = context.getCaller();
                                 propertySet.setString("caller", caller);
@@ -77,14 +77,14 @@
 					<results>
 						<result old-status="Finished" split="1">
 							<conditions type="AND">
-								<condition type="beanshell">
-									<arg name="script">
+								<condition type="beanshell" name="bsh.condition">
+									<arg name="script" >
 									propertySet.getString("caller").equals("test")
 									</arg>
 								</condition>
 							</conditions>
 							<post-functions>
-								<function type="beanshell">
+								<function type="beanshell" name="bsh.function">
 									<arg name="script">
                                         transientVars.get("log").info("111111");
                                     </arg>
@@ -94,7 +94,7 @@
 						<unconditional-result old-status="Finished" split="2"/>
 					</results>
 					<post-functions>
-						<function type="beanshell">
+						<function type="beanshell" name="bsh.function">
 							<arg name="script">
                 transientVars.get("log").info("222222");
                             </arg>
@@ -464,7 +464,7 @@
 	<joins>
 		<join id="1">
 			<conditions type="AND">
-				<condition type="beanshell">
+				<condition type="beanshell" name="bsh.condition">
 					<arg name="script"><![CDATA[
 					"Finished".equals(jn.getStep(6).getStatus()) && "Finished".equals(jn.getStep(8).getStatus())
 					]]></arg>

@@ -40,6 +40,11 @@
       <arg name="ejb.location" modifiable="true"/>
       <name>ejb.condition</name>
     </condition>
+		<condition type="beanshell">
+			<arg name="script" modifiable="true"/>
+			<name>bsh.condition</name>
+			<plugin>com.opensymphony.workflow.designer.spi.BshConditionPlugin</plugin>
+		</condition>
   </joinconditions>
 
 	<functions>
@@ -81,6 +86,11 @@
       <arg name="ejb.location" modifiable="true"/>
       <name>ejb.function</name>
     </function>
+		<condition type="beanshell">
+			<arg name="script" modifiable="true"/>
+			<name>bsh.function</name>
+			<plugin>com.opensymphony.workflow.designer.spi.BshFunctionPlugin</plugin>
+		</condition>
 	</functions>
 
 	<permissionconditions>
@@ -115,6 +125,11 @@
       <arg name="ejb.location" modifiable="true"/>
       <name>ejb.condition</name>
     </condition>
+		<condition type="beanshell">
+			<arg name="script" modifiable="true"/>
+			<name>bsh.condition</name>
+			<plugin>com.opensymphony.workflow.designer.spi.BshConditionPlugin</plugin>
+		</condition>
 	</permissionconditions>
 
 	<resultconditions>
@@ -149,5 +164,10 @@
       <arg name="ejb.location" modifiable="true"/>
       <name>ejb.condition</name>
     </condition>
+		<condition type="beanshell">
+			<arg name="script" modifiable="true"/>
+			<name>bsh.condition</name>
+			<plugin>com.opensymphony.workflow.designer.spi.BshConditionPlugin</plugin>
+		</condition>
   </resultconditions>
 </plugin>
