@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class OfbizSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -114,6 +114,10 @@ public class OfbizSOAPWorkflow implements Workflow {
 
     public List query(WorkflowExpressionQuery query) throws WorkflowException {
         return new OfbizWorkflow(getRemoteUser()).query(query);
+    }
+
+    public boolean removeWorkflow(String workflowName) throws FactoryException {
+        return new OfbizWorkflow(getRemoteUser()).removeWorkflow(workflowName);
     }
 
     private String getRemoteUser() {

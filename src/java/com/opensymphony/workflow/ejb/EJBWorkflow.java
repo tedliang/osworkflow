@@ -34,7 +34,7 @@ import javax.naming.NamingException;
  * This class acts as a wrapper around a workflow session bean.
  *
  * @author plightbo
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class EJBWorkflow implements Workflow {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -253,6 +253,16 @@ public class EJBWorkflow implements Workflow {
 
     public List query(WorkflowQuery query) throws WorkflowException {
         throw new QueryNotSupportedException("EJB Store does not support queries");
+    }
+
+    public boolean removeWorkflow(String workflowName) throws FactoryException {
+        try {
+            return wf.removeWorkflow(workflowName);
+        } catch (RemoteException e) {
+            log.error("Error removing workflow " + workflowName, e);
+
+            return false;
+        }
     }
 
     public boolean saveWorkflowDescriptor(String workflowName, WorkflowDescriptor descriptor, boolean replace) throws WorkflowException {

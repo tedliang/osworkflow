@@ -178,7 +178,7 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
         return wf;
     }
 
-    public boolean removeWorkflow(String name) {
+    public boolean removeWorkflow(String name) throws FactoryException {
         boolean removed = false;
 
         try {
@@ -196,7 +196,7 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
             ps.close();
             conn.close();
         } catch (SQLException e) {
-            log.fatal("Unable to remove workflow [" + name + "]", e);
+            throw new FactoryException("Unable to remove workflow: " + e.toString(), e);
         }
 
         return removed;
