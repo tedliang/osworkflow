@@ -11,7 +11,6 @@ import javax.swing.JTextField;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import com.opensymphony.util.TextUtils;
 
 /**
  * @author Gulei
@@ -49,13 +48,13 @@ public class MapPanel extends JPanel
     builder.addSeparator("Info", cc.xywh(2, 1, 3, 1));
 
     builder.addTitle("Type", cc.xy(2, 3));
-    builder.addLabel(TextUtils.noNull(type), cc.xy(4, 3));
+    builder.addLabel(noNull(type), cc.xy(4, 3));
 
     builder.addTitle("Name", cc.xy(2, 5));
-    builder.addLabel(TextUtils.noNull(name), cc.xy(4, 5));
+    builder.addLabel(noNull(name), cc.xy(4, 5));
 
     builder.addTitle("Description", cc.xy(2, 7));
-    builder.addLabel(TextUtils.noNull(description), cc.xy(4, 7));
+    builder.addLabel(noNull(description), cc.xy(4, 7));
 
     if(args.size() > 0)
     {
@@ -105,17 +104,17 @@ public class MapPanel extends JPanel
     builder.addSeparator("Info", cc.xywh(2, 1, 3, 1));
 
     builder.addTitle("Type", cc.xy(2, 3));
-    builder.addLabel(TextUtils.noNull(type), cc.xy(4, 3));
+    builder.addLabel(noNull(type), cc.xy(4, 3));
 
     builder.addTitle("Name", cc.xy(2, 5));
-    builder.addLabel(TextUtils.noNull(name), cc.xy(4, 5));
+    builder.addLabel(noNull(name), cc.xy(4, 5));
 
     builder.addTitle("Description", cc.xy(2, 7));
-    builder.addLabel(TextUtils.noNull(description), cc.xy(4, 7));
+    builder.addLabel(noNull(description), cc.xy(4, 7));
 
     builder.addTitle("Owner", cc.xy(2, 9));
     JTextField tf = new JTextField(15);
-    tf.setText(TextUtils.noNull(owner));
+    tf.setText(noNull(owner));
     builder.add(tf, cc.xy(4, 9));
     edits.put("Owner", tf);
 
@@ -143,4 +142,8 @@ public class MapPanel extends JPanel
     }
   }
 
+  private static String noNull(String s)
+  {
+    return s==null ? "" : s;
+  }
 }
