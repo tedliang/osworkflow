@@ -31,6 +31,10 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public boolean isModifiable(String name) {
+        return true;
+    }
+
     public WorkflowDescriptor getWorkflow(String name) throws FactoryException {
         WorkflowConfig c = (WorkflowConfig) workflows.get(name);
 

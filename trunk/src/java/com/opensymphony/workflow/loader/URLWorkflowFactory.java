@@ -27,6 +27,10 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public boolean isModifiable(String name) {
+        return false;
+    }
+
     public WorkflowDescriptor getWorkflow(String name) throws FactoryException {
         boolean useCache = getProperties().getProperty("cache", "false").equals("true");
 
