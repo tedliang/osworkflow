@@ -1,90 +1,31 @@
-<html><head><title>OSWorkflow Persistence Options</title></head><body><ul>
-
-<li>Up to 
-<a href="Documentation.html">OSWorkflow Documentation</a></li>
-
-<li>Back to 
-<a href="Requirements.html">OSWorkflow Requirements</a></li>
-
-<li>Forward to 
-<a href="Configuration.html">OSWorkflow Configuration</a></li>
-</ul>
-<p></p>OSWorkflow provides a pluggable persistence mechanism that can be used to allow for many choices of ways for workflow content to be stored. Included with OSWorkflow are the following WorkflowStore implementations: 
-<b>MemoryStore (default), SerializableStore, JDBCStore, OfbizStore, and EJBStore</b>. If one of these does not fit your requirements, you can implement your own workflow store by implementing the interface 
-<b>com.opensymphony.workflow.spi.WorkflowStore</b>. Read the javadocs for more information.
-<p></p>Also, please note that each workflow store implementation may have required or optional properties that must or can be set. It is recommend that you read the javadocs for the workflow store that you plan to use so that you can configure the store properly. A sample JDBC configuration for the JDBCStore is given below:
-<p></p>(from osworkflow.xml)
-
-<div>
-<pre>&#60;persistence class=
-<span>"com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore"</span>&#62;
+<html><head><title>OSWorkflow Persistence Options</title></head><body><ul class="star">
+<li>Up to <a href="Documentation.html">OSWorkflow Documentation</a></li>
+<li>Back to <a href="Requirements.html">OSWorkflow Requirements</a></li>
+<li>Forward to <a href="Configuration.html">OSWorkflow Configuration</a></li>
+</ul><p class="paragraph"></p>OSWorkflow provides a pluggable persistence mechanism that can be used to allow for many choices of ways for workflow content to be stored. Included with OSWorkflow are the following WorkflowStore implementations: <b class="bold">MemoryStore (default), SerializableStore, JDBCStore, OfbizStore, and EJBStore</b>. If one of these does not fit your requirements, you can implement your own workflow store by implementing the interface <b class="bold">com.opensymphony.workflow.spi.WorkflowStore</b>. Read the javadocs for more information.<p class="paragraph"></p>Also, please note that each workflow store implementation may have required or optional properties that must or can be set. It is recommend that you read the javadocs for the workflow store that you plan to use so that you can configure the store properly. A sample JDBC configuration for the JDBCStore is given below:<p class="paragraph"></p>(from osworkflow.xml)
+<div class="wikicode"><pre>&#60;persistence class=<span class="java&#45;quote">"com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore"</span>&#62;
 	&#60;!&#45;&#45; For jdbc persistence, all are required. &#45;&#45;&#62;
-	&#60;property key=
-<span>"datasource"</span> value=
-<span>"jdbc/DefaultDS"</span>/&#62;
-	&#60;property key=
-<span>"entry.sequence"</span> value=
-<span>"SELECT nextVal('seq_os_wfentry')"</span>/&#62;
-	&#60;property key=
-<span>"entry.table"</span> value=
-<span>"OS_WFENTRY"</span>/&#62;
-	&#60;property key=
-<span>"entry.id"</span> value=
-<span>"ID"</span>/&#62;
-	&#60;property key=
-<span>"entry.name"</span> value=
-<span>"NAME"</span>/&#62;
-	&#60;property key=
-<span>"entry.initialized"</span> value=
-<span>"INITIALIZED"</span>/&#62;
-	&#60;property key=
-<span>"step.sequence"</span> value=
-<span>"SELECT nextVal('seq_os_currentsteps')"</span>/&#62;
-	&#60;property key=
-<span>"history.table"</span> value=
-<span>"OS_HISTORYSTEP"</span>/&#62;
-	&#60;property key=
-<span>"current.table"</span> value=
-<span>"OS_CURRENTSTEP"</span>/&#62;
-	&#60;property key=
-<span>"historyPrev.table"</span> value=
-<span>"OS_HISTORYSTEP_PREV"</span>/&#62;
-	&#60;property key=
-<span>"currentPrev.table"</span> value=
-<span>"OS_CURRENTSTEP_PREV"</span>/&#62;
-	&#60;property key=
-<span>"step.id"</span> value=
-<span>"ID"</span>/&#62;
-	&#60;property key=
-<span>"step.entryId"</span> value=
-<span>"ENTRY_ID"</span>/&#62;
-	&#60;property key=
-<span>"step.stepId"</span> value=
-<span>"STEP_ID"</span>/&#62;
-	&#60;property key=
-<span>"step.actionId"</span> value=
-<span>"ACTION_ID"</span>/&#62;
-	&#60;property key=
-<span>"step.owner"</span> value=
-<span>"OWNER"</span>/&#62;
-	&#60;property key=
-<span>"step.caller"</span> value=
-<span>"CALLER"</span>/&#62;
-	&#60;property key=
-<span>"step.startDate"</span> value=
-<span>"START_DATE"</span>/&#62;
-	&#60;property key=
-<span>"step.finishDate"</span> value=
-<span>"FINISH_DATE"</span>/&#62;
-	&#60;property key=
-<span>"step.dueDate"</span> value=
-<span>"DUE_DATE"</span>/&#62;
-	&#60;property key=
-<span>"step.status"</span> value=
-<span>"STATUS"</span>/&#62;
-	&#60;property key=
-<span>"step.previousId"</span> value=
-<span>"PREVIOUS_ID"</span>/&#62;
-&#60;/persistence&#62;</pre></div>
-<p></p>A number of sample sql scripts to create the required tables are included in the OSWorkflow distribution in in the src/etc/deployment/jdbc directory.
+	&#60;property key=<span class="java&#45;quote">"datasource"</span> value=<span class="java&#45;quote">"jdbc/DefaultDS"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"entry.sequence"</span> value=<span class="java&#45;quote">"SELECT nextVal('seq_os_wfentry')"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"entry.table"</span> value=<span class="java&#45;quote">"OS_WFENTRY"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"entry.id"</span> value=<span class="java&#45;quote">"ID"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"entry.name"</span> value=<span class="java&#45;quote">"NAME"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"entry.initialized"</span> value=<span class="java&#45;quote">"INITIALIZED"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.sequence"</span> value=<span class="java&#45;quote">"SELECT nextVal('seq_os_currentsteps')"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"history.table"</span> value=<span class="java&#45;quote">"OS_HISTORYSTEP"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"current.table"</span> value=<span class="java&#45;quote">"OS_CURRENTSTEP"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"historyPrev.table"</span> value=<span class="java&#45;quote">"OS_HISTORYSTEP_PREV"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"currentPrev.table"</span> value=<span class="java&#45;quote">"OS_CURRENTSTEP_PREV"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.id"</span> value=<span class="java&#45;quote">"ID"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.entryId"</span> value=<span class="java&#45;quote">"ENTRY_ID"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.stepId"</span> value=<span class="java&#45;quote">"STEP_ID"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.actionId"</span> value=<span class="java&#45;quote">"ACTION_ID"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.owner"</span> value=<span class="java&#45;quote">"OWNER"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.caller"</span> value=<span class="java&#45;quote">"CALLER"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.startDate"</span> value=<span class="java&#45;quote">"START_DATE"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.finishDate"</span> value=<span class="java&#45;quote">"FINISH_DATE"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.dueDate"</span> value=<span class="java&#45;quote">"DUE_DATE"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.status"</span> value=<span class="java&#45;quote">"STATUS"</span>/&#62;
+	&#60;property key=<span class="java&#45;quote">"step.previousId"</span> value=<span class="java&#45;quote">"PREVIOUS_ID"</span>/&#62;
+&#60;/persistence&#62;</pre></div><p class="paragraph"></p>A number of sample sql scripts to create the required tables are included in the OSWorkflow distribution in in the src/etc/deployment/jdbc directory.
 </div></body></html>

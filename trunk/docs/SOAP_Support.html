@@ -1,37 +1,11 @@
-<html><head><title>OSWorkflow SOAP Support</title></head><body><ul>
-
-<li>Back to 
-<a href="Documentation.html">OSWorkflow Documentation</a></li>
-</ul>
-<p></p>OSWorkflow comes with support for remote invocation using SOAP. This is accomplished using the Glue SOAP implementation from 
-<span></img>
-<a href="http://www.themindelectric.com/">TheMindElectric</a></span>. It has not been tested with any other SOAP implementations, but getting C# to integrate in with OSWorkflow should be a fairly trivial task. We hope to include C# sample code in the near future. 
-<b>If you wish to use an alternate SOAP implementation, such as Apache Axis, you are free to write your own wrappers to speak with OSWorkflow -- it should be very simple. However, we recommend GLUE as your SOAP provider of choice.</b>
-<p></p>GLUE does 
-<b>not</b> come with OSWorkflow and must be downloaded separately from 
-<span></img>
-<a href="http://www.themindelectric.com/">TheMindElectric</a></span>. . GLUE is generally free for most usage. You can find the license agreement when you download GLUE. 
-<b>Again, SOAP and Job Scheduling support will not be available if you do not download GLUE 2.1 or later and include GLUE-STD.jar in your classpath.</b>
-<p></p>SOAP support is optional and can only be enabled by including the Glue servlet in your web application, as detailed in the GLUE documentation. SOAP support 
-<b>must</b> be enabled for scheduled jobs to occur, using the Quartz job scheduler. Here is some example code that uses Glue to talk to OSWorkflow:
-<p></p>
-<div>
-<pre>
-<span>import</span> electric.util.Context;
-
-<span>import</span> electric.registry.Registry;
-
-<span>import</span> electric.registry.RegistryException;
-<p></p>...
-<p></p>Context context = 
-<span>new</span> Context();
-context.setProperty( 
-<span>"authUser"</span>, username );
-context.setProperty( 
-<span>"authPassword"</span>, password );
+<html><head><title>OSWorkflow SOAP Support</title></head><body><ul class="star">
+<li>Back to <a href="Documentation.html">OSWorkflow Documentation</a></li>
+</ul><p class="paragraph"></p>OSWorkflow comes with support for remote invocation using SOAP. This is accomplished using the Glue SOAP implementation from <span class="nobr"></img><a href="http://www.themindelectric.com/">TheMindElectric</a></span>. It has not been tested with any other SOAP implementations, but getting C# to integrate in with OSWorkflow should be a fairly trivial task. We hope to include C# sample code in the near future. <b class="bold">If you wish to use an alternate SOAP implementation, such as Apache Axis, you are free to write your own wrappers to speak with OSWorkflow -- it should be very simple. However, we recommend GLUE as your SOAP provider of choice.</b><p class="paragraph"></p>GLUE does <b class="bold">not</b> come with OSWorkflow and must be downloaded separately from <span class="nobr"></img><a href="http://www.themindelectric.com/">TheMindElectric</a></span>. . GLUE is generally free for most usage. You can find the license agreement when you download GLUE. <b class="bold">Again, SOAP and Job Scheduling support will not be available if you do not download GLUE 2.1 or later and include GLUE-STD.jar in your classpath.</b><p class="paragraph"></p>SOAP support is optional and can only be enabled by including the Glue servlet in your web application, as detailed in the GLUE documentation. SOAP support <b class="bold">must</b> be enabled for scheduled jobs to occur, using the Quartz job scheduler. Here is some example code that uses Glue to talk to OSWorkflow:<p class="paragraph"></p><div class="wikicode"><pre><span class="java&#45;keyword">import</span> electric.util.Context;
+<span class="java&#45;keyword">import</span> electric.registry.Registry;
+<span class="java&#45;keyword">import</span> electric.registry.RegistryException;<p class="paragraph"></p>...<p class="paragraph"></p>Context context = <span class="java&#45;keyword">new</span> Context();
+context.setProperty( <span class="java&#45;quote">"authUser"</span>, username );
+context.setProperty( <span class="java&#45;quote">"authPassword"</span>, password );
 Workflow wf = (Workflow) Registry.bind(
-  
-<span>"http://localhost/osworkflow/glue/oswf.wsdl"</span>, Workflow.class, context);</pre></div>
-<p></p>From this point onward, you can use the Workflow interface just as you normally would. 
+  <span class="java&#45;quote">"http://localhost/osworkflow/glue/oswf.wsdl"</span>, Workflow.class, context);</pre></div><p class="paragraph"></p>From this point onward, you can use the Workflow interface just as you normally would. 
 
 </div></body></html>

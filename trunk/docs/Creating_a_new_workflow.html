@@ -1,23 +1,8 @@
-<html><head><title>OSWorkflow Creating a new workflow</title></head><body><ul>
-
-<li>Back to 
-<a href="Documentation.html">OSWorkflow Documentation</a></li>
-</ul>
-<p></p>This is a very brief guide on how you can create a new workflow instance using the OSWorkflow Java APIs. First, the workflow definition file (in XML) must be created and defined using the 
-<a href="Configuration.html">OSWorkflow Configuration</a>. Then your code must know what the 
-<b>initialStep</b> value should be for initializing an instance. Before you can initialize a workflow you must 
-<b>create</b> it so that you have an ID that can be referenced from now on in the API. The following code example illustrates this:
-<p></p>
-
-<div>
-<pre>Workflow wf = 
-<span>new</span> BasicWorkflow(username);
-HashMap inputs = 
-<span>new</span> HashMap();
-inputs.put(
-<span>"docTitle"</span>, request.getParameter(
-<span>"title"</span>));
-wf.initialize(
-<span>"workflowName"</span>, 1, inputs);</pre></div>
-<p></p>Note that usually, you would use a more appropriate Workflow implementation rather than BasicWorkflow. For example, EJBWorkflow or OfbizWorkflow. If you want to use a Workflow store that does not have a custom workflow context implementation (for example, JDBC, or Hibernate), then use BasicWorkflow. Contributions of WorkflowContexts for various stores are more than welcome!
+<html><head><title>OSWorkflow Creating a new workflow</title></head><body><ul class="star">
+<li>Back to <a href="Documentation.html">OSWorkflow Documentation</a></li>
+</ul><p class="paragraph"></p>This is a very brief guide on how you can create a new workflow instance using the OSWorkflow Java APIs. First, the workflow definition file (in XML) must be created and defined using the <a href="Configuration.html">OSWorkflow Configuration</a>. Then your code must know what the <b class="bold">initialStep</b> value should be for initializing an instance. Before you can initialize a workflow you must <b class="bold">create</b> it so that you have an ID that can be referenced from now on in the API. The following code example illustrates this:<p class="paragraph"></p>
+<div class="wikicode"><pre>Workflow wf = <span class="java&#45;keyword">new</span> BasicWorkflow(username);
+HashMap inputs = <span class="java&#45;keyword">new</span> HashMap();
+inputs.put(<span class="java&#45;quote">"docTitle"</span>, request.getParameter(<span class="java&#45;quote">"title"</span>));
+wf.initialize(<span class="java&#45;quote">"workflowName"</span>, 1, inputs);</pre></div><p class="paragraph"></p>Note that usually, you would use a more appropriate Workflow implementation rather than BasicWorkflow. For example, EJBWorkflow or OfbizWorkflow. If you want to use a Workflow store that does not have a custom workflow context implementation (for example, JDBC, or Hibernate), then use BasicWorkflow. Contributions of WorkflowContexts for various stores are more than welcome!
 </div></body></html>

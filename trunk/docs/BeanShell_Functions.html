@@ -1,63 +1,19 @@
-<html><head><title>OSWorkflow BeanShell Functions</title></head><body><ul>
-
-<li>Back to 
-<a href="Documentation.html">OSWorkflow Documentation</a></li>
-
-<li>Back to 
-<a href="Functions.html">OSWorkflow Functions</a></li>
-</ul>
-<p></p>OSWorkflow supports BeanShell as a scripting language. You can find out more about BeanShell at the 
-<span></img>
-<a href="http://www.beanshell.org/">BeanShell website</a></span>. Reading the documentation for BeanShell should be more than enough to get started with scripting for your own workflow definition file. There are a few behaviors that you should be aware of before starting, however:
-<p></p>The 
-<b>type</b> that must be chosen for BeanShell functions is 
-<b>beanshell</b>. There is one required argument: 
-<b>script</b>. The value for this argument is the actual script that is to be executed. Example:
-<p></p>
-<div>
-<pre>&#60;function type=
-<span>"beanshell"</span>&#62;
-	&#60;arg name=
-<span>"script"</span>&#62;	
-		
-<span>System</span>.out.println(
-<span>"Hello, World!"</span>);
+<html><head><title>OSWorkflow BeanShell Functions</title></head><body><ul class="star">
+<li>Back to <a href="Documentation.html">OSWorkflow Documentation</a></li>
+<li>Back to <a href="Functions.html">OSWorkflow Functions</a></li>
+</ul><p class="paragraph"></p>OSWorkflow supports BeanShell as a scripting language. You can find out more about BeanShell at the <span class="nobr"></img><a href="http://www.beanshell.org/">BeanShell website</a></span>. Reading the documentation for BeanShell should be more than enough to get started with scripting for your own workflow definition file. There are a few behaviors that you should be aware of before starting, however:<p class="paragraph"></p>The <b class="bold">type</b> that must be chosen for BeanShell functions is <b class="bold">beanshell</b>. There is one required argument: <b class="bold">script</b>. The value for this argument is the actual script that is to be executed. Example:<p class="paragraph"></p><div class="wikicode"><pre>&#60;function type=<span class="java&#45;quote">"beanshell"</span>&#62;
+	&#60;arg name=<span class="java&#45;quote">"script"</span>&#62;	
+		<span class="java&#45;object">System</span>.out.println(<span class="java&#45;quote">"Hello, World!"</span>);
 	&#60;/arg&#62;
-&#60;/function&#62;</pre></div>
-<p></p>There are three variables in the expression scope at all times: 
-<i>entry</i> 
-<i>context</i>, and 
-<i>store</i>. The variable "entry" is an object that implements 
-<i>com.opensymphony.workflow.spi.WorkflowEntry</i> and represents the workflow instance. The variable "context" is an object of type 
-<i>com.opensymphony.workflow.WorkflowContext</i> which allows for BeanShell functions to roll back transactions or determine the caller name. The "store" variable is of type 
-<i>com.opensymphony.workflow.WorkflowStore</i>
- and allows the function to access the underlying workflow persistence store.
-<p></p>Just like OSWorkflow Java Function, there are three variables that can be used and are automatically set in the BeanShell scope: 
-<b>transientVars</b>, 
-<b>args</b>, and 
-<b>propertySet</b>. The same rules that apply to Java functions also apply here. Example:
-<p></p>
-<div>
-<pre>&#60;function type=
-<span>"beanshell"</span>&#62;
-	&#60;arg name=
-<span>"script"</span>&#62;	
-		propertySet.setString(
-<span>"world"</span>, 
-<span>"Earth"</span>);
+&#60;/function&#62;</pre></div><p class="paragraph"></p>There are three variables in the expression scope at all times: <i class="italic">entry</i> <i class="italic">context</i>, and <i class="italic">store</i>. The variable "entry" is an object that implements <i class="italic">com.opensymphony.workflow.spi.WorkflowEntry</i> and represents the workflow instance. The variable "context" is an object of type <i class="italic">com.opensymphony.workflow.WorkflowContext</i> which allows for BeanShell functions to roll back transactions or determine the caller name. The "store" variable is of type <i class="italic">com.opensymphony.workflow.WorkflowStore</i>
+ and allows the function to access the underlying workflow persistence store.<p class="paragraph"></p>Just like OSWorkflow Java Function, there are three variables that can be used and are automatically set in the BeanShell scope: <b class="bold">transientVars</b>, <b class="bold">args</b>, and <b class="bold">propertySet</b>. The same rules that apply to Java functions also apply here. Example:<p class="paragraph"></p><div class="wikicode"><pre>&#60;function type=<span class="java&#45;quote">"beanshell"</span>&#62;
+	&#60;arg name=<span class="java&#45;quote">"script"</span>&#62;	
+		propertySet.setString(<span class="java&#45;quote">"world"</span>, <span class="java&#45;quote">"Earth"</span>);
 	&#60;/arg&#62;
 &#60;/function&#62;
-&#60;function type=
-<span>"beanshell"</span>&#62;
-	&#60;arg name=
-<span>"script"</span>&#62;	
-		
-<span>System</span>.out.println(
-<span>"Hello, "</span>+propertySet.getString(
-<span>"world"</span>));
+&#60;function type=<span class="java&#45;quote">"beanshell"</span>&#62;
+	&#60;arg name=<span class="java&#45;quote">"script"</span>&#62;	
+		<span class="java&#45;object">System</span>.out.println(<span class="java&#45;quote">"Hello, "</span>+propertySet.getString(<span class="java&#45;quote">"world"</span>));
 	&#60;/arg&#62;
-&#60;/function&#62;</pre></div>
-<p></p>The output of these two scripts would be "Hello, Earth". This is because any variable stored in the 
-<b>propertySet</b> is persisted for use in functions later in the workflow.
-<p></p>
+&#60;/function&#62;</pre></div><p class="paragraph"></p>The output of these two scripts would be "Hello, Earth". This is because any variable stored in the <b class="bold">propertySet</b> is persisted for use in functions later in the workflow.<p class="paragraph"></p>
 </div></body></html>
