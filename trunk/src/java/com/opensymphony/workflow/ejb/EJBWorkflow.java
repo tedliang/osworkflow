@@ -30,7 +30,7 @@ import javax.naming.NamingException;
  * This class acts as a wrapper around a workflow session bean.
  *
  * @author plightbo
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class EJBWorkflow implements Workflow {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -135,6 +135,15 @@ public class EJBWorkflow implements Workflow {
     public boolean canInitialize(String workflowName, int initialState) throws WorkflowException {
         try {
             return wf.canInitialize(workflowName, initialState);
+        } catch (RemoteException e) {
+            log.error("Error checking canInitialize", e);
+            throw new WorkflowException(e);
+        }
+    }
+
+    public boolean canInitialize(String workflowName, int initialAction, Map inputs) throws WorkflowException {
+        try {
+            return wf.canInitialize(workflowName, initialAction, inputs);
         } catch (RemoteException e) {
             log.error("Error checking canInitialize", e);
             throw new WorkflowException(e);

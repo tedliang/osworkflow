@@ -97,4 +97,6 @@ public interface Workflow {
     public long initialize(String workflowName, int initialAction, Map inputs) throws InvalidRoleException, InvalidInputException, WorkflowException;
 
     public List query(WorkflowQuery query) throws WorkflowException;
+
+    boolean canInitialize(String workflowName, int initialAction, Map inputs) throws WorkflowException;
 }
