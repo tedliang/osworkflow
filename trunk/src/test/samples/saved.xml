@@ -25,7 +25,7 @@
     </action>
   </initial-actions>
   <steps>
-    <step id="1" name="First Draft">
+    <step id="1" name="&quot;First Draft&quot;">
       <external-permissions>
         <permission name="permA">
           <restrict-to>

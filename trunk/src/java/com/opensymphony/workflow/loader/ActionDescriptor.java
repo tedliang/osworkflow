@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -161,13 +161,13 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
 
         if ((name != null) && (name.length() > 0)) {
             buf.append(" name=\"");
-            buf.append(name);
+            buf.append(XMLUtil.encode(name));
             buf.append("\"");
         }
 
         if ((view != null) && (view.length() > 0)) {
             buf.append(" view=\"");
-            buf.append(view);
+            buf.append(XMLUtil.encode(view));
             buf.append("\"");
         }
 
@@ -188,9 +188,9 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
             Map.Entry entry = (Map.Entry) iter.next();
             XMLUtil.printIndent(out, indent);
             out.print("<meta name=\"");
-            out.print(entry.getKey());
+            out.print(XMLUtil.encode(entry.getKey()));
             out.print("\">");
-            out.print(entry.getValue());
+            out.print(XMLUtil.encode(entry.getValue()));
             out.println("</meta>");
         }
 

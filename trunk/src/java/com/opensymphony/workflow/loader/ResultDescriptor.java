@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class ResultDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -164,7 +164,7 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
             buf.append(" id=\"").append(getId()).append("\"");
         }
 
-        if (dueDate != null) {
+        if (dueDate != null && dueDate.length() > 0) {
             buf.append(" due-date=\"").append(getDueDate()).append("\"");
         }
 

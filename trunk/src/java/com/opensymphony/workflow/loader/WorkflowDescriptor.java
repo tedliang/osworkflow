@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.27 $
+ * @version $Revision: 1.28 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -391,9 +391,9 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
             Map.Entry entry = (Map.Entry) iter.next();
             XMLUtil.printIndent(out, indent);
             out.print("<meta name=\"");
-            out.print(entry.getKey());
+            out.print(XMLUtil.encode(entry.getKey()));
             out.print("\">");
-            out.print(entry.getValue());
+            out.print(XMLUtil.encode(entry.getValue()));
             out.println("</meta>");
         }
 

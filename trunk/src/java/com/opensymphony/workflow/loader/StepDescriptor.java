@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.22 $
+ * @version $Revision: 1.23 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -189,7 +189,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
         out.print("<step id=\"" + getId() + "\"");
 
         if ((name != null) && (name.length() > 0)) {
-            out.print(" name=\"" + name + "\"");
+            out.print(" name=\"" + XMLUtil.encode(name) + "\"");
         }
 
         out.println(">");
