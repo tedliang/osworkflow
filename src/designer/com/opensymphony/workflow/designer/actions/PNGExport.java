@@ -30,7 +30,7 @@ public class PNGExport extends AbstractAction implements WorkspaceListener
 
   public void actionPerformed(ActionEvent e)
   {
-    File output = Utils.promptUserForFile((Component)e.getSource(), JFileChooser.FILES_AND_DIRECTORIES, true, ".png", "PNG files");
+    File output = Utils.promptUserForFile((Component)e.getSource(), JFileChooser.FILES_AND_DIRECTORIES, true, ".png", ResourceManager.getString("png.files"));
     if(output==null) return;
     WorkflowGraph graph = WorkflowDesigner.INSTANCE.getCurrentGraph();
     BufferedImage image = Utils.toImage(graph);

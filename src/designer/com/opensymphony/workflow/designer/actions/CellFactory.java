@@ -1,24 +1,12 @@
 package com.opensymphony.workflow.designer.actions;
 
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
+import javax.swing.*;
 
-import javax.swing.JOptionPane;
-
-import org.jgraph.graph.GraphConstants;
-
-import com.opensymphony.workflow.designer.JoinCell;
-import com.opensymphony.workflow.designer.SplitCell;
-import com.opensymphony.workflow.designer.StepCell;
-import com.opensymphony.workflow.designer.WorkflowGraphModel;
-import com.opensymphony.workflow.designer.WorkflowPort;
-import com.opensymphony.workflow.designer.Utils;
+import com.opensymphony.workflow.designer.*;
 import com.opensymphony.workflow.designer.dnd.DragData;
-import com.opensymphony.workflow.loader.DescriptorBuilder;
-import com.opensymphony.workflow.loader.JoinDescriptor;
-import com.opensymphony.workflow.loader.SplitDescriptor;
-import com.opensymphony.workflow.loader.StepDescriptor;
-import com.opensymphony.workflow.loader.WorkflowDescriptor;
+import com.opensymphony.workflow.loader.*;
+import org.jgraph.graph.GraphConstants;
 
 /**
  * @author Gulei
@@ -39,13 +27,12 @@ public class CellFactory
     {
       createStep(workflow, model, location);
     }
-
   }
 
   public static void createStep(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
   {
     // create new step
-    String name = JOptionPane.showInputDialog("Step Name?");
+    String name = JOptionPane.showInputDialog(ResourceManager.getString("step.add.name"));
     if(name == null || name.trim().length() == 0) return;
 
     StepDescriptor step = DescriptorBuilder.createStep(name, Utils.getNextId(model.getContext()));

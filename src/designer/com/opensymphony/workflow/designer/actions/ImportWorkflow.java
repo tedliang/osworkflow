@@ -11,6 +11,7 @@ import com.opensymphony.workflow.designer.event.WorkspaceListener;
 import com.opensymphony.workflow.designer.event.WorkspaceEvent;
 import com.opensymphony.workflow.designer.Utils;
 import com.opensymphony.workflow.designer.WorkflowDesigner;
+import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.loader.Workspace;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,10 +36,10 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
   {
     if(currentWorkspace.getLocation() == null)
     {
-      JOptionPane.showMessageDialog((Component)e.getSource(), "Please save this workspace before importing workflows into it", "Warning", JOptionPane.WARNING_MESSAGE);
+      JOptionPane.showMessageDialog((Component)e.getSource(), ResourceManager.getString("error.save.unsavedspace"), ResourceManager.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
       return;
     }
-    File inputFile = Utils.promptUserForFile((Component)e.getSource(), JFileChooser.FILES_AND_DIRECTORIES, false, ".xml", "XML Workflow Files");
+    File inputFile = Utils.promptUserForFile((Component)e.getSource(), JFileChooser.FILES_AND_DIRECTORIES, false, ".xml", ResourceManager.getString("descriptor.files"));
     if(inputFile!=null)
     {
       try
