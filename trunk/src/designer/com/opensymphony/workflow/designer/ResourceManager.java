@@ -3,8 +3,9 @@ package com.opensymphony.workflow.designer;
 import java.io.*;
 import java.net.URL;
 import java.util.MissingResourceException;
-import java.util.Properties;
 import java.util.ResourceBundle;
+import java.text.MessageFormat;
+import java.text.FieldPosition;
 import javax.swing.*;
 
 public final class ResourceManager
@@ -36,6 +37,20 @@ public final class ResourceManager
     }
   }
 
+  public static String getString(String key, Object args)
+  {
+
+    try
+    {
+      String value = INSTANCE.bundle.getString(key);
+      MessageFormat format = new MessageFormat(value);
+      return format.format(args, new StringBuffer(), new FieldPosition(0)).toString();
+    }
+    catch(MissingResourceException e)
+    {
+      return key;
+    }
+  }
   /**
    * Retrieves and answers an <code>ImageIcon</code> for the given key from
    * the bundle.
@@ -55,29 +70,17 @@ public final class ResourceManager
       return readImageIcon(path);
   }
 
-  /**
-   * Gets and answers an <code>InputStream</code> for the given path
-   * using the default <code>ClassLoader</code>.
-   */
   public static InputStream getInputStream(String path)
   {
     return INSTANCE.loader.getResourceAsStream(path);
   }
 
-  /**
-   * Reads and answers an <code>ImageIcon</code> for the given path
-   * using the default <code>ClassLoader</code>.
-   */
   public static ImageIcon readImageIcon(String path)
   {
     URL url = INSTANCE.loader.getResource(path);
     return null == url ? null : new ImageIcon(url);
   }
 
-  /**
-   * Reads and answers the <code>String</code> contents of a text file
-   * located at the the given path using the default <code>ClassLoader</code>.
-   */
   public static String readTextFromFile(String path)
   {
     InputStream in = getInputStream(path);
@@ -110,22 +113,6 @@ public final class ResourceManager
       catch(IOException e)
       {
       }
-    }
-  }
-
-  /**
-   * Loads <code>Properties</code> from the specified path.
-   *
-   * @deprecated Property files should be replaced by resource bundles.
-   */
-  public static void loadProperties(Properties properties, String pathname)
-  {
-    try
-    {
-      properties.load(new BufferedInputStream(ResourceManager.getInputStream(pathname)));
-    }
-    catch(Exception e)
-    {
     }
   }
 
