@@ -27,7 +27,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -545,15 +545,15 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
             final List exceptions = new ArrayList();
             db.setErrorHandler(new ErrorHandler() {
-                    public void error(SAXParseException exception) throws SAXException {
+                    public void error(SAXParseException exception) {
                         addMessage(exception);
                     }
 
-                    public void fatalError(SAXParseException exception) throws SAXException {
+                    public void fatalError(SAXParseException exception) {
                         addMessage(exception);
                     }
 
-                    public void warning(SAXParseException exception) throws SAXException {
+                    public void warning(SAXParseException exception) {
                     }
 
                     private void addMessage(SAXParseException exception) {
