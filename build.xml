@@ -31,6 +31,7 @@
     <tstamp/>
     <property name="lib" value="lib"/>
     <property name="lib.core" value="${lib}/core"/>
+    <property name="lib.designer" value="${lib}/designer"/>
     <property name="lib.build" value="${lib}/build"/>
     <property name="lib.optional" value="${lib}/optional"/>
 
@@ -261,7 +262,8 @@
     <mkdir dir="${dist}/zip"/>
     <mkdir dir="${dist}/zip/docs"/>
     <mkdir dir="${dist}/zip/src"/>
-    <mkdir dir="${dist}/zip/lib"/>
+    <mkdir dir="${dist}/zip/lib/core"/>
+    <mkdir dir="${dist}/zip/lib/designer"/>
 
     <copy todir="${dist}/zip/docs">
       <fileset dir="${dist}/docs"/>
@@ -271,8 +273,12 @@
       <fileset dir="src"/>
     </copy>
 
-    <copy todir="${dist}/zip/lib">
+    <copy todir="${dist}/zip/lib/core">
       <fileset dir="${lib.core}"/>
+    </copy>
+
+    <copy todir="${dist}/zip/lib/designer">
+      <fileset dir="${lib.designer}"/>
     </copy>
 
     <copy file="${dist}/${name}-${version}.jar" todir="${dist}/zip"/>
@@ -281,7 +287,7 @@
 
     <zip zipfile="${dist}/${name}-${version}.zip" basedir="${dist}/zip"/>
 
-    <delete dir="${dist}/zip"/>
+<!--    <delete dir="${dist}/zip"/>-->
   </target>
 </project>
 

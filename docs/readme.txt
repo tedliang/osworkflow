@@ -12,3 +12,5 @@ anywhere near production levels and should only be used as a
 preview of what is to come. It currently only works semi-reliably
 for read-only mode. If you are going to use the designer, we
 recommend you back up all your data first. Thanks! 
+
+To run the designer, just run java -jar designer.jar
