@@ -18,18 +18,18 @@ public class WorkflowCell extends DefaultGraphCell
   protected String name;
 
   /**
-   * Constructor for OSWfCell.
-   * @param arg0
+   * @param cellName
    */
-  public WorkflowCell(Object arg0)
+  public WorkflowCell(Object cellName)
   {
-    super(arg0);
+    super(cellName);
     GraphConstants.setBounds(attributes, defaultBounds);
     GraphConstants.setOpaque(attributes, true);
     GraphConstants.setBackground(attributes, Color.blue.darker());
     GraphConstants.setForeground(attributes, Color.white);
     GraphConstants.setBorder(attributes, BorderFactory.createRaisedBevelBorder());
     GraphConstants.setEditable(attributes, false);
+    //GraphConstants.setVerticalAlignment(attributes, SwingConstants.TOP);
     //GraphConstants.setFont(attributes, GraphConstants.defaultFont.deriveFont(Font.BOLD, 12));
   }
 

@@ -103,11 +103,10 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   public void createGraph(String workflowName)
   {
     GraphModel model = new WorkflowGraphModel();
-    WorkflowGraph graph = null;
     Layout layout = manager.getCurrentWorkspace().getLayout(workflowName);
     boolean hasLayout = layout != null;
     if(layout == null) layout = new Layout();
-    WorkflowDescriptor descriptor = null;
+    WorkflowDescriptor descriptor;
     try
     {
       descriptor = manager.getCurrentWorkspace().getWorkflow(workflowName);
@@ -118,7 +117,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       return;
     }
     mlayout.add(layout);
-    graph = new WorkflowGraph(model, descriptor, layout, !hasLayout);
+    WorkflowGraph graph = new WorkflowGraph(model, descriptor, layout, !hasLayout);
     if(System.getProperty("mrj.version") != null)
     {
       graph.setDoubleBuffered(false);

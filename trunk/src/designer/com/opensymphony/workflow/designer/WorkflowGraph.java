@@ -73,6 +73,29 @@ public class WorkflowGraph extends JGraph
       repaint();
       super.mouseReleased(e);
     }
+
+    public PortView getSourcePortAt(Point point)
+    {
+      // Scale from Screen to Model
+      Point tmp = fromScreen(new Point(point));
+      // Find a Port View in Model Coordinates and Remember
+      return getPortViewAt(tmp.x, tmp.y);
+    }
+
+    // Show Special Cursor if Over Port
+    public void mouseMoved(MouseEvent e)
+    {
+      // Check Mode and Find Port
+      if(e != null && getSourcePortAt(e.getPoint()) != null && !e.isConsumed())
+      {
+        // Set Cusor on Graph (Automatically Reset)
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
+        // Consume Event
+        e.consume();
+      }
+      // Call Superclass
+      super.mouseReleased(e);
+    }
   }
 
   public void autoLayout()
@@ -207,7 +230,9 @@ public class WorkflowGraph extends JGraph
     {
       Rectangle bounds = layout.getBounds(step.toString());
       if(bounds != null)
+      {
         step.getAttributes().put(GraphConstants.BOUNDS, bounds);
+      }
     }
     getWorkflowGraphModel().insertStep(step, null, null, null);
   }
@@ -218,7 +243,9 @@ public class WorkflowGraph extends JGraph
     {
       Rectangle bounds = layout.getBounds(split.toString());
       if(bounds != null)
+      {
         split.getAttributes().put(GraphConstants.BOUNDS, bounds);
+      }
     }
     getWorkflowGraphModel().insertSplit(split, null, null, null);
   }
@@ -229,7 +256,9 @@ public class WorkflowGraph extends JGraph
     {
       Rectangle bounds = layout.getBounds(join.toString());
       if(bounds != null)
+      {
         join.getAttributes().put(GraphConstants.BOUNDS, bounds);
+      }
     }
     getWorkflowGraphModel().insertJoin(join, null, null, null);
   }
@@ -246,6 +275,5 @@ public class WorkflowGraph extends JGraph
     }
     getWorkflowGraphModel().insertInitialActions(null, initialActionCell, null, null, null);
   }
-
 }
 
