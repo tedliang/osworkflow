@@ -1,9 +1,7 @@
 package com.opensymphony.workflow.loader;
 
 import java.io.*;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.net.URL;
 import java.net.MalformedURLException;
 
@@ -242,6 +240,8 @@ public class Workspace extends XMLWorkflowFactory
       WorkflowConfig config = (WorkflowConfig)workflows.get(name);
       if(config.url!=null)
       {
+	      descriptor.getMetaAttributes().put("generator", "OSWOrkflow Designer");
+	      descriptor.getMetaAttributes().put("lastModified", new Date());
         return super.saveWorkflow(name, descriptor, replace);
       }
       else
@@ -275,6 +275,7 @@ public class Workspace extends XMLWorkflowFactory
     ActionDescriptor initialAction = new ActionDescriptor();
     initialAction.setName(ResourceManager.getString("action.initial.start"));
     config.descriptor.getInitialActions().add(initialAction);
+	  config.descriptor.getMetaAttributes().put("created", new Date());
     workflows.put(name, config);
   }
 
