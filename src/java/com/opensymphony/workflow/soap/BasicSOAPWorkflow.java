@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class BasicSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -64,6 +64,10 @@ public class BasicSOAPWorkflow implements Workflow {
 
     public boolean canInitialize(String workflowName, int initialState) throws WorkflowException {
         return new BasicWorkflow(getRemoteUser()).canInitialize(workflowName, initialState);
+    }
+
+    public boolean canInitialize(String workflowName, int initialAction, Map inputs) throws WorkflowException {
+        return new BasicWorkflow(getRemoteUser()).canInitialize(workflowName, initialAction, inputs);
     }
 
     public void doAction(long id, int actionId, Map inputs) throws WorkflowException {

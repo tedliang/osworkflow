@@ -289,6 +289,43 @@ public class AbstractWorkflow implements Workflow {
         return canInitialize(workflowName, initialAction, transientVars, ps);
     }
 
+    /**
+     * @ejb.interface-method
+     * @param workflowName the name of the workflow to check
+     * @param initialAction The initial action to check
+     * @param inputs the inputs map
+     * @return true if the workflow can be initialized
+     * @throws WorkflowException if an unexpected error happens
+     */
+    public boolean canInitialize(String workflowName, int initialAction, Map inputs) throws WorkflowException {
+        final String mockWorkflowName = workflowName;
+        WorkflowEntry mockEntry = new WorkflowEntry() {
+            public long getId() {
+                return 0;
+            }
+
+            public String getWorkflowName() {
+                return mockWorkflowName;
+            }
+
+            public boolean isInitialized() {
+                return false;
+            }
+        };
+
+        // since no state change happens here, a memory instance is just fine
+        PropertySet ps = PropertySetManager.getInstance("memory", null);
+        Map transientVars = new HashMap();
+
+        if (inputs != null) {
+            transientVars.putAll(inputs);
+        }
+
+        populateTransientMap(mockEntry, transientVars, Collections.EMPTY_LIST);
+
+        return canInitialize(workflowName, initialAction, transientVars, ps);
+    }
+
     public void doAction(long id, int actionId, Map inputs) throws WorkflowException {
         int[] availableActions = getAvailableActions(id);
         boolean validAction = false;
