@@ -24,7 +24,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -263,7 +263,6 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
     }
 
     public void validate() throws InvalidWorkflowDescriptorException {
-        validateDTD();
         ValidationHelper.validate(this.getRegisters());
         ValidationHelper.validate(this.getTriggerFunctions().values());
         ValidationHelper.validate(this.getGlobalActions());
@@ -298,6 +297,8 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
                 }
             }
         }
+
+        validateDTD();
     }
 
     public void writeXML(PrintWriter out, int indent) {
