@@ -173,15 +173,18 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
     }
 
     public void testWorkflowExpressionQuery() throws Exception {
-        WorkflowExpressionQuery query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.OWNER, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, USER_TEST));
         List workflows;
+        WorkflowExpressionQuery query;
 
         String workflowName = getClass().getResource("/samples/example.xml").toString();
         assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 1));
 
+        //-------------------   FieldExpression.OWNER  +  FieldExpression.CURRENT_STEPS ----------------------
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.OWNER, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, USER_TEST));
+
         try {
             workflows = workflow.query(query);
-            assertEquals(0, workflows.size());
+            assertEquals("empty OWNER+CURRENT_STEPS", 0, workflows.size());
         } catch (QueryNotSupportedException e) {
             log.error("Store does not support query");
 
@@ -190,47 +193,119 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
 
         long workflowId = workflow.initialize(workflowName, 1, new HashMap());
         workflows = workflow.query(query);
-        assertEquals(1, workflows.size());
+        assertEquals("OWNER+CURRENT_STEPS", 1, workflows.size());
 
+        //-------------------  FieldExpression.NAME + FieldExpression.ENTRY ----------------------------------
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.NAME, FieldExpression.ENTRY, FieldExpression.EQUALS, "notexistingname"));
+        workflows = workflow.query(query);
+        assertEquals("empty NAME+ENTRY", 0, workflows.size());
+
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.NAME, FieldExpression.ENTRY, FieldExpression.EQUALS, workflowName));
+        workflows = workflow.query(query);
+        assertEquals("NAME+ENTRY", 1, workflows.size());
+
+        //-------------------  FieldExpression.STATE + FieldExpression.ENTRY ----------------------------------
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.STATE, FieldExpression.ENTRY, FieldExpression.EQUALS, new Integer(WorkflowEntry.COMPLETED)));
+        workflows = workflow.query(query);
+        assertEquals("empty STATE+ENTRY", 0, workflows.size());
+
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.STATE, FieldExpression.ENTRY, FieldExpression.EQUALS, new Integer(WorkflowEntry.ACTIVATED)));
+        workflows = workflow.query(query);
+        assertEquals("STATE+ENTRY", 1, workflows.size());
+
+        // ---------------------------  empty nested query : AND ---------------------------------
         Expression queryLeft = new FieldExpression(FieldExpression.OWNER, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, USER_TEST);
         Expression queryRight = new FieldExpression(FieldExpression.STATUS, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, "Finished");
         query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
                         queryLeft, queryRight
                     }, NestedExpression.AND));
+        workflows = workflow.query(query);
+        assertEquals("empty nested query AND", 0, workflows.size());
 
-        try {
-            workflows = workflow.query(query);
-            assertEquals(0, workflows.size());
-        } catch (QueryNotSupportedException e) {
-            log.error("Store does not support query");
+        // -------------------------- negated nested query: AND ----------------------------------
+        queryLeft = new FieldExpression(FieldExpression.OWNER, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, USER_TEST);
+        queryRight = new FieldExpression(FieldExpression.STATUS, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, "Finished", true);
+        query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
+                        queryLeft, queryRight
+                    }, NestedExpression.AND));
+        workflows = workflow.query(query);
+        assertEquals("negated nested query AND", 1, workflows.size());
 
-            return;
-        }
-
+        // -------------------------- nested query: AND + same context ------------------------------------------
         queryRight = new FieldExpression(FieldExpression.STATUS, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, "Underway");
         query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
                         queryLeft, queryRight
                     }, NestedExpression.AND));
         workflows = workflow.query(query);
-        assertEquals(1, workflows.size());
+        assertEquals("nested query AND", 1, workflows.size());
 
+        // ------------------------- empty nested query: OR + mixed context -------------------------------------
+        queryLeft = new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date());
+        queryRight = new FieldExpression(FieldExpression.STATUS, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, "Finished");
+        query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
+                        queryLeft, queryRight
+                    }, NestedExpression.OR));
+        workflows = workflow.query(query);
+        assertEquals("empty nested query OR + mixed context", 0, workflows.size());
+
+        // ------------------------- negated nested query: OR -------------------------------------
+        queryLeft = new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date());
+        queryRight = new FieldExpression(FieldExpression.STATUS, FieldExpression.CURRENT_STEPS, FieldExpression.EQUALS, "Finished", true);
+        query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
+                        queryLeft, queryRight
+                    }, NestedExpression.OR));
+        workflows = workflow.query(query);
+        assertEquals("negated nested query OR", 1, workflows.size());
+
+        // ------------------------- nested query: OR + mixed context -------------------------------------
+        queryLeft = new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date());
+        queryRight = new FieldExpression(FieldExpression.NAME, FieldExpression.ENTRY, FieldExpression.EQUALS, workflowName);
+        query = new WorkflowExpressionQuery(new NestedExpression(new Expression[] {
+                        queryLeft, queryRight
+                    }, NestedExpression.OR));
+        workflows = workflow.query(query);
+        assertEquals("nested query OR + mixed context", 1, workflows.size());
+
+        // --------------------- START_DATE+CURRENT_STEPS -------------------------------------------------
         //there should be one step that has been started
-        workflows = workflow.query(new WorkflowExpressionQuery(new FieldExpression(FieldExpression.START_DATE, FieldExpression.CURRENT_STEPS, FieldExpression.LT, new Date())));
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.START_DATE, FieldExpression.CURRENT_STEPS, FieldExpression.LT, new Date(System.currentTimeMillis() + 1000)));
+        workflows = workflow.query(query);
         assertEquals("Expected to find one workflow step that was started", 1, workflows.size());
 
+        // --------------------- empty FINISH_DATE+HISTORY_STEPS -------------------------------------------
         //there should be no steps that have been completed
-        workflows = workflow.query(new WorkflowExpressionQuery(new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date())));
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date()));
+        workflows = workflow.query(query);
         assertEquals("Expected to find no history steps that were completed", 0, workflows.size());
 
+        // =================================================================================================
         workflow.doAction(workflowId, 1, Collections.EMPTY_MAP);
 
+        // --------------------- START_DATE+HISTORY_STEPS -------------------------------------------------
         //there should be two step that have been started
-        workflows = workflow.query(new WorkflowExpressionQuery(new FieldExpression(FieldExpression.START_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date())));
-        assertEquals("Expected to find 2 workflow steps that were started", 1, workflows.size());
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.START_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date()));
+        workflows = workflow.query(query);
+        assertEquals("Expected to find 1 workflow step in the history", 1, workflows.size());
 
-        //there should be 1 steps that has been completed
-        workflows = workflow.query(new WorkflowExpressionQuery(new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date())));
+        // --------------------- FINISH_DATE+HISTORY_STEPS -------------------------------------------
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date(System.currentTimeMillis() + 1000)));
+        workflows = workflow.query(query);
         assertEquals("Expected to find 1 history steps that was completed", 1, workflows.size());
+
+        // --------------------- ACTION + HISTORY_STEPS ----------------------------------------------
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.ACTION, FieldExpression.HISTORY_STEPS, FieldExpression.EQUALS, new Integer(1)));
+        workflows = workflow.query(query);
+        assertEquals("ACTION + HISTORY_STEPS", 1, workflows.size());
+
+        // --------------------- STEP + HISTORY_STEPS ----------------------------------------------
+        query = (new WorkflowExpressionQuery(new FieldExpression(FieldExpression.STEP, FieldExpression.HISTORY_STEPS, FieldExpression.EQUALS, new Integer(1))));
+        workflows = workflow.query(query);
+        assertEquals("STEP + HISTORY_STEPS", 1, workflows.size());
+
+        // --------------------- CALLER + HISTORY_STEPS --------------------------------------------
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.CALLER, FieldExpression.HISTORY_STEPS, FieldExpression.EQUALS, USER_TEST));
+        workflows = workflow.query(query);
+        assertEquals("CALLER + HISTORY_STEPS", 1, workflows.size());
 
         //----------------------------------------------------------------------------
         // ----- some more tests using nested expressions
