@@ -185,10 +185,14 @@ public class StepEditor extends DetailPanel implements ActionListener
       {
         rd = new RestrictionDescriptor();
         rd.setParent(firstAction);
-        rd.setConditionType((String)restrict.getSelectedItem());
+        ConditionsDescriptor conditions = new ConditionsDescriptor();
+        rd.getConditions().add(conditions);
+        conditions.setParent(rd);
+        conditions.setType((String)restrict.getSelectedItem());
         firstAction.setRestriction(rd);
       }
-      conditionsModel.setList(rd.getConditions());
+      //todo no nested conditions allowed
+      conditionsModel.setList(((ConditionsDescriptor)rd.getConditions().get(0)).getConditions());
     }
     else
     {

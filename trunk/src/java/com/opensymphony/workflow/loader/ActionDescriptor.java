@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -133,6 +133,10 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
     }
 
     public void validate() throws InvalidWorkflowDescriptorException {
+        if (unconditionalResult == null) {
+            throw new InvalidWorkflowDescriptorException("Action " + name + " must have an unconditional-result");
+        }
+
         ValidationHelper.validate(preFunctions);
         ValidationHelper.validate(postFunctions);
         ValidationHelper.validate(validators);

@@ -125,7 +125,13 @@ public class ResultEditor extends DetailPanel implements ActionListener
     {
       setConditional(true);
       ConditionalResultDescriptor cond = (ConditionalResultDescriptor)descriptor;
-      conditionsModel.setList(cond.getConditions());
+      if(cond.getConditions().size() == 0)
+      {
+        ConditionsDescriptor conditions = new ConditionsDescriptor();
+        conditions.setParent(cond);
+        cond.getConditions().add(conditions);
+      }
+      conditionsModel.setList(((ConditionsDescriptor)cond.getConditions().get(0)).getConditions());
       conditionsTable.getSelectionModel().clearSelection();
     }
     else

@@ -137,12 +137,15 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
 		RestrictionDescriptor restriction = descriptor.getRestriction();
 		if(restriction == null)
 		{
-			restriction = new RestrictionDescriptor();
-			restriction.setConditionType((String)restrict.getSelectedItem());
-			restriction.setParent(descriptor);
+      restriction = new RestrictionDescriptor();
+      restriction.setParent(descriptor);
+      ConditionsDescriptor conditions = new ConditionsDescriptor();
+      restriction.getConditions().add(conditions);
+      conditions.setParent(restriction);
+      conditions.setType((String)restrict.getSelectedItem());
 			descriptor.setRestriction(restriction);
 		}
-		conditionsModel.setList(restriction.getConditions());
+		conditionsModel.setList(((ConditionsDescriptor)restriction.getConditions().get(0)).getConditions());
 		conditionsTable.getSelectionModel().clearSelection();
 
 		preModel.setList(descriptor.getPreFunctions());

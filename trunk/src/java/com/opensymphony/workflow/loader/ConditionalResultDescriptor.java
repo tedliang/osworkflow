@@ -7,7 +7,6 @@ package com.opensymphony.workflow.loader;
 import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 
@@ -17,13 +16,12 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ConditionalResultDescriptor extends ResultDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected List conditions = new ArrayList();
-    protected String conditionType;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -35,14 +33,6 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
-
-    public void setConditionType(String conditionType) {
-        this.conditionType = conditionType;
-    }
-
-    public String getConditionType() {
-        return conditionType;
-    }
 
     public List getConditions() {
         return conditions;
@@ -85,16 +75,11 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
 
         buf.append(">");
         out.println(buf);
-        XMLUtil.printIndent(out, indent++);
-        out.println("<conditions type=\"" + conditionType + "\">");
 
         for (int i = 0; i < conditions.size(); i++) {
-            ConditionDescriptor condition = (ConditionDescriptor) conditions.get(i);
+            ConditionsDescriptor condition = (ConditionsDescriptor) conditions.get(i);
             condition.writeXML(out, indent);
         }
-
-        XMLUtil.printIndent(out, --indent);
-        out.println("</conditions>");
 
         if (validators.size() > 0) {
             XMLUtil.printIndent(out, indent++);
@@ -118,15 +103,13 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
     protected void init(Element conditionalResult) {
         super.init(conditionalResult);
 
-        Element conditions = XMLUtil.getChildElement(conditionalResult, "conditions");
-        conditionType = conditions.getAttribute("type");
+        List conditionNodes = XMLUtil.getChildElements(conditionalResult, "conditions");
 
-        List conditionNodes = XMLUtil.getChildElements(conditions, "condition");
         int length = conditionNodes.size();
 
         for (int i = 0; i < length; i++) {
             Element condition = (Element) conditionNodes.get(i);
-            ConditionDescriptor conditionDescriptor = new ConditionDescriptor(condition);
+            ConditionsDescriptor conditionDescriptor = new ConditionsDescriptor(condition);
             conditionDescriptor.setParent(this);
             this.conditions.add(conditionDescriptor);
         }

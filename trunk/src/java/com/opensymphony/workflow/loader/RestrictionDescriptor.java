@@ -17,13 +17,12 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class RestrictionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected List conditions = new ArrayList();
-    protected String conditionType;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -35,14 +34,6 @@ public class RestrictionDescriptor extends AbstractDescriptor implements Validat
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
-
-    public void setConditionType(String conditionType) {
-        this.conditionType = conditionType;
-    }
-
-    public String getConditionType() {
-        return conditionType;
-    }
 
     public List getConditions() {
         return conditions;
@@ -61,16 +52,10 @@ public class RestrictionDescriptor extends AbstractDescriptor implements Validat
         out.println("<restrict-to>");
 
         if (conditions.size() > 0) {
-            XMLUtil.printIndent(out, indent++);
-            out.println("<conditions type=\"" + conditionType + "\">");
-
             for (int i = 0; i < conditions.size(); i++) {
-                ConditionDescriptor condition = (ConditionDescriptor) conditions.get(i);
+                ConditionsDescriptor condition = (ConditionsDescriptor) conditions.get(i);
                 condition.writeXML(out, indent);
             }
-
-            XMLUtil.printIndent(out, --indent);
-            out.println("</conditions>");
         }
 
         XMLUtil.printIndent(out, --indent);
@@ -79,20 +64,14 @@ public class RestrictionDescriptor extends AbstractDescriptor implements Validat
 
     protected void init(Element restriction) {
         // set up condition - OPTIONAL
-        Element conditions = XMLUtil.getChildElement(restriction, "conditions");
+        List conditionNodes = XMLUtil.getChildElements(restriction, "conditions");
+        int length = conditionNodes.size();
 
-        if (conditions != null) {
-            conditionType = conditions.getAttribute("type");
-
-            List conditionNodes = XMLUtil.getChildElements(conditions, "condition");
-            int length = conditionNodes.size();
-
-            for (int i = 0; i < length; i++) {
-                Element condition = (Element) conditionNodes.get(i);
-                ConditionDescriptor conditionDescriptor = new ConditionDescriptor(condition);
-                conditionDescriptor.setParent(this);
-                this.conditions.add(conditionDescriptor);
-            }
+        for (int i = 0; i < length; i++) {
+            Element condition = (Element) conditionNodes.get(i);
+            ConditionsDescriptor conditionDescriptor = new ConditionsDescriptor(condition);
+            conditionDescriptor.setParent(this);
+            this.conditions.add(conditionDescriptor);
         }
     }
 }
