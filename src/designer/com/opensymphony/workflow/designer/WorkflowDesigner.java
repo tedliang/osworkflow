@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import java.util.List;
 import javax.swing.*;
 
 import org.jgraph.event.GraphSelectionEvent;
@@ -48,10 +47,10 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   private Navigator navigator;
   private WorkspaceManager manager = new WorkspaceManager();
-  private JTabbedPane graphTabs = new JTabbedPane();
+  private GraphTabbedPane graphTabs = new GraphTabbedPane();
   // Current WorkSpace File
-  private List graphs = new ArrayList();
-  private List mlayout = new ArrayList();
+  //private List graphs = new ArrayList();
+  //private List layouts = new ArrayList();
   private JSplitPane mainSplitPane;
   private EmptyBorderSplitPane leftSplitPane;
   private CardPanel detailPanel = new CardPanel();
@@ -127,9 +126,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   public WorkflowGraph getCurrentGraph()
   {
-    int index = graphTabs.getSelectedIndex();
-    if(index == -1 || index >= graphs.size()) return null;
-    return (WorkflowGraph)graphs.get(index);
+	  return graphTabs.getCurrentGraph();
   }
 
   public void createGraph(String workflowName)
@@ -150,12 +147,11 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       log.error("Error creating graph:" + e.getMessage());
       return;
     }
-    mlayout.add(layout);
     WorkflowGraph graph = new WorkflowGraph(model, descriptor, layout, !hasLayout);
     graph.addGraphSelectionListener(this);
-    graphs.add(graph);
-    graphTabs.add(workflowName, new JScrollPane(graph));
-    graphTabs.setSelectedIndex(graphTabs.getComponentCount() - 1);
+	  graph.setName(workflowName);
+	  graphTabs.addGraph(graph);
+	  graphTabs.setVisible(true);
   }
 
   public void quit()
@@ -174,6 +170,12 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
     System.exit(0);
   }
+
+	public void renameWorkflow(String oldName, String newName)
+	{
+		graphTabs.renameGraph(oldName, newName);
+		manager.getCurrentWorkspace().renameWorkflow(oldName, newName);
+	}
 
   public void valueChanged(GraphSelectionEvent e)
   {
@@ -228,7 +230,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
     if(panel != null)
     {
-      WorkflowGraph currentGraph = (WorkflowGraph)((JScrollPane)graphTabs.getSelectedComponent()).getViewport().getView();
+      WorkflowGraph currentGraph = graphTabs.getCurrentGraph();
       panel.setModel(currentGraph.getWorkflowGraphModel());
       if(node instanceof WorkflowCell)
       {
@@ -257,7 +259,13 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       {
         Prefs.INSTANCE.put(Prefs.LAST_WORKSPACE, f.toString());
         manager.loadWorkspace(f);
-        navigator.setWorkspace(manager.getCurrentWorkspace());
+	      Workspace workspace = manager.getCurrentWorkspace();
+	      navigator.setWorkspace(workspace);
+	      String[] workflows = workspace.getWorkflowNames();
+	      for(int i = 0; i < workflows.length; i++)
+	      {
+		      createGraph(workflows[i]);
+	      }
       }
       catch(Exception t)
       {
@@ -281,12 +289,12 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
   }
 
-  public void save(int index)
+  private void save(WorkflowGraph graph)
   {
-    Layout layout = (Layout)mlayout.get(index);
-    WorkflowGraphModel obj = (WorkflowGraphModel)((WorkflowGraph)graphs.get(index)).getModel();
-    layout.setAllEntries(obj.getActivitiesList());
-    String workflowName = graphTabs.getTitleAt(index);
+    Layout layout = graph.getGraphLayout();
+    WorkflowGraphModel model = (WorkflowGraphModel)graph.getModel();
+    layout.setAllEntries(model.getActivitiesList());
+    String workflowName = graph.getName();
     manager.getCurrentWorkspace().setLayout(workflowName, layout);
     try
     {
@@ -305,10 +313,11 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   public void saveOpenGraphs()
   {
-    for(int i = 0; i < graphTabs.getTabCount(); i++)
-    {
-      save(i);
-    }
+	  WorkflowGraph[] graphs = graphTabs.getGraphs();
+	  for(int i = 0; i < graphs.length; i++)
+	  {
+		  save(graphs[i]);
+	  }
   }
 
   public void saveWorkspace()
@@ -329,16 +338,10 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   {
     //don't bother doing anything if we have no workspace visible
     if(!graphTabs.isVisible()) return;
-    int count = graphTabs.getComponentCount();
-    for(int i = count - 1; i >= 0; i--)
-    {
-      graphTabs.remove(i);
-    }
+	  graphTabs.removeAll();
     manager.setCurrentWorkspace(null);
     navigator.setWorkspace(null);
     Prefs.INSTANCE.remove(Prefs.LAST_WORKSPACE);
-    mlayout.clear();
-    graphs.clear();
     graphTabs.setVisible(false);
   }
 
@@ -355,16 +358,11 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   public void selectWorkflow(String workflowName)
   {
-    for(int i = 0; i < graphTabs.getTabCount(); i++)
-    {
-      String name = graphTabs.getTitleAt(i);
-      if(name.equals(workflowName))
-      {
-        graphTabs.setSelectedIndex(i);
-        Prefs.INSTANCE.put(Prefs.WORKFLOW_CURRENT, workflowName);
-        return;
-      }
-    }
+	  if(graphTabs.selectWorkflow(workflowName))
+	  {
+		  Prefs.INSTANCE.put(Prefs.WORKFLOW_CURRENT, workflowName);
+		  return;
+	  }
     createGraph(workflowName);
     Prefs.INSTANCE.put(Prefs.WORKFLOW_CURRENT, workflowName);
     graphTabs.setVisible(true);
