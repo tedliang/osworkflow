@@ -7,6 +7,7 @@ package com.opensymphony.workflow;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
 
+import com.opensymphony.util.ClassLoaderUtil;
 import com.opensymphony.util.TextUtils;
 
 import com.opensymphony.workflow.config.Configuration;
@@ -782,7 +783,7 @@ public class AbstractWorkflow implements Workflow {
 
     protected Object loadObject(String clazz) {
         try {
-            return Thread.currentThread().getContextClassLoader().loadClass(clazz).newInstance();
+            return ClassLoaderUtil.loadClass(clazz, getClass()).newInstance();
         } catch (Exception e) {
             log.error("Could not load object '" + clazz + "'", e);
 
