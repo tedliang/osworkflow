@@ -6,7 +6,7 @@
         <id name="id" unsaved-value="any">
             <generator class="native"/>
         </id>
-        <property name="workflowName"/>
+        <property name="workflowName" column="name"/>
         <property name="state"/>
 
         <list name="currentSteps" cascade="all" lazy="true" >

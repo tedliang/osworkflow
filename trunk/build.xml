@@ -7,6 +7,14 @@
     </fileset>
   </path>
 
+  <path id="cp.test">
+    <fileset dir="lib">
+      <include name="**/*.jar"/>
+      <exclude name="**/jalopy/*.jar"/>
+      <exclude name="**/xdoclet/*.jar"/>      
+    </fileset>
+  </path>
+  
   <path id="jalopy.classpath">
     <fileset dir="lib/build/jalopy">
       <include name="*.jar"/>
@@ -140,10 +148,10 @@
       </fileset>
     </copy>
     <mkdir dir="${dist}/docs/junit"/>
-    <junit printsummary="withOutAndErr" haltonfailure="no" haltonerror="yes" showoutput="yes">
+    <junit printsummary="withOutAndErr" haltonfailure="no" haltonerror="no" showoutput="yes">
       <classpath>
         <pathelement location="${build.test}"/>
-        <path refid="cp"/>
+        <path refid="cp.test"/>
       </classpath>
 
       <formatter type="xml"/>

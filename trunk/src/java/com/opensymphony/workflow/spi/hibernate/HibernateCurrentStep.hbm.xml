@@ -6,15 +6,15 @@
         <id name="id" unsaved-value="any">
             <generator class="native"/>
         </id>
-        <property name="actionId"/>
-        <property name="caller"/>
-        <property name="finishDate"/>
-        <property name="startDate"/>
-        <property name="dueDate"/>
-        <property name="owner"/>
-        <property name="status"/>
-        <property name="stepId"/>
+        <property name="actionId" column="action_Id"/>
+        <property name="caller" column="caller"/>
+        <property name="finishDate" column="finish_Date"/>
+        <property name="startDate" column="start_Date"/>
+        <property name="dueDate" column="due_Date"/>
+        <property name="owner" column="owner"/>
+        <property name="status" column="status"/>
+        <property name="stepId" column="step_Id"/>
 
-        <many-to-one name="entry" class="com.opensymphony.workflow.spi.hibernate.HibernateWorkflowEntry" column="entryId"/>
+        <many-to-one name="entry" class="com.opensymphony.workflow.spi.hibernate.HibernateWorkflowEntry" column="entry_Id"/>
     </class>
 </hibernate-mapping>
