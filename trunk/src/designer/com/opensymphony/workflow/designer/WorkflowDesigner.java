@@ -57,7 +57,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   public static WorkflowDesigner INSTANCE = null;
   private WorkflowConfigDescriptor palette = null;
   private static Splash splash;
-  private StatusBar statusBar;
+  public StatusBar statusBar;
 
   public WorkflowDesigner()
   {
