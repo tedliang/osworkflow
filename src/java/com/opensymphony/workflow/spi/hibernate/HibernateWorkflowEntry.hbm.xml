@@ -7,7 +7,7 @@
             <generator class="native"/>
         </id>
         <property name="workflowName"/>
-        <property name="initialized"/>
+        <property name="state"/>
 
         <list name="currentSteps" cascade="all" lazy="true" >
             <key column="entryId"/>

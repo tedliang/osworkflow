@@ -35,7 +35,7 @@ import javax.sql.DataSource;
  *  <li><b>entry.table</b> - table name for workflow entry</li>
  *  <li><b>entry.id</b> - column name for workflow entry ID field</li>
  *  <li><b>entry.name</b> - column name for workflow entry name field</li>
- *  <li><b>entry.initialized</b> - column name for workflow entry initialized field</li>
+ *  <li><b>entry.state</b> - column name for workflow entry state field</li>
  *  <li><b>step.sequence</b> - SQL query that returns the next ID for a workflow step</li>
  *  <li><b>history.table</b> - table name for steps in history</li>
  *  <li><b>current.table</b> - table name for current steps</li>
@@ -67,9 +67,9 @@ public class JDBCWorkflowStore implements WorkflowStore {
     private String currentPrevTable;
     private String currentTable;
     private String entryId;
-    private String entryInit;
     private String entryName;
     private String entrySequence;
+    private String entryState;
     private String entryTable;
     private String historyPrevTable;
     private String historyTable;
@@ -87,6 +87,25 @@ public class JDBCWorkflowStore implements WorkflowStore {
     private String stepStepId;
 
     //~ Methods ////////////////////////////////////////////////////////////////
+
+    public void setEntryState(long id, int state) throws StoreException {
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            conn = ds.getConnection();
+
+            String sql = "UPDATE " + entryTable + " SET " + entryState + " = ? WHERE " + entryId + " = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, WorkflowEntry.SUSPENDED);
+            ps.setLong(2, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new StoreException("Unable to update state for workflow instance #" + id + " to " + state, e);
+        } finally {
+            cleanup(conn, stmt, null);
+        }
+    }
 
     public PropertySet getPropertySet(long entryId) {
         HashMap args = new HashMap(1);
@@ -144,7 +163,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
             return new SimpleStep(id, entryId, wfStepId, 0, owner, startDate, dueDate, null, status, previousIds, null);
         } catch (SQLException e) {
-            throw new StoreException("Unable to create current step for #" + entryId, e);
+            throw new StoreException("Unable to create current step for workflow instance #" + entryId, e);
         } finally {
             cleanup(conn, stmt, null);
         }
@@ -157,7 +176,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         try {
             conn = getConnection();
 
-            String sql = "INSERT INTO " + entryTable + " (" + entryId + ", " + entryName + ", " + entryInit + ") VALUES (?,?,0)";
+            String sql = "INSERT INTO " + entryTable + " (" + entryId + ", " + entryName + ", " + entryState + ") VALUES (?,?,?)";
 
             if (log.isDebugEnabled()) {
                 log.debug("Executing SQL statement: " + sql);
@@ -168,11 +187,12 @@ public class JDBCWorkflowStore implements WorkflowStore {
             long id = getNextEntrySequence(conn);
             stmt.setLong(1, id);
             stmt.setString(2, workflowName);
+            stmt.setInt(3, WorkflowEntry.CREATED);
             stmt.executeUpdate();
 
-            return new SimpleWorkflowEntry(id, workflowName, false);
+            return new SimpleWorkflowEntry(id, workflowName, WorkflowEntry.CREATED);
         } catch (SQLException e) {
-            throw new StoreException("Error creating new workflow entry", e);
+            throw new StoreException("Error creating new workflow instance", e);
         } finally {
             cleanup(conn, stmt, null);
         }
@@ -244,7 +264,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
             return currentSteps;
         } catch (SQLException e) {
-            throw new StoreException("Unable to locate current steps for #" + entryId, e);
+            throw new StoreException("Unable to locate current steps for workflow instance #" + entryId, e);
         } finally {
             cleanup(null, stmt2, null);
             cleanup(conn, stmt, rset);
@@ -259,7 +279,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         try {
             conn = getConnection();
 
-            String sql = "SELECT " + entryName + ", " + entryInit + " FROM " + entryTable + " WHERE " + entryId + " = ?";
+            String sql = "SELECT " + entryName + ", " + entryState + " FROM " + entryTable + " WHERE " + entryId + " = ?";
 
             if (log.isDebugEnabled()) {
                 log.debug("Executing SQL statement: " + sql);
@@ -272,11 +292,11 @@ public class JDBCWorkflowStore implements WorkflowStore {
             rset.next();
 
             String workflowName = rset.getString(1);
-            boolean initialized = (rset.getInt(2) == 1);
+            int state = rset.getInt(2);
 
-            return new SimpleWorkflowEntry(theEntryId, workflowName, initialized);
+            return new SimpleWorkflowEntry(theEntryId, workflowName, state);
         } catch (SQLException e) {
-            throw new StoreException("Error finding workflow entry #" + entryId);
+            throw new StoreException("Error finding workflow instance #" + entryId);
         } finally {
             cleanup(conn, stmt, rset);
         }
@@ -347,7 +367,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
             return currentSteps;
         } catch (SQLException e) {
-            throw new StoreException("Unable to locate history steps for #" + entryId, e);
+            throw new StoreException("Unable to locate history steps for workflow instance #" + entryId, e);
         } finally {
             cleanup(conn, stmt, rset);
         }
@@ -359,7 +379,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         entryTable = (String) props.get("entry.table");
         entryId = (String) props.get("entry.id");
         entryName = (String) props.get("entry.name");
-        entryInit = (String) props.get("entry.initialized");
+        entryState = (String) props.get("entry.state");
         historyTable = (String) props.get("history.table");
         currentTable = (String) props.get("current.table");
         currentPrevTable = (String) props.get("currentPrev.table");

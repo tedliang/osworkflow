@@ -94,7 +94,6 @@ public class AbstractWorkflow implements Workflow {
      * descriptor is no longer available or has become invalid.
      */
     public int[] getAvailableActions(long id) throws WorkflowException {
-        WorkflowDescriptor wf = null;
         WorkflowStore store = getPersistence();
         WorkflowEntry entry = store.findEntry(id);
 
@@ -102,7 +101,13 @@ public class AbstractWorkflow implements Workflow {
             throw new IllegalArgumentException("No such workflow id " + id);
         }
 
-        wf = getWorkflow(entry.getWorkflowName());
+        if (entry.getState() != WorkflowEntry.ACTIVATED) {
+            log.debug("--> state is " + entry.getState());
+
+            return new int[0];
+        }
+
+        WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
 
         if (wf == null) {
             throw new IllegalArgumentException("No such workflow " + entry.getWorkflowName());
@@ -156,6 +161,15 @@ public class AbstractWorkflow implements Workflow {
         WorkflowStore store = getPersistence();
 
         return store.findCurrentSteps(id);
+    }
+
+    /**
+     * @ejb.interface-method
+     */
+    public int getEntryState(long id) throws StoreException {
+        WorkflowStore store = getPersistence();
+
+        return store.findEntry(id).getState();
     }
 
     /**
@@ -280,6 +294,10 @@ public class AbstractWorkflow implements Workflow {
             public boolean isInitialized() {
                 return false;
             }
+
+            public int getState() {
+                return WorkflowEntry.CREATED;
+            }
         };
 
         // since no state change happens here, a memory instance is just fine
@@ -312,6 +330,10 @@ public class AbstractWorkflow implements Workflow {
             public boolean isInitialized() {
                 return false;
             }
+
+            public int getState() {
+                return WorkflowEntry.CREATED;
+            }
         };
 
         // since no state change happens here, a memory instance is just fine
@@ -327,9 +349,77 @@ public class AbstractWorkflow implements Workflow {
         return canInitialize(workflowName, initialAction, transientVars, ps);
     }
 
+    /**
+     * @ejb.interface-method
+     */
+    public boolean canModifyEntryState(long id, int newState) throws WorkflowException {
+        WorkflowStore store = getPersistence();
+        WorkflowEntry entry = store.findEntry(id);
+        int currentState = entry.getState();
+        boolean result = false;
+
+        switch (newState) {
+        case WorkflowEntry.CREATED:
+            result = false;
+
+        case WorkflowEntry.ACTIVATED:
+
+            if ((currentState == WorkflowEntry.CREATED) || (currentState == WorkflowEntry.SUSPENDED)) {
+                result = true;
+            }
+
+            break;
+
+        case WorkflowEntry.SUSPENDED:
+
+            if (currentState == WorkflowEntry.ACTIVATED) {
+                result = true;
+            }
+
+            break;
+
+        case WorkflowEntry.KILLED:
+
+            if ((currentState == WorkflowEntry.CREATED) || (currentState == WorkflowEntry.ACTIVATED) || (currentState == WorkflowEntry.SUSPENDED)) {
+                result = true;
+            }
+
+            break;
+
+        default:
+            result = false;
+
+            break;
+        }
+
+        return result;
+    }
+
+    public void changeEntryState(long id, int newState) throws WorkflowException {
+        WorkflowStore store = getPersistence();
+        WorkflowEntry entry = store.findEntry(id);
+
+        if (canModifyEntryState(id, newState)) {
+            store.setEntryState(id, newState);
+        } else {
+            throw new InvalidEntryStateException("Can't transition workflow instance #" + id + ". Current state is " + entry.getState() + ", requested state is " + newState);
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug(entry.getId() + " : State is now : " + entry.getState());
+        }
+    }
+
     public void doAction(long id, int actionId, Map inputs) throws WorkflowException {
         int[] availableActions = getAvailableActions(id);
         boolean validAction = false;
+
+        WorkflowStore store = getPersistence();
+        WorkflowEntry entry = store.findEntry(id);
+
+        if (entry.getState() != WorkflowEntry.ACTIVATED) {
+            return;
+        }
 
         for (int i = 0; i < availableActions.length; i++) {
             if (availableActions[i] == actionId) {
@@ -343,11 +433,7 @@ public class AbstractWorkflow implements Workflow {
             throw new IllegalArgumentException("Action " + actionId + " is invalid");
         }
 
-        WorkflowDescriptor wf = null;
-        WorkflowEntry entry = null;
-        WorkflowStore store = getPersistence();
-        entry = store.findEntry(id);
-        wf = getWorkflow(entry.getWorkflowName());
+        WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
 
         List currentSteps = store.findCurrentSteps(id);
         ActionDescriptor action = wf.getAction(actionId);
@@ -363,6 +449,7 @@ public class AbstractWorkflow implements Workflow {
 
         try {
             transitionWorkflow(entry, currentSteps, store, wf, action, transientVars, inputs, ps);
+            completeEntry(id);
         } catch (WorkflowException e) {
             context.setRollbackOnly();
             throw e;
@@ -370,11 +457,9 @@ public class AbstractWorkflow implements Workflow {
     }
 
     public void executeTriggerFunction(long id, int triggerId) throws WorkflowException {
-        WorkflowDescriptor wf = null;
-        WorkflowEntry entry = null;
         WorkflowStore store = getPersistence();
-        entry = store.findEntry(id);
-        wf = getWorkflow(entry.getWorkflowName());
+        WorkflowEntry entry = store.findEntry(id);
+        WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
 
         PropertySet ps = store.getPropertySet(id);
         Map transientVars = new HashMap();
@@ -485,6 +570,31 @@ public class AbstractWorkflow implements Workflow {
         return ConfigLoader.getWorkflow(name);
     }
 
+    protected void completeEntry(long id) throws WorkflowException {
+        WorkflowStore store = getPersistence();
+        WorkflowEntry entry = store.findEntry(id);
+
+        WorkflowDescriptor wf = getWorkflow(entry.getWorkflowName());
+
+        Collection currentSteps = store.findCurrentSteps(id);
+
+        boolean isCompleted = true;
+
+        for (Iterator iterator = currentSteps.iterator(); iterator.hasNext();) {
+            Step step = (Step) iterator.next();
+            StepDescriptor stepDes = wf.getStep(step.getStepId());
+
+            // if at least on current step have an available action
+            if (stepDes.getActions().size() > 0) {
+                isCompleted = false;
+            }
+        }
+
+        if (isCompleted == true) {
+            store.setEntryState(id, WorkflowEntry.COMPLETED);
+        }
+    }
+
     /**
      * Load the default configuration from the current context classloader. The search order is:
      * <li>osworkflow.xml</li>
@@ -572,8 +682,7 @@ public class AbstractWorkflow implements Workflow {
             mapEntry.setValue(translateVariables((String) mapEntry.getValue(), transientVars, ps));
         }
 
-        Condition condition = null;
-        String clazz = null;
+        String clazz;
 
         if ("remote-ejb".equals(type)) {
             clazz = RemoteEJBCondition.class.getName();
@@ -589,7 +698,7 @@ public class AbstractWorkflow implements Workflow {
             clazz = (String) args.get(CLASS_NAME);
         }
 
-        condition = (Condition) loadObject(clazz);
+        Condition condition = (Condition) loadObject(clazz);
 
         if (condition == null) {
             String message = "Could not load Condition: " + clazz;
@@ -651,7 +760,7 @@ public class AbstractWorkflow implements Workflow {
             Map args = register.getArgs();
 
             String type = register.getType();
-            String clazz = null;
+            String clazz;
 
             if ("remote-ejb".equals(type)) {
                 clazz = RemoteEJBRegister.class.getName();
@@ -667,9 +776,7 @@ public class AbstractWorkflow implements Workflow {
                 clazz = (String) args.get(CLASS_NAME);
             }
 
-            Register r = null;
-
-            r = (Register) loadObject(clazz);
+            Register r = (Register) loadObject(clazz);
 
             if (r == null) {
                 String message = "Could not load register class: " + clazz;
@@ -709,8 +816,7 @@ public class AbstractWorkflow implements Workflow {
                     mapEntry.setValue(translateVariables((String) mapEntry.getValue(), transientVars, ps));
                 }
 
-                Validator validator = null;
-                String clazz = null;
+                String clazz;
 
                 if ("remote-ejb".equals(type)) {
                     clazz = RemoteEJBValidator.class.getName();
@@ -726,7 +832,7 @@ public class AbstractWorkflow implements Workflow {
                     clazz = (String) args.get(CLASS_NAME);
                 }
 
-                validator = (Validator) loadObject(clazz);
+                Validator validator = (Validator) loadObject(clazz);
 
                 if (validator == null) {
                     String message = "Could not load validator class: " + clazz;
@@ -735,21 +841,18 @@ public class AbstractWorkflow implements Workflow {
 
                 try {
                     validator.validate(transientVars, args, ps);
+                } catch (InvalidInputException e) {
+                    throw e;
                 } catch (Exception e) {
-                    if (e instanceof InvalidInputException) {
-                        throw (InvalidInputException) e;
-                    } else {
-                        String message = "An unknown exception occured executing Validator: " + clazz;
-                        context.setRollbackOnly();
-                        throw new WorkflowException(message, e);
-                    }
+                    String message = "An unknown exception occured executing Validator: " + clazz;
+                    context.setRollbackOnly();
+                    throw new WorkflowException(message, e);
                 }
             }
         }
     }
 
     Object getVariableFromMaps(String var, Map transientVars, PropertySet ps) {
-        Object o = null;
         int firstDot = var.indexOf('.');
         String actualVar = var;
 
@@ -757,7 +860,7 @@ public class AbstractWorkflow implements Workflow {
             actualVar = var.substring(0, firstDot);
         }
 
-        o = transientVars.get(actualVar);
+        Object o = transientVars.get(actualVar);
 
         if (o == null) {
             o = ps.getAsActualType(actualVar);
@@ -939,8 +1042,7 @@ public class AbstractWorkflow implements Workflow {
                 mapEntry.setValue(translateVariables((String) mapEntry.getValue(), transientVars, ps));
             }
 
-            FunctionProvider provider = null;
-            String clazz = null;
+            String clazz;
 
             if ("remote-ejb".equals(type)) {
                 clazz = RemoteEJBFunctionProvider.class.getName();
@@ -956,7 +1058,7 @@ public class AbstractWorkflow implements Workflow {
                 clazz = (String) args.get(CLASS_NAME);
             }
 
-            provider = (FunctionProvider) loadObject(clazz);
+            FunctionProvider provider = (FunctionProvider) loadObject(clazz);
 
             if (provider == null) {
                 String message = "Could not load FunctionProvider class: " + clazz;
@@ -1032,12 +1134,10 @@ public class AbstractWorkflow implements Workflow {
         // go to next step
         if (theResults[0].getSplit() != 0) {
             // the result is a split request, handle it correctly
-            List splitPreFunctions = null;
-            List splitPostFunctions = null;
             SplitDescriptor splitDesc = wf.getSplit(theResults[0].getSplit());
             Collection results = splitDesc.getResults();
-            splitPreFunctions = new ArrayList();
-            splitPostFunctions = new ArrayList();
+            List splitPreFunctions = new ArrayList();
+            List splitPostFunctions = new ArrayList();
 
             for (Iterator iterator = results.iterator(); iterator.hasNext();) {
                 ResultDescriptor resultDescriptor = (ResultDescriptor) iterator.next();
@@ -1174,6 +1274,11 @@ public class AbstractWorkflow implements Workflow {
         for (Iterator iterator = postFunctions.iterator(); iterator.hasNext();) {
             FunctionDescriptor function = (FunctionDescriptor) iterator.next();
             executeFunction(function, transientVars, ps);
+        }
+
+        //if executed action was an initial action then workflow is activated
+        if ((wf.getInitialAction(action.getId()) != null) && (entry.getState() != WorkflowEntry.ACTIVATED)) {
+            changeEntryState(entry.getId(), WorkflowEntry.ACTIVATED);
         }
 
         //we have our results, lets check if we need to autoexec any of them

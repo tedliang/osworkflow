@@ -10,7 +10,6 @@
  */
 package com.opensymphony.workflow.timer;
 
-import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.Workflow;
 import com.opensymphony.workflow.WorkflowException;
 
@@ -22,14 +21,17 @@ import electric.util.Context;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import org.quartz.*;
+import org.quartz.Job;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
 
 /**
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  */
 public class WorkflowJob implements Job {
     //~ Static fields/initializers /////////////////////////////////////////////

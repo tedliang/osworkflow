@@ -24,9 +24,15 @@ public interface WorkflowStore {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     /**
+     * Set the state of the workflow instance.
+     * @param entryId The workflow instance id.
+     * @param state The state to move the workflow instance to.
+     */
+    public void setEntryState(long entryId, int state) throws StoreException;
+
+    /**
      * Returns a PropertySet that is associated with this workflow instance ID.
-     *
-     * @param entryId the ID of the workflow instance
+     * @param entryId The workflow instance id.
      * @return a property set unique to this entry ID
      */
     public PropertySet getPropertySet(long entryId) throws StoreException;
@@ -34,7 +40,7 @@ public interface WorkflowStore {
     /**
      * Persists a step with the given parameters.
      *
-     * @param entryId the ID of the workflow instance
+     * @param entryId The workflow instance id.
      * @param stepId the ID of the workflow step associated with this new
      *               Step (not to be confused with the step primary key)
      * @param owner the owner of the step
@@ -56,7 +62,7 @@ public interface WorkflowStore {
     /**
      * Returns a list of all current steps for the given workflow instance ID.
      *
-     * @param entryId the ID of the workflow instance
+     * @param entryId The workflow instance id.
      * @return a List of Steps
      * @see com.opensymphony.workflow.spi.Step
      */
@@ -65,7 +71,7 @@ public interface WorkflowStore {
     /**
      * Pulls up the workflow entry data for the entry ID given.
      *
-     * @param entryId the ID of the workflow instance
+     * @param entryId The workflow instance id.
      * @return a representation of the workflow instance persisted
      */
     public WorkflowEntry findEntry(long entryId) throws StoreException;
@@ -73,7 +79,7 @@ public interface WorkflowStore {
     /**
      * Returns a list of all steps that are finished for the given workflow instance ID.
      *
-     * @param entryId the ID of the workflow instance
+     * @param entryId The workflow instance id.
      * @return a List of Steps
      * @see com.opensymphony.workflow.spi.Step
      */

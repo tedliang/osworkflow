@@ -46,6 +46,14 @@ public class EJBWorkflowStore implements WorkflowStore {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public void setEntryState(long entryId, int state) throws StoreException {
+        try {
+            session.setEntryState(entryId, state);
+        } catch (RemoteException ex) {
+            log.error("Error changing state of workflow instance #" + entryId + " to " + state, ex);
+        }
+    }
+
     public PropertySet getPropertySet(long entryId) throws StoreException {
         try {
             HashMap args = new HashMap(2);
@@ -54,7 +62,7 @@ public class EJBWorkflowStore implements WorkflowStore {
 
             return PropertySetManager.getInstance("ejb", args);
         } catch (Exception e) {
-            throw new StoreException("Could not retrieve PropertySet for #" + entryId, e);
+            throw new StoreException("Could not retrieve PropertySet for workflow instance #" + entryId, e);
         }
     }
 

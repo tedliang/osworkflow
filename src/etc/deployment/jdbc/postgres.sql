@@ -37,7 +37,7 @@ create table OS_WFENTRY
 (
     ID bigint,
     NAME varchar(20),
-    INITIALIZED smallint,
+    STATE smallint,
     primary key (ID)
 );
 

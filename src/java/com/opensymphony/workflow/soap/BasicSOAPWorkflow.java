@@ -26,10 +26,10 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * DOCUMENT ME!
+ * Soap enabled Wrapper around a BasicWorkflow
  *
  * @author $author$
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class BasicSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -40,6 +40,10 @@ public class BasicSOAPWorkflow implements Workflow {
 
     public List getCurrentSteps(long id) throws StoreException {
         return new BasicWorkflow(getRemoteUser()).getCurrentSteps(id);
+    }
+
+    public int getEntryState(long id) throws WorkflowException {
+        return new BasicWorkflow(getRemoteUser()).getEntryState(id);
     }
 
     public List getHistorySteps(long id) throws StoreException {
@@ -72,6 +76,14 @@ public class BasicSOAPWorkflow implements Workflow {
 
     public boolean canInitialize(String workflowName, int initialAction, Map inputs) throws WorkflowException {
         return new BasicWorkflow(getRemoteUser()).canInitialize(workflowName, initialAction, inputs);
+    }
+
+    public boolean canModifyEntryState(long id, int newState) throws WorkflowException {
+        return new BasicWorkflow(getRemoteUser()).canModifyEntryState(id, newState);
+    }
+
+    public void changeEntryState(long id, int newState) throws WorkflowException {
+        new BasicWorkflow(getRemoteUser()).changeEntryState(id, newState);
     }
 
     public void doAction(long id, int actionId, Map inputs) throws WorkflowException {

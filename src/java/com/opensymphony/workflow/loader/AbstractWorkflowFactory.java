@@ -6,7 +6,6 @@ package com.opensymphony.workflow.loader;
 
 import com.opensymphony.workflow.FactoryException;
 
-import java.util.List;
 import java.util.Properties;
 
 

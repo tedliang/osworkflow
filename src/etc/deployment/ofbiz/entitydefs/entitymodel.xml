@@ -82,7 +82,7 @@
     <entity entity-name="OSWorkflowEntry" table-name="OS_WFENTRY"  package-name="">
         <field name="id" col-name="ID" type="numeric"/>
         <field name="name" col-name="NAME" type="short-varchar"/>
-        <field name="initialized" col-name="INITIALIZED" type="integer"/>
+        <field name="state" col-name="STATE" type="integer"/>
         <prim-key field="id"/>
     </entity>
 
