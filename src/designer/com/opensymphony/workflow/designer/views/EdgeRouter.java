@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 
 import org.jgraph.graph.Edge;
 import org.jgraph.graph.EdgeView;
+import org.jgraph.graph.PortView;
 
 import com.opensymphony.workflow.designer.WorkflowPort;
 
@@ -17,8 +18,8 @@ public class EdgeRouter implements Edge.Routing
 {
   public void route(EdgeView edge, java.util.List points)
   {
-    CustomPortView sourceView = (CustomPortView)edge.getSource();
-    CustomPortView targetView = (CustomPortView)edge.getTarget();
+    PortView sourceView = (PortView)edge.getSource();
+    PortView targetView = (PortView)edge.getTarget();
     if(sourceView==null || targetView==null) return;
 
     WorkflowPort sourcePort = (WorkflowPort)sourceView.getCell();
