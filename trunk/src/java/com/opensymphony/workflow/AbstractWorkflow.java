@@ -1088,7 +1088,7 @@ public class AbstractWorkflow implements Workflow {
         }
     }
 
-    private void createNewCurrentStep(ResultDescriptor theResult, WorkflowEntry entry, WorkflowStore store, int actionId, Step currentStep, long[] previousIds, Map transientVars, PropertySet ps) throws WorkflowException {
+    private Step createNewCurrentStep(ResultDescriptor theResult, WorkflowEntry entry, WorkflowStore store, int actionId, Step currentStep, long[] previousIds, Map transientVars, PropertySet ps) throws WorkflowException {
         try {
             int nextStep = theResult.getStep();
 
@@ -1155,6 +1155,7 @@ public class AbstractWorkflow implements Workflow {
                 }
             }
 
+            Step newStep = store.createCurrentStep(entry.getId(), nextStep, owner, startDate, dueDate, status, previousIds);
             WorkflowDescriptor descriptor = (WorkflowDescriptor) transientVars.get("descriptor");
             List preFunctions = descriptor.getStep(nextStep).getPreFunctions();
 
@@ -1164,7 +1165,7 @@ public class AbstractWorkflow implements Workflow {
                 executeFunction(function, transientVars, ps);
             }
 
-            store.createCurrentStep(entry.getId(), nextStep, owner, startDate, dueDate, status, previousIds);
+            return newStep;
         } catch (WorkflowException e) {
             context.setRollbackOnly();
             throw e;
