@@ -5,9 +5,10 @@
     </head>
 
     <body>
-	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
 		    <tr>
 			    <td valign="top" class="pagebody">
+
 				    <ul class="star">
 <li> Back to <a href="1.3 Running the Example App.html">1.3 Running the Example App</a></li>
 <li> Forward to <a href="1.5 Loading Workflow Definitions.html">1.5 Loading Workflow Definitions</a></li>
@@ -24,13 +25,15 @@ OSWorkflow provides a pluggable persistence mechanism that can be used to allow 
 
 <div class="code"><pre>&lt;persistence class=&quot;com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore&quot;&gt;&#10;	&lt;&#33;&#45; For jdbc persistence, all are required. &#45;&#45;&gt;&#10;	&lt;property key=&quot;datasource&quot; value=&quot;jdbc/DefaultDS&quot;/&gt;&#10;	&lt;property key=&quot;entry.sequence&quot; &#10;                       value=&quot;select count(&#42;) &#43; 1 from os&#95;wfentry&quot;/&gt;&#10;	&lt;property key=&quot;entry.table&quot; value=&quot;OS&#95;WFENTRY&quot;/&gt;&#10;	&lt;property key=&quot;entry.id&quot; value=&quot;ID&quot;/&gt;&#10;	&lt;property key=&quot;entry.name&quot; value=&quot;NAME&quot;/&gt;&#10;	&lt;property key=&quot;entry.state&quot; value=&quot;STATE&quot;/&gt;&#10;	&lt;property key=&quot;step.sequence&quot; value=&quot;select sum(c1) from &#10;(select 1 tb, count(&#42;) c1 from os&#95;currentstep &#10;union select 2 tb, count(&#42;) c1 from os&#95;historystep)&quot;/&gt;&#10;	&lt;property key=&quot;history.table&quot; value=&quot;OS&#95;HISTORYSTEP&quot;/&gt;&#10;	&lt;property key=&quot;current.table&quot; value=&quot;OS&#95;CURRENTSTEP&quot;/&gt;&#10;	&lt;property key=&quot;historyPrev.table&quot; value=&quot;OS&#95;HISTORYSTEP&#95;PREV&quot;/&gt;&#10;	&lt;property key=&quot;currentPrev.table&quot; value=&quot;OS&#95;CURRENTSTEP&#95;PREV&quot;/&gt;&#10;	&lt;property key=&quot;step.id&quot; value=&quot;ID&quot;/&gt;&#10;	&lt;property key=&quot;step.entryId&quot; value=&quot;ENTRY&#95;ID&quot;/&gt;&#10;	&lt;property key=&quot;step.stepId&quot; value=&quot;STEP&#95;ID&quot;/&gt;&#10;	&lt;property key=&quot;step.actionId&quot; value=&quot;ACTION&#95;ID&quot;/&gt;&#10;	&lt;property key=&quot;step.owner&quot; value=&quot;OWNER&quot;/&gt;&#10;	&lt;property key=&quot;step.caller&quot; value=&quot;CALLER&quot;/&gt;&#10;	&lt;property key=&quot;step.startDate&quot; value=&quot;START&#95;DATE&quot;/&gt;&#10;	&lt;property key=&quot;step.finishDate&quot; value=&quot;FINISH&#95;DATE&quot;/&gt;&#10;	&lt;property key=&quot;step.dueDate&quot; value=&quot;DUE&#95;DATE&quot;/&gt;&#10;	&lt;property key=&quot;step.status&quot; value=&quot;STATUS&quot;/&gt;&#10;	&lt;property key=&quot;step.previousId&quot; value=&quot;PREVIOUS&#95;ID&quot;/&gt;&#10;&lt;/persistence&gt;</pre></div><p class="paragraph">Note that the exact query for step.sequence and entry.sequence might vary in order to use an appropriate sequencing native DB mechanism.</p>For example, in MSSQL the correct step.sequence value would be (assuming you&#039;re not using a database sequence):
 
-<div class="code"><pre>&lt;property key=&quot;step.sequence&quot; value=&quot;select sum(c1) &#43; 1 from (select 1 as&#10;tb, count(&#42;) as c1 from os&#95;currentstep union select 2 as tb, count(&#42;) as c1&#10;from os&#95;historystep) as TabelaFinal&quot; /&gt;</pre></div>
+<div class="code"><pre>&lt;property key=&quot;step.sequence&quot; value=&quot;select sum(c1) &#43; 1 from (select 1 as&#10;tb, count(&#42;) as c1 from os&#95;currentstep union select 2 as tb, count(&#42;) as c1&#10;from os&#95;historystep) as TabelaFinal&quot; /&gt;</pre></div><p class="paragraph">For MYSQL, OSWorkflow provides a custom store that can be used. This schema uses a separate table to store ID values (the schema is listed in the mysql.sql file).</p>In addition to this, two other changes from a standard deployment must be specified. The first are the calls to access the ID sequences. There are specified in the store properties in osworkflow.xml. The elements to be added are:
+<div class="code"><pre>&lt;property key=&quot;step.sequence.increment&quot; &#10;    value=&quot;INSERT INTO OS&#95;STEPIDS (ID) values (null)&quot;/&gt;&#10;  &lt;property key=&quot;step.sequence.retrieve&quot; &#10;    value=&quot;SELECT max(ID) FROM OS&#95;STEPIDS&quot;/&gt;</pre></div><p class="paragraph">In the same file, the store factory specified should be <b class="strong">com.opensymphony.workflow.spi.jdbc.MySQLWorkflowStore</b>
 <ul class="star">
 <li> Back to <a href="1.3 Running the Example App.html">1.3 Running the Example App</a></li>
 <li> Forward to <a href="1.5 Loading Workflow Definitions.html">1.5 Loading Workflow Definitions</a></li>
-</ul>
+</ul></p>
 
-				    			    </td>
+				    
+			    </td>
 		    </tr>
 	    </table>
     </body>

@@ -5,9 +5,10 @@
     </head>
 
     <body>
-	    <table class="confpagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
 		    <tr>
 			    <td valign="top" class="pagebody">
+
 				    <ul class="star">
 <li> Back to <a href="5.1 Interface choices.html">5.1 Interface choices</a></li>
 <li> Forward to <a href="5.3 Executing actions.html">5.3 Executing actions</a></li>
@@ -16,7 +17,8 @@ This is a very brief guide on how you can create a new workflow instance using t
 
 <div class="code"><pre>Workflow wf = <span class="java&#45;keyword">new</span> BasicWorkflow(username);&#10;HashMap inputs = <span class="java&#45;keyword">new</span> HashMap();&#10;inputs.put(&quot;docTitle&quot;, request.getParameter(&quot;title&quot;));&#10;wf.initialize(&quot;workflowName&quot;, 1, inputs);</pre></div><p class="paragraph">Note that usually, you would use a more appropriate Workflow implementation rather than BasicWorkflow. For example, EJBWorkflow or OfbizWorkflow. If you want to use a Workflow store that does not have a custom workflow context implementation (for example, JDBC, or Hibernate), then use BasicWorkflow. Contributions of WorkflowContexts for various stores are more than welcome!</p>
 
-				    			    </td>
+				    
+			    </td>
 		    </tr>
 	    </table>
     </body>
