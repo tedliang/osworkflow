@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.*;
 import java.util.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -29,13 +30,13 @@ public class Layout
   {
     float lineWidth;
     int color;
-    Point labelPosition;
+    Point2D labelPosition;
     java.util.List routingPoints = new ArrayList();
 
-    ResultLayout(Point labelPosition, float lineWidth, int color)
+    ResultLayout(Point2D labelPosition, float lineWidth, int color)
     {
       if(labelPosition != null)
-        this.labelPosition = new Point(labelPosition.x, labelPosition.y);
+        this.labelPosition = labelPosition;
       this.lineWidth = lineWidth;
       this.color = color;
     }
@@ -186,7 +187,7 @@ public class Layout
     return resultLayout != null ? resultLayout.lineWidth : 2;
   }
 
-  public Point getLabelPosition(int resultKey)
+  public Point2D getLabelPosition(int resultKey)
   {
     ResultLayout rl = ((ResultLayout)results.get(new Integer(resultKey)));
     return rl != null && rl.labelPosition != null ? rl.labelPosition : null;

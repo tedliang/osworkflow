@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer.views;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import com.opensymphony.workflow.designer.ResultEdge;
 import org.jgraph.graph.EdgeRenderer;
@@ -13,58 +14,34 @@ public class CustomEdgeRenderer extends EdgeRenderer
     return GraphConstants.getForeground(((ResultEdge)view.getCell()).getAttributes());
   }
 
-  public void paint(Graphics g)
+  protected void paintLabel(Graphics g, String label, Point2D p,
+                            boolean mainLabel)
   {
-    Shape edgeShape = view.getShape();
-    // Sideeffect: beginShape, lineShape, endShape
-    if(edgeShape != null)
+    if(p != null && label != null && label.length() > 0)
     {
+      System.out.println("paintLabel " + view.getCell() + "#" + view.hashCode() + " at " + p);
+      int sw = metrics.stringWidth(label);
+      int sh = metrics.getHeight();
       Graphics2D g2 = (Graphics2D)g;
-      int c = BasicStroke.CAP_BUTT;
-      int j = BasicStroke.JOIN_MITER;
-      g2.setStroke(new BasicStroke(lineWidth, c, j));
-      g2.setBackground(getForeground());
-      g2.setColor(getForeground());
-      translateGraphics(g);
-      g.setColor(getForeground());
-      if(view.beginShape != null)
+      g2.translate(p.getX(), p.getY());
+      if(isOpaque() && mainLabel)
       {
-        if(beginFill)
-          g2.fill(view.beginShape);
-        g2.draw(view.beginShape);
+        g.setColor(getBackground());
+        g.fillRect((-sw / 2 - 1), (-sh / 2 - 1), sw + 2,
+                   sh + 2);
       }
-      if(view.endShape != null)
+      if(borderColor != null && mainLabel)
       {
-        if(endFill)
-          g2.fill(view.endShape);
-        g2.draw(view.endShape);
-      }
-      if(lineDash != null) // Dash For Line Only
-        g2.setStroke(new BasicStroke(lineWidth, c, j, 10.0f, lineDash, 0.0f));
-      if(view.lineShape != null)
-        g2.draw(view.lineShape);
+        g.setColor(borderColor);
+        g.drawRect((-sw / 2 - 1), (-sh / 2 - 1), sw + 2,
+                   sh + 2);
 
-      if(selected)
-      { // Paint Selected
-        g2.setStroke(GraphConstants.SELECTION_STROKE);
-        g2.setColor(graph.getHighlightColor());
-        if(view.beginShape != null)
-          g2.draw(view.beginShape);
-        if(view.lineShape != null)
-          g2.draw(view.lineShape);
-        if(view.endShape != null)
-          g2.draw(view.endShape);
       }
-      if(graph.getEditingCell() != view.getCell())
-      {
-        Object label = graph.convertValueToString(view);
-        if(label != null)
-        {
-          g2.setStroke(new BasicStroke(1));
-          g.setFont(getFont());
-          paintLabel(g, label.toString(), new Point(0, 0), true);
-        }
-      }
+      g.setColor(fontColor);
+      int dx = -sw / 2;
+      int dy = +sh / 4;
+      g.drawString(label, dx, dy);
+      g2.translate(-p.getX(), -p.getY());
     }
   }
 

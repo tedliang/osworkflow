@@ -1,13 +1,18 @@
 package com.opensymphony.workflow.designer;
 
+import java.util.Map;
+import java.util.HashMap;
+
 import org.jgraph.graph.*;
 import com.opensymphony.workflow.designer.views.*;
 
 /**
  * @author hani Date: Dec 30, 2004 Time: 2:36:23 PM
  */
-public class WorkflowCellViewFactory implements CellViewFactory
+public class WorkflowCellViewFactory extends DefaultCellViewFactory
 {
+  private Map edgeMap = new HashMap();
+
   public CellView createView(GraphModel model, Object cell)
   {
     if(model.isPort(cell))
@@ -16,7 +21,13 @@ public class WorkflowCellViewFactory implements CellViewFactory
     }
     else if(model.isEdge(cell))
     {
-      return new CustomEdgeView(cell);
+      CustomEdgeView view = (CustomEdgeView)edgeMap.get(cell);
+      if(view == null)
+      {
+        view = new CustomEdgeView(cell);
+        edgeMap.put(cell ,view);
+      }
+      return view;
     }
     else if(cell instanceof StepCell)
       return new StepView(cell);
@@ -27,7 +38,7 @@ public class WorkflowCellViewFactory implements CellViewFactory
     else if(cell instanceof InitialActionCell)
       return new InitialActionView(cell);
     else
-      return new VertexView(cell);
+      return super.createView(model, cell);
   }
 
 }

@@ -13,7 +13,6 @@ import com.opensymphony.workflow.designer.actions.*;
 import com.opensymphony.workflow.designer.dnd.DragData;
 import com.opensymphony.workflow.designer.layout.LayoutAlgorithm;
 import com.opensymphony.workflow.designer.layout.SugiyamaLayoutAlgorithm;
-import com.opensymphony.workflow.designer.views.*;
 import com.opensymphony.workflow.loader.*;
 import org.jgraph.JGraph;
 import org.jgraph.graph.*;
@@ -33,7 +32,9 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
 
   public WorkflowGraph(GraphModel model, WorkflowDescriptor descriptor, Layout layout, boolean doAutoLayout)
   {
-    super(model, new GraphLayoutCache(model, new WorkflowCellViewFactory()));
+    super(model);
+    getGraphLayoutCache().setFactory(new WorkflowCellViewFactory());
+    getGraphLayoutCache().setSelectsAllInsertedCells(false);
     ToolTipManager.sharedInstance().registerComponent(this);
     this.layout = layout;
     setDescriptor(descriptor);
@@ -99,9 +100,9 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
   public String convertValueToString(Object value)
   {
     if(value == null) return null;
-    if(value instanceof CustomEdgeView)
+    if(value instanceof EdgeView)
     {
-      return ((CustomEdgeView)value).getCell().toString();
+      return ((EdgeView)value).getCell().toString();
     }
     else
     {

@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import com.opensymphony.workflow.designer.views.EdgeRouter;
@@ -18,7 +19,7 @@ public class ResultEdge extends WorkflowEdge
 
   private ResultDescriptor descriptor;
 
-  public ResultEdge(ResultDescriptor descriptor, Point labelPos)
+  public ResultEdge(ResultDescriptor descriptor, Point2D labelPos)
   {
     super(descriptor);
     setAttributes(new WorkflowAttributeMap(getAttributes()));
@@ -34,11 +35,11 @@ public class ResultEdge extends WorkflowEdge
     GraphConstants.setMoveable(attributes, true);
     if(labelPos != null)
     {
-      GraphConstants.setLabelPosition(attributes, labelPos);
+      GraphConstants.setLabelPosition(attributes, new Point((int)labelPos.getX(), (int)labelPos.getY()));
     }
   }
 
-  public ResultEdge(ResultDescriptor descriptor, Point labelPos, java.util.List routingPoints)
+  public ResultEdge(ResultDescriptor descriptor, Point2D labelPos, java.util.List routingPoints)
   {
     this(descriptor, labelPos);
     java.util.List newpoints = new ArrayList();
@@ -51,7 +52,7 @@ public class ResultEdge extends WorkflowEdge
     GraphConstants.setPoints(attributes, newpoints);
   }
 
-  public ResultEdge(ResultDescriptor descriptor, Point labelPos, float lineWidth, Color color, java.util.List routingPoints)
+  public ResultEdge(ResultDescriptor descriptor, Point2D labelPos, float lineWidth, Color color, java.util.List routingPoints)
   {
     this(descriptor, labelPos, routingPoints);
     GraphConstants.setLineWidth(attributes, lineWidth);

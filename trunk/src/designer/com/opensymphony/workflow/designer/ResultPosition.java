@@ -1,13 +1,14 @@
 package com.opensymphony.workflow.designer;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import com.opensymphony.workflow.designer.views.CustomEdgeView;
 import com.opensymphony.workflow.loader.XMLUtil;
 import com.opensymphony.workflow.util.XMLizable;
 import org.jgraph.graph.GraphConstants;
+import org.jgraph.graph.EdgeView;
 import org.w3c.dom.Element;
 
 /**
@@ -17,7 +18,7 @@ import org.w3c.dom.Element;
  */
 public class ResultPosition implements XMLizable
 {
-  private Point labelPos;
+  private Point2D labelPos;
   private int id;
   private float lineWidth = 1;
   private int color = 0;
@@ -26,16 +27,13 @@ public class ResultPosition implements XMLizable
   public ResultPosition(WorkflowGraph graph, ResultEdge edge)
   {
     id = edge.getDescriptor().getId();
-    labelPos = GraphConstants.getLabelPosition(edge.getAttributes());
+    EdgeView view = (EdgeView)graph.getGraphLayoutCache().getMapping(edge, false);
+    labelPos = view.getLabelPosition();
     lineWidth = GraphConstants.getLineWidth(edge.getAttributes());
     color = GraphConstants.getForeground(edge.getAttributes()).getRGB();
-    CustomEdgeView view = (CustomEdgeView)(graph.getGraphLayoutCache().getMapping(edge, false));
-    if(view != null)
+    for(int i = 0; i < (view.getPointCount() - 2); i++)
     {
-      for(int i = 0; i < (view.getPointCount() - 2); i++)
-      {
-        routingPoints.add(new Point((int)view.getPoint(i + 1).getX(), (int)view.getPoint(i + 1).getY()));
-      }
+      routingPoints.add(new Point((int)view.getPoint(i + 1).getX(), (int)view.getPoint(i + 1).getY()));
     }
   }
 
@@ -55,14 +53,20 @@ public class ResultPosition implements XMLizable
       if(attr != null && attr.length() > 0)
         color = Integer.parseInt(attr);
 
-      labelPos = new Point();
+      labelPos = new Point2D.Double();
       attr = edge.getAttribute("labelx");
+      double x = 0;
+      double y = 0;
       if(attr != null && attr.length() > 0)
-        labelPos.x = Integer.parseInt(attr);
+        x = Double.parseDouble(attr);
 
       attr = edge.getAttribute("labely");
       if(attr != null && attr.length() > 0)
-        labelPos.y = Integer.parseInt(attr);
+        y = Double.parseDouble(attr);
+      if(x !=0 && y != 0)
+      {
+        labelPos.setLocation(x, y);
+      }
     }
     catch(Exception e)
     {
@@ -78,8 +82,8 @@ public class ResultPosition implements XMLizable
     buf.append("id=\"").append(id).append('\"');
     buf.append(" linewidth=\"").append(lineWidth).append('\"');
     buf.append(" color=\"").append(color).append('\"');
-    buf.append(" labelx=\"").append(labelPos.x).append('\"');
-    buf.append(" labely=\"").append(labelPos.y).append('\"');
+    buf.append(" labelx=\"").append(labelPos.getX()).append('\"');
+    buf.append(" labely=\"").append(labelPos.getY()).append('\"');
     buf.append('>');
     writer.println(buf.toString());
     for(int i = 0; i < routingPoints.size(); i++)
@@ -97,7 +101,7 @@ public class ResultPosition implements XMLizable
     writer.println("</connector>");
   }
 
-  public Point getLabelPosition()
+  public Point2D getLabelPosition()
   {
     return labelPos;
   }

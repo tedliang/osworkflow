@@ -82,58 +82,5 @@ public class CustomEdgeView extends EdgeView
     {
       return event.isShiftDown();
     }
-
-    public void mouseReleased(MouseEvent e) {
-      boolean clone = e.isControlDown() && graph.isCloneable();
-      GraphModel model = graph.getModel();
-      Object source = (edge.getSource() != null) ? edge.getSource()
-          .getCell() : null;
-      Object target = (edge.getTarget() != null) ? edge.getTarget()
-          .getCell() : null;
-      if (model.acceptsSource(edge.getCell(), source)
-          && model.acceptsTarget(edge.getCell(), target)) {
-        ConnectionSet cs = createConnectionSet(edge, edge.getCell(),
-            clone);
-        Map nested = GraphConstants.createAttributes(
-            new CellView[] { edge }, null);
-        if (clone) {
-          Map cellMap = graph.cloneCells(graph.getDescendants(new Object[]{edge
-              .getCell() }));
-          nested = GraphConstants.replaceKeys(cellMap, nested);
-          cs = cs.clone(cellMap);
-          Object[] cells = cellMap.values().toArray();
-          graph.getGraphLayoutCache().insert(cells, nested, cs, null, null);
-        } else {
-          graph.getGraphLayoutCache().edit(nested, cs, null, null);
-        }
-      } else {
-        overlay(graph.getGraphics());
-      }
-      currentPoint = null;
-      this.label = false;
-      currentLabel = -1;
-      currentIndex = -1;
-      firstOverlayCall = true;
-      e.consume();
-    }
-
-    public void overlay(Graphics g) {
-      if (edge != null && !firstOverlayCall && edge.isLeaf()) {
-        //g.setColor(graph.getBackground()); // JDK 1.3
-        g.setColor(graph.getForeground());
-        g.setXORMode(graph.getBackground().darker());
-        Graphics2D g2 = (Graphics2D) g;
-        AffineTransform oldTransform = g2.getTransform();
-        g2.scale(graph.getScale(), graph.getScale());
-        graph.getUI().paintCell(g, edge, edge.getBounds(), true);
-        g2.setTransform(oldTransform);
-        if (isSourceEditing() && edge.getSource() != null)
-          paintPort(g, edge.getSource());
-        else if (isTargetEditing() && edge.getTarget() != null)
-          paintPort(g, edge.getTarget());
-      }
-      firstOverlayCall = false;
-    }
   }
-
 }

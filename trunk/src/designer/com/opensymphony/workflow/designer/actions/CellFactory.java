@@ -1,12 +1,16 @@
 package com.opensymphony.workflow.designer.actions;
 
 import java.awt.*;
+import java.util.Map;
+import java.util.Hashtable;
 import javax.swing.*;
 
 import com.opensymphony.workflow.designer.*;
 import com.opensymphony.workflow.designer.dnd.DragData;
 import com.opensymphony.workflow.loader.*;
 import org.jgraph.graph.GraphConstants;
+import org.jgraph.graph.AttributeMap;
+import org.jgraph.graph.DefaultPort;
 
 /**
  * @author Gulei
@@ -32,6 +36,7 @@ public class CellFactory
 
   public static StepCell createStep(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
   {
+    Map viewMap = new Hashtable();
     // create new step
     String name = JOptionPane.showInputDialog(ResourceManager.getString("step.add.name"));
     if (name == null || name.trim().length() == 0) 
@@ -42,11 +47,68 @@ public class CellFactory
     workflow.addStep(step);
 
     StepCell cell = new StepCell(step);
-    WorkflowPort port = new WorkflowPort();
+    DefaultPort port = new WorkflowPort();
     cell.add(port);
     Rectangle bounds = (Rectangle)cell.getAttributes().get(GraphConstants.BOUNDS);
     bounds.x = location.x;
     bounds.y = location.y;
+
+    //int u = GraphConstants.PERMILLE;
+    //// Top Left
+    //AttributeMap map = new AttributeMap();
+    //GraphConstants.setOffset(map, new Point(0, 0));
+    //port = new DefaultPort("Topleft");
+    //cell.add(port);
+    //viewMap.put(port, map);
+    //
+    //// Top Center
+    //map = new AttributeMap();
+    //GraphConstants.setOffset(map, new Point(u / 2, 0));
+    //port = new DefaultPort("Topcenter");
+    //cell.add(port);
+    //viewMap.put(port, map);
+    //
+    //// Top Right
+    //map = new AttributeMap();
+    //GraphConstants.setOffset(map, new Point(u, 0));
+    //port = new DefaultPort("Topright");
+    //cell.add(port);
+    //viewMap.put(port, map);
+    //
+    //// Top Center
+    //map = new AttributeMap();
+    //GraphConstants.setOffset(map, new Point(0, u / 2));
+    //port = new DefaultPort("Middleleft");
+    //cell.add(port);
+    //viewMap.put(port, map);
+    //
+    //// Middle Right
+    //map = new AttributeMap();
+    //GraphConstants.setOffset(map, new Point(u, u / 2));
+    //port = new DefaultPort("Middleright");
+    //cell.add(port);
+    //viewMap.put(port, map);
+    //
+    //// Bottom Left
+    //map = new AttributeMap();
+    //GraphConstants.setOffset(map, new Point(0, u));
+    //port = new DefaultPort("Bottomleft");
+    //cell.add(port);
+    //viewMap.put(port, map);
+    //
+    //// Bottom Center
+    //map = new AttributeMap();
+    //GraphConstants.setOffset(map, new Point(u / 2, u));
+    //port = new DefaultPort("Bottomcenter");
+    //cell.add(port);
+    //viewMap.put(port, map);
+    //
+    //// Bottom Right
+    //map = new AttributeMap();
+    //GraphConstants.setOffset(map, new Point(u, u));
+    //port = new DefaultPort("Bottomright");
+    //cell.add(port);
+    //viewMap.put(port, map);
     model.insertStepCell(cell, null, null, null);
     
 		WorkflowDesigner.INSTANCE.navigator().reloadSteps(workflow);

@@ -6,7 +6,6 @@ import javax.swing.*;
 
 import com.opensymphony.workflow.designer.ResultEdge;
 import com.opensymphony.workflow.designer.WorkflowGraph;
-import com.opensymphony.workflow.designer.views.CustomEdgeView;
 import org.jgraph.graph.CellView;
 import org.jgraph.graph.GraphConstants;
 
@@ -18,13 +17,13 @@ public class ResultEdgeColor extends JMenuItem
   {
     private WorkflowGraph graph;
     private Point location;
-    private Color cColor;
+    private Color color;
 
     ResultEdgeColorHandler(WorkflowGraph graph, Point location, Color color)
     {
       this.graph = graph;
       this.location = location;
-      this.cColor = color;
+      this.color = color;
     }
 
     public void actionPerformed(ActionEvent e)
@@ -37,9 +36,9 @@ public class ResultEdgeColor extends JMenuItem
       else
       {
         CellView view = graph.getGraphLayoutCache().getMapping(cell, false);
-        if(view instanceof CustomEdgeView)
+        if(graph.getModel().isEdge(cell))
         {
-          GraphConstants.setForeground(((ResultEdge)cell).getAttributes(), cColor);
+          GraphConstants.setForeground(((ResultEdge)cell).getAttributes(), color);
           view.update();
           view.refresh(graph.getModel(), graph.getGraphLayoutCache(), false);
           graph.getSelectionModel().setSelectionCell(view.getCell());
