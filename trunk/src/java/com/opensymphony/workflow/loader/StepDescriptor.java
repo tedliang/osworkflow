@@ -20,7 +20,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -126,6 +126,10 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
     public void validate() throws InvalidWorkflowDescriptorException {
         if ((commonActions.size() == 0) && (actions.size() == 0) && hasActions) {
             throw new InvalidWorkflowDescriptorException("Step '" + name + "' actions element must contain at least one action or common-action");
+        }
+
+        if (getId() == -1) {
+            throw new InvalidWorkflowDescriptorException("Cannot use a step ID of -1 as it is a reserved value");
         }
 
         ValidationHelper.validate(actions);

@@ -978,8 +978,18 @@ public class AbstractWorkflow implements Workflow {
 
     private void createNewCurrentStep(ResultDescriptor theResult, WorkflowEntry entry, WorkflowStore store, int actionId, Step currentStep, long[] previousIds, Map transientVars, PropertySet ps) throws StoreException {
         try {
+            int nextStep = theResult.getStep();
+
+            if (nextStep == -1) {
+                if (currentStep != null) {
+                    nextStep = currentStep.getStepId();
+                } else {
+                    throw new StoreException("Illegal argument: requested new current step same as current step, but current step not specified");
+                }
+            }
+
             if (log.isDebugEnabled()) {
-                log.debug("Outcome: stepId=" + theResult.getStep() + ", status=" + theResult.getStatus() + ", owner=" + theResult.getOwner() + ", actionId=" + actionId + ", currentStep=" + ((currentStep != null) ? currentStep.getStepId() : 0));
+                log.debug("Outcome: stepId=" + nextStep + ", status=" + theResult.getStatus() + ", owner=" + theResult.getOwner() + ", actionId=" + actionId + ", currentStep=" + ((currentStep != null) ? currentStep.getStepId() : 0));
             }
 
             if (previousIds == null) {
@@ -1033,7 +1043,7 @@ public class AbstractWorkflow implements Workflow {
                 }
             }
 
-            store.createCurrentStep(entry.getId(), theResult.getStep(), owner, startDate, dueDate, status, previousIds);
+            store.createCurrentStep(entry.getId(), nextStep, owner, startDate, dueDate, status, previousIds);
         } catch (StoreException e) {
             context.setRollbackOnly();
             throw e;

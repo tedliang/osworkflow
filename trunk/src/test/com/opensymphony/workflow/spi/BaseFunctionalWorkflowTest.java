@@ -9,6 +9,7 @@ import com.opensymphony.user.*;
 import com.opensymphony.workflow.AbstractWorkflow;
 import com.opensymphony.workflow.QueryNotSupportedException;
 import com.opensymphony.workflow.TestWorkflow;
+import com.opensymphony.workflow.WorkflowException;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.query.Expression;
 import com.opensymphony.workflow.query.FieldExpression;
@@ -84,7 +85,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         workflow.doAction(workflowId, 1, Collections.EMPTY_MAP);
 
         int[] actions = workflow.getAvailableActions(workflowId, Collections.EMPTY_MAP);
-        assertEquals(2, actions.length);
+        assertEquals(3, actions.length);
         historySteps = workflow.getHistorySteps(workflowId);
         assertEquals("Unexpected number of history steps", 1, historySteps.size());
 
@@ -106,6 +107,16 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         historySteps = workflow.getHistorySteps(workflowId);
         assertEquals("Unexpected number of history steps", 2, historySteps.size());
 
+        if (log.isDebugEnabled()) {
+            log.debug("Perform Stay in Bar");
+        }
+
+        workflow.doAction(workflowId, 113, Collections.EMPTY_MAP);
+        actions = workflow.getAvailableActions(workflowId, Collections.EMPTY_MAP);
+        assertEquals(2, actions.length);
+        assertTrue((actions[0] == 13) && (actions[1] == 113));
+        logActions(actions);
+
         //historyStep = (Step) historySteps.get(0);
         //assertEquals(lastHistoryStep.getId(), historyStep.getId());
         if (log.isDebugEnabled()) {
@@ -125,7 +136,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         actions = workflow.getAvailableActions(workflowId, Collections.EMPTY_MAP);
         logActions(actions);
         historySteps = workflow.getHistorySteps(workflowId);
-        assertEquals("Unexpected number of history steps", 4, historySteps.size());
+        assertEquals("Unexpected number of history steps", 5, historySteps.size());
 
         if (log.isDebugEnabled()) {
             log.debug("Perform Finish Editing");
@@ -154,7 +165,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         actions = workflow.getAvailableActions(workflowId, Collections.EMPTY_MAP);
         assertEquals(0, actions.length);
         historySteps = workflow.getHistorySteps(workflowId);
-        assertEquals("Unexpected number of history steps", 7, historySteps.size());
+        assertEquals("Unexpected number of history steps", 8, historySteps.size());
 
         query = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
 
@@ -169,6 +180,18 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
             assertEquals("Unexpected number of workflow query results", 1, workflows.size());
         } catch (QueryNotSupportedException ex) {
             System.out.println("query not supported");
+        }
+    }
+
+    public void testExceptionOnIllegalStayInCurrentStep() throws Exception {
+        String workflowName = getClass().getResource("/samples/example.xml").toString();
+        assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 1));
+
+        try {
+            long workflowId = workflow.initialize(workflowName, 2, new HashMap());
+            fail("initial action result specified target step of current step. Succeeded but should not have.");
+        } catch (WorkflowException e) {
+            // expected, no such thing as current step for initial action
         }
     }
 
