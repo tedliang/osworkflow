@@ -468,7 +468,7 @@ public class AbstractWorkflow implements Workflow {
                 Collection currentSteps = getCurrentSteps(id);
 
                 if (currentSteps.size() > 0) {
-                    completeEntry(id, currentSteps);
+                    completeEntry(null, id, currentSteps);
                 }
             }
 
@@ -546,7 +546,7 @@ public class AbstractWorkflow implements Workflow {
         try {
             //transition the workflow, if it wasn't explicitly finished, check for an implicit finish
             if (!transitionWorkflow(entry, currentSteps, store, wf, action, transientVars, inputs, ps)) {
-                checkImplicitFinish(id);
+                checkImplicitFinish(action, id);
             }
         } catch (WorkflowException e) {
             context.setRollbackOnly();
@@ -772,7 +772,7 @@ public class AbstractWorkflow implements Workflow {
         return getConfiguration().getWorkflowStore();
     }
 
-    protected void checkImplicitFinish(long id) throws WorkflowException {
+    protected void checkImplicitFinish(ActionDescriptor action, long id) throws WorkflowException {
         WorkflowStore store = getPersistence();
         WorkflowEntry entry = store.findEntry(id);
 
@@ -793,20 +793,21 @@ public class AbstractWorkflow implements Workflow {
         }
 
         if (isCompleted) {
-            completeEntry(id, currentSteps);
+            completeEntry(action, id, currentSteps);
         }
     }
 
     /**
      * Mark the specified entry as completed, and move all current steps to history.
      */
-    protected void completeEntry(long id, Collection currentSteps) throws StoreException {
+    protected void completeEntry(ActionDescriptor action, long id, Collection currentSteps) throws StoreException {
         getPersistence().setEntryState(id, WorkflowEntry.COMPLETED);
 
         Iterator i = new ArrayList(currentSteps).iterator();
 
         while (i.hasNext()) {
             Step step = (Step) i.next();
+            getPersistence().markFinished(step, (action != null) ? action.getId() : (-1), new Date(), "Finished", context.getCaller());
             getPersistence().moveToHistory(step);
         }
     }
@@ -1271,7 +1272,7 @@ public class AbstractWorkflow implements Workflow {
 
         //if it's a finish action, then we halt
         if (action.isFinish()) {
-            completeEntry(entry.getId(), getCurrentSteps(entry.getId()));
+            completeEntry(action, entry.getId(), getCurrentSteps(entry.getId()));
 
             return true;
         }
