@@ -22,6 +22,6 @@
     <jar href="oscore.jar" main="false"/>
   </resources>
 
-  <application-desc main-class="com.opensymphony.workflow.designer.WorkflowLauncher">
+  <application-desc main-class="com.opensymphony.workflow.designer.Launcher">
   </application-desc>
 </jnlp>
