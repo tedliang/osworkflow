@@ -1295,7 +1295,7 @@ public class AbstractWorkflow implements Workflow {
 
             // ... now check to see if the expression evaluates
             // (get only current steps that have a result to this join)
-            Collection joinSteps = new HashSet();
+            Collection joinSteps = new ArrayList();
             joinSteps.add(step);
 
             //currentSteps = store.findCurrentSteps(id); // shouldn't need to refresh the list
