@@ -4,6 +4,8 @@
  */
 package com.opensymphony.workflow;
 
+import com.opensymphony.workflow.spi.Step;
+
 import junit.framework.TestCase;
 
 import java.net.URL;
@@ -28,6 +30,24 @@ public class JoinSplitsTestCase extends TestCase {
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
+
+    public void testEarlyJoin() throws Exception {
+        Map inputs = new HashMap();
+        URL url = getClass().getResource("/samples/earlyjoin.xml");
+        long id = workflow.initialize(url.toString(), 1, inputs);
+        List currentSteps = workflow.getCurrentSteps(id);
+        assertEquals("Unexpected number of current steps", 2, currentSteps.size());
+        workflow.doAction(id, 1, Collections.EMPTY_MAP);
+        currentSteps = workflow.getCurrentSteps(id);
+        assertEquals("Unexpected number of current steps", 1, currentSteps.size());
+
+        Step step = (Step) currentSteps.get(0);
+        assertEquals("Unexpected current step", 3, step.getStepId());
+
+        List historySteps = workflow.getHistorySteps(id);
+        assertEquals("Unexpected number of history steps", 2, historySteps.size());
+        workflow.doAction(id, 2, Collections.EMPTY_MAP);
+    }
 
     public void testSplitCompletedHistorySteps() throws Exception {
         Map inputs = new HashMap();

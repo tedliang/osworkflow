@@ -122,7 +122,7 @@ public class DatabaseHelper {
         configuration.addURL(workflowEntry);
         configuration.addClass(PropertySetItem.class);
 
-        new SchemaExport(configuration).create(true, true);
+        new SchemaExport(configuration).create(false, true);
 
         return configuration.buildSessionFactory();
     }
