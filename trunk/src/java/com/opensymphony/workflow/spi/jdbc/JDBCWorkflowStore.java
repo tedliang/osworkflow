@@ -664,6 +664,10 @@ public class JDBCWorkflowStore implements WorkflowStore {
                 }
             }
 
+            if (expression.isNegate()) {
+                sel.append(" NOT ");
+            }
+
             sel.append(entryId);
             sel.append(" IN (");
 
@@ -750,7 +754,6 @@ public class JDBCWorkflowStore implements WorkflowStore {
                     stmt.setTimestamp(i, (Timestamp) timestamps.get(i - 1));
                 }
             }
-
             rs = stmt.executeQuery();
 
             while (rs.next()) {
