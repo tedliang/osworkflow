@@ -24,39 +24,32 @@ public class TypeResolver {
 
     private static final Log log = LogFactory.getLog(TypeResolver.class);
     private static TypeResolver resolver = new TypeResolver();
-    private static final Map conditions = new HashMap();
 
-    static {
-        conditions.put("remote-ejb", "com.opensymphony.workflow.util.ejb.remote.RemoteEJBCondition");
-        conditions.put("local-ejb", "com.opensymphony.workflow.util.ejb.local.LocalEJBCondition");
-        conditions.put("jndi", "com.opensymphony.workflow.util.jndi.JNDICondition");
-        conditions.put("beanshell", "com.opensymphony.workflow.util.beanshell.BeanShellCondition");
-        conditions.put("bsf", "com.opensymphony.workflow.util.bsf.BSFCondition");
-    }
+    //~ Instance fields ////////////////////////////////////////////////////////
 
-    private static final Map registers = new HashMap();
+    protected Map conditions = new HashMap();
+    protected Map functions = new HashMap();
+    protected Map registers = new HashMap();
+    protected Map validators = new HashMap();
 
-    static {
-        registers.put("remote-ejb", "com.opensymphony.workflow.util.ejb.remote.RemoteEJBRegister");
-        registers.put("local-ejb", "com.opensymphony.workflow.util.ejb.local.LocalEJBRegister");
-        registers.put("jndi", "com.opensymphony.workflow.util.jndi.JNDIRegister");
-        registers.put("beanshell", "com.opensymphony.workflow.util.beanshell.BeanShellRegister");
-        registers.put("bsf", "com.opensymphony.workflow.util.bsf.BSFRegister");
-    }
+    //~ Constructors ///////////////////////////////////////////////////////////
 
-    private static final Map validators = new HashMap();
-
-    static {
+    public TypeResolver() {
         validators.put("remote-ejb", "com.opensymphony.workflow.util.ejb.remote.RemoteEJBValidator");
         validators.put("local-ejb", "com.opensymphony.workflow.util.ejb.local.LocalEJBValidator");
         validators.put("jndi", "com.opensymphony.workflow.util.jndi.JNDIValidator");
         validators.put("beanshell", "com.opensymphony.workflow.util.beanshell.BeanShellValidator");
         validators.put("bsf", "com.opensymphony.workflow.util.bsf.BSFValidator");
-    }
-
-    private static final Map functions = new HashMap();
-
-    static {
+        conditions.put("remote-ejb", "com.opensymphony.workflow.util.ejb.remote.RemoteEJBCondition");
+        conditions.put("local-ejb", "com.opensymphony.workflow.util.ejb.local.LocalEJBCondition");
+        conditions.put("jndi", "com.opensymphony.workflow.util.jndi.JNDICondition");
+        conditions.put("beanshell", "com.opensymphony.workflow.util.beanshell.BeanShellCondition");
+        conditions.put("bsf", "com.opensymphony.workflow.util.bsf.BSFCondition");
+        registers.put("remote-ejb", "com.opensymphony.workflow.util.ejb.remote.RemoteEJBRegister");
+        registers.put("local-ejb", "com.opensymphony.workflow.util.ejb.local.LocalEJBRegister");
+        registers.put("jndi", "com.opensymphony.workflow.util.jndi.JNDIRegister");
+        registers.put("beanshell", "com.opensymphony.workflow.util.beanshell.BeanShellRegister");
+        registers.put("bsf", "com.opensymphony.workflow.util.bsf.BSFRegister");
         functions.put("remote-ejb", "com.opensymphony.workflow.util.ejb.remote.RemoteEJBFunctionProvider");
         functions.put("local-ejb", "com.opensymphony.workflow.util.ejb.local.LocalEJBFunctionProvider");
         functions.put("jndi", "com.opensymphony.workflow.util.jndi.JNDIFunctionProvider");
