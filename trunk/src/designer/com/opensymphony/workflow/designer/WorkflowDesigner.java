@@ -26,6 +26,8 @@ import com.opensymphony.workflow.designer.dialogs.NewWorkspaceDialog;
 import com.opensymphony.workflow.loader.PaletteDescriptor;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.loader.Workspace;
+import com.jgoodies.plaf.Options;
+import com.jgoodies.plaf.LookUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -411,11 +413,18 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     splash = new Splash(new Frame(), ResourceManager.getIcon("splash").getImage(), ResourceManager.getString("app.name"), true);
     splash.openSplash();
     splash.setProgress(10);
-    if(System.getProperty("os.name").startsWith("Windows"))
+
+    if(LookUtils.class.getClassLoader() != null)
+    {
+      UIManager.put("ClassLoader", LookUtils.class.getClassLoader());
+    }
+    Options.setDefaultIconSize(new Dimension(18, 18));
+    UIManager.put(com.jgoodies.plaf.Options.DEFAULT_ICON_SIZE_KEY, new Dimension(18, 18));
+    if(LookUtils.IS_OS_WINDOWS_MODERN)
     {
       try
       {
-        UIManager.setLookAndFeel((LookAndFeel)Class.forName("com.jgoodies.plaf.windows.ExtWindowsLookAndFeel", true, WorkflowDesigner.class.getClassLoader()).newInstance());
+        UIManager.setLookAndFeel((LookAndFeel)Class.forName("com.jgoodies.plaf.windows.ExtWindowsLookAndFeel", true, com.jgoodies.plaf.windows.ExtWindowsLookAndFeel.class.getClassLoader()).newInstance());
       }
       catch(Exception e)
       {
@@ -423,7 +432,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       }
     }
     //all other platforms except for OSX get the plastic LAF
-    else if(System.getProperty("mrj.version") == null)
+    else if(!LookUtils.isLafAqua())
     {
       try
       {
@@ -435,6 +444,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
 
     splash.setProgress(20);
+
     WorkflowDesigner d = new WorkflowDesigner();
     splash.setProgress(80);
     d.pack();
