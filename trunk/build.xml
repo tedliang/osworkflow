@@ -122,6 +122,11 @@
   </target>
 
   <target name="test" depends="clover-check,junit-check,ejbdoclet">
+    <jalopy fileformat="unix" convention="${src}/etc/jalopy.xml" history="file" historymethod="adler32" loglevel="error" threads="2" classpathref="cp">
+      <fileset dir="${src.test}">
+        <include name="**/*.java"/>
+      </fileset>
+    </jalopy>
     <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
 
     <mkdir dir="${build.test}/META-INF"/>
@@ -130,7 +135,7 @@
     <javac srcdir="${src.test}" destdir="${build.test}" classpathref="cp" debug="on"/>
     <copy todir="${build.test}">
       <fileset dir="${src.test}">
-        <include name="*.xml" />
+        <include name="**/*.xml" />
       </fileset>
     </copy>
     <mkdir dir="${dist}/docs/junit"/>
@@ -254,11 +259,13 @@
     </junitreport>
   </target>
 
-  <target name="docs" depends="javadocs, clover.report, junit.report">
+  <target name="docs" depends="javadocs, reports">
     <copy todir="${dist}/docs">
       <fileset dir="${docs}"/>
     </copy>
   </target>
+
+  <target name="reports" depends="clover.report, junit.report" />
 
   <target name="dist" depends="client-jar, example-war, docs">
     <mkdir dir="${dist}/zip"/>
