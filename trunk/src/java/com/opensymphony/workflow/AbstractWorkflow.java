@@ -483,6 +483,10 @@ public class AbstractWorkflow implements Workflow {
         WorkflowStore store = getPersistence();
         WorkflowEntry entry = store.findEntry(id);
 
+        if (entry.getState() != WorkflowEntry.ACTIVATED) {
+            return;
+        }
+
         WorkflowDescriptor wf = getConfiguration().getWorkflow(entry.getWorkflowName());
 
         List currentSteps = store.findCurrentSteps(id);
@@ -490,10 +494,6 @@ public class AbstractWorkflow implements Workflow {
 
         PropertySet ps = store.getPropertySet(id);
         Map transientVars = new HashMap();
-
-        if (entry.getState() != WorkflowEntry.ACTIVATED) {
-            return;
-        }
 
         if (inputs != null) {
             transientVars.putAll(inputs);
@@ -541,8 +541,10 @@ public class AbstractWorkflow implements Workflow {
         }
 
         try {
-            transitionWorkflow(entry, currentSteps, store, wf, action, transientVars, inputs, ps);
-            completeEntry(id);
+            //transition the workflow, if it wasn't explicitly finished, check for an implicit finish
+            if (!transitionWorkflow(entry, currentSteps, store, wf, action, transientVars, inputs, ps)) {
+                checkImplicitFinish(id);
+            }
         } catch (WorkflowException e) {
             context.setRollbackOnly();
             throw e;
@@ -769,7 +771,7 @@ public class AbstractWorkflow implements Workflow {
         return getConfiguration().getWorkflowStore();
     }
 
-    protected void completeEntry(long id) throws WorkflowException {
+    protected void checkImplicitFinish(long id) throws WorkflowException {
         WorkflowStore store = getPersistence();
         WorkflowEntry entry = store.findEntry(id);
 
@@ -790,14 +792,7 @@ public class AbstractWorkflow implements Workflow {
         }
 
         if (isCompleted == true) {
-            store.setEntryState(id, WorkflowEntry.COMPLETED);
-
-            Iterator i = new ArrayList(currentSteps).iterator();
-
-            while (i.hasNext()) {
-                Step step = (Step) i.next();
-                store.moveToHistory(step);
-            }
+            completeEntry(id, currentSteps);
         }
     }
 
@@ -1082,6 +1077,17 @@ public class AbstractWorkflow implements Workflow {
         return passesConditions(conditionType, conditions, Collections.unmodifiableMap(transientVars), ps, 0);
     }
 
+    private void completeEntry(long id, Collection currentSteps) throws StoreException {
+        getPersistence().setEntryState(id, WorkflowEntry.COMPLETED);
+
+        Iterator i = new ArrayList(currentSteps).iterator();
+
+        while (i.hasNext()) {
+            Step step = (Step) i.next();
+            getPersistence().moveToHistory(step);
+        }
+    }
+
     private void createNewCurrentStep(ResultDescriptor theResult, WorkflowEntry entry, WorkflowStore store, int actionId, Step currentStep, long[] previousIds, Map transientVars, PropertySet ps) throws StoreException {
         try {
             int nextStep = theResult.getStep();
@@ -1208,7 +1214,11 @@ public class AbstractWorkflow implements Workflow {
         }
     }
 
-    private void transitionWorkflow(WorkflowEntry entry, List currentSteps, WorkflowStore store, WorkflowDescriptor wf, ActionDescriptor action, Map transientVars, Map inputs, PropertySet ps) throws WorkflowException {
+    /**
+     * @return true if the instance has been explicitly completed is this transition, false otherwise
+     * @throws WorkflowException
+     */
+    private boolean transitionWorkflow(WorkflowEntry entry, List currentSteps, WorkflowStore store, WorkflowDescriptor wf, ActionDescriptor action, Map transientVars, Map inputs, PropertySet ps) throws WorkflowException {
         Step step = getCurrentStep(wf, action.getId(), currentSteps, transientVars, ps);
 
         // validate transientVars (optional)
@@ -1455,6 +1465,13 @@ public class AbstractWorkflow implements Workflow {
             changeEntryState(entry.getId(), WorkflowEntry.ACTIVATED);
         }
 
+        //if it's a finish action, then we halt
+        if (action.isFinish()) {
+            completeEntry(entry.getId(), getCurrentSteps(entry.getId()));
+
+            return true;
+        }
+
         //get available autoexec actions
         int[] availableAutoActions = getAvailableAutoActions(entry.getId(), inputs);
 
@@ -1464,5 +1481,7 @@ public class AbstractWorkflow implements Workflow {
 
             break;
         }
+
+        return false;
     }
 }

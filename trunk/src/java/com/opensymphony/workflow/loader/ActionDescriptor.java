@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -33,6 +33,7 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
     protected String name;
     protected String view;
     protected boolean autoExecute = false;
+    protected boolean finish = false;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -55,6 +56,14 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
 
     public List getConditionalResults() {
         return conditionalResults;
+    }
+
+    public void setFinish(boolean finish) {
+        this.finish = finish;
+    }
+
+    public boolean isFinish() {
+        return finish;
     }
 
     public void setMetaAttributes(Map metaAttributes) {
@@ -157,6 +166,10 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
             buf.append("\"");
         }
 
+        if (finish) {
+            buf.append(" finish=\"true\"");
+        }
+
         if (autoExecute) {
             buf.append(" auto=\"true\"");
         }
@@ -248,6 +261,7 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
         this.name = action.getAttribute("name");
         this.view = action.getAttribute("view");
         this.autoExecute = "true".equals(action.getAttribute("auto"));
+        this.finish = "true".equals(action.getAttribute("finish"));
 
         NodeList children = action.getChildNodes();
 
