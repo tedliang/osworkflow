@@ -94,6 +94,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
         }
         catch(Exception e)
         {
+          System.out.println("WorkflowGraphModel.processJoinChangeEvent() Error loading condition " + clazz);
         }
       }
     }
