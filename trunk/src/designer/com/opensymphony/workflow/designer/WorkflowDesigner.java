@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -12,17 +14,27 @@ import javax.swing.*;
 import org.jgraph.event.GraphSelectionEvent;
 import org.jgraph.event.GraphSelectionListener;
 import org.jgraph.graph.GraphModel;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.config.WorkspaceManager;
-import com.opensymphony.workflow.designer.actions.*;
 import com.opensymphony.workflow.designer.editor.*;
+import com.opensymphony.workflow.designer.swing.BarFactory;
+import com.opensymphony.workflow.designer.swing.SplashWindow;
 import com.opensymphony.workflow.designer.swing.CardPanel;
 import com.opensymphony.workflow.designer.swing.EmptyBorderSplitPane;
 import com.opensymphony.workflow.designer.swing.FramePanel;
+import com.opensymphony.workflow.loader.WorkflowConfigDescriptor;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.loader.Workspace;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -46,22 +58,33 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   private CardPanel detailPanel = new CardPanel();
   private FramePanel detailFramePanel;
   public static WorkflowDesigner INSTANCE = null;
+  public static WorkflowConfigDescriptor config = null;
 
   public WorkflowDesigner()
   {
     super("OSWorkflow Designer");
     INSTANCE = this;
     navigator = new Navigator(this);
-    setAppMenu();
+    setJMenuBar(BarFactory.createMenubar(manager));
     detailFramePanel = new FramePanel("Details", false);
     detailFramePanel.setContent(detailPanel);
+    detailFramePanel = new FramePanel("Details", false);
+    //    detailFramePanel.setContent(new JScrollPane(detailPanel));
+    detailFramePanel.setContent(detailPanel);
 
+    loadConfiguration();
+    // create workspace view
     FramePanel flowsPanel = new FramePanel("Workspace", false);
     flowsPanel.setContent(new JScrollPane(navigator));
+
+    // layout
     leftSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, flowsPanel, detailFramePanel);
-    mainSplitPane = new EmptyBorderSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSplitPane, graphTabs);
+    mainSplitPane = new EmptyBorderSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSplitPane, new JScrollPane(graphTabs));
+    graphTabs.setVisible(false);
+    //    graphTabs.setFont(FontHelper.TAB_ARIAL);
     mainSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.MAIN_DIVIDER_LOCATION, 150));
     leftSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 150));
+
     //Provide a preferred size for the split pane
     String bounds = Prefs.INSTANCE.get(Prefs.DESIGNER_BOUNDS, "100, 100, 800, 600");
     StringTokenizer tok = new StringTokenizer(bounds, ",");
@@ -70,7 +93,10 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     int w = Integer.parseInt(tok.nextToken().trim());
     int h = Integer.parseInt(tok.nextToken().trim());
     setLocation(x, y);
-    getContentPane().add(mainSplitPane);
+    getContentPane().setLayout(new BorderLayout());
+    getContentPane().add(BarFactory.createToolbar(), BorderLayout.NORTH);
+    getContentPane().add(mainSplitPane, BorderLayout.CENTER);
+
     mainSplitPane.setPreferredSize(new Dimension(w, h));
 
     addWindowListener(new WindowAdapter()
@@ -181,10 +207,14 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       {
         panel = new ResultEditor();
       }
+      else if(node instanceof InitialActionCell)
+      {
+        panel = new InitialActionEditor();
+      }
       if(panel != null)
       {
         panel.setName(panelName);
-        detailPanel.showCard(panel);
+        //detailPanel.showCard(panel);
       }
     }
     if(panel != null)
@@ -199,6 +229,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       }
       String title = panel.getTitle();
       detailFramePanel.setTitle("Details" + (title != null ? (" - " + title) : ""));
+      detailPanel.showCard(panel);
     }
     else
     {
@@ -263,8 +294,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   public void closeWorkspace()
   {
-	  int count = graphTabs.getComponentCount();
-    for(int i = count-1; i >= 0; i--)
+    int count = graphTabs.getComponentCount();
+    for(int i = count - 1; i >= 0; i--)
     {
       graphTabs.remove(i);
     }
@@ -273,6 +304,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     Prefs.INSTANCE.remove(Prefs.LAST_WORKSPACE);
     mlayout.clear();
     graphs.clear();
+    graphTabs.setVisible(false);
   }
 
   public void newWorkflowCreated(String name)
@@ -284,46 +316,6 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   public Navigator navigator()
   {
     return navigator;
-  }
-
-  public void setAppMenu()
-  {
-    JMenuBar menuBar = new JMenuBar();
-    JMenu fileMenu = new JMenu("File");
-    JMenu itemNew = new JMenu("New");
-    NewWorkflow newWorkflow = new NewWorkflow();
-    manager.addWorkspaceListener(newWorkflow);
-    itemNew.add(new NewWorkspace());
-    itemNew.add(newWorkflow);
-    fileMenu.add(itemNew);
-
-    fileMenu.add(new OpenWorkspace());
-
-    CloseWorkspace close = new CloseWorkspace();
-    manager.addWorkspaceListener(close);
-    fileMenu.add(close);
-
-    ImportWorkflow importWorkflow = new ImportWorkflow();
-    manager.addWorkspaceListener(importWorkflow);
-    fileMenu.add(importWorkflow);
-    PNGExport export = new PNGExport();
-    manager.addWorkspaceListener(export);
-    fileMenu.add(export);
-
-    fileMenu.addSeparator();
-
-    SaveWorkspace save = new SaveWorkspace();
-    manager.addWorkspaceListener(save);
-    fileMenu.add(save);
-    fileMenu.addSeparator();
-    fileMenu.add(new Quit());
-    JMenu viewMenu = new JMenu("View");
-    AutoLayout auto = new AutoLayout(null);
-    manager.addWorkspaceListener(auto);
-    viewMenu.add(auto);
-    menuBar.add(fileMenu);
-    menuBar.add(viewMenu);
-    setJMenuBar(menuBar);
   }
 
   public void selectWorkflow(String workflowName)
@@ -340,6 +332,42 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
     createGraph(workflowName);
     Prefs.INSTANCE.put(Prefs.WORKFLOW_CURRENT, workflowName);
+    graphTabs.setVisible(true);
+  }
+
+  private void loadConfiguration()
+  {
+    try
+    {
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      dbf.setNamespaceAware(true);
+
+      DocumentBuilder db = null;
+
+      try
+      {
+        db = dbf.newDocumentBuilder();
+      }
+      catch(ParserConfigurationException e)
+      {
+        log.fatal("Could not load workflow plugin file", e);
+      }
+
+      InputStream is = WorkflowDesigner.class.getResourceAsStream("/META-INF/palette.xml");
+      Document doc = db.parse(is);
+
+      Element root = (Element)doc.getElementsByTagName("plugin").item(0);
+
+      config = new WorkflowConfigDescriptor(root);
+    }
+    catch(SAXException e)
+    {
+      log.fatal("Syntax error in plugin file", e);
+    }
+    catch(IOException e)
+    {
+      log.fatal("Plugin file does not exist", e);
+    }
   }
 
   public static void main(String[] args)
@@ -371,6 +399,10 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       {
       }
     }
+
+    SplashWindow frame = new SplashWindow();
+    frame.init();
+    frame.show();
     WorkflowDesigner d = new WorkflowDesigner();
     d.pack();
     d.show();
