@@ -11,10 +11,10 @@
     <fileset dir="lib">
       <include name="**/*.jar"/>
       <exclude name="**/jalopy/*.jar"/>
-      <exclude name="**/xdoclet/*.jar"/>      
+      <exclude name="**/xdoclet/*.jar"/>
     </fileset>
   </path>
-  
+
   <path id="jalopy.classpath">
     <fileset dir="lib/build/jalopy">
       <include name="*.jar"/>
@@ -144,6 +144,12 @@
     <copy todir="${build.test}">
       <fileset dir="${src.test}">
         <include name="**/*.xml" />
+        <include name="**/*.properties"/>
+      </fileset>
+    </copy>
+    <copy todir="${build.test}">
+      <fileset dir="${src.java}">
+        <include name="**/*.xml"/>
         <include name="**/*.properties"/>
       </fileset>
     </copy>
