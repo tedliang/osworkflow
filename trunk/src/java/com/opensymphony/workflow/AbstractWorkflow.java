@@ -1003,7 +1003,12 @@ public class AbstractWorkflow implements Workflow {
      */
     protected boolean transitionWorkflow(WorkflowEntry entry, List currentSteps, WorkflowStore store, WorkflowDescriptor wf, ActionDescriptor action, Map transientVars, Map inputs, PropertySet ps) throws WorkflowException {
         Map cache = (Map) stateCache.get();
-        cache.clear();
+
+        if (cache != null) {
+            cache.clear();
+        } else {
+            stateCache.set(new HashMap());
+        }
 
         Step step = getCurrentStep(wf, action.getId(), currentSteps, transientVars, ps);
 
@@ -1346,7 +1351,11 @@ public class AbstractWorkflow implements Workflow {
 
         Map cache = (Map) stateCache.get();
 
-        Boolean result = (Boolean) cache.get(action);
+        Boolean result = null;
+
+        if (cache != null) {
+            result = (Boolean) cache.get(action);
+        }
 
         if (result == null) {
             RestrictionDescriptor restriction = action.getRestriction();
