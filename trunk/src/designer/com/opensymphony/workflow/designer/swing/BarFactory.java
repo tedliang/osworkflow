@@ -49,9 +49,13 @@ public class BarFactory
     item = new JMenuItem(ActionManager.register("openspace", new OpenWorkspace()));
     fileMenu.add(item);
 
-    CloseWorkspace close = new CloseWorkspace();
-    manager.addWorkspaceListener(close);
-    item = new JMenuItem(ActionManager.register("closespace", close));
+    CloseWorkspace closeSpace = new CloseWorkspace();
+    manager.addWorkspaceListener(closeSpace);
+    item = new JMenuItem(ActionManager.register("closespace", closeSpace));
+    fileMenu.add(item);
+
+    CloseWorkflow closeWorkflow = new CloseWorkflow();
+    item = new JMenuItem(ActionManager.register("closeflow", closeWorkflow));
     fileMenu.add(item);
 
     ImportWorkflow importWorkflow = new ImportWorkflow();
