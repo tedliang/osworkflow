@@ -4,23 +4,23 @@
  */
 package com.opensymphony.workflow.loader;
 
+import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
+import com.opensymphony.workflow.util.Validatable;
+
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 
 /**
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
-public class ConditionDescriptor extends AbstractDescriptor {
+public class ConditionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected Map args = new HashMap();
@@ -31,6 +31,7 @@ public class ConditionDescriptor extends AbstractDescriptor {
     protected String name;
     protected String type;
     protected boolean negate = false;
+    private List nestedConditions = new ArrayList();
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -63,12 +64,42 @@ public class ConditionDescriptor extends AbstractDescriptor {
         return negate;
     }
 
+    public boolean isNested() {
+        return "nested".equals(type);
+    }
+
+    public void setNestedConditions(List nestedConditions) {
+        this.nestedConditions = nestedConditions;
+    }
+
+    public List getNestedConditions() {
+        return nestedConditions;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
 
     public String getType() {
         return type;
+    }
+
+    public void validate() throws InvalidWorkflowDescriptorException {
+        if ("nested".equals(type) && (nestedConditions.size() == 0)) {
+            throw new InvalidWorkflowDescriptorException("Nested condition must contain conditions");
+        } else if ("nested".equals(type)) {
+            String operator = (String) args.get("operator");
+
+            if (operator == null) {
+                throw new InvalidWorkflowDescriptorException("Nested condition must specify 'operator' argument");
+            }
+
+            if (!"AND".equals(operator) && !"OR".equals(operator)) {
+                throw new InvalidWorkflowDescriptorException("Invalid operator argument '" + operator + "' for nested condition, must be AND or OR");
+            }
+        } else if (!"nested".equals(type) && (nestedConditions.size() > 0)) {
+            throw new InvalidWorkflowDescriptorException("Condition type " + type + " cannot contain nested conditions");
+        }
     }
 
     public void writeXML(PrintWriter out, int indent) {
@@ -95,6 +126,11 @@ public class ConditionDescriptor extends AbstractDescriptor {
             out.println("</arg>");
         }
 
+        for (int i = 0; i < nestedConditions.size(); i++) {
+            ConditionDescriptor condition = (ConditionDescriptor) nestedConditions.get(i);
+            condition.writeXML(out, indent);
+        }
+
         XMLUtil.printIndent(out, --indent);
         out.println("</condition>");
     }
@@ -119,11 +155,20 @@ public class ConditionDescriptor extends AbstractDescriptor {
             name = condition.getAttribute("name");
         }
 
-        NodeList args = condition.getElementsByTagName("arg");
+        List args = XMLUtil.getChildElements(condition, "arg");
 
-        for (int l = 0; l < args.getLength(); l++) {
-            Element arg = (Element) args.item(l);
+        for (int l = 0; l < args.size(); l++) {
+            Element arg = (Element) args.get(l);
             this.args.put(arg.getAttribute("name"), XMLUtil.getText(arg));
+        }
+
+        List children = XMLUtil.getChildElements(condition, "condition");
+
+        for (int l = 0; l < children.size(); l++) {
+            Element c = (Element) children.get(l);
+            ConditionDescriptor nestedCondition = new ConditionDescriptor(c);
+            nestedCondition.setParent(this);
+            nestedConditions.add(nestedCondition);
         }
     }
 }

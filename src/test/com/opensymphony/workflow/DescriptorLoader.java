@@ -6,6 +6,7 @@ package com.opensymphony.workflow;
 
 import com.opensymphony.workflow.loader.DTDEntityResolver;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
+import com.opensymphony.workflow.loader.WorkflowLoader;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -40,6 +41,7 @@ public class DescriptorLoader {
 
         DocumentBuilder db = dbf.newDocumentBuilder();
         db.setEntityResolver(new DTDEntityResolver());
+        db.setErrorHandler(new WorkflowLoader.WorkflowErrorHandler(new URL(url)));
 
         Document doc = db.parse(new FileInputStream(file));
         Element root = (Element) doc.getElementsByTagName("workflow").item(0);

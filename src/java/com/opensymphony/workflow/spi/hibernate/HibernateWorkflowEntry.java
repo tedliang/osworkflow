@@ -13,7 +13,7 @@ import java.util.List;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class HibernateWorkflowEntry implements WorkflowEntry {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@ public class HibernateWorkflowEntry implements WorkflowEntry {
     List currentSteps;
     List historySteps;
     String workflowName;
-    long id;
+    long id = -1;
     private int state;
 
     //~ Methods ////////////////////////////////////////////////////////////////

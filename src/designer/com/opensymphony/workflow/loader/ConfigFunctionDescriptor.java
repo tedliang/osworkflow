@@ -1,11 +1,10 @@
 package com.opensymphony.workflow.loader;
 
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.PrintWriter;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
  * @author jackflit
@@ -61,21 +60,10 @@ public class ConfigFunctionDescriptor extends FunctionDescriptor implements Args
   {
     type = function.getAttribute("type");
 
-    String n = function.getAttribute("negate");
-    boolean negate;
-    if("true".equalsIgnoreCase(n) || "yes".equalsIgnoreCase(n))
+    List args = XMLUtil.getChildElements(function, "arg");
+    for(int l = 0; l < args.size(); l++)
     {
-      negate = true;
-    }
-    else
-    {
-      negate = false;
-    }
-
-    NodeList args = function.getElementsByTagName("arg");
-    for(int l = 0; l < args.getLength(); l++)
-    {
-      Element arg = (Element)args.item(l);
+      Element arg = (Element)args.get(l);
       this.args.put(arg.getAttribute("name"), XMLUtil.getText(arg));
       if("true".equals(arg.getAttribute("modifiable")))
       {

@@ -12,6 +12,9 @@ import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  *
@@ -38,6 +41,26 @@ public class XMLUtil {
         }
 
         return null;
+    }
+
+    public static List getChildElements(Element parent, String childName) {
+        NodeList children = parent.getChildNodes();
+        List list = new ArrayList();
+        int size = children.getLength();
+
+        for (int i = 0; i < size; i++) {
+            Node node = children.item(i);
+
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+
+                if (childName.equals(element.getNodeName())) {
+                    list.add(element);
+                }
+            }
+        }
+
+        return list;
     }
 
     public static String getChildText(Element parent, String childName) {

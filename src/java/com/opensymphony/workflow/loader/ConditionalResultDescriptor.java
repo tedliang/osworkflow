@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ConditionalResultDescriptor extends ResultDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -54,6 +54,8 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
         if (conditions.size() == 0) {
             throw new InvalidWorkflowDescriptorException("Conditional result from " + ((ActionDescriptor) getParent()).getName() + " to " + getDestination() + " must have at least one condition");
         }
+
+        ValidationHelper.validate(conditions);
     }
 
     public void writeXML(PrintWriter out, int indent) {
@@ -119,11 +121,11 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
         Element conditions = XMLUtil.getChildElement(conditionalResult, "conditions");
         conditionType = conditions.getAttribute("type");
 
-        NodeList conditionNodes = conditions.getElementsByTagName("condition");
-        int length = conditionNodes.getLength();
+        List conditionNodes = XMLUtil.getChildElements(conditions, "condition");
+        int length = conditionNodes.size();
 
         for (int i = 0; i < length; i++) {
-            Element condition = (Element) conditionNodes.item(i);
+            Element condition = (Element) conditionNodes.get(i);
             ConditionDescriptor conditionDescriptor = new ConditionDescriptor(condition);
             conditionDescriptor.setParent(this);
             this.conditions.add(conditionDescriptor);

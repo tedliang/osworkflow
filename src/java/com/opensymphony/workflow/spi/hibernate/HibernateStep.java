@@ -13,10 +13,10 @@ import java.util.List;
 
 /**
  * This abstract class provides all the implementation of the step interface
-  * It is abstract because the current and historical steps are stored in seperate tables.
-  * To split the history and current steps into two tables in hibernate, the easiest approach is to use
+ * It is abstract because the current and historical steps are stored in seperate tables.
+ * To split the history and current steps into two tables in hibernate, the easiest approach is to use
  * two separate classes.
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public abstract class HibernateStep implements Step {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -31,7 +31,7 @@ public abstract class HibernateStep implements Step {
     String status;
     int actionId;
     int stepId;
-    long id;
+    long id = -1;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -44,7 +44,9 @@ public abstract class HibernateStep implements Step {
         this.finishDate = step.getFinishDate();
         this.dueDate = step.getDueDate();
         this.startDate = step.getStartDate();
-        this.id = step.getId();
+
+        //do not copy this value, it's for unsaved-value
+        //this.id = step.getId();
         this.owner = step.getOwner();
         this.status = step.getStatus();
         this.stepId = step.getStepId();

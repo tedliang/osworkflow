@@ -159,10 +159,10 @@ public class PaletteDescriptor extends AbstractDescriptor
     Element s = XMLUtil.getChildElement(root, "statusvalues");
     defaultNextStatus = s.getAttribute("default-next");
     defaultOldStatus = s.getAttribute("default-old");
-    NodeList l = s.getElementsByTagName("status");
-    for(int i = 0; i < l.getLength(); i++)
+    List l = XMLUtil.getChildElements(s, "status");
+    for(int i = 0; i < l.size(); i++)
     {
-      Element status = (Element)l.item(i);
+      Element status = (Element)l.get(i);
       StatusDescriptor statusDescriptor = new StatusDescriptor(status);
       statusDescriptor.setParent(this);
       statusList.add(statusDescriptor);
@@ -170,10 +170,10 @@ public class PaletteDescriptor extends AbstractDescriptor
     Element j = XMLUtil.getChildElement(root, "joinconditions");
     if(j != null)
     {
-      NodeList joins = j.getElementsByTagName("condition");
-      for(int i = 0; i < joins.getLength(); i++)
+      List joins = XMLUtil.getChildElements(j, "condition");
+      for(int i = 0; i < joins.size(); i++)
       {
-        Element condition = (Element)joins.item(i);
+        Element condition = (Element)joins.get(i);
         ConfigConditionDescriptor jcd = new ConfigConditionDescriptor(this, condition);
 	      jcd.setDescription(bundle.getString(jcd.getName() + ".long"));
 	      jcd.setDisplayName(bundle.getString(jcd.getName()));
@@ -186,10 +186,10 @@ public class PaletteDescriptor extends AbstractDescriptor
     Element p = XMLUtil.getChildElement(root, "functions");
     if(p != null)
     {
-      NodeList joins = p.getElementsByTagName("function");
-      for(int i = 0; i < joins.getLength(); i++)
+      List functions = XMLUtil.getChildElements(p, "function");
+      for(int i = 0; i < functions.size(); i++)
       {
-        Element function = (Element)joins.item(i);
+        Element function = (Element)functions.get(i);
         ConfigFunctionDescriptor pd = new ConfigFunctionDescriptor(this, function);
 	      pd.setDescription(bundle.getString(pd.getName() + ".long"));
 	      pd.setDisplayName(bundle.getString(pd.getName()));
@@ -202,10 +202,10 @@ public class PaletteDescriptor extends AbstractDescriptor
     Element pm = XMLUtil.getChildElement(root, "permissionconditions");
     if(pm != null)
     {
-      NodeList joins = pm.getElementsByTagName("condition");
-      for(int i = 0; i < joins.getLength(); i++)
+      List joins = XMLUtil.getChildElements(pm, "condition");
+      for(int i = 0; i < joins.size(); i++)
       {
-        Element condition = (Element)joins.item(i);
+        Element condition = (Element)joins.get(i);
         PermissionConditionDescriptor pcd = new PermissionConditionDescriptor(this, condition);
 	      pcd.setDescription(bundle.getString(pcd.getName() + ".long"));
 	      pcd.setDisplayName(bundle.getString(pcd.getName()));
@@ -218,10 +218,10 @@ public class PaletteDescriptor extends AbstractDescriptor
     Element r = XMLUtil.getChildElement(root, "resultconditions");
     if(j != null)
     {
-      NodeList joins = r.getElementsByTagName("condition");
-      for(int i = 0; i < joins.getLength(); i++)
+      List conditions = XMLUtil.getChildElements(r, "condition");
+      for(int i = 0; i < conditions.size(); i++)
       {
-        Element condition = (Element)joins.item(i);
+        Element condition = (Element)conditions.get(i);
         ConfigConditionDescriptor rcd = new ConfigConditionDescriptor(this, condition);
 	      rcd.setDescription(bundle.getString(rcd.getName() + ".long"));
 	      rcd.setDisplayName(bundle.getString(rcd.getName()));
