@@ -1290,7 +1290,7 @@ public class AbstractWorkflow implements Workflow {
                 iterator.hasNext();) {
             ConditionalResultDescriptor conditionalResult = (ConditionalResultDescriptor) iterator.next();
 
-            if (passesConditions(null, conditionalResult.getConditions(), unmodifiableTransients, ps, step.getStepId())) {
+            if (passesConditions(null, conditionalResult.getConditions(), unmodifiableTransients, ps, (step != null) ? step.getStepId() : (-1))) {
                 //if (evaluateExpression(conditionalResult.getCondition(), entry, wf.getRegisters(), null, transientVars)) {
                 theResults[0] = conditionalResult;
 
