@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer.editor;
 
 import com.opensymphony.workflow.designer.ResultEdge;
+import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.loader.AbstractDescriptor;
 import com.opensymphony.workflow.loader.ConfigConditionDescriptor;
 
@@ -29,7 +30,7 @@ public class ResultConditionEditor extends ConditionEditor
 
   protected String getSelection()
   {
-    return DialogUtils.getUserSelection(getModel().getPalette().getResultNames(), "Select result condition", "Select Condition", null);
+    return DialogUtils.getUserSelection(getModel().getPalette().getResultNames(), ResourceManager.getString("condition.select.result"), ResourceManager.getString("condition.select"), null);
   }
 
 }

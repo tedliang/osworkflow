@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer.model;
 
 import com.opensymphony.workflow.loader.ResultDescriptor;
+import com.opensymphony.workflow.designer.ResourceManager;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -9,7 +10,9 @@ import com.opensymphony.workflow.loader.ResultDescriptor;
  */
 public class ResultsTableModel extends ListTableModel
 {
-  private String[] header = new String[]{"id", "owner", "status", "old status","step"};
+  private String[] header = new String[]{ResourceManager.getString("id"), ResourceManager.getString("owner"),
+                                         ResourceManager.getString("status"), ResourceManager.getString("status.old"),
+                                         ResourceManager.getString("step")};
 
   public int getColumnCount()
   {

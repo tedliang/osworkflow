@@ -19,7 +19,7 @@ public class UIFactory
     JButton[] buttons = new JButton[names.length];
     for(int i = 0; i < buttons.length; i++)
     {
-      buttons[i] = new JButton(names[i]);
+      buttons[i] = new JButton(ResourceManager.getString(names[i]));
       buttons[i].setActionCommand(prefix + names[i]);
       buttons[i].addActionListener(listener);
     }

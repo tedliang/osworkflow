@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer.model;
 
 import com.opensymphony.workflow.loader.ConditionDescriptor;
+import com.opensymphony.workflow.designer.ResourceManager;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -9,7 +10,7 @@ import com.opensymphony.workflow.loader.ConditionDescriptor;
  */
 public class ConditionsTableModel extends ListTableModel
 {
-  private String[] header = new String[]{"name", "type"};
+  private String[] header = new String[]{ResourceManager.getString("name"), ResourceManager.getString("type")};
 
   public boolean isCellEditable(int rowIndex, int columnIndex)
   {
