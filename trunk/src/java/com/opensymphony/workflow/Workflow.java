@@ -188,4 +188,13 @@ public interface Workflow {
      * @return true if the workflow can be initialized, false otherwise.
      */
     boolean canInitialize(String workflowName, int initialAction, Map inputs);
+
+    /**
+     * Remove the specified workflow.
+     * @param workflowName The workflow name of the workflow to remove.
+     * @return true if the workflow was removed, false otherwise.
+     * @throws FactoryException If the underlying workflow factory has an error removing the workflow,
+     * or if it does not support the removal of workflows.
+     */
+    boolean removeWorkflow(String workflowName) throws FactoryException;
 }

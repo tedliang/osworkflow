@@ -622,6 +622,13 @@ public class AbstractWorkflow implements Workflow {
     /**
      * @ejb.interface-method
      */
+    public boolean removeWorkflow(String workflowName) throws FactoryException {
+        return getConfiguration().removeWorkflow(workflowName);
+    }
+
+    /**
+     * @ejb.interface-method
+     */
     public boolean saveWorkflowDescriptor(String workflowName, WorkflowDescriptor descriptor, boolean replace) throws FactoryException {
         boolean success = getConfiguration().saveWorkflow(workflowName, descriptor, replace);
 

@@ -48,7 +48,7 @@ public interface Configuration {
     Map getPersistenceArgs();
 
     /**
-     * Get the named workflow descriptor
+     * Get the named workflow descriptor.
      * @param name the workflow name
      * @throws FactoryException if there was an error looking up the descriptor or if it could not be found.
      */
@@ -64,10 +64,19 @@ public interface Configuration {
     WorkflowStore getWorkflowStore() throws StoreException;
 
     /**
-     * Load the specified configuration file
+     * Load the specified configuration file.
      * @param url url to the configuration file.
      */
     void load(URL url) throws FactoryException;
+
+    /**
+     * Remove the specified workflow.
+     * @param workflow The workflow name of the workflow to remove.
+     * @return true if the workflow was removed, false otherwise.
+     * @throws FactoryException If the underlying workflow factory has an error removing the workflow,
+     * or if it does not support the removal of workflows.
+     */
+    boolean removeWorkflow(String workflow) throws FactoryException;
 
     boolean saveWorkflow(String name, WorkflowDescriptor descriptor, boolean replace) throws FactoryException;
 }
