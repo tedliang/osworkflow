@@ -1,7 +1,6 @@
 package com.opensymphony.workflow.designer;
 
 import java.util.*;
-import java.net.URL;
 import javax.swing.*;
 
 import org.apache.commons.logging.Log;
@@ -10,14 +9,14 @@ import org.apache.commons.logging.LogFactory;
 public final class ActionManager
 {
 
-  public static final String SMALL_GRAY_ICON = "smallGrayIcon";
-  public static final String DISPLAYED_MNEMONIC_INDEX = "mnemonicIndex";
+  private static final String SMALL_GRAY_ICON = "smallGrayIcon";
+  private static final String DISPLAYED_MNEMONIC_INDEX = "mnemonicIndex";
 
-  static final ActionManager INSTANCE = new ActionManager();
-  static final Log LOGGER = LogFactory.getLog(ActionManager.class);
+  private static final ActionManager INSTANCE = new ActionManager();
+  private static final Log LOGGER = LogFactory.getLog(ActionManager.class);
 
   private final Map actions;
-  ResourceBundle bundle;
+  private ResourceBundle bundle;
 
   private ActionManager()
   {
