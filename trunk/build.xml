@@ -129,7 +129,11 @@
     <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
 
     <mkdir dir="${build.test}/META-INF"/>
-    <copy file="${docs}/workflow_2_5.dtd" todir="${build.test}/META-INF/"/>
+    <copy todir="${build.test}/META-INF/">
+      <fileset dir="${docs}">
+        <include name="*.dtd" />
+      </fileset>
+    </copy>
     <javac srcdir="${src.java}" destdir="${build.test}" debug="on" classpathref="cp" compiler="org.apache.tools.ant.taskdefs.CloverCompilerAdapter"/>
     <javac srcdir="${src.test}" destdir="${build.test}" classpathref="cp" debug="on"/>
     <copy todir="${build.test}">
