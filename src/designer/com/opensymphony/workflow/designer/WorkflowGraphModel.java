@@ -44,7 +44,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     WorkflowCell cell = (WorkflowCell)((WorkflowPort)port).getParent();
     if(cell instanceof InitialActionCell) return false;
     //todo return true once we have connection stuff working
-    return false;
+    return true;
   }
 
   public boolean acceptsSource(Object edge, Object port)
