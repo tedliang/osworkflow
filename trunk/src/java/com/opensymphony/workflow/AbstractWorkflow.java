@@ -477,11 +477,11 @@ public class AbstractWorkflow implements Workflow {
             return;
         }
 
-      if (inputs != null) {
-          transientVars.putAll(inputs);
-      }
+        if (inputs != null) {
+            transientVars.putAll(inputs);
+        }
 
-      populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(actionId), currentSteps);
+        populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(actionId), currentSteps);
 
         boolean validAction = isActionAvailable(action, transientVars, ps);
 
@@ -1459,6 +1459,7 @@ public class AbstractWorkflow implements Workflow {
         for (int j = 0; j < availableAutoActions.length; j++) {
             int actionId = availableAutoActions[j];
             doAction(entry.getId(), actionId, inputs);
+
             break;
         }
     }
