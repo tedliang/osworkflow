@@ -9,8 +9,8 @@ import com.opensymphony.module.propertyset.PropertySetManager;
 
 import com.opensymphony.util.EJBUtils;
 
-import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.QueryNotSupportedException;
+import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.*;
