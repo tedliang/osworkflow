@@ -1292,7 +1292,7 @@ public class AbstractWorkflow implements Workflow {
 
                 if (toCheck != null) {
                     Iterator iter = toCheck.getActions().iterator();
-MAIN:
+MAIN: 
                     while (iter.hasNext()) {
                         ActionDescriptor descriptor = (ActionDescriptor) iter.next();
 
