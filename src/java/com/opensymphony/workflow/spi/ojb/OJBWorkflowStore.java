@@ -8,6 +8,7 @@ import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
 
 import com.opensymphony.workflow.StoreException;
+import com.opensymphony.workflow.QueryNotSupportedException;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 import com.opensymphony.workflow.spi.Step;
@@ -309,7 +310,7 @@ public class OJBWorkflowStore implements WorkflowStore {
     }
 
     public List query(WorkflowExpressionQuery query) throws StoreException {
-        throw new UnsupportedOperationException("OJB store does not yet support WorkflowExpressionQuery");
+      throw new QueryNotSupportedException("OJB Store does not support WorkflowExpressionQuery");
     }
 
     public List query(WorkflowQuery query) throws StoreException {

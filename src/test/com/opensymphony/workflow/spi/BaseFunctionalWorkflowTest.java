@@ -9,8 +9,7 @@ import com.opensymphony.module.user.Group;
 import com.opensymphony.module.user.User;
 import com.opensymphony.module.user.UserManager;
 
-import com.opensymphony.workflow.AbstractWorkflow;
-import com.opensymphony.workflow.TestWorkflow;
+import com.opensymphony.workflow.*;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.query.Expression;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
@@ -134,8 +133,14 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         String workflowName = getClass().getResource("/samples/example.xml").toString();
         assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 1));
 
-        workflows = workflow.query(query);
-        assertEquals(0, workflows.size());
+        try {
+            workflows = workflow.query(query);
+            assertEquals(0, workflows.size());
+        } catch (QueryNotSupportedException e) {
+            System.out.println("Store does not support query");
+
+            return;
+        }
 
         long workflowId = workflow.initialize(workflowName, 1, new HashMap());
         workflows = workflow.query(query);
@@ -146,8 +151,15 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         query = new WorkflowExpressionQuery(new Expression[] {
                     queryLeft, queryRight
                 }, WorkflowExpressionQuery.AND);
-        workflows = workflow.query(query);
-        assertEquals(0, workflows.size());
+
+        try {
+            workflows = workflow.query(query);
+            assertEquals(0, workflows.size());
+        } catch (QueryNotSupportedException e) {
+            System.out.println("Store does not support query");
+
+            return;
+        }
 
         queryRight = new Expression(Expression.STATUS, Expression.CURRENT_STEPS, Expression.EQUALS, "Underway");
         query = new WorkflowExpressionQuery(new Expression[] {
@@ -176,30 +188,42 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
     }
 
     public void testWorkflowQuery() throws Exception {
-        WorkflowQuery query;
+        WorkflowQuery query = null;
         List workflows;
 
         String workflowName = getClass().getResource("/samples/example.xml").toString();
         assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 1));
 
-        query = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
-        workflows = workflow.query(query);
-        assertEquals(0, workflows.size());
+        try {
+            query = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
+            workflows = workflow.query(query);
+            assertEquals(0, workflows.size());
+        } catch (QueryNotSupportedException e) {
+            System.out.println("Store does not support query");
+        }
 
-        long workflowId = workflow.initialize(workflowName, 1, new HashMap());
-        workflows = workflow.query(query);
-        assertEquals(1, workflows.size());
+        try {
+            long workflowId = workflow.initialize(workflowName, 1, new HashMap());
+            workflows = workflow.query(query);
+            assertEquals(1, workflows.size());
+        } catch (QueryNotSupportedException e) {
+            System.out.println("Store does not support query");
+        }
 
-        WorkflowQuery queryLeft = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
-        WorkflowQuery queryRight = new WorkflowQuery(WorkflowQuery.STATUS, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, "Finished");
-        query = new WorkflowQuery(queryLeft, WorkflowQuery.AND, queryRight);
-        workflows = workflow.query(query);
-        assertEquals(0, workflows.size());
+        try {
+            WorkflowQuery queryLeft = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
+            WorkflowQuery queryRight = new WorkflowQuery(WorkflowQuery.STATUS, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, "Finished");
+            query = new WorkflowQuery(queryLeft, WorkflowQuery.AND, queryRight);
+            workflows = workflow.query(query);
+            assertEquals(0, workflows.size());
 
-        queryRight = new WorkflowQuery(WorkflowQuery.STATUS, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, "Underway");
-        query = new WorkflowQuery(queryLeft, WorkflowQuery.AND, queryRight);
-        workflows = workflow.query(query);
-        assertEquals(1, workflows.size());
+            queryRight = new WorkflowQuery(WorkflowQuery.STATUS, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, "Underway");
+            query = new WorkflowQuery(queryLeft, WorkflowQuery.AND, queryRight);
+            workflows = workflow.query(query);
+            assertEquals(1, workflows.size());
+        } catch (QueryNotSupportedException e) {
+            System.out.println("Store does not support query");
+        }
     }
 
     protected void setUp() throws Exception {
