@@ -351,7 +351,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       }
       catch(ParserConfigurationException e)
       {
-        log.fatal("Could not load workflow plugin file", e);
+        log.fatal("Could not create XML parser", e);
+        System.exit(1);
       }
 
       InputStream is = WorkflowDesigner.class.getResourceAsStream("/META-INF/palette.xml");
