@@ -14,7 +14,7 @@ package com.opensymphony.workflow.query;
  * <li>Context: The context to search in, which can be one history, current steps, or a workflow instance.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class FieldExpression extends Expression {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -119,6 +119,9 @@ public class FieldExpression extends Expression {
     private int operator;
 
     //~ Constructors ///////////////////////////////////////////////////////////
+
+    public FieldExpression() {
+    }
 
     public FieldExpression(int field, int context, int operator, Object value) {
         this.context = context;

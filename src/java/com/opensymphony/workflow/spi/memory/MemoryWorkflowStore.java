@@ -370,20 +370,20 @@ public class MemoryWorkflowStore implements WorkflowStore {
                 expressionResult = this.checkExpression(entryId, (FieldExpression) expression);
             }
 
-            if (nestedExpression.getOperator() == NestedExpression.AND) {
+            if (nestedExpression.getExpressionOperator() == NestedExpression.AND) {
                 if (expressionResult == false) {
                     return nestedExpression.isNegate();
                 }
-            } else if (nestedExpression.getOperator() == NestedExpression.OR) {
+            } else if (nestedExpression.getExpressionOperator() == NestedExpression.OR) {
                 if (expressionResult == true) {
                     return !nestedExpression.isNegate();
                 }
             }
         }
 
-        if (nestedExpression.getOperator() == NestedExpression.AND) {
+        if (nestedExpression.getExpressionOperator() == NestedExpression.AND) {
             return !nestedExpression.isNegate();
-        } else if (nestedExpression.getOperator() == NestedExpression.OR) {
+        } else if (nestedExpression.getExpressionOperator() == NestedExpression.OR) {
             return nestedExpression.isNegate();
         }
 

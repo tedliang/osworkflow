@@ -4,6 +4,8 @@
  */
 package com.opensymphony.workflow.query;
 
+import java.io.Serializable;
+
 
 /**
  * Workflow Query.
@@ -13,9 +15,9 @@ package com.opensymphony.workflow.query;
  * whereby all expressions must return true for a result to be included.
  *
  * @author Christine Zimmermann
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
-public class WorkflowExpressionQuery {
+public class WorkflowExpressionQuery implements Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
 
     public static final int SORT_NONE = 0;
@@ -29,6 +31,9 @@ public class WorkflowExpressionQuery {
     private int sortOrder;
 
     //~ Constructors ///////////////////////////////////////////////////////////
+
+    public WorkflowExpressionQuery() {
+    }
 
     /**
      * Create a WorkflowExpressionQuery that consists of one expression.

@@ -13,7 +13,7 @@ import java.io.Serializable;
 /**
  * @deprecated use {@link WorkflowExpressionQuery} instead
  * @author $Author: hani $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WorkflowQuery implements Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -47,6 +47,9 @@ public class WorkflowQuery implements Serializable {
     private int type;
 
     //~ Constructors ///////////////////////////////////////////////////////////
+
+    public WorkflowQuery() {
+    }
 
     public WorkflowQuery(WorkflowQuery left, int operator, WorkflowQuery right) {
         this.operator = operator;
