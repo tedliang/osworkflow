@@ -67,4 +67,19 @@ public class GraphTabbedPane extends JTabbedPane
 			}
 		}
 	}
+
+	public void removeGraph(String name)
+	{
+		for(int i=0;i<graphs.size();i++)
+		{
+			WorkflowGraph graph = (WorkflowGraph)graphs.get(i);
+			if(graph.getName().equals(name))
+			{
+				removeTabAt(i);
+				graphs.remove(i);
+				revalidate();
+				return;
+			}
+		}
+	}
 }

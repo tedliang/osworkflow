@@ -274,7 +274,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     getWorkflowGraphModel().removeStep(step);
     return true;
   }
-
+	
   public boolean removeJoin(JoinCell join)
   {
     return getWorkflowGraphModel().removeJoin(join);
