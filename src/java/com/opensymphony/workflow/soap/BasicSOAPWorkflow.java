@@ -30,60 +30,60 @@ import javax.servlet.http.HttpServletRequest;
  * Soap enabled Wrapper around a BasicWorkflow
  *
  * @author $author$
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class BasicSOAPWorkflow implements Workflow {
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public int[] getAvailableActions(long id) throws WorkflowException {
+    public int[] getAvailableActions(long id) {
         return new BasicWorkflow(getRemoteUser()).getAvailableActions(id);
     }
 
-    public int[] getAvailableActions(long id, Map inputs) throws WorkflowException {
+    public int[] getAvailableActions(long id, Map inputs) {
         return new BasicWorkflow(getRemoteUser()).getAvailableActions(id, inputs);
     }
 
-    public List getCurrentSteps(long id) throws StoreException {
+    public List getCurrentSteps(long id) {
         return new BasicWorkflow(getRemoteUser()).getCurrentSteps(id);
     }
 
-    public int getEntryState(long id) throws WorkflowException {
+    public int getEntryState(long id) {
         return new BasicWorkflow(getRemoteUser()).getEntryState(id);
     }
 
-    public List getHistorySteps(long id) throws StoreException {
+    public List getHistorySteps(long id) {
         return new BasicWorkflow(getRemoteUser()).getHistorySteps(id);
     }
 
-    public PropertySet getPropertySet(long id) throws StoreException {
+    public PropertySet getPropertySet(long id) {
         return new BasicWorkflow(getRemoteUser()).getPropertySet(id);
     }
 
-    public List getSecurityPermissions(long id) throws WorkflowException {
+    public List getSecurityPermissions(long id) {
         return new BasicWorkflow(getRemoteUser()).getSecurityPermissions(id);
     }
 
-    public WorkflowDescriptor getWorkflowDescriptor(String workflowName) throws FactoryException {
+    public WorkflowDescriptor getWorkflowDescriptor(String workflowName) {
         return new BasicWorkflow(getRemoteUser()).getWorkflowDescriptor(workflowName);
     }
 
-    public String getWorkflowName(long id) throws StoreException {
+    public String getWorkflowName(long id) {
         return new BasicWorkflow(getRemoteUser()).getWorkflowName(id);
     }
 
-    public String[] getWorkflowNames() throws FactoryException {
+    public String[] getWorkflowNames() {
         return new BasicWorkflow(getRemoteUser()).getWorkflowNames();
     }
 
-    public boolean canInitialize(String workflowName, int initialState) throws WorkflowException {
+    public boolean canInitialize(String workflowName, int initialState) {
         return new BasicWorkflow(getRemoteUser()).canInitialize(workflowName, initialState);
     }
 
-    public boolean canInitialize(String workflowName, int initialAction, Map inputs) throws WorkflowException {
+    public boolean canInitialize(String workflowName, int initialAction, Map inputs) {
         return new BasicWorkflow(getRemoteUser()).canInitialize(workflowName, initialAction, inputs);
     }
 
-    public boolean canModifyEntryState(long id, int newState) throws WorkflowException {
+    public boolean canModifyEntryState(long id, int newState) {
         return new BasicWorkflow(getRemoteUser()).canModifyEntryState(id, newState);
     }
 

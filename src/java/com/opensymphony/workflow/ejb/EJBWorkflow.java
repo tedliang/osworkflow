@@ -12,12 +12,14 @@ import com.opensymphony.workflow.*;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
+import com.opensymphony.workflow.spi.WorkflowEntry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.rmi.RemoteException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ import javax.naming.NamingException;
  * This class acts as a wrapper around a workflow session bean.
  *
  * @author plightbo
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class EJBWorkflow implements Workflow {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -70,88 +72,97 @@ public class EJBWorkflow implements Workflow {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public int[] getAvailableActions(long id) throws WorkflowException {
+    public int[] getAvailableActions(long id) {
         try {
             return wf.getAvailableActions(id);
         } catch (RemoteException e) {
             log.error("Error getting available actions", e);
-            throw new WorkflowException(e);
+
+            return new int[0];
         }
     }
 
-    public int[] getAvailableActions(long id, Map inputs) throws WorkflowException {
+    public int[] getAvailableActions(long id, Map inputs) {
         try {
             return wf.getAvailableActions(id, inputs);
         } catch (RemoteException e) {
             log.error("Error getting available actions", e);
-            throw new WorkflowException(e);
+
+            return new int[0];
         }
     }
 
-    public List getCurrentSteps(long id) throws WorkflowException {
+    public List getCurrentSteps(long id) {
         try {
             return wf.getCurrentSteps(id);
         } catch (RemoteException e) {
             log.error("Error getting current steps", e);
-            throw new WorkflowException(e);
+
+            return Collections.EMPTY_LIST;
         }
     }
 
-    public int getEntryState(long id) throws WorkflowException {
+    public int getEntryState(long id) {
         try {
             return wf.getEntryState(id);
         } catch (RemoteException e) {
             log.error("Error getting entry state", e);
-            throw new WorkflowException(e);
+
+            return WorkflowEntry.UNKNOWN;
         }
     }
 
-    public List getHistorySteps(long id) throws WorkflowException {
+    public List getHistorySteps(long id) {
         try {
             return wf.getHistorySteps(id);
         } catch (RemoteException e) {
             log.error("Error getting history steps", e);
-            throw new WorkflowException(e);
+
+            return Collections.EMPTY_LIST;
         }
     }
 
-    public PropertySet getPropertySet(long id) throws WorkflowException {
+    public PropertySet getPropertySet(long id) {
         try {
             return wf.getPropertySet(id);
         } catch (RemoteException e) {
             log.error("Error getting PropertySet", e);
-            throw new WorkflowException(e);
+
+            return null;
         }
     }
 
-    public List getSecurityPermissions(long id) throws WorkflowException {
+    public List getSecurityPermissions(long id) {
         try {
             return wf.getSecurityPermissions(id);
         } catch (RemoteException e) {
             log.error("Error getting security permissions", e);
-            throw new WorkflowException(e);
+
+            return Collections.EMPTY_LIST;
         }
     }
 
-    public WorkflowDescriptor getWorkflowDescriptor(String workflowName) throws WorkflowException {
+    public WorkflowDescriptor getWorkflowDescriptor(String workflowName) {
         try {
             return wf.getWorkflowDescriptor(workflowName);
         } catch (RemoteException e) {
             log.error("Error getting descriptor", e);
-            throw new WorkflowException(e);
+
+            return null;
         }
     }
 
-    public String getWorkflowName(long id) throws WorkflowException {
+    public String getWorkflowName(long id) {
         try {
             return wf.getWorkflowName(id);
         } catch (RemoteException e) {
             log.error("Error getting workflow name", e);
-            throw new WorkflowException(e);
+
+            return null;
         }
     }
 
-    public String[] getWorkflowNames() throws FactoryException {
+    public String[] getWorkflowNames() {
         try {
             return wf.getWorkflowNames();
         } catch (RemoteException e) {
@@ -161,30 +172,33 @@ public class EJBWorkflow implements Workflow {
         }
     }
 
-    public boolean canInitialize(String workflowName, int initialState) throws WorkflowException {
+    public boolean canInitialize(String workflowName, int initialState) {
         try {
             return wf.canInitialize(workflowName, initialState);
         } catch (RemoteException e) {
             log.error("Error checking canInitialize", e);
-            throw new WorkflowException(e);
+
+            return false;
         }
     }
 
-    public boolean canInitialize(String workflowName, int initialAction, Map inputs) throws WorkflowException {
+    public boolean canInitialize(String workflowName, int initialAction, Map inputs) {
         try {
             return wf.canInitialize(workflowName, initialAction, inputs);
         } catch (RemoteException e) {
             log.error("Error checking canInitialize", e);
-            throw new WorkflowException(e);
+
+            return false;
         }
     }
 
-    public boolean canModifyEntryState(long id, int newState) throws WorkflowException {
+    public boolean canModifyEntryState(long id, int newState) {
         try {
             return wf.canModifyEntryState(id, newState);
         } catch (RemoteException e) {
             log.error("Error checking modifying entry state", e);
-            throw new WorkflowException(e);
+
+            return false;
         }
     }
 

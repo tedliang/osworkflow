@@ -25,7 +25,7 @@ public interface Workflow {
     /**
      * @deprecated use {@link #getAvailableActions(long, Map)}  with an empty Map instead.
      */
-    public int[] getAvailableActions(long id) throws WorkflowException;
+    public int[] getAvailableActions(long id);
 
     /**
      * Returns a Collection of Step objects that are the current steps of the specified workflow instance.
@@ -33,14 +33,14 @@ public interface Workflow {
      * @param id The workflow instance id.
      * @return The steps that the workflow instance is currently in.
      */
-    public List getCurrentSteps(long id) throws WorkflowException;
+    public List getCurrentSteps(long id);
 
     /**
      * Return the state of the specified workflow instance id.
      * @param id The workflow instance id.
      * @return int The state id of the specified workflow
      */
-    public int getEntryState(long id) throws WorkflowException;
+    public int getEntryState(long id);
 
     /**
      * Returns a list of all steps that are completed for the given workflow instance id.
@@ -49,32 +49,32 @@ public interface Workflow {
      * @return a List of Steps
      * @see com.opensymphony.workflow.spi.Step
      */
-    public List getHistorySteps(long id) throws WorkflowException;
+    public List getHistorySteps(long id);
 
     /**
      * Get the PropertySet for the specified workflow instance id.
      * @param id The workflow instance id.
      */
-    public PropertySet getPropertySet(long id) throws WorkflowException;
+    public PropertySet getPropertySet(long id);
 
     /**
      * Get a collection (Strings) of currently defined permissions for the specified workflow instance.
      * @param id the workflow instance id.
      * @return A List of permissions specified currently (a permission is a string name).
      */
-    public List getSecurityPermissions(long id) throws WorkflowException;
+    public List getSecurityPermissions(long id);
 
     /**
      * Get the workflow descriptor for the specified workflow name.
      * @param workflowName The workflow name.
      */
-    public WorkflowDescriptor getWorkflowDescriptor(String workflowName) throws WorkflowException;
+    public WorkflowDescriptor getWorkflowDescriptor(String workflowName);
 
     /**
      * Get the name of the specified workflow instance.
      * @param id the workflow instance id.
      */
-    public String getWorkflowName(long id) throws WorkflowException;
+    public String getWorkflowName(long id);
 
     /**
      * Check if the calling user has enough permissions to initialise the specified workflow.
@@ -82,7 +82,7 @@ public interface Workflow {
      * @param initialStep The id of the initial state to check.
      * @return true if the user can successfully call initialize, false otherwise.
      */
-    public boolean canInitialize(String workflowName, int initialStep) throws WorkflowException;
+    public boolean canInitialize(String workflowName, int initialStep);
 
     /**
     * Check if the state of the specified workflow instance can be changed to the new specified one.
@@ -90,7 +90,7 @@ public interface Workflow {
     * @param newState The new state id.
     * @return true if the state of the workflow can be modified, false otherwise.
     */
-    public boolean canModifyEntryState(long id, int newState) throws WorkflowException;
+    public boolean canModifyEntryState(long id, int newState);
 
     /**
      * Modify the state of the specified workflow instance.
@@ -150,13 +150,12 @@ public interface Workflow {
      * @throws IllegalArgumentException if the specified id does not exist, or if its workflow
      * descriptor is no longer available or has become invalid.
      */
-    int[] getAvailableActions(long id, Map inputs) throws WorkflowException;
+    int[] getAvailableActions(long id, Map inputs);
 
     /**
      * Get all available workflow names.
-     * @throws FactoryException If the underlying workflow factory is unable to determine the list of workflows it provides.
      */
-    String[] getWorkflowNames() throws FactoryException;
+    String[] getWorkflowNames();
 
     /**
      * Determine if a particular workflow can be initialized.
@@ -165,5 +164,5 @@ public interface Workflow {
      * @param inputs The inputs to check.
      * @return true if the workflow can be initialized, false otherwise.
      */
-    boolean canInitialize(String workflowName, int initialAction, Map inputs) throws WorkflowException;
+    boolean canInitialize(String workflowName, int initialAction, Map inputs);
 }
