@@ -44,8 +44,10 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
     }
     ImportWorkflowDialog dialog = new ImportWorkflowDialog(WorkflowDesigner.INSTANCE, (String)getValue(NAME), true);
     dialog.pack();
+    dialog.getBanner().setTitle("");
+    dialog.getBanner().setSubtitle(ResourceManager.getString("import.long"));
     Utils.centerComponent(WorkflowDesigner.INSTANCE, dialog);
-    dialog.show();
+    if(!dialog.ask()) return;
     final URL importURL = dialog.getImportURL();
     if(importURL!=null)
     {
@@ -59,7 +61,7 @@ public class ImportWorkflow extends AbstractAction implements WorkspaceListener
 	      if(outputFile.isDirectory()) throw new Exception("Output file is a directory!");
         //don't allow importing of files within the workspace!
         if(!"file".equals(importURL.getProtocol()) ||
-          new File(importURL.getFile()).getCanonicalPath().indexOf(currentWorkspace.getLocation().getParentFile().getCanonicalPath())==-1)
+          !new File(importURL.getFile()).getParentFile().getCanonicalPath().equals(currentWorkspace.getLocation().getParentFile().getCanonicalPath()))
         {
           status.setProgressStatus(ResourceManager.getString("import.progress", new Object[]{fileName}));
           status.setIndeterminate(true);

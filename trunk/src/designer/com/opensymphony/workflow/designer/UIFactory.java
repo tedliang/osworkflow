@@ -3,6 +3,8 @@ package com.opensymphony.workflow.designer;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.View;
 
 import com.jgoodies.forms.factories.ButtonBarFactory;
 
@@ -91,5 +93,37 @@ public class UIFactory
     field.setOpaque(false);
     field.setForeground(Color.black);
     return field;
+  }
+
+  public static void htmlize(JComponent component)
+  {
+    Font defaultFont = UIManager.getFont("Button.font");
+
+    String stylesheet = "body { margin-top: 0; margin-bottom: 0; margin-left: 0; margin-right: 0; font-family: " + defaultFont.getName() + "; font-size: " + defaultFont.getSize() + "pt;	}" + "a, p, li { margin-top: 0; margin-bottom: 0; margin-left: 0; margin-right: 0; font-family: " + defaultFont.getName() + "; font-size: " + defaultFont.getSize() + "pt;	}";
+
+    try
+    {
+      HTMLDocument doc = null;
+      if(component instanceof JEditorPane)
+      {
+        doc = (HTMLDocument)((JEditorPane)component).getDocument();
+      }
+      else
+      {
+        View v = (View)component.getClientProperty(javax.swing.plaf.basic.BasicHTML.propertyKey);
+        if(v != null)
+        {
+          doc = (HTMLDocument)v.getDocument();
+        }
+      }
+      if(doc != null)
+      {
+        doc.getStyleSheet().loadRules(new java.io.StringReader(stylesheet), null);
+      } // end of if (doc != null)
+    }
+    catch(Exception e)
+    {
+      e.printStackTrace();
+    }
   }
 }

@@ -8,7 +8,6 @@ import java.io.File;
 import javax.swing.*;
 
 import com.opensymphony.workflow.designer.ResourceManager;
-import com.opensymphony.workflow.designer.UIFactory;
 import com.opensymphony.workflow.designer.swing.FileField;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -18,7 +17,7 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
  *         Date: Dec 25, 2003
  *         Time: 1:25:28 AM
  */
-public class ImportWorkflowDialog extends JDialog implements ActionListener
+public class ImportWorkflowDialog extends BaseDialog
 {
   private JRadioButton web = new JRadioButton(ResourceManager.getString("import.web.long"));
   private JRadioButton file = new JRadioButton(ResourceManager.getString("import.file.long"));
@@ -63,53 +62,44 @@ public class ImportWorkflowDialog extends JDialog implements ActionListener
       }
     });
     getContentPane().add(builder.getPanel(), BorderLayout.CENTER);
-    getContentPane().add(UIFactory.getOKCancelBar(this, ""), BorderLayout.SOUTH);
   }
 
-  public void actionPerformed(ActionEvent e)
+  public boolean ask()
   {
-    String command = e.getActionCommand();
-    if("ok".equals(command))
+    boolean isOk = super.ask();
+    if(!isOk) return false;
+    if(web.isSelected())
     {
-      if(web.isSelected())
+      try
       {
-        try
-        {
-          url = new URL(webField.getText());
-          dispose();
-          return;
-        }
-        catch(MalformedURLException e1)
-        {
-          JOptionPane.showMessageDialog(this, ResourceManager.getString("import.url.invalid", new Object[]{e1.getMessage()}));
-        }
+        url = new URL(webField.getText());
+        return true;
       }
-      else if(file.isSelected())
+      catch(MalformedURLException e1)
       {
-        try
-        {
-          File f = new File(fileField.getText());
-          if(!f.exists() || f.isDirectory())
-          {
-            JOptionPane.showMessageDialog(this, ResourceManager.getString("import.url.file.invalid"));
-            dispose();
-            return;
-          }
-          url = f.toURL();
-          dispose();
-          return;
-        }
-        catch(MalformedURLException e1)
-        {
-          JOptionPane.showMessageDialog(this, ResourceManager.getString("import.url.invalid", new Object[]{e1.getMessage()}),
-            ResourceManager.getString("error"), JOptionPane.ERROR_MESSAGE);
-        }
+        JOptionPane.showMessageDialog(this, ResourceManager.getString("import.url.invalid", new Object[]{e1.getMessage()}));
       }
     }
-    else
+    else if(file.isSelected())
     {
-      dispose();
+      try
+      {
+        File f = new File(fileField.getText());
+        if(!f.exists() || f.isDirectory())
+        {
+          JOptionPane.showMessageDialog(this, ResourceManager.getString("import.url.file.invalid"));
+          return true;
+        }
+        url = f.toURL();
+        return true;
+      }
+      catch(MalformedURLException e1)
+      {
+        JOptionPane.showMessageDialog(this, ResourceManager.getString("import.url.invalid", new Object[]{e1.getMessage()}),
+          ResourceManager.getString("error"), JOptionPane.ERROR_MESSAGE);
+      }
     }
+    return false;
   }
 
   public URL getImportURL()
