@@ -28,7 +28,7 @@ public abstract class DetailPanel extends JPanel
   }
 
   protected void viewClosed()
-  {    
+  {
   }
 
   public final void closeView()
@@ -38,7 +38,11 @@ public abstract class DetailPanel extends JPanel
 
   public final void setCell(WorkflowCell cell)
   {
-    if(!componentsInited) initComponents();
+    if(!componentsInited)
+    {
+      initComponents();
+      componentsInited = true;
+    }
     this.cell = cell;
     setName(cell.getClass().getName());
     updateView();
@@ -55,7 +59,12 @@ public abstract class DetailPanel extends JPanel
 
   public void setEdge(WorkflowEdge edge)
   {
-    if(!componentsInited) initComponents();
+    if(!componentsInited)
+    {
+      initComponents();
+      componentsInited = true;
+    }
+    componentsInited = true;
     this.edge = edge;
     setName(edge.getClass().getName());
     updateView();
