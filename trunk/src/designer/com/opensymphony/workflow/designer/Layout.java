@@ -17,7 +17,7 @@ public class Layout
   private String url;
 
   private Collection entries = new ArrayList();
-  private Map activities = new HashMap();
+  private Map cells = new HashMap();
   private Map results = new HashMap();
 
   public Layout()
@@ -57,7 +57,7 @@ public class Layout
         Element element = (Element)mActivitycell.item(k);
         CellPosition pos = new CellPosition(element);
         Rectangle bound = pos.getBounds();
-        activities.put(new Integer(pos.getId()), bound);
+        cells.put(new Integer(pos.getId()), bound);
       }
       NodeList list = doc.getElementsByTagName("connector");
       for(int k = 0; k < list.getLength(); k++)
@@ -105,7 +105,7 @@ public class Layout
 
   public Rectangle getBounds(int key)
   {
-    return (Rectangle)activities.get(new Integer(key));
+    return (Rectangle)cells.get(new Integer(key));
   }
 
   public Point getLabelPosition(int resultKey)
