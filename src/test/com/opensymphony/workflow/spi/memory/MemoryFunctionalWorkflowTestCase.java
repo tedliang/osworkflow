@@ -25,7 +25,8 @@ public class MemoryFunctionalWorkflowTestCase extends BaseFunctionalWorkflow {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     protected void setUp() throws Exception {
+        MemoryWorkflowStore.reset();
         TestWorkflow.configFile = "/osworkflow.xml";
-        workflow = new TestWorkflow("test");
+        super.setUp();
     }
 }

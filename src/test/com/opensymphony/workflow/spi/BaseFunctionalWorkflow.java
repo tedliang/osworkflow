@@ -4,6 +4,7 @@
  */
 package com.opensymphony.workflow.spi;
 
+import com.opensymphony.module.user.EntityNotFoundException;
 import com.opensymphony.module.user.Group;
 import com.opensymphony.module.user.User;
 import com.opensymphony.module.user.UserManager;
@@ -12,6 +13,7 @@ import com.opensymphony.workflow.AbstractWorkflow;
 import com.opensymphony.workflow.InvalidRoleException;
 import com.opensymphony.workflow.TestWorkflow;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
+import com.opensymphony.workflow.query.WorkflowQuery;
 
 import junit.framework.TestCase;
 
@@ -28,6 +30,10 @@ import java.util.List;
  * @author Eric Pugh (epugh@upstate.com)
  */
 public abstract class BaseFunctionalWorkflow extends TestCase {
+    //~ Static fields/initializers /////////////////////////////////////////////
+
+    private static final String USER_TEST = "test";
+
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected AbstractWorkflow workflow;
@@ -41,26 +47,8 @@ public abstract class BaseFunctionalWorkflow extends TestCase {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public void OFFtestInvalidRole() throws Exception {
-        try {
-            workflow.initialize(getClass().getResource("/samples/example.xml").toString(), 1, new HashMap());
-            fail("Should have thrown an exception 'You are restricted from initializing this workflow'");
-        } catch (InvalidRoleException ire) {
-            //good
-        }
-    }
-
     public void testExampleWorkflow() throws Exception {
-        UserManager um = UserManager.getInstance();
-        User test = um.createUser("test");
-        test.setPassword("test");
-
-        Group foos = um.createGroup("foos");
-        Group bars = um.createGroup("bars");
-        Group bazs = um.createGroup("bazs");
-        test.addToGroup(foos);
-        test.addToGroup(bars);
-        test.addToGroup(bazs);
+        WorkflowQuery query;
 
         String workflowName = getClass().getResource("/samples/example.xml").toString();
         assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 1));
@@ -86,9 +74,11 @@ public abstract class BaseFunctionalWorkflow extends TestCase {
         assertEquals("Unexpected number of history steps", 1, historySteps.size());
 
         Step historyStep = (Step) historySteps.get(0);
-        assertEquals("test", historyStep.getCaller());
+        assertEquals(USER_TEST, historyStep.getCaller());
         assertNull(historyStep.getDueDate());
-        assertTrue("history step finish date " + historyStep.getFinishDate() + " is in the future!", historyStep.getFinishDate().getTime() < System.currentTimeMillis());
+
+        // check system date, add in a 1 second fudgefactor.
+        assertTrue("history step finish date " + historyStep.getFinishDate() + " is in the future!", (historyStep.getFinishDate().getTime() - 1000) < System.currentTimeMillis());
         logActions(actions);
         log("Perform Finish Foo");
         workflow.doAction(workflowId, 12, Collections.EMPTY_MAP);
@@ -121,15 +111,78 @@ public abstract class BaseFunctionalWorkflow extends TestCase {
         logActions(actions);
         log("Perform Publish Document");
         workflow.doAction(workflowId, 11, Collections.EMPTY_MAP);
+
+        query = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
+
+        List workflows = workflow.query(query);
+        assertEquals("Unexpected number of workflow query results", 1, workflows.size());
         actions = workflow.getAvailableActions(workflowId, Collections.EMPTY_MAP);
         assertEquals(0, actions.length);
         historySteps = workflow.getHistorySteps(workflowId);
         assertEquals("Unexpected number of history steps", 7, historySteps.size());
+
+        WorkflowQuery queryLeft = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
+        WorkflowQuery queryRight = new WorkflowQuery(WorkflowQuery.STATUS, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, "Finished");
+        query = new WorkflowQuery(queryLeft, WorkflowQuery.AND, queryRight);
+        workflows = workflow.query(query);
+        assertEquals("Unexpected number of workflow query results", 1, workflows.size());
+    }
+
+    public void testInvalidRole() throws Exception {
+        try {
+            workflow.initialize(getClass().getResource("/samples/example.xml").toString(), 1, new HashMap());
+            fail("Should have thrown an exception 'You are restricted from initializing this workflow'");
+        } catch (InvalidRoleException ire) {
+            //good
+        }
+    }
+
+    public void testWorkflowQuery() throws Exception {
+        WorkflowQuery query;
+        List workflows;
+
+        String workflowName = getClass().getResource("/samples/example.xml").toString();
+        assertTrue("canInitialize for workflow " + workflowName + " is false", workflow.canInitialize(workflowName, 1));
+
+        query = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
+        workflows = workflow.query(query);
+        assertEquals(0, workflows.size());
+
+        long workflowId = workflow.initialize(workflowName, 1, new HashMap());
+        workflows = workflow.query(query);
+        assertEquals(1, workflows.size());
+
+        WorkflowQuery queryLeft = new WorkflowQuery(WorkflowQuery.OWNER, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, USER_TEST);
+        WorkflowQuery queryRight = new WorkflowQuery(WorkflowQuery.STATUS, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, "Finished");
+        query = new WorkflowQuery(queryLeft, WorkflowQuery.AND, queryRight);
+        workflows = workflow.query(query);
+        assertEquals(0, workflows.size());
+
+        queryRight = new WorkflowQuery(WorkflowQuery.STATUS, WorkflowQuery.CURRENT, WorkflowQuery.EQUALS, "Underway");
+        query = new WorkflowQuery(queryLeft, WorkflowQuery.AND, queryRight);
+        workflows = workflow.query(query);
+        assertEquals(1, workflows.size());
     }
 
     protected void setUp() throws Exception {
-        TestWorkflow.configFile = "/osworkflow.xml";
-        workflow = new TestWorkflow("test");
+        assertNotNull(TestWorkflow.configFile);
+        workflow = new TestWorkflow(USER_TEST);
+
+        UserManager um = UserManager.getInstance();
+
+        try {
+            um.getUser(USER_TEST);
+        } catch (EntityNotFoundException enfe) {
+            User test = um.createUser(USER_TEST);
+            test.setPassword("test");
+
+            Group foos = um.createGroup("foos");
+            Group bars = um.createGroup("bars");
+            Group bazs = um.createGroup("bazs");
+            test.addToGroup(foos);
+            test.addToGroup(bars);
+            test.addToGroup(bazs);
+        }
     }
 
     /**
