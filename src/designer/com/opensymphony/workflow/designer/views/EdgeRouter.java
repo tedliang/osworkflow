@@ -1,6 +1,8 @@
 package com.opensymphony.workflow.designer.views;
 
 import java.awt.*;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 import org.jgraph.graph.*;
 
@@ -21,6 +23,21 @@ public class EdgeRouter implements Edge.Routing
     DefaultPort targetPort = (DefaultPort)targetView.getCell();
     Point from = ((PortView)sourceView).getLocation(null);
     Point to = ((PortView)targetView).getLocation(null);
+    //check if this is a dup route
+//    java.util.List duplicates = new ArrayList();
+//    if(sourcePort!=targetPort)
+//    {
+//      Iterator iter = sourcePort.edges();
+//      while(iter.hasNext())
+//      {
+//        Edge e = (Edge)iter.next();
+//        if(e.getTarget()==sourcePort && e.getSource()==targetPort && e!=edge.getCell())
+//        {
+//          duplicates.add(e);
+//          System.out.println("detected duplicate line for edge " + e);
+//        }
+//      }
+//    }
     if(from != null && to != null)
     {
       Point[] routed;
