@@ -51,7 +51,7 @@ public class CommonAndGlobalActionsTestCase extends TestCase {
         //now test -1 stepId stuff.
         workflow.doAction(id, 101, null);
         historySteps = workflow.getHistorySteps(id);
-        historyStep = (Step) historySteps.get(historySteps.size() - 1);
+        historyStep = (Step) historySteps.get(0);
         assertEquals("Unexpected old status set", "Finished", historyStep.getStatus());
     }
 
@@ -83,7 +83,7 @@ public class CommonAndGlobalActionsTestCase extends TestCase {
         //now test -1 stepId stuff.
         workflow.doAction(id, 101, null);
         historySteps = workflow.getHistorySteps(id);
-        historyStep = (Step) historySteps.get(historySteps.size() - 1);
+        historyStep = (Step) historySteps.get(0);
         assertEquals("Unexpected old status set", "Finished", historyStep.getStatus());
     }
 
