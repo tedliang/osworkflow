@@ -1,9 +1,3 @@
-/*
- * Created on 2003-11-18
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package com.opensymphony.workflow.designer.actions;
 
 import java.awt.Point;
@@ -31,11 +25,8 @@ public class CreateSplit extends AbstractAction {
 		this.location = location;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
 	public void actionPerformed(ActionEvent e) {
-		CellFactory.createJoin(workflow, model, location);
+		CellFactory.createSplit(workflow, model, location);
 	}
 
 }
