@@ -3,17 +3,17 @@
 <li>Up to <a href="Documentation.html">Documentation</a></li>
 <li>Back to <a href="Requirements.html">Requirements</a></li>
 <li>Forward to <a href="Persistence_Options.html">Persistence Options</a></li>
-</ul><p class="paragraph"></p>Note that as of version 2.5, the example war application should deploy on most web containers with no external configuration required. The example app now uses memory persistence, so no datasources need to be configured. The instructions below apply for those wishing to configure a persistent store. In order to explore the example workflow, it is recommended that you first deploy the example war as-is, without any persistence.<p class="paragraph"></p>OSWorkflow comes with a very simple example application to help you get started with understanding the concepts OSWorkflow is based upon. The example application can run on any servlet container. The following guides have been provided courtesy of Ed Yu and Egor Kobylkin. If your application server is not listed, read one of the guides below as a starting point. Installation should be very similar.
+</ul><p class="paragraph"></p>Note that as of version 2.5, the example war application should deploy on most web containers with no external configuration required. The example app now uses memory persistence, so no datasources need to be configured. The instructions below apply for those wishing to configure a persistent store. In order to explore the example workflow, it is recommended that you first deploy the example war as-is, without any persistence.<p class="paragraph"></p>OSWorkflow comes with a very simple example application to help you get started with understanding the concepts OSWorkflow is based upon. The example application can run on any servlet container. The following guides have been provided courtesy of Ed Yu and Egor Kobylkin. If your application server is 
+not listed, read one of the guides below as a starting point. Installation
+should be very similar.
 <ul class="star">
 <li><span class="nobr"></img><a href="#orion">Orion</a></span></li>
 <li><span class="nobr"></img><a href="#jrun">JRun</a></span></li>
 <li><span class="nobr"></img><a href="#tomcat40">Tomcat 4.0.x</a></span></li>
 <li><span class="nobr"></img><a href="#tomcat41">Tomcat 4.1.x</a></span></li>
 </ul>
-<h3 class="heading-1">Orion <a name="orion"></a><a href="Running_the_Example_App#orion.html" title="Permalink to orion"></img></a> <span class="nobr"></img><a href="#top">top</a></span></h3><p class="paragraph"></p><div class="wikicode"><pre>README&#45;JRun4.txt &#60;Ed Yu ekyu@asgnet.psc.sc.edu&#62;
-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
-This is a quick stab on how to deploy osworkflow_example.war on Orion 1.5.4.<p class="paragraph"></p>
-Setting up persistence
+<h3 class="heading-1">Orion <a name="orion"></a><a href="Running_the_Example_App#orion.html" title="Permalink to orion"></img></a> <span class="nobr"></img><a href="#top">top</a></span>
+</h3><p class="paragraph"></p><div class="wikicode"><pre>This is a quick stab on how to deploy osworkflow_example.war on Orion 1.5.4 or later.<p class="paragraph"></p>Setting up persistence
 &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
 It is important to properly configure pooled datasource <span class="java&#45;keyword">for</span> good performance.<p class="paragraph"></p>For Orion 1.5.4+, the add the following to file config/data&#45;sources.xml
 to properly configure pooled datasource required by OSWorkflow:<p class="paragraph"></p>	&#60;!&#45;&#45; Postgresql Pooled Datasource &#45;&#45;&#62;
@@ -61,18 +61,21 @@ osworkflow.xml:<p class="paragraph"></p>        &#60;!&#45;&#45; Postgresql sequ
         &#60;property key=<span class="java&#45;quote">"step.sequence"</span> value=<span class="java&#45;quote">"SELECT nextVal('seq_os_currentsteps')"</span>/&#62;<p class="paragraph"></p>To use oracle as the backend database, execute the file tables_oracle.sql
 against the database and make sure the following is defined in the
 osworkflow.xml:<p class="paragraph"></p>        &#60;!&#45;&#45; Oracle sequence access &#45;&#45;&#62;
-        &#60;property key=<span class="java&#45;quote">"entry.sequence"</span> value=<span class="java&#45;quote">"SELECT seq_os_wfentry.nextval FROM dual"</span>/&#62;
-        &#60;property key=<span class="java&#45;quote">"step.sequence"</span> value=<span class="java&#45;quote">"SELECT seq_os_currentsteps.nextval FROM dual"</span>/&#62;<p class="paragraph"></p>
+        &#60;property key=<span class="java&#45;quote">"entry.sequence"</span> 
+                  value=<span class="java&#45;quote">"SELECT seq_os_wfentry.nextval FROM dual"</span>/&#62;
+        &#60;property key=<span class="java&#45;quote">"step.sequence"</span> 
+                  value=<span class="java&#45;quote">"SELECT seq_os_currentsteps.nextval FROM dual"</span>/&#62;<p class="paragraph"></p>
 WAR Deployment
 &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
 Make a directory under the server home (e.g. C:&#111;rion&#111;swf), pleace the file
-osworkflow_example.war file under it.<p class="paragraph"></p>Modify file config/application.xml and add the following line in:<p class="paragraph"></p>	&#60;web&#45;module id=<span class="java&#45;quote">"oswf"</span> path=<span class="java&#45;quote">"../oswf/osworkflow_example.war"</span> /&#62;<p class="paragraph"></p>Modify file config/<span class="java&#45;keyword">default</span>&#45;web&#45;site.xml and add the following line in:<p class="paragraph"></p>	&#60;web&#45;app application=<span class="java&#45;quote">"<span class="java&#45;keyword">default</span>"</span> load&#45;on&#45;startup=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> name=<span class="java&#45;quote">"oswf"</span> root=<span class="java&#45;quote">"/oswf"</span> /&#62;<p class="paragraph"></p>Finally go to <span class="nobr"></img><a href="http://localhost/oswf">&#104;ttp://localhost/oswf</a></span> to access the sample application.</pre></div>
-<h3 class="heading-1">JRun <a name="jrun"></a><a href="Running_the_Example_App#jrun.html" title="Permalink to jrun"></img></a> <span class="nobr"></img><a href="#top">top</a></span></h3><p class="paragraph"></p><div class="wikicode"><pre>README&#45;JRun4.txt &#60;Ed Yu ekyu@asgnet.psc.sc.edu&#62;
-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
-This is a quick stab on how to deploy osworkflow_example.war on JRun4.<p class="paragraph"></p>
+osworkflow_example.war file under it.<p class="paragraph"></p>Modify file config/application.xml and add the following line in:<p class="paragraph"></p>	&#60;web&#45;module id=<span class="java&#45;quote">"oswf"</span> path=<span class="java&#45;quote">"../oswf/osworkflow_example.war"</span> /&#62;<p class="paragraph"></p>Modify file config/<span class="java&#45;keyword">default</span>&#45;web&#45;site.xml and add the following line in:<p class="paragraph"></p>	&#60;web&#45;app application=<span class="java&#45;quote">"<span class="java&#45;keyword">default</span>"</span> load&#45;on&#45;startup=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> 
+                 name=<span class="java&#45;quote">"oswf"</span> root=<span class="java&#45;quote">"/oswf"</span> /&#62;<p class="paragraph"></p>Finally go to <span class="nobr"></img><a href="http://localhost/oswf">&#104;ttp://localhost/oswf</a></span> to access the sample application.<p class="paragraph"></p>You can also deploy the ear example application, which uses EJB persistence 
+rather than the in&#45;memory persistence that the example war webapp uses.</pre></div>
+<h3 class="heading-1">JRun <a name="jrun"></a><a href="Running_the_Example_App#jrun.html" title="Permalink to jrun"></img></a> <span class="nobr"></img><a href="#top">top</a></span>
+</h3><p class="paragraph"></p><div class="wikicode"><pre>This is a quick stab on how to deploy osworkflow_example.war on JRun4.<p class="paragraph"></p>
 Setting up persistence
 &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
-It is important to properly configure pooled datasource <span class="java&#45;keyword">for</span> good performance.<p class="paragraph"></p><p class="paragraph"></p>For JRun4, it is pretty easy to configure pooled datasource when defining JDBC
+It is important to properly configure pooled datasource <span class="java&#45;keyword">for</span> good performance.<p class="paragraph"></p>For JRun4, it is pretty easy to configure pooled datasource when defining JDBC
 resources using the JMC. Startup the admin server and the <span class="java&#45;keyword">default</span> server and
 then use JMC to define a JDBC datasource <span class="java&#45;keyword">for</span> your database within the <span class="java&#45;keyword">default</span>
 server(port 8100). Keep the checkbox clicked <span class="java&#45;keyword">for</span> pool connection when adding
@@ -102,14 +105,18 @@ osworkflow.xml:<p class="paragraph"></p>        &#60;!&#45;&#45; Postgresql sequ
         &#60;property key=<span class="java&#45;quote">"step.sequence"</span> value=<span class="java&#45;quote">"SELECT nextVal('seq_os_currentsteps')"</span>/&#62;<p class="paragraph"></p>To use oracle as the backend database, execute the file tables_oracle.sql
 against the database and make sure the following is defined in the
 osworkflow.xml:<p class="paragraph"></p>        &#60;!&#45;&#45; Oracle sequence access &#45;&#45;&#62;
-        &#60;property key=<span class="java&#45;quote">"entry.sequence"</span> value=<span class="java&#45;quote">"SELECT seq_os_wfentry.nextval FROM dual"</span>/&#62;
-        &#60;property key=<span class="java&#45;quote">"step.sequence"</span> value=<span class="java&#45;quote">"SELECT seq_os_currentsteps.nextval FROM dual"</span>/&#62;<p class="paragraph"></p>
+        &#60;property key=<span class="java&#45;quote">"entry.sequence"</span> 
+                  value=<span class="java&#45;quote">"SELECT seq_os_wfentry.nextval FROM dual"</span>/&#62;
+        &#60;property key=<span class="java&#45;quote">"step.sequence"</span> 
+                  value=<span class="java&#45;quote">"SELECT seq_os_currentsteps.nextval FROM dual"</span>/&#62;<p class="paragraph"></p>
 WAR Deployment
 &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
 To deploy osworkflow_example.war, place the file under the directory
 servers/<span class="java&#45;keyword">default</span> after setting up the persistence mechanism outlined above.
-Restart the <span class="java&#45;keyword">default</span> server (port 8100).<p class="paragraph"></p>Finally, go to <span class="nobr"></img><a href="http://localhost:8100/osworkflow_example">&#104;ttp://localhost:8100/osworkflow_example</a></span> to access the sample application.</pre></div>
-<h3 class="heading-1">Tomcat 4.0.x <a name="tomcat40"></a><a href="Running_the_Example_App#tomcat40.html" title="Permalink to tomcat40"></img></a> <span class="nobr"></img><a href="#top">top</a></span></h3>
+Restart the <span class="java&#45;keyword">default</span> server (port 8100).<p class="paragraph"></p>Finally, go to <span class="nobr"></img><a href="http://localhost:8100/osworkflow_example">&#104;ttp://localhost:8100/osworkflow_example</a></span> to 
+access the sample application.</pre></div>
+<h3 class="heading-1">Tomcat 4.0.x <a name="tomcat40"></a><a href="Running_the_Example_App#tomcat40.html" title="Permalink to tomcat40"></img></a> <span class="nobr"></img><a href="#top">top</a></span>
+</h3>
 <ul class="star">
 <li><span class="nobr"></img><a href="#tomcat41">Tomcat 4.1.x</a></span></li>
 </ul>
@@ -128,11 +135,9 @@ datasource factory in Tomcat 4.0.X. Refer to the urls
 use the LE version of Tomcat 4.0.4 (jakarta&#45;tomcat&#45;4.0.4&#45;LE&#45;jdk14.&#42;) without
 any luck (NPE), whereas the full version works fine <span class="java&#45;keyword">for</span> me.<p class="paragraph"></p>Please read the WAR Deployment section below and then come back here.<p class="paragraph"></p>It is important to copy the osworkflow_example.war into TOMCAT_HOME/webapps
 and startup and shutdown the server before making the modifications to
-TOMCAT_HOME/conf/server.xml to include:<p class="paragraph"></p>.
-.
-.
-        &#60;!&#45;&#45; OSWorkflow Example Context &#45;&#45;&#62;
-        &#60;Context path=<span class="java&#45;quote">"/osworkflow_example"</span> docBase=<span class="java&#45;quote">"osworkflow_example"</span> debug=<span class="java&#45;quote">"0"</span>
+TOMCAT_HOME/conf/server.xml to include:<p class="paragraph"></p>        &#60;!&#45;&#45; OSWorkflow Example Context &#45;&#45;&#62;
+        &#60;Context path=<span class="java&#45;quote">"/osworkflow_example"</span> 
+                 docBase=<span class="java&#45;quote">"osworkflow_example"</span> debug=<span class="java&#45;quote">"0"</span>
                  reloadable=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> crossContext=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span>&#62;
 	  &#60;Resource name=<span class="java&#45;quote">"jdbc/DefaultDS"</span> auth=<span class="java&#45;quote">"Container"</span>
             type=<span class="java&#45;quote">"javax.sql.DataSource"</span>/&#62;
@@ -140,20 +145,24 @@ TOMCAT_HOME/conf/server.xml to include:<p class="paragraph"></p>.
             &#60;parameter&#62;&#60;name&#62;user&#60;/name&#62;&#60;value&#62;user&#60;/value&#62;&#60;/parameter&#62;
             &#60;parameter&#62;&#60;name&#62;password&#60;/name&#62;&#60;value&#62;pass&#60;/value&#62;&#60;/parameter&#62;
 	    &#60;parameter&#62;
-	      &#60;name&#62;driverClassName&#60;/name&#62;<p class="paragraph"></p>	      &#60;!&#45;&#45; Oracle &#45;&#45;&#62;
+	      &#60;name&#62;driverClassName&#60;/name&#62;
+	      &#60;!&#45;&#45; Oracle &#45;&#45;&#62;
               &#60;value&#62;oracle.jdbc.driver.OracleDriver&#60;/value&#62;<p class="paragraph"></p>	      &#60;!&#45;&#45; Postgresql
 	      &#60;value&#62;org.postgresql.Driver&#60;/value&#62;
-	      &#45;&#45;&#62;<p class="paragraph"></p>	    &#60;/parameter&#62;
+	      &#45;&#45;&#62;
+	    &#60;/parameter&#62;
 	    &#60;parameter&#62;
-	      &#60;name&#62;driverName&#60;/name&#62;<p class="paragraph"></p>	      &#60;!&#45;&#45; Oracle &#45;&#45;&#62;
+	      &#60;name&#62;driverName&#60;/name&#62;
+	      &#60;!&#45;&#45; Oracle &#45;&#45;&#62;
 	      &#60;value&#62;jdbc:oracle:thin:@hostname:port:SID&#60;/value&#62;<p class="paragraph"></p>	      &#60;!&#45;&#45; Postgresql
 	      &#60;value&#62;jdbc:postgresql://hostname:port/dbName&#60;/value&#62;
-	      &#45;&#45;&#62;<p class="paragraph"></p>	    &#60;/parameter&#62;
+	      &#45;&#45;&#62;
+	    &#60;/parameter&#62;
 	  &#60;/ResourceParams&#62;
-	&#60;/Context&#62;<p class="paragraph"></p>      &#60;/Host&#62;<p class="paragraph"></p>    &#60;/Engine&#62;<p class="paragraph"></p>  &#60;/Service&#62;
-.
-.
-.<p class="paragraph"></p>Make sure your JDBC driver is in TOMCAT_HOME/common/lib. For oracle, you may
+	&#60;/Context&#62;
+      &#60;/Host&#62;
+    &#60;/Engine&#62;
+  &#60;/Service&#62;<p class="paragraph"></p>Make sure your JDBC driver is in TOMCAT_HOME/common/lib. For oracle, you may
 need to rename classes12.zip into classes12.jar <span class="java&#45;keyword">for</span> it to work.<p class="paragraph"></p>In addition, modify the osworkflow.xml to reflect how to access sequence
 objects <span class="java&#45;keyword">for</span> your database.<p class="paragraph"></p>To use postgresql as the backend database, execute the file tables_postgres.sql
 against the database and make sure the following is defined in the file
@@ -162,23 +171,34 @@ osworkflow.xml:<p class="paragraph"></p>        &#60;!&#45;&#45; Postgresql sequ
         &#60;property key=<span class="java&#45;quote">"step.sequence"</span> value=<span class="java&#45;quote">"SELECT nextVal('seq_os_currentsteps')"</span>/&#62;<p class="paragraph"></p>To use oracle as the backend database, execute the file tables_oracle.sql
 against the database and make sure the following is defined in the
 osworkflow.xml:<p class="paragraph"></p>        &#60;!&#45;&#45; Oracle sequence access &#45;&#45;&#62;
-        &#60;property key=<span class="java&#45;quote">"entry.sequence"</span> value=<span class="java&#45;quote">"SELECT seq_os_wfentry.nextval FROM dual"</span>/&#62;
-        &#60;property key=<span class="java&#45;quote">"step.sequence"</span> value=<span class="java&#45;quote">"SELECT seq_os_currentsteps.nextval FROM dual"</span>/&#62;<p class="paragraph"></p>
+        &#60;property key=<span class="java&#45;quote">"entry.sequence"</span> 
+                  value=<span class="java&#45;quote">"SELECT seq_os_wfentry.nextval FROM dual"</span>/&#62;
+        &#60;property key=<span class="java&#45;quote">"step.sequence"</span> 
+                  value=<span class="java&#45;quote">"SELECT seq_os_currentsteps.nextval FROM dual"</span>/&#62;<p class="paragraph"></p>
 WAR Deployment
 &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
 To deploy osworkflow_example.war, place it under the directory
 TOMCAT_HOME/webapps, startup and shutdown the server. Then set up the
 persistence mechanism as outlined above. Next, modify the server.xml file to
-configure the data source as outlined above.<p class="paragraph"></p>Finally, restart the server. Then, go to <span class="nobr"></img><a href="http://localhost:8080/osworkflow_example">&#104;ttp://localhost:8080/osworkflow_example</a></span> to access the sample application.</pre></div><p class="paragraph"></p><hr class="line"></hr>
-<h3 class="heading-1">Tomcat 4.1.x <a name="tomcat41"></a><a href="Running_the_Example_App#tomcat41.html" title="Permalink to tomcat41"></img></a>  <span class="nobr"></img><a href="#top">top</a></span></h3>
+configure the data source as outlined above.<p class="paragraph"></p>Finally, restart the server. Then, go to <span class="nobr"></img><a href="http://localhost:8080/osworkflow_example">&#104;ttp://localhost:8080/osworkflow_example</a></span> 
+to access the sample application.</pre></div><p class="paragraph"></p><hr class="line"></hr>
+<h3 class="heading-1">Tomcat 4.1.x <a name="tomcat41"></a><a href="Running_the_Example_App#tomcat41.html" title="Permalink to tomcat41"></img></a>  <span class="nobr"></img><a href="#top">top</a></span>
+</h3>
 &#60;Egor Kobylkin egor.kobylkin@o2.com&#62;
 This is a quick stab on how to deploy osworkflow_example.war on Tomcat 4.1.x. (tested on 4.1.27)<p class="paragraph"></p>To deploy osworkflow_example.war, place it under the directory
 TOMCAT_HOME/webapps, startup and shutdown the server. (Ignore if you have already done it)<p class="paragraph"></p><i class="italic">Note that to run the demonstration there is no necessity to create a persistent store - the demonstration will run without it provided that the Tomcat server is not shut down</i><p class="paragraph"></p><b class="bold">Setting up persistence</b><p class="paragraph"></p>Put jboss-j2ee.jar into TOMCAT_HOME/common/endorsed (get it from JBoss.org) to enable EJB lookup.<p class="paragraph"></p>Next you have to make modifications to
 TOMCAT_HOME/conf/server.xml to include:
-<div class="wikicode"><pre>&#60;!&#45;&#45; OSWorkflow JNDI JDBC Data Source Example. egor.kobylkin@o2.com &#45;&#45;&#62;<p class="paragraph"></p>&#60;Context path=<span class="java&#45;quote">"/osworkflow_example"</span> docBase=<span class="java&#45;quote">"osworkflow&#45;2.6.0&#45;dev&#45;example"</span> debug= <span class="java&#45;quote">"99"</span> reloadable=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> crossContext=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span><p class="paragraph"></p>verbosity=<span class="java&#45;quote">"DEBUG"</span>&#62;
-&#60;!&#45;&#45; debug level is set to paranoid, to know what is happening, turn it off once you <span class="java&#45;keyword">do</span> not need it &#45;&#45;&#62;<p class="paragraph"></p>&#60;Logger className=<span class="java&#45;quote">"org.apache.catalina.logger.FileLogger"</span> prefix=<span class="java&#45;quote">"OSWorkflow."</span> suffix=<span class="java&#45;quote">".log"</span> timestamp=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span>/&#62;
-&#60;!&#45;&#45; put log4j.jar into TOMCAT_ROOT/webapp/osworkflow&#45;2.6.0&#45;dev&#45;example/WEB&#45;INF/lib <span class="java&#45;keyword">if</span> you want to use it <span class="java&#45;keyword">for</span> logging &#45;&#45;&#62;<p class="paragraph"></p>&#60;Resource name=<span class="java&#45;quote">"jdbc/DefaultDS"</span> auth=<span class="java&#45;quote">"Container"</span> type=<span class="java&#45;quote">"javax.sql.DataSource"</span>/&#62;
-&#60;!&#45;&#45; name=<span class="java&#45;quote">"jdbc/DefaultDS"</span> is used in other components of the Example App, <span class="java&#45;keyword">do</span> not change it here! &#45;&#45;&#62;<p class="paragraph"></p>&#60;ResourceParams name=<span class="java&#45;quote">"jdbc/DefaultDS"</span>&#62;
+<div class="wikicode"><pre>&#60;!&#45;&#45; OSWorkflow JNDI JDBC Data Source Example. egor.kobylkin@o2.com &#45;&#45;&#62;<p class="paragraph"></p>&#60;Context path=<span class="java&#45;quote">"/osworkflow_example"</span> docBase=<span class="java&#45;quote">"osworkflow&#45;2.6.0&#45;dev&#45;example"</span> 
+         debug= <span class="java&#45;quote">"99"</span> reloadable=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> crossContext=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span><p class="paragraph"></p>verbosity=<span class="java&#45;quote">"DEBUG"</span>&#62;
+&#60;!&#45;&#45; debug level is set to paranoid, to know what is happening, 
+     turn it off once you <span class="java&#45;keyword">do</span> not need it &#45;&#45;&#62;<p class="paragraph"></p>&#60;Logger className=<span class="java&#45;quote">"org.apache.catalina.logger.FileLogger"</span>
+        prefix=<span class="java&#45;quote">"OSWorkflow."</span> suffix=<span class="java&#45;quote">".log"</span> timestamp=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span>/&#62;
+&#60;!&#45;&#45; 
+    put log4j.jar into TOMCAT_ROOT/webapp/osworkflow&#45;2.6.0&#45;dev&#45;example/WEB&#45;INF/lib 
+    <span class="java&#45;keyword">if</span> you want to use it <span class="java&#45;keyword">for</span> logging 
+&#45;&#45;&#62;<p class="paragraph"></p>&#60;Resource name=<span class="java&#45;quote">"jdbc/DefaultDS"</span> auth=<span class="java&#45;quote">"Container"</span> type=<span class="java&#45;quote">"javax.sql.DataSource"</span>/&#62;
+&#60;!&#45;&#45; name=<span class="java&#45;quote">"jdbc/DefaultDS"</span> is used in other components of the 
+     Example App, <span class="java&#45;keyword">do</span> not change it here! &#45;&#45;&#62;<p class="paragraph"></p>&#60;ResourceParams name=<span class="java&#45;quote">"jdbc/DefaultDS"</span>&#62;
   &#60;parameter&#62;
     &#60;name&#62;factory&#60;/name&#62;
     &#60;value&#62;org.apache.commons.dbcp.BasicDataSourceFactory&#60;/value&#62;
@@ -227,8 +247,10 @@ osworkflow.xml:
         &#60;property key=<span class="java&#45;quote">"entry.sequence"</span> value=<span class="java&#45;quote">"SELECT nextVal('seq_os_wfentry')"</span>/&#62;
         &#60;property key=<span class="java&#45;quote">"step.sequence"</span> value=<span class="java&#45;quote">"SELECT nextVal('seq_os_currentsteps')"</span>/&#62;</pre></div>
 To use oracle as the backend database, execute the file tables_oracle.sql
-against the database (watch out for the missing comma in the file) and make sure the following is defined in the
-osworkflow.xml:
+against the database (watch out for the missing comma in the file) and make  sure the following is defined in the osworkflow.xml file:
 <div class="wikicode"><pre>&#60;!&#45;&#45; Oracle sequence access &#45;&#45;&#62;
-        &#60;property key=<span class="java&#45;quote">"entry.sequence"</span> value=<span class="java&#45;quote">"SELECT seq_os_wfentry.nextval FROM dual"</span>/&#62;
-        &#60;property key=<span class="java&#45;quote">"step.sequence"</span> value=<span class="java&#45;quote">"SELECT seq_os_currentsteps.nextval FROM dual"</span>/&#62;</pre></div><p class="paragraph"></p>Finally, restart the server. Then, go to <span class="nobr"></img><a href="http://localhost:your_port/osworkflow_example">&#104;ttp://localhost:your_port/osworkflow_example</a></span> to access the sample application.</body></html>
+        &#60;property key=<span class="java&#45;quote">"entry.sequence"</span> 
+                  value=<span class="java&#45;quote">"SELECT seq_os_wfentry.nextval FROM dual"</span>/&#62;
+        &#60;property key=<span class="java&#45;quote">"step.sequence"</span> 
+                  value=<span class="java&#45;quote">"SELECT seq_os_currentsteps.nextval FROM dual"</span>/&#62;</pre></div><p class="paragraph"></p>Finally, restart the server. Then, go to <span class="nobr"></img><a href="http://localhost:your_port/osworkflow_example">&#104;ttp://localhost:your_port/osworkflow_example</a></span> to access 
+the sample application.</body></html>

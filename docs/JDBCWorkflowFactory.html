@@ -1,12 +1,14 @@
 <html><head><title>JDBCWorkflowFactory</title></head><body>
 <b class="bold">com.opensymphony.workflow.loader.JDBCWorkflowFactory</b> is an alternative factory, that allows you to store your workflow definitions in a JDBC database instead of putting them into the xml files.
-<h3 class="heading-1">These features are planned for JDBCWorkflowFactory, but not yet implemented:</h3>
+<h3 class="heading-1">These features are planned for JDBCWorkflowFactory, but not yet implemented:
+</h3>
 <ol>
 <li> versioning support</li>
 <li> find alternative to storing xml directly</li>
 <li> delete function</li>
 </ol><p class="paragraph"></p>It requires some configuration to get it running:
-<h3 class="heading-1-1"><a name="osworkflow.xml"></a><a href="JDBCWorkflowFactory#osworkflow_xml.html" title="Permalink to osworkflow.xml"></img></a> osworkflow.xml:</h3>
+<h3 class="heading-1-1"><a name="osworkflow.xml"></a><a href="JDBCWorkflowFactory#osworkflow_xml.html" title="Permalink to osworkflow.xml"></img></a> osworkflow.xml:
+</h3>
 <div class="wikicode"><pre>&#60;osworkflow&#62;
   &#60;persistence class=<span class="java&#45;quote">"com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore"</span>&#62;
     &#60;arg name=<span class="java&#45;quote">"foo"</span> value=<span class="java&#45;quote">"bar"</span>/&#62;
@@ -15,5 +17,6 @@
   &#60;factory class=<span class="java&#45;quote">"com.opensymphony.workflow.loader.JDBCWorkflowFactory"</span>&#62;
   &#60;/factory&#62;
 &#60;/osworkflow&#62;</pre></div>
-<h3 class="heading-1-1"><a name="JDBCDatabase"></a><a href="JDBCWorkflowFactory#JDBCDatabase.html" title="Permalink to JDBCDatabase"></img></a> JDBC Database:</h3><p class="paragraph"></p>Example create table script for HSQLDB:
+<h3 class="heading-1-1"><a name="JDBCDatabase"></a><a href="JDBCWorkflowFactory#JDBCDatabase.html" title="Permalink to JDBCDatabase"></img></a> JDBC Database:
+</h3><p class="paragraph"></p>Example create table script for HSQLDB:
 <div class="wikicode"><pre>CREATE CACHED TABLE OS_WORKFLOWDEFS (WF_DEFINITION BINARY,WF_NAME VARCHAR(256) NOT NULL PRIMARY KEY)</pre></div></body></html>
