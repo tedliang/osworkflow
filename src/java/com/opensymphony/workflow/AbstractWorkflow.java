@@ -442,6 +442,10 @@ public class AbstractWorkflow implements Workflow {
         WorkflowStore store = getPersistence();
         WorkflowEntry entry = store.findEntry(id);
 
+        if (entry.getState() == newState) {
+            return;
+        }
+
         if (canModifyEntryState(id, newState)) {
             store.setEntryState(id, newState);
         } else {
