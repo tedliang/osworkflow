@@ -54,7 +54,7 @@ public class SaveDescriptorTestCase extends XMLTestCase {
      */
     public void testSave() throws Exception {
         URL url = getClass().getResource("/samples/saved.xml");
-		    Document inputDocument = documentBuilder.parse(url.toString());
+        Document inputDocument = documentBuilder.parse(url.toString());
         WorkflowDescriptor descriptor = DescriptorLoader.getDescriptor(url.toString());
         StringWriter out = new StringWriter();
         PrintWriter writer = new PrintWriter(out);
