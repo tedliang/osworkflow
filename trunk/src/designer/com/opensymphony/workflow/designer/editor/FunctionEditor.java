@@ -72,7 +72,7 @@ public abstract class FunctionEditor
     }
     else
     {
-      function = new ConfigFunctionDescriptor();
+      function = new ConfigFunctionDescriptor(getModel().getPalette());
       function.setType(func.getType());
     }
 

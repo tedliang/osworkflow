@@ -12,24 +12,20 @@ public class PermissionConditionDescriptor extends ConfigConditionDescriptor
 {
   protected String owner;
 
-  public PermissionConditionDescriptor()
+  public PermissionConditionDescriptor(PaletteDescriptor palette)
   {
+	  super(palette);
   }
 
-  public PermissionConditionDescriptor(Element condition)
+  public PermissionConditionDescriptor(PaletteDescriptor palette, Element condition)
   {
-    init(condition);
+	  super(palette, condition);
   }
 
   public PermissionConditionDescriptor(PermissionConditionDescriptor permission)
   {
-    type = permission.getType();
-    plugin = permission.getPlugin();
-    name = permission.getName();
-    description = permission.getDescription();
+	  super(permission);
     owner = permission.getOwner();
-    args.putAll(permission.getArgs());
-    modifiableArgs = permission.modifiableArgs;
   }
 
   public void writeXML(PrintWriter writer, int indent)
@@ -52,5 +48,4 @@ public class PermissionConditionDescriptor extends ConfigConditionDescriptor
   {
     owner = string;
   }
-
 }

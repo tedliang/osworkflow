@@ -31,6 +31,15 @@
       <arg name="class.name">com.opensymphony.workflow.util.MostRecentOwner</arg>
       <name>set.most.recent.owner</name>
     </function>
+    <function type="class">
+      <arg name="class.name">com.opensymphony.workflow.util.SendEmail</arg>
+      <arg name="to" modifiable="true"></arg>
+      <arg name="from" modifiable="true"></arg>
+      <arg name="cc" modifiable="true"></arg>
+      <arg name="message" modifiable="true"></arg>
+      <arg name="smtpHost" modifiable="true"></arg>
+      <name>send.email</name>
+    </function>
 	</functions>
 
 	<permissionconditions>

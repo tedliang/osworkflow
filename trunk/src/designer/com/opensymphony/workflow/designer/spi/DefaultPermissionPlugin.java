@@ -27,7 +27,7 @@ public class DefaultPermissionPlugin implements PermissionCondition
 
   public boolean editPermissionCondition(Map args)
   {
-    Map newArg = DialogUtils.getMapDialog(perm, perm.getType(), perm.getName(), perm.getDescription(), perm.getOwner());
+    Map newArg = DialogUtils.getMapDialog(perm, perm.getType(), perm.getOwner());
     if(newArg == null)
     {
       return false;

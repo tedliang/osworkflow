@@ -16,14 +16,16 @@ public class ConfigConditionDescriptor extends ConditionDescriptor implements Ar
   protected String description;
 	protected String displayName;
   protected List modifiableArgs = new ArrayList();
+	private PaletteDescriptor palette;
 
-  public ConfigConditionDescriptor()
+	public ConfigConditionDescriptor(PaletteDescriptor palette)
   {
-
+		this.palette = palette;
   }
 
-  public ConfigConditionDescriptor(Element condition)
+  public ConfigConditionDescriptor(PaletteDescriptor palette, Element condition)
   {
+	  this.palette = palette;
     init(condition);
   }
 
@@ -37,7 +39,18 @@ public class ConfigConditionDescriptor extends ConditionDescriptor implements Ar
 	  displayName = other.displayName;
 	  description = other.description;
     modifiableArgs = other.modifiableArgs;
+	  palette = other.palette;
   }
+
+	public PaletteDescriptor getPalette()
+	{
+		return palette;
+	}
+
+	public void setPalette(PaletteDescriptor palette)
+	{
+		this.palette = palette;
+	}
 
   protected void init(Element condition)
   {

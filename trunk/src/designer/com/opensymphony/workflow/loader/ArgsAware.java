@@ -9,6 +9,9 @@ import java.util.Map;
  */
 public interface ArgsAware
 {
+	public String getName();
+	public String getDescription();
+	public PaletteDescriptor getPalette();
   public boolean isArgModifiable(String name);
   public Map getArgs();
 }
