@@ -40,7 +40,7 @@ import javax.sql.DataSource;
  * <p>
  * Note that this class is provided as an example, and users are encouraged to use
  * their own implementations that are more suited to their particular needs.
- * 
+ *
  * @author Hubert Felber, Philipp Hug
  * Date: May 01, 2003
  * Time: 11:17:06 AM
@@ -315,8 +315,6 @@ public class JDBCWorkflowFactory extends XMLWorkflowFactory implements FunctionP
 
         return exists;
     }
-
-
 
     /**
      *
