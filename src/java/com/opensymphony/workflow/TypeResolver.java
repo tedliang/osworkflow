@@ -23,7 +23,7 @@ public class TypeResolver {
     //~ Static fields/initializers /////////////////////////////////////////////
 
     private static final Log log = LogFactory.getLog(TypeResolver.class);
-    private static TypeResolver resolver;
+    private static TypeResolver resolver = new TypeResolver();
     private static final Map conditions = new HashMap();
 
     static {
