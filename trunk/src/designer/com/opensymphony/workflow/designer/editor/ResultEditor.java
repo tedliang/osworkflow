@@ -12,11 +12,14 @@ import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.designer.model.FunctionsTableModel;
 import com.opensymphony.workflow.designer.ResultEdge;
 import com.opensymphony.workflow.designer.UIFactory;
+import com.opensymphony.workflow.designer.ResourceManager;
 import com.opensymphony.workflow.designer.beanutils.BeanConnector;
 import com.opensymphony.workflow.loader.*;
 
 public class ResultEditor extends DetailPanel implements ActionListener
 {
+  private static final String[] BUTTONS = new String[]{ResourceManager.getString("add"), ResourceManager.getString("remove"), ResourceManager.getString("edit")};
+
   private JTextField id = UIFactory.createReadOnlyTextField(12);
   private JTextField owner = new JTextField(12);
   private JComboBox status = new JComboBox();
@@ -35,7 +38,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
   {
   }
 
-  
+
   protected void initComponents()
   {
     String colLayout = "2dlu, max(30dlu;pref), 2dlu, pref:grow, 4dlu";
@@ -53,51 +56,51 @@ public class ResultEditor extends DetailPanel implements ActionListener
     PanelBuilder builder = new PanelBuilder(this, layout);
     CellConstraints cc = new CellConstraints();
 
-    builder.addSeparator("Info", cc.xywh(2, 1, 3, 1));
+    builder.addSeparator(ResourceManager.getString("info"), cc.xywh(2, 1, 3, 1));
 
-    builder.addLabel("ID", cc.xy(2, 3));
+    builder.addLabel(ResourceManager.getString("id"), cc.xy(2, 3));
     builder.add(id, cc.xy(4, 3));
     connector.connect(id, "id");
 
-    builder.addLabel("Owner", cc.xy(2, 5));
+    builder.addLabel(ResourceManager.getString("owner"), cc.xy(2, 5));
     connector.connect(owner, "owner");
     builder.add(owner, cc.xy(4, 5));
 
-    builder.addLabel("Status", cc.xy(2, 7));
+    builder.addLabel(ResourceManager.getString("status"), cc.xy(2, 7));
     builder.add(status, cc.xy(4, 7));
     connector.connect(status, "status");
 
-    builder.addLabel("Old Status", cc.xy(2, 9));
+    builder.addLabel(ResourceManager.getString("status.old"), cc.xy(2, 9));
     builder.add(oldStatus, cc.xy(4, 9));
     connector.connect(oldStatus, "oldStatus");
 
-    builder.addSeparator("Pre-Functions", cc.xywh(2, 11, 3, 1));
+    builder.addSeparator(ResourceManager.getString("prefunctions"), cc.xywh(2, 11, 3, 1));
     preFunctionsTable = new JTable(preFunctionsModel);
     builder.add(UIFactory.createTablePanel(preFunctionsTable), cc.xywh(2, 13, 3, 1));
-    builder.add(UIFactory.getTableButtonBar(this, "pre", new String[]{"add", "remove", "edit"}), cc.xywh(2, 14, 3, 1));
+    builder.add(UIFactory.getTableButtonBar(this, "pre", BUTTONS), cc.xywh(2, 14, 3, 1));
 
-    builder.addSeparator("Post-Functions", cc.xywh(2, 16, 3, 1));
+    builder.addSeparator(ResourceManager.getString("postfunctions"), cc.xywh(2, 16, 3, 1));
     postFunctionsTable = new JTable(postFunctionsModel);
     builder.add(UIFactory.createTablePanel(postFunctionsTable), cc.xywh(2, 18, 3, 1));
-    builder.add(UIFactory.getTableButtonBar(this, "post", new String[]{"add", "remove", "edit"}), cc.xywh(2, 19, 3, 1));
+    builder.add(UIFactory.getTableButtonBar(this, "post", BUTTONS), cc.xywh(2, 19, 3, 1));
 
     //		if(isConditional()){
-    builder.addSeparator("Conditions", cc.xywh(2, 21, 3, 1));
+    builder.addSeparator(ResourceManager.getString("conditions"), cc.xywh(2, 21, 3, 1));
 
-    builder.addLabel("Type", cc.xy(2, 23));
+    builder.addLabel(ResourceManager.getString("type"), cc.xy(2, 23));
     connector.connect(type, "conditionType");
     builder.add(type, cc.xy(4, 23));
 
     conditionsTable = new JTable(conditionsModel);
     builder.add(UIFactory.createTablePanel(conditionsTable), cc.xywh(2, 25, 3, 1));
-    panel = UIFactory.getTableButtonBar(this, "condition", new String[]{"add", "remove", "edit"});
+    panel = UIFactory.getTableButtonBar(this, "condition", BUTTONS);
     builder.add(panel, cc.xywh(2, 26, 3, 1));
     //		}
   }
 
   public String getTitle()
   {
-    return "Result" + (id.getText() != null && id.getText().length() > 0 ? (" #" + id.getText()) : "");
+    return ResourceManager.getString("title.result", new Object[]{id.getText()});
   }
 
   protected void updateView()
