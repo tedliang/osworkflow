@@ -17,6 +17,8 @@ import com.opensymphony.workflow.loader.ArgsAware;
  */
 public class DialogUtils
 {
+	private static JTextPane textArea = new JavaTextPane();
+
   public static Object getUserSelection(Object[] values, String message, String title, Component parent)
   {
     return JOptionPane.showInputDialog(parent, // parent component
@@ -31,7 +33,6 @@ public class DialogUtils
 	public static String getTextDialog(String initialValue)
 	{
 		JPanel panel = new JPanel(new GridLayout(1, 1));
-		JTextPane textArea = new JavaTextPane();
 		textArea.setText(initialValue!=null ? initialValue.trim() : "");
 		panel.add(new JScrollPane(textArea));
 
