@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class ResultDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -134,7 +134,7 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
         ValidationHelper.validate(validators);
 
         //if it's not a split or a join or a finish, then we require a next step
-        if ((split == 0) && (join == 0) && !((ActionDescriptor)getParent()).isFinish() ) {
+        if ((split == 0) && (join == 0) && !((ActionDescriptor) getParent()).isFinish()) {
             StringBuffer error = new StringBuffer("Result ");
 
             if (getId() > 0) {
