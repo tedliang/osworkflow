@@ -2,7 +2,6 @@ package com.opensymphony.workflow.designer.views;
 
 import org.jgraph.JGraph;
 import org.jgraph.graph.*;
-import com.opensymphony.workflow.designer.StepCell;
 
 /**
  * @author apatel
