@@ -25,9 +25,9 @@ public class Layout
 	 * Values are a map of id/bounds
 	 */
 	private Map cellsByType = new HashMap();
+
   public Layout()
   {
-
   }
 
   public void setAllEntries(Collection entries)

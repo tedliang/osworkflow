@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class ConditionalResultDescriptor extends ResultDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////

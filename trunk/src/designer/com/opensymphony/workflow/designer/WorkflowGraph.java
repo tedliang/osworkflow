@@ -88,7 +88,6 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
       {
         SplitDescriptor split = (SplitDescriptor)splitsList.get(i);
         addSplitDescriptor(split);
-
       }
       List joinsList = descriptor.getJoins();
       for(int i = 0; i < joinsList.size(); i++)
@@ -136,14 +135,13 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
       Rectangle bounds = layout.getBounds(initialActionCell.getId(), "InitialActionCell");
       if(bounds != null)
       {
-        GraphConstants.setBounds(initialActionCell.getAttributes(), bounds);
+        initialActionCell.getAttributes().put(GraphConstants.BOUNDS, bounds);
       }
       if(initialActionCell.getChildCount() == 0)
       {
         WorkflowPort port = new WorkflowPort();
         initialActionCell.add(port);
       }
-
     }
     else
     {
