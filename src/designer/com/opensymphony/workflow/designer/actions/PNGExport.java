@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.awt.*;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.swing.*;
 import javax.imageio.ImageIO;
