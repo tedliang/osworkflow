@@ -7,13 +7,12 @@ package com.opensymphony.workflow.util.ejb.remote;
 import com.opensymphony.workflow.*;
 import com.opensymphony.workflow.spi.WorkflowEntry;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.lang.reflect.Method;
 
 import java.rmi.RemoteException;
 
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.ejb.EJBHome;
@@ -24,24 +23,44 @@ import javax.rmi.PortableRemoteObject;
 
 
 /**
- *
+ * Register a remote EJB that implements {@link RegisterRemote}.
+ * A required argument for this register is <code>ejb.location</code>, which specifies
+ * the JNDI location to look up the remote EJB at.
+ * <p>
+ * Note that by default, the EJB will be looked up from a default InitialContext. It is
+ * however possible to specify an environment for the initial context by specifying the
+ * standard JNDI keys as arguments.
+ * <p>
+ * For example, specifying an argument with a name of <code>java.naming.security.principal</code>
+ * and a value of <code>testuser</code> will result in an InitialContext being created with
+ * the user specified as 'testuser'.
  *
  * @author $Author: hani $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class RemoteEJBRegister implements Register {
-    //~ Static fields/initializers /////////////////////////////////////////////
-
-    private static final Log log = LogFactory.getLog(RemoteEJBRegister.class);
-
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public Object registerVariable(WorkflowContext context, WorkflowEntry entry, Map args) throws WorkflowException {
         String ejbLocation = (String) args.get(AbstractWorkflow.EJB_LOCATION);
-        RegisterRemote sessionBean = null;
+        RegisterRemote sessionBean;
+        Hashtable env = null;
+        Iterator iter = args.entrySet().iterator();
+
+        while (iter.hasNext()) {
+            Map.Entry item = (Map.Entry) iter.next();
+
+            if (env == null) {
+                env = new Hashtable();
+            }
+
+            if (((String) item.getKey()).startsWith("java.naming.")) {
+                env.put(item.getKey(), item.getValue());
+            }
+        }
 
         try {
-            EJBHome home = (EJBHome) PortableRemoteObject.narrow(new InitialContext().lookup(ejbLocation), javax.ejb.EJBHome.class);
+            EJBHome home = (EJBHome) PortableRemoteObject.narrow(new InitialContext(env).lookup(ejbLocation), javax.ejb.EJBHome.class);
             Method create = home.getClass().getMethod("create", new Class[0]);
             sessionBean = (RegisterRemote) create.invoke(home, new Object[0]);
         } catch (Exception e) {
@@ -53,7 +72,6 @@ public class RemoteEJBRegister implements Register {
             return sessionBean.registerVariable(context, entry, args);
         } catch (RemoteException e) {
             String message = "Remote exception while executing remote EJB register: " + ejbLocation;
-            log.error(message, e);
             throw new WorkflowException(message, e);
         }
     }
