@@ -16,7 +16,7 @@ import java.util.Map;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DescriptorQuirksTestCase extends TestCase {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@ public class DescriptorQuirksTestCase extends TestCase {
         Map inputs = new HashMap();
         inputs.put("test", this);
 
-        URL resource = getClass().getClassLoader().getResource("/samples/comment-arg.xml");
+        URL resource = getClass().getResource("/samples/comment-arg.xml");
         long id = workflow.initialize(resource.toString(), 1, inputs);
         assertEquals("beanshell script not parsed correctly", 2, counter);
     }
@@ -56,7 +56,7 @@ public class DescriptorQuirksTestCase extends TestCase {
     public void testDoubleFunctionExecution() throws Exception {
         counter = 0;
 
-        long id = workflow.initialize(getClass().getClassLoader().getResource("/samples/double.xml").toString(), 1, new HashMap());
+        long id = workflow.initialize(getClass().getResource("/samples/double.xml").toString(), 1, new HashMap());
         Map inputs = new HashMap();
         inputs.put("test", this);
         workflow.doAction(id, 3, inputs);
