@@ -256,6 +256,16 @@
     <jar basedir="${build.client}" jarfile="${dist}/designer.jar" manifest="${build.client}/META-INF/MANIFEST.MF"/>
   </target>
 
+  <target name="webstart" depends="client-jar" description="Build webstart files">
+    <mkdir dir="${dist.docs}/designer" />
+    <signjar signedjar="${dist.docs}/designer/designer.jar" alias="opensymphony" jar="${dist}/designer.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
+    <signjar signedjar="${dist.docs}/designer/looks-all.jar" alias="opensymphony" jar="${lib.designer}/looks-all.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
+    <signjar signedjar="${dist.docs}/designer/jgraph.jar" alias="opensymphony" jar="${lib.designer}/jgraph.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
+    <signjar signedjar="${dist.docs}/designer/forms.jar" alias="opensymphony" jar="${lib.designer}/forms.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
+    <signjar signedjar="${dist.docs}/designer/osworkflow.jar" alias="opensymphony" jar="${dist}/${name}-${version}.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
+    <signjar signedjar="${dist.docs}/designer/commons-logging.jar" alias="opensymphony" jar="${lib.core}/commons-logging.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
+  </target>
+
   <target name="javadocs" depends="init" description="Build javadocs">
     <mkdir dir="${dist.docs}/api"/>
     <javadoc sourcepath="${src.java}" stylesheetfile="${docs}/api.css" destdir="${dist.docs}/api" packagenames="${packages}" classpathref="cp" author="true" version="true" windowTitle="${name} ${version} API" doctitle="${name}" footer="See &lt;a href=&quot;http://www.opensymphony.com&quot;&gt;www.opensymphony.com&lt;/a&gt; for more information." use="true" verbose="false"/>
