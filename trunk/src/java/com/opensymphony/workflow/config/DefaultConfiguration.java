@@ -27,7 +27,7 @@ import javax.xml.parsers.*;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultConfiguration implements Configuration {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -136,7 +136,7 @@ public class DefaultConfiguration implements Configuration {
 
                     if (Thread.currentThread().getContextClassLoader() != null) {
                         try {
-                            factory = (AbstractWorkflowFactory) Class.forName(clazz, true, Thread.currentThread().getContextClassLoader()).newInstance();
+                            factory = (AbstractWorkflowFactory) Thread.currentThread().getContextClassLoader().loadClass(clazz).newInstance();
                         } catch (ClassNotFoundException e) {
                             //fall back to this class' classloader.
                             factory = (AbstractWorkflowFactory) Class.forName(clazz).newInstance();
