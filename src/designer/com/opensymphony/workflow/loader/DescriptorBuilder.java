@@ -49,8 +49,8 @@ public class DescriptorBuilder
     Utils.checkId(model.getContext(), desc);
     if(result.getId()==0)
       result.setId(Utils.getNextId(model.getContext()));
-    result.setOldStatus("Finished");
-    result.setStatus("Underway");
+    result.setOldStatus(model.getPalette().getDefaultOldStatus());
+    result.setStatus(model.getPalette().getDefaultNextStatus());
     if(desc instanceof StepDescriptor)
     {
       result.setStep(desc.getId());
@@ -76,9 +76,8 @@ public class DescriptorBuilder
     Utils.checkId(model.getContext(), desc);
     if(result.getId()==0)
       result.setId(Utils.getNextId(model.getContext()));
-    result.setOldStatus("Finished");
-    result.setStatus("Underway");
-    result.setOwner("$$$");
+    result.setOldStatus(model.getPalette().getDefaultOldStatus());
+    result.setStatus(model.getPalette().getDefaultNextStatus());
     if(desc instanceof StepDescriptor)
     {
       result.setStep(desc.getId());

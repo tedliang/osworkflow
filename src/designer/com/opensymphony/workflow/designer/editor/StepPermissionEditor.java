@@ -24,12 +24,12 @@ public class StepPermissionEditor extends ConditionEditor
 
   protected ConfigConditionDescriptor getNewCondition(String selection)
   {
-    return new PermissionConditionDescriptor(WorkflowDesigner.config.getPermissionCondition(selection));
+    return new PermissionConditionDescriptor(WorkflowDesigner.palette.getPermissionCondition(selection));
   }
 
   protected String getSelection()
   {
-    return DialogUtils.getUserSelection(WorkflowDesigner.config.getPermissionNames(), "Select step permission", "Select Permission", null);
+    return DialogUtils.getUserSelection(WorkflowDesigner.palette.getPermissionNames(), "Select step permission", "Select Permission", null);
   }
 
   protected StepCell getCell()

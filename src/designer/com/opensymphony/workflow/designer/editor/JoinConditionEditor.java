@@ -23,12 +23,12 @@ public class JoinConditionEditor extends ConditionEditor
 
   protected ConfigConditionDescriptor getNewCondition(String selection)
   {
-    return new ConfigConditionDescriptor(WorkflowDesigner.config.getJoinCondition(selection));
+    return new ConfigConditionDescriptor(WorkflowDesigner.palette.getJoinCondition(selection));
   }
 
   protected String getSelection()
   {
-    return DialogUtils.getUserSelection(WorkflowDesigner.config.getJoinNames(), "Select join condition", "Select Condition", null);
+    return DialogUtils.getUserSelection(WorkflowDesigner.palette.getJoinNames(), "Select join condition", "Select Condition", null);
   }
 
   protected JoinCell getCell()

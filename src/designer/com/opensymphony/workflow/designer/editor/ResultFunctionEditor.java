@@ -18,7 +18,7 @@ import com.opensymphony.workflow.loader.ConfigFunctionDescriptor;
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class ResultFunctionEditor extends FunctionEditor {
-	
+
 	protected ResultEdge edge;
 	/**
 	 * @param cell
@@ -40,7 +40,7 @@ public class ResultFunctionEditor extends FunctionEditor {
 	 */
 	protected ConfigFunctionDescriptor getNewFunction(String selection) {
 		return new ConfigFunctionDescriptor(
-						WorkflowDesigner.config.getPrefunction(selection));	
+						WorkflowDesigner.palette.getPrefunction(selection));
 	}
 
 	/* (non-Javadoc)
@@ -48,7 +48,7 @@ public class ResultFunctionEditor extends FunctionEditor {
 	 */
 	protected String getSelection() {
 		return DialogUtils.getUserSelection(
-			WorkflowDesigner.config.getPreNames(),
+			WorkflowDesigner.palette.getPreNames(),
 			"请选择动作",
 			"选择动作",
 			null);

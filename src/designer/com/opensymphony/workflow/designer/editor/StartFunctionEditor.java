@@ -28,12 +28,12 @@ public class StartFunctionEditor extends FunctionEditor
 
   protected ConfigFunctionDescriptor getNewFunction(String selection)
   {
-    return new ConfigFunctionDescriptor(WorkflowDesigner.config.getPrefunction(selection));
+    return new ConfigFunctionDescriptor(WorkflowDesigner.palette.getPrefunction(selection));
   }
 
   protected String getSelection()
   {
-    return DialogUtils.getUserSelection(WorkflowDesigner.config.getPreNames(), "Select Function", "Select Function", null);
+    return DialogUtils.getUserSelection(WorkflowDesigner.palette.getPreNames(), "Select Function", "Select Function", null);
   }
 
 }
