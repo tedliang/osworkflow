@@ -4,11 +4,10 @@
  */
 package com.opensymphony.workflow.config;
 
-import com.opensymphony.util.ClassLoaderUtil;
-
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.loader.*;
+import com.opensymphony.workflow.loader.ClassLoaderUtil;
 import com.opensymphony.workflow.spi.WorkflowStore;
 
 import org.w3c.dom.*;
@@ -35,7 +34,7 @@ import javax.xml.parsers.*;
  * rather than in the calling client.
  *
  * @author Hani Suleiman
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class DefaultConfiguration implements Configuration, Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
