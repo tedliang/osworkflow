@@ -30,11 +30,11 @@ public class DTDEntityResolver implements EntityResolver {
         URL url = new URL(systemId);
         String file = url.getFile();
 
-        if ((file != null) && (file.indexOf('/') > -1)) {
+        if (file != null && file.indexOf('/') > -1) {
             file = file.substring(file.lastIndexOf('/') + 1);
         }
 
-        if ("www.opensymphony.com".equals(url.getHost())) {
+        if ("www.opensymphony.com".equals(url.getHost()) && systemId.endsWith(".dtd")) {
             InputStream is = getClass().getResourceAsStream("/META-INF/" + file);
 
             if (is == null) {

@@ -100,7 +100,7 @@ public class AbstractWorkflow implements Workflow {
 
             List l = new ArrayList();
             PropertySet ps = store.getPropertySet(id);
-            Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
+            Map transientVars = inputs == null ? new HashMap() : new HashMap(inputs);
             Collection currentSteps = store.findCurrentSteps(id);
 
             populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(0), currentSteps);
@@ -160,7 +160,7 @@ public class AbstractWorkflow implements Workflow {
      *
      */
     public Configuration getConfiguration() {
-        Configuration config = (configuration != null) ? configuration : DefaultConfiguration.INSTANCE;
+        Configuration config = configuration != null ? configuration : DefaultConfiguration.INSTANCE;
 
         if (!config.isInitialized()) {
             try {
@@ -424,7 +424,7 @@ public class AbstractWorkflow implements Workflow {
 
             case WorkflowEntry.ACTIVATED:
 
-                if ((currentState == WorkflowEntry.CREATED) || (currentState == WorkflowEntry.SUSPENDED)) {
+                if (currentState == WorkflowEntry.CREATED || currentState == WorkflowEntry.SUSPENDED) {
                     result = true;
                 }
 
@@ -440,7 +440,7 @@ public class AbstractWorkflow implements Workflow {
 
             case WorkflowEntry.KILLED:
 
-                if ((currentState == WorkflowEntry.CREATED) || (currentState == WorkflowEntry.ACTIVATED) || (currentState == WorkflowEntry.SUSPENDED)) {
+                if (currentState == WorkflowEntry.CREATED || currentState == WorkflowEntry.ACTIVATED || currentState == WorkflowEntry.SUSPENDED) {
                     result = true;
                 }
 
@@ -469,7 +469,7 @@ public class AbstractWorkflow implements Workflow {
         }
 
         if (canModifyEntryState(id, newState)) {
-            if ((newState == WorkflowEntry.KILLED) || (newState == WorkflowEntry.COMPLETED)) {
+            if (newState == WorkflowEntry.KILLED || newState == WorkflowEntry.COMPLETED) {
                 Collection currentSteps = getCurrentSteps(id);
 
                 if (currentSteps.size() > 0) {
@@ -656,7 +656,7 @@ public class AbstractWorkflow implements Workflow {
 
         List actions = s.getActions();
 
-        if ((actions == null) || (actions.size() == 0)) {
+        if (actions == null || actions.size() == 0) {
             return l;
         }
 
@@ -700,7 +700,7 @@ public class AbstractWorkflow implements Workflow {
 
             List l = new ArrayList();
             PropertySet ps = store.getPropertySet(id);
-            Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
+            Map transientVars = inputs == null ? new HashMap() : new HashMap(inputs);
             Collection currentSteps = store.findCurrentSteps(id);
 
             populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(0), currentSteps);
@@ -755,7 +755,7 @@ public class AbstractWorkflow implements Workflow {
 
         List actions = s.getActions();
 
-        if ((actions == null) || (actions.size() == 0)) {
+        if (actions == null || actions.size() == 0) {
             return l;
         }
 
@@ -797,7 +797,7 @@ public class AbstractWorkflow implements Workflow {
             }
         }
 
-        if (isCompleted == true) {
+        if (isCompleted) {
             completeEntry(id, currentSteps);
         }
     }
@@ -840,7 +840,7 @@ public class AbstractWorkflow implements Workflow {
         if (currentStepId != -1) {
             Object stepId = args.get("stepId");
 
-            if ((stepId != null) && stepId.equals("-1")) {
+            if (stepId != null && stepId.equals("-1")) {
                 args.put("stepId", String.valueOf(currentStepId));
             }
         }
@@ -888,7 +888,7 @@ public class AbstractWorkflow implements Workflow {
     }
 
     protected boolean passesConditions(String conditionType, List conditions, Map transientVars, PropertySet ps, int currentStepId) throws WorkflowException {
-        if ((conditions == null) || (conditions.size() == 0)) {
+        if (conditions == null || conditions.size() == 0) {
             return true;
         }
 
@@ -926,10 +926,7 @@ public class AbstractWorkflow implements Workflow {
         if (descriptor == null) {
             return true;
         }
-
-        ConditionsDescriptor conditionsDescriptor = (ConditionsDescriptor) descriptor;
-
-        return passesConditions(conditionsDescriptor.getType(), conditionsDescriptor.getConditions(), transientVars, ps, currentStepId);
+        return passesConditions(descriptor.getType(), descriptor.getConditions(), transientVars, ps, currentStepId);
     }
 
     protected void populateTransientMap(WorkflowEntry entry, Map transientVars, List registers, Integer actionId, Collection currentSteps) throws WorkflowException {
@@ -1123,7 +1120,7 @@ public class AbstractWorkflow implements Workflow {
             }
 
             if (log.isDebugEnabled()) {
-                log.debug("Outcome: stepId=" + nextStep + ", status=" + theResult.getStatus() + ", owner=" + theResult.getOwner() + ", actionId=" + actionId + ", currentStep=" + ((currentStep != null) ? currentStep.getStepId() : 0));
+                log.debug("Outcome: stepId=" + nextStep + ", status=" + theResult.getStatus() + ", owner=" + theResult.getOwner() + ", actionId=" + actionId + ", currentStep=" + (currentStep != null ? currentStep.getStepId() : 0));
             }
 
             if (previousIds == null) {
@@ -1136,7 +1133,7 @@ public class AbstractWorkflow implements Workflow {
                 owner = null;
             } else {
                 Object o = ScriptVariableParser.translateVariables(owner, transientVars, ps);
-                owner = (o != null) ? o.toString() : null;
+                owner = o != null ? o.toString() : null;
             }
 
             String oldStatus = theResult.getOldStatus();
@@ -1156,7 +1153,7 @@ public class AbstractWorkflow implements Workflow {
             Date startDate = new Date();
             Date dueDate = null;
 
-            if ((theResult.getDueDate() != null) && (theResult.getDueDate().length() > 0)) {
+            if (theResult.getDueDate() != null && theResult.getDueDate().length() > 0) {
                 Object dueDateObject = ScriptVariableParser.translateVariables(theResult.getDueDate(), transientVars, ps);
 
                 if (dueDateObject instanceof Date) {
@@ -1290,7 +1287,7 @@ public class AbstractWorkflow implements Workflow {
                 iterator.hasNext();) {
             ConditionalResultDescriptor conditionalResult = (ConditionalResultDescriptor) iterator.next();
 
-            if (passesConditions(null, conditionalResult.getConditions(), unmodifiableTransients, ps, (step != null) ? step.getStepId() : (-1))) {
+            if (passesConditions(null, conditionalResult.getConditions(), unmodifiableTransients, ps, step != null ? step.getStepId() : -1)) {
                 //if (evaluateExpression(conditionalResult.getCondition(), entry, wf.getRegisters(), null, transientVars)) {
                 theResults[0] = conditionalResult;
 
@@ -1317,7 +1314,7 @@ public class AbstractWorkflow implements Workflow {
             log.debug("theResult=" + theResults[0].getStep() + " " + theResults[0].getStatus());
         }
 
-        if ((extraPreFunctions != null) && (extraPreFunctions.size() > 0)) {
+        if (extraPreFunctions != null && extraPreFunctions.size() > 0) {
             // run any extra pre-functions that haven't been run already
             for (Iterator iterator = extraPreFunctions.iterator();
                     iterator.hasNext();) {
@@ -1505,7 +1502,7 @@ public class AbstractWorkflow implements Workflow {
         }
 
         //if executed action was an initial action then workflow is activated
-        if ((wf.getInitialAction(action.getId()) != null) && (entry.getState() != WorkflowEntry.ACTIVATED)) {
+        if (wf.getInitialAction(action.getId()) != null && entry.getState() != WorkflowEntry.ACTIVATED) {
             changeEntryState(entry.getId(), WorkflowEntry.ACTIVATED);
         }
 

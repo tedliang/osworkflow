@@ -76,7 +76,7 @@ public class DatabaseHelper {
                 sqlLine = StringUtils.replace(sqlLine, "\n", "");
 
                 //String s = sqls[i];
-                if ((sqlLine.length() > 0) && (sqlLine.charAt(0) != '#')) {
+                if (sqlLine.length() > 0 && sqlLine.charAt(0) != '#') {
                     try {
                         statement.executeQuery(sqlLine);
                     } catch (SQLException e) {
