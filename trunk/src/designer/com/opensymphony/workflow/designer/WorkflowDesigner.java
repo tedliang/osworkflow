@@ -389,6 +389,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   public static void main(String[] args)
   {
+    System.getProperties().put("apple.laf.useScreenMenuBar", "true");
     String spec = System.getProperty("java.specification.version");
     if(spec.startsWith("1.3") || spec.startsWith("1.2") || spec.startsWith("1.1"))
     {
