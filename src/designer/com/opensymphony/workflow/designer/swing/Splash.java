@@ -1,48 +1,138 @@
 package com.opensymphony.workflow.designer.swing;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.geom.Rectangle2D;
-import java.util.Calendar;
+import java.awt.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-
-/**
- * @author Gulei
- */
-public class Splash extends JLabel
+public final class Splash extends Window
 {
-  private ImageIcon image;
-  private static final Font font = new Font("Arial", Font.BOLD, 10);
 
-  public Splash(ImageIcon image)
+  private static final int DEFAULT_BAR_WIDTH = 100;
+  private static final int DEFAULT_BAR_HEIGHT = 10;
+  private static final int VPAD = 10;
+
+  private final Image image;
+  private final boolean showProgress;
+  private final String text;
+
+  private Color textColor;
+  private Rectangle progressBarBounds;
+  private int percent;
+
+  public Splash(Image image)
   {
-    super(image);
+    this(image, false);
+  }
+
+  public Splash(Image image, boolean showProgress)
+  {
+    this(new Frame(), image, "Loading...", showProgress);
+  }
+
+  public Splash(Frame owner, Image image, String text, boolean showProgress)
+  {
+    super(owner);
     this.image = image;
+    this.text = text;
+    this.percent = 0;
+    this.showProgress = showProgress;
+    setSize(image.getWidth(null), image.getHeight(null));
+    setProgressBarBounds(VPAD);
+    setForeground(Color.darkGray);
+    setBackground(Color.lightGray);
+    textColor = Color.black;
+    ScreenUtils.center(this);
+  }
+
+  public Color getTextColor()
+  {
+    return textColor;
+  }
+
+  public void setTextColor(Color newTextColor)
+  {
+    textColor = newTextColor;
+  }
+
+  public void setProgressBarBounds(Rectangle r)
+  {
+    progressBarBounds = new Rectangle(r);
+  }
+
+  public void setProgressBarBounds(int bottomPad)
+  {
+    setProgressBarBounds(defaultProgressBarBounds(bottomPad));
+  }
+
+  private Rectangle defaultProgressBarBounds(int bottomPad)
+  {
+    int x = (getWidth() - DEFAULT_BAR_WIDTH) / 2;
+    int y = getHeight() - DEFAULT_BAR_HEIGHT - bottomPad;
+    return new Rectangle(x, y, DEFAULT_BAR_WIDTH, DEFAULT_BAR_HEIGHT);
   }
 
   public void paint(Graphics g)
   {
-    super.paint(g);
+    boolean clipIsProgressRect = progressBarBounds.equals(g.getClipBounds());
 
-    int w = image.getIconWidth();
-    int h = image.getIconHeight();
-    String version = "OSWorkflow Designer v 0.1";
-    String copyright = "(c)" + Calendar.getInstance().get(Calendar.YEAR) + " OpenSymphony";
+    if(image != null && (!showProgress || !clipIsProgressRect))
+    {
+      g.drawImage(image, 0, 0, this);
+    }
+    if(showProgress)
+    {
+      int x = progressBarBounds.x;
+      int y = progressBarBounds.y;
+      int w = progressBarBounds.width;
+      int h = progressBarBounds.height;
+      int progressWidth = (w - 2) * percent / 100;
+      int progressHeight = h - 2;
 
-    Graphics2D g2 = (Graphics2D)g;
-    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    Rectangle2D rect = g2.getFontMetrics().getStringBounds(copyright, g2);
-    g2.setColor(Color.BLACK);
-    g2.setFont(font);
-    g2.drawString(copyright, w - (int)rect.getWidth() - 5, h - 4);
+      g.translate(x, y);
+      // Paint border
+      g.setColor(Color.gray);
+      g.drawLine(0, 0, w - 2, 0);
+      g.drawLine(0, 0, 0, h - 1);
+      g.setColor(Color.white);
+      g.drawLine(0, h - 1, w - 1, h - 1);
+      g.drawLine(w - 1, 0, w - 1, h - 1);
+      // Paint background
+      g.setColor(getBackground());
+      g.fillRect(1, 1, w - 2, progressHeight);
+      // Paint progress bar
+      g.setColor(getForeground());
+      g.fillRect(1, 1, progressWidth, progressHeight);
+      g.translate(-x, -y);
 
-    rect = g2.getFontMetrics().getStringBounds(version, g2);
-    g2.drawString(version, w - (int)rect.getWidth() - 5, h - 22);
+      if(!clipIsProgressRect)
+      {
+        FontMetrics fm = getFontMetrics(g.getFont());
+        int textWidth = fm.stringWidth(text);
+        int textX = (getWidth() - textWidth) / 2;
+        g.setColor(textColor);
+        g.drawString(text, textX, progressBarBounds.y - VPAD / 2);
+      }
+    }
+  }
+
+  public void openSplash()
+  {
+    setVisible(true);
+  }
+
+  public void closeSplash()
+  {
+    dispose();
+  }
+
+  public void setProgress(int percent)
+  {
+    if(!showProgress)
+      return;
+    this.percent = percent;
+    repaint(progressBarBounds.x, progressBarBounds.y, progressBarBounds.width, progressBarBounds.height);
+  }
+
+  public void setNote(String message)
+  {
   }
 
 }

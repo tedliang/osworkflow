@@ -21,11 +21,7 @@ import org.xml.sax.SAXException;
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.config.WorkspaceManager;
 import com.opensymphony.workflow.designer.editor.*;
-import com.opensymphony.workflow.designer.swing.BarFactory;
-import com.opensymphony.workflow.designer.swing.SplashWindow;
-import com.opensymphony.workflow.designer.swing.CardPanel;
-import com.opensymphony.workflow.designer.swing.EmptyBorderSplitPane;
-import com.opensymphony.workflow.designer.swing.FramePanel;
+import com.opensymphony.workflow.designer.swing.*;
 import com.opensymphony.workflow.loader.WorkflowConfigDescriptor;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.loader.Workspace;
@@ -377,6 +373,9 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       System.out.println("Workflow Designer requires JDK 1.4.0 or higher");
       System.exit(1);
     }
+    Splash splash = new Splash(new Frame(), ImageLoader.getIcon("splash.gif").getImage(), "OSWorkflow Designer", true);
+    splash.openSplash();
+    splash.setProgress(10);
     if(System.getProperty("os.name").startsWith("Windows"))
     {
       try
@@ -399,11 +398,13 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
       }
     }
 
-    SplashWindow frame = new SplashWindow();
-    frame.init();
-    frame.show();
+    splash.setProgress(20);
     WorkflowDesigner d = new WorkflowDesigner();
+    splash.setProgress(60);
     d.pack();
+    splash.setProgress(70);
     d.show();
+    splash.setProgress(100);
+    splash.closeSplash();
   }
 }
