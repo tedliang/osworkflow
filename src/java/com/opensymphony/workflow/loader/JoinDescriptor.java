@@ -19,7 +19,7 @@ import java.util.List;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class JoinDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -71,7 +71,10 @@ public class JoinDescriptor extends AbstractDescriptor implements Validatable {
             }
         }
 
-        result.writeXML(out, indent);
+        if (result != null) {
+            result.writeXML(out, indent);
+        }
+
         XMLUtil.printIndent(out, --indent);
         out.println("</join>");
     }
@@ -96,7 +99,11 @@ public class JoinDescriptor extends AbstractDescriptor implements Validatable {
 
         //<unconditional-result status="Underway" owner="test" step="2"/>
         Element resultElement = XMLUtil.getChildElement(join, "unconditional-result");
-        result = new ResultDescriptor(resultElement);
-        result.setParent(this);
+
+        // [KAP] This allows loading a workflow with Joins without unconditional-results
+        if (resultElement != null) {
+            result = new ResultDescriptor(resultElement);
+            result.setParent(this);
+        }
     }
 }
