@@ -19,17 +19,19 @@ import java.util.*;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
 
+    protected List commonActionsList = new ArrayList(); // for preserving order
     protected List globalActions = new ArrayList();
     protected List initialActions = new ArrayList();
     protected List joins = new ArrayList();
     protected List registers = new ArrayList();
     protected List splits = new ArrayList();
     protected List steps = new ArrayList();
+    protected Map commonActions = new HashMap();
     protected Map timerFunctions = new HashMap();
 
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -64,6 +66,14 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         }
 
         return null;
+    }
+
+    /**
+     * Get a Map of the common actions specified, keyed on actionId (an Integer)
+     * @return A list of {@link ActionDescriptor} objects
+     */
+    public Map getCommonActions() {
+        return commonActions;
     }
 
     /**
@@ -181,16 +191,22 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
     }
 
     /**
+     * Add a common action
+     * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
+     * @param descriptor The action descriptor to add
+     */
+    public void addCommonAction(ActionDescriptor descriptor) {
+        addAction(commonActions, descriptor);
+        addAction(commonActionsList, descriptor);
+    }
+
+    /**
      * Add a global action
      * @throws IllegalArgumentException if the descriptor's ID already exists in the workflow
      * @param descriptor The action descriptor to add
      */
     public void addGlobalAction(ActionDescriptor descriptor) {
-        if (getAction(descriptor.getId()) != null) {
-            throw new IllegalArgumentException("Action with id " + descriptor.getId() + " already exists");
-        }
-
-        globalActions.add(descriptor);
+        addAction(globalActions, descriptor);
     }
 
     /**
@@ -199,11 +215,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
      * @param descriptor The action descriptor to add
      */
     public void addInitialAction(ActionDescriptor descriptor) {
-        if (getAction(descriptor.getId()) != null) {
-            throw new IllegalArgumentException("Action with id " + descriptor.getId() + " already exists");
-        }
-
-        initialActions.add(descriptor);
+        addAction(initialActions, descriptor);
     }
 
     /**
@@ -250,6 +262,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
         ValidationHelper.validate(this.getTriggerFunctions().values());
         ValidationHelper.validate(this.getGlobalActions());
         ValidationHelper.validate(this.getInitialActions());
+        ValidationHelper.validate(this.getCommonActions().values());
         ValidationHelper.validate(this.getSteps());
         ValidationHelper.validate(this.getSplits());
         ValidationHelper.validate(this.getJoins());
@@ -271,8 +284,11 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
             while (j.hasNext()) {
                 ActionDescriptor action = (ActionDescriptor) j.next();
 
-                if (!actions.add(new Integer(action.getId()))) {
-                    throw new InvalidWorkflowDescriptorException("Duplicate occurance of action ID " + action.getId() + " found in step " + step.getId());
+                // check to see if it's a common action (dups are ok)
+                if (!this.getCommonActions().containsKey(new Integer(action.getId()))) {
+                    if (!actions.add(new Integer(action.getId()))) {
+                        throw new InvalidWorkflowDescriptorException("Duplicate occurance of action ID " + action.getId() + " found in step " + step.getId());
+                    }
                 }
             }
         }
@@ -317,6 +333,21 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
             XMLUtil.printIndent(out, --indent);
             out.println("</global-actions>");
+        }
+
+        if (commonActions.size() > 0) {
+            XMLUtil.printIndent(out, indent++);
+            out.println("<common-actions>");
+
+            Iterator commonActionsItr = getCommonActions().values().iterator();
+
+            while (commonActionsItr.hasNext()) {
+                ActionDescriptor action = (ActionDescriptor) commonActionsItr.next();
+                action.writeXML(out, indent);
+            }
+
+            XMLUtil.printIndent(out, --indent);
+            out.println("</common-actions>");
         }
 
         XMLUtil.printIndent(out, indent++);
@@ -400,6 +431,22 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
             }
         }
 
+        // handle common-actions - OPTIONAL
+        //   - Store actions in HashMap for now. When parsing Steps, we'll resolve
+        //      any common actions into local references.
+        Element commonActionsElement = XMLUtil.getChildElement(root, "common-actions");
+
+        if (commonActionsElement != null) {
+            NodeList commonActions = commonActionsElement.getElementsByTagName("action");
+
+            for (int i = 0; i < commonActions.getLength(); i++) {
+                Element commonAction = (Element) commonActions.item(i);
+                ActionDescriptor actionDescriptor = new ActionDescriptor(commonAction);
+                actionDescriptor.setParent(this);
+                addCommonAction(actionDescriptor);
+            }
+        }
+
         // handle timer-functions - OPTIONAL
         Element timerFunctionsElement = XMLUtil.getChildElement(root, "trigger-functions");
 
@@ -421,8 +468,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
         for (int i = 0; i < steps.getLength(); i++) {
             Element step = (Element) steps.item(i);
-            StepDescriptor stepDescriptor = new StepDescriptor(step);
-            stepDescriptor.setParent(this);
+            StepDescriptor stepDescriptor = new StepDescriptor(step, this);
             this.steps.add(stepDescriptor);
         }
 
@@ -452,6 +498,19 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
                 joinDescriptor.setParent(this);
                 this.joins.add(joinDescriptor);
             }
+        }
+    }
+
+    // refactored this out from the three addAction methods above
+    private void addAction(Object actionsCollectionOrMap, ActionDescriptor descriptor) {
+        if (getAction(descriptor.getId()) != null) {
+            throw new IllegalArgumentException("action with id " + descriptor.getId() + " already exists for this step.");
+        }
+
+        if (actionsCollectionOrMap instanceof Map) {
+            ((Map) actionsCollectionOrMap).put(new Integer(descriptor.getId()), descriptor);
+        } else {
+            ((Collection) actionsCollectionOrMap).add(descriptor);
         }
     }
 }

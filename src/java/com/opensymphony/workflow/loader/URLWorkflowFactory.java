@@ -97,8 +97,7 @@ public class URLWorkflowFactory extends AbstractWorkflowFactory {
         PrintWriter writer = new PrintWriter(new BufferedWriter(out));
         writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
-        //lets not write the dtd out, since this won't work without our own resolver if behind a firewall or disconnected
-        //writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.5//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_5.dtd\">");
+        writer.println("<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.6//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_6.dtd\">");
         descriptor.writeXML(writer, 0);
         writer.flush();
         writer.close();

@@ -7,6 +7,9 @@ package com.opensymphony.workflow.loader;
 import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 import com.opensymphony.workflow.util.Validatable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -17,12 +20,23 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
+    //~ Static fields/initializers /////////////////////////////////////////////
+
+    private static final Log log = LogFactory.getLog(StepDescriptor.class);
+
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected List actions = new ArrayList();
+
+    /**
+     * this list maintained internally to allow for proper xml serialization. all
+     * common-action elements in the XML file are expanded into ActionDescriptors
+     * and are available via getActions()
+     */
+    protected List commonActions = new ArrayList();
     protected List permissions = new ArrayList();
     protected String name;
 
@@ -32,6 +46,12 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
     }
 
     public StepDescriptor(Element step) {
+        init(step);
+    }
+
+    /** sets parent */
+    public StepDescriptor(Element step, AbstractDescriptor parent) {
+        setParent(parent);
         init(step);
     }
 
@@ -96,6 +116,23 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
     public void validate() throws InvalidWorkflowDescriptorException {
         ValidationHelper.validate(actions);
         ValidationHelper.validate(permissions);
+
+        Iterator iter = commonActions.iterator();
+
+        while (iter.hasNext()) {
+            String s = (String) iter.next();
+
+            try {
+                Integer actionId = new Integer(s);
+                ActionDescriptor commonActionReference = (ActionDescriptor) ((WorkflowDescriptor) getParent()).getCommonActions().get(actionId);
+
+                if (commonActionReference == null) {
+                    throw new InvalidWorkflowDescriptorException("Common action " + actionId + " specified in step " + getName() + " does not exist");
+                }
+            } catch (NumberFormatException ex) {
+                throw new InvalidWorkflowDescriptorException("Common action " + s + " is not a valid action ID");
+            }
+        }
     }
 
     public void writeXML(PrintWriter out, int indent) {
@@ -128,6 +165,12 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
             for (int i = 0; i < actions.size(); i++) {
                 ActionDescriptor action = (ActionDescriptor) actions.get(i);
                 action.writeXML(out, indent);
+            }
+
+            // special serialization common-action elements
+            for (int i = 0; i < commonActions.size(); i++) {
+                String action = (String) commonActions.get(i);
+                out.println("<common-action id=\"" + action + "\" />");
             }
 
             XMLUtil.printIndent(out, --indent);
@@ -170,6 +213,27 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
             for (int i = 0; i < actions.getLength(); i++) {
                 Element action = (Element) actions.item(i);
                 this.actions.add(new ActionDescriptor(action));
+            }
+
+            // look for common-action elements
+            NodeList commonActions = a.getElementsByTagName("common-action");
+
+            for (int i = 0; i < commonActions.getLength(); i++) {
+                Element commonAction = (Element) commonActions.item(i);
+
+                String actionId = commonAction.getAttribute("id");
+                WorkflowDescriptor wfDesc = (WorkflowDescriptor) (getParent());
+
+                try {
+                    ActionDescriptor commonActionReference = (ActionDescriptor) wfDesc.getCommonActions().get(actionId);
+
+                    if (commonActionReference != null) {
+                        this.actions.add(commonActionReference);
+                    }
+                } catch (NumberFormatException nfe) {
+                }
+
+                this.commonActions.add(actionId);
             }
         }
     }
