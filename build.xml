@@ -136,6 +136,7 @@
     <copy todir="${build.test}">
       <fileset dir="${src.test}">
         <include name="**/*.xml" />
+        <include name="**/*.properties"/>
       </fileset>
     </copy>
     <mkdir dir="${dist}/docs/junit"/>

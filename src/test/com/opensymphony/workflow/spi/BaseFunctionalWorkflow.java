@@ -88,7 +88,7 @@ public abstract class BaseFunctionalWorkflow extends TestCase {
         Step historyStep = (Step) historySteps.get(0);
         assertEquals("test", historyStep.getCaller());
         assertNull(historyStep.getDueDate());
-        assertTrue("history step finish date is in the future!", historyStep.getFinishDate().getTime() < System.currentTimeMillis());
+        assertTrue("history step finish date " + historyStep.getFinishDate() + " is in the future!", historyStep.getFinishDate().getTime() < System.currentTimeMillis());
         logActions(actions);
         log("Perform Finish Foo");
         workflow.doAction(workflowId, 12, Collections.EMPTY_MAP);
