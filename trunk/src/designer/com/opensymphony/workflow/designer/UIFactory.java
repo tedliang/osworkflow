@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
+import com.jgoodies.forms.factories.ButtonBarFactory;
 
 /**
  * @author Hani Suleiman (hani@formicary.net)
@@ -13,7 +14,7 @@ import com.jgoodies.forms.builder.ButtonBarBuilder;
  */
 public class UIFactory
 {
-  public static JPanel getTableButtonBar(ActionListener listener, String prefix, String[] names)
+  public static JPanel getButtonBar(ActionListener listener, String prefix, String[] names)
   {
     if(prefix == null) prefix = "";
     JButton[] buttons = new JButton[names.length];
@@ -23,11 +24,7 @@ public class UIFactory
       buttons[i].setActionCommand(prefix + names[i]);
       buttons[i].addActionListener(listener);
     }
-
-    JPanel panel = new JPanel();
-    ButtonBarBuilder builder = new ButtonBarBuilder(panel);
-    builder.addGriddedGrowingButtons(buttons);
-    return panel;
+	  return ButtonBarFactory.buildCenteredBar(buttons);
   }
 
   public static JComponent createTablePanel(JTable table)
