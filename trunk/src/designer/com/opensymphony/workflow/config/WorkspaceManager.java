@@ -27,8 +27,9 @@ public class WorkspaceManager
   {
     fireWorkspaceClosed();
     saveWorkspace();
-    ConfigLoader.load(url.openStream());
-    currentWorkspace  = (Workspace)ConfigLoader.getFactory();
+    DefaultConfiguration config = new DefaultConfiguration();
+    config.load(url);
+    currentWorkspace  = (Workspace)config.getFactory();
     fireWorkspaceOpened();
     log.debug("loaded workspace " + currentWorkspace);
   }
