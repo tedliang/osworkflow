@@ -134,7 +134,14 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
         if(!(cell instanceof InitialActionCell))
         {
           //      		System.out.println(cell);
-          graph.showDelete(e.getX(), e.getY());
+          if (cell instanceof WorkflowEdge)
+          {
+			graph.showEdgeMenu(e.getX(), e.getY());
+          }
+          else
+          {
+          	graph.showDelete(e.getX(), e.getY());
+          }
         }
       }
 

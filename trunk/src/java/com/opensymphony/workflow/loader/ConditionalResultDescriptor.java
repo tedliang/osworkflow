@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class ConditionalResultDescriptor extends ResultDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -70,6 +70,10 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
 
             if ((owner != null) && (owner.length() > 0)) {
                 buf.append(" owner=\"").append(owner).append("\"");
+            }
+
+            if ((displayName != null) && (displayName.length() > 0)) {
+                buf.append(" display-name=\"").append(displayName).append("\"");
             }
         }
 

@@ -11,8 +11,8 @@ import java.net.URL;
 import java.net.MalformedURLException;
 import javax.swing.*;
 
-import org.jgraph.event.GraphSelectionEvent;
-import org.jgraph.event.GraphSelectionListener;
+import org.jgraph.graph.DefaultGraphCell;
+import org.jgraph.event.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -36,17 +36,20 @@ import javax.xml.parsers.ParserConfigurationException;
  * Date: May 15, 2003
  * Time: 8:36:20 PM
  */
-public class WorkflowDesigner extends JFrame implements GraphSelectionListener
+public class WorkflowDesigner extends JFrame implements GraphSelectionListener, GraphModelListener
 {
   public static final String WORKSPACE_SUFFIX = ".wsf";
 
   private Navigator navigator;
+  private RelationshipsNavigator relationshipsNavigator;
   private WorkspaceManager manager = new WorkspaceManager();
   private GraphTabbedPane graphTabs = new GraphTabbedPane();
   private JSplitPane mainSplitPane;
+  private EmptyBorderSplitPane detailsRelationsSplitPane;
   private EmptyBorderSplitPane leftSplitPane;
   private CardPanel detailPanel = new CardPanel();
   private FramePanel detailFramePanel;
+  private FramePanel relationshipsFramePanel;
   public static WorkflowDesigner INSTANCE = null;
   private PaletteDescriptor palette = null;
   public StatusBar statusBar;
@@ -55,26 +58,35 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   {
     super(ResourceManager.getString("app.name"));
     INSTANCE = this;
+
     setJMenuBar(BarFactory.createMenubar(manager));
     splash.setProgress(30);
     navigator = new Navigator(this);
     JScrollPane sp = new JScrollPane(detailPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     detailFramePanel = new FramePanel(ResourceManager.getString("details"), false);
     detailFramePanel.setContent(sp);
+	relationshipsNavigator = new RelationshipsNavigator(this);
 
     splash.setProgress(40);
     loadPalette();
+	splash.setProgress(50);
+
     // create workspace view
-    splash.setProgress(50);
     FramePanel flowsPanel = new FramePanel(ResourceManager.getString("workspace"), false);
     flowsPanel.setContent(new JScrollPane(navigator));
 
+	// create workspace view
+	relationshipsFramePanel = new FramePanel(ResourceManager.getString("relationships"), false);
+	relationshipsFramePanel.setContent(new JScrollPane(relationshipsNavigator));
+
     // layout
-    leftSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, flowsPanel, detailFramePanel);
+	detailsRelationsSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, relationshipsFramePanel, detailFramePanel);
+	leftSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, flowsPanel, detailsRelationsSplitPane);
     mainSplitPane = new EmptyBorderSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSplitPane, new JScrollPane(graphTabs));
     graphTabs.setVisible(false);
     mainSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.MAIN_DIVIDER_LOCATION, 150));
-    leftSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 150));
+    leftSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 50));
+	detailsRelationsSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 150));
 
     splash.setProgress(60);
     //Provide a preferred size for the split pane
@@ -128,6 +140,41 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     }
   }
 
+  public void graphChanged(GraphModelEvent e)
+  {
+  	if (detailPanel.getVisibleCard()==null)
+  	{
+  		return;
+  	}
+
+	WorkflowCell      detailCell = ((DetailPanel)detailPanel.getVisibleCard()).getCell();
+	WorkflowEdge      detailEdge = ((DetailPanel)detailPanel.getVisibleCard()).getEdge();
+	DefaultGraphCell  relationsCell = relationshipsNavigator.getCell();
+
+	Object[] cells = e.getChange().getChanged();
+	for (int i=0; i<cells.length; i++)
+	{
+		if (cells[i] instanceof WorkflowCell)
+		{
+			if (cells[i]==detailCell)
+			{
+				showDetails(detailCell);
+			}
+		}
+		else if (cells[i] instanceof WorkflowEdge)
+		{
+			if (cells[i]==detailEdge)
+			{
+				showDetails(detailEdge);
+			}
+		}
+		if (cells[i] instanceof DefaultGraphCell)
+		{
+			showRelationships(relationsCell);
+		}
+	}
+  }
+
   public WorkflowGraph getCurrentGraph()
   {
 	  return graphTabs.getCurrentGraph();
@@ -151,6 +198,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     Layout layout = currentWorkspace.getLayout(workflowName);
     WorkflowGraphModel model = new WorkflowGraphModel(layout);
     model.setPalette(palette);
+	model.addGraphModelListener(this);
     boolean hasLayout = layout != null;
     if(layout == null) layout = new Layout();
     WorkflowDescriptor descriptor;
@@ -206,7 +254,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 	  }
     if(lastAdded instanceof WorkflowCell || lastAdded instanceof WorkflowEdge)
     {
-			showDetails(lastAdded);
+		showDetails(lastAdded);
+		showRelationships(lastAdded);
     }
   }
 
@@ -257,7 +306,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
         panel.setEdge((WorkflowEdge)node);
       }
 
-      String title = panel.getTitle();
+      //String title = panel.getTitle();
+      String title = currentGraph.convertValueToString(node);
       detailFramePanel.setTitle(ResourceManager.getString("details") + (title != null ? (" - " + title) : ""));
       detailPanel.showCard(panel);
     }
@@ -265,6 +315,14 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     {
       System.out.println("WARN: no detail panel for " + node.getClass());
     }
+  }
+
+  public void showRelationships(Object node)
+  {
+	WorkflowGraph currentGraph = graphTabs.getCurrentGraph();
+  	relationshipsNavigator.showRelationships(node, currentGraph);
+	String title = currentGraph.convertValueToString(node);
+	relationshipsFramePanel.setTitle(ResourceManager.getString("relationships") + (title != null ? (" - " + title) : ""));
   }
 
   public void openWorkspace(URL file)
@@ -314,7 +372,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     manager.getCurrentWorkspace().setLayout(workflowName, layout);
     try
     {
-      manager.getCurrentWorkspace().saveWorkflow(workflowName, manager.getCurrentWorkspace().getWorkflow(workflowName), true);
+      manager.getCurrentWorkspace().saveWorkflow(workflowName, manager.getCurrentWorkspace().getWorkflow(workflowName), graph, true);
     }
     catch(InvalidWorkflowDescriptorException e)
     {
