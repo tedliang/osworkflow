@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.*;
@@ -32,7 +33,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
 
   public WorkflowGraph(GraphModel model, WorkflowDescriptor descriptor, Layout layout, boolean doAutoLayout)
   {
-    super(model);
+    super(model, new GraphLayoutCache(model, new WorkflowCellViewFactory()));
     ToolTipManager.sharedInstance().registerComponent(this);
     this.layout = layout;
     setDescriptor(descriptor);
@@ -40,7 +41,6 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     {
       autoLayout();
     }
-    setSelectNewCells(true);
 
     setGridEnabled(true);
     setSizeable(true);
@@ -98,17 +98,14 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
 
   public String convertValueToString(Object value)
   {
+    if(value == null) return null;
     if(value instanceof CustomEdgeView)
     {
       return ((CustomEdgeView)value).getCell().toString();
     }
-    else if(value instanceof ResultEdge)
-    {
-      return value.toString();
-    }
     else
     {
-      return super.convertValueToString(value);
+      return value.toString();
     }
   }
 
@@ -152,16 +149,6 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     return layout;
   }
 
-  protected PortView createPortView(JGraph graph, CellMapper mapper, Object cell)
-  {
-    return new CustomPortView(cell, graph, mapper);
-  }
-
-  protected EdgeView createEdgeView(JGraph graph, CellMapper mapper, Object cell)
-  {
-    return new CustomEdgeView(cell, (WorkflowGraph)graph, mapper);
-  }
-
   public void autoLayout()
   {
     if(descriptor.getSteps().size() > 0)
@@ -180,10 +167,12 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     // Create Vertex Attributes
     if(layout != null)
     {
-      int[] bounds = layout.getBounds(initialActionCell.getId(), "InitialActionCell");
+      double[] bounds = layout.getBounds(initialActionCell.getId(), "InitialActionCell");
       if(bounds != null)
       {
-        initialActionCell.getAttributes().put(GraphConstants.BOUNDS, new Rectangle(bounds[0], bounds[1], bounds[2], bounds[3]));
+        Rectangle2D rect = new Rectangle();
+        rect.setRect(bounds[0], bounds[1], bounds[2], bounds[3]);
+        initialActionCell.getAttributes().put(GraphConstants.BOUNDS, rect);
       }
       if(initialActionCell.getChildCount() == 0)
       {
@@ -206,9 +195,13 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     // Create Vertex Attributes
     if(layout != null)
     {
-      int[] bounds = layout.getBounds(join.getId(), "JoinCell");
+      double[] bounds = layout.getBounds(join.getId(), "JoinCell");
       if(bounds != null)
-        join.getAttributes().put(GraphConstants.BOUNDS, new Rectangle(bounds[0], bounds[1], bounds[2], bounds[3]));
+      {
+        Rectangle2D rect = new Rectangle();
+        rect.setRect(bounds[0], bounds[1], bounds[2], bounds[3]);
+        join.getAttributes().put(GraphConstants.BOUNDS, rect);
+      }
       if(join.getChildCount() == 0)
       {
         WorkflowPort port = new WorkflowPort();
@@ -230,9 +223,13 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     SplitCell split = new SplitCell(descriptor);
     if(layout != null)
     {
-      int[] bounds = layout.getBounds(split.getId(), "SplitCell");
+      double[] bounds = layout.getBounds(split.getId(), "SplitCell");
       if(bounds != null)
-        split.getAttributes().put(GraphConstants.BOUNDS, new Rectangle(bounds[0], bounds[1], bounds[2], bounds[3]));
+      {
+        Rectangle2D rect = new Rectangle();
+        rect.setRect(bounds[0], bounds[1], bounds[2], bounds[3]);
+        split.getAttributes().put(GraphConstants.BOUNDS, rect);
+      }
       if(split.getChildCount() == 0)
       {
         WorkflowPort port = new WorkflowPort();
@@ -253,10 +250,12 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     StepCell step = new StepCell(descriptor);
     if(layout != null)
     {
-      int[] bounds = layout.getBounds(step.getId(), "StepCell");
+      double[] bounds = layout.getBounds(step.getId(), "StepCell");
       if(bounds != null)
       {
-        step.getAttributes().put(GraphConstants.BOUNDS, new Rectangle(bounds[0], bounds[1], bounds[2], bounds[3]));
+        Rectangle2D rect = new Rectangle();
+        rect.setRect(bounds[0], bounds[1], bounds[2], bounds[3]);
+        step.getAttributes().put(GraphConstants.BOUNDS, rect);
       }
       if(step.getChildCount() == 0)
       {
@@ -275,23 +274,6 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
   public WorkflowGraphModel getWorkflowGraphModel()
   {
     return (WorkflowGraphModel)getModel();
-  }
-
-  /**
-   * Overriding method as required by JGraph API, In order to return right View object corresponding to Cell.
-   */
-  protected VertexView createVertexView(JGraph graph, CellMapper cm, Object v)
-  {
-    if(v instanceof StepCell)
-      return new StepView(v, graph, cm);
-    if(v instanceof SplitCell)
-      return new SplitView(v, graph, cm);
-    if(v instanceof JoinCell)
-      return new JoinView(v, graph, cm);
-    if(v instanceof InitialActionCell)
-      return new InitialActionView(v, graph, cm);
-    // Else Call Superclass
-    return super.createVertexView(graph, cm, v);
   }
 
   public void showMenu(int x, int y)

@@ -29,13 +29,13 @@ public class Layout
   {
     float lineWidth;
     int color;
-    Point pLabelPosition;
+    Point labelPosition;
     java.util.List routingPoints = new ArrayList();
 
     ResultLayout(Point labelPosition, float lineWidth, int color)
     {
       if(labelPosition != null)
-        pLabelPosition = new Point(labelPosition.x, labelPosition.y);
+        this.labelPosition = new Point(labelPosition.x, labelPosition.y);
       this.lineWidth = lineWidth;
       this.color = color;
     }
@@ -76,7 +76,7 @@ public class Layout
       {
         Element element = (Element)mActivitycell.item(k);
         CellPosition pos = new CellPosition(element);
-        int[] bound = pos.getBounds();
+        double[] bound = pos.getBounds2D();
         allCells.put(new Integer(pos.getId()), bound);
         Map map = (Map)cellsByType.get(pos.getType());
         if(map == null)
@@ -159,18 +159,18 @@ public class Layout
    * Get the boounds for the specified key/type.
    * @param key
    * @param type
-   * @return int[] an array of 4 ints containing x, y, width, and height.
+   * @return double[] an array of 4 ints containing x, y, width, and height.
    */
-  public int[] getBounds(int key, String type)
+  public double[] getBounds(int key, String type)
   {
     if(type == null)
-      return (int[])allCells.get(new Integer(key));
+      return (double[])allCells.get(new Integer(key));
     Map typeMap = (Map)cellsByType.get(type);
     if(typeMap == null)
     {
       return null;
     }
-    int[] bounds = (int[])typeMap.get(new Integer(key));
+    double[] bounds = (double[])typeMap.get(new Integer(key));
     return bounds;
   }
 
@@ -189,7 +189,7 @@ public class Layout
   public Point getLabelPosition(int resultKey)
   {
     ResultLayout rl = ((ResultLayout)results.get(new Integer(resultKey)));
-    return rl != null && rl.pLabelPosition != null ? rl.pLabelPosition : null;
+    return rl != null && rl.labelPosition != null ? rl.labelPosition : null;
   }
 
   public java.util.List getRoutingPoints(int resultKey)

@@ -1,18 +1,14 @@
 package com.opensymphony.workflow.designer.views;
 
-import org.jgraph.JGraph;
 import org.jgraph.graph.*;
 
-/**
- * @author apatel
- */
 public class StepView extends VertexView
 {
   private static final StepRenderer renderer = new StepRenderer();
 
-  public StepView(Object cell, JGraph graph, CellMapper mapper)
+  public StepView(Object cell)
   {
-    super(cell, graph, mapper);
+    super(cell);
   }
 
   // Returns the Renderer for this View

@@ -3,7 +3,6 @@ package com.opensymphony.workflow.designer;
 import java.util.Iterator;
 import java.util.List;
 
-import com.opensymphony.workflow.designer.proxy.StepProxy;
 import com.opensymphony.workflow.loader.ActionDescriptor;
 import com.opensymphony.workflow.loader.ConditionalResultDescriptor;
 import com.opensymphony.workflow.loader.ResultDescriptor;
@@ -17,7 +16,8 @@ public class StepCell extends WorkflowCell implements ResultAware
   // Construct Cell for Userobject
   public StepCell(StepDescriptor userObject)
   {
-    super(new StepProxy(userObject));
+    super(userObject);
+    setAttributes(new WorkflowAttributeMap(getAttributes()));
     GraphConstants.setEditable(attributes, true);
     descriptor = userObject;
     id = descriptor.getId();
@@ -26,7 +26,7 @@ public class StepCell extends WorkflowCell implements ResultAware
 
   public String toString()
   {
-    return descriptor.getName();// + " " + descriptor.getId();
+    return descriptor.getName();
   }
 
   public String getName()

@@ -1,9 +1,10 @@
 package com.opensymphony.workflow.designer;
 
 import java.io.PrintWriter;
-import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 import org.w3c.dom.Element;
+import org.jgraph.graph.GraphConstants;
 
 import com.opensymphony.workflow.loader.XMLUtil;
 import com.opensymphony.workflow.util.XMLizable;
@@ -12,21 +13,21 @@ public class CellPosition implements XMLizable
 {
   private int id = 0;
 	private String type;
-  private int height;
-  private int width;
-  private int x;
-  private int y;
+  private double height;
+  private double width;
+  private double x;
+  private double y;
 
   public CellPosition(WorkflowCell cell)
   {
     id = cell.getId();
 	  type = cell.getClass().getName();
 	  type = type.substring(type.lastIndexOf('.')+1, type.length());
-    Rectangle bounds = (Rectangle)cell.getAttributes().get("bounds");
-    height = bounds.height;
-    width = bounds.width;
-    x = bounds.x;
-    y = bounds.y;
+    Rectangle2D bounds = GraphConstants.getBounds(cell.getAttributes());
+    height = bounds.getHeight();
+    width = bounds.getWidth();
+    x = bounds.getX();
+    y = bounds.getY();
   }
 
   public CellPosition(Element activity)
@@ -35,10 +36,10 @@ public class CellPosition implements XMLizable
     {
       id = Integer.parseInt(activity.getAttribute("id"));
 	    type = activity.getAttribute("type");
-      height = Integer.parseInt(activity.getAttribute("height"));
-      width = Integer.parseInt(activity.getAttribute("width"));
-      x = Integer.parseInt(activity.getAttribute("x"));
-      y = Integer.parseInt(activity.getAttribute("y"));
+      height = Double.parseDouble(activity.getAttribute("height"));
+      width = Double.parseDouble(activity.getAttribute("width"));
+      x = Double.parseDouble(activity.getAttribute("x"));
+      y = Double.parseDouble(activity.getAttribute("y"));
     }
     catch(Exception e)
     {
@@ -72,8 +73,8 @@ public class CellPosition implements XMLizable
     out.println(buf.toString());
   }
 
-  public int[] getBounds()
+  public double[] getBounds2D()
   {
-    return new int[]{x, y, width, height};
+    return new double[]{x, y, width, height};
   }
 }

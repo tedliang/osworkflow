@@ -161,8 +161,8 @@ public class RelationshipsNavigator extends JTree implements TreeSelectionListen
       if(currentView != null)
       {
         currentView.update();
-        currentView.refresh(false);
-        currentGraph.updateAutoSize(currentGraph, currentView);
+        //currentView.refresh(false);
+        currentGraph.updateAutoSize(currentView);
       }
       for(int i = 0; i < node.getChildCount(); i++)
       {

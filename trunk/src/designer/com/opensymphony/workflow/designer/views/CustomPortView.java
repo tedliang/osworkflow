@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
 import javax.swing.*;
 
-import org.jgraph.JGraph;
 import org.jgraph.graph.*;
 
 import com.opensymphony.workflow.designer.ResourceManager;
@@ -23,9 +22,9 @@ public class CustomPortView extends PortView
   private static final int WIDTH = ICON.getIconWidth();
   private static final int HEIGHT = ICON.getIconHeight();
 
-  public CustomPortView(Object object, JGraph graph, CellMapper mapper)
+  public CustomPortView(Object object)
   {
-    super(object, graph, mapper);
+    super(object);
   }
 
   /**

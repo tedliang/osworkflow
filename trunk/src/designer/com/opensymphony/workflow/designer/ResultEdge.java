@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import com.opensymphony.workflow.designer.views.EdgeRouter;
-import com.opensymphony.workflow.loader.ResultDescriptor;
+import com.opensymphony.workflow.loader.*;
 import org.jgraph.graph.GraphConstants;
 
 /**
@@ -15,14 +15,16 @@ import org.jgraph.graph.GraphConstants;
 public class ResultEdge extends WorkflowEdge
 {
   private static final EdgeRouter EDGE_ROUTER = new EdgeRouter();
-  private int index;
 
   private ResultDescriptor descriptor;
 
   public ResultEdge(ResultDescriptor descriptor, Point labelPos)
   {
-    setDescriptor(descriptor);
+    super(descriptor);
+    setAttributes(new WorkflowAttributeMap(getAttributes()));
+    this.descriptor = descriptor;
     int arrow = GraphConstants.ARROW_CLASSIC;
+    //GraphConstants.setLabelAlongEdge(attributes, true);
     GraphConstants.setLineEnd(attributes, arrow);
     GraphConstants.setEndFill(attributes, true);
     GraphConstants.setDisconnectable(attributes, true);
@@ -61,35 +63,14 @@ public class ResultEdge extends WorkflowEdge
     return descriptor;
   }
 
-  public void setDescriptor(ResultDescriptor descriptor)
-  {
-    this.descriptor = descriptor;
-  }
-
   public void setAutoroute()
   {
     GraphConstants.setRouting(attributes, EDGE_ROUTER);
   }
 
-  /**
-   * The index of the result.
-   * For any given source and target, each result between them
-   * (in any direction) will have a unique index.
-   *
-   * @return
-   */
-  public int getIndex()
-  {
-    return index;
-  }
-
-  public void setIndex(int index)
-  {
-    this.index = index;
-  }
-
   public String toString()
   {
+    if(descriptor == null) return null;
     if(descriptor.getDisplayName() != null)
     {
       if(descriptor.getDisplayName().length() > 0)
@@ -97,7 +78,18 @@ public class ResultEdge extends WorkflowEdge
         return descriptor.getDisplayName();
       }
     }
-    return super.toString();
+    if(descriptor.getParent() instanceof ActionDescriptor)
+    {
+      return ((ActionDescriptor)descriptor.getParent()).getName();
+    }
+    else if(descriptor.getParent() instanceof SplitDescriptor)
+    {
+      return "Split #" + descriptor.getParent().getId();
+    }
+    else if(descriptor.getParent() instanceof JoinDescriptor)
+    {
+      return "Join #" + descriptor.getParent().getId();
+    }
+    return "<unknown>";
   }
-
 }
