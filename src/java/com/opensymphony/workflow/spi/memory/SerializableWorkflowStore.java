@@ -48,6 +48,14 @@ public class SerializableWorkflowStore extends MemoryWorkflowStore {
         return ps;
     }
 
+    public static void setStoreFile(String storeFile) {
+        SerializableWorkflowStore.storeFile = storeFile;
+    }
+
+    public static String getStoreFile() {
+        return storeFile;
+    }
+
     public Step createCurrentStep(long entryId, int stepId, String owner, Date startDate, Date dueDate, String status, long[] previousIds) {
         long id = SerializableCache.getInstance().globalStepId++;
         SimpleStep step = new SimpleStep(id, entryId, stepId, 0, owner, startDate, dueDate, null, status, previousIds, null);
