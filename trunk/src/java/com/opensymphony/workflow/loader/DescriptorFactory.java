@@ -47,6 +47,14 @@ public class DescriptorFactory {
         return new ConditionDescriptor(function);
     }
 
+    public ConditionalResultDescriptor createConditionalResultDescriptor() {
+        return new ConditionalResultDescriptor();
+    }
+
+    public ConditionalResultDescriptor createConditionalResultDescriptor(Element element) {
+        return new ConditionalResultDescriptor(element);
+    }
+
     public ConditionsDescriptor createConditionsDescriptor() {
         return new ConditionsDescriptor();
     }
@@ -85,6 +93,14 @@ public class DescriptorFactory {
 
     public RegisterDescriptor createRegisterDescriptor() {
         return new RegisterDescriptor();
+    }
+
+    public ResultDescriptor createResultDescriptor() {
+        return new ResultDescriptor();
+    }
+
+    public ResultDescriptor createResultDescriptor(Element element) {
+        return new ResultDescriptor(element);
     }
 
     public SplitDescriptor createSplitDescriptor() {

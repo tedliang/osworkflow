@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class ConditionalResultDescriptor extends ResultDescriptor {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -25,10 +25,10 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public ConditionalResultDescriptor() {
+    ConditionalResultDescriptor() {
     }
 
-    public ConditionalResultDescriptor(Element conditionalResult) {
+    ConditionalResultDescriptor(Element conditionalResult) {
         init(conditionalResult);
     }
 
@@ -36,6 +36,28 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
 
     public List getConditions() {
         return conditions;
+    }
+
+    public String getDestination() {
+        WorkflowDescriptor desc = null;
+        String sName = "";
+        AbstractDescriptor actionDesc = getParent().getParent();
+
+        if (actionDesc != null) {
+            desc = (WorkflowDescriptor) actionDesc.getParent();
+        }
+
+        if (join != 0) {
+            return "join #" + join;
+        } else if (split != 0) {
+            return "split #" + split;
+        } else {
+            if (desc != null) {
+                sName = desc.getStep(step).getName();
+            }
+
+            return "step #" + step + " [" + sName + "]";
+        }
     }
 
     public void validate() throws InvalidWorkflowDescriptorException {
@@ -120,16 +142,6 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
             ConditionsDescriptor conditionDescriptor = DescriptorFactory.getFactory().createConditionsDescriptor(condition);
             conditionDescriptor.setParent(this);
             this.conditions.add(conditionDescriptor);
-        }
-    }
-
-    String getDestination() {
-        if (join != 0) {
-            return "join #" + join;
-        } else if (split != 0) {
-            return "split #" + split;
-        } else {
-            return "step #" + step;
         }
     }
 }
