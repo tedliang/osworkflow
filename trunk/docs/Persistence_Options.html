@@ -45,8 +45,9 @@
 &#60;/propertysets&#62;</pre></div><p class="paragraph"></p>A number of sample sql scripts to create the required tables are included in the OSWorkflow distribution in in the src/etc/deployment/jdbc directory.<p class="paragraph"></p>If HypersonicSQL is used as the datasource, you can follow these steps:
 <ol>
 <li>Assume your hsql db is named <b class="bold">oswf</b> and created in directory <b class="bold">/db</b></li>
-</ol><p class="paragraph"></p>2. Use the mckoi.sql script to create the tables, you can use <b class="bold">java -cp hsqldb.jar org.hsqldb.util.DatabaseManager</b> to startup the tool to execute the sript. Please delete all statements about create and drop sequence. HSQL does not support sequence, so we must have a workaround.<p class="paragraph"></p>3. Add the context config to <b class="bold">$TOMCAT_HOME/conf/server.xml</b>
-<div class="wikicode"><pre>&#60;Context path=<span class="java&#45;quote">"/osworkflow"</span> docBase=<span class="java&#45;quote">"/jakarta&#45;tomcat&#45;4.1.27/webapps/osworkflow&#45;2.6&#45;dev&#45;example"</span>&#62;
+</ol><p class="paragraph"></p>2. Use the hsql.sql script to create the tables, you can use <b class="bold">java -cp hsqldb.jar org.hsqldb.util.DatabaseManager</b> to startup the tool to execute the sript.<p class="paragraph"></p>3. Add the context config to <b class="bold">$TOMCAT_HOME/conf/server.xml</b>
+<div class="wikicode"><pre>&#60;Context path=<span class="java&#45;quote">"/osworkflow"</span> 
+         docBase=<span class="java&#45;quote">"/jakarta&#45;tomcat&#45;4.1.27/webapps/osworkflow&#45;2.6&#45;dev&#45;example"</span>&#62;
           &#60;Resource name=<span class="java&#45;quote">"jdbc/oswf"</span> type=<span class="java&#45;quote">"javax.sql.DataSource"</span>/&#62;
           &#60;ResourceParams name=<span class="java&#45;quote">"jdbc/DefaultDS"</span>&#62;
             &#60;parameter&#62;&#60;name&#62;username&#60;/name&#62;&#60;value&#62;sa&#60;/value&#62;&#60;/parameter&#62;
@@ -56,7 +57,7 @@
             &#60;parameter&#62;&#60;name&#62;url&#60;/name&#62;
               &#60;value&#62;jdbc:hsqldb:/db/oswf&#60;/value&#62;&#60;/parameter&#62;
           &#60;/ResourceParams&#62;
-&#60;/Context&#62;</pre></div><p class="paragraph"></p>4. Add <b class="bold">WEB-INF/classes/propertyset.xml</b> as described above<p class="paragraph"></p>5. Change the persistent setting of <b class="bold">WEB-INF/classes/osworkflow.xml</b>
+&#60;/Context&#62;</pre></div><p class="paragraph"></p>4. Add <b class="bold">WEB-INF/classes/propertyset.xml</b> as described above<p class="paragraph"></p>5. Change the persistent setting of <b class="bold">WEB-INF/classes/osworkflow.xml</b>. This example below should be used for any database that does not support sequences (eg, HSQL)
 <div class="wikicode"><pre>&#60;persistence class=<span class="java&#45;quote">"com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore"</span>&#62;
 	&#60;!&#45;&#45; For jdbc persistence, all are required. &#45;&#45;&#62;
 	&#60;property key=<span class="java&#45;quote">"datasource"</span> value=<span class="java&#45;quote">"jdbc/DefaultDS"</span>/&#62;
