@@ -95,6 +95,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
     getContentPane().setLayout(new BorderLayout());
     getContentPane().add(BarFactory.createToolbar(), BorderLayout.NORTH);
     getContentPane().add(mainSplitPane, BorderLayout.CENTER);
+    getContentPane().add(BarFactory.createStatusBar(), BorderLayout.SOUTH);
 
     splash.setProgress(70);
     mainSplitPane.setPreferredSize(new Dimension(w, h));

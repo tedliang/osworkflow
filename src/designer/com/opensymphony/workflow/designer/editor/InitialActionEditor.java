@@ -233,6 +233,7 @@ public class InitialActionEditor extends DetailPanel implements ActionListener
   private void preadd()
   {
     StartFunctionEditor editor = new StartFunctionEditor((InitialActionCell)getCell());
+    editor.setModel(getModel());
     FunctionDescriptor func = editor.add();
     if(func != null)
     {
