@@ -20,6 +20,7 @@
     <jar href="jgraph.jar" main="false"/>
     <jar href="looks.jar" main="false"/>
     <jar href="foxtrot.jar" main="false"/>
+    <jar href="syntax.jar" main="false"/>
   </resources>
 
   <application-desc main-class="com.opensymphony.workflow.designer.WorkflowDesigner">
