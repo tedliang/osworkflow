@@ -1126,6 +1126,8 @@ public class AbstractWorkflow implements Workflow {
             }
 
             Step newStep = store.createCurrentStep(entry.getId(), nextStep, owner, startDate, dueDate, status, previousIds);
+            transientVars.put("createdStep", newStep);
+
             WorkflowDescriptor descriptor = (WorkflowDescriptor) transientVars.get("descriptor");
             List preFunctions = descriptor.getStep(nextStep).getPreFunctions();
 
