@@ -62,6 +62,10 @@ public class StepCell extends WorkflowCell implements ResultAware
             if(list.get(i) == result)
             {
               list.remove(i);
+              if(action.getUnconditionalResult()==null)
+              {
+                iter.remove();
+              }
               return true;
             }
           }
@@ -72,6 +76,10 @@ public class StepCell extends WorkflowCell implements ResultAware
         if(action.getUnconditionalResult() == result)
         {
           action.setUnconditionalResult(null);
+          if(action.getConditionalResults().size()==0)
+          {
+            iter.remove();
+          }
           return true;
         }
       }
