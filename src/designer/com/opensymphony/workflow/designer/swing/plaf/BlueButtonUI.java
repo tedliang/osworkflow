@@ -21,7 +21,8 @@ public class BlueButtonUI extends BasicButtonUI
 		AbstractButton button = (AbstractButton)c;
 		button.setRolloverEnabled(true);
 		button.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-		button.setText(null);
+    if(c.getClientProperty("showtext") != Boolean.TRUE)
+  		button.setText(null);
 	}
 
 	public void paint(Graphics g, JComponent c)
@@ -41,4 +42,13 @@ public class BlueButtonUI extends BasicButtonUI
 		super.paint(g, c);
 	}
 
+	protected void paintButtonPressed(Graphics g, AbstractButton b)
+	{
+		setTextShiftOffset();
+	}
+
+	protected int getTextShiftOffset()
+	{
+		return 1;
+	}
 }
