@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Describes a single workflow
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.22 $
+ * @version $Revision: 1.23 $
  */
 public class WorkflowDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -337,7 +337,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
                 ActionDescriptor action = (ActionDescriptor) j.next();
 
                 // check to see if it's a common action (dups are ok, since that's the point of common actions!)
-                if (!this.getCommonActions().containsKey(new Integer(action.getId()))) {
+                if (!action.isCommon()) {
                     if (!actions.add(new Integer(action.getId()))) {
                         throw new InvalidWorkflowDescriptorException("Duplicate occurance of action ID " + action.getId() + " found in step " + step.getId());
                     }
