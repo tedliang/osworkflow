@@ -23,7 +23,7 @@ import javax.xml.parsers.*;
  * Date: May 10, 2002
  * Time: 11:30:41 AM
  */
-public class XMLWorkflowFactory extends AbstractWorkflowFactory {
+public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Serializable {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected Map workflows;

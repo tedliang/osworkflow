@@ -20,10 +20,10 @@ import java.util.Map;
  * Date: May 10, 2002
  * Time: 11:59:47 AM
  */
-public class URLWorkflowFactory extends AbstractWorkflowFactory {
+public class URLWorkflowFactory extends AbstractWorkflowFactory implements Serializable {
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private Map cache = new HashMap();
+    private transient Map cache = new HashMap();
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
