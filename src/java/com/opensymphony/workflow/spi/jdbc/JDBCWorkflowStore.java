@@ -7,11 +7,17 @@ package com.opensymphony.workflow.spi.jdbc;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
 
-import com.opensymphony.workflow.QueryNotSupportedException;
 import com.opensymphony.workflow.StoreException;
+import com.opensymphony.workflow.query.Expression;
+import com.opensymphony.workflow.query.FieldExpression;
+import com.opensymphony.workflow.query.NestedExpression;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
-import com.opensymphony.workflow.spi.*;
+import com.opensymphony.workflow.spi.SimpleStep;
+import com.opensymphony.workflow.spi.SimpleWorkflowEntry;
+import com.opensymphony.workflow.spi.Step;
+import com.opensymphony.workflow.spi.WorkflowEntry;
+import com.opensymphony.workflow.spi.WorkflowStore;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -520,7 +526,21 @@ public class JDBCWorkflowStore implements WorkflowStore {
     }
 
     public List query(WorkflowExpressionQuery query) throws StoreException {
-        throw new QueryNotSupportedException("JDBC store does not yet support WorkflowExpressionQuery");
+        Expression expression = query.getExpression();
+
+        StringBuffer sel = new StringBuffer();
+        List timestamps = new ArrayList();
+        String columnName = null;
+
+        if (expression.isNested()) {
+            columnName = buildNested((NestedExpression) expression, sel, timestamps);
+        } else {
+            columnName = buildSimple((FieldExpression) expression, sel, timestamps);
+        }
+
+        List results = doExpressionQuery(sel.toString(), columnName, timestamps);
+
+        return results;
     }
 
     public List query(WorkflowQuery query) throws StoreException {
@@ -625,6 +645,66 @@ public class JDBCWorkflowStore implements WorkflowStore {
         }
     }
 
+    private String buildNested(NestedExpression nestedExpression, StringBuffer sel, List timestamps) {
+        sel.append("SELECT DISTINCT(");
+        sel.append(entryId);
+        sel.append(") FROM ");
+        sel.append(entryTable);
+
+        for (int i = 0; i < nestedExpression.getExpressionCount(); i++) {
+            Expression expression = nestedExpression.getExpression(i);
+
+            if (i == 0) {
+                sel.append(" WHERE ");
+            } else {
+                if (nestedExpression.getOperator() == NestedExpression.AND) {
+                    sel.append(" AND ");
+                } else {
+                    sel.append(" OR ");
+                }
+            }
+
+            sel.append(entryId);
+            sel.append(" IN (");
+
+            if (expression.isNested()) {
+                this.buildNested((NestedExpression) nestedExpression.getExpression(i), sel, timestamps);
+            } else {
+                FieldExpression sub = (FieldExpression) nestedExpression.getExpression(i);
+                this.buildSimple(sub, sel, timestamps);
+            }
+
+            sel.append(")");
+        }
+
+        return (entryId);
+    }
+
+    private String buildSimple(FieldExpression fieldExpression, StringBuffer sel, List timestamps) {
+        String table;
+        String columnName;
+
+        if (fieldExpression.getContext() == FieldExpression.CURRENT_STEPS) {
+            table = currentTable;
+            columnName = stepEntryId;
+        } else if (fieldExpression.getContext() == FieldExpression.HISTORY_STEPS) {
+            table = historyTable;
+            columnName = stepEntryId;
+        } else {
+            table = entryTable;
+            columnName = entryId;
+        }
+
+        sel.append("SELECT DISTINCT(");
+        sel.append(columnName);
+        sel.append(") FROM ");
+        sel.append(table);
+        sel.append(" WHERE ");
+        queryComparison(fieldExpression, sel, timestamps);
+
+        return columnName;
+    }
+
     private void cleanup(Connection connection, Statement statement, ResultSet result) {
         if (result != null) {
             try {
@@ -648,6 +728,42 @@ public class JDBCWorkflowStore implements WorkflowStore {
             } catch (SQLException ex) {
                 log.error("Error closing connection", ex);
             }
+        }
+    }
+
+    private List doExpressionQuery(String sel, String columnName, List timestamps) throws StoreException {
+        if (log.isDebugEnabled()) {
+            log.debug(sel);
+        }
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List results = new ArrayList();
+
+        try {
+            conn = getConnection();
+            stmt = conn.prepareStatement(sel);
+
+            if (!timestamps.isEmpty()) {
+                for (int i = 1; i <= timestamps.size(); i++) {
+                    stmt.setTimestamp(i, (Timestamp) timestamps.get(i - 1));
+                }
+            }
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                // get entryIds and add to results list
+                Long id = new Long(rs.getLong(columnName));
+                results.add(id);
+            }
+
+            return results;
+        } catch (SQLException ex) {
+            throw new StoreException("SQL Exception in query: " + ex.getMessage());
+        } finally {
+            cleanup(conn, stmt, rs);
         }
     }
 
@@ -776,6 +892,103 @@ public class JDBCWorkflowStore implements WorkflowStore {
         }
 
         return left + oper + right;
+    }
+
+    /**
+     * Method queryComparison
+     *
+     * @param    expression          a  FieldExpression
+     * @param    sel                 a  StringBuffer
+     *
+     */
+    private void queryComparison(FieldExpression expression, StringBuffer sel, List timestamps) {
+        Object value = expression.getValue();
+        int operator = expression.getOperator();
+        int field = expression.getField();
+
+        String oper;
+
+        switch (operator) {
+        case FieldExpression.EQUALS:
+            oper = " = ";
+
+            break;
+
+        case FieldExpression.NOT_EQUALS:
+            oper = " <> ";
+
+            break;
+
+        case FieldExpression.GT:
+            oper = " > ";
+
+            break;
+
+        case FieldExpression.LT:
+            oper = " < ";
+
+            break;
+
+        default:
+            oper = " = ";
+        }
+
+        String left;
+        String right;
+
+        switch (field) {
+        case FieldExpression.ACTION: // actionId
+            left = stepActionId;
+            right = "'" + escape(value.toString()) + "'";
+
+            break;
+
+        case FieldExpression.CALLER:
+            left = stepCaller;
+            right = "'" + escape(value.toString()) + "'";
+
+            break;
+
+        case FieldExpression.FINISH_DATE:
+            left = stepFinishDate;
+            right = "?";
+            timestamps.add(new Timestamp(((Date) value).getTime()));
+
+            break;
+
+        case FieldExpression.OWNER:
+            left = stepOwner;
+            right = "'" + escape(value.toString()) + "'";
+
+            break;
+
+        case FieldExpression.START_DATE:
+            left = stepStartDate;
+            right = "?";
+            timestamps.add(new Timestamp(((Date) value).getTime()));
+
+            break;
+
+        case FieldExpression.STEP: // stepId
+            left = stepStepId;
+            right = "'" + escape(value.toString()) + "'";
+
+            break;
+
+        case FieldExpression.STATUS:
+            left = stepStatus;
+            right = "'" + escape(value.toString()) + "'";
+
+            break;
+
+        default:
+            left = "1";
+            right = "null";
+        }
+
+        sel.append(left);
+        sel.append(oper);
+        sel.append(right);
     }
 
     private String queryWhere(WorkflowQuery query) {
