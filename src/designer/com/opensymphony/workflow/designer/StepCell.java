@@ -4,41 +4,36 @@
  */
 package com.opensymphony.workflow.designer;
 
+import java.util.Iterator;
+import java.util.List;
+
+import com.opensymphony.workflow.designer.proxy.StepProxy;
+import com.opensymphony.workflow.loader.ActionDescriptor;
+import com.opensymphony.workflow.loader.ConditionalResultDescriptor;
+import com.opensymphony.workflow.loader.ResultDescriptor;
 import com.opensymphony.workflow.loader.StepDescriptor;
+import org.jgraph.graph.GraphConstants;
 
 /**
  * @author apatel
  */
-public class StepCell extends WorkflowCell implements Keyable
+public class StepCell extends WorkflowCell implements ResultAware
 {
   private StepDescriptor descriptor;
 
   // Construct Cell for Userobject
   public StepCell(StepDescriptor userObject)
   {
-    super(userObject.getName());
+    super(new StepProxy(userObject));
+    GraphConstants.setEditable(attributes, true);
     descriptor = userObject;
     id = descriptor.getId();
-  }
-
-  public StepCell(int id, String name)
-  {
-    super(name);
-    descriptor = new StepDescriptor();
-    descriptor.setName(name);
-    descriptor.setId(id);
-  }
-
-  public String getKey()
-  {
-    String myClassName = StepCell.class.toString();
-    return (myClassName + id);
+    name = descriptor.getName();
   }
 
   public String toString()
   {
     return descriptor.getName() + " " + descriptor.getId();
-
   }
 
   public String getName()
@@ -51,28 +46,36 @@ public class StepCell extends WorkflowCell implements Keyable
     return descriptor;
   }
 
-  /**
-   * If Key values are equal the objects are equal
-   */
-  public boolean equals(Object obj)
+  public boolean removeResult(ResultDescriptor result)
   {
-    boolean returnVal = false;
-    if(obj==null || obj.getClass()!=getClass()) return false;
-    if(obj instanceof StepCell)
+    Iterator iter = descriptor.getActions().iterator();
+    while(iter.hasNext())
     {
-      StepCell recObj = (StepCell)obj;
-      if(getKey().equals(recObj.getKey()))
+      ActionDescriptor action = (ActionDescriptor)iter.next();
+      if(result instanceof ConditionalResultDescriptor)
       {
-        returnVal = true;
+        List list = action.getConditionalResults();
+        if(list != null)
+        {
+          for(int i = 0; i < list.size(); i++)
+          {
+            if(list.get(i) == result)
+            {
+              list.remove(i);
+              return true;
+            }
+          }
+        }
+      }
+      else
+      {
+        if(action.getUnconditionalResult() == result)
+        {
+          action.setUnconditionalResult(null);
+          return true;
+        }
       }
     }
-    return returnVal;
+    return false;
   }
-
-  public void setName(String text)
-  {
-    getDescriptor().setName(text);
-    setUserObject(text);    
-  }
-
 }

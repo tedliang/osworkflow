@@ -1,21 +1,16 @@
-/**
- * Created on Feb 12, 2003
- * Copyright (C) 2002  Aditisoft Inc
- */
 package com.opensymphony.workflow.designer;
 
 import org.jgraph.graph.DefaultGraphCell;
 import com.opensymphony.workflow.loader.ResultDescriptor;
 import com.opensymphony.workflow.loader.ActionDescriptor;
 
-public class ResultCell extends WorkflowCell implements Keyable
+public class ResultCell extends WorkflowCell
 {
   private DefaultGraphCell fromCell;
   private ResultDescriptor descriptor;
   //the action that causes this result
   private ActionDescriptor action;
 
-  //   private String mKey;
   public ResultCell(DefaultGraphCell fromCell, ResultDescriptor resultDescriptor, ActionDescriptor action)
   {
     super(action);
@@ -23,11 +18,6 @@ public class ResultCell extends WorkflowCell implements Keyable
     descriptor = resultDescriptor;
     id = descriptor.getId();
     this.action = action;
-  }
-
-  public String getKey()
-  {
-    return null;
   }
 
   public DefaultGraphCell getFromCell()

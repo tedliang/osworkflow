@@ -14,6 +14,7 @@ public class WorkflowCell extends DefaultGraphCell
 {
   public static final Rectangle defaultBounds = new Rectangle(10, 10, 100, 30);
   protected int id;
+  protected String name;
 
   /**
    * @param cellName
@@ -46,6 +47,7 @@ public class WorkflowCell extends DefaultGraphCell
    */
   public String getName()
   {
-    return getUserObject().toString();
+    return name;
   }
+
 }

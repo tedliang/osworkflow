@@ -1,33 +1,24 @@
 package com.opensymphony.workflow.designer;
 
-import java.awt.*;
+import java.awt.Color;
+import java.util.List;
 
-import com.opensymphony.workflow.loader.SplitDescriptor;
 import org.jgraph.graph.GraphConstants;
 
-public class SplitCell extends WorkflowCell implements Keyable
+import com.opensymphony.workflow.designer.proxy.SplitProxy;
+import com.opensymphony.workflow.loader.ResultDescriptor;
+import com.opensymphony.workflow.loader.SplitDescriptor;
+
+public class SplitCell extends WorkflowCell implements ResultAware
 {
   private SplitDescriptor descriptor;
 
-  // Construct Cell for Userobject
   public SplitCell(SplitDescriptor userObject)
   {
-    super("Split id " + userObject.getId());
+    super(new SplitProxy(userObject));
     descriptor = userObject;
     id = descriptor.getId();
     GraphConstants.setBackground(attributes, Color.gray);
-  }
-
-  public SplitCell(int id)
-  {
-    super("Split id " + id);
-    this.id = id;
-  }
-
-  public String getKey()
-  {
-    String myClassName = SplitCell.class.toString();
-    return (myClassName + id);
   }
 
   public SplitDescriptor getSplitDescriptor()
@@ -35,6 +26,22 @@ public class SplitCell extends WorkflowCell implements Keyable
     return descriptor;
   }
 
+  public boolean removeResult(ResultDescriptor result)
+  {
+    List list = descriptor.getResults();
+    if(list != null)
+    {
+      for(int i = 0; i < list.size(); i++)
+      {
+        if(list.get(i) == result)
+        {
+          list.remove(i);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }
 
 
