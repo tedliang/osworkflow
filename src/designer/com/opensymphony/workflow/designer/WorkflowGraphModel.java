@@ -40,26 +40,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
   }
 
-  public void insertInitialsActions(List initialActions, InitialActionCell initialActionCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
-  {
-    if(!this.initialActions.containsKey(initialActionCell.getKey()))
-    {
-      this.initialActions.put(initialActionCell.getKey(), initialActionCell);
-      for(int i = 0; i < initialActions.size(); i++)
-      {
-        //ActionDescriptor action = (ActionDescriptor)initialActions.get(i);
-        //List conResults = action.getConditionalResults();
-        /*				recordResults(initialActionCell, conResults);
-                ResultDescriptor result = action.getUnconditionalResult();
-                recordResult(initialActionCell, result);*/
-        Object[] cells = new Object[]{initialActionCell};
-        // Insert into Model
-        insert(cells, attributes, null, pm, edits);
-      }
-    }
-
-  }
-
   public void insertStepCell(StepCell stepCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     if(!stepCells.containsKey(stepCell.getKey()))
@@ -69,8 +49,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
       // Insert into Model
       insert(cells, attributes, null, pm, edits);
       recordResults(stepCell);
-      processStepEndPointResult(stepCell);
-      // stepCell.toString();
     }
   }
 
@@ -83,9 +61,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
       Object[] cells = new Object[]{stepCell};
       // Insert into Model
       insert(cells, attributes, null, pm, edits);
-      // recordResults(stepCell);
-      // processStepEndPointResult(stepCell);
-      // stepCell.toString();
     }
   }
 
@@ -99,7 +74,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
       // Insert into Model
       insert(cells, attributes, null, pm, edits);
       recordResults(splitCell);
-      processSplitEndPointResult(splitCell);
     }
   }
 
@@ -112,8 +86,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
       Object[] cells = new Object[]{splitCell};
       // Insert into Model
       insert(cells, attributes, null, pm, edits);
-      // recordResults(splitCell);
-      // processSplitEndPointResult(splitCell);
     }
   }
 
@@ -127,7 +99,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
       // Insert into Model
       insert(cells, attributes, null, pm, edits);
       recordResults(joinCell);
-      processJoinEndPointResult(joinCell);
     }
   }
 
@@ -139,8 +110,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
       Object[] cells = new Object[]{joinCell};
       // Insert into Model
       insert(cells, attributes, null, pm, edits);
-      //		recordResults(joinCell);
-      //		processJoinEndPointResult(joinCell);
     }
   }
 
@@ -176,7 +145,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void processJoinEndPointResult(JoinCell joinCell)
   {
     int joinId = joinCell.getJoinDescriptor().getId();
-    Iterator results = resultCells.getJoinEndPointResults(joinId).iterator();
+    Iterator results = resultCells.getResultsToJoin(joinId).iterator();
     while(results.hasNext())
     {
       ResultCell result = (ResultCell)results.next();
@@ -187,7 +156,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void processSplitEndPointResult(SplitCell splitCell)
   {
     int splitId = splitCell.getSplitDescriptor().getId();
-    Iterator results = resultCells.getSplitEndPointResults(splitId).iterator();
+    Iterator results = resultCells.getResultsToSplit(splitId).iterator();
     while(results.hasNext())
     {
       ResultCell result = (ResultCell)results.next();
@@ -217,7 +186,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void processStepEndPointResult(StepCell stepCell)
   {
     int stepId = stepCell.getDescriptor().getId();
-    Iterator results = resultCells.getStepEndPointResults(stepId).iterator();
+    Iterator results = resultCells.getResultsToStep(stepId).iterator();
     while(results.hasNext())
     {
       ResultCell result = (ResultCell)results.next();
