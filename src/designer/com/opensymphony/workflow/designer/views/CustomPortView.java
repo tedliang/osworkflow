@@ -15,6 +15,8 @@ public class CustomPortView extends PortView
 {
   private static final ImageIcon ICON = new ImageIcon(CustomPortView.class.getResource("/images/port.gif"));
   private static final CellViewRenderer RENDERER = new CustomPortRenderer();
+  private static final int WIDTH = ICON.getIconWidth();
+  private static final int HEIGHT = ICON.getIconHeight();
 
   public CustomPortView(Object object, JGraph graph, CellMapper mapper)
   {
@@ -27,12 +29,10 @@ public class CustomPortView extends PortView
   public Rectangle getBounds()
   {
     Rectangle bounds = new Rectangle(getLocation(null));
-    int width = ICON.getIconWidth();
-    int height = ICON.getIconHeight();
-    bounds.x = bounds.x - width / 2;
+    bounds.x = bounds.x - WIDTH / 2;
 //    bounds.y = bounds.y - height / 2;
-    bounds.width = width;
-    bounds.height = height;
+    bounds.width = WIDTH;
+    bounds.height = HEIGHT;
     return bounds;
   }
 

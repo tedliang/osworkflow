@@ -9,6 +9,7 @@ import javax.swing.undo.UndoableEdit;
 
 import org.jgraph.graph.*;
 import com.opensymphony.workflow.loader.*;
+import com.opensymphony.workflow.designer.views.EdgeRouter;
 
 public class WorkflowGraphModel extends DefaultGraphModel
 {
@@ -17,6 +18,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   private Map joinCells = new HashMap();
   private Map initialActions = new HashMap();
   private ResultCellCollection resultCells = new ResultCellCollection();
+  private static final EdgeRouter EDGE_ROUTER = new EdgeRouter();
 
   public void insertInitialActions(List initialActions, InitialActionCell initialActionCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
@@ -27,9 +29,9 @@ public class WorkflowGraphModel extends DefaultGraphModel
       {
         ActionDescriptor action = (ActionDescriptor)initialActions.get(i);
         List conResults = action.getConditionalResults();
-        recordResults(initialActionCell, conResults);
+        recordResults(initialActionCell, conResults, action.getName());
         ResultDescriptor result = action.getUnconditionalResult();
-        recordResult(initialActionCell, result);
+        recordResult(initialActionCell, result, action.getName());
         Object[] cells = new Object[]{initialActionCell};
         // Insert into Model
         insert(cells, attributes, null, pm, edits);
@@ -168,7 +170,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   {
     JoinDescriptor joinDescriptor = fromCell.getJoinDescriptor();
     ResultDescriptor result = joinDescriptor.getResult();
-    recordResult(fromCell, result);
+    recordResult(fromCell, result, "");
   }
 
   public void processJoinEndPointResult(JoinCell joinCell)
@@ -198,7 +200,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   {
     SplitDescriptor splitDescriptor = fromCell.getSplitDescriptor();
     List results = splitDescriptor.getResults();
-    recordResults(fromCell, results);
+    recordResults(fromCell, results, "");
     //      for (int i = 0; i < actionList.size(); i++) {
     //         ActionDescriptor action = (ActionDescriptor) actionList.get(i);
     //         List conResults = action.getConditionalResults();
@@ -229,12 +231,30 @@ public class WorkflowGraphModel extends DefaultGraphModel
   public void connectCells(ResultCell resultCell, DefaultGraphCell toCell)
   {
     Map attributeMap = new HashMap();
-    DefaultPort fromPort = new DefaultPort();
-    resultCell.getFromCell().add(fromPort);
-    DefaultPort toPort = new DefaultPort();
-    toCell.add(toPort);
+    DefaultPort fromPort = null;
+    if(resultCell.getFromCell().getChildCount()>0)
+    {
+      fromPort = (DefaultPort)resultCell.getFromCell().getChildAt(0);
+    }
+    else
+    {
+      fromPort = new WorkflowPort();
+      resultCell.getFromCell().add(fromPort);
+    }
+    DefaultPort toPort = null;
+    if(toCell.getChildCount()>0)
+    {
+      toPort = (DefaultPort)toCell.getChildAt(0);
+    }
+    else
+    {
+      toPort = new WorkflowPort();
+      toCell.add(toPort);
+    }
+
     // Create Edge
     ResultEdge edge = new ResultEdge();
+    edge.setUserObject(resultCell.getUserObject());
     edge.setDescriptor(resultCell.getDescriptor());
     // Create Edge Attributes
     Map edgeAttrib = GraphConstants.createMap();
@@ -243,7 +263,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
     GraphConstants.setLineEnd(edgeAttrib, arrow);
     GraphConstants.setEndFill(edgeAttrib, true);
     GraphConstants.setDisconnectable(edgeAttrib, false);
-    GraphConstants.setRouting(edgeAttrib, GraphConstants.ROUTING_SIMPLE);
+    GraphConstants.setRouting(edgeAttrib, EDGE_ROUTER);
     // Connect Edge
     ConnectionSet cs = new ConnectionSet(edge, fromPort, toPort);
     Object[] cells = new Object[]{edge};
@@ -266,25 +286,25 @@ public class WorkflowGraphModel extends DefaultGraphModel
     {
       ActionDescriptor action = (ActionDescriptor)actionList.get(i);
       List conResults = action.getConditionalResults();
-      recordResults(fromCell, conResults);
+      recordResults(fromCell, conResults, action.getName());
       ResultDescriptor result = action.getUnconditionalResult();
-      recordResult(fromCell, result);
+      recordResult(fromCell, result, action.getName());
     }
   }
 
-  private void recordResults(DefaultGraphCell fromCell, List results)
+  private void recordResults(DefaultGraphCell fromCell, List results, String actionName)
   {
     for(int i = 0; i < results.size(); i++)
     {
       ResultDescriptor result = (ResultDescriptor)results.get(i);
-      recordResult(fromCell, result);
+      recordResult(fromCell, result, actionName);
     }
   }
 
-  private void recordResult(DefaultGraphCell fromCell, ResultDescriptor result)
+  private void recordResult(DefaultGraphCell fromCell, ResultDescriptor result, String actionName)
   {
     String key = resultCells.getNextKey();
-    ResultCell newCell = new ResultCell(fromCell, result);
+    ResultCell newCell = new ResultCell(fromCell, result, actionName);
     resultCells.put(key, newCell);
   }
 

@@ -43,6 +43,7 @@ public class WorkflowGraph extends JGraph
     setGridSize(6);
     setTolerance(2);
     setMarqueeHandler(new WorkflowMarqueeHandler());
+    setCloneable(false);
     setPortsVisible(true);
   }
 
