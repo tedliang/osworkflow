@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -72,6 +72,14 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
      */
     public List getActions() {
         return actions;
+    }
+
+    /**
+     * Get a list of common actions.
+     * @return a List of Integer action id's.
+     */
+    public List getCommonActions() {
+        return commonActions;
     }
 
     public void setMetaAttributes(Map metaAttributes) {

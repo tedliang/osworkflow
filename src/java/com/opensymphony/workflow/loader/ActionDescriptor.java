@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -53,6 +53,10 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
 
     public boolean getAutoExecute() {
         return autoExecute;
+    }
+
+    public boolean isCommon() {
+        return common;
     }
 
     public List getConditionalResults() {
@@ -349,9 +353,5 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
 
     void setCommon(boolean common) {
         this.common = common;
-    }
-
-    boolean isCommon() {
-        return common;
     }
 }
