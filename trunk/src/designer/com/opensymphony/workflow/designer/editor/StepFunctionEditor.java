@@ -14,7 +14,6 @@ public class StepFunctionEditor extends FunctionEditor
   public StepFunctionEditor(StepCell cell)
   {
     super(cell);
-    // TODO Auto-generated constructor stub
   }
 
   private StepCell getCell()

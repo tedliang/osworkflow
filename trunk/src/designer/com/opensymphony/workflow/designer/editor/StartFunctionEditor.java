@@ -14,7 +14,6 @@ public class StartFunctionEditor extends FunctionEditor
   public StartFunctionEditor(InitialActionCell cell)
   {
     super(cell);
-    // TODO Auto-generated constructor stub
   }
 
   protected InitialActionCell getCell()
