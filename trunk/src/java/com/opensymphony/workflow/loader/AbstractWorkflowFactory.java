@@ -26,7 +26,13 @@ public abstract class AbstractWorkflowFactory {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public abstract void setLayout(String workflowName, Object layout);
+
+    public abstract Object getLayout(String workflowName);
+
     public abstract boolean isModifiable(String name);
+
+    public abstract String getName();
 
     /**
      * Get the configuration properties of this factory
@@ -54,7 +60,15 @@ public abstract class AbstractWorkflowFactory {
      */
     public abstract String[] getWorkflowNames() throws FactoryException;
 
+    public abstract void createWorkflow(String name);
+
+    public abstract void deleteWorkflow(String name);
+
     public abstract boolean removeWorkflow(String name) throws FactoryException;
+
+    public abstract void renameWorkflow(String oldName, String newName);
+
+    public abstract void save();
 
     /**
      * Save the workflow.
