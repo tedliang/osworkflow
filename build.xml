@@ -238,8 +238,7 @@
     <touch file="${build}/tmp/${propertyset.jar}" millis="500"/>
     <jar jarfile="${build}/tmp/${oscore.jar}" update="true" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
     <jar jarfile="${build}/tmp/${propertyset.jar}" update="true" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
-    <ear appxml="${src.etc}/example/application.xml" earfile="${dist}/${name}-${version}-example.ear" basedir="${build}/tmp">
-    </ear>
+    <ear appxml="${src.etc}/example/application.xml" earfile="${dist}/${name}-${version}-example.ear" basedir="${build}/tmp" />
   </target>
 
   <target name="client" depends="jar" description="Build the designer client sources">
@@ -253,13 +252,20 @@
   </target>
 
   <target name="client-jar" depends="client" description="Build the designer jar file">
-    <jar basedir="${build.client}" jarfile="${dist}/designer.jar" manifest="${build.client}/META-INF/MANIFEST.MF"/>
+    <jar basedir="${build.client}" jarfile="${dist}/designer.jar">
+	    <manifest>
+				<attribute name="Built-By" value="${user.name}"/>
+		    <attribute name="Main-Class" value="com.opensymphony.workflow.designer.WorkflowDesigner" />
+		    <attribute name="Class-Path" value="../lib/designer/looks.jar ../lib/designer/forms.jar ../lib/designer/syntax.jar ../lib/designer/jgraph.jar ../lib/designer/foxtrot.jar ${name}-${version}.jar ../lib/core/commons-logging.jar" />
+	    </manifest>
+    </jar>
   </target>
 
   <target name="webstart" depends="client-jar" description="Build webstart files">
     <mkdir dir="${dist.docs}/designer" />
     <signjar signedjar="${dist.docs}/designer/designer.jar" alias="opensymphony" jar="${dist}/designer.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
     <signjar signedjar="${dist.docs}/designer/looks.jar" alias="opensymphony" jar="${lib.designer}/looks.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
+    <signjar signedjar="${dist.docs}/designer/syntax.jar" alias="opensymphony" jar="${lib.designer}/syntax.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
     <signjar signedjar="${dist.docs}/designer/jgraph.jar" alias="opensymphony" jar="${lib.designer}/jgraph.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
     <signjar signedjar="${dist.docs}/designer/foxtrot.jar" alias="opensymphony" jar="${lib.designer}/foxtrot.jar" storepass="123456" keystore="${lib.build}/OSKeystore"/>
     <signjar signedjar="${dist.docs}/designer/forms.jar" alias="opensymphony" jar="${lib.designer}/forms.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
