@@ -11,5 +11,5 @@
 - <a href="http://jira.opensymphony.com/secure/BrowseProject.jspa?id=10004&report=roadmap">Roadmap</a><br>
 - <a href="http://jira.opensymphony.com/secure/BrowseProject.jspa?id=10004&report=changelog">Changelog</a><br>
 <b>Wiki</b><br>
-- <a href="http://wiki.opensymphony.com/space/OSWorkflow/">OSWorkflow page</a>
+- <a href="http://wiki.opensymphony.com/display/WF/Manual">OSWorkflow page</a>
 
