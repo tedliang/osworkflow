@@ -42,6 +42,7 @@ public class StepCell extends WorkflowCell implements ResultAware
   public boolean removeResult(ResultDescriptor result)
   {
     Iterator iter = descriptor.getActions().iterator();
+    boolean removed = false;
     while(iter.hasNext())
     {
       ActionDescriptor action = (ActionDescriptor)iter.next();
@@ -59,7 +60,7 @@ public class StepCell extends WorkflowCell implements ResultAware
               {
                 iter.remove();
               }
-              return true;
+              removed = true;
             }
           }
         }
@@ -73,10 +74,14 @@ public class StepCell extends WorkflowCell implements ResultAware
           {
             iter.remove();
           }
-          return true;
+          removed = true;
         }
       }
     }
-    return false;
+    if(descriptor.getActions().size() == 0 && descriptor.getCommonActions().size() == 0)
+    {
+      descriptor.removeActions();
+    }
+    return removed;
   }
 }
