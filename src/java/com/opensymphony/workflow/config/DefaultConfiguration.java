@@ -14,6 +14,7 @@ import com.opensymphony.workflow.spi.WorkflowStore;
 import org.w3c.dom.*;
 
 import java.io.InputStream;
+import java.io.Serializable;
 
 import java.net.URL;
 
@@ -34,9 +35,9 @@ import javax.xml.parsers.*;
  * rather than in the calling client.
  *
  * @author Hani Suleiman
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
-public class DefaultConfiguration implements Configuration {
+public class DefaultConfiguration implements Configuration, Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
 
     public static DefaultConfiguration INSTANCE = new DefaultConfiguration();
