@@ -29,15 +29,14 @@ public class WorkflowGraphModel extends DefaultGraphModel
       {
         ActionDescriptor action = (ActionDescriptor)initialActions.get(i);
         List conResults = action.getConditionalResults();
-        recordResults(initialActionCell, conResults, action.getName());
+        recordResults(initialActionCell, conResults, action);
         ResultDescriptor result = action.getUnconditionalResult();
-        recordResult(initialActionCell, result, action.getName());
+        recordResult(initialActionCell, result, action);
         Object[] cells = new Object[]{initialActionCell};
         // Insert into Model
         insert(cells, attributes, null, pm, edits);
       }
     }
-
   }
 
   public void insertStepCell(StepCell stepCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
@@ -49,18 +48,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
       // Insert into Model
       insert(cells, attributes, null, pm, edits);
       recordResults(stepCell);
-    }
-  }
-
-  // by raj
-  public void insertStep(StepCell stepCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
-  {
-    if(!stepCells.containsKey(stepCell.getKey()))
-    {
-      stepCells.put(stepCell.getKey(), stepCell);
-      Object[] cells = new Object[]{stepCell};
-      // Insert into Model
-      insert(cells, attributes, null, pm, edits);
     }
   }
 
@@ -77,18 +64,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
     }
   }
 
-  public void insertSplit(SplitCell splitCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
-  {
-    if(!splitCells.containsKey(splitCell.getKey()))
-    {
-
-      splitCells.put(splitCell.getKey(), splitCell);
-      Object[] cells = new Object[]{splitCell};
-      // Insert into Model
-      insert(cells, attributes, null, pm, edits);
-    }
-  }
-
   public void insertJoinCell(JoinCell joinCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
   {
     if(!joinCells.containsKey(joinCell.getKey()))
@@ -99,17 +74,6 @@ public class WorkflowGraphModel extends DefaultGraphModel
       // Insert into Model
       insert(cells, attributes, null, pm, edits);
       recordResults(joinCell);
-    }
-  }
-
-  public void insertJoin(JoinCell joinCell, Map attributes, ParentMap pm, UndoableEdit[] edits)
-  {
-    if(!joinCells.containsKey(joinCell.getKey()))
-    {
-      joinCells.put(joinCell.getKey(), joinCell);
-      Object[] cells = new Object[]{joinCell};
-      // Insert into Model
-      insert(cells, attributes, null, pm, edits);
     }
   }
 
@@ -139,7 +103,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   {
     JoinDescriptor joinDescriptor = fromCell.getJoinDescriptor();
     ResultDescriptor result = joinDescriptor.getResult();
-    recordResult(fromCell, result, "");
+    recordResult(fromCell, result, null);
   }
 
   public void processJoinEndPointResult(JoinCell joinCell)
@@ -169,15 +133,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   {
     SplitDescriptor splitDescriptor = fromCell.getSplitDescriptor();
     List results = splitDescriptor.getResults();
-    recordResults(fromCell, results, "");
-    //      for (int i = 0; i < actionList.size(); i++) {
-    //         ActionDescriptor action = (ActionDescriptor) actionList.get(i);
-    //         List conResults = action.getConditionalResults();
-    //         recordResults(fromCell, conResults);
-    //         ResultDescriptor result = action.getUnconditionalResult();
-    //         recordResult(fromCell, result);
-    //      }
-
+    recordResults(fromCell, results, null);
   }
 
   /**
@@ -255,25 +211,25 @@ public class WorkflowGraphModel extends DefaultGraphModel
     {
       ActionDescriptor action = (ActionDescriptor)actionList.get(i);
       List conResults = action.getConditionalResults();
-      recordResults(fromCell, conResults, action.getName());
+      recordResults(fromCell, conResults, action);
       ResultDescriptor result = action.getUnconditionalResult();
-      recordResult(fromCell, result, action.getName());
+      recordResult(fromCell, result, action);
     }
   }
 
-  private void recordResults(DefaultGraphCell fromCell, List results, String actionName)
+  private void recordResults(DefaultGraphCell fromCell, List results, ActionDescriptor action)
   {
     for(int i = 0; i < results.size(); i++)
     {
       ResultDescriptor result = (ResultDescriptor)results.get(i);
-      recordResult(fromCell, result, actionName);
+      recordResult(fromCell, result, action);
     }
   }
 
-  private void recordResult(DefaultGraphCell fromCell, ResultDescriptor result, String actionName)
+  private void recordResult(DefaultGraphCell fromCell, ResultDescriptor result, ActionDescriptor action)
   {
     String key = resultCells.getNextKey();
-    ResultCell newCell = new ResultCell(fromCell, result, actionName);
+    ResultCell newCell = new ResultCell(fromCell, result, action);
     resultCells.put(key, newCell);
   }
 
