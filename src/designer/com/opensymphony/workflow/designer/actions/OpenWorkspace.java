@@ -24,6 +24,7 @@ public class OpenWorkspace extends AbstractAction
   public void actionPerformed(ActionEvent e)
   {
     File file = Utils.promptUserForFile((Component)e.getSource(), JFileChooser.FILES_AND_DIRECTORIES, false, WorkflowDesigner.WORKSPACE_SUFFIX, ResourceManager.getString("workspace.files"));
+    if(file == null) return;
 	  try
 	  {
 		  WorkflowDesigner.INSTANCE.openWorkspace(file.toURL());
