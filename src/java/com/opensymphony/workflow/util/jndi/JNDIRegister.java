@@ -20,7 +20,7 @@ import javax.naming.NamingException;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class JNDIRegister implements Register {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -39,7 +39,12 @@ public class JNDIRegister implements Register {
         Register r;
 
         try {
-            r = (Register) new InitialContext().lookup(location);
+            try {
+                r = (Register) new InitialContext().lookup(location);
+            } catch (NamingException e) {
+                //ok, couldn't find it, look in env
+                r = (Register) new InitialContext().lookup("java:comp/env/" + location);
+            }
         } catch (NamingException e) {
             String message = "Could not look up JNDI register at: " + location;
             throw new WorkflowException(message, e);

@@ -21,7 +21,7 @@ import javax.naming.NamingException;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class JNDIFunctionProvider implements FunctionProvider {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -42,7 +42,11 @@ public class JNDIFunctionProvider implements FunctionProvider {
         FunctionProvider provider;
 
         try {
-            provider = (FunctionProvider) new InitialContext().lookup(location);
+            try {
+                provider = (FunctionProvider) new InitialContext().lookup(location);
+            } catch (NamingException e) {
+                provider = (FunctionProvider) new InitialContext().lookup("java:comp/env/" + location);
+            }
         } catch (NamingException e) {
             String message = "Could not get handle to JNDI FunctionProvider at: " + location;
             throw new WorkflowException(message, e);
