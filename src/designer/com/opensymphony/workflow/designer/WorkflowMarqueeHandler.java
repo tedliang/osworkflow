@@ -1,20 +1,17 @@
 package com.opensymphony.workflow.designer;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 import java.awt.event.MouseEvent;
-
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 import org.jgraph.graph.BasicMarqueeHandler;
-import org.jgraph.graph.PortView;
 import org.jgraph.graph.GraphConstants;
+import org.jgraph.graph.PortView;
 
 /**
- * @author Hani Suleiman (hani@formicary.net)
- * Date: Oct 25 2003
- * Time: 6:56:10 PM
+ * @author Hani Suleiman (hani@formicary.net) Date: Oct 25 2003 Time: 6:56:10 PM
  */
 public class WorkflowMarqueeHandler extends BasicMarqueeHandler
 {
@@ -118,7 +115,7 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
   {
     // If Right Mouse Button
     if(SwingUtilities.isRightMouseButton(e) || e.isPopupTrigger())
-//    if(e.isPopupTrigger())
+    //    if(e.isPopupTrigger())
     {
       // Scale From Screen to Model
       //Point loc = fromScreen(e.getPoint());
@@ -134,13 +131,13 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
         if(!(cell instanceof InitialActionCell))
         {
           //      		System.out.println(cell);
-          if (cell instanceof WorkflowEdge)
+          if(cell instanceof WorkflowEdge)
           {
-			graph.showEdgeMenu(e.getX(), e.getY());
+            graph.showEdgeMenu(e.getX(), e.getY());
           }
           else
           {
-          	graph.showDelete(e.getX(), e.getY());
+            graph.showDelete(e.getX(), e.getY());
           }
         }
       }
