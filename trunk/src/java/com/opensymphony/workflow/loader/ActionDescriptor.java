@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -290,7 +290,12 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
 
         if (restrictElement != null) {
             restriction = new RestrictionDescriptor(restrictElement);
-            restriction.setParent(this);
+
+            if (restriction.getConditions().size() == 0) {
+                restriction = null;
+            } else {
+                restriction.setParent(this);
+            }
         }
     }
 }
