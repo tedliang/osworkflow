@@ -8,8 +8,8 @@ import java.io.File;
 import javax.swing.*;
 
 import com.opensymphony.workflow.designer.ResourceManager;
+import com.opensymphony.workflow.designer.UIFactory;
 import com.opensymphony.workflow.designer.swing.FileField;
-import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 
 /**
@@ -28,12 +28,7 @@ public class ImportWorkflowDialog extends BaseDialog
   public ImportWorkflowDialog(Frame owner, String title, boolean modal) throws HeadlessException
   {
     super(owner, title, modal);
-    //getContentPane().setLayout(new BorderLayout());
-    FormLayout layout = new FormLayout("2dlu, left:max(40dlu;pref), 3dlu, 110dlu:grow, 7dlu");
-    DefaultFormBuilder builder = new DefaultFormBuilder(layout, ResourceManager.getBundle());
-	  builder.setLeadingColumnOffset(1);
-    builder.setDefaultDialogBorder();
-	  builder.appendI15dSeparator("import.title");
+    DefaultFormBuilder builder = UIFactory.getDialogBuilder(null, getContentPane());
     builder.append(web, webField);
 	  webField.addFocusListener(new FocusAdapter()
 	  {
@@ -61,7 +56,6 @@ public class ImportWorkflowDialog extends BaseDialog
         file.setSelected(true);
       }
     });
-    getContentPane().add(builder.getPanel(), BorderLayout.CENTER);
   }
 
 	public void ok()
