@@ -14,6 +14,7 @@ import com.opensymphony.workflow.designer.beanutils.BeanConnector;
 import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.loader.ConditionDescriptor;
 import com.opensymphony.workflow.loader.JoinDescriptor;
+import com.opensymphony.workflow.loader.ConditionsDescriptor;
 
 public class JoinEditor extends DetailPanel implements ActionListener
 {
@@ -90,7 +91,7 @@ public class JoinEditor extends DetailPanel implements ActionListener
 
     JoinDescriptor descriptor = cell.getJoinDescriptor();
 
-    conditionsModel.setList(descriptor.getConditions());
+    conditionsModel.setList(((ConditionsDescriptor)descriptor.getConditions().get(0)).getConditions());
     connector.setSource(descriptor);
 
     //		if (cell.getJoinDescriptor().getResult() != null) {
