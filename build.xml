@@ -151,7 +151,7 @@
   </target>
 
   <target name="format" depends="java">
-    <jalopy fileformat="unix" convention="src/etc/jalopy.xml" history="file" historymethod="adler32" loglevel="error" threads="2" classpathref="cp">
+    <jalopy fileformat="unix" convention="${src}/etc/jalopy.xml" history="file" historymethod="adler32" loglevel="error" threads="2" classpathref="cp">
       <fileset dir="${src.java}">
         <include name="**/*.java"/>
       </fileset>
