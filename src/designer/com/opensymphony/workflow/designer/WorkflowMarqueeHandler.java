@@ -35,7 +35,7 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
   public boolean isForceMarqueeEvent(MouseEvent e)
   {
     // If Right Mouse Button we want to Display the PopupMenu
-    if(SwingUtilities.isRightMouseButton(e))
+    if(SwingUtilities.isRightMouseButton(e) || e.isPopupTrigger())
     // Return Immediately
       return true;
     // Find and Remember Port
@@ -114,7 +114,8 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
   public void mousePressed(final MouseEvent e)
   {
     // If Right Mouse Button
-    if(e.isPopupTrigger())
+    if(SwingUtilities.isRightMouseButton(e) || e.isPopupTrigger())
+//    if(e.isPopupTrigger())
     {
       // Scale From Screen to Model
       //Point loc = fromScreen(e.getPoint());
