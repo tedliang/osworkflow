@@ -62,13 +62,11 @@ public class EdgeRouter implements Edge.Routing
         if(dx > dy)
         {
           routed[0] = new Point(x2, from.y);
-          //new Point(to.x, from.y)
           routed[1] = new Point(x2, to.y);
         }
         else
         {
           routed[0] = new Point(from.x, y2);
-          // new Point(from.x, to.y)
           routed[1] = new Point(to.x, y2);
         }
       }
