@@ -20,7 +20,7 @@ import java.util.*;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class StepDescriptor extends AbstractDescriptor implements Validatable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -39,6 +39,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
     protected List commonActions = new ArrayList();
     protected List permissions = new ArrayList();
     protected String name;
+  protected boolean hasActions = false;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -114,6 +115,10 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
     }
 
     public void validate() throws InvalidWorkflowDescriptorException {
+        if ((commonActions.size() == 0) && (actions.size() == 0) && hasActions) {
+            throw new InvalidWorkflowDescriptorException("Step '" + name + "' actions element must contain at least one action or common-action");
+        }
+
         ValidationHelper.validate(actions);
         ValidationHelper.validate(permissions);
 
@@ -158,7 +163,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
             out.println("</external-permissions>");
         }
 
-        if (actions.size() > 0) {
+        if (actions.size() > 0 || commonActions.size()>0) {
             XMLUtil.printIndent(out, indent++);
             out.println("<actions>");
 
@@ -207,6 +212,7 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
         Element a = XMLUtil.getChildElement(step, "actions");
 
         if (a != null) {
+            hasActions = true;
             NodeList actions = a.getElementsByTagName("action");
 
             for (int i = 0; i < actions.getLength(); i++) {

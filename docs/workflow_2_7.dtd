@@ -46,11 +46,12 @@ Used in: actions
 >
 
 <!--
-A list of one or more actions for the enclosing step.
-
+A list of zero or more common-actions and a list of zero or more actions for the enclosing step.
+Note that you must define one or the other, an actions element with neither will be considered
+invalid.
 Used in: step
 -->
-<!ELEMENT actions (common-action*, action+)>
+<!ELEMENT actions (common-action*, action*)>
 <!--
 An argument to a function. The value of the argument is interpolated,
 so if the variable foo equals "bar", then the value "test ${foo}" will be
