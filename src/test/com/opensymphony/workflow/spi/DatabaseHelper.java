@@ -12,7 +12,6 @@ import junit.framework.Assert;
 
 import net.sf.hibernate.SessionFactory;
 import net.sf.hibernate.cfg.Configuration;
-import net.sf.hibernate.tool.hbm2ddl.SchemaExport;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
