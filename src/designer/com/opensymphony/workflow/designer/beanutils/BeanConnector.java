@@ -213,6 +213,11 @@ public class BeanConnector
         {
           value = PropertyUtils.getProperty(source, name);
         }
+        catch(NullPointerException ex)
+        {
+          LogFactory.getLog(this.getClass()).debug("Null property " + name + " found in " + source);
+          value = null;
+        }
         catch(NoSuchMethodException ex)
         {
           LogFactory.getLog(this.getClass()).debug("No property " + name + " found in " + source);
