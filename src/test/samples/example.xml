@@ -5,7 +5,7 @@
     <register type="class" variable-name="log">
       <arg name="class.name">com.opensymphony.workflow.util.LogRegister</arg>
       <arg name="addInstanceId">true</arg>
-    </register>    
+    </register>
   </registers>
 	<initial-actions>
 		<action id="1" name="Start Workflow">
