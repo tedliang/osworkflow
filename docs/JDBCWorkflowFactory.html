@@ -1,28 +1,34 @@
 <html>
     <head>
-        <title>JDBCWorkflowFactory</title>
+        <title>OSWorkflow - 
+        JDBCWorkflowFactory
+         </title>
 	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
 
     <body>
 	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
 		    <tr>
 			    <td valign="top" class="pagebody">
-
 				    <p class="paragraph"><b class="strong">com.opensymphony.workflow.loader.JDBCWorkflowFactory</b> is an alternative factory, that allows you to store your workflow definitions in a JDBC database instead of putting them into the xml files.
-<h2 class="heading2"> These features are planned for JDBCWorkflowFactory, but not yet implemented:</h2><ol>
+<h2 class="heading2"><a name="JDBCWorkflowFactory-ThesefeaturesareplannedforJDBCWorkflowFactory%2Cbutnotyetimplemented%3A"> These features are planned for JDBCWorkflowFactory, but not yet implemented:</a></h2>
+<ol>
 <li> versioning support</li>
 <li> find alternative to storing xml directly</li>
 <li> delete function</li>
 </ol><br/>
 It requires some configuration to get it running:
-<h3 class="heading3"> <a name="JDBCWorkflowFactory-osworkflow.xml" ></a> osworkflow.xml:</h3>
-<div class="code"><pre>&lt;osworkflow&gt;&#10;  &lt;persistence class=&quot;com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore&quot;&gt;&#10;    &lt;arg name=&quot;foo&quot; value=&quot;bar&quot;/&gt;&#10;    ...&#10;  &lt;/persistence&gt;&#10;  &lt;factory class=&quot;com.opensymphony.workflow.loader.JDBCWorkflowFactory&quot;&gt;&#10;  &lt;/factory&gt;&#10;&lt;/osworkflow&gt;</pre></div>
-<h3 class="heading3"> <a name="JDBCWorkflowFactory-JDBCDatabase" ></a> JDBC Database:</h3></p>Example create table script for HSQLDB:
-<div class="code"><pre>CREATE CACHED TABLE OS&#95;WORKFLOWDEFS (WF&#95;DEFINITION BINARY,WF&#95;NAME VARCHAR(256) NOT NULL PRIMARY KEY)</pre></div>
+<h3 class="heading3"><a name="JDBCWorkflowFactory-%3Caname%3D%22JDBCWorkflowFactoryosworkflow.xml%22%3E%3C%2Fa%3Eosworkflow.xml%3A"> <a name="JDBCWorkflowFactory-osworkflow.xml"></a> osworkflow.xml:</a></h3>
+<div class="code"><div class="codeContent">
+<pre>&lt;osworkflow&gt;&#10;  &lt;persistence class=<span class="java&#45;quote">&quot;com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore&quot;</span>&gt;&#10;    &lt;arg name=<span class="java&#45;quote">&quot;foo&quot;</span> value=<span class="java&#45;quote">&quot;bar&quot;</span>/&gt;&#10;    ...&#10;  &lt;/persistence&gt;&#10;  &lt;factory class=<span class="java&#45;quote">&quot;com.opensymphony.workflow.loader.JDBCWorkflowFactory&quot;</span>&gt;&#10;  &lt;/factory&gt;&#10;&lt;/osworkflow&gt;</pre>
+</div></div>
+<h3 class="heading3"><a name="JDBCWorkflowFactory-%3Caname%3D%22JDBCWorkflowFactoryJDBCDatabase%22%3E%3C%2Fa%3EJDBCDatabase%3A"> <a name="JDBCWorkflowFactory-JDBCDatabase"></a> JDBC Database:</a></h3></p>Example create table script for HSQLDB:
+<div class="code"><div class="codeContent">
+<pre>CREATE CACHED TABLE OS&#95;WORKFLOWDEFS (WF&#95;DEFINITION BINARY,WF&#95;NAME VARCHAR(256) NOT NULL PRIMARY KEY)</pre>
+</div></div>
 
-				    
-			    </td>
+                    			    </td>
 		    </tr>
 	    </table>
     </body>
