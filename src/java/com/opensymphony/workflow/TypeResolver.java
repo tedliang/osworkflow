@@ -4,6 +4,11 @@
  */
 package com.opensymphony.workflow;
 
+import com.opensymphony.util.ClassLoaderUtil;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +22,8 @@ import java.util.Map;
 public class TypeResolver {
     //~ Static fields/initializers /////////////////////////////////////////////
 
+    private static final Log log = LogFactory.getLog(TypeResolver.class);
+    private static TypeResolver resolver;
     private static final Map conditions = new HashMap();
 
     static {
@@ -59,19 +66,77 @@ public class TypeResolver {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public static String getCondition(String name) {
-        return (String) conditions.get(name);
+    public Condition getCondition(String type, Map args) throws WorkflowException {
+        String className = (String) conditions.get(type);
+
+        if (className == null) {
+            className = (String) args.get(Workflow.CLASS_NAME);
+        }
+
+        if (className == null) {
+            throw new WorkflowException("No type or class.name argument specified to TypeResolver");
+        }
+
+        return (Condition) loadObject(className);
     }
 
-    public static String getFunction(String name) {
-        return (String) functions.get(name);
+    public FunctionProvider getFunction(String type, Map args) throws WorkflowException {
+        String className = (String) functions.get(type);
+
+        if (className == null) {
+            className = (String) args.get(Workflow.CLASS_NAME);
+        }
+
+        if (className == null) {
+            throw new WorkflowException("No type or class.name argument specified to TypeResolver");
+        }
+
+        return (FunctionProvider) loadObject(className);
     }
 
-    public static String getRegister(String name) {
-        return (String) registers.get(name);
+    public Register getRegister(String type, Map args) throws WorkflowException {
+        String className = (String) registers.get(type);
+
+        if (className == null) {
+            className = (String) args.get(Workflow.CLASS_NAME);
+        }
+
+        if (className == null) {
+            throw new WorkflowException("No type or class.name argument specified to TypeResolver");
+        }
+
+        return (Register) loadObject(className);
     }
 
-    public static String getValidator(String name) {
-        return (String) validators.get(name);
+    public static void setResolver(TypeResolver resolver) {
+        TypeResolver.resolver = resolver;
+    }
+
+    public static TypeResolver getResolver() {
+        return resolver;
+    }
+
+    public Validator getValidator(String type, Map args) throws WorkflowException {
+        String className = (String) registers.get(type);
+
+        if (className == null) {
+            className = (String) args.get(Workflow.CLASS_NAME);
+        }
+
+        if (className == null) {
+            throw new WorkflowException("No type or class.name argument specified to TypeResolver");
+        }
+
+        return (Validator) loadObject(className);
+    }
+
+    protected Object loadObject(String clazz) {
+        try {
+            return ClassLoaderUtil.loadClass(clazz.trim(), getClass()).newInstance();
+        } catch (Exception e) {
+            log.error("Could not load class '" + clazz + "'", e);
+
+            return null;
+        }
     }
 }

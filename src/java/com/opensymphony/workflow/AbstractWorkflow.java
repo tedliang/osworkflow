@@ -7,7 +7,6 @@ package com.opensymphony.workflow;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.PropertySetManager;
 
-import com.opensymphony.util.ClassLoaderUtil;
 import com.opensymphony.util.TextUtils;
 
 import com.opensymphony.workflow.config.Configuration;
@@ -839,16 +838,10 @@ public class AbstractWorkflow implements Workflow {
                 mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
             }
 
-            String clazz = TypeResolver.getFunction(type);
-
-            if (clazz == null) {
-                clazz = (String) args.get(CLASS_NAME);
-            }
-
-            FunctionProvider provider = (FunctionProvider) loadObject(clazz);
+            FunctionProvider provider = TypeResolver.getResolver().getFunction(type, args);
 
             if (provider == null) {
-                String message = "Could not load FunctionProvider class: " + clazz;
+                String message = "Could not load FunctionProvider class";
                 context.setRollbackOnly();
                 throw new WorkflowException(message);
             }
@@ -859,16 +852,6 @@ public class AbstractWorkflow implements Workflow {
                 context.setRollbackOnly();
                 throw e;
             }
-        }
-    }
-
-    protected Object loadObject(String clazz) {
-        try {
-            return ClassLoaderUtil.loadClass(clazz.trim(), getClass()).newInstance();
-        } catch (Exception e) {
-            log.error("Could not load object '" + clazz + "'", e);
-
-            return null;
         }
     }
 
@@ -891,17 +874,11 @@ public class AbstractWorkflow implements Workflow {
             }
         }
 
-        String clazz = TypeResolver.getCondition(type);
-
-        if (clazz == null) {
-            clazz = (String) args.get(CLASS_NAME);
-        }
-
-        Condition condition = (Condition) loadObject(clazz);
+        Condition condition = TypeResolver.getResolver().getCondition(type, args);
 
         if (condition == null) {
-            String message = "Could not load Condition: " + clazz;
-            throw new WorkflowException(message);
+            context.setRollbackOnly();
+            throw new WorkflowException("Could not load condition");
         }
 
         try {
@@ -919,7 +896,7 @@ public class AbstractWorkflow implements Workflow {
                 throw (WorkflowException) e;
             }
 
-            throw new WorkflowException("Unknown exception encountered when trying condition: " + clazz, e);
+            throw new WorkflowException("Unknown exception encountered when checking condition " + condition, e);
         }
     }
 
@@ -985,16 +962,11 @@ public class AbstractWorkflow implements Workflow {
             Map args = register.getArgs();
 
             String type = register.getType();
-            String clazz = TypeResolver.getRegister(type);
-
-            if (clazz == null) {
-                clazz = (String) args.get(CLASS_NAME);
-            }
-
-            Register r = (Register) loadObject(clazz);
+            Register r = TypeResolver.getResolver().getRegister(type, args);
 
             if (r == null) {
-                String message = "Could not load register class: " + clazz;
+                String message = "Could not load register class";
+                context.setRollbackOnly();
                 throw new WorkflowException(message);
             }
 
@@ -1007,7 +979,7 @@ public class AbstractWorkflow implements Workflow {
                     throw (WorkflowException) e;
                 }
 
-                throw new WorkflowException("An unknown exception occured while registering variable using class: " + clazz, e);
+                throw new WorkflowException("An unknown exception occured while registering variable using register " + r, e);
             }
         }
     }
@@ -1321,16 +1293,11 @@ public class AbstractWorkflow implements Workflow {
                     mapEntry.setValue(ScriptVariableParser.translateVariables((String) mapEntry.getValue(), transientVars, ps));
                 }
 
-                String clazz = TypeResolver.getValidator(type);
-
-                if (clazz == null) {
-                    clazz = (String) args.get(CLASS_NAME);
-                }
-
-                Validator validator = (Validator) loadObject(clazz);
+                Validator validator = TypeResolver.getResolver().getValidator(type, args);
 
                 if (validator == null) {
-                    String message = "Could not load validator class: " + clazz;
+                    String message = "Could not load validator class";
+                    context.setRollbackOnly();
                     throw new WorkflowException(message);
                 }
 
@@ -1345,7 +1312,7 @@ public class AbstractWorkflow implements Workflow {
                         throw (WorkflowException) e;
                     }
 
-                    String message = "An unknown exception occured executing Validator: " + clazz;
+                    String message = "An unknown exception occured executing Validator " + validator;
                     throw new WorkflowException(message, e);
                 }
             }
