@@ -154,10 +154,10 @@ public class BeanConnector
     }
     else if(comp instanceof JComboBox)
     {
-      value = new Integer(((JComboBox)comp).getSelectedIndex());
+      value = ((JComboBox)comp).getSelectedItem();
     }
 
-    LogFactory.getLog(this.getClass()).info("Set " + name + "=" + value);
+    LogFactory.getLog(this.getClass()).debug("Set " + name + "=" + value);
 
     if(source instanceof Map)
     {
@@ -213,6 +213,11 @@ public class BeanConnector
         {
           value = PropertyUtils.getProperty(source, name);
         }
+        catch(NoSuchMethodException ex)
+        {
+          LogFactory.getLog(this.getClass()).debug("No property " + name + " found in " + source);
+          value = null;
+        }
         catch(IndexOutOfBoundsException ex)
         {
           value = null;
@@ -266,7 +271,7 @@ public class BeanConnector
       {
         if(value == null)
           value = "0";
-        ((JComboBox)comp).setSelectedIndex(Integer.parseInt(value.toString()));
+        ((JComboBox)comp).setSelectedItem(value);
       }
       else if(comp instanceof JLabel)
       {
