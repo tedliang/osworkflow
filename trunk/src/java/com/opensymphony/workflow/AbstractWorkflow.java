@@ -485,13 +485,13 @@ public class AbstractWorkflow implements Workflow {
 
         boolean validAction = false;
 
-LABEL: 
-        for (Iterator iter = currentSteps.iterator(); iter.hasNext();) {
+        for (Iterator iter = currentSteps.iterator();
+                !validAction && iter.hasNext();) {
             Step step = (Step) iter.next();
             StepDescriptor s = wf.getStep(step.getStepId());
 
             for (Iterator iterator = s.getActions().iterator();
-                    iterator.hasNext();) {
+                    !validAction && iterator.hasNext();) {
                 ActionDescriptor actionDesc = (ActionDescriptor) iterator.next();
 
                 if (actionDesc.getId() == actionId) {
@@ -499,8 +499,6 @@ LABEL:
 
                     if (isActionAvailable(action, transientVars, ps)) {
                         validAction = true;
-
-                        break LABEL;
                     }
                 }
             }
@@ -1049,6 +1047,10 @@ LABEL:
      * @return true if the action is available
      */
     private boolean isActionAvailable(ActionDescriptor action, Map transientVars, PropertySet ps) throws WorkflowException {
+        if (action == null) {
+            return false;
+        }
+
         RestrictionDescriptor restriction = action.getRestriction();
         String conditionType = null;
         List conditions = null;
