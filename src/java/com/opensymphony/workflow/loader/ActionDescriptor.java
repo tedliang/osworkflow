@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ActionDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -98,6 +98,20 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
 
     public String getView() {
         return view;
+    }
+
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+
+        if (name != null) {
+            sb.append(name);
+        }
+
+        if ((view != null) && (view.length() > 0)) {
+            sb.append(" (").append(view).append(")");
+        }
+
+        return sb.toString();
     }
 
     public void validate() throws InvalidWorkflowDescriptorException {
