@@ -16,20 +16,16 @@ public class Layout
 {
   private String url;
 
-  Collection entries;
-  Map activities = new HashMap();
+  private Collection entries = new ArrayList();
+  private Map activities = new HashMap();
+  private Map results = new HashMap();
 
   public Layout()
   {
-    entries = new ArrayList();
+
   }
 
-  public Layout(Collection entries)
-  {
-    this.entries = entries;
-  }
-
-  public void setActivity(Collection entries)
+  public void setAllEntries(Collection entries)
   {
     this.entries = entries;
   }
@@ -55,13 +51,21 @@ public class Layout
       Document doc;
       doc = db.parse(in);
 
-      NodeList mActivitycell = doc.getElementsByTagName("activity");
+      NodeList mActivitycell = doc.getElementsByTagName("cell");
       for(int k = 0; k < mActivitycell.getLength(); k++)
       {
-        Element cellAttr = (Element)mActivitycell.item(k);
-        Activity activityCell = new Activity(cellAttr);
-        Rectangle bound = activityCell.getBounds();
-        activities.put(activityCell.getId(), bound);
+        Element element = (Element)mActivitycell.item(k);
+        CellPosition pos = new CellPosition(element);
+        Rectangle bound = pos.getBounds();
+        activities.put(new Integer(pos.getId()), bound);
+      }
+      NodeList list = doc.getElementsByTagName("connector");
+      for(int k = 0; k < list.getLength(); k++)
+      {
+        Element element = (Element)list.item(k);
+        ResultPosition pos = new ResultPosition(element);
+        Point p = pos.getLabelPosition();
+        results.put(new Integer(pos.getId()), p);
       }
     }
     catch(Exception e)
@@ -76,13 +80,22 @@ public class Layout
     XMLUtil.printIndent(out, indent++);
     out.println("<layout>");
 
-    XMLUtil.printIndent(out, indent++);
     Iterator it = entries.iterator();
     while(it.hasNext())
     {
-      WorkflowCell cell = (WorkflowCell)it.next();
-      Activity activityCell = new Activity(cell);
-      activityCell.writeXML(out, indent);
+      Object next = it.next();
+      if(next instanceof WorkflowCell)
+      {
+        WorkflowCell cell = (WorkflowCell)next;
+        CellPosition pos = new CellPosition(cell);
+        pos.writeXML(out, indent);
+      }
+      else
+      {
+        ResultEdge edge = (ResultEdge)next;
+        ResultPosition pos = new ResultPosition(edge);
+        pos.writeXML(out, indent);
+      }
     }
     XMLUtil.printIndent(out, --indent);
     out.println("</layout>");
@@ -90,8 +103,13 @@ public class Layout
     out.close();
   }
 
-  public Rectangle getBounds(String key)
+  public Rectangle getBounds(int key)
   {
-    return (Rectangle)activities.get(key);
+    return (Rectangle)activities.get(new Integer(key));
+  }
+
+  public Point getLabelPosition(int resultKey)
+  {
+    return (Point)results.get(new Integer(resultKey));
   }
 }

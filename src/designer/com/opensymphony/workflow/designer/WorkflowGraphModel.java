@@ -10,7 +10,6 @@ import javax.swing.undo.UndoableEdit;
 import com.opensymphony.workflow.designer.event.JoinChangedEvent;
 import com.opensymphony.workflow.designer.event.JoinChangedListener;
 import com.opensymphony.workflow.designer.proxy.ActionProxy;
-import com.opensymphony.workflow.designer.views.EdgeRouter;
 import com.opensymphony.workflow.loader.*;
 import org.jgraph.graph.*;
 
@@ -20,8 +19,14 @@ public class WorkflowGraphModel extends DefaultGraphModel
   private Collection splitCells = new HashSet();
   private Collection joinCells = new HashSet();
   private Collection initialActions = new ArrayList();
-  private ResultHolderList resultCells = new ResultHolderList();
-  private static final EdgeRouter EDGE_ROUTER = new EdgeRouter();
+  private ResultHolderList results = new ResultHolderList();
+  private IDGenerator resultIdGenerator = new IDGenerator();
+  private Layout layout;
+
+  public WorkflowGraphModel(Layout layout)
+  {
+    this.layout = layout;
+  }
 
   private JoinCell getJoinCell(int id)
   {
@@ -158,13 +163,13 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
   public List getResultsToJoin(JoinCell joinCell)
   {
-    return resultCells.getResultsToJoin(joinCell.getJoinDescriptor().getId());
+    return results.getResultsToJoin(joinCell.getJoinDescriptor().getId());
   }
 
   private void processJoinEndPointResult(JoinCell joinCell)
   {
     int joinId = joinCell.getJoinDescriptor().getId();
-    Iterator results = resultCells.getResultsToJoin(joinId).iterator();
+    Iterator results = this.results.getResultsToJoin(joinId).iterator();
     while(results.hasNext())
     {
       ResultHolder result = (ResultHolder)results.next();
@@ -175,7 +180,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   private void processSplitEndPointResult(SplitCell splitCell)
   {
     int splitId = splitCell.getSplitDescriptor().getId();
-    Iterator results = resultCells.getResultsToSplit(splitId).iterator();
+    Iterator results = this.results.getResultsToSplit(splitId).iterator();
     while(results.hasNext())
     {
       ResultHolder result = (ResultHolder)results.next();
@@ -193,7 +198,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
   public List getResultsToStep(StepCell stepCell)
   {
-    return resultCells.getResultsToStep(stepCell.getDescriptor().getId());
+    return results.getResultsToStep(stepCell.getDescriptor().getId());
   }
 
   /**
@@ -202,7 +207,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   private void processStepEndPointResult(StepCell stepCell)
   {
     int stepId = stepCell.getDescriptor().getId();
-    Iterator results = resultCells.getResultsToStep(stepId).iterator();
+    Iterator results = this.results.getResultsToStep(stepId).iterator();
     while(results.hasNext())
     {
       ResultHolder result = (ResultHolder)results.next();
@@ -212,32 +217,20 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
   public void connectCells(WorkflowCell from, ActionDescriptor action, WorkflowCell to, ResultDescriptor result)
   {
-    Map attributeMap = new HashMap();
     WorkflowPort fromPort = (WorkflowPort)from.getChildAt(0);
     WorkflowPort toPort = (WorkflowPort)to.getChildAt(0);
 
+    resultIdGenerator.checkId(result.getId());
+    if(result.getId() == 0) result.setId(resultIdGenerator.generateId());
     // Create Edge
-    ResultEdge edge = new ResultEdge();
-    //edge.setSource(fromPort);
-    //	  edge.setTarget(toPort);
+    ResultEdge edge = new ResultEdge(result, layout.getLabelPosition(result.getId()));
     edge.setUserObject(action==null ? null : new ActionProxy(action));
-    edge.setDescriptor(result);
-
-    // Create Edge Attributes
-    Map edgeAttrib = GraphConstants.createMap();
-    // Set Arrow
-    int arrow = GraphConstants.ARROW_CLASSIC;
-    GraphConstants.setLineEnd(edgeAttrib, arrow);
-    GraphConstants.setEndFill(edgeAttrib, true);
-    GraphConstants.setDisconnectable(edgeAttrib, false);
-    GraphConstants.setRouting(edgeAttrib, EDGE_ROUTER);
 
     // Connect Edge
     ConnectionSet cs = new ConnectionSet(edge, fromPort, toPort);
     Object[] cells = new Object[]{edge};
     // Insert into Model
-    attributeMap.put(edge, edgeAttrib);
-    insert(cells, attributeMap, cs, null, null);
+    insert(cells, null, cs, null, null);
     toPort.assignIndex(edge);
     fromPort.assignIndex(edge);
 
@@ -253,52 +246,23 @@ public class WorkflowGraphModel extends DefaultGraphModel
    */
   public void connectCells(ResultHolder resultCell, DefaultGraphCell toCell)
   {
-    Map attributeMap = new HashMap();
-    WorkflowPort fromPort;
-    if(resultCell.getFromCell().getChildCount() > 0)
-    {
-      fromPort = (WorkflowPort)resultCell.getFromCell().getChildAt(0);
-    }
-    else
-    {
-      fromPort = new WorkflowPort();
-      resultCell.getFromCell().add(fromPort);
-    }
-    WorkflowPort toPort;
-    if(toCell.getChildCount() > 0)
-    {
-      toPort = (WorkflowPort)toCell.getChildAt(0);
-    }
-    else
-    {
-      toPort = new WorkflowPort();
-      toCell.add(toPort);
-    }
+    WorkflowPort fromPort = (WorkflowPort)resultCell.getFromCell().getChildAt(0);
+    WorkflowPort toPort = (WorkflowPort)toCell.getChildAt(0);
 
     // Create Edge
-    ResultEdge edge = new ResultEdge();
-    //edge.setSource(fromPort);
-    //    edge.setTarget(toPort);
+    ResultDescriptor descriptor = resultCell.getDescriptor();
+    resultIdGenerator.checkId(descriptor.getId());
+    if(descriptor.getId()==0) descriptor.setId(resultIdGenerator.generateId());
+    ResultEdge edge = new ResultEdge(descriptor, layout.getLabelPosition(descriptor.getId()));
 
     // this is action, why?
     edge.setUserObject(new ActionProxy(resultCell.getAction()));
-    edge.setDescriptor(resultCell.getDescriptor());
-    // Create Edge Attributes
-    Map edgeAttrib = GraphConstants.createMap();
-    // Set Arrow
-    int arrow = GraphConstants.ARROW_CLASSIC;
-    GraphConstants.setLineEnd(edgeAttrib, arrow);
-    GraphConstants.setEndFill(edgeAttrib, true);
-    GraphConstants.setDisconnectable(edgeAttrib, false);
-    GraphConstants.setRouting(edgeAttrib, EDGE_ROUTER);
-    // Connect Edge
     ConnectionSet cs = new ConnectionSet(edge, fromPort, toPort);
     Object[] cells = new Object[]{edge};
     // Insert into Model
-    attributeMap.put(edge, edgeAttrib);
-    insert(cells, attributeMap, cs, null, null);
-    toPort.assignIndex(edge);
-    fromPort.assignIndex(edge);
+    insert(cells, null, cs, null, null);
+    //toPort.assignIndex(edge);
+    //fromPort.assignIndex(edge);
   }
 
   /**
@@ -334,7 +298,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   {
     Utils.checkId(result);
     ResultHolder newCell = new ResultHolder(fromCell, result, action);
-    resultCells.add(newCell);
+    results.add(newCell);
     return newCell;
   }
 
@@ -345,6 +309,20 @@ public class WorkflowGraphModel extends DefaultGraphModel
     l.addAll(stepCells);
     l.addAll(splitCells);
     l.addAll(joinCells);
+    Iterator i = l.iterator();
+    Set edges = new HashSet();
+    while(i.hasNext())
+    {
+      WorkflowCell cell = (WorkflowCell)i.next();
+      //we know every edge has to start somewhere, so we don't need to check to cells
+      Iterator j = edges(cell.getFirstChild());
+      while(j.hasNext())
+      {
+        WorkflowEdge edge = (WorkflowEdge)j.next();
+        edges.add(edge);
+      }
+    }
+    l.addAll(edges);
     return l;
   }
 
@@ -352,7 +330,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
   {
     ResultDescriptor result = edge.getDescriptor();
 
-    ResultHolder cell = resultCells.getResultCell(result);
+    ResultHolder cell = results.getResultCell(result);
     DefaultGraphCell from = cell.getFromCell();
     if(from instanceof ResultAware)
     {
@@ -368,7 +346,7 @@ public class WorkflowGraphModel extends DefaultGraphModel
 
       // remove result cell
 
-      resultCells.remove(cell);
+      results.remove(cell);
       //			System.out.println(obj);
     }
 

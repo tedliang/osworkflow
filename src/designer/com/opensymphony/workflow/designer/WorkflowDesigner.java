@@ -128,8 +128,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
 
   public void createGraph(String workflowName)
   {
-    GraphModel model = new WorkflowGraphModel();
     Layout layout = manager.getCurrentWorkspace().getLayout(workflowName);
+    GraphModel model = new WorkflowGraphModel(layout);
     boolean hasLayout = layout != null;
     if(layout == null) layout = new Layout();
     WorkflowDescriptor descriptor;
@@ -259,7 +259,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener
   {
     Layout layout = (Layout)mlayout.get(index);
     WorkflowGraphModel obj = (WorkflowGraphModel)((WorkflowGraph)graphs.get(index)).getModel();
-    layout.setActivity(obj.getActivitiesList());
+    layout.setAllEntries(obj.getActivitiesList());
     String workflowName = graphTabs.getTitleAt(index);
     manager.getCurrentWorkspace().setLayout(workflowName, layout);
     try
