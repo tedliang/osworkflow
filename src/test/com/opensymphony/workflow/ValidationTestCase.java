@@ -1,16 +1,13 @@
 package com.opensymphony.workflow;
 
-import java.io.File;
-
 import junit.framework.TestCase;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
-import com.opensymphony.workflow.loader.StepDescriptor;
 
 /**
  * Test Case for AbstractWorkflow.
  *
  * @author <a href="mailto:vorburger@users.sourceforge.net">Michael Vorburger</a>
- * @version $Id: ValidationTestCase.java,v 1.1 2003-08-07 00:52:44 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
+ * @version $Id: ValidationTestCase.java,v 1.2 2003-08-07 00:53:26 hani Exp $ (Created on Feb 11, 2003 at 7:48:39 PM)
  */
 public class ValidationTestCase extends TestCase {
 
