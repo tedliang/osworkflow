@@ -10,6 +10,10 @@ import java.util.Properties;
 
 
 /**
+ * Abstract base class for all workflow factories.
+ * A workflow factory is a factory class that is able
+ * to provide workflows given a workflow name.
+ *
  * @author Hani Suleiman
  * Date: May 10, 2002
  * Time: 11:17:06 AM
@@ -21,16 +25,30 @@ public abstract class AbstractWorkflowFactory {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    /**
+     * Get the configuration properties of this factory
+     */
     public Properties getProperties() {
         return properties;
     }
 
-    public final void init(Properties p) throws FactoryException {
+    public final void init(Properties p) {
         this.properties = p;
     }
 
+    /**
+     * Get a workflow descriptor given a workflow name.
+     * @param name The name of the workflow to get.
+     * @return The descriptor for the specified workflow.
+     * @throws FactoryException if the specified workflow name does not exist or cannot be located.
+     */
     public abstract WorkflowDescriptor getWorkflow(String name) throws FactoryException;
 
+    /**
+     * Get all workflow names in the current factory
+     * @return An array of all workflow names
+     * @throws FactoryException if the factory cannot determine the names of the workflows it has.
+     */
     public abstract String[] getWorkflowNames() throws FactoryException;
 
     /**
@@ -44,6 +62,13 @@ public abstract class AbstractWorkflowFactory {
      */
     public abstract boolean saveWorkflow(String name, WorkflowDescriptor descriptor, boolean replace) throws FactoryException;
 
+    /**
+     * Invoked after the properties of the factory have been set.
+     * Subclasses should override this method and add any specific
+     * setup code required. For example, connecting to an external resource
+     * or database.
+     * @throws FactoryException if there was an error during initialization.
+     */
     public void initDone() throws FactoryException {
     }
 }
