@@ -13,28 +13,28 @@ import javax.ejb.SessionContext;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class EJBWorkflowContext implements WorkflowContext {
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private SessionContext context;
+    private SessionContext sessionContext;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public String getCaller() {
-        return context.getCallerPrincipal().getName();
-    }
-
-    public SessionContext getContext() {
-        return context;
+        return sessionContext.getCallerPrincipal().getName();
     }
 
     public void setRollbackOnly() {
-        context.setRollbackOnly();
+        sessionContext.setRollbackOnly();
     }
 
     public void setSessionContext(SessionContext context) {
-        this.context = context;
+        this.sessionContext = context;
+    }
+
+    public SessionContext getSessionContext() {
+        return sessionContext;
     }
 }
