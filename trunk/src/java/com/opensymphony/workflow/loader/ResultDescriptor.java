@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ResultDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -119,12 +119,20 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
 
         //if it's not a split or a join, then we require a next step
         if ((split == 0) && (join == 0)) {
+            StringBuffer error = new StringBuffer("Result ");
+
+            if (getId() > 0) {
+                error.append("#").append(getId());
+            }
+
+            error.append(" is not a split or join, and has no ");
+
             if (!hasStep) {
-                throw new InvalidWorkflowDescriptorException("Result is not a split or join, and has no next step");
+                throw new InvalidWorkflowDescriptorException(error.append("next step").toString());
             }
 
             if (status.length() == 0) {
-                throw new InvalidWorkflowDescriptorException("Result is not a split or join, and has no status");
+                throw new InvalidWorkflowDescriptorException(error.append("status").toString());
             }
         }
 
