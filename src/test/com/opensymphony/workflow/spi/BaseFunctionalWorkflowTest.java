@@ -4,18 +4,20 @@
  */
 package com.opensymphony.workflow.spi;
 
-import com.opensymphony.module.user.EntityNotFoundException;
-import com.opensymphony.module.user.Group;
-import com.opensymphony.module.user.User;
-import com.opensymphony.module.user.UserManager;
+import com.opensymphony.module.user.*;
 
-import com.opensymphony.workflow.*;
+import com.opensymphony.workflow.AbstractWorkflow;
+import com.opensymphony.workflow.QueryNotSupportedException;
+import com.opensymphony.workflow.TestWorkflow;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
 import com.opensymphony.workflow.query.Expression;
 import com.opensymphony.workflow.query.WorkflowExpressionQuery;
 import com.opensymphony.workflow.query.WorkflowQuery;
 
 import junit.framework.TestCase;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.*;
 
@@ -35,12 +37,14 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected AbstractWorkflow workflow;
+    protected Log log;
     protected WorkflowDescriptor workflowDescriptor;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
     public BaseFunctionalWorkflowTest(String s) {
         super(s);
+        log = LogFactory.getLog(getClass());
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -54,7 +58,11 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         long workflowId = workflow.initialize(workflowName, 1, new HashMap());
         String workorderName = workflow.getWorkflowName(workflowId);
         workflowDescriptor = workflow.getWorkflowDescriptor(workorderName);
-        log("Name of workorder:" + workorderName);
+
+        if (log.isDebugEnabled()) {
+            log.debug("Name of workorder:" + workorderName);
+        }
+
         assertTrue("Expected external-permission permA in step 1 not found", workflow.getSecurityPermissions(workflowId).contains("permA"));
 
         List currentSteps = workflow.getCurrentSteps(workflowId);
@@ -63,7 +71,11 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
 
         List historySteps = workflow.getHistorySteps(workflowId);
         assertEquals("Unexpected number of history steps", 0, historySteps.size());
-        log("Perform Finish First Draft");
+
+        if (log.isDebugEnabled()) {
+            log.debug("Perform Finish First Draft");
+        }
+
         workflow.doAction(workflowId, 1, Collections.EMPTY_MAP);
 
         int[] actions = workflow.getAvailableActions(workflowId, Collections.EMPTY_MAP);
@@ -78,7 +90,11 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         // check system date, add in a 1 second fudgefactor.
         assertTrue("history step finish date " + historyStep.getFinishDate() + " is in the future!", (historyStep.getFinishDate().getTime() - 1000) < System.currentTimeMillis());
         logActions(actions);
-        log("Perform Finish Foo");
+
+        if (log.isDebugEnabled()) {
+            log.debug("Perform Finish Foo");
+        }
+
         workflow.doAction(workflowId, 12, Collections.EMPTY_MAP);
 
         Step lastHistoryStep = historyStep;
@@ -86,28 +102,48 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         assertEquals("Unexpected number of history steps", 1, historySteps.size());
         historyStep = (Step) historySteps.get(0);
         assertEquals(lastHistoryStep.getId(), historyStep.getId());
-        log("Perform Finish Bar");
+
+        if (log.isDebugEnabled()) {
+            log.debug("Perform Finish Bar");
+        }
+
         workflow.doAction(workflowId, 13, Collections.EMPTY_MAP);
         actions = workflow.getAvailableActions(workflowId, Collections.EMPTY_MAP);
         assertEquals(1, actions.length);
         logActions(actions);
-        log("Perform Finish Baz");
+
+        if (log.isDebugEnabled()) {
+            log.debug("Perform Finish Baz");
+        }
+
         workflow.doAction(workflowId, 14, Collections.EMPTY_MAP);
         actions = workflow.getAvailableActions(workflowId, Collections.EMPTY_MAP);
         logActions(actions);
         historySteps = workflow.getHistorySteps(workflowId);
         assertEquals("Unexpected number of history steps", 4, historySteps.size());
-        log("Perform Finish Editing");
+
+        if (log.isDebugEnabled()) {
+            log.debug("Perform Finish Editing");
+        }
+
         workflow.doAction(workflowId, 3, Collections.EMPTY_MAP);
         actions = workflow.getAvailableActions(workflowId, Collections.EMPTY_MAP);
         assertEquals(3, actions.length);
         logActions(actions);
-        log("Perform Publish Doc");
+
+        if (log.isDebugEnabled()) {
+            log.debug("Perform Publish Doc");
+        }
+
         workflow.doAction(workflowId, 7, Collections.EMPTY_MAP);
         actions = workflow.getAvailableActions(workflowId, Collections.EMPTY_MAP);
         assertEquals(1, actions.length);
         logActions(actions);
-        log("Perform Publish Document");
+
+        if (log.isDebugEnabled()) {
+            log.debug("Perform Publish Document");
+        }
+
         workflow.doAction(workflowId, 11, Collections.EMPTY_MAP);
 
         actions = workflow.getAvailableActions(workflowId, Collections.EMPTY_MAP);
@@ -142,7 +178,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
             workflows = workflow.query(query);
             assertEquals(0, workflows.size());
         } catch (QueryNotSupportedException e) {
-            System.out.println("Store does not support query");
+            log.error("Store does not support query");
 
             return;
         }
@@ -161,7 +197,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
             workflows = workflow.query(query);
             assertEquals(0, workflows.size());
         } catch (QueryNotSupportedException e) {
-            System.out.println("Store does not support query");
+            log.error("Store does not support query");
 
             return;
         }
@@ -204,7 +240,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
             workflows = workflow.query(query);
             assertEquals(0, workflows.size());
         } catch (QueryNotSupportedException e) {
-            System.out.println("Store does not support query");
+            log.error("Store does not support query");
         }
 
         try {
@@ -212,7 +248,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
             workflows = workflow.query(query);
             assertEquals(1, workflows.size());
         } catch (QueryNotSupportedException e) {
-            System.out.println("Store does not support query");
+            log.error("Store does not support query");
         }
 
         try {
@@ -227,7 +263,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
             workflows = workflow.query(query);
             assertEquals(1, workflows.size());
         } catch (QueryNotSupportedException e) {
-            System.out.println("Store does not support query");
+            log.error("Store does not support query");
         }
     }
 
@@ -252,20 +288,14 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
         }
     }
 
-    /**
-     * Set this to log to System.out.println to see more details about what is happening in the
-     * system.
-     * @param s  the string to be logged.
-     */
-    protected void log(String s) {
-        //System.out.println(s);
-    }
-
     protected void logActions(int[] actions) {
         for (int i = 0; i < actions.length; i++) {
             String name = workflowDescriptor.getAction(actions[i]).getName();
             int actionId = workflowDescriptor.getAction(actions[i]).getId();
-            log("Actions Available: " + name + " id:" + actionId);
+
+            if (log.isDebugEnabled()) {
+                log.debug("Actions Available: " + name + " id:" + actionId);
+            }
         }
     }
 }
