@@ -4,13 +4,12 @@
  */
 package com.opensymphony.workflow.spi;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.WorkflowContext;
 import com.opensymphony.workflow.config.ConfigLoader;
-import com.opensymphony.workflow.spi.memory.MemoryWorkflowStore;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**

@@ -4,10 +4,7 @@
  */
 package com.opensymphony.workflow;
 
-import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.module.propertyset.memory.MemoryPropertySet;
-
-import com.opensymphony.workflow.basic.BasicWorkflow;
 
 import junit.framework.TestCase;
 
@@ -15,10 +12,10 @@ import java.util.HashMap;
 
 
 /**
+ * This testcase verifies that an AbstractWorkflow provided methods work properly.
  *
- *
- * @author $Author: hani $
- * @version $Revision: 1.2 $
+ * @author $Author: dep4b $
+ * @version $Revision: 1.3 $
  */
 public class TestAbstractWorkflow extends TestCase {
     //~ Instance fields ////////////////////////////////////////////////////////

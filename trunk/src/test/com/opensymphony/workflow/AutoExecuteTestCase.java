@@ -8,14 +8,17 @@ import com.opensymphony.workflow.spi.Step;
 
 import junit.framework.TestCase;
 
-import java.io.File;
-
 import java.net.URL;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
+ * Test that when an auto execute action happens, the correct actions occur.
+ *
  * @author Hani Suleiman (hani@formicary.net)
  * Date: May 9, 2003
  * Time: 10:26:48 PM
