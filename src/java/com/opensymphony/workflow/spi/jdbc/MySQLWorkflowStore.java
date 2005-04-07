@@ -21,15 +21,38 @@ import java.util.Map;
 public class MySQLWorkflowStore extends JDBCWorkflowStore {
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private String _stepSequenceIncrement = null;
-    private String _stepSequenceRetrieve = null;
+    private String entrySequenceIncrement = null;
+    private String entrySequenceRetrieve = null;
+    private String stepSequenceIncrement = null;
+    private String stepSequenceRetrieve = null;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
     public void init(Map props) throws StoreException {
         super.init(props);
-        _stepSequenceIncrement = (String) props.get("step.sequence.increment");
-        _stepSequenceRetrieve = (String) props.get("step.sequence.retrieve");
+        stepSequenceIncrement = (String) props.get("step.sequence.increment");
+        stepSequenceRetrieve = (String) props.get("step.sequence.retrieve");
+        entrySequenceIncrement = (String) props.get("entry.sequence.increment");
+        entrySequenceRetrieve = (String) props.get("entry.sequence.retrieve");
+    }
+
+    protected long getNextEntrySequence(Connection c) throws SQLException {
+        PreparedStatement stmt = null;
+        ResultSet rset = null;
+
+        try {
+            stmt = c.prepareStatement(entrySequenceIncrement);
+            stmt.executeUpdate();
+            rset = stmt.executeQuery(entrySequenceRetrieve);
+
+            rset.next();
+
+            long id = rset.getLong(1);
+
+            return id;
+        } finally {
+            cleanup(null, stmt, rset);
+        }
     }
 
     protected long getNextStepSequence(Connection c) throws SQLException {
@@ -37,9 +60,9 @@ public class MySQLWorkflowStore extends JDBCWorkflowStore {
         ResultSet rset = null;
 
         try {
-            stmt = c.prepareStatement(_stepSequenceIncrement);
+            stmt = c.prepareStatement(stepSequenceIncrement);
             stmt.executeUpdate();
-            rset = stmt.executeQuery(_stepSequenceRetrieve);
+            rset = stmt.executeQuery(stepSequenceRetrieve);
 
             rset.next();
 
