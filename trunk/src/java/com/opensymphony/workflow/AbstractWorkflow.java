@@ -678,7 +678,7 @@ public class AbstractWorkflow implements Workflow {
                 conditions = restriction.getConditionsDescriptor();
             }
 
-            if (passesConditions(wf.getGlobalConditions(), Collections.unmodifiableMap(transientVars), ps, s.getId()) && passesConditions(conditions, Collections.unmodifiableMap(transientVars), ps, s.getId())) {
+            if (passesConditions(wf.getGlobalConditions(), new HashMap(transientVars), ps, s.getId()) && passesConditions(conditions, new HashMap(transientVars), ps, s.getId())) {
                 l.add(new Integer(action.getId()));
             }
         }
@@ -841,7 +841,7 @@ public class AbstractWorkflow implements Workflow {
         if (function != null) {
             String type = function.getType();
 
-            HashMap args = new HashMap(function.getArgs());
+            Map args = new HashMap(function.getArgs());
 
             for (Iterator iterator = args.entrySet().iterator();
                     iterator.hasNext();) {
@@ -965,7 +965,7 @@ public class AbstractWorkflow implements Workflow {
             transientVars.put("actionId", actionId);
         }
 
-        transientVars.put("currentSteps", Collections.unmodifiableCollection(currentSteps));
+        transientVars.put("currentSteps", new ArrayList(currentSteps));
 
         // now talk to the registers for any extra objects needed in scope
         for (Iterator iterator = registers.iterator(); iterator.hasNext();) {
@@ -1011,7 +1011,7 @@ public class AbstractWorkflow implements Workflow {
         Step step = getCurrentStep(wf, action.getId(), currentSteps, transientVars, ps);
 
         // validate transientVars (optional)
-        Map unmodifiableTransients = Collections.unmodifiableMap(transientVars);
+        Map unmodifiableTransients = new HashMap(transientVars);
 
         if (action.getValidators().size() > 0) {
             verifyInputs(entry, action.getValidators(), unmodifiableTransients, ps);
@@ -1371,7 +1371,7 @@ public class AbstractWorkflow implements Workflow {
                 conditions = restriction.getConditionsDescriptor();
             }
 
-            result = new Boolean(passesConditions(wf.getGlobalConditions(), Collections.unmodifiableMap(transientVars), ps, stepId) && passesConditions(conditions, Collections.unmodifiableMap(transientVars), ps, stepId));
+            result = new Boolean(passesConditions(wf.getGlobalConditions(), new HashMap(transientVars), ps, stepId) && passesConditions(conditions, new HashMap(transientVars), ps, stepId));
             cache.put(action, result);
         }
 
@@ -1426,7 +1426,7 @@ public class AbstractWorkflow implements Workflow {
             conditions = restriction.getConditionsDescriptor();
         }
 
-        return passesConditions(conditions, Collections.unmodifiableMap(transientVars), ps, 0);
+        return passesConditions(conditions, new HashMap(transientVars), ps, 0);
     }
 
     private Step createNewCurrentStep(ResultDescriptor theResult, WorkflowEntry entry, WorkflowStore store, int actionId, Step currentStep, long[] previousIds, Map transientVars, PropertySet ps) throws WorkflowException {
@@ -1509,7 +1509,7 @@ public class AbstractWorkflow implements Workflow {
                 // with an array of just this current step
                 List currentSteps = new ArrayList();
                 currentSteps.add(newStep);
-                transientVars.put("currentSteps", Collections.unmodifiableCollection(currentSteps));
+                transientVars.put("currentSteps", new ArrayList(currentSteps));
             }
 
             WorkflowDescriptor descriptor = (WorkflowDescriptor) transientVars.get("descriptor");
