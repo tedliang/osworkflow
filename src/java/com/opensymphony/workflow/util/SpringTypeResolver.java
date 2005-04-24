@@ -11,6 +11,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -25,7 +26,8 @@ public class SpringTypeResolver extends TypeResolver implements ApplicationConte
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
+    private Map springFunctions = new HashMap();
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
@@ -50,11 +52,21 @@ public class SpringTypeResolver extends TypeResolver implements ApplicationConte
             return (FunctionProvider) getApplicationContext().getBean((String) args.get(BEANNAME));
         }
 
+        String className = (String) springFunctions.get(type);
+
+        if (className == null) {
+            className = (String) args.get(Workflow.CLASS_NAME);
+        }
+
+        if (className != null) {
+            return (FunctionProvider) loadObject(className);
+        }
+
         return super.getFunction(type, args);
     }
 
     public void setFunctions(Map functions) {
-        this.functions = functions;
+        this.springFunctions = functions;
     }
 
     public Register getRegister(String type, Map args) throws WorkflowException {
