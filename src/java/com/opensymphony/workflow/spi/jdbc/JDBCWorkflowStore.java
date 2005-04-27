@@ -124,6 +124,34 @@ public class JDBCWorkflowStore implements WorkflowStore {
         return PropertySetManager.getInstance("jdbc", args);
     }
 
+    ////////////METHOD #2 OF 3 //////////////////
+    ////////// ...gur;  ////////////////////
+    //kiz
+    public boolean checkIfORExists(NestedExpression nestedExpression) {
+        //GURKAN;
+        //This method checks if OR exists in any nested query
+        //This method is used by doNestedNaturalJoin() to make sure
+        //OR does not exist within query
+        int numberOfExp = nestedExpression.getExpressionCount();
+
+        if (nestedExpression.getExpressionOperator() == NestedExpression.OR) {
+            return true;
+        }
+
+        for (int i = 0; i < numberOfExp; i++) {
+            Expression expression = nestedExpression.getExpression(i);
+
+            if (expression.isNested()) {
+                NestedExpression nestedExp = (NestedExpression) expression;
+
+                return checkIfORExists(nestedExp);
+            }
+        }
+
+        //System.out.println("!!!...........false is returned ..!!!");
+        return false;
+    }
+
     public Step createCurrentStep(long entryId, int wfStepId, String owner, Date startDate, Date dueDate, String status, long[] previousIds) throws StoreException {
         Connection conn = null;
 
@@ -427,7 +455,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         try {
             conn = getConnection();
 
-            String sql = "INSERT INTO " + historyTable + " (" + stepId + "," + stepEntryId + ", " + stepStepId + ", " + stepActionId + ", " + stepOwner + ", " + stepStartDate + ", " + stepFinishDate + ", " + stepStatus + ", " + stepCaller + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO " + historyTable + " (" + stepId + ',' + stepEntryId + ", " + stepStepId + ", " + stepActionId + ", " + stepOwner + ", " + stepStartDate + ", " + stepFinishDate + ", " + stepStatus + ", " + stepCaller + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             if (log.isDebugEnabled()) {
                 log.debug("Executing SQL statement: " + sql);
@@ -495,67 +523,141 @@ public class JDBCWorkflowStore implements WorkflowStore {
         }
     }
 
-    public List query(WorkflowExpressionQuery query) throws StoreException {
-        Expression expression = query.getExpression();
-
-        StringBuffer sel = new StringBuffer();
-        List values = new ArrayList();
-        String columnName = null;
-
-        if (expression.isNested()) {
-            columnName = buildNested((NestedExpression) expression, sel, values);
-        } else {
-            columnName = buildSimple((FieldExpression) expression, sel, values);
+    public List query(WorkflowExpressionQuery e) throws StoreException {
+        //GURKAN;
+        // If it is simple, call buildSimple()
+        //  SELECT DISTINCT(ENTRY_ID) FROM OS_HISTORYSTEP WHERE FINISH_DATE < ?
+        //
+        // If it is nested, call doNestedNaturalJoin() if and only if the query is
+        // ANDed including nested-nestd queries
+        // If OR exists in any query call buildNested()
+        //
+        //doNestedNaturalJoin()
+        //  This doNestedNaturalJoin() method improves performance of the queries if and only if
+        //  the queries including nested queries are ANDed
+        //
+        //	SELECT DISTINCT (a1.ENTRY_ID) AS retrieved
+        //		FROM OS_CURRENTSTEP AS a1 , OS_CURRENTSTEP AS a2 , OS_CURRENTSTEP AS a3 , OS_CURRENTSTEP AS a4
+        //			WHERE ((a1.ENTRY_ID = a1.ENTRY_ID AND a1.ENTRY_ID = a2.ENTRY_ID) AND
+        //					 (a2.ENTRY_ID = a3.ENTRY_ID AND a3.ENTRY_ID = a4.ENTRY_ID))
+        //				AND ( a1.OWNER =  ?  AND a2.STATUS !=  ?  AND a3.OWNER =  ?  AND a4.STATUS !=  ?  )
+        //
+        //doNestedLeftJoin() //not used
+        //  For this method to work, order of queries is matter
+        //  This doNestedLeftJoin() method will generate the queries but it works if and only if
+        //  the query is in correct order -- it is your luck
+        //                SELECT DISTINCT (a0.ENTRY_ID) AS retrieved FROM OS_CURRENTSTEP AS a0
+        //                                LEFT JOIN OS_CURRENTSTEP a1  ON a0.ENTRY_ID = a1.ENTRY_ID
+        //
+        //                                LEFT JOIN OS_CURRENTSTEP a2  ON a1.ENTRY_ID = a2.ENTRY_ID
+        //                                LEFT JOIN OS_CURRENTSTEP a3  ON a2.ENTRY_ID = a3.ENTRY_ID
+        //                                                WHERE a1.OWNER =  ? AND (a2.STATUS =  ?  OR a3.OWNER =  ?)
+        //
+        if (log.isDebugEnabled()) {
+            log.debug("Starting Query");
         }
 
-        if (query.getSortOrder() != WorkflowExpressionQuery.SORT_NONE) {
-            sel.append(" ORDER BY ");
-
-            if (query.getOrderBy() != 0) {
-                // Had the unexpected result of doing a "ORDER BY 1" w/o this in place
-                String fName = fieldName(query.getOrderBy());
-
-                if (log.isDebugEnabled()) {
-                    log.debug("Found fieldName as: " + fName);
-                }
-
-                sel.append(fName);
-
-                // In MySQL and Informix, you have to select any field you order by -- others?
-                String current = sel.toString();
-
-                // Remember that it will be surrounded by "DISTINCT (XXXX)"
-                // Should already be formatted as:
-                //      SELECT DISTINCT(columnName) FROM table WHERE ......
-                // Want to be in the format:
-                //      SELECT DISTINCT(columnName), fName FROM table WHERE .......
-                String entry = current.substring(0, current.indexOf(columnName)) + columnName + ") , " + fName + " ";
-                entry += current.substring(current.indexOf(columnName) + columnName.length() + 1);
-
-                sel = new StringBuffer(entry);
-
-                if (query.getSortOrder() == WorkflowExpressionQuery.SORT_ASC) {
-                    sel.append(" ASC");
-                } else {
-                    sel.append(" DESC");
-                }
-
-                if (log.isDebugEnabled()) {
-                    log.debug("Finalized query: " + sel.toString());
-                }
-            } else {
-                // Order by is empty, so order by the columnName
-                sel.append(columnName);
-            }
-        }
+        Expression expression = e.getExpression();
 
         if (log.isDebugEnabled()) {
-            log.debug("Finished query is: " + sel.toString());
+            log.debug("Have all variables");
         }
 
-        List results = doExpressionQuery(sel.toString(), columnName, values);
+        if (expression.isNested()) {
+            NestedExpression nestedExp = (NestedExpression) expression;
 
-        return results;
+            StringBuffer sel = new StringBuffer();
+            StringBuffer columns = new StringBuffer();
+            StringBuffer leftJoin = new StringBuffer();
+            StringBuffer where = new StringBuffer();
+            StringBuffer whereComp = new StringBuffer();
+            StringBuffer orderBy = new StringBuffer();
+            List values = new LinkedList();
+            List queries = new LinkedList();
+
+            String columnName;
+            String selectString;
+
+            //Expression is nested and see if the expresion has OR
+            if (checkIfORExists(nestedExp)) {
+                //For doNestedLeftJoin() uncomment these -- again order is matter
+                //and comment out last two lines where buildNested() is called
+                //
+                //columns.append("SELECT DISTINCT (");
+                //columns.append("a0" + "." + stepEntryId);
+                //columnName = "retrieved";
+                //columns.append(") AS " + columnName);
+                //columns.append(" FROM ");
+                //columns.append(currentTable + " AS " + "a0");
+                //where.append("WHERE ");
+                //doNestedLeftJoin(e, nestedExp, leftJoin, where, values, queries, orderBy);
+                //selectString = columns.toString() + " " + leftJoin.toString() + " " + where.toString() + " " + orderBy.toString();
+                //System.out.println("LEFT JOIN ...");
+                //
+                //
+                columnName = buildNested(nestedExp, sel, values);
+                selectString = sel.toString();
+            } else {
+                columns.append("SELECT DISTINCT (");
+                columns.append("a1" + '.' + stepEntryId);
+                columnName = "retrieved";
+                columns.append(") AS " + columnName);
+                columns.append(" FROM ");
+                where.append("WHERE ");
+
+                doNestedNaturalJoin(e, nestedExp, columns, where, whereComp, values, queries, orderBy);
+                selectString = columns.toString() + ' ' + leftJoin.toString() + ' ' + where.toString() + " AND ( " + whereComp.toString() + " ) " + ' ' + orderBy.toString();
+
+                //              System.out.println("NATURAL JOIN ...");
+            }
+
+            //System.out.println("number of queries is      : " + queries.size());
+            //System.out.println("values.toString()         : " + values.toString());
+            //System.out.println("columnName                : " + columnName);
+            //System.out.println("where                     : " + where);
+            //System.out.println("whereComp                 : " + whereComp);
+            //System.out.println("columns                   : " + columns);
+            //          System.out.println("Query is : " + selectString + "\n");
+            return doExpressionQuery(selectString, columnName, values);
+        } else {
+            // query is not empty ... it's a SIMPLE query
+            // do what the old query did
+            StringBuffer qry;
+            List values = new LinkedList();
+
+            qry = new StringBuffer();
+
+            String columnName = buildSimple((FieldExpression) expression, qry, values);
+
+            if (e.getSortOrder() != WorkflowExpressionQuery.SORT_NONE) {
+                qry.append(" ORDER BY ");
+
+                if (e.getOrderBy() != 0) {
+                    String fName = fieldName(e.getOrderBy());
+
+                    qry.append(fName);
+
+                    // To help w/ MySQL and Informix, you have to include the column in the query
+                    String current = qry.toString();
+                    String entry = current.substring(0, current.indexOf(columnName)) + columnName + "), " + fName + ' ';
+                    entry += current.substring(current.indexOf(columnName) + columnName.length() + 1);
+
+                    qry = new StringBuffer(entry);
+
+                    if (e.getSortOrder() == WorkflowExpressionQuery.SORT_DESC) {
+                        qry.append(" DESC");
+                    } else {
+                        qry.append(" ASC");
+                    }
+                } else {
+                    qry.append(columnName);
+                }
+            }
+
+            System.out.println("Query is: " + qry.toString());
+
+            return doExpressionQuery(qry.toString(), columnName, values);
+        }
     }
 
     public List query(WorkflowQuery query) throws StoreException {
@@ -707,7 +809,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
     }
 
     protected long createCurrentStep(Connection conn, long entryId, int wfStepId, String owner, Date startDate, Date dueDate, String status) throws SQLException {
-        String sql = "INSERT INTO " + currentTable + " (" + stepId + "," + stepEntryId + ", " + stepStepId + ", " + stepActionId + ", " + stepOwner + ", " + stepStartDate + ", " + stepDueDate + ", " + stepFinishDate + ", " + stepStatus + ", " + stepCaller + " ) VALUES (?, ?, ?, null, ?, ?, ?, null, ?, null)";
+        String sql = "INSERT INTO " + currentTable + " (" + stepId + ',' + stepEntryId + ", " + stepStepId + ", " + stepActionId + ", " + stepOwner + ", " + stepStartDate + ", " + stepDueDate + ", " + stepFinishDate + ", " + stepStatus + ", " + stepCaller + " ) VALUES (?, ?, ?, null, ?, ?, ?, null, ?, null)";
 
         if (log.isDebugEnabled()) {
             log.debug("Executing SQL statement: " + sql);
@@ -733,6 +835,246 @@ public class JDBCWorkflowStore implements WorkflowStore {
         cleanup(null, stmt, null);
 
         return id;
+    }
+
+    ////////////METHOD #3 OF 3 //////////////////
+    ////////// ...gur;  ////////////////////
+    //kardes
+    void doNestedNaturalJoin(WorkflowExpressionQuery e, NestedExpression nestedExpression, StringBuffer columns, StringBuffer where, StringBuffer whereComp, List values, List queries, StringBuffer orderBy) { // throws StoreException {
+
+        Object value;
+        int currentExpField;
+
+        int numberOfExp = nestedExpression.getExpressionCount();
+
+        for (int i = 0; i < numberOfExp; i++) { //ori
+
+            //for (i = numberOfExp; i > 0; i--) { //reverse 1 of 3
+            Expression expression = nestedExpression.getExpression(i); //ori
+
+            //Expression expression = nestedExpression.getExpression(i - 1); //reverse 2 of 3
+            if (!(expression.isNested())) {
+                FieldExpression fieldExp = (FieldExpression) expression;
+
+                FieldExpression fieldExpBeforeCurrent;
+                queries.add(expression);
+
+                int queryId = queries.size();
+
+                if (queryId > 1) {
+                    columns.append(" , ");
+                }
+
+                //do; OS_CURRENTSTEP AS a1 ....
+                if (fieldExp.getContext() == FieldExpression.CURRENT_STEPS) {
+                    columns.append(currentTable + " AS " + 'a' + queryId);
+                } else if (fieldExp.getContext() == FieldExpression.HISTORY_STEPS) {
+                    columns.append(historyTable + " AS " + 'a' + queryId);
+                } else {
+                    columns.append(entryTable + " AS " + 'a' + queryId);
+                }
+
+                ///////// beginning of WHERE JOINS/s :   //////////////////////////////////////////
+                //do for first query; a1.ENTRY_ID = a1.ENTRY_ID
+                if (queryId == 1) {
+                    where.append("a1" + '.' + stepEntryId);
+                    where.append(" = ");
+
+                    if (fieldExp.getContext() == FieldExpression.CURRENT_STEPS) {
+                        where.append("a" + queryId + '.' + stepEntryId);
+                    } else if (fieldExp.getContext() == FieldExpression.HISTORY_STEPS) {
+                        where.append("a" + queryId + '.' + stepEntryId);
+                    } else {
+                        where.append("a" + queryId + '.' + entryId);
+                    }
+                }
+
+                //do; a1.ENTRY_ID = a2.ENTRY_ID
+                if (queryId > 1) {
+                    fieldExpBeforeCurrent = (FieldExpression) queries.get(queryId - 2);
+
+                    if (fieldExpBeforeCurrent.getContext() == FieldExpression.CURRENT_STEPS) {
+                        where.append("a" + (queryId - 1) + '.' + stepEntryId);
+                    } else if (fieldExpBeforeCurrent.getContext() == FieldExpression.HISTORY_STEPS) {
+                        where.append("a" + (queryId - 1) + '.' + stepEntryId);
+                    } else {
+                        where.append("a" + (queryId - 1) + '.' + entryId);
+                    }
+
+                    where.append(" = ");
+
+                    if (fieldExp.getContext() == FieldExpression.CURRENT_STEPS) {
+                        where.append("a" + queryId + '.' + stepEntryId);
+                    } else if (fieldExp.getContext() == FieldExpression.HISTORY_STEPS) {
+                        where.append("a" + queryId + '.' + stepEntryId);
+                    } else {
+                        where.append("a" + queryId + '.' + entryId);
+                    }
+                }
+
+                ///////// end of LEFT JOIN : "LEFT JOIN OS_CURRENTSTEP a1  ON a0.ENTRY_ID = a1.ENTRY_ID
+                //
+                //////// BEGINNING OF WHERE clause //////////////////////////////////////////////////
+                value = fieldExp.getValue();
+                currentExpField = fieldExp.getField();
+
+                //if the Expression is negated and FieldExpression is "EQUALS", we need to negate that FieldExpression
+                if (expression.isNegate()) {
+                    //do ; a2.STATUS !=
+                    whereComp.append("a" + queryId + '.' + fieldName(fieldExp.getField()));
+
+                    switch (fieldExp.getOperator()) { //WHERE a1.STATUS !=
+                    case FieldExpression.EQUALS:
+
+                        if (value == null) {
+                            whereComp.append(" IS NOT ");
+                        } else {
+                            whereComp.append(" != ");
+                        }
+
+                        break;
+
+                    case FieldExpression.NOT_EQUALS:
+
+                        if (value == null) {
+                            whereComp.append(" IS ");
+                        } else {
+                            whereComp.append(" = ");
+                        }
+
+                        break;
+
+                    case FieldExpression.GT:
+                        whereComp.append(" < ");
+
+                        break;
+
+                    case FieldExpression.LT:
+                        whereComp.append(" > ");
+
+                        break;
+
+                    default:
+                        whereComp.append(" != ");
+
+                        break;
+                    }
+
+                    switch (currentExpField) {
+                    case FieldExpression.START_DATE:
+                    case FieldExpression.FINISH_DATE:
+                        values.add(new Timestamp(((java.util.Date) value).getTime()));
+
+                        break;
+
+                    default:
+
+                        if (value == null) {
+                            values.add(null);
+                        } else {
+                            values.add(value);
+                        }
+
+                        break;
+                    }
+                } else {
+                    //do; a1.OWNER =
+                    whereComp.append("a" + queryId + '.' + fieldName(fieldExp.getField()));
+
+                    switch (fieldExp.getOperator()) { //WHERE a2.FINISH_DATE <
+                    case FieldExpression.EQUALS:
+
+                        if (value == null) {
+                            whereComp.append(" IS ");
+                        } else {
+                            whereComp.append(" = ");
+                        }
+
+                        break;
+
+                    case FieldExpression.NOT_EQUALS:
+
+                        if (value == null) {
+                            whereComp.append(" IS NOT ");
+                        } else {
+                            whereComp.append(" <> ");
+                        }
+
+                        break;
+
+                    case FieldExpression.GT:
+                        whereComp.append(" > ");
+
+                        break;
+
+                    case FieldExpression.LT:
+                        whereComp.append(" < ");
+
+                        break;
+
+                    default:
+                        whereComp.append(" = ");
+
+                        break;
+                    }
+
+                    switch (currentExpField) {
+                    case FieldExpression.START_DATE:
+                    case FieldExpression.FINISH_DATE:
+                        values.add(new Timestamp(((java.util.Date) value).getTime()));
+
+                        break;
+
+                    default:
+
+                        if (value == null) {
+                            values.add(null);
+                        } else {
+                            values.add(value);
+                        }
+
+                        break;
+                    }
+                }
+
+                //do; a1.OWNER =  ?  ... a2.STATUS != ?
+                whereComp.append(" ? ");
+
+                //////// END OF WHERE clause////////////////////////////////////////////////////////////
+                if ((e.getSortOrder() != WorkflowExpressionQuery.SORT_NONE) && (e.getOrderBy() != 0)) {
+                    System.out.println("ORDER BY ; queries.size() : " + queries.size());
+                    orderBy.append(" ORDER BY ");
+                    orderBy.append("a1" + '.' + fieldName(e.getOrderBy()));
+
+                    if (e.getSortOrder() == WorkflowExpressionQuery.SORT_ASC) {
+                        orderBy.append(" ASC");
+                    } else if (e.getSortOrder() == WorkflowExpressionQuery.SORT_DESC) {
+                        orderBy.append(" DESC");
+                    }
+                }
+            } else {
+                NestedExpression nestedExp = (NestedExpression) expression;
+
+                where.append('(');
+
+                doNestedNaturalJoin(e, nestedExp, columns, where, whereComp, values, queries, orderBy);
+
+                where.append(')');
+            }
+
+            //add AND or OR clause between the queries
+            if (i < (numberOfExp - 1)) { //ori
+
+                //if (i > 1) { //reverse 3 of 3
+                if (nestedExpression.getExpressionOperator() == NestedExpression.AND) {
+                    where.append(" AND ");
+                    whereComp.append(" AND ");
+                } else {
+                    where.append(" OR ");
+                    whereComp.append(" OR ");
+                }
+            }
+        }
     }
 
     private String getInitProperty(Map props, String strName, String strDefault) {
@@ -790,7 +1132,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
                 this.buildSimple(sub, sel, values);
             }
 
-            sel.append(")");
+            sel.append(')');
         }
 
         // Changed by Anthony on 2 June 2004, to query from OS_CURRENTSTEP instead
@@ -973,7 +1315,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         String right;
 
         if (value != null) {
-            right = "'" + escape(value.toString()) + "'";
+            right = '\'' + escape(value.toString()) + '\'';
         } else {
             right = "null";
         }
@@ -1074,13 +1416,13 @@ public class JDBCWorkflowStore implements WorkflowStore {
 
             switch (operator) {
             case WorkflowQuery.AND:
-                return "(" + queryWhere(left) + " AND " + queryWhere(right) + ")";
+                return '(' + queryWhere(left) + " AND " + queryWhere(right) + ')';
 
             case WorkflowQuery.OR:
-                return "(" + queryWhere(left) + " OR " + queryWhere(right) + ")";
+                return '(' + queryWhere(left) + " OR " + queryWhere(right) + ')';
 
             case WorkflowQuery.XOR:
-                return "(" + queryWhere(left) + " XOR " + queryWhere(right) + ")";
+                return '(' + queryWhere(left) + " XOR " + queryWhere(right) + ')';
             }
         }
 
