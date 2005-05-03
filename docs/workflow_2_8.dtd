@@ -81,7 +81,7 @@ should be used to evaluate them all together.
 
 Use in: join, restrict-to, result
 -->
-<!ELEMENT conditions (conditions*, condition*)>
+<!ELEMENT conditions (conditions | condition)*>
 <!ATTLIST conditions
 	type (AND | OR) #IMPLIED
 >
