@@ -1,0 +1,32 @@
+<project>
+    <name>OSWorkflow</name>
+    <jiraId>10004</jiraId>
+    <jiraName>WF</jiraName>
+    <confluenceName>WF</confluenceName>
+    <forumsId>7</forumsId>
+
+    <owners>
+        <person>
+            <name>Hani Suleiman</name>
+            <email>hani@formicary.net</email>
+            <role></role>
+        </person>
+    </owners>
+
+    <developers />
+
+    <releases>
+        <release>
+            <version>2.7.0</version>
+            <date>5/26/2004</date>
+            <jiraId>21290</jiraId>
+            <downloads>
+                <download>
+                    <url>https://osworkflow.dev.java.net/files/documents/635/4647/osworkflow-2.7.0.zip</url>
+                    <name>Full</name>
+                </download>
+            </downloads>
+        </release>
+    </releases>
+
+</project>
