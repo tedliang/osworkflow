@@ -315,7 +315,7 @@ public class PropertyUtilsBean
     {
       throw new IllegalArgumentException("Invalid indexed property '" + name + "'");
     }
-    int index = -1;
+    int index;
     try
     {
       String subscript = name.substring(delim + 1, delim2);
@@ -615,10 +615,10 @@ public class PropertyUtilsBean
       throw new IllegalArgumentException("No name specified");
     }
 
-    int indexOfINDEXED_DELIM = -1;
-    int indexOfMAPPED_DELIM = -1;
-    int indexOfMAPPED_DELIM2 = -1;
-    int indexOfNESTED_DELIM = -1;
+    int indexOfINDEXED_DELIM;
+    int indexOfMAPPED_DELIM;
+    int indexOfMAPPED_DELIM2;
+    int indexOfNESTED_DELIM;
     while(true)
     {
       indexOfNESTED_DELIM = name.indexOf(PropertyUtils.NESTED_DELIM);
@@ -808,7 +808,7 @@ public class PropertyUtilsBean
       }
     }
 
-    PropertyDescriptor result = null;
+    PropertyDescriptor result;
     Map mappedDescriptors = getMappedPropertyDescriptors(bean);
     if(mappedDescriptors == null)
     {
@@ -889,7 +889,7 @@ public class PropertyUtilsBean
     }
 
     // Look up any cached descriptors for this bean class
-    PropertyDescriptor descriptors[] = null;
+    PropertyDescriptor[] descriptors;
     descriptors = (PropertyDescriptor[])descriptorsCache.get(beanClass);
     if(descriptors != null)
     {
@@ -897,7 +897,7 @@ public class PropertyUtilsBean
     }
 
     // Introspect the bean and cache the generated descriptors
-    BeanInfo beanInfo = null;
+    BeanInfo beanInfo;
     try
     {
       beanInfo = Introspector.getBeanInfo(beanClass);
@@ -1106,7 +1106,7 @@ public class PropertyUtilsBean
     PropertyDescriptor descriptor = getPropertyDescriptor(bean, name);
     if(descriptor == null)
     {
-      throw new NoSuchMethodException("Unknown property '" + name + "'");
+      throw new NoSuchMethodException("Unknown property '" + name + "' in bean " + bean + " of type " + bean.getClass());
     }
     Method readMethod = getReadMethod(descriptor);
     if(readMethod == null)
@@ -1291,7 +1291,7 @@ public class PropertyUtilsBean
     {
       throw new IllegalArgumentException("Invalid indexed property '" + name + "'");
     }
-    int index = -1;
+    int index;
     try
     {
       String subscript = name.substring(delim + 1, delim2);
@@ -1557,8 +1557,8 @@ public class PropertyUtilsBean
       throw new IllegalArgumentException("No name specified");
     }
 
-    int indexOfINDEXED_DELIM = -1;
-    int indexOfMAPPED_DELIM = -1;
+    int indexOfINDEXED_DELIM;
+    int indexOfMAPPED_DELIM;
     while(true)
     {
       int delim = name.indexOf(PropertyUtils.NESTED_DELIM);
@@ -1698,12 +1698,12 @@ public class PropertyUtilsBean
     PropertyDescriptor descriptor = getPropertyDescriptor(bean, name);
     if(descriptor == null)
     {
-      throw new NoSuchMethodException("Unknown property '" + name + "'");
+      throw new NoSuchMethodException("Unknown property '" + name + "' in bean " + bean);
     }
     Method writeMethod = getWriteMethod(descriptor);
     if(writeMethod == null)
     {
-      throw new NoSuchMethodException("Property '" + name + "' has no setter method");
+      throw new NoSuchMethodException("Property '" + name + "' has no setter method in bean " + bean);
     }
 
     // Call the property setter method
