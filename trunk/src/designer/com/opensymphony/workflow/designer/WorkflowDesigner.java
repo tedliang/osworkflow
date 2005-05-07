@@ -74,8 +74,6 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     leftSplitPane = new EmptyBorderSplitPane(JSplitPane.VERTICAL_SPLIT, flowsPanel, detailFramePanel);
     mainSplitPane = new EmptyBorderSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSplitPane, graphTabs);
     graphTabs.setVisible(false);
-    mainSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.MAIN_DIVIDER_LOCATION, 150));
-    leftSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 50));
 
     splash.setProgress(60);
     //Provide a preferred size for the split pane
@@ -139,6 +137,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
         }
       }
     }
+    mainSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.MAIN_DIVIDER_LOCATION, 150));
+    leftSplitPane.setDividerLocation(Prefs.INSTANCE.getInt(Prefs.DETAIL_DIVIDER_LOCATION, 50));
   }
 
   public void graphChanged(GraphModelEvent e)
@@ -152,7 +152,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     showDetails(desc);
     //DefaultGraphCell  relationsCell = relationshipsNavigator.getCell();
 
-    Object[] cells = e.getChange().getChanged();
+    //Object[] cells = e.getChange().getChanged();
     //System.out.println("changed = " + java.util.Arrays.asList(cells));
     //for(int i = 0; i < cells.length; i++)
     //{
@@ -493,7 +493,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
       Utils.centerComponent(this, newSpace);
       Dimension size = newSpace.getSize();
       newSpace.setSize(size.width + 10, size.height + 15);
-      newSpace.show();
+      newSpace.setVisible(true);
     }
   }
 
