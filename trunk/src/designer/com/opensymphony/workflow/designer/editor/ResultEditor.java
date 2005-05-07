@@ -128,7 +128,7 @@ public class ResultEditor extends DetailPanel implements ActionListener
 		PanelBuilder builderCond = new PanelBuilder(panelCond, layoutCond);
 
 		builderCond.addLabel(ResourceManager.getString("type"), cc.xy(2, 2));	// 2, 25
-		connector.connect(type, "conditionType");
+		connector.connect(type, "conditions[0].type");
 		builderCond.add(type, cc.xy(4, 2));		// 4, 25
 
 		conditionsTable = new JTable(conditionsModel);
