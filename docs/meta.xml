@@ -3,7 +3,7 @@
     <jiraId>10004</jiraId>
     <jiraName>WF</jiraName>
     <confluenceName>WF</confluenceName>
-    <forumsId>7</forumsId>
+    <forumsId>5</forumsId>
 
     <owners>
         <person>
@@ -14,6 +14,47 @@
     </owners>
 
     <developers />
+
+    <docs>
+        <url>Manual.html</url>
+        <items>
+            <item>
+                <name>Getting Started</name>
+                <url>1.%20Getting%20Started.html</url>
+            </item>
+            <item>
+                <name>Integration with Other Modules</name>
+                <url>2.%20Integration%20with%20Other%20Modules.html</url>
+            </item> 
+            <item>
+                <name>Understanding OSWorkflow</name>
+                <url>3.%20Understanding%20OSWorkflow.html</url>
+            </item> 
+            <item>
+                <name>GUI Designer</name>
+                <url>4.%20GUI%20Designer.html</url>
+            </item> 
+            <item>
+                <name>Using the API</name>
+                <url>5.%20Using%20the%20API.html</url>
+            </item> 
+            <item>
+                <name>API Documentation</name>
+                <url>api/index.html</url>
+            </item> 
+        </items>
+    </docs>
+
+    <evaluating>
+        <item>
+            <name>Compiling from CVS</name>
+            <url>Compiling%20from%20CVS.html</url>
+        </item> 
+        <item>
+            <name>Tutotial</name>
+            <url>Tutorial.html</url>
+        </item>
+    </evaluating>
 
     <releases>
         <release>
