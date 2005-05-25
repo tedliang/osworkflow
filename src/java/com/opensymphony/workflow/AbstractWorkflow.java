@@ -825,7 +825,8 @@ public class AbstractWorkflow implements Workflow {
 
         while (i.hasNext()) {
             Step step = (Step) i.next();
-            getPersistence().markFinished(step, (action != null) ? action.getId() : (-1), new Date(), "Finished", context.getCaller());
+            String oldStatus = (action != null) ? action.getUnconditionalResult().getOldStatus() : "Finished";
+            getPersistence().markFinished(step, (action != null) ? action.getId() : (-1), new Date(), oldStatus, context.getCaller());
             getPersistence().moveToHistory(step);
         }
     }
