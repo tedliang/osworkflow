@@ -1011,11 +1011,8 @@ public class AbstractWorkflow implements Workflow {
 
         Step step = getCurrentStep(wf, action.getId(), currentSteps, transientVars, ps);
 
-        // validate transientVars (optional)
-        Map unmodifiableTransients = new HashMap(transientVars);
-
         if (action.getValidators().size() > 0) {
-            verifyInputs(entry, action.getValidators(), unmodifiableTransients, ps);
+            verifyInputs(entry, action.getValidators(), Collections.unmodifiableMap(transientVars), ps);
         }
 
         //we're leaving the current step, so let's execute its post-functions
@@ -1048,12 +1045,12 @@ public class AbstractWorkflow implements Workflow {
                 iterator.hasNext();) {
             ConditionalResultDescriptor conditionalResult = (ConditionalResultDescriptor) iterator.next();
 
-            if (passesConditions(null, conditionalResult.getConditions(), unmodifiableTransients, ps, (step != null) ? step.getStepId() : (-1))) {
+            if (passesConditions(null, conditionalResult.getConditions(), Collections.unmodifiableMap(transientVars), ps, (step != null) ? step.getStepId() : (-1))) {
                 //if (evaluateExpression(conditionalResult.getCondition(), entry, wf.getRegisters(), null, transientVars)) {
                 theResults[0] = conditionalResult;
 
                 if (conditionalResult.getValidators().size() > 0) {
-                    verifyInputs(entry, conditionalResult.getValidators(), unmodifiableTransients, ps);
+                    verifyInputs(entry, conditionalResult.getValidators(), Collections.unmodifiableMap(transientVars), ps);
                 }
 
                 extraPreFunctions = conditionalResult.getPreFunctions();
@@ -1066,7 +1063,7 @@ public class AbstractWorkflow implements Workflow {
         // use unconditional-result if a condition hasn't been met
         if (theResults[0] == null) {
             theResults[0] = action.getUnconditionalResult();
-            verifyInputs(entry, theResults[0].getValidators(), unmodifiableTransients, ps);
+            verifyInputs(entry, theResults[0].getValidators(), Collections.unmodifiableMap(transientVars), ps);
             extraPreFunctions = theResults[0].getPreFunctions();
             extraPostFunctions = theResults[0].getPostFunctions();
         }
@@ -1098,7 +1095,7 @@ public class AbstractWorkflow implements Workflow {
                 ResultDescriptor resultDescriptor = (ResultDescriptor) iterator.next();
 
                 if (resultDescriptor.getValidators().size() > 0) {
-                    verifyInputs(entry, resultDescriptor.getValidators(), unmodifiableTransients, ps);
+                    verifyInputs(entry, resultDescriptor.getValidators(), Collections.unmodifiableMap(transientVars), ps);
                 }
 
                 splitPreFunctions.addAll(resultDescriptor.getPreFunctions());
@@ -1190,12 +1187,12 @@ public class AbstractWorkflow implements Workflow {
             transientVars.put("jn", jn);
 
             //todo verify that 0 is the right value for currentstep here
-            if (passesConditions(null, joinDesc.getConditions(), unmodifiableTransients, ps, 0)) {
+            if (passesConditions(null, joinDesc.getConditions(), Collections.unmodifiableMap(transientVars), ps, 0)) {
                 // move the rest without creating a new step ...
                 ResultDescriptor joinresult = joinDesc.getResult();
 
                 if (joinresult.getValidators().size() > 0) {
-                    verifyInputs(entry, joinresult.getValidators(), unmodifiableTransients, ps);
+                    verifyInputs(entry, joinresult.getValidators(), Collections.unmodifiableMap(transientVars), ps);
                 }
 
                 // now execute the pre-functions
