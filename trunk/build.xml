@@ -102,8 +102,8 @@
       <session/>
       <utilobject pattern="{0}HomeFactory" cacheHomes="true"/>
       <deploymentdescriptor destdir="${build.java}/META-INF" validatexml="true" description="OpenSymphony Workflow Module" displayname="OSWorkflow Module"/>
-      <jboss version="3.0" destdir="${build.java}/META-INF"/>
-      <weblogic version="7.0" destdir="${build.java}/META-INF" datasource="defaultDS" createtables="true"/>
+      <jboss version="4.0" destdir="${build.java}/META-INF"/>
+      <weblogic version="8.1" destdir="${build.java}/META-INF" datasource="defaultDS" createtables="CreateOnly"/>
       <jrun version="4.0" destdir="${build.java}/META-INF"/>
       <orion version="2.0" destdir="${build.java}/META-INF"/>
     </ejbdoclet>
@@ -118,7 +118,7 @@
       </fileset>
     </copy>
 
-    <javac srcdir="${src.java}" destdir="${build.java}" classpathref="cp" debug="on"/>
+    <javac srcdir="${src.java}" destdir="${build.java}" source="1.3" target="1.3" classpathref="cp" debug="on"/>
   </target>
 
   <target name="test" depends="clover-check,init-clover,junit-check,ejbdoclet" description="Run all unit tests">
@@ -251,7 +251,7 @@
 
   <target name="client" depends="java" description="Build the designer client sources">
     <mkdir dir="${build.client}/META-INF"/>
-    <javac classpathref="client.classpath" srcdir="${src.client}" destdir="${build.client}"/>
+    <javac classpathref="client.classpath" srcdir="${src.client}" destdir="${build.client}" source="1.4" target="1.4"/>
     <copy todir="${build.client}/META-INF">
       <fileset dir="${docs}">
         <include name="*.dtd"/>
