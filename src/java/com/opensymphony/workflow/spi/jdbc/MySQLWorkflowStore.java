@@ -21,10 +21,10 @@ import java.util.Map;
 public class MySQLWorkflowStore extends JDBCWorkflowStore {
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private String entrySequenceIncrement = null;
-    private String entrySequenceRetrieve = null;
-    private String stepSequenceIncrement = null;
-    private String stepSequenceRetrieve = null;
+    protected String entrySequenceIncrement = null;
+    protected String entrySequenceRetrieve = null;
+    protected String stepSequenceIncrement = null;
+    protected String stepSequenceRetrieve = null;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
