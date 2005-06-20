@@ -24,6 +24,10 @@ import javax.xml.parsers.*;
  * Time: 11:30:41 AM
  */
 public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Serializable {
+    //~ Static fields/initializers /////////////////////////////////////////////
+
+    private static final long serialVersionUID = 452755218478437087L;
+
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected Map workflows;
@@ -50,7 +54,7 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
         WorkflowConfig c = (WorkflowConfig) workflows.get(name);
 
         if (c == null) {
-            throw new FactoryException("Unknown workflow name \"" + name + "\"");
+            throw new FactoryException("Unknown workflow name \"" + name + '\"');
         }
 
         if (c.descriptor != null) {
@@ -89,44 +93,8 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
     public void initDone() throws FactoryException {
         reload = getProperties().getProperty("reload", "false").equals("true");
 
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        InputStream is = null;
         String name = getProperties().getProperty("resource", "workflows.xml");
-
-        if ((name != null) && (name.indexOf(":/") > -1)) {
-            try {
-                is = new URL(name).openStream();
-            } catch (Exception e) {
-            }
-        }
-
-        if (is == null) {
-            try {
-                is = classLoader.getResourceAsStream(name);
-            } catch (Exception e) {
-            }
-        }
-
-        if (is == null) {
-            try {
-                is = classLoader.getResourceAsStream("/" + name);
-            } catch (Exception e) {
-            }
-        }
-
-        if (is == null) {
-            try {
-                is = classLoader.getResourceAsStream("META-INF/" + name);
-            } catch (Exception e) {
-            }
-        }
-
-        if (is == null) {
-            try {
-                is = classLoader.getResourceAsStream("/META-INF/" + name);
-            } catch (Exception e) {
-            }
-        }
+        InputStream is = getInputStream(name);
 
         if (is == null) {
             throw new FactoryException("Unable to find workflows file '" + name + "' in classpath");
@@ -149,11 +117,13 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
             Element root = (Element) doc.getElementsByTagName("workflows").item(0);
             workflows = new HashMap();
 
+            String basedir = getBaseDir(root);
+
             List list = XMLUtil.getChildElements(root, "workflow");
 
             for (int i = 0; i < list.size(); i++) {
                 Element e = (Element) list.get(i);
-                WorkflowConfig config = new WorkflowConfig(e.getAttribute("type"), e.getAttribute("location"));
+                WorkflowConfig config = new WorkflowConfig(basedir, e.getAttribute("type"), e.getAttribute("location"));
                 workflows.put(e.getAttribute("name"), config);
             }
         } catch (Exception e) {
@@ -226,6 +196,79 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
         return true;
     }
 
+    /**
+     * Get where to find workflow XML files.
+     * @param root The root element of the XML file.
+     * @return The absolute base dir used for finding these files or null.
+     */
+    protected String getBaseDir(Element root) {
+        String basedir = root.getAttribute("basedir");
+
+        if (basedir.length() == 0) {
+            // No base dir defined
+            return null;
+        }
+
+        if (new File(basedir).isAbsolute()) {
+            // An absolute base dir defined
+            return basedir;
+        } else {
+            // Append the current working directory to the relative base dir
+            return new File(System.getProperty("user.dir"), basedir).getAbsolutePath();
+        }
+    }
+
+    /**
+     * Load the workflow config file from the current context classloader.
+     * The search order is:
+     * <li>Specified URL</li>
+     * <li>&lt;name&gt;</li>
+     * <li>/&lt;name&gt;</li>
+     * <li>META-INF/&lt;name&gt;</li>
+     * <li>/META-INF/&lt;name&gt;</li>
+     */
+    protected InputStream getInputStream(String name) {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        InputStream is = null;
+
+        if ((name != null) && (name.indexOf(":/") > -1)) {
+            try {
+                is = new URL(name).openStream();
+            } catch (Exception e) {
+            }
+        }
+
+        if (is == null) {
+            try {
+                is = classLoader.getResourceAsStream(name);
+            } catch (Exception e) {
+            }
+        }
+
+        if (is == null) {
+            try {
+                is = classLoader.getResourceAsStream('/' + name);
+            } catch (Exception e) {
+            }
+        }
+
+        if (is == null) {
+            try {
+                is = classLoader.getResourceAsStream("META-INF/" + name);
+            } catch (Exception e) {
+            }
+        }
+
+        if (is == null) {
+            try {
+                is = classLoader.getResourceAsStream("/META-INF/" + name);
+            } catch (Exception e) {
+            }
+        }
+
+        return is;
+    }
+
     protected void writeXML(WorkflowDescriptor descriptor, Writer out) {
         PrintWriter writer = new PrintWriter(new BufferedWriter(out));
         writer.println(WorkflowDescriptor.XML_HEADER);
@@ -252,7 +295,7 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
         WorkflowDescriptor descriptor;
         long lastModified;
 
-        public WorkflowConfig(String type, String location) {
+        public WorkflowConfig(String basedir, String type, String location) {
             if ("URL".equals(type)) {
                 try {
                     url = new URL(location);
@@ -266,7 +309,7 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
                 }
             } else if ("file".equals(type)) {
                 try {
-                    File file = new File(location);
+                    File file = new File(basedir, location);
                     url = file.toURL();
                     lastModified = file.lastModified();
                 } catch (Exception ex) {
