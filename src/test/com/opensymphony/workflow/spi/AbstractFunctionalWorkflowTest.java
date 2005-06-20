@@ -39,7 +39,7 @@ import java.util.Map;
  *
  * @author Eric Pugh (epugh@upstate.com)
  */
-public abstract class BaseFunctionalWorkflowTest extends TestCase {
+public abstract class AbstractFunctionalWorkflowTest extends TestCase {
     //~ Static fields/initializers /////////////////////////////////////////////
 
     private static final String USER_TEST = "test";
@@ -52,7 +52,7 @@ public abstract class BaseFunctionalWorkflowTest extends TestCase {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public BaseFunctionalWorkflowTest(String s) {
+    public AbstractFunctionalWorkflowTest(String s) {
         super(s);
         log = LogFactory.getLog(getClass());
     }

@@ -6,7 +6,7 @@ package com.opensymphony.workflow.spi.ofbiz;
 
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.config.DefaultConfiguration;
-import com.opensymphony.workflow.spi.BaseFunctionalWorkflowTest;
+import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
 import com.opensymphony.workflow.spi.DatabaseHelper;
 
 
@@ -15,7 +15,7 @@ import com.opensymphony.workflow.spi.DatabaseHelper;
  * Date: Oct 4, 2003
  * Time: 1:57:25 AM
  */
-public class OfbizFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest {
+public class OfbizFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
     //~ Constructors ///////////////////////////////////////////////////////////
 
     public OfbizFunctionalWorkflowTestCase(String s) {

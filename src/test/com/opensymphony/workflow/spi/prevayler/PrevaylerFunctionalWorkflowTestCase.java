@@ -11,7 +11,7 @@ package com.opensymphony.workflow.spi.prevayler;
 
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.config.DefaultConfiguration;
-import com.opensymphony.workflow.spi.BaseFunctionalWorkflowTest;
+import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
 
 
 /**
@@ -20,7 +20,7 @@ import com.opensymphony.workflow.spi.BaseFunctionalWorkflowTest;
  *
  * @author Christopher Farnham
  **/
-public class PrevaylerFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest {
+public class PrevaylerFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
     //~ Constructors ///////////////////////////////////////////////////////////
 
     /**

@@ -6,7 +6,7 @@ package com.opensymphony.workflow.spi.hibernate;
 
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.config.DefaultConfiguration;
-import com.opensymphony.workflow.spi.BaseFunctionalWorkflowTest;
+import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
 import com.opensymphony.workflow.spi.DatabaseHelper;
 
 import net.sf.hibernate.SessionFactory;
@@ -19,7 +19,7 @@ import net.sf.hibernate.SessionFactory;
  *
  * @author Eric Pugh (epugh@upstate.com)
  */
-public class HibernateFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest {
+public class HibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     private SessionFactory factory;

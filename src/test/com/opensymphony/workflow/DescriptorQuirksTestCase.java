@@ -78,12 +78,11 @@ public class DescriptorQuirksTestCase extends TestCase {
         assertEquals("function executed unexpected number of times", 2, counter);
     }
 
+    public void testVariableMutability() throws Exception {
+        long id = workflow.initialize(getClass().getResource("/samples/variable-modify.xml").toString(), 100, null);
+    }
+
     protected void setUp() throws Exception {
         workflow = new BasicWorkflow("testuser");
     }
-  
-  public void testVariableMutability() throws Exception
-  {
-    long id = workflow.initialize(getClass().getResource("/samples/variable-modify.xml").toString(), 100, null);
-  }
 }
