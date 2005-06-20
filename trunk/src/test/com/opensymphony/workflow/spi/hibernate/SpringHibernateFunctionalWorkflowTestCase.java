@@ -5,7 +5,7 @@
 package com.opensymphony.workflow.spi.hibernate;
 
 import com.opensymphony.workflow.config.Configuration;
-import com.opensymphony.workflow.spi.BaseFunctionalWorkflowTest;
+import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
 import com.opensymphony.workflow.spi.DatabaseHelper;
 
 import org.springframework.beans.factory.xml.XmlBeanFactory;
@@ -18,7 +18,7 @@ import org.springframework.core.io.ClassPathResource;
  * @since        2004-5-2
  *
  **/
-public class SpringHibernateFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest {
+public class SpringHibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
     //~ Constructors ///////////////////////////////////////////////////////////
 
     public SpringHibernateFunctionalWorkflowTestCase(String s) {

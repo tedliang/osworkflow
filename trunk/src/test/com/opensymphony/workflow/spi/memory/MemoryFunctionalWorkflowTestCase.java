@@ -4,7 +4,7 @@
  */
 package com.opensymphony.workflow.spi.memory;
 
-import com.opensymphony.workflow.spi.BaseFunctionalWorkflowTest;
+import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
 
 
 /**
@@ -14,7 +14,7 @@ import com.opensymphony.workflow.spi.BaseFunctionalWorkflowTest;
  *
  * @author Eric Pugh (epugh@upstate.com)
  */
-public class MemoryFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest {
+public class MemoryFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
     //~ Constructors ///////////////////////////////////////////////////////////
 
     public MemoryFunctionalWorkflowTestCase(String s) {

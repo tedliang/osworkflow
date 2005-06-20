@@ -6,7 +6,7 @@ package com.opensymphony.workflow.spi.jdbc;
 
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.config.DefaultConfiguration;
-import com.opensymphony.workflow.spi.BaseFunctionalWorkflowTest;
+import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
 import com.opensymphony.workflow.spi.DatabaseHelper;
 
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import java.util.HashMap;
  *
  * @author Eric Pugh (epugh@upstate.com)
  */
-public class JDBCFunctionalWorkflowTestCase extends BaseFunctionalWorkflowTest {
+public class JDBCFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
     //~ Constructors ///////////////////////////////////////////////////////////
 
     public JDBCFunctionalWorkflowTestCase(String s) {
