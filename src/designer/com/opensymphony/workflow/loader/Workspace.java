@@ -113,7 +113,7 @@ public class Workspace extends XMLWorkflowFactory
 
   public void importDescriptor(String name, InputStream is)
   {
-    WorkflowConfig config = new WorkflowConfig("file", name + ".xml");
+    WorkflowConfig config = new WorkflowConfig(null, "file", name + ".xml");
     try
     {
       File file = new File(workflowsXML.getParentFile(), name+".xml");
@@ -292,7 +292,7 @@ public class Workspace extends XMLWorkflowFactory
 
   public void createWorkflow(String name)
   {
-    WorkflowConfig config = new WorkflowConfig("file", null);
+    WorkflowConfig config = new WorkflowConfig(null, "file", null);
     config.descriptor = DescriptorFactory.getFactory().createWorkflowDescriptor();
     config.descriptor.setName(name);
     ActionDescriptor initialAction = DescriptorFactory.getFactory().createActionDescriptor();
