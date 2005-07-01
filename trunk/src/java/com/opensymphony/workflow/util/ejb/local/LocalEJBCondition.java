@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 
 import java.util.Map;
 
-import javax.ejb.EJBHome;
+import javax.ejb.EJBLocalHome;
 
 import javax.naming.InitialContext;
 
@@ -26,7 +26,7 @@ import javax.rmi.PortableRemoteObject;
  *
  *
  * @author $Author: hani $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class LocalEJBCondition implements Condition {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -41,7 +41,7 @@ public class LocalEJBCondition implements Condition {
         Condition sessionBean = null;
 
         try {
-            EJBHome home = (EJBHome) PortableRemoteObject.narrow(new InitialContext().lookup(ejbLocation), EJBHome.class);
+            EJBLocalHome home = (EJBLocalHome) PortableRemoteObject.narrow(new InitialContext().lookup(ejbLocation), EJBLocalHome.class);
             Method create = home.getClass().getMethod("create", new Class[0]);
             sessionBean = (Condition) create.invoke(home, new Object[0]);
         } catch (Exception e) {

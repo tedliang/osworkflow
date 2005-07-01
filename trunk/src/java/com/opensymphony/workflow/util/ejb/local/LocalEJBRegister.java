@@ -4,7 +4,10 @@
  */
 package com.opensymphony.workflow.util.ejb.local;
 
-import com.opensymphony.workflow.*;
+import com.opensymphony.workflow.AbstractWorkflow;
+import com.opensymphony.workflow.Register;
+import com.opensymphony.workflow.WorkflowContext;
+import com.opensymphony.workflow.WorkflowException;
 import com.opensymphony.workflow.spi.WorkflowEntry;
 
 import org.apache.commons.logging.Log;
@@ -14,7 +17,7 @@ import java.lang.reflect.Method;
 
 import java.util.Map;
 
-import javax.ejb.EJBHome;
+import javax.ejb.EJBLocalHome;
 
 import javax.naming.InitialContext;
 
@@ -27,7 +30,7 @@ import javax.rmi.PortableRemoteObject;
  * the JNDI location of the session bean.
  *
  * @author $Author: hani $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class LocalEJBRegister implements Register {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -41,7 +44,7 @@ public class LocalEJBRegister implements Register {
         Register sessionBean = null;
 
         try {
-            EJBHome home = (EJBHome) PortableRemoteObject.narrow(new InitialContext().lookup(ejbLocation), javax.ejb.EJBHome.class);
+            EJBLocalHome home = (EJBLocalHome) PortableRemoteObject.narrow(new InitialContext().lookup(ejbLocation), EJBLocalHome.class);
             Method create = home.getClass().getMethod("create", new Class[0]);
             sessionBean = (Register) create.invoke(home, new Object[0]);
         } catch (Exception e) {
