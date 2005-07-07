@@ -13,7 +13,7 @@ import java.util.*;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class JoinNodes {
     //~ Instance fields ////////////////////////////////////////////////////////
@@ -45,7 +45,7 @@ public class JoinNodes {
 
     //~ Inner Classes //////////////////////////////////////////////////////////
 
-    public class DummyStep implements Step {
+    private static class DummyStep implements Step {
         public int getActionId() {
             return -1;
         }
