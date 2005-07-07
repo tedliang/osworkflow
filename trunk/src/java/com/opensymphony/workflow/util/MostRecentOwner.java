@@ -17,7 +17,7 @@ import java.util.*;
 
 
 /**
- * Sets the persistent variable "mostRecentOwner" to the owner of the most
+ * Sets the transient variable "mostRecentOwner" to the owner of the most
  * recent step that had an id equal to one of the values in the stepId list. If there is
  * none found, the variable is unset. This function accepts the following
  * arguments:
@@ -28,7 +28,7 @@ import java.util.*;
  *
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
  * @author <a href="mailto:mischwar@cisco.com">Mike Schwartz</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class MostRecentOwner implements FunctionProvider {
     //~ Methods ////////////////////////////////////////////////////////////////
