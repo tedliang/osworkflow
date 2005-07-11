@@ -69,5 +69,9 @@
     <setting name="verifyrefs" value="false" />
     <setting name="targetJDK" value="" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ACTIVE_VCS_NAME" value="CVS" />
+    <option name="USE_PROJECT_VCS" value="true" />
+  </component>
 </module>
 
