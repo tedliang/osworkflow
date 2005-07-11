@@ -99,10 +99,11 @@
   </target>
 
   <target name="example-war" depends="jar" description="Build example war web application">
+    <mkdir dir="${dist}" />
     <war warfile="${dist}/${name}-${version}-example.war" webxml="${src.etc}/example/web.xml">
       <fileset dir="${src.webapp}"/>
       <lib dir="${lib.core}"/>
-      <lib file="${dist}/${name}-${version}.jar"/>
+      <lib file="${build}/${name}-${version}.jar"/>
       <lib file="${lib.optional}/osuser-1.0-dev-2Feb05.jar"/>
       <lib file="${lib.optional}/mail.jar"/>
       <lib file="${lib.optional}/activation.jar"/>
@@ -119,7 +120,7 @@
     <war warfile="${build}/tmp/${name}-${version}-example.war" webxml="${src.etc}/example/web.xml">
       <fileset dir="${src.webapp}"/>
     </war>
-    <copy file="${dist}/${name}-${version}.jar" tofile="${build}/tmp/${name}-${version}-example.jar"/>
+    <copy file="${build}/${name}-${version}.jar" tofile="${build}/tmp/${name}-${version}-example.jar"/>
     <!-- note that we add these files to the jarfile for ease of deployment. In a real environment, the config files
     would be in a separate dir and added appropriately to the classpath -->
     <copy file="${src.etc}/example/osworkflow-ejb.xml" tofile="${build}/tmp/osworkflow.xml"/>
@@ -164,8 +165,8 @@
   </target>
 
   <target name="client-jar" depends="client" description="Build the designer jar file">
-	  <mkdir dir="${dist}" />
-    <jar jarfile="${dist}/designer.jar">
+	  <mkdir dir="${build}" />
+    <jar jarfile="${build}/designer.jar">
 	    <manifest>
 				<attribute name="Built-By" value="${user.name}"/>
 		    <attribute name="Main-Class" value="com.opensymphony.workflow.designer.Launcher" />
@@ -187,7 +188,7 @@
 
   <target name="webstart" depends="client-jar" description="Build webstart files">
     <mkdir dir="${dist.docs}/designer" />
-    <signjar signedjar="${dist.docs}/designer/designer.jar" alias="opensymphony" jar="${dist}/designer.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
+    <signjar signedjar="${dist.docs}/designer/designer.jar" alias="opensymphony" jar="${build}/designer.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
     <signjar signedjar="${dist.docs}/designer/looks.jar" alias="opensymphony" jar="${lib.designer}/looks.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
     <signjar signedjar="${dist.docs}/designer/syntax.jar" alias="opensymphony" jar="${lib.designer}/syntax.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
     <signjar signedjar="${dist.docs}/designer/jgraph.jar" alias="opensymphony" jar="${lib.designer}/jgraph.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
@@ -201,35 +202,6 @@
     </copy>
   </target>
 
-  <target name="dist" depends="client-jar, example-war, docs" description="Build distribution zipfile">
-    <mkdir dir="${dist}/zip"/>
-    <mkdir dir="${dist}/zip/docs"/>
-    <mkdir dir="${dist}/zip/src"/>
-    <mkdir dir="${dist}/zip/lib/core"/>
-    <mkdir dir="${dist}/zip/lib/designer"/>
-
-    <copy todir="${dist}/zip/docs">
-      <fileset dir="${dist.docs}"/>
-    </copy>
-
-    <copy todir="${dist}/zip/src">
-      <fileset dir="src"/>
-    </copy>
-
-    <copy todir="${dist}/zip/lib/core">
-      <fileset dir="${lib.core}"/>
-    </copy>
-
-    <copy todir="${dist}/zip/lib/designer">
-      <fileset dir="${lib.designer}"/>
-    </copy>
-
-    <copy file="${dist}/${name}-${version}.jar" todir="${dist}/zip"/>
-    <copy file="${dist}/designer.jar" todir="${dist}/zip"/>
-    <copy file="${dist}/${name}-${version}-example.war" todir="${dist}/zip"/>
-
-    <zip zipfile="${dist}/${name}-${version}.zip" basedir="${dist}/zip"/>
-<!--    <delete dir="${dist}/zip"/>-->
-  </target>
+  <target name="dist" depends="client-jar, example-war, common.dist" description="Build distribution zipfile" />
 </project>
 
