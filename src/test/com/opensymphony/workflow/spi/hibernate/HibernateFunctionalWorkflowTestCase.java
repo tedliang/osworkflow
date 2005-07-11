@@ -7,7 +7,7 @@ package com.opensymphony.workflow.spi.hibernate;
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.config.DefaultConfiguration;
 import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
-import com.opensymphony.workflow.spi.DatabaseHelper;
+import com.opensymphony.workflow.util.DatabaseHelper;
 
 import net.sf.hibernate.SessionFactory;
 
@@ -34,7 +34,7 @@ public class HibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkf
 
     protected void setUp() throws Exception {
         super.setUp();
-        DatabaseHelper.createDatabase("");
+        DatabaseHelper.runScript("", "jdbc/CreateDS");
 
         factory = DatabaseHelper.createHibernateSessionFactory();
 

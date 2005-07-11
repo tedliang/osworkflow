@@ -1,13 +1,10 @@
-<project default="jar" basedir=".">
+<project name="workflow" default="jar" basedir=".">
 
-  <property file="build.properties"/>
-  <path id="cp">
-    <fileset dir="lib">
-      <include name="**/*.jar"/>
-      <exclude name="**/jalopy/**" />
-    </fileset>
-  </path>
-
+  <property name="src.test" location="src/test"/>
+  <property name="jar.manifest" value="src/etc/deployment/ejb/manifest.txt" />
+  
+  <import file="../opensymphony/common/osbuild.xml" />
+  
   <path id="jalopy.classpath">
     <fileset dir="lib/build/jalopy">
       <include name="*.jar"/>
@@ -20,40 +17,18 @@
 
   <taskdef name="ejbdoclet" classname="xdoclet.modules.ejb.EjbDocletTask" classpathref="cp"/>
 
-  <target name="init">
-    <tstamp/>
-    <property name="lib" location="lib"/>
-    <property name="lib.core" value="${lib}/core"/>
+  <target name="init" depends="common.init">
     <property name="lib.designer" value="${lib}/designer"/>
-    <property name="lib.build" value="${lib}/build"/>
-    <property name="lib.optional" value="${lib}/optional"/>
 
-    <property name="src" location="src"/>
-    <property name="src.java" value="${src}/java"/>
-    <property name="src.test" value="${src}/test"/>
     <property name="src.client" value="${src}/designer"/>
     <property name="src.etc" value="${src}/etc"/>
     <property name="src.webapp" value="${src}/webapp"/>
     <property name="propertyset.jar" value="propertyset-1.3-25Jan05.jar"/>
     <property name="oscore.jar" value="oscore-2.2.2.jar"/>
-    <property name="build" location="build"/>
-    <property name="build.test" value="${build}/test"/>
-    <property name="build.java" value="${build}/java"/>
     <property name="build.client" value="${build}/designer"/>
 
-    <property name="dist" location="dist"/>
     <property name="dist.client" value="${dist}/designer"/>
     <property name="www" location="www"/>
-    <property name="dist.docs" value="${dist}/docs"/>
-
-    <property name="docs" location="docs"/>
-
-    <property name="packages" value="com.opensymphony.*"/>
-
-    <property name="test" value="*"/>
-
-    <available property="junit.available" classname="junit.framework.TestCase"/>
-    <available property="clover.available" classname="org.apache.tools.ant.taskdefs.CloverCompilerAdapter"/>
 
 		<path id="client.classpath">
 			<fileset dir="lib/designer">
@@ -63,17 +38,7 @@
 		</path>
   </target>
 
-  <target name="junit-check" depends="init" unless="junit.available">
-    <fail message="Cannot run test cases. Please copy lib/build/junit-3.8.1.jar to ${ant.home}/lib"/>
-  </target>
-
-  <target name="clover-check" depends="init" unless="clover.available">
-    <fail message="Cannot run coverage tests. Please copy lib/build/clover-1.2.3.jar to ${ant.home}/lib"/>
-  </target>
-
-  <target name="clean" depends="init" description="Remove all compiled files and generated sources">
-    <delete dir="${build}"/>
-    <delete dir="${dist}"/>
+  <target name="clean" depends="common.clean" description="Remove all compiled files and generated sources">
     <delete>
       <fileset dir="${src.java}/com/opensymphony/workflow/spi/ejb">
         <exclude name="*EJB*.java"/>
@@ -84,7 +49,6 @@
         <exclude name="*EJB*.java"/>
       </fileset>
     </delete>
-    <delete dir="clover-db" />
   </target>
 
   <target name="ejbdoclet" depends="init">
@@ -109,94 +73,29 @@
     </ejbdoclet>
   </target>
 
-  <target name="java" depends="ejbdoclet,format" description="Compile all java sources">
-    <mkdir dir="${build.java}"/>
-    <copy filtering="no" todir="${build.java}">
-      <fileset dir="${src.java}">
-        <exclude name="**/*.java"/>
-        <exclude name="**/package.html"/>
-      </fileset>
-    </copy>
-
-    <javac srcdir="${src.java}" destdir="${build.java}" source="1.3" target="1.3" classpathref="cp" debug="on"/>
-  </target>
-
-  <target name="test" depends="clover-check,init-clover,junit-check,ejbdoclet" description="Run all unit tests">
-    <jalopy fileformat="unix" convention="${src}/etc/jalopy.xml" history="file" historymethod="adler32" loglevel="error" threads="2" classpathref="cp">
-      <fileset dir="${src.test}">
-        <include name="**/*.java"/>
-      </fileset>
-    </jalopy>
-    <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
-
+  <target name="test-compile" depends="common.test-compile" description="Compile test classes">
     <mkdir dir="${build.test}/META-INF"/>
     <copy todir="${build.test}/META-INF/">
       <fileset dir="${docs}">
         <include name="*.dtd" />
       </fileset>
     </copy>
-    <javac srcdir="${src.java}" destdir="${build.test}" debug="on" classpathref="cp" compiler="org.apache.tools.ant.taskdefs.CloverCompilerAdapter"/>
-    <javac srcdir="${src.test}" destdir="${build.test}" classpathref="cp" debug="on"/>
-    <copy todir="${build.test}">
-      <fileset dir="${src.test}">
-        <include name="**/*.xml" />
-        <include name="**/*.properties"/>
-        <include name="**/*.sql"/>
-      </fileset>
-    </copy>
-    <copy todir="${build.test}">
-      <fileset dir="${src.java}">
-        <include name="**/*.xml"/>
-        <include name="**/*.properties"/>
-      </fileset>
-    </copy>
-    <mkdir dir="${dist.docs}/junit"/>
-    <junit printsummary="withOutAndErr" haltonfailure="no" haltonerror="no" showoutput="true" fork="true">
-      <classpath>
-        <pathelement location="${build.test}"/>
-        <path refid="cp"/>
-      </classpath>
-
-      <formatter type="xml"/>
-
-      <batchtest todir="${dist.docs}/junit">
-        <fileset dir="${src.test}">
-          <include name="**/${test}TestCase.java"/>
-        </fileset>
-      </batchtest>
-    </junit>
   </target>
 
-  <target name="format" depends="init">
+  <target name="precompile" depends="ejbdoclet">
     <jalopy fileformat="unix" convention="${src}/etc/jalopy.xml" history="file" historymethod="adler32" loglevel="error" threads="2" classpathref="cp">
       <fileset dir="${src.java}">
         <include name="**/*.java"/>
       </fileset>
-      <!-- <fileset dir="${src.test}">
-          <include name="**/*.java" />
-
+      <fileset dir="${src.test}">
+        <include name="**/*.java" />
       </fileset>
-      -->
     </jalopy>
-  </target>
-
-  <target name="init-clover" depends="init">
-    <taskdef resource="clovertasks"/>
-    <typedef resource="clovertypes"/>
-    <mkdir dir="clover-db" />
-    <clover-setup initstring="clover-db/coverage.db" />
-  </target>
-
-  <target name="jar" depends="java" description="Build osworkflow dist jar file">
-    <mkdir dir="${dist}"/>
     <copy todir="${build.java}/META-INF">
       <fileset dir="${docs}">
         <include name="*.dtd"/>
       </fileset>
     </copy>
-    <jar jarfile="${dist}/${name}-${version}.jar" manifest="${src.etc}/deployment/ejb/manifest.txt">
-	    <fileset dir="${build.java}" />
-    </jar>
   </target>
 
   <target name="example-war" depends="jar" description="Build example war web application">
@@ -249,7 +148,7 @@
     <ear appxml="${build}/application.xml" earfile="${dist}/${name}-${version}-example.ear" basedir="${build}/tmp" />
   </target>
 
-  <target name="client" depends="java" description="Build the designer client sources">
+  <target name="client" depends="compile" description="Build the designer client sources">
     <mkdir dir="${build.client}/META-INF"/>
     <javac classpathref="client.classpath" srcdir="${src.client}" destdir="${build.client}" source="1.4" target="1.4"/>
     <copy todir="${build.client}/META-INF">
@@ -296,41 +195,11 @@
     <signjar signedjar="${dist.docs}/designer/forms.jar" alias="opensymphony" jar="${lib.designer}/forms.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
   </target>
 
-  <target name="javadocs" depends="init" description="Build javadocs">
-    <mkdir dir="${dist.docs}/api"/>
-    <javadoc sourcepath="${src.java}" stylesheetfile="${docs}/api.css" destdir="${dist.docs}/api" packagenames="${packages}" classpathref="cp" author="true" version="true" windowTitle="${name} ${version} API" doctitle="${name}" footer="See &lt;a href=&quot;http://www.opensymphony.com&quot;&gt;www.opensymphony.com&lt;/a&gt; for more information." use="true" verbose="false"/>
-  </target>
-
-  <target name="clover.report" depends="test" description="Generate clover coverage reports">
-    <clover-report>
-      <current title="OSWorkflow Coverage Report" outfile="${dist.docs}/clover">
-        <format type="html" />
-      </current>
-    </clover-report>
-  </target>
-
-  <target name="junit.report" depends="test" description="Generate junit test results reports">
-    <junitreport todir="${dist.docs}/junit">
-      <fileset dir="${dist.docs}/junit">
-        <include name="TEST-*.xml"/>
-      </fileset>
-      <report format="frames" todir="${dist.docs}/junit" />
-    </junitreport>
-  </target>
-
-  <target name="docs" depends="javadocs, reports" description="Build all documentation">
-    <copy todir="${dist.docs}">
-      <fileset dir="${docs}"/>
-    </copy>
-  </target>
-
   <target name="website" depends="javadocs, webstart" description="Build all documentation">
     <copy todir="${dist.docs}">
       <fileset dir="${docs}"/>
     </copy>
   </target>
-
-  <target name="reports" depends="clover.report, junit.report" description="Generate junit and clover reports"/>
 
   <target name="dist" depends="client-jar, example-war, docs" description="Build distribution zipfile">
     <mkdir dir="${dist}/zip"/>

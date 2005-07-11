@@ -2,7 +2,7 @@
  * Copyright (c) 2002-2003 by OpenSymphony
  * All rights reserved.
  */
-package com.opensymphony.workflow.spi;
+package com.opensymphony.workflow.util;
 
 import junit.framework.Assert;
 
@@ -40,14 +40,41 @@ public class DatabaseHelper {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     /**
+      * Use the default Hibernate *.hbm.xml files.  These build the primary keys
+      * based on an identity or sequence, whatever is native to the database.
+      * @throws Exception
+      */
+    public static SessionFactory createHibernateSessionFactory() throws Exception {
+        Configuration configuration = new Configuration();
+
+        //cfg.addClass(HibernateHistoryStep.class);
+        URL currentStep = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate/HibernateCurrentStep.hbm.xml");
+        URL historyStep = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate/HibernateHistoryStep.hbm.xml");
+        URL workflowEntry = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate/HibernateWorkflowEntry.hbm.xml");
+        URL propertySet = DatabaseHelper.class.getResource("/com/opensymphony/module/propertyset/hibernate/PropertySetItemImpl.hbm.xml");
+        Assert.assertTrue(currentStep != null);
+        Assert.assertTrue(historyStep != null);
+        Assert.assertTrue(workflowEntry != null);
+        Assert.assertTrue(propertySet != null);
+        configuration.addURL(currentStep);
+        configuration.addURL(historyStep);
+        configuration.addURL(workflowEntry);
+        configuration.addURL(propertySet);
+
+        new SchemaExport(configuration).create(false, true);
+
+        return configuration.buildSessionFactory();
+    }
+
+    /**
      * Create the database by loading a URL pointing at a SQL script.
      */
-    public static void createDatabase(URL url) {
+    public static void runScript(URL url, String dsLocation) {
         Assert.assertNotNull("Database url is null", url);
 
         try {
             String sql = getDatabaseCreationScript(url);
-            createDatabase(sql);
+            runScript(sql, dsLocation);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }
@@ -57,14 +84,14 @@ public class DatabaseHelper {
      * Create a new database and initialize it with the specified sql script.
      * @param sql the sql to execute
      */
-    public static void createDatabase(String sql) {
+    public static void runScript(String sql, String dsLocation) {
         Connection connection;
         Statement statement = null;
         String sqlLine = null;
 
         try {
             InitialContext context = new InitialContext();
-            DataSource ds = (DataSource) context.lookup("jdbc/CreateDS");
+            DataSource ds = (DataSource) context.lookup(dsLocation);
             connection = ds.getConnection();
             statement = connection.createStatement();
 
@@ -97,33 +124,6 @@ public class DatabaseHelper {
                 }
             }
         }
-    }
-
-    /**
-      * Use the default Hibernate *.hbm.xml files.  These build the primary keys
-      * based on an identity or sequence, whatever is native to the database.
-      * @throws Exception
-      */
-    public static SessionFactory createHibernateSessionFactory() throws Exception {
-        Configuration configuration = new Configuration();
-
-        //cfg.addClass(HibernateHistoryStep.class);
-        URL currentStep = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate/HibernateCurrentStep.hbm.xml");
-        URL historyStep = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate/HibernateHistoryStep.hbm.xml");
-        URL workflowEntry = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate/HibernateWorkflowEntry.hbm.xml");
-        URL propertySet = DatabaseHelper.class.getResource("/com/opensymphony/module/propertyset/hibernate/PropertySetItemImpl.hbm.xml");
-        Assert.assertTrue(currentStep != null);
-        Assert.assertTrue(historyStep != null);
-        Assert.assertTrue(workflowEntry != null);
-        Assert.assertTrue(propertySet != null);
-        configuration.addURL(currentStep);
-        configuration.addURL(historyStep);
-        configuration.addURL(workflowEntry);
-        configuration.addURL(propertySet);
-
-        new SchemaExport(configuration).create(false, true);
-
-        return configuration.buildSessionFactory();
     }
 
     private static String getDatabaseCreationScript(URL url) throws IOException {

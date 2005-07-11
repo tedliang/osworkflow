@@ -7,7 +7,7 @@ package com.opensymphony.workflow.spi.jdbc;
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.config.DefaultConfiguration;
 import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
-import com.opensymphony.workflow.spi.DatabaseHelper;
+import com.opensymphony.workflow.util.DatabaseHelper;
 
 import java.util.HashMap;
 
@@ -39,10 +39,14 @@ public class JDBCFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTe
 
     protected void setUp() throws Exception {
         super.setUp();
-        DatabaseHelper.createDatabase(getClass().getResource("/scripts/jdbc/mckoi.sql"));
+        DatabaseHelper.runScript(getClass().getResource("/scripts/jdbc/mckoi.sql"), "jdbc/CreateDS");
 
         Configuration config = new DefaultConfiguration();
         config.load(getClass().getResource("/osworkflow-jdbc.xml"));
         workflow.setConfiguration(config);
+    }
+
+    protected void tearDown() throws Exception {
+        DatabaseHelper.runScript(getClass().getResource("/scripts/jdbc/dropschema.sql"), "jdbc/DefaultDS");
     }
 }
