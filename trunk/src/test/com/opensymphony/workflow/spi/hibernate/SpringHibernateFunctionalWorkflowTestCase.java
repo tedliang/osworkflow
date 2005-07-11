@@ -6,7 +6,7 @@ package com.opensymphony.workflow.spi.hibernate;
 
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
-import com.opensymphony.workflow.spi.DatabaseHelper;
+import com.opensymphony.workflow.util.DatabaseHelper;
 
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 
@@ -30,7 +30,7 @@ public class SpringHibernateFunctionalWorkflowTestCase extends AbstractFunctiona
     protected void setUp() throws Exception {
         try {
             super.setUp();
-            DatabaseHelper.createDatabase("");
+            DatabaseHelper.runScript("", "jdbc/CreateDS");
 
             XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("osworkflow-spring.xml"));
 

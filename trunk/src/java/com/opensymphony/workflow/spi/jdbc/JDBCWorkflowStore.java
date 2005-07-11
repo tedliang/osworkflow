@@ -654,8 +654,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
                 }
             }
 
-            System.out.println("Query is: " + qry.toString());
-
+            //System.out.println("Query is: " + qry.toString());
             return doExpressionQuery(qry.toString(), columnName, values);
         }
     }

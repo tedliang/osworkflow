@@ -7,7 +7,7 @@ package com.opensymphony.workflow.spi.ofbiz;
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.config.DefaultConfiguration;
 import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
-import com.opensymphony.workflow.spi.DatabaseHelper;
+import com.opensymphony.workflow.util.DatabaseHelper;
 
 
 /**
@@ -26,7 +26,7 @@ public class OfbizFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowT
 
     protected void setUp() throws Exception {
         //ofbiz creates its own tables
-        DatabaseHelper.createDatabase("");
+        DatabaseHelper.runScript("", "jdbc/CreateDS");
         super.setUp();
 
         Configuration config = new DefaultConfiguration();
