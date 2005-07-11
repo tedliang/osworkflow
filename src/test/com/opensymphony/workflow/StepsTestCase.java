@@ -47,6 +47,17 @@ public class StepsTestCase extends TestCase {
         assertEquals("Unexpected last history step", 3, step.getStepId());
     }
 
+    public void testJoinNodesOrder() throws Exception {
+        URL url = getClass().getResource("/samples/joinorder.xml");
+        long id = workflow.initialize(url.toString(), 1, null);
+        workflow.doAction(id, 2, null);
+        workflow.doAction(id, 3, null);
+        workflow.doAction(id, 2, null);
+        workflow.doAction(id, 4, null);
+        workflow.doAction(id, 6, null);
+        workflow.doAction(id, 7, null);
+    }
+
     public void testSplitCompletedHistorySteps() throws Exception {
         URL url = getClass().getResource("/samples/joinsplit.xml");
         long id = workflow.initialize(url.toString(), 100, null);
