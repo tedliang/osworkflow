@@ -268,8 +268,8 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
 
         this.name = action.getAttribute("name");
         this.view = action.getAttribute("view");
-        this.autoExecute = "true".equals(action.getAttribute("auto"));
-        this.finish = "true".equals(action.getAttribute("finish"));
+        this.autoExecute = "true".equalsIgnoreCase(action.getAttribute("auto"));
+        this.finish = "true".equalsIgnoreCase(action.getAttribute("finish"));
 
         NodeList children = action.getChildNodes();
 
