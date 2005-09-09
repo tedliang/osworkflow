@@ -26,6 +26,14 @@ public class DefaultVariableResolver implements VariableResolver, Serializable {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public void setBeanProvider(BeanProvider beanProvider) {
+        this.beanProvider = beanProvider;
+    }
+
+    public BeanProvider getBeanProvider() {
+        return beanProvider;
+    }
+
     public Object getVariableFromMaps(String var, Map transientVars, PropertySet ps) {
         int firstDot = var.indexOf('.');
         String actualVar = var;
