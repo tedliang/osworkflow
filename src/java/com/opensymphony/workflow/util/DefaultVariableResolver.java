@@ -20,6 +20,10 @@ import java.util.Map;
  * Time: 11:58:12 PM
  */
 public class DefaultVariableResolver implements VariableResolver, Serializable {
+    //~ Static fields/initializers /////////////////////////////////////////////
+
+    private static final long serialVersionUID = -4819078273560683753L;
+
     //~ Instance fields ////////////////////////////////////////////////////////
 
     private transient BeanProvider beanProvider = null;
