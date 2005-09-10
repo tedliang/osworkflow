@@ -288,7 +288,8 @@ public class XMLWorkflowFactory extends AbstractWorkflowFactory implements Seria
 
     //~ Inner Classes //////////////////////////////////////////////////////////
 
-    static class WorkflowConfig {
+    static class WorkflowConfig implements Serializable {
+        private static final long serialVersionUID = 4939957922893602958L;
         String location;
         String type; // file, URL, service
         URL url;
