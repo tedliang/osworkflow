@@ -30,6 +30,13 @@ import javax.xml.parsers.*;
 public class WorkflowLoader {
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated please use {@link #load(java.io.InputStream, boolean)} instead.
+     */
+    public static WorkflowDescriptor load(final InputStream is) throws SAXException, IOException, InvalidWorkflowDescriptorException {
+        return load(is, null, true);
+    }
+
     public static WorkflowDescriptor load(final InputStream is, boolean validate) throws SAXException, IOException, InvalidWorkflowDescriptorException {
         return load(is, null, validate);
     }
