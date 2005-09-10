@@ -3,7 +3,7 @@
 
 <!--
 /**
- *  $Id: fieldtype-hsql.xml,v 1.1 2005-03-16 04:21:25 hani Exp $
+ *  $Id: fieldtype-hsql.xml,v 1.2 2005-09-10 13:34:20 hani Exp $
  *  Title: Entity Generator Definitions for the General Data Model
  *  Description: None
  *  Copyright (c) 2002 The Open For Business Project - www.ofbiz.org
@@ -44,6 +44,7 @@
     <field-type-def type="currency-amount" sql-type="DOUBLE" java-type="Double"><validate method="isSignedDouble" /></field-type-def>
     <field-type-def type="floating-point" sql-type="DOUBLE" java-type="Double"><validate method="isSignedDouble" /></field-type-def>
     <field-type-def type="numeric" sql-type="BIGINT" java-type="Long"><validate method="isSignedLong" /></field-type-def>
+    <field-type-def type="integer" sql-type="INTEGER" java-type="Integer"></field-type-def>
     
     <field-type-def type="id" sql-type="VARCHAR" java-type="String"></field-type-def>
     <field-type-def type="id-long" sql-type="VARCHAR" java-type="String"></field-type-def>
