@@ -4,6 +4,7 @@
  */
 package com.opensymphony.workflow.spi.hibernate;
 
+import com.opensymphony.workflow.basic.BasicWorkflow;
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.config.DefaultConfiguration;
 import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
@@ -41,7 +42,7 @@ public class HibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkf
         Configuration config = new DefaultConfiguration();
         config.load(getClass().getResource("/osworkflow-hibernate.xml"));
         workflow.setConfiguration(config);
-        workflow.getConfiguration().getPersistenceArgs().put("sessionFactory", factory);
+        ((BasicWorkflow)workflow).getConfiguration().getPersistenceArgs().put("sessionFactory", factory);
     }
 
     protected void tearDown() throws Exception {
