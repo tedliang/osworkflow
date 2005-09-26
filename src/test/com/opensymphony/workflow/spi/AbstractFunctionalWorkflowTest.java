@@ -11,6 +11,7 @@ import com.opensymphony.user.UserManager;
 
 import com.opensymphony.workflow.AbstractWorkflow;
 import com.opensymphony.workflow.QueryNotSupportedException;
+import com.opensymphony.workflow.Workflow;
 import com.opensymphony.workflow.WorkflowException;
 import com.opensymphony.workflow.basic.BasicWorkflow;
 import com.opensymphony.workflow.loader.WorkflowDescriptor;
@@ -46,7 +47,7 @@ public abstract class AbstractFunctionalWorkflowTest extends TestCase {
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    protected AbstractWorkflow workflow;
+    protected Workflow workflow;
     protected Log log;
     protected WorkflowDescriptor workflowDescriptor;
 
