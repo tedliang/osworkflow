@@ -6,20 +6,23 @@
         <id name="id" unsaved-value="-1">
             <generator class="native"/>
         </id>
+
+		<version name="version"/>
+
         <property name="workflowName" column="name"/>
         <property name="state"/>
 
-        <list name="currentSteps" cascade="all-delete-orphan" lazy="true" >
+        <bag name="currentSteps" cascade="all-delete-orphan" lazy="true" inverse="true">
             <key column="entry_Id"/>
-            <index column="stepIndex"/>
+            <!-- index column="stepIndex"/-->
             <one-to-many class="com.opensymphony.workflow.spi.hibernate.HibernateCurrentStep"/>
-        </list>
+        </bag>
 
-        <list name="historySteps" cascade="all" lazy="true">
+        <bag name="historySteps" cascade="all" lazy="true" inverse="true">
             <key column="entry_Id"/>
-            <index column="stepIndex"/>
+            <!-- index column="stepIndex"/-->
             <one-to-many class="com.opensymphony.workflow.spi.hibernate.HibernateHistoryStep"/>
-        </list>
+        </bag>
 
     </class>
 </hibernate-mapping>
