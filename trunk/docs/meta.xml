@@ -3,13 +3,16 @@
     <jiraId>10004</jiraId>
     <jiraName>WF</jiraName>
     <confluenceName>WF</confluenceName>
-    <forumsId>5</forumsId>
+
+    <forums>
+        <usersId>5</usersId>
+        <cvsId>13</cvsId>
+    </forums>
 
     <owners>
         <person>
             <name>Hani Suleiman</name>
             <email>hani@formicary.net</email>
-            <role></role>
         </person>
     </owners>
 
@@ -38,10 +41,6 @@
                 <name>Using the API</name>
                 <url>5.%20Using%20the%20API.html</url>
             </item> 
-            <item>
-                <name>API Documentation</name>
-                <url>api/index.html</url>
-            </item> 
         </items>
     </docs>
 
@@ -51,7 +50,7 @@
             <url>Compiling%20from%20CVS.html</url>
         </item> 
         <item>
-            <name>Tutotial</name>
+            <name>Tutorial</name>
             <url>Tutorial.html</url>
         </item>
     </evaluating>
