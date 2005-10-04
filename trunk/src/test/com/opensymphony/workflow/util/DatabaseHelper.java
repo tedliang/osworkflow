@@ -14,6 +14,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.hibernate.dialect.MckoiDialect;
+
 import java.io.*;
 
 import java.net.URL;
@@ -39,6 +41,39 @@ public class DatabaseHelper {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public static org.hibernate.SessionFactory createHibernate3SessionFactory() throws Exception {
+        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
+
+        configuration.setProperty("hibernate.dialect", MckoiDialect.class.getName());
+
+        URL currentStep = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate3/HibernateCurrentStep.hbm.xml");
+        URL historyStep = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate3/HibernateHistoryStep.hbm.xml");
+        URL workflowEntry = DatabaseHelper.class.getResource("/com/opensymphony/workflow/spi/hibernate3/HibernateWorkflowEntry.hbm.xml");
+        Assert.assertTrue(currentStep != null);
+        Assert.assertTrue(historyStep != null);
+        Assert.assertTrue(workflowEntry != null);
+        configuration.addURL(currentStep);
+        configuration.addURL(historyStep);
+        configuration.addURL(workflowEntry);
+
+        new org.hibernate.tool.hbm2ddl.SchemaExport(configuration).create(false, true);
+
+        return configuration.buildSessionFactory();
+    }
+
+    public static SessionFactory createPropertySetSessionFactory() throws Exception {
+        Configuration configuration = new Configuration();
+
+        URL propertySet = DatabaseHelper.class.getResource("/com/opensymphony/module/propertyset/hibernate/PropertySetItemImpl.hbm.xml");
+
+        Assert.assertTrue(propertySet != null);
+
+        configuration.addURL(propertySet);
+
+        new SchemaExport(configuration).create(false, true);
+
+        return configuration.buildSessionFactory();
+    }
     /**
       * Use the default Hibernate *.hbm.xml files.  These build the primary keys
       * based on an identity or sequence, whatever is native to the database.
