@@ -47,8 +47,8 @@ public abstract class AbstractFunctionalWorkflowTest extends TestCase {
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    protected Workflow workflow;
     protected Log log;
+    protected Workflow workflow;
     protected WorkflowDescriptor workflowDescriptor;
 
     //~ Constructors ///////////////////////////////////////////////////////////
