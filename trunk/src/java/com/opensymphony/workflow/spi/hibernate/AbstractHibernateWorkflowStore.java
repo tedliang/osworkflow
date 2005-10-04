@@ -4,21 +4,8 @@
  */
 package com.opensymphony.workflow.spi.hibernate;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import net.sf.hibernate.Criteria;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.expression.Criterion;
-import net.sf.hibernate.expression.Expression;
-
 import com.opensymphony.module.propertyset.PropertySet;
+
 import com.opensymphony.workflow.QueryNotSupportedException;
 import com.opensymphony.workflow.StoreException;
 import com.opensymphony.workflow.query.FieldExpression;
@@ -30,93 +17,57 @@ import com.opensymphony.workflow.spi.WorkflowEntry;
 import com.opensymphony.workflow.spi.WorkflowStore;
 import com.opensymphony.workflow.util.PropertySetDelegate;
 
+import net.sf.hibernate.Criteria;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.expression.Criterion;
+import net.sf.hibernate.expression.Expression;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+
 /**
  * @author Luca Masini
  * @since 2005-9-23
- * 
+ *
  */
 public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
-    // ~ Instance fields ////////////////////////////////////////////////////////
+    //~ Instance fields ////////////////////////////////////////////////////////
 
     private PropertySetDelegate propertySetDelegate;
     private String cacheRegion = null;
     private boolean cacheable = false;
 
-    // ~ Internal Interfaces /////////////////////////////////////////////////////
-    
-    // Template method pattern to delegate implementation of Session 
-    // management to subclasses
-    protected interface InternalCallback {
-
-        public Object doInHibernate(Session session) throws HibernateException, StoreException;
-
-    }
+    //~ Methods ////////////////////////////////////////////////////////////////
 
     // ~ Abstract Methods ////////////////////////////////////////////////////////////////
-    
     public abstract PropertySet getPropertySet(long entryId) throws StoreException;
-    
-    // Companion method of InternalCallback class
-    protected abstract Object execute(InternalCallback action) throws StoreException;
-    
-    // ~ Getter/Setter ////////////////////////////////////////////////////////////////
 
+    // ~ Getter/Setter ////////////////////////////////////////////////////////////////
     public void setCacheRegion(String cacheRegion) {
         this.cacheRegion = cacheRegion;
-    }
-
-    protected String getCacheRegion() {
-        return cacheRegion;
     }
 
     public void setCacheable(boolean cacheable) {
         this.cacheable = cacheable;
     }
 
-    protected boolean isCacheable() {
-        return cacheable;
+    public void setEntryState(final long entryId, final int state) throws StoreException {
+        loadEntry(entryId).setState(state);
     }
-    
+
     public void setPropertySetDelegate(PropertySetDelegate propertySetDelegate) {
         this.propertySetDelegate = propertySetDelegate;
     }
 
     public PropertySetDelegate getPropertySetDelegate() {
         return propertySetDelegate;
-    }
-
-    // ~ DAO Methods ////////////////////////////////////////////////////////////////
-
-    protected HibernateWorkflowEntry loadEntry(final long entryId)  throws StoreException{
-        return (HibernateWorkflowEntry) execute(new InternalCallback() {
-            public Object doInHibernate(Session session) throws HibernateException {
-                return session.load(HibernateWorkflowEntry.class, new Long(entryId));
-            }
-        });
-    }
-
-    protected void save(final Object entry) throws StoreException {
-        execute(new InternalCallback() {
-            public Object doInHibernate(Session session) throws HibernateException {
-                session.save(entry);
-                
-                return null;
-            }
-        });
-    }
-    
-    protected void delete(final Object entry) throws StoreException {
-        execute(new InternalCallback() {
-            public Object doInHibernate(Session session) throws HibernateException {
-                session.delete(entry);
-                
-                return null;
-            }
-        });
-    }
-    
-    public void setEntryState(final long entryId, final int state) throws StoreException {
-        loadEntry(entryId).setState(state);
     }
 
     public Step createCurrentStep(final long entryId, final int stepId, final String owner, final Date startDate, final Date dueDate, final String status, final long[] previousIds) throws StoreException {
@@ -128,24 +79,25 @@ public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
         step.setStartDate(startDate);
         step.setDueDate(dueDate);
         step.setStatus(status);
-        
+
         // This is for backward compatibility, but current Store doesn't 
         // persist this collection, nor is such property visibile outside 
         // OSWF internal classes
         List previousSteps = new ArrayList(previousIds.length);
-        for(int i=0;i<previousIds.length;i++)
-        {
+
+        for (int i = 0; i < previousIds.length; i++) {
             HibernateCurrentStep previousStep = new HibernateCurrentStep();
             previousSteps.add(previousStep);
         }
+
         step.setPreviousSteps(previousSteps);
 
         entry.addCurrentSteps(step);
-        
+
         // We need to save here because we soon will need the stepId 
         // that hibernate calculate on save or flush
         save(step);
-        
+
         return step;
     }
 
@@ -158,16 +110,16 @@ public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
         return entry;
     }
 
-    public WorkflowEntry findEntry(long entryId) throws StoreException {
-        return loadEntry(entryId);
-    }
-
     public List findCurrentSteps(final long entryId) throws StoreException {
         // We are asking for current step list, so here we have an anti-lazy
         // copy of the Hibernate array in memory. This also prevents problem 
         // in case the use is going with a pattern that span a session 
         // for method call
         return new ArrayList(loadEntry(entryId).getCurrentSteps());
+    }
+
+    public WorkflowEntry findEntry(long entryId) throws StoreException {
+        return loadEntry(entryId);
     }
 
     public List findHistorySteps(final long entryId) throws StoreException {
@@ -193,10 +145,11 @@ public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
         final HibernateCurrentStep currentStep = (HibernateCurrentStep) step;
         final HibernateWorkflowEntry entry = currentStep.getEntry();
         final HibernateHistoryStep hStep = new HibernateHistoryStep(currentStep);
-        
+
         entry.removeCurrentSteps(currentStep);
         delete(currentStep);
         entry.addHistorySteps(hStep);
+
         // We need to save here because we soon will need the stepId 
         // that hibernate calculate on save or flush
         save(hStep);
@@ -204,125 +157,163 @@ public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
 
     public List query(final WorkflowQuery query) throws StoreException {
         return (List) execute(new InternalCallback() {
+                public Object doInHibernate(Session session) throws HibernateException, StoreException {
+                    Class entityClass;
 
-            public Object doInHibernate(Session session) throws HibernateException, StoreException {
-                Class entityClass;
+                    int qtype = query.getType();
 
-                int qtype = query.getType();
+                    if (qtype == 0) { // then not set, so look in sub queries
 
-                if (qtype == 0) { // then not set, so look in sub queries
-
-                    if (query.getLeft() != null) {
-                        qtype = query.getLeft().getType();
+                        if (query.getLeft() != null) {
+                            qtype = query.getLeft().getType();
+                        }
                     }
+
+                    if (qtype == WorkflowQuery.CURRENT) {
+                        entityClass = HibernateCurrentStep.class;
+                    } else {
+                        entityClass = HibernateHistoryStep.class;
+                    }
+
+                    Criteria criteria = session.createCriteria(entityClass);
+                    Criterion expression = buildExpression(query);
+                    criteria.setCacheable(isCacheable());
+
+                    if (isCacheable()) {
+                        criteria.setCacheRegion(getCacheRegion());
+                    }
+
+                    criteria.add(expression);
+
+                    Set results = new HashSet();
+                    Iterator iter = criteria.list().iterator();
+
+                    while (iter.hasNext()) {
+                        HibernateStep step = (HibernateStep) iter.next();
+                        results.add(new Long(step.getEntryId()));
+                    }
+
+                    return new ArrayList(results);
                 }
-
-                if (qtype == WorkflowQuery.CURRENT) {
-                    entityClass = HibernateCurrentStep.class;
-                } else {
-                    entityClass = HibernateHistoryStep.class;
-                }
-
-                Criteria criteria = session.createCriteria(entityClass);
-                Criterion expression = buildExpression(query);
-                criteria.setCacheable(isCacheable());
-                if(isCacheable())
-                {
-                    criteria.setCacheRegion(getCacheRegion());
-                }                
-                criteria.add(expression);
-
-                Set results = new HashSet();
-                Iterator iter = criteria.list().iterator();
-
-                while (iter.hasNext()) {
-                    HibernateStep step = (HibernateStep) iter.next();
-                    results.add(new Long(step.getEntryId()));
-                }
-
-                return new ArrayList(results);
-            }
-        });
+            });
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.opensymphony.workflow.spi.WorkflowStore#query(com.opensymphony.workflow.query.WorkflowExpressionQuery)
      */
     public List query(final WorkflowExpressionQuery query) throws StoreException {
         return (List) execute(new InternalCallback() {
+                public Object doInHibernate(Session session) throws HibernateException {
+                    com.opensymphony.workflow.query.Expression expression = query.getExpression();
 
-            public Object doInHibernate(Session session) throws HibernateException {
-                com.opensymphony.workflow.query.Expression expression = query.getExpression();
+                    Criterion expr;
 
-                Criterion expr;
+                    Class entityClass = getQueryClass(expression, null);
 
-                Class entityClass = getQueryClass(expression, null);
-
-                if (expression.isNested()) {
-                    expr = buildNested((NestedExpression) expression);
-                } else {
-                    expr = queryComparison((FieldExpression) expression);
-                }
-
-                Criteria criteria = session.createCriteria(entityClass);
-                criteria.setCacheable(isCacheable());
-                if(isCacheable())
-                {
-                    criteria.setCacheRegion(getCacheRegion());
-                }
-                criteria.add(expr);
-
-                Set results = new HashSet();
-
-                Iterator iter = criteria.list().iterator();
-
-                while (iter.hasNext()) {
-                    Object next = iter.next();
-                    Object item;
-
-                    if (next instanceof HibernateStep) {
-                        HibernateStep step = (HibernateStep) next;
-                        item = new Long(step.getEntryId());
+                    if (expression.isNested()) {
+                        expr = buildNested((NestedExpression) expression);
                     } else {
-                        WorkflowEntry entry = (WorkflowEntry) next;
-                        item = new Long(entry.getId());
+                        expr = queryComparison((FieldExpression) expression);
                     }
 
-                    results.add(item);
-                }
+                    Criteria criteria = session.createCriteria(entityClass);
+                    criteria.setCacheable(isCacheable());
 
-                return new ArrayList(results);
-            }
-        });
+                    if (isCacheable()) {
+                        criteria.setCacheRegion(getCacheRegion());
+                    }
+
+                    criteria.add(expr);
+
+                    Set results = new HashSet();
+
+                    Iterator iter = criteria.list().iterator();
+
+                    while (iter.hasNext()) {
+                        Object next = iter.next();
+                        Object item;
+
+                        if (next instanceof HibernateStep) {
+                            HibernateStep step = (HibernateStep) next;
+                            item = new Long(step.getEntryId());
+                        } else {
+                            WorkflowEntry entry = (WorkflowEntry) next;
+                            item = new Long(entry.getId());
+                        }
+
+                        results.add(item);
+                    }
+
+                    return new ArrayList(results);
+                }
+            });
+    }
+
+    // Companion method of InternalCallback class
+    protected abstract Object execute(InternalCallback action) throws StoreException;
+
+    protected String getCacheRegion() {
+        return cacheRegion;
+    }
+
+    protected boolean isCacheable() {
+        return cacheable;
     }
 
     protected Criterion getExpression(final WorkflowQuery query) throws StoreException {
         return (Criterion) execute(new InternalCallback() {
+                public Object doInHibernate(Session session) throws HibernateException {
+                    int operator = query.getOperator();
 
-            public Object doInHibernate(Session session) throws HibernateException {
+                    switch (operator) {
+                    case WorkflowQuery.EQUALS:
+                        return Expression.eq(getFieldName(query.getField()), query.getValue());
 
-                int operator = query.getOperator();
+                    case WorkflowQuery.NOT_EQUALS:
+                        return Expression.not(Expression.like(getFieldName(query.getField()), query.getValue()));
 
-                switch (operator) {
-                case WorkflowQuery.EQUALS:
-                    return Expression.eq(getFieldName(query.getField()), query.getValue());
+                    case WorkflowQuery.GT:
+                        return Expression.gt(getFieldName(query.getField()), query.getValue());
 
-                case WorkflowQuery.NOT_EQUALS:
-                    return Expression.not(Expression.like(getFieldName(query.getField()), query.getValue()));
+                    case WorkflowQuery.LT:
+                        return Expression.lt(getFieldName(query.getField()), query.getValue());
 
-                case WorkflowQuery.GT:
-                    return Expression.gt(getFieldName(query.getField()), query.getValue());
-
-                case WorkflowQuery.LT:
-                    return Expression.lt(getFieldName(query.getField()), query.getValue());
-
-                default:
-                    return Expression.eq(getFieldName(query.getField()), query.getValue());
+                    default:
+                        return Expression.eq(getFieldName(query.getField()), query.getValue());
+                    }
                 }
-            }
-        });
+            });
+    }
+
+    protected void delete(final Object entry) throws StoreException {
+        execute(new InternalCallback() {
+                public Object doInHibernate(Session session) throws HibernateException {
+                    session.delete(entry);
+
+                    return null;
+                }
+            });
+    }
+
+    // ~ DAO Methods ////////////////////////////////////////////////////////////////
+    protected HibernateWorkflowEntry loadEntry(final long entryId) throws StoreException {
+        return (HibernateWorkflowEntry) execute(new InternalCallback() {
+                public Object doInHibernate(Session session) throws HibernateException {
+                    return session.load(HibernateWorkflowEntry.class, new Long(entryId));
+                }
+            });
+    }
+
+    protected void save(final Object entry) throws StoreException {
+        execute(new InternalCallback() {
+                public Object doInHibernate(Session session) throws HibernateException {
+                    session.save(entry);
+
+                    return null;
+                }
+            });
     }
 
     private String getFieldName(int field) {
@@ -356,7 +347,7 @@ public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
 
         case FieldExpression.DUE_DATE:
             return "dueDate";
-            
+
         default:
             return "1";
         }
@@ -442,7 +433,7 @@ public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
         }
     }
 
-    private Criterion buildNested(NestedExpression nestedExpression){
+    private Criterion buildNested(NestedExpression nestedExpression) {
         Criterion full = null;
 
         for (int i = 0; i < nestedExpression.getExpressionCount(); i++) {
@@ -497,5 +488,14 @@ public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
         default:
             return Expression.eq(getFieldName(expression.getField()), expression.getValue());
         }
+    }
+
+    //~ Inner Interfaces ///////////////////////////////////////////////////////
+
+    // ~ Internal Interfaces /////////////////////////////////////////////////////
+    // Template method pattern to delegate implementation of Session 
+    // management to subclasses
+    protected interface InternalCallback {
+        public Object doInHibernate(Session session) throws HibernateException, StoreException;
     }
 }

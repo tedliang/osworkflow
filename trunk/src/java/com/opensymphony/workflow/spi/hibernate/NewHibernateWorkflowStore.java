@@ -4,16 +4,18 @@
  */
 package com.opensymphony.workflow.spi.hibernate;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.opensymphony.module.propertyset.PropertySet;
+import com.opensymphony.module.propertyset.PropertySetManager;
+import com.opensymphony.module.propertyset.hibernate.DefaultHibernateConfigurationProvider;
+
+import com.opensymphony.workflow.StoreException;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 
-import com.opensymphony.module.propertyset.PropertySet;
-import com.opensymphony.module.propertyset.PropertySetManager;
-import com.opensymphony.module.propertyset.hibernate.DefaultHibernateConfigurationProvider;
-import com.opensymphony.workflow.StoreException;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * @author masini
@@ -22,20 +24,17 @@ import com.opensymphony.workflow.StoreException;
  * Look at @link NewHibernateFunctionalWorkflowTestCase for a use case.
  */
 public class NewHibernateWorkflowStore extends AbstractHibernateWorkflowStore {
+    //~ Instance fields ////////////////////////////////////////////////////////
 
     Session session;
-    
+
+    //~ Constructors ///////////////////////////////////////////////////////////
+
     public NewHibernateWorkflowStore() {
         super();
     }
 
-    protected Object execute(InternalCallback action) throws StoreException {
-        try {
-            return action.doInHibernate(session);            
-        } catch (HibernateException e) {
-            throw new StoreException(e);
-        }
-    }
+    //~ Methods ////////////////////////////////////////////////////////////////
 
     public PropertySet getPropertySet(long entryId) throws StoreException {
         HashMap args = new HashMap();
@@ -55,4 +54,11 @@ public class NewHibernateWorkflowStore extends AbstractHibernateWorkflowStore {
         session = (Session) props.get("session");
     }
 
+    protected Object execute(InternalCallback action) throws StoreException {
+        try {
+            return action.doInHibernate(session);
+        } catch (HibernateException e) {
+            throw new StoreException(e);
+        }
+    }
 }

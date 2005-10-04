@@ -4,10 +4,10 @@
  */
 package com.opensymphony.workflow.spi.hibernate;
 
+import com.opensymphony.workflow.spi.WorkflowEntry;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.opensymphony.workflow.spi.WorkflowEntry;
 
 
 /**
@@ -22,21 +22,9 @@ public class HibernateWorkflowEntry implements WorkflowEntry {
     long id = -1;
     private int state;
     private int version;
-    
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public void addCurrentSteps(HibernateCurrentStep step)
-    {
-        step.setEntry(this);
-        getCurrentSteps().add(step);
-    }
-    
-    public void removeCurrentSteps(HibernateCurrentStep step)
-    {
-        getCurrentSteps().remove(step);
-    }
-    
     public void setCurrentSteps(List currentSteps) {
         this.currentSteps = currentSteps;
     }
@@ -45,12 +33,6 @@ public class HibernateWorkflowEntry implements WorkflowEntry {
         return currentSteps;
     }
 
-    public void addHistorySteps(HibernateHistoryStep step)
-    {
-        step.setEntry(this);
-        getHistorySteps().add(step);
-    }
-    
     public void setHistorySteps(List historySteps) {
         this.historySteps = historySteps;
     }
@@ -87,11 +69,25 @@ public class HibernateWorkflowEntry implements WorkflowEntry {
         return workflowName;
     }
 
-    protected int getVersion() {
-        return version;
+    public void addCurrentSteps(HibernateCurrentStep step) {
+        step.setEntry(this);
+        getCurrentSteps().add(step);
+    }
+
+    public void addHistorySteps(HibernateHistoryStep step) {
+        step.setEntry(this);
+        getHistorySteps().add(step);
+    }
+
+    public void removeCurrentSteps(HibernateCurrentStep step) {
+        getCurrentSteps().remove(step);
     }
 
     protected void setVersion(int version) {
         this.version = version;
+    }
+
+    protected int getVersion() {
+        return version;
     }
 }
