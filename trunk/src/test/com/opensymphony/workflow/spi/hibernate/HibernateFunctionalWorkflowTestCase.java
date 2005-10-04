@@ -42,7 +42,7 @@ public class HibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkf
         Configuration config = new DefaultConfiguration();
         config.load(getClass().getResource("/osworkflow-hibernate.xml"));
         workflow.setConfiguration(config);
-        ((BasicWorkflow)workflow).getConfiguration().getPersistenceArgs().put("sessionFactory", factory);
+        ((BasicWorkflow) workflow).getConfiguration().getPersistenceArgs().put("sessionFactory", factory);
     }
 
     protected void tearDown() throws Exception {
