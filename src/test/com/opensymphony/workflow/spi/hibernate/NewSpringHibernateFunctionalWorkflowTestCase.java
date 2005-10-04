@@ -4,20 +4,21 @@
  */
 package com.opensymphony.workflow.spi.hibernate;
 
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.ClassPathResource;
-
 import com.opensymphony.workflow.Workflow;
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
 import com.opensymphony.workflow.util.DatabaseHelper;
 
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+
+import org.springframework.core.io.ClassPathResource;
+
 
 /**
- * @author        Quake Wang
- * @since        2004-5-2
+ * White Box semi-functional test case that uses Spring's managed Hibernate as Store
  *
- **/
+ * @author Luca Masini (l.masini@infogroup.it)
+ */
 public class NewSpringHibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
     //~ Constructors ///////////////////////////////////////////////////////////
 
@@ -32,8 +33,8 @@ public class NewSpringHibernateFunctionalWorkflowTestCase extends AbstractFuncti
         DatabaseHelper.runScript("", "jdbc/CreateDS");
 
         XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("new-osworkflow-spring.xml"));
-        
-        workflow = (Workflow)beanFactory.getBean("workflow");
+
+        workflow = (Workflow) beanFactory.getBean("workflow");
         workflow.setConfiguration((Configuration) beanFactory.getBean("osworkflowConfiguration"));
     }
 
