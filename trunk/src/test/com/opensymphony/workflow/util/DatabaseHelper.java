@@ -61,19 +61,6 @@ public class DatabaseHelper {
         return configuration.buildSessionFactory();
     }
 
-    public static SessionFactory createPropertySetSessionFactory() throws Exception {
-        Configuration configuration = new Configuration();
-
-        URL propertySet = DatabaseHelper.class.getResource("/com/opensymphony/module/propertyset/hibernate/PropertySetItemImpl.hbm.xml");
-
-        Assert.assertTrue(propertySet != null);
-
-        configuration.addURL(propertySet);
-
-        new SchemaExport(configuration).create(false, true);
-
-        return configuration.buildSessionFactory();
-    }
     /**
       * Use the default Hibernate *.hbm.xml files.  These build the primary keys
       * based on an identity or sequence, whatever is native to the database.
@@ -94,6 +81,20 @@ public class DatabaseHelper {
         configuration.addURL(currentStep);
         configuration.addURL(historyStep);
         configuration.addURL(workflowEntry);
+        configuration.addURL(propertySet);
+
+        new SchemaExport(configuration).create(false, true);
+
+        return configuration.buildSessionFactory();
+    }
+
+    public static SessionFactory createPropertySetSessionFactory() throws Exception {
+        Configuration configuration = new Configuration();
+
+        URL propertySet = DatabaseHelper.class.getResource("/com/opensymphony/module/propertyset/hibernate/PropertySetItemImpl.hbm.xml");
+
+        Assert.assertTrue(propertySet != null);
+
         configuration.addURL(propertySet);
 
         new SchemaExport(configuration).create(false, true);
