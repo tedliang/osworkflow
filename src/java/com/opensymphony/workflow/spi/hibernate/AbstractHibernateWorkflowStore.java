@@ -35,7 +35,7 @@ import com.opensymphony.workflow.util.PropertySetDelegate;
  * @since 2005-9-23
  * 
  */
-public abstract class AbstractHibernateWorkflowStore /* extends HibernateDaoSupport */implements WorkflowStore {
+public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
     // ~ Instance fields ////////////////////////////////////////////////////////
 
     private PropertySetDelegate propertySetDelegate;
@@ -99,6 +99,16 @@ public abstract class AbstractHibernateWorkflowStore /* extends HibernateDaoSupp
         execute(new InternalCallback() {
             public Object doInHibernate(Session session) throws HibernateException {
                 session.save(entry);
+                
+                return null;
+            }
+        });
+    }
+    
+    protected void delete(final Object entry) throws StoreException {
+        execute(new InternalCallback() {
+            public Object doInHibernate(Session session) throws HibernateException {
+                session.delete(entry);
                 
                 return null;
             }
@@ -185,6 +195,7 @@ public abstract class AbstractHibernateWorkflowStore /* extends HibernateDaoSupp
         final HibernateHistoryStep hStep = new HibernateHistoryStep(currentStep);
         
         entry.removeCurrentSteps(currentStep);
+        delete(currentStep);
         entry.addHistorySteps(hStep);
         // We need to save here because we soon will need the stepId 
         // that hibernate calculate on save or flush
@@ -343,6 +354,9 @@ public abstract class AbstractHibernateWorkflowStore /* extends HibernateDaoSupp
         case FieldExpression.NAME:
             return "workflowName";
 
+        case FieldExpression.DUE_DATE:
+            return "dueDate";
+            
         default:
             return "1";
         }
