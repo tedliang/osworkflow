@@ -4,28 +4,27 @@
  */
 package com.opensymphony.workflow.spi.hibernate;
 
-import net.sf.hibernate.Session;
-import net.sf.hibernate.SessionFactory;
-
 import com.opensymphony.workflow.basic.BasicWorkflow;
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.config.DefaultConfiguration;
 import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
 import com.opensymphony.workflow.util.DatabaseHelper;
 
+import net.sf.hibernate.Session;
+import net.sf.hibernate.SessionFactory;
+
 
 /**
- * This test case is functional in that it attempts to validate the entire
- * lifecycle of a workflow.  This is also a good resource for beginners
- * to OSWorkflow.  This leverages Hibernate as the persistence mechanism.
+ * White Box semi-functional test case that uses Hibernate as Store
  *
- * @author Eric Pugh (epugh@upstate.com)
+ * @author Luca Masini (l.masini@infogroup.it)
  */
 public class NewHibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private SessionFactory factory;
     Session session;
+    private SessionFactory factory;
+
     //~ Constructors ///////////////////////////////////////////////////////////
 
     public NewHibernateFunctionalWorkflowTestCase(String s) {
@@ -39,12 +38,13 @@ public class NewHibernateFunctionalWorkflowTestCase extends AbstractFunctionalWo
         DatabaseHelper.runScript("", "jdbc/CreateDS");
 
         factory = DatabaseHelper.createHibernateSessionFactory();
+        session = factory.openSession();
 
         Configuration config = new DefaultConfiguration();
         config.load(getClass().getResource("/new-osworkflow-hibernate.xml"));
+        config.getPersistenceArgs().put("session", session);
+
         workflow.setConfiguration(config);
-        session = factory.openSession();
-        ((BasicWorkflow)workflow).getConfiguration().getPersistenceArgs().put("session", session);
     }
 
     protected void tearDown() throws Exception {
