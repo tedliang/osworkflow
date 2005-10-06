@@ -59,13 +59,27 @@
 		<property name="factory"><ref local="workflowFactory"/></property>		
 	</bean>
 	
-	<bean id="workflow" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
 		<property name="transactionManager"><ref local="transactionManager"/></property>
-		<property name="target"><ref local="workflowTarget"/></property>
 		<property name="transactionAttributes">
 			<props>
 				<prop key="*">PROPAGATION_REQUIRED</prop>
 			</props>
+		</property>
+	</bean>
+
+	<bean id="workflow" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="singleton">
+			<value>false</value>
+		</property>
+		<property name="proxyInterfaces">
+			<value>com.opensymphony.workflow.Workflow</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>transactionInterceptor</value>
+				<value>workflowTarget</value>
+			</list>
 		</property>
 	</bean>
 
