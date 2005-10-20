@@ -4,11 +4,11 @@
  */
 package com.opensymphony.workflow.spi.hibernate3;
 
-import com.opensymphony.workflow.basic.BasicWorkflow;
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.config.DefaultConfiguration;
 import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
 import com.opensymphony.workflow.util.DatabaseHelper;
+import com.opensymphony.workflow.util.PropertySetDelegateImpl;
 
 import net.sf.hibernate.SessionFactory;
 
@@ -44,7 +44,7 @@ public class NewHibernateFunctionalWorkflowTestCase extends AbstractFunctionalWo
         Configuration config = new DefaultConfiguration();
         config.load(getClass().getResource("/new-osworkflow-hibernate3.xml"));
         config.getPersistenceArgs().put("session", session);
-        config.getPersistenceArgs().put("sessionFactory", factory);
+        config.getPersistenceArgs().put("propertySetDelegate", new PropertySetDelegateImpl());
 
         workflow.setConfiguration(config);
     }

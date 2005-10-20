@@ -4,7 +4,6 @@
  */
 package com.opensymphony.workflow.spi.hibernate;
 
-import com.opensymphony.workflow.basic.BasicWorkflow;
 import com.opensymphony.workflow.config.Configuration;
 import com.opensymphony.workflow.config.DefaultConfiguration;
 import com.opensymphony.workflow.spi.AbstractFunctionalWorkflowTest;
@@ -43,6 +42,10 @@ public class NewHibernateFunctionalWorkflowTestCase extends AbstractFunctionalWo
         Configuration config = new DefaultConfiguration();
         config.load(getClass().getResource("/new-osworkflow-hibernate.xml"));
         config.getPersistenceArgs().put("session", session);
+
+        DefaultHibernatePropertySetDelegate propertySetDelegate = new DefaultHibernatePropertySetDelegate();
+        propertySetDelegate.setSessionFactory(factory);
+        config.getPersistenceArgs().put("propertySetDelegate", propertySetDelegate);
 
         workflow.setConfiguration(config);
     }
