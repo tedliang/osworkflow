@@ -46,9 +46,7 @@
 	<bean id="workflowStore" class="com.opensymphony.workflow.spi.hibernate.NewSpringHibernateWorkflowStore">
 		<property name="sessionFactory"><ref local="sessionFactory"/></property>
 		<property name="propertySetDelegate">
-			<bean id="propertySetDelegate" class="com.opensymphony.workflow.spi.hibernate.DefaultHibernatePropertySetDelegate">
-				<property name="sessionFactory"><ref local="sessionFactory"/></property>
-			</bean>
+			<bean id="propertySetDelegate" class="com.opensymphony.workflow.util.PropertySetDelegateImpl"/>
 		</property>
 	</bean>
 		
