@@ -45,15 +45,11 @@ import java.util.Set;
 public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    // ~ Instance fields ////////////////////////////////////////////////////////
     private PropertySetDelegate propertySetDelegate;
     private String cacheRegion = null;
     private boolean cacheable = false;
 
     //~ Methods ////////////////////////////////////////////////////////////////
-
-    // ~ Abstract Methods ////////////////////////////////////////////////////////////////
-    public abstract PropertySet getPropertySet(long entryId) throws StoreException;
 
     // ~ Getter/Setter ////////////////////////////////////////////////////////////////
     public void setCacheRegion(String cacheRegion) {
@@ -66,6 +62,14 @@ public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
 
     public void setEntryState(final long entryId, final int state) throws StoreException {
         loadEntry(entryId).setState(state);
+    }
+
+    public PropertySet getPropertySet(long entryId) throws StoreException {
+        if (getPropertySetDelegate() == null) {
+            throw new StoreException("PropertySetDelegate is not properly configured");
+        }
+
+        return getPropertySetDelegate().getPropertySet(entryId);
     }
 
     public void setPropertySetDelegate(PropertySetDelegate propertySetDelegate) {

@@ -46,9 +46,6 @@ public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    // ~ Abstract Methods ////////////////////////////////////////////////////////////////
-    public abstract PropertySet getPropertySet(long entryId) throws StoreException;
-
     // ~ Getter/Setter ////////////////////////////////////////////////////////////////
     public void setCacheRegion(String cacheRegion) {
         this.cacheRegion = cacheRegion;
@@ -60,6 +57,14 @@ public abstract class AbstractHibernateWorkflowStore implements WorkflowStore {
 
     public void setEntryState(final long entryId, final int state) throws StoreException {
         loadEntry(entryId).setState(state);
+    }
+
+    public PropertySet getPropertySet(long entryId) throws StoreException {
+        if (getPropertySetDelegate() == null) {
+            throw new StoreException("PropertySetDelegate is not properly configured");
+        }
+
+        return getPropertySetDelegate().getPropertySet(entryId);
     }
 
     public void setPropertySetDelegate(PropertySetDelegate propertySetDelegate) {
