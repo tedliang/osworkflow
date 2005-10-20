@@ -4,10 +4,6 @@
  */
 package com.opensymphony.workflow.spi.hibernate;
 
-import com.opensymphony.module.propertyset.PropertySet;
-import com.opensymphony.module.propertyset.PropertySetManager;
-import com.opensymphony.module.propertyset.hibernate.DefaultHibernateConfigurationProvider;
-
 import com.opensymphony.workflow.StoreException;
 
 import net.sf.hibernate.HibernateException;
@@ -19,7 +15,6 @@ import org.springframework.orm.hibernate.HibernateTemplate;
 
 import java.sql.SQLException;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -41,23 +36,6 @@ public class NewSpringHibernateWorkflowStore extends AbstractHibernateWorkflowSt
     }
 
     //~ Methods ////////////////////////////////////////////////////////////////
-
-    public PropertySet getPropertySet(long entryId) throws StoreException {
-        if (getPropertySetDelegate() != null) {
-            return getPropertySetDelegate().getPropertySet(entryId);
-        }
-
-        HashMap args = new HashMap();
-        args.put("entityName", "OSWorkflowEntry");
-        args.put("entityId", new Long(entryId));
-
-        DefaultHibernateConfigurationProvider configurationProvider = new DefaultHibernateConfigurationProvider();
-        configurationProvider.setSessionFactory(getSessionFactory());
-
-        args.put("configurationProvider", configurationProvider);
-
-        return PropertySetManager.getInstance("hibernate", args);
-    }
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
