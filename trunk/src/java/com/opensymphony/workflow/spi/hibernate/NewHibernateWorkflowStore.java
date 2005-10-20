@@ -4,16 +4,12 @@
  */
 package com.opensymphony.workflow.spi.hibernate;
 
-import com.opensymphony.module.propertyset.PropertySet;
-import com.opensymphony.module.propertyset.PropertySetManager;
-import com.opensymphony.module.propertyset.hibernate.DefaultHibernateConfigurationProvider;
-
 import com.opensymphony.workflow.StoreException;
+import com.opensymphony.workflow.util.PropertySetDelegate;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -36,22 +32,11 @@ public class NewHibernateWorkflowStore extends AbstractHibernateWorkflowStore {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public PropertySet getPropertySet(long entryId) throws StoreException {
-        HashMap args = new HashMap();
-        args.put("entityName", "OSWorkflowEntry");
-        args.put("entityId", new Long(entryId));
-
-        DefaultHibernateConfigurationProvider configurationProvider = new DefaultHibernateConfigurationProvider();
-        configurationProvider.setSessionFactory(session.getSessionFactory());
-
-        args.put("configurationProvider", configurationProvider);
-
-        return PropertySetManager.getInstance("hibernate", args);
-    }
-
     // Now session management is delegated to user
     public void init(Map props) throws StoreException {
         session = (Session) props.get("session");
+
+        setPropertySetDelegate((PropertySetDelegate) props.get("propertySetDelegate"));
     }
 
     protected Object execute(InternalCallback action) throws StoreException {
