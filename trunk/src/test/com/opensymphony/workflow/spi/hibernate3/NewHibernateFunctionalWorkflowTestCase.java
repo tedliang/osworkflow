@@ -55,5 +55,6 @@ public class NewHibernateFunctionalWorkflowTestCase extends AbstractFunctionalWo
 
         factory.close();
         factory3.close();
+        DatabaseHelper.runScript(getClass().getResource("/scripts/jdbc/dropschema.sql"), "jdbc/DefaultDS");
     }
 }
