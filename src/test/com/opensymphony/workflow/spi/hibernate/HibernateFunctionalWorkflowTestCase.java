@@ -47,5 +47,6 @@ public class HibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkf
 
     protected void tearDown() throws Exception {
         factory.close();
+        DatabaseHelper.runScript(getClass().getResource("/scripts/jdbc/dropschema.sql"), "jdbc/DefaultDS");
     }
 }
