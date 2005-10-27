@@ -41,4 +41,9 @@ public class NewSpringHibernateFunctionalWorkflowTestCase extends AbstractFuncti
     protected String getWorkflowName() {
         return "example";
     }
+  
+    protected void tearDown() throws Exception {
+      DatabaseHelper.runScript(getClass().getResource("/scripts/jdbc/dropschema.sql"), "jdbc/DefaultDS");
+    }
+    
 }
