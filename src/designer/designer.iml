@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module version="4" relativePaths="false" type="JAVA_MODULE">
+<module version="4" relativePaths="true" type="JAVA_MODULE">
   <component name="ModuleRootManager" />
   <component name="NewModuleRootManager">
-    <output url="file:///Users/hani/projects/osworkflow/build/designer" />
+    <output url="file://$MODULE_DIR$/../../build/designer" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
@@ -12,7 +12,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hani/projects/osworkflow/lib/designer/jgraph.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/designer/jgraph.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -21,20 +21,20 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hani/projects/osworkflow/lib/designer/looks.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/designer/looks.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file:///Users/hani/projects/looks/src/windows" />
-          <root url="file:///Users/hani/projects/looks/src/plastic" />
-          <root url="file:///Users/hani/projects/looks/src/share" />
+          <root url="file://$MODULE_DIR$/../../../looks/src/windows" />
+          <root url="file://$MODULE_DIR$/../../../looks/src/plastic" />
+          <root url="file://$MODULE_DIR$/../../../looks/src/share" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hani/projects/osworkflow/lib/designer/foxtrot.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/designer/foxtrot.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -43,18 +43,18 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hani/projects/osworkflow/lib/designer/forms.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/designer/forms.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file:///Users/hani/projects/forms/src/main" />
+          <root url="file://$MODULE_DIR$/../../../forms/src/main" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar:///Users/hani/projects/osworkflow/lib/designer/syntax.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/designer/syntax.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -71,7 +71,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ACTIVE_VCS_NAME" value="CVS" />
-    <option name="USE_PROJECT_VCS" value="true" />
+    <option name="USE_PROJECT_VCS" value="false" />
   </component>
 </module>
 

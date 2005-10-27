@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module version="4" relativePaths="false" type="JAVA_MODULE">
+<module version="4" relativePaths="true" type="JAVA_MODULE">
   <component name="LvcsConfiguration">
     <option name="LOCAL_VCS_ENABLED" value="true" />
     <option name="LOCAL_VCS_PURGING_PERIOD" value="259200000" />
@@ -307,15 +307,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/optional/spring-1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/optional/velocity-dep-1.4.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -351,6 +342,24 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/optional/spring-1.2.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/optional/hibernate3.0.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
   <component name="RetroweaverPlugin">
@@ -361,7 +370,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ACTIVE_VCS_NAME" value="CVS" />
-    <option name="USE_PROJECT_VCS" value="true" />
+    <option name="USE_PROJECT_VCS" value="false" />
   </component>
 </module>
 
