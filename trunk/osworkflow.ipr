@@ -297,6 +297,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/src/designer/designer.iml" filepath="$PROJECT_DIR$/src/designer/designer.iml" />
       <module fileurl="file://$PROJECT_DIR$/osworkflow.iml" filepath="$PROJECT_DIR$/osworkflow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/test/tests.iml" filepath="$PROJECT_DIR$/src/test/tests.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="false" project-jdk-name="1.4" />

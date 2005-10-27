@@ -26,5 +26,7 @@
     <property key="step.status" value="STATUS"/>
     <property key="step.previousId" value="PREVIOUS_ID"/>
   </persistence>
-  <factory class="com.opensymphony.workflow.loader.URLWorkflowFactory"/>
+  <factory class="com.opensymphony.workflow.loader.URLWorkflowFactory">
+    <property key="cache" value="true" />
+  </factory>
 </osworkflow>

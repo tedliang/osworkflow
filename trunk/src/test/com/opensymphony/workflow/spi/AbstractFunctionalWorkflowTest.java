@@ -344,9 +344,9 @@ public abstract class AbstractFunctionalWorkflowTest extends TestCase {
 
         // --------------------- START_DATE+HISTORY_STEPS -------------------------------------------------
         //there should be two step that have been started
-        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.START_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date()));
+        query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.START_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date(System.currentTimeMillis() + 1000)));
         workflows = workflow.query(query);
-        assertEquals("Expected to find 1 workflow step in the history", 1, workflows.size());
+        assertEquals("Expected to find 1 workflow step in the history for entry #" + workflowId, 1, workflows.size());
 
         // --------------------- FINISH_DATE+HISTORY_STEPS -------------------------------------------
         query = new WorkflowExpressionQuery(new FieldExpression(FieldExpression.FINISH_DATE, FieldExpression.HISTORY_STEPS, FieldExpression.LT, new Date(System.currentTimeMillis() + 1000)));

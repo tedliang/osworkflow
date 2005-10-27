@@ -2,5 +2,7 @@
     <persistence class="com.opensymphony.workflow.spi.prevayler.PrevaylerWorkflowStore">
 	     <property key="transient" value="true" />
 	</persistence>
-    <factory class="com.opensymphony.workflow.loader.URLWorkflowFactory" />
+  <factory class="com.opensymphony.workflow.loader.URLWorkflowFactory">
+    <property key="cache" value="true" />
+  </factory>
 </osworkflow>
