@@ -152,7 +152,7 @@
 
   <target name="client" depends="compile" description="Build the designer client sources">
     <mkdir dir="${build.client}/META-INF"/>
-    <javac classpathref="client.classpath" srcdir="${src.client}" destdir="${build.client}" source="1.4" target="1.4"/>
+    <javac classpathref="client.classpath" srcdir="${src.client}" destdir="${build.client}" source="1.4" target="1.4" compiler="modern"/>
     <copy todir="${build.client}/META-INF">
       <fileset dir="${docs}">
         <include name="*.dtd"/>
