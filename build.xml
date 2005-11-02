@@ -197,12 +197,8 @@
     <signjar signedjar="${dist.docs}/designer/forms.jar" alias="opensymphony" jar="${lib.designer}/forms.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
   </target>
 
-  <target name="website" depends="javadocs, webstart" description="Build all documentation">
-    <copy todir="${dist.docs}">
-      <fileset dir="${docs}"/>
-    </copy>
-  </target>
+  <target name="website" depends="common.website, webstart" description="Build all documentation" />
 
-  <target name="dist" depends="webstart, example-war, common.dist" description="Build distribution zipfile" />
+  <target name="dist" depends="client-jar, example-war, common.dist" description="Build distribution zipfile" />
 </project>
 
