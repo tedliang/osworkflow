@@ -203,6 +203,6 @@
     </copy>
   </target>
 
-  <target name="dist" depends="client-jar, example-war, common.dist" description="Build distribution zipfile" />
+  <target name="dist" depends="webstart, example-war, common.dist" description="Build distribution zipfile" />
 </project>
 
