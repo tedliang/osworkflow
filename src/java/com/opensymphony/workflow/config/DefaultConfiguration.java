@@ -36,11 +36,12 @@ import javax.xml.parsers.*;
  * rather than in the calling client.
  *
  * @author Hani Suleiman
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class DefaultConfiguration implements Configuration, Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
 
+    private static final long serialVersionUID = 4120889092947132961L;
     public static DefaultConfiguration INSTANCE = new DefaultConfiguration();
 
     //~ Instance fields ////////////////////////////////////////////////////////

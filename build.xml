@@ -173,22 +173,40 @@
 		    <attribute name="Main-Class" value="com.opensymphony.workflow.designer.Launcher" />
 		    <attribute name="Class-Path" value="../lib/designer/looks.jar ../lib/designer/forms.jar ../lib/designer/syntax.jar ../lib/designer/jgraph.jar ../lib/designer/foxtrot.jar" />
 	    </manifest>
-	    <fileset dir="${build.client}" />
-	    <fileset dir="${build.java}">
+      <fileset dir="${build.client}">
+        <exclude name="**/*.iml" />
+      </fileset>
+      <fileset dir="${build.java}">
 		    <include name="**/Condition.class" />
+        <include name="com/opensymphony/workflow/TypeResolver.class" />
 		    <include name="com/opensymphony/workflow/*Exception.class" />
 		    <include name="**/FunctionProvider.class" />
 		    <include name="**/Register.class" />
 		    <include name="**/XMLizable.class" />
 		    <include name="**/Validatable.class" />
+        <include name="**/DTDEntityResolver.class" />
+        <include name="**/VariableResolver.class" />
+        <include name="**/DefaultVariableResolver.class" />
 		    <include name="**/config/**" />
 		    <include name="**/loader/**" />
 	    </fileset>
+      <zipfileset src="${lib.core}/${oscore.jar}">
+        <include name="**/Provider.class" />
+        <include name="**/BeanProvider.class" />
+        <include name="**/DefaultBeanProvider.class" />
+      </zipfileset>
     </jar>
   </target>
 
   <target name="webstart" depends="client-jar" description="Build webstart files">
     <mkdir dir="${dist.docs}/designer" />
+    <jar jarfile="${build}/designer.jar" update="true">
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Main-Class" value="com.opensymphony.workflow.designer.Launcher" />
+        <attribute name="Class-Path" value="looks.jar forms.jar syntax.jar jgraph.jar foxtrot.jar" />
+      </manifest>
+    </jar>
     <signjar signedjar="${dist.docs}/designer/designer.jar" alias="opensymphony" jar="${build}/designer.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
     <signjar signedjar="${dist.docs}/designer/looks.jar" alias="opensymphony" jar="${lib.designer}/looks.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
     <signjar signedjar="${dist.docs}/designer/syntax.jar" alias="opensymphony" jar="${lib.designer}/syntax.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
