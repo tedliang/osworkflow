@@ -207,14 +207,17 @@
         <attribute name="Class-Path" value="looks.jar forms.jar syntax.jar jgraph.jar foxtrot.jar" />
       </manifest>
     </jar>
-    <signjar signedjar="${dist.docs}/designer/designer.jar" alias="opensymphony" jar="${build}/designer.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
-    <signjar signedjar="${dist.docs}/designer/looks.jar" alias="opensymphony" jar="${lib.designer}/looks.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
-    <signjar signedjar="${dist.docs}/designer/syntax.jar" alias="opensymphony" jar="${lib.designer}/syntax.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
-    <signjar signedjar="${dist.docs}/designer/jgraph.jar" alias="opensymphony" jar="${lib.designer}/jgraph.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
-    <signjar signedjar="${dist.docs}/designer/foxtrot.jar" alias="opensymphony" jar="${lib.designer}/foxtrot.jar" storepass="123456" keystore="${lib.build}/OSKeystore"/>
-    <signjar signedjar="${dist.docs}/designer/forms.jar" alias="opensymphony" jar="${lib.designer}/forms.jar" storepass="123456" keystore="${lib.build}/OSKeystore" />
+    <my.signjar signedjar="${dist.docs}/designer/designer.jar" jar="${build}/designer.jar" />
+    <my.signjar signedjar="${dist.docs}/designer/looks.jar" jar="${lib.designer}/looks.jar" />
+    <my.signjar signedjar="${dist.docs}/designer/syntax.jar" jar="${lib.designer}/syntax.jar" />
+    <my.signjar signedjar="${dist.docs}/designer/jgraph.jar" jar="${lib.designer}/jgraph.jar" />
+    <my.signjar signedjar="${dist.docs}/designer/foxtrot.jar" jar="${lib.designer}/foxtrot.jar"/>
+    <my.signjar signedjar="${dist.docs}/designer/forms.jar" jar="${lib.designer}/forms.jar" />
   </target>
-
+  
+  <presetdef name="my.signjar">
+    <signjar alias="opensymphony" storepass="123456" keystore="${lib.build}/OSKeystore" />    
+  </presetdef>
   <target name="website" depends="common.website, webstart" description="Build website" />
   <target name="docs" depends="common.docs, webstart" description="Build all documentation" />
 
