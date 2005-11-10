@@ -1,6 +1,6 @@
 <hr>
 
-<a href="default.jsp">All Workflows</a> |
+<a href="default.jsp">Home</a> |
 <a href="newworkflow.jsp">New Workflow</a> | <a href="underway.jsp">My Underway Workflows</a>
 
 <form action="test.jsp">
