@@ -15,6 +15,10 @@ import java.util.Date;
  * @author <a href="mailto:plightbo@hotmail.com">Pat Lightbody</a>
  */
 public class SimpleStep implements Step, Serializable {
+    //~ Static fields/initializers /////////////////////////////////////////////
+
+    private static final long serialVersionUID = 1093783480189853982L;
+
     //~ Instance fields ////////////////////////////////////////////////////////
 
     private Date dueDate;
@@ -30,6 +34,9 @@ public class SimpleStep implements Step, Serializable {
     private long id;
 
     //~ Constructors ///////////////////////////////////////////////////////////
+
+    public SimpleStep() {
+    }
 
     public SimpleStep(long id, long entryId, int stepId, int actionId, String owner, Date startDate, Date dueDate, Date finishDate, String status, long[] previousStepIds, String caller) {
         this.id = id;

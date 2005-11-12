@@ -8,7 +8,6 @@ import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
 import com.opensymphony.workflow.util.Validatable;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
 

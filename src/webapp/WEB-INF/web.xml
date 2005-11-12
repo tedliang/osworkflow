@@ -4,8 +4,19 @@
 
   <display-name>OSWorkflow Example App</display-name>
 
+  <servlet>
+    <servlet-name>SOAPWorkflow</servlet-name>
+    <servlet-class>com.opensymphony.workflow.soap.SOAPWorkflowServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SOAPWorkflow</servlet-name>
+    <url-pattern>/soap*</url-pattern>
+  </servlet-mapping>
+  
   <welcome-file-list>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
 </web-app>
 
