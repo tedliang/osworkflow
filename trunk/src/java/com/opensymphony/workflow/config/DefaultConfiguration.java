@@ -36,7 +36,7 @@ import javax.xml.parsers.*;
  * rather than in the calling client.
  *
  * @author Hani Suleiman
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class DefaultConfiguration implements Configuration, Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -111,6 +111,10 @@ public class DefaultConfiguration implements Configuration, Serializable {
 
     public void load(URL url) throws FactoryException {
         InputStream is = getInputStream(url);
+
+        if (is == null) {
+            throw new FactoryException("Cannot find osworkflow.xml configuration file in classpath or in META-INF");
+        }
 
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

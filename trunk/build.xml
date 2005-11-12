@@ -101,8 +101,10 @@
 
   <target name="example-war" depends="jar" description="Build example war web application">
     <mkdir dir="${dist}" />
-    <war warfile="${dist}/${name}-${version}-example.war" webxml="${src.etc}/example/web.xml">
-      <fileset dir="${src.webapp}"/>
+    <war warfile="${dist}/${name}-${version}-example.war" webxml="${src.webapp}/WEB-INF/web.xml">
+      <fileset dir="${src.webapp}">
+        <exclude name="WEB-INF/web.xml" />
+      </fileset>
       <lib dir="${lib.core}"/>
       <lib file="${build}/${name}-${version}.jar"/>
       <lib file="${lib.optional}/osuser-1.0-dev-2Feb05.jar"/>
@@ -110,9 +112,7 @@
       <lib file="${lib.optional}/activation.jar"/>
       <lib file="${lib.optional}/quartz.jar"/>
       <lib file="${lib.optional}/bsh-1.2b7.jar"/>
-      <classes dir="${src.etc}/example">
-        <exclude name="web.xml"/>
-      </classes>
+      <lib dir="${lib.optional}/xfire"/>
     </war>
   </target>
 

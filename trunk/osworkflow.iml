@@ -259,6 +259,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="xfire" level="project" />
     <orderEntryProperties />
   </component>
   <component name="RetroweaverPlugin">
