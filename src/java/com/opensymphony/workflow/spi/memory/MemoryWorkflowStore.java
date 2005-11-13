@@ -526,6 +526,10 @@ public class MemoryWorkflowStore implements WorkflowStore {
             steps = (List) historyStepsCache.get(entryId);
         }
 
+        if (steps == null) {
+            return false;
+        }
+
         switch (field) {
         case WorkflowQuery.ACTION:
 
