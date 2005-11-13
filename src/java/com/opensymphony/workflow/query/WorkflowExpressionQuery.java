@@ -19,6 +19,7 @@ import java.io.Serializable;
 public class WorkflowExpressionQuery implements Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
 
+    private static final long serialVersionUID = 5810528106491875046L;
     public static final int SORT_NONE = 0;
     public static final int SORT_ASC = 1;
     public static final int SORT_DESC = -1;
