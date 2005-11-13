@@ -4,9 +4,6 @@
  */
 package com.opensymphony.workflow.query;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.io.Serializable;
 
 
@@ -17,7 +14,7 @@ import java.io.Serializable;
 public class WorkflowQuery implements Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
 
-    private static final Log log = LogFactory.getLog(WorkflowQuery.class);
+    private static final long serialVersionUID = 8130933224983412376L;
     public final static int EQUALS = 1;
     public final static int LT = 2;
     public final static int GT = 3;
