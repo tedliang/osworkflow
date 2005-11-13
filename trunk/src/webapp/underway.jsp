@@ -1,10 +1,6 @@
-<%@ page import="com.opensymphony.user.User,
-                 com.opensymphony.workflow.Workflow,
+<%@ page import="com.opensymphony.workflow.Workflow,
                  com.opensymphony.workflow.basic.BasicWorkflow,
-                 com.opensymphony.workflow.spi.Step,
                  java.util.*,
-                 com.opensymphony.workflow.loader.WorkflowDescriptor,
-                 com.opensymphony.workflow.loader.ActionDescriptor,
                  com.opensymphony.workflow.query.WorkflowQuery"%>
 <%
     Workflow wf = new BasicWorkflow((String) session.getAttribute("username"));

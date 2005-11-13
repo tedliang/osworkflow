@@ -1,16 +1,18 @@
 <mappings>
   <mapping>
     <method name="initialize">
-      <parameter index="2" keyType="java.lang.String" componentType="java.lang.String"/>
+      <parameter index="0" mappedName="workflowName"/>
+      <parameter index="1" mappedName="initialAction"/>
+      <parameter index="2" keyType="java.lang.String" componentType="java.lang.String" mappedName="inputs"/>
     </method>
     <method name="canInitialize">
-      <parameter index="2" keyType="java.lang.String" componentType="java.lang.String"/>
+      <parameter index="2" keyType="java.lang.String" componentType="java.lang.String" mappedName="inputs"/>
     </method>
     <method name="getAvailableActions">
-      <parameter index="1" keyType="java.lang.String" componentType="java.lang.String"/>
+      <parameter index="1" keyType="java.lang.String" componentType="java.lang.String" mappedName="inputs"/>
     </method>
     <method name="doAction">
-      <parameter index="2" keyType="java.lang.String" componentType="java.lang.String"/>
+      <parameter index="2" keyType="java.lang.String" componentType="java.lang.String" mappedName="inputs"/>
     </method>
     <method name="query">
       <return-type componentType="java.lang.Long"/>
