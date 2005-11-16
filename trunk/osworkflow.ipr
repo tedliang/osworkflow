@@ -331,6 +331,15 @@
         <root url="file://$PROJECT_DIR$/../xfire/xfire-aegis/src/main" />
       </SOURCES>
     </library>
+    <library name="propertyset">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/core/propertyset-1.4.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../propertyset/src/java" />
+      </SOURCES>
+    </library>
   </component>
   <component name="org.tmatesoft.tmate.projectComponent">
     <connections>
