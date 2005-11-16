@@ -18,6 +18,6 @@ public class XFireSOAPWorkflow extends BasicSOAPWorkflow {
     protected String getRemoteUser() {
         String user = XFireServletController.getRequest().getRemoteUser();
 
-        return (user == null) ? "guest" : user;
+        return (user == null) ? "test" : user;
     }
 }
