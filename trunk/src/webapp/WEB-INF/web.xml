@@ -11,7 +11,7 @@
   
   <servlet-mapping>
     <servlet-name>SOAPWorkflow</servlet-name>
-    <url-pattern>/soap*</url-pattern>
+    <url-pattern>/soap/*</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>
