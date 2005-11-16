@@ -215,17 +215,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/core/propertyset-1.3-25Jan05.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../propertyset/src/java" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/optional/osuser-1.0-dev-2Feb05.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -260,6 +249,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="xfire" level="project" />
+    <orderEntry type="library" name="propertyset" level="project" />
     <orderEntryProperties />
   </component>
   <component name="RetroweaverPlugin">
