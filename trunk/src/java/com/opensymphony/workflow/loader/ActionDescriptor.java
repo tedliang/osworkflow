@@ -37,9 +37,15 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     ActionDescriptor() {
     }
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     ActionDescriptor(Element action) {
         init(action);
     }

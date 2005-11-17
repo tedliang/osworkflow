@@ -27,9 +27,15 @@ public class SplitDescriptor extends AbstractDescriptor implements Validatable {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     SplitDescriptor() {
     }
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     SplitDescriptor(Element split) {
         init(split);
     }

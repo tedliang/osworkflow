@@ -47,10 +47,16 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    WorkflowDescriptor() {
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
+    public WorkflowDescriptor() {
     }
 
-    WorkflowDescriptor(Element root) {
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
+    public WorkflowDescriptor(Element root) {
         init(root);
     }
 

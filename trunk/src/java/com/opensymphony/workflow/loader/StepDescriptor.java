@@ -39,9 +39,15 @@ public class StepDescriptor extends AbstractDescriptor implements Validatable {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     StepDescriptor() {
     }
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     StepDescriptor(Element step) {
         init(step);
     }

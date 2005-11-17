@@ -26,9 +26,15 @@ public class ValidatorDescriptor extends AbstractDescriptor {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     ValidatorDescriptor() {
     }
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     ValidatorDescriptor(Element validator) {
         init(validator);
     }

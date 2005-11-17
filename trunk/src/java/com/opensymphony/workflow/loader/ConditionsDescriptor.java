@@ -32,9 +32,15 @@ public class ConditionsDescriptor extends AbstractDescriptor implements Validata
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     ConditionsDescriptor() {
     }
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     ConditionsDescriptor(Element element) {
         type = element.getAttribute("type");
 

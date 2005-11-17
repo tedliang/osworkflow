@@ -28,7 +28,7 @@ public class SOAPWorkflowServlet extends XFireServlet {
 
         ServiceRegistry registry = getXFire().getServiceRegistry();
         ObjectServiceFactory factory = new ObjectServiceFactory(getXFire().getTransportManager());
-        Service service = factory.create(Workflow.class, "Workflow", null, null);
+        Service service = factory.create(Workflow.class);
         service.getBinding().setInvoker(new BeanInvoker(new XFireSOAPWorkflow()));
         registry.register(service);
     }

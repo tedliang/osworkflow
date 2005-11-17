@@ -37,9 +37,15 @@ public class ResultDescriptor extends AbstractDescriptor implements Validatable 
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     ResultDescriptor() {
     }
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     ResultDescriptor(Element result) {
         init(result);
     }
