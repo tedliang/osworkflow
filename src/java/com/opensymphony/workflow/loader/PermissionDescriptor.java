@@ -20,9 +20,15 @@ public class PermissionDescriptor extends AbstractDescriptor {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     PermissionDescriptor() {
     }
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     PermissionDescriptor(Element permission) {
         init(permission);
     }

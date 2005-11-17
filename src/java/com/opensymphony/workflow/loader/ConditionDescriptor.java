@@ -31,9 +31,15 @@ public class ConditionDescriptor extends AbstractDescriptor implements Validatab
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     ConditionDescriptor() {
     }
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     ConditionDescriptor(Element function) {
         init(function);
     }

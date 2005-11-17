@@ -24,9 +24,15 @@ public class ConditionalResultDescriptor extends ResultDescriptor {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     ConditionalResultDescriptor() {
     }
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     ConditionalResultDescriptor(Element conditionalResult) {
         init(conditionalResult);
     }

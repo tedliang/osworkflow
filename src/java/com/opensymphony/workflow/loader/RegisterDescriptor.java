@@ -24,9 +24,15 @@ public class RegisterDescriptor extends AbstractDescriptor {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     RegisterDescriptor() {
     }
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     RegisterDescriptor(Element register) {
         init(register);
     }

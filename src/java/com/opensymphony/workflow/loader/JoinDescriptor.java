@@ -26,9 +26,15 @@ public class JoinDescriptor extends AbstractDescriptor implements Validatable {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     JoinDescriptor() {
     }
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     JoinDescriptor(Element join) {
         init(join);
     }

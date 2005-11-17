@@ -29,9 +29,15 @@ public class FunctionDescriptor extends AbstractDescriptor {
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     FunctionDescriptor() {
     }
 
+    /**
+     * @deprecated use {@link DescriptorFactory} instead
+     */
     FunctionDescriptor(Element function) {
         init(function);
     }

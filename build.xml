@@ -105,14 +105,18 @@
       <fileset dir="${src.webapp}">
         <exclude name="WEB-INF/web.xml" />
       </fileset>
+      <lib dir="${lib.optional}">
+        <include name="osuser-1.0-dev-2Feb05.jar" />
+        <include name="mail.jar" />
+        <include name="activation.jar" />
+        <include name="quartz.jar" />
+        <include name="bsh-1.2b7.jar" />
+      </lib>
       <lib dir="${lib.core}"/>
       <lib file="${build}/${name}-${version}.jar"/>
-      <lib file="${lib.optional}/osuser-1.0-dev-2Feb05.jar"/>
-      <lib file="${lib.optional}/mail.jar"/>
-      <lib file="${lib.optional}/activation.jar"/>
-      <lib file="${lib.optional}/quartz.jar"/>
-      <lib file="${lib.optional}/bsh-1.2b7.jar"/>
+      <lib file="${lib}/build/log4j*.jar"/>
       <lib dir="${lib.optional}/xfire"/>
+      <classes file="${src.etc}/quartz/log4j.properties" />
     </war>
   </target>
 
