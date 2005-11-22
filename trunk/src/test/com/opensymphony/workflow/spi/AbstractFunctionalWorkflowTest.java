@@ -74,7 +74,7 @@ public abstract class AbstractFunctionalWorkflowTest extends TestCase {
             log.debug("Name of workorder:" + workorderName);
         }
 
-        assertTrue("Expected external-permission permA in step 1 not found", workflow.getSecurityPermissions(workflowId).contains("permA"));
+        assertTrue("Expected external-permission permA in step 1 not found", workflow.getSecurityPermissions(workflowId, null).contains("permA"));
 
         List currentSteps = workflow.getCurrentSteps(workflowId);
         assertEquals("Unexpected number of current steps", 1, currentSteps.size());

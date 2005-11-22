@@ -256,13 +256,20 @@ public class AbstractWorkflow implements Workflow {
      * @ejb.interface-method
      */
     public List getSecurityPermissions(long id) {
+        return getSecurityPermissions(id, null);
+    }
+
+    /**
+     * @ejb.interface-method
+     */
+    public List getSecurityPermissions(long id, Map inputs) {
         try {
             WorkflowStore store = getPersistence();
             WorkflowEntry entry = store.findEntry(id);
             WorkflowDescriptor wf = getConfiguration().getWorkflow(entry.getWorkflowName());
 
             PropertySet ps = store.getPropertySet(id);
-            Map transientVars = new HashMap();
+            Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
             Collection currentSteps = store.findCurrentSteps(id);
             populateTransientMap(entry, transientVars, wf.getRegisters(), null, currentSteps);
 

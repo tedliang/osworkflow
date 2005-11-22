@@ -34,7 +34,7 @@ import javax.naming.NamingException;
  * This class acts as a wrapper around a workflow session bean.
  *
  * @author plightbo
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class EJBWorkflow implements Workflow {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -144,6 +144,16 @@ public class EJBWorkflow implements Workflow {
     public List getSecurityPermissions(long id) {
         try {
             return wf.getSecurityPermissions(id);
+        } catch (RemoteException e) {
+            log.error("Error getting security permissions", e);
+
+            return Collections.EMPTY_LIST;
+        }
+    }
+
+    public List getSecurityPermissions(long id, Map inputs) {
+        try {
+            return wf.getSecurityPermissions(id, inputs);
         } catch (RemoteException e) {
             log.error("Error getting security permissions", e);
 

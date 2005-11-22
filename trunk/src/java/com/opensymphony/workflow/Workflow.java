@@ -76,8 +76,17 @@ public interface Workflow {
      * Get a collection (Strings) of currently defined permissions for the specified workflow instance.
      * @param id the workflow instance id.
      * @return A List of permissions specified currently (a permission is a string name).
+     * @deprecated use {@link #getSecurityPermissions(long, java.util.Map)} with a null map instead.
      */
     public List getSecurityPermissions(long id);
+
+    /**
+     * Get a collection (Strings) of currently defined permissions for the specified workflow instance.
+     * @param id id the workflow instance id.
+     * @param inputs inputs The inputs to the workflow instance.
+     * @return A List of permissions specified currently (a permission is a string name).
+     */
+    public List getSecurityPermissions(long id, Map inputs);
 
     /**
      * Get the workflow descriptor for the specified workflow name.

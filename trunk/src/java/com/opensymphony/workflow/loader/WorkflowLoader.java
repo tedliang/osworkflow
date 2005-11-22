@@ -69,7 +69,7 @@ public class WorkflowLoader {
 
         Element root = (Element) doc.getElementsByTagName("workflow").item(0);
 
-        WorkflowDescriptor descriptor = new WorkflowDescriptor(root);
+        WorkflowDescriptor descriptor = DescriptorFactory.getFactory().createWorkflowDescriptor(root);
 
         if (validate) {
             descriptor.validate();

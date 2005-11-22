@@ -33,7 +33,7 @@
 <p>
 
 <%
-    List perms = wf.getSecurityPermissions(id);
+    List perms = wf.getSecurityPermissions(id, null);
     for (Iterator iterator = perms.iterator(); iterator.hasNext();) {
         String perm = (String) iterator.next();
 %>
