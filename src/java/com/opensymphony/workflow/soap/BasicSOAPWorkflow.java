@@ -62,7 +62,11 @@ public class BasicSOAPWorkflow implements Workflow {
     }
 
     public List getSecurityPermissions(long id) {
-        return new BasicWorkflow(getRemoteUser()).getSecurityPermissions(id);
+        return new BasicWorkflow(getRemoteUser()).getSecurityPermissions(id, null);
+    }
+
+    public List getSecurityPermissions(long id, Map inputs) {
+        return new BasicWorkflow(getRemoteUser()).getSecurityPermissions(id, inputs);
     }
 
     public WorkflowDescriptor getWorkflowDescriptor(String workflowName) {

@@ -62,7 +62,11 @@ public class OfbizSOAPWorkflow implements Workflow {
     }
 
     public List getSecurityPermissions(long id) {
-        return new OfbizWorkflow(getRemoteUser()).getSecurityPermissions(id);
+        return new OfbizWorkflow(getRemoteUser()).getSecurityPermissions(id, null);
+    }
+
+    public List getSecurityPermissions(long id, Map inputs) {
+        return new OfbizWorkflow(getRemoteUser()).getSecurityPermissions(id, inputs);
     }
 
     public WorkflowDescriptor getWorkflowDescriptor(String workflowName) {
