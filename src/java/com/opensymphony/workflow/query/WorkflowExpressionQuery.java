@@ -44,6 +44,10 @@ public class WorkflowExpressionQuery implements Serializable {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public void setExpression(Expression expression) {
+        this.expression = expression;
+    }
+
     public Expression getExpression() {
         return expression;
     }
