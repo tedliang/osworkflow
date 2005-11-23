@@ -141,8 +141,16 @@ public class FieldExpression extends Expression {
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
+    public void setContext(int context) {
+        this.context = context;
+    }
+
     public int getContext() {
         return context;
+    }
+
+    public void setField(int field) {
+        this.field = field;
     }
 
     public int getField() {
@@ -153,8 +161,16 @@ public class FieldExpression extends Expression {
         return false;
     }
 
+    public void setOperator(int operator) {
+        this.operator = operator;
+    }
+
     public int getOperator() {
         return operator;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
     }
 
     public Object getValue() {

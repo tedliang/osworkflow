@@ -7,8 +7,8 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Orion 2.x" level="application_server_libraries" />
     <orderEntry type="module" module-name="osworkflow" />
+    <orderEntry type="library" name="Orion 2.x" level="application_server_libraries" />
     <orderEntryProperties />
   </component>
   <component name="OrionWebModuleProperties" />
