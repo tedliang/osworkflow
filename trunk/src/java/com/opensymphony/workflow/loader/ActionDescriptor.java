@@ -269,7 +269,7 @@ public class ActionDescriptor extends AbstractDescriptor implements Validatable 
         try {
             setId(Integer.parseInt(action.getAttribute("id")));
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Invalid action id value " + action.getAttribute("id"));
+            throw new IllegalArgumentException("Invalid action id value '" + action.getAttribute("id") + "'");
         }
 
         this.name = action.getAttribute("name");
