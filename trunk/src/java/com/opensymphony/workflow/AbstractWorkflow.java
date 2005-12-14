@@ -88,7 +88,7 @@ public class AbstractWorkflow implements Workflow {
             Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
             Collection currentSteps = store.findCurrentSteps(id);
 
-            populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(0), currentSteps);
+            populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(0), currentSteps, ps);
 
             // get global actions
             List globalActions = wf.getGlobalActions();
@@ -271,7 +271,7 @@ public class AbstractWorkflow implements Workflow {
             PropertySet ps = store.getPropertySet(id);
             Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
             Collection currentSteps = store.findCurrentSteps(id);
-            populateTransientMap(entry, transientVars, wf.getRegisters(), null, currentSteps);
+            populateTransientMap(entry, transientVars, wf.getRegisters(), null, currentSteps, ps);
 
             List s = new ArrayList();
 
@@ -400,7 +400,7 @@ public class AbstractWorkflow implements Workflow {
         }
 
         try {
-            populateTransientMap(mockEntry, transientVars, Collections.EMPTY_LIST, new Integer(initialAction), Collections.EMPTY_LIST);
+            populateTransientMap(mockEntry, transientVars, Collections.EMPTY_LIST, new Integer(initialAction), Collections.EMPTY_LIST, ps);
 
             return canInitialize(workflowName, initialAction, transientVars, ps);
         } catch (InvalidActionException e) {
@@ -521,7 +521,7 @@ public class AbstractWorkflow implements Workflow {
             transientVars.putAll(inputs);
         }
 
-        populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(actionId), currentSteps);
+        populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(actionId), currentSteps, ps);
 
         boolean validAction = false;
 
@@ -587,7 +587,7 @@ public class AbstractWorkflow implements Workflow {
 
         PropertySet ps = store.getPropertySet(id);
         Map transientVars = new HashMap();
-        populateTransientMap(entry, transientVars, wf.getRegisters(), null, store.findCurrentSteps(id));
+        populateTransientMap(entry, transientVars, wf.getRegisters(), null, store.findCurrentSteps(id), ps);
         executeFunction(wf.getTriggerFunction(triggerId), transientVars, ps);
     }
 
@@ -605,7 +605,7 @@ public class AbstractWorkflow implements Workflow {
             transientVars.putAll(inputs);
         }
 
-        populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(initialAction), Collections.EMPTY_LIST);
+        populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(initialAction), Collections.EMPTY_LIST, ps);
 
         if (!canInitialize(workflowName, initialAction, transientVars, ps)) {
             context.setRollbackOnly();
@@ -719,7 +719,7 @@ public class AbstractWorkflow implements Workflow {
             Map transientVars = (inputs == null) ? new HashMap() : new HashMap(inputs);
             Collection currentSteps = store.findCurrentSteps(id);
 
-            populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(0), currentSteps);
+            populateTransientMap(entry, transientVars, wf.getRegisters(), new Integer(0), currentSteps, ps);
 
             // get global actions
             List globalActions = wf.getGlobalActions();
@@ -962,7 +962,7 @@ public class AbstractWorkflow implements Workflow {
         return passesConditions(descriptor.getType(), descriptor.getConditions(), transientVars, ps, currentStepId);
     }
 
-    protected void populateTransientMap(WorkflowEntry entry, Map transientVars, List registers, Integer actionId, Collection currentSteps) throws WorkflowException {
+    protected void populateTransientMap(WorkflowEntry entry, Map transientVars, List registers, Integer actionId, Collection currentSteps, PropertySet ps) throws WorkflowException {
         transientVars.put("context", context);
         transientVars.put("entry", entry);
         transientVars.put("store", getPersistence());
@@ -990,7 +990,7 @@ public class AbstractWorkflow implements Workflow {
             }
 
             try {
-                transientVars.put(register.getVariableName(), r.registerVariable(context, entry, args));
+                transientVars.put(register.getVariableName(), r.registerVariable(context, entry, args, ps));
             } catch (Exception e) {
                 context.setRollbackOnly();
 

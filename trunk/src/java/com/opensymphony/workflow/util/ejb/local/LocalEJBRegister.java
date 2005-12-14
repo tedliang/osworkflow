@@ -4,14 +4,13 @@
  */
 package com.opensymphony.workflow.util.ejb.local;
 
+import com.opensymphony.module.propertyset.PropertySet;
+
 import com.opensymphony.workflow.AbstractWorkflow;
 import com.opensymphony.workflow.Register;
 import com.opensymphony.workflow.WorkflowContext;
 import com.opensymphony.workflow.WorkflowException;
 import com.opensymphony.workflow.spi.WorkflowEntry;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.Method;
 
@@ -30,18 +29,14 @@ import javax.rmi.PortableRemoteObject;
  * the JNDI location of the session bean.
  *
  * @author $Author: hani $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class LocalEJBRegister implements Register {
-    //~ Static fields/initializers /////////////////////////////////////////////
-
-    private static final Log log = LogFactory.getLog(LocalEJBRegister.class);
-
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public Object registerVariable(WorkflowContext context, WorkflowEntry entry, Map args) throws WorkflowException {
+    public Object registerVariable(WorkflowContext context, WorkflowEntry entry, Map args, PropertySet ps) throws WorkflowException {
         String ejbLocation = (String) args.get(AbstractWorkflow.EJB_LOCATION);
-        Register sessionBean = null;
+        Register sessionBean;
 
         try {
             EJBLocalHome home = (EJBLocalHome) PortableRemoteObject.narrow(new InitialContext().lookup(ejbLocation), EJBLocalHome.class);
@@ -52,6 +47,6 @@ public class LocalEJBRegister implements Register {
             throw new WorkflowException(message, e);
         }
 
-        return sessionBean.registerVariable(context, entry, args);
+        return sessionBean.registerVariable(context, entry, args, ps);
     }
 }

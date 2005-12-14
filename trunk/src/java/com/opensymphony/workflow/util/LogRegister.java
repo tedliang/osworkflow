@@ -4,6 +4,8 @@
  */
 package com.opensymphony.workflow.util;
 
+import com.opensymphony.module.propertyset.PropertySet;
+
 import com.opensymphony.util.TextUtils;
 
 import com.opensymphony.workflow.Register;
@@ -39,9 +41,9 @@ public class LogRegister implements Register {
     //~ Methods ////////////////////////////////////////////////////////////////
 
     /**
-     * @see com.opensymphony.workflow.Register#registerVariable(WorkflowContext, WorkflowEntry, Map)
+     * @see com.opensymphony.workflow.Register#registerVariable(com.opensymphony.workflow.WorkflowContext,com.opensymphony.workflow.spi.WorkflowEntry,java.util.Map,PropertySet)
      */
-    public Object registerVariable(WorkflowContext context, WorkflowEntry entry, Map args) {
+    public Object registerVariable(WorkflowContext context, WorkflowEntry entry, Map args, PropertySet ps) {
         String workflowname = "unknown";
         long workflow_id = -1;
 

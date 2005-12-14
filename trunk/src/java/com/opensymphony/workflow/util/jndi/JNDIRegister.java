@@ -4,11 +4,10 @@
  */
 package com.opensymphony.workflow.util.jndi;
 
+import com.opensymphony.module.propertyset.PropertySet;
+
 import com.opensymphony.workflow.*;
 import com.opensymphony.workflow.spi.WorkflowEntry;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.util.Map;
 
@@ -17,19 +16,15 @@ import javax.naming.NamingException;
 
 
 /**
- *
- *
+ * Invoke a register registred in JNDI.
+ * Args must contain a {@link AbstractWorkflow#JNDI_LOCATION} key.
  * @author $Author: hani $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class JNDIRegister implements Register {
-    //~ Static fields/initializers /////////////////////////////////////////////
-
-    private static final Log log = LogFactory.getLog(JNDIRegister.class);
-
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public Object registerVariable(WorkflowContext context, WorkflowEntry entry, Map args) throws WorkflowException {
+    public Object registerVariable(WorkflowContext context, WorkflowEntry entry, Map args, PropertySet ps) throws WorkflowException {
         String location = (String) args.get(AbstractWorkflow.JNDI_LOCATION);
 
         if (location == null) {
@@ -50,6 +45,6 @@ public class JNDIRegister implements Register {
             throw new WorkflowException(message, e);
         }
 
-        return r.registerVariable(context, entry, args);
+        return r.registerVariable(context, entry, args, ps);
     }
 }

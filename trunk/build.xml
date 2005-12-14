@@ -1,5 +1,6 @@
 <project name="workflow" default="jar" basedir=".">
 
+  <property name="test.compile.version" value="1.5"/>
   <property name="src.test" location="src/test"/>
   <property name="jar.manifest" value="src/etc/deployment/ejb/manifest.txt" />
   
@@ -24,7 +25,9 @@
     <property name="src.client" value="${src}/designer"/>
     <property name="src.etc" value="${src}/etc"/>
     <property name="src.webapp" value="${src}/webapp"/>
-    <property name="propertyset.jar" value="propertyset-1.4.jar"/>
+    <property name="propertyset.version" value="1.4"/>
+    <property name="propertyset.jar" value="propertyset-${propertyset.version}.jar"/>
+    <property name="propertyset-ejb.jar" value="propertyset-ejb-${propertyset.version}.jar"/>
     <property name="oscore.jar" value="oscore-2.2.2.jar"/>
     <property name="build.client" value="${build}/designer"/>
 
@@ -52,6 +55,15 @@
     </delete>
   </target>
 
+  <target name="test" depends="clover-check, test-compile" description="run tests">
+      <taskdef resource="testngtasks" classpathref="junit.cp"/>
+      <mkdir dir="${dist.docs}/testng"/>
+      <testng haltonfailure="true" outputdir="${dist.docs}/testng" classpathref="junit.cp">
+          <jvmarg value="-Djava.awt.headless=true"/>
+          <xmlfileset dir="${src.test}" includes="testng.xml"/>
+      </testng>
+  </target>
+  
   <target name="ejbdoclet" depends="init">
     <ejbdoclet ejbspec="2.0" verbose="false" destdir="${src.java}">
       <fileset dir="${src.java}">
@@ -88,9 +100,6 @@
       <fileset dir="${src.java}">
         <include name="**/*.java"/>
       </fileset>
-      <fileset dir="${src.test}">
-        <include name="**/*.java" />
-      </fileset>
     </jalopy>
     <copy todir="${build.java}/META-INF">
       <fileset dir="${docs}">
@@ -104,6 +113,7 @@
     <war warfile="${dist}/${name}-${version}-example.war" webxml="${src.webapp}/WEB-INF/web.xml">
       <fileset dir="${src.webapp}">
         <exclude name="WEB-INF/web.xml" />
+        <exclude name="**/*.iml" />
       </fileset>
       <lib dir="${lib.optional}">
         <include name="osuser-1.0-dev-2Feb05.jar" />
@@ -122,32 +132,38 @@
 
   <target name="example-ear" depends="jar" description="Build ear application using the EJB store">
     <mkdir dir="${build}/tmp/lib"/>
-    <war warfile="${build}/tmp/${name}-${version}-example.war" webxml="${src.etc}/example/web.xml">
-      <fileset dir="${src.webapp}"/>
+    <mkdir dir="${dist}" />
+    <war warfile="${build}/tmp/${name}-${version}-example.war" webxml="${src.webapp}/WEB-INF/web.xml">
+      <fileset dir="${src.webapp}">
+        <exclude name="**/*.iml" />
+        <exclude name="WEB-INF/web.xml" />
+      </fileset>
+      <lib dir="${lib.optional}/xfire"/>
     </war>
     <copy file="${build}/${name}-${version}.jar" tofile="${build}/tmp/${name}-${version}-example.jar"/>
     <!-- note that we add these files to the jarfile for ease of deployment. In a real environment, the config files
     would be in a separate dir and added appropriately to the classpath -->
     <copy file="${src.etc}/example/osworkflow-ejb.xml" tofile="${build}/tmp/osworkflow.xml"/>
-    <copy file="${src.etc}/example/workflows.xml" todir="${build}/tmp"/>
-    <copy file="${src.etc}/example/example.xml" todir="${build}/tmp"/>
+    <copy file="${src.webapp}/WEB-INF/classes/workflows.xml" todir="${build}/tmp"/>
+    <copy file="${src.webapp}/WEB-INF/classes/example.xml" todir="${build}/tmp"/>
     <touch file="${build}/tmp/${name}-${version}-example.jar" millis="500"/>
     <jar file="${build}/tmp/${name}-${version}-example.jar" update="true" basedir="${build}/tmp">
       <include name="*.xml"/>
     </jar>
     <copy file="${lib.core}/${oscore.jar}" todir="${build}/tmp"/>
-    <copy file="${lib.core}/${propertyset.jar}" todir="${build}/tmp"/>
+    <copy file="${lib.core}/${propertyset.jar}" todir="${build}/tmp/lib"/>
+    <copy file="${lib.optional}/${propertyset-ejb.jar}" todir="${build}/tmp"/>
     <copy file="${lib.core}/commons-logging.jar" todir="${build}/tmp/lib"/>
     <copy file="${lib.optional}/osuser-1.0-dev-2Feb05.jar" todir="${build}/tmp/lib"/>
     <copy file="${lib.optional}/quartz.jar" todir="${build}/tmp/lib"/>
     <copy file="${lib.optional}/bsh-1.2b7.jar" todir="${build}/tmp/lib"/>
     <!-- update the manifests of the other ejb modules -->
     <touch file="${build}/tmp/${oscore.jar}" millis="500"/>
-    <touch file="${build}/tmp/${propertyset.jar}" millis="500"/>
+    <touch file="${build}/tmp/${propertyset-ejb.jar}" millis="500"/>
     <jar jarfile="${build}/tmp/${oscore.jar}" update="true" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
-    <jar jarfile="${build}/tmp/${propertyset.jar}" update="true" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
+    <jar jarfile="${build}/tmp/${propertyset-ejb.jar}" update="true" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
     <filter token="oscore.jar" value="${oscore.jar}"/>
-    <filter token="propertyset.jar" value="${propertyset.jar}"/>
+    <filter token="propertyset-ejb.jar" value="${propertyset-ejb.jar}"/>
     <filter token="version" value="${version}"/>
     <filter token="name" value="${name}"/>
     <copy file="${src.etc}/example/application.xml" todir="${build}/" filtering="true" />

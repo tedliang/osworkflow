@@ -4,6 +4,8 @@
  */
 package com.opensymphony.workflow.util.ejb.remote;
 
+import com.opensymphony.module.propertyset.PropertySet;
+
 import com.opensymphony.workflow.*;
 import com.opensymphony.workflow.spi.WorkflowEntry;
 
@@ -36,14 +38,13 @@ import javax.rmi.PortableRemoteObject;
  * the user specified as 'testuser'.
  *
  * @author $Author: hani $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class RemoteEJBRegister implements Register {
     //~ Methods ////////////////////////////////////////////////////////////////
 
-    public Object registerVariable(WorkflowContext context, WorkflowEntry entry, Map args) throws WorkflowException {
+    public Object registerVariable(WorkflowContext context, WorkflowEntry entry, Map args, PropertySet ps) throws WorkflowException {
         String ejbLocation = (String) args.get(AbstractWorkflow.EJB_LOCATION);
-        RegisterRemote sessionBean;
         Hashtable env = null;
         Iterator iter = args.entrySet().iterator();
 
@@ -59,6 +60,8 @@ public class RemoteEJBRegister implements Register {
             }
         }
 
+        RegisterRemote sessionBean;
+
         try {
             EJBHome home = (EJBHome) PortableRemoteObject.narrow(new InitialContext(env).lookup(ejbLocation), javax.ejb.EJBHome.class);
             Method create = home.getClass().getMethod("create", new Class[0]);
@@ -69,7 +72,7 @@ public class RemoteEJBRegister implements Register {
         }
 
         try {
-            return sessionBean.registerVariable(context, entry, args);
+            return sessionBean.registerVariable(context, entry, args, ps);
         } catch (RemoteException e) {
             String message = "Remote exception while executing remote EJB register: " + ejbLocation;
             throw new WorkflowException(message, e);
