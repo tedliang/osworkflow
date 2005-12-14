@@ -11,7 +11,7 @@
 		</web>
 	</module>
 	<module>
-		<ejb>@propertyset.jar@</ejb>
+		<ejb>@propertyset-ejb.jar@</ejb>
 	</module>
   <module>
 		<ejb>@oscore.jar@</ejb>

@@ -4,6 +4,8 @@
  */
 package com.opensymphony.workflow;
 
+import com.opensymphony.module.propertyset.PropertySet;
+
 import com.opensymphony.workflow.spi.WorkflowEntry;
 
 import java.rmi.Remote;
@@ -18,7 +20,7 @@ import java.util.Map;
  * bean would then implement this interface in order for a register to be successfully registered.
  *
  * @author <a href="mailto:hani@formicary.net">Hani Suleiman</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface RegisterRemote extends Remote {
     //~ Methods ////////////////////////////////////////////////////////////////
@@ -33,5 +35,5 @@ public interface RegisterRemote extends Remote {
      * @return An object which is now exposed as a register to the rest of the workflow
      * @throws RemoteException
      */
-    public Object registerVariable(WorkflowContext context, WorkflowEntry entry, Map args) throws RemoteException;
+    public Object registerVariable(WorkflowContext context, WorkflowEntry entry, Map args, PropertySet ps) throws RemoteException;
 }
