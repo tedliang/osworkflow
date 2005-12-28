@@ -55,15 +55,6 @@
     </delete>
   </target>
 
-  <target name="test" depends="clover-check, test-compile" description="run tests">
-      <taskdef resource="testngtasks" classpathref="junit.cp"/>
-      <mkdir dir="${dist.docs}/testng"/>
-      <testng haltonfailure="true" outputdir="${dist.docs}/testng" classpathref="junit.cp">
-          <jvmarg value="-Djava.awt.headless=true"/>
-          <xmlfileset dir="${src.test}" includes="testng.xml"/>
-      </testng>
-  </target>
-  
   <target name="ejbdoclet" depends="init">
     <ejbdoclet ejbspec="2.0" verbose="false" destdir="${src.java}">
       <fileset dir="${src.java}">
