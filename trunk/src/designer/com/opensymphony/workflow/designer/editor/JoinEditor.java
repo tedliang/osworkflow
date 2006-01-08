@@ -13,6 +13,8 @@ import com.opensymphony.workflow.designer.beanutils.BeanConnector;
 import com.opensymphony.workflow.designer.model.ConditionsTableModel;
 import com.opensymphony.workflow.loader.ConditionDescriptor;
 import com.opensymphony.workflow.loader.JoinDescriptor;
+import com.opensymphony.workflow.loader.ConditionsDescriptor;
+import com.opensymphony.workflow.loader.DescriptorFactory;
 
 public class JoinEditor extends DetailPanel implements ActionListener
 {
@@ -31,19 +33,19 @@ public class JoinEditor extends DetailPanel implements ActionListener
 
   protected void initComponents()
   {
-		String colLayout = "2dlu, max(32dlu;pref), 2dlu, pref:grow, 4dlu";
-		String rowLayout = "4dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref";
+    String colLayout = "2dlu, max(32dlu;pref), 2dlu, pref:grow, 4dlu";
+    String rowLayout = "4dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref";
 
-		JTabbedPane tabbedPane = new JTabbedPane();
+    JTabbedPane tabbedPane = new JTabbedPane();
     //FormLayout layout = new FormLayout("2dlu, max(30dlu;pref), 2dlu, pref:grow, 4dlu", "pref, 2dlu, pref, 2dlu, pref, 3dlu, pref, 2dlu, 60dlu, pref, 2dlu");
-		FormLayout layout = new FormLayout("2dlu, 50dlu:grow, 2dlu", "2dlu, pref, 2dlu");
+    FormLayout layout = new FormLayout("2dlu, 50dlu:grow, 2dlu", "2dlu, pref, 2dlu");
     PanelBuilder builder = new PanelBuilder(this, layout);
     CellConstraints cc = new CellConstraints();
 
     // Tab1 (info)
-		FormLayout layoutInfo = new FormLayout(colLayout, rowLayout);
-		JPanel panelInfo = new JPanel();
-		PanelBuilder builderInfo = new PanelBuilder(panelInfo, layoutInfo);
+    FormLayout layoutInfo = new FormLayout(colLayout, rowLayout);
+    JPanel panelInfo = new JPanel();
+    PanelBuilder builderInfo = new PanelBuilder(panelInfo, layoutInfo);
     //builder.addSeparator(ResourceManager.getString("info"), cc.xywh(2, 1, 3, 1));
     builderInfo.addLabel(ResourceManager.getString("id"), cc.xy(2, 2));
     builderInfo.add(id, cc.xy(4, 2));
@@ -54,14 +56,14 @@ public class JoinEditor extends DetailPanel implements ActionListener
     builderInfo.add(conditionTypes, cc.xy(4, 4));
     connector.connect(conditionTypes, "conditionType");
 
-		tabbedPane.add(ResourceManager.getString("info"), panelInfo);
+    tabbedPane.add(ResourceManager.getString("info"), panelInfo);
 
-		/////////////////////////////////////////
-		// Tab2 (Conditions)
-		/////////////////////////////////////////
-		FormLayout layoutCond = new FormLayout(colLayout, rowLayout);
-		JPanel panelCond = new JPanel();
-		PanelBuilder builderCond = new PanelBuilder(panelCond, layoutCond);
+    /////////////////////////////////////////
+    // Tab2 (Conditions)
+    /////////////////////////////////////////
+    FormLayout layoutCond = new FormLayout(colLayout, rowLayout);
+    JPanel panelCond = new JPanel();
+    PanelBuilder builderCond = new PanelBuilder(panelCond, layoutCond);
     //builder.addSeparator(ResourceManager.getString("conditions"), cc.xywh(2, 7, 3, 1));
 
     conditionsModel.setGraphModel(getModel());
@@ -73,8 +75,7 @@ public class JoinEditor extends DetailPanel implements ActionListener
 
     tabbedPane.add(ResourceManager.getString("conditions"), panelCond);
 
-		builder.add(tabbedPane, cc.xy(2,2));
-
+    builder.add(tabbedPane, cc.xy(2,2));
   }
 
   public String getTitle()
@@ -84,9 +85,13 @@ public class JoinEditor extends DetailPanel implements ActionListener
 
   protected void updateView()
   {
-   	JoinDescriptor descriptor = (JoinDescriptor)getDescriptor();
-
-    conditionsModel.setList(descriptor.getConditions());
+     JoinDescriptor descriptor = (JoinDescriptor)getDescriptor();
+    if(descriptor.getConditions().size() == 0)
+    {
+      ConditionsDescriptor conditions = DescriptorFactory.getFactory().createConditionsDescriptor();
+      descriptor.getConditions().add(conditions);
+    }
+    conditionsModel.setList(((ConditionsDescriptor)descriptor.getConditions().get(0)).getConditions());
     connector.setSource(descriptor);
 
     //		if (cell.getJoinDescriptor().getResult() != null) {

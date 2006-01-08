@@ -223,12 +223,12 @@ public class ActionEditor extends DetailPanel implements ActionListener
       restriction = new RestrictionDescriptor();
       restriction.setParent(descriptor);
       ConditionsDescriptor conditions = DescriptorFactory.getFactory().createConditionsDescriptor();
-      restriction.getConditions().add(conditions);
+      restriction.setConditionsDescriptor(conditions);
       conditions.setParent(restriction);
       conditions.setType((String)restrict.getSelectedItem());
       descriptor.setRestriction(restriction);
     }
-    conditionsModel.setList(((ConditionsDescriptor)restriction.getConditions().get(0)).getConditions());
+    conditionsModel.setList(restriction.getConditionsDescriptor().getConditions());
     conditionsTable.getSelectionModel().clearSelection();
 
     preModel.setList(descriptor.getPreFunctions());
