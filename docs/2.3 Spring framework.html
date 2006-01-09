@@ -1,0 +1,162 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Spring framework
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="2. Integration with other Modules.html" title="2. Integration with Other Modules">2. Integration with other Modules</a></li>
+	<li>Forward to <a href="3. Understanding OSWorkflow.html" title="3. Understanding OSWorkflow">3. Understanding OSWorkflow</a></li>
+</ul>
+
+
+<h3><a name="2.3Springframework-Overview">Overview</a></h3>
+
+<p>OSWorkflow can be easily integrated into any ligthweight container, such as Spring, XWork or NanoContainer.</p>
+
+<p>The advantage of doing so is that for users of these frameworks, osworkflow can easily be hooked into the container facilities for dependency resolution, component wiring, and lifecycle management.</p>
+
+<p>Out of the box the OSWorkflow distribution contains the integration with the Spring Framework, through the following components:</p>
+
+<p>1) <b>SpringHibernateWorkflowStore</b> to let the workflow instances participate (if desired) to the current transaction.</p>
+
+<p>2) <b>SpringTypeResolver</b> to allow osworkflow to obtain business logic components (conditions, functions, and so on) from the Spring ApplicationContext.</p>
+
+<p>3) <b>SpringConfiguration</b> which is an implementation of the Workflow Configuration interface that contains references to the store and to the factory, thus enabling the container to inject and wire them.</p>
+
+<p>4) <b>SpringWorkflowFactory</b> which is a wrapper of the XMLWorkflowFactory that allows the injection of the configuration from the container, instead of reading them from another XML configuration file.</p>
+
+<p>These four elements ensure that osworkflow can be tightly integrated into the Spring Framework.</p>
+
+<h3><a name="2.3Springframework-ExampleUsage">Example Usage</a></h3>
+
+<p>The following is a step by step example usage of performing this integration, through creating the osworkflow-spring.xml configuration file. </p>
+
+<p>This file is written as a child ApplicationContext of another that must contain the hibernate sessionFactory configuration.</p>
+
+<p>First the persistent store for the workflow instances must be define, as well as the factory that reads the finite state machine:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;bean id=<span class="code-quote">"workflowStore"</span>
+class=<span class="code-quote">"com.opensymphony.workflow.spi.hibernate.SpringHibernateWorkflowStore"</span>&gt;
+	&lt;property name=<span class="code-quote">"sessionFactory"</span>&gt;&lt;ref bean=<span class="code-quote">"sessionFactory"</span>/&gt;&lt;/property&gt;
+	&lt;!-- 
+	Optional PropertySet delegate, in <span class="code-keyword">case</span> you want 
+    to use another PropertySet store that is not HibernateStore 
+	&lt;property name=<span class="code-quote">"propertySetDelegate"</span>&gt;
+        &lt;ref local=<span class="code-quote">"propertySetDelegate"</span>/&gt;
+    &lt;/property&gt;
+	--&gt;
+  &lt;/bean&gt;
+	
+  &lt;bean id=<span class="code-quote">"workflowFactory"</span>
+        class=<span class="code-quote">"com.opensymphony.workflow.loader.SpringWorkflowFactory"</span> 
+        init-method=<span class="code-quote">"init"</span>&gt;
+    &lt;property name=<span class="code-quote">"resource"</span>&gt;&lt;value&gt;workflows.xml&lt;/value&gt;&lt;/property&gt;
+    &lt;property name=<span class="code-quote">"reload"</span>&gt;&lt;value&gt;<span class="code-keyword">true</span>&lt;/value&gt;&lt;/property&gt;
+  &lt;/bean&gt;</pre>
+</div></div>
+
+<p>having defined these two beans we can define the workflow Configuration object;</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;bean id=<span class="code-quote">"osworkflowConfiguration"</span> 
+        class=<span class="code-quote">"com.opensymphony.workflow.config.SpringConfiguration"</span>&gt;
+    &lt;property name=<span class="code-quote">"store"</span>&gt;&lt;ref local=<span class="code-quote">"workflowStore"</span>/&gt;&lt;/property&gt;
+	&lt;property name=<span class="code-quote">"factory"</span>&gt;&lt;ref local=<span class="code-quote">"workflowFactory"</span>/&gt;&lt;/property&gt;
+  &lt;/bean&gt;</pre>
+</div></div>
+
+<p>and then, if required, the SpringTypeResolver, to allow OSWorkflow to utilise spring managed beans for business logic:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;bean id=<span class="code-quote">"workflowTypeResolver"</span>
+        class=<span class="code-quote">"com.opensymphony.workflow.util.SpringTypeResolver"</span>&gt;
+    &lt;!--
+    Here you can inject custom resolver <span class="code-keyword">for</span> business logic
+	&lt;property name=<span class="code-quote">"conditions"</span>&gt;
+      &lt;map&gt;
+	    &lt;entry key=<span class="code-quote">"beanshell"</span>&gt;
+        &lt;value&gt;mypackage.MyBeanShellCustomCondition&lt;/value&gt;&lt;/entry&gt;
+	  &lt;/map&gt;
+	&lt;/property&gt;
+	--&gt;
+  &lt;/bean&gt;</pre>
+</div></div>
+
+<p>If no interception is required, then the file is now complete, and OSWorkflow can be used with Spring.</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;bean id=<span class="code-quote">"workflow"</span> 
+        class=<span class="code-quote">"com.opensymphony.workflow.basic.BasicWorkflow"</span>
+        singleton=<span class="code-quote">"<span class="code-keyword">false</span>"</span>&gt;
+    &lt;property name=<span class="code-quote">"configuration"</span>&gt;
+      &lt;ref local=<span class="code-quote">"osworkflowConfiguration"</span>/&gt;
+    &lt;/property&gt;	
+	&lt;property name=<span class="code-quote">"resolver"</span>&gt;
+      &lt;ref local=<span class="code-quote">"workflowTypeResolver"</span>/&gt;
+    &lt;/property&gt;	
+  &lt;/bean&gt;</pre>
+</div></div>
+
+<p>On the other hand, if a transactional wrapper is required, or AOP type functionality, then we can decorate the workflow instance. For the purposes of this example, we will add an interceptor for workflow methods. So the last bean definition should be substituted with the following:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;bean id=<span class="code-quote">"transactionInterceptor"</span> class=<span class="code-quote">"org.springframework.transaction.interceptor.TransactionInterceptor"</span>&gt;
+ &lt;property name=<span class="code-quote">"transactionManager"</span>&gt;&lt;ref local=<span class="code-quote">"transactionManager"</span>/&gt;&lt;/property&gt;
+ &lt;property name=<span class="code-quote">"transactionAttributes"</span>&gt;
+  &lt;props&gt;
+   &lt;prop key=<span class="code-quote">"*"</span>&gt;PROPAGATION_REQUIRED&lt;/prop&gt;
+  &lt;/props&gt;
+ &lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean id=<span class="code-quote">"workflow"</span> class=<span class="code-quote">"org.springframework.aop.framework.ProxyFactoryBean"</span>&gt;
+ &lt;property name=<span class="code-quote">"singleton"</span>&gt;
+  &lt;value&gt;<span class="code-keyword">false</span>&lt;/value&gt;
+ &lt;/property&gt;
+ &lt;property name=<span class="code-quote">"proxyInterfaces"</span>&gt;
+  &lt;value&gt;com.opensymphony.workflow.Workflow&lt;/value&gt;
+ &lt;/property&gt;
+ &lt;property name=<span class="code-quote">"interceptorNames"</span>&gt;
+  &lt;list&gt;
+   &lt;value&gt;transactionInterceptor&lt;/value&gt;
+   &lt;value&gt;workflowTarget&lt;/value&gt;
+  &lt;/list&gt;
+ &lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean id=<span class="code-quote">"workflowTarget"</span> class=<span class="code-quote">"com.opensymphony.workflow.basic.BasicWorkflow"</span> singleton=<span class="code-quote">"<span class="code-keyword">false</span>"</span>&gt;
+ &lt;constructor-arg&gt;&lt;value&gt;test&lt;/value&gt;&lt;/constructor-arg&gt;
+ &lt;property name=<span class="code-quote">"configuration"</span>&gt;&lt;ref local=<span class="code-quote">"osworkflowConfiguration"</span>/&gt;&lt;/property&gt;	
+&lt;/bean&gt;</pre>
+</div></div>
+
+<p>With this definition, every method of the instance have the opportunity to be decorated by a surround aspect. </p>
+
+<p>Last, but not least, it is also possible to inject business functionality using the SpringTypeResolver:	</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;bean id=<span class="code-quote">"myFunction"</span> class=<span class="code-quote">"mypackage.MyFunction"</span> singleton=<span class="code-quote">"<span class="code-keyword">false</span>"</span> /&gt;</pre>
+</div></div>
+
+<p>and then use it into the OSWorkflow XML definition:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;function type=<span class="code-quote">"spring"</span>&gt;
+    &lt;arg name=<span class="code-quote">"bean.name"</span>&gt;myFunction&lt;/arg&gt;
+  &lt;/function&gt;</pre>
+</div></div>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>
