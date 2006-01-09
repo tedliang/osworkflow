@@ -19,14 +19,14 @@ import java.util.Map;
  * New Refactored Hibernate Store.
  * Look at @link NewHibernateFunctionalWorkflowTestCase for a use case.
  */
-public class NewHibernateWorkflowStore extends AbstractHibernateWorkflowStore {
+public class HibernateWorkflowStore extends AbstractHibernateWorkflowStore {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     Session session;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public NewHibernateWorkflowStore() {
+    public HibernateWorkflowStore() {
         super();
     }
 

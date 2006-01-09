@@ -24,14 +24,14 @@ import java.util.Map;
  * New Refactored Spring Managed Hibernate Store.
  * Look at @link NewSpringHibernateFunctionalWorkflowTestCase for a use case.
  */
-public class NewSpringHibernateWorkflowStore extends AbstractHibernateWorkflowStore {
+public class SpringHibernateWorkflowStore extends AbstractHibernateWorkflowStore {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     private SessionFactory sessionFactory;
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public NewSpringHibernateWorkflowStore() {
+    public SpringHibernateWorkflowStore() {
         super();
     }
 
