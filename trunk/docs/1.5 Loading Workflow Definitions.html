@@ -11,25 +11,46 @@
 	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
 		    <tr>
 			    <td valign="top" class="pagebody">
-				    <ul class="star">
-<li> Back to <a href="1.4 Persistence Options.html" title="1.4 Persistence Options">1.4 Persistence Options</a></li>
-<li> Forward to <a href="2. Integration with Other Modules.html" title="2. Integration with Other Modules">2. Integration with Other Modules</a></li>
-</ul><br/>
-OSWorkflow tries to be as flexible as possible with regards to configuration. Only one file is required to be in the classpath: <a href="#osworkflow.xml" title="Visit page outside Confluence">osworkflow.xml</a>. This file dictates the persistence method (JDBC, EJB, Ofbiz) as well the workflow factory class that is to be used for loading workflow definitions. <p class="paragraph">The default factory is <b class="strong">com.opensymphony.workflow.loader.XMLWorkflowFactory</b>. This loads up a file in the classpath that in turn contains links to any number of workflow definition files, all in XML (<a href="http://www.opensymphony.com/osworkflow/workflow_2_6.dtd" title="Visit page outside Confluence">see Appendix A</a>).</p>During test phase it&#039;s also useful to have your workflow definition files reloaded as they are changed. For this you can specify an optional property called <b class="strong">reload</b> (true|false) to your factory definition (default is false). If you would rather specify your workflow definitions in a different way, you are free to extend <a href="http://www.opensymphony.com/osworkflow/api/com/opensymphony/workflow/loader/AbstractWorkflowFactory.html" title="Visit page outside Confluence">com.opensymphony.workflow.loader.AbstractWorkflowFactory</a> in any way that you like. <p class="paragraph"><b class="strong">com.opensymphony.workflow.loader.JDBCWorkflowFactory</b> for example is an alternative factory, that allows you to store your workflow definitions in a JDBC database instead of putting them into the xml files. (<a href="JDBCWorkflowFactory.html" title="JDBCWorkflowFactory">JDBCWorkflowFactory</a>)</p>The most common configuration would be:
-<h3 class="heading3"><a name="1.5LoadingWorkflowDefinitions-%3Caname%3D%221.5LoadingWorkflowDefinitionsosworkflow.xml%22%3E%3C%2Fa%3Eosworkflow.xml%3A"> <a name="1.5LoadingWorkflowDefinitions-osworkflow.xml"></a> osworkflow.xml:</a></h3>
-<div class="code"><div class="codeContent">
-<pre>&lt;osworkflow&gt;&#10;  &lt;persistence class=<span class="java&#45;quote">&quot;com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore&quot;</span>&gt;&#10;    &lt;arg name=<span class="java&#45;quote">&quot;foo&quot;</span> value=<span class="java&#45;quote">&quot;bar&quot;</span>/&gt;&#10;    ...&#10;  &lt;/persistence&gt;&#10;  &lt;factory class=<span class="java&#45;quote">&quot;com.opensymphony.workflow.loader.XMLWorkflowFactory&quot;</span>&gt;&#10;    &lt;property key=<span class="java&#45;quote">&quot;resource&quot;</span> value=<span class="java&#45;quote">&quot;workflows.xml&quot;</span> /&gt;&#10;  &lt;/factory&gt;&#10;&lt;/osworkflow&gt;</pre>
-</div></div>
-<h3 class="heading3"><a name="1.5LoadingWorkflowDefinitions-%3Caname%3D%221.5LoadingWorkflowDefinitionsworkflows.xml%22%3E%3C%2Fa%3Eworkflows.xml%3A"> <a name="1.5LoadingWorkflowDefinitions-workflows.xml"></a> workflows.xml:</a></h3>
-
-<div class="code"><div class="codeContent">
-<pre>&lt;workflows&gt;&#10;  &lt;workflow name=<span class="java&#45;quote">&quot;example&quot;</span> type=<span class="java&#45;quote">&quot;resource&quot;</span> location=<span class="java&#45;quote">&quot;example.xml&quot;</span>/&gt;&#10;&lt;/workflows&gt;</pre>
-</div></div><br/>
-
-<ul class="star">
-<li> Back to <a href="1.4 Persistence Options.html" title="1.4 Persistence Options">1.4 Persistence Options</a></li>
-<li> Forward to <a href="2. Integration with Other Modules.html" title="2. Integration with Other Modules">2. Integration with Other Modules</a></li>
+				    <ul>
+	<li>Back to <a href="1.4 Persistence Options.html" title="1.4 Persistence Options">1.4 Persistence Options</a></li>
+	<li>Forward to <a href="2. Integration with Other Modules.html" title="2. Integration with Other Modules">2. Integration with Other Modules</a></li>
 </ul>
+
+
+<p>OSWorkflow tries to be as flexible as possible with regards to configuration. Only one file is required to be in the classpath: <a href="#osworkflow.xml" title="Visit page outside Confluence">osworkflow.xml</a>. This file dictates the persistence method (JDBC, EJB, Ofbiz) as well the workflow factory class that is to be used for loading workflow definitions. </p>
+
+<p>The default factory is <b>com.opensymphony.workflow.loader.XMLWorkflowFactory</b>. This loads up a file in the classpath that in turn contains links to any number of workflow definition files, all in XML (<a href="http://www.opensymphony.com/osworkflow/workflow_2_6.dtd" title="Visit page outside Confluence">see Appendix A</a>). </p>
+
+<p>During test phase it's also useful to have your workflow definition files reloaded as they are changed. For this you can specify an optional property called <b>reload</b> (true|false) to your factory definition (default is false). If you would rather specify your workflow definitions in a different way, you are free to extend <a href="http://www.opensymphony.com/osworkflow/api/com/opensymphony/workflow/loader/AbstractWorkflowFactory.html" title="Visit page outside Confluence">com.opensymphony.workflow.loader.AbstractWorkflowFactory</a> in any way that you like. </p>
+
+<p><b>com.opensymphony.workflow.loader.JDBCWorkflowFactory</b> for example is an alternative factory, that allows you to store your workflow definitions in a JDBC database instead of putting them into the xml files. (<a href="JDBCWorkflowFactory.html" title="JDBCWorkflowFactory">JDBCWorkflowFactory</a>)</p>
+
+<p>The most common configuration would be:</p>
+<h3><a name="1.5LoadingWorkflowDefinitions-osworkflow.xml%3A"><a name="1.5LoadingWorkflowDefinitions-osworkflow.xml"></a> osworkflow.xml:</a></h3>
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;osworkflow&gt;
+  &lt;persistence class=<span class="code-quote">"com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore"</span>&gt;
+    &lt;arg name=<span class="code-quote">"foo"</span> value=<span class="code-quote">"bar"</span>/&gt;
+    ...
+  &lt;/persistence&gt;
+  &lt;factory class=<span class="code-quote">"com.opensymphony.workflow.loader.XMLWorkflowFactory"</span>&gt;
+    &lt;property key=<span class="code-quote">"resource"</span> value=<span class="code-quote">"workflows.xml"</span> /&gt;
+  &lt;/factory&gt;
+&lt;/osworkflow&gt;</pre>
+</div></div>
+<h3><a name="1.5LoadingWorkflowDefinitions-workflows.xml%3A"><a name="1.5LoadingWorkflowDefinitions-workflows.xml"></a> workflows.xml:</a></h3>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;workflows&gt;
+  &lt;workflow name=<span class="code-quote">"example"</span> type=<span class="code-quote">"resource"</span> location=<span class="code-quote">"example.xml"</span>/&gt;
+&lt;/workflows&gt;</pre>
+</div></div>
+
+<ul>
+	<li>Back to <a href="1.4 Persistence Options.html" title="1.4 Persistence Options">1.4 Persistence Options</a></li>
+	<li>Forward to <a href="2. Integration with Other Modules.html" title="2. Integration with Other Modules">2. Integration with Other Modules</a></li>
+</ul>
+
 
                     			    </td>
 		    </tr>

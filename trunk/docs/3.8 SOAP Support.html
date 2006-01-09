@@ -11,15 +11,56 @@
 	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
 		    <tr>
 			    <td valign="top" class="pagebody">
-				    <ul class="star">
-<li> Back to <a href="3.7 Conditions.html" title="3.7 Conditions">3.7 Conditions</a></li>
-<li> Forward to <a href="4. GUI Designer.html" title="4. GUI Designer">4. GUI Designer</a></li>
-</ul><br/>
-OSWorkflow comes with support for remote invocation using SOAP. This is accomplished using the Glue SOAP implementation from <a href="http://www.webmethods.com/solutions/wM_Glue_OEM_ISV/" title="Visit page outside Confluence">WebMethods</a>. It has not been tested with any other SOAP implementations, but getting C# to integrate in with OSWorkflow should be a fairly trivial task. We hope to include C# sample code in the near future. <b class="strong">If you wish to use an alternate SOAP implementation, such as Apache Axis, you are free to write your own wrappers to speak with OSWorkflow &#8211; it should be very simple. However, we recommend GLUE as your SOAP provider of choice.</b><p class="paragraph">GLUE does <b class="strong">not</b> come with OSWorkflow and must be downloaded separately from <a href="http://www.webmethods.com/solutions/wM_Glue_OEM_ISV/" title="Visit page outside Confluence">WebMethods</a>. GLUE is generally free for most usage. You can find the license agreement when you download GLUE. <b class="strong">Again, SOAP and Job Scheduling support will not be available if you do not download GLUE 2.1 or later and include GLUE-STD.jar in your classpath.</b></p>SOAP support is optional and can only be enabled by including the Glue servlet in your web application, as detailed in the GLUE documentation. SOAP support <b class="strong">must</b> be enabled for scheduled jobs to occur, using the Quartz job scheduler. Here is some example code that uses Glue to talk to OSWorkflow:<br/>
+				    <ul>
+	<li>Back to <a href="3.7 Conditions.html" title="3.7 Conditions">3.7 Conditions</a></li>
+	<li>Forward to <a href="4. GUI Designer.html" title="4. GUI Designer">4. GUI Designer</a></li>
+</ul>
+
+
+<p>OSWorkflow comes with support for remote invocation using SOAP. This can be accomplished using either the Glue SOAP implementation from <a href="http://www.webmethods.com/meta/default/folder/0000008629" title="Visit page outside Confluence">WebMethods</a>, or the open source <a href="http://xfire.codehaus.org/" title="Visit page outside Confluence">XFire</a> soap library.</p>
+
+<h2><a name="3.8SOAPSupport-UsingXFire">Using XFire</a></h2>
+
+<p>The example application that is bundled with OSWorkflow exposes the workflow object via SOAP by default, so you are encouraged to use that as a starting point. Enabling SOAP support is a fairly trivial matter. The first step is to ensure that you have all the required xfire jar files in your <b>WEB-INF/lib</b> directory. The files are all included in the <b>lib/optional/xfire</b> directory.</p>
+
+<p>The next step is to add the SOAP servlet to your web application. Add the following to your web.xml file:</p>
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;servlet&gt;
+    &lt;servlet-name&gt;SOAPWorkflow&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.opensymphony.workflow.soap.SOAPWorkflowServlet&lt;/servlet-class&gt;
+  &lt;/servlet&gt;
+  
+  &lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;SOAPWorkflow&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/soap/*&lt;/url-pattern&gt;
+  &lt;/servlet-mapping&gt;</pre>
+</div></div>
+
+<p>Once your application is deployed, you can access the WSDL at <b>http://&lt;server&gt;/soap/Workflow?wsdl</b></p>
+
+<p>For invoking the service, any SOAP client should work. XFire itself has <a href="http://xfire.codehaus.org/Client+API" title="Visit page outside Confluence">client support</a> that would enable you to use the same classes as the server. Other client libraries such as Axis, GLUE, or .net should also work out of the box.</p>
+
+<h2><a name="3.8SOAPSupport-UsingGLUE">Using GLUE</a></h2>
+
+<p>GLUE does <b>not</b> come with OSWorkflow and must be downloaded separately from <a href="http://www.webmethods.com/solutions/wM_Glue_OEM_ISV/" title="Visit page outside Confluence">WebMethods</a>. GLUE is generally free for most usage. You can find the license agreement when you download GLUE. <b>SOAP and Job Scheduling support will not be available if you do not download GLUE 2.1 or later and include GLUE-STD.jar in your classpath.</b></p>
+
+<p>As with XFire, the first step is adding the GLUE servlet to your web application, as detailed in the GLUE documentation. SOAP support <b>must</b> be enabled for scheduled jobs to occur, using the Quartz job scheduler. Here is some example code that uses Glue to talk to OSWorkflow:</p>
 
 <div class="code"><div class="codeContent">
-<pre><span class="java&#45;keyword">import</span> electric.util.Context;&#10;<span class="java&#45;keyword">import</span> electric.registry.Registry;&#10;<span class="java&#45;keyword">import</span> electric.registry.RegistryException;&#10;&#10;...&#10;&#10;Context context = <span class="java&#45;keyword">new</span> Context();&#10;context.setProperty( <span class="java&#45;quote">&quot;authUser&quot;</span>, username );&#10;context.setProperty( <span class="java&#45;quote">&quot;authPassword&quot;</span>, password );&#10;Workflow wf = (Workflow) Registry.bind(&#10;  <span class="java&#45;quote">&quot;http:<span class="java&#45;comment">//localhost/osworkflow/glue/oswf.wsdl&quot;</span>, Workflow.class, context);</span></pre>
-</div></div><p class="paragraph">From this point onward, you can use the Workflow interface just as you normally would.</p>
+<pre class="code-java"><span class="code-keyword">import</span> electric.util.Context;
+<span class="code-keyword">import</span> electric.registry.Registry;
+<span class="code-keyword">import</span> electric.registry.RegistryException;
+
+...
+
+Context context = <span class="code-keyword">new</span> Context();
+context.setProperty( <span class="code-quote">"authUser"</span>, username );
+context.setProperty( <span class="code-quote">"authPassword"</span>, password );
+Workflow wf = (Workflow) Registry.bind(
+  <span class="code-quote">"http:<span class="code-comment">//localhost/osworkflow/glue/oswf.wsdl"</span>, Workflow.class, context);</span></pre>
+</div></div>
+
+<p>From this point onward, you can use the Workflow interface just as you normally would. </p>
 
                     			    </td>
 		    </tr>

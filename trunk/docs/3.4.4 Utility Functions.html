@@ -11,16 +11,51 @@
 	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
 		    <tr>
 			    <td valign="top" class="pagebody">
-				    <ul class="star">
-<li> Back to <a href="3.4.3 BSF Functions.html" title="3.4.3 BSF Functions">3.4.3 BSF Functions</a></li>
-<li> Forward to <a href="3.5 Validators.html" title="3.5 Validators">3.5 Validators</a></li>
-</ul><br/>
-OSWorkflow comes with several very useful utility functions, all implementing the interface <em class="emphasis">com.opensymphony.workflow.FunctionProvider</em>. For more detailed information, please see the javadocs for these utility functions. Below is only a brief description of each utility function. All classes are found in the <em class="emphasis">com.opensymphony.workflow.util</em> package. <p class="paragraph"><h2 class="heading2"><a name="3.4.4UtilityFunctions-Caller"> Caller</a></h2></p>Sets the persistent variable caller with the username of the person doing the current action.<p class="paragraph"><h2 class="heading2"><a name="3.4.4UtilityFunctions-WebWorkExecutor"> WebWorkExecutor</a></h2></p>Executes a WebWork function and restores the old ActionContext when finished.<p class="paragraph"><h2 class="heading2"><a name="3.4.4UtilityFunctions-EJBInvoker"> EJBInvoker</a></h2></p>Invokes an EJB session bean method. Please see the javadocs for more information about expected arguments and EJB restrictions.<p class="paragraph"><h2 class="heading2"><a name="3.4.4UtilityFunctions-JMSMessage"> JMSMessage</a></h2></p>Sends a TextMessage to a JMS topic or queue.<p class="paragraph"><h2 class="heading2"><a name="3.4.4UtilityFunctions-MostRecentOwner"> MostRecentOwner</a></h2></p>Sets the persistent variable <b class="strong">mostRecentOwner</b> with the username of the owner of the most recent step specified. Optional features allow for the variable be set to nothing if no owner is found, or to return with an internal error.<p class="paragraph"><h2 class="heading2"><a name="3.4.4UtilityFunctions-ScheduleJob"> ScheduleJob</a></h2></p>Schedules a <a href="Trigger functions.html" title="Trigger functions">Trigger functions</a> to be executed at some time later. Supports both <b class="strong">cron expressions</b> and <b class="strong">simple repeat/delay counts</b>. <p class="paragraph"><h2 class="heading2"><a name="3.4.4UtilityFunctions-UnschduleJob"> UnschduleJob</a></h2></p>Deletes a scheduled job and all triggers associated with that job. This is useful in the case where the workflow state has changed such that you no longer wish for scheduled jobs to occur.<p class="paragraph"><h2 class="heading2"><a name="3.4.4UtilityFunctions-SendEmail"> SendEmail</a></h2></p>Sends out an email to one or more users.<br/>
-
-<ul class="star">
-<li> Back to <a href="3.4.3 BSF Functions.html" title="3.4.3 BSF Functions">3.4.3 BSF Functions</a></li>
-<li> Forward to <a href="3.5 Validators.html" title="3.5 Validators">3.5 Validators</a></li>
+				    <ul>
+	<li>Back to <a href="3.4.3 BSF Functions.html" title="3.4.3 BSF Functions">3.4.3 BSF Functions</a></li>
+	<li>Forward to <a href="3.5 Validators.html" title="3.5 Validators">3.5 Validators</a></li>
 </ul>
+
+
+<p>OSWorkflow comes with several very useful utility functions, all implementing the interface <em>com.opensymphony.workflow.FunctionProvider</em>. For more detailed information, please see the javadocs for these utility functions. Below is only a brief description of each utility function. All classes are found in the <em>com.opensymphony.workflow.util</em> package. </p>
+
+<h2><a name="3.4.4UtilityFunctions-Caller">Caller</a></h2>
+
+<p>Sets the transient variable caller with the username of the person doing the current action.</p>
+
+<h2><a name="3.4.4UtilityFunctions-WebWorkExecutor">WebWorkExecutor</a></h2>
+
+<p>Executes a WebWork function and restores the old ActionContext when finished.</p>
+
+<h2><a name="3.4.4UtilityFunctions-EJBInvoker">EJBInvoker</a></h2>
+
+<p>Invokes an EJB session bean method. Please see the javadocs for more information about expected arguments and EJB restrictions.</p>
+
+<h2><a name="3.4.4UtilityFunctions-JMSMessage">JMSMessage</a></h2>
+
+<p>Sends a TextMessage to a JMS topic or queue.</p>
+
+<h2><a name="3.4.4UtilityFunctions-MostRecentOwner">MostRecentOwner</a></h2>
+
+<p>Sets the transient variable <b>mostRecentOwner</b> with the username of the owner of the most recent step specified. Optional features allow for the variable be set to nothing if no owner is found, or to return with an internal error.</p>
+
+<h2><a name="3.4.4UtilityFunctions-ScheduleJob">ScheduleJob</a></h2>
+
+<p>Schedules a <a href="Trigger functions.html" title="Trigger functions">Trigger functions</a> to be executed at some time later. Supports both <b>cron expressions</b> and <b>simple repeat/delay counts</b>. </p>
+
+<h2><a name="3.4.4UtilityFunctions-UnschduleJob">UnschduleJob</a></h2>
+
+<p>Deletes a scheduled job and all triggers associated with that job. This is useful in the case where the workflow state has changed such that you no longer wish for scheduled jobs to occur.</p>
+
+<h2><a name="3.4.4UtilityFunctions-SendEmail">SendEmail</a></h2>
+
+<p>Sends out an email to one or more users.</p>
+
+<ul>
+	<li>Back to <a href="3.4.3 BSF Functions.html" title="3.4.3 BSF Functions">3.4.3 BSF Functions</a></li>
+	<li>Forward to <a href="3.5 Validators.html" title="3.5 Validators">3.5 Validators</a></li>
+</ul>
+
 
                     			    </td>
 		    </tr>
