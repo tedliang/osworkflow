@@ -211,7 +211,7 @@
 
   <target name="webstart" depends="client-jar" description="Build webstart files">
     <mkdir dir="${dist.docs}/designer" />
-    <property name="designer.jars" value="lib/designer/" />
+    <property name="designer.jars" value="" />
     <jar jarfile="${build}/designer.jar" update="true">
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
