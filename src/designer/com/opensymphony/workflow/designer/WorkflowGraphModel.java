@@ -172,9 +172,14 @@ public class WorkflowGraphModel extends DefaultGraphModel
             cond.getArgs().putAll(event.getArgs());
           }
         }
+        catch(ClassNotFoundException ex)
+        {
+          System.out.println("WARNING: Unable to find condition class " + clazz);
+        }
         catch(Exception e)
         {
           System.out.println("WorkflowGraphModel.processJoinChangeEvent() Error loading condition " + clazz);
+          e.printStackTrace();
         }
       }
     }
