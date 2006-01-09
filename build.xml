@@ -4,7 +4,7 @@
   <property name="src.test" location="src/test"/>
   <property name="jar.manifest" value="src/etc/deployment/ejb/manifest.txt" />
   
-  <property name="common.build" value="../opensymphony/common/osbuild.xml"/>
+  <property name="common.build" value="osbuild.xml"/>
   <import file="${common.build}"/>
   
   <path id="jalopy.classpath">
@@ -211,11 +211,13 @@
 
   <target name="webstart" depends="client-jar" description="Build webstart files">
     <mkdir dir="${dist.docs}/designer" />
+    <property name="designer.jars" value="lib/designer/" />
     <jar jarfile="${build}/designer.jar" update="true">
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
         <attribute name="Main-Class" value="com.opensymphony.workflow.designer.Launcher" />
-        <attribute name="Class-Path" value="looks.jar forms.jar syntax.jar jgraph.jar foxtrot.jar" />
+        <attribute name="Class-Path" 
+                   value="${designer.jars}looks.jar ${designer.jars}forms.jar ${designer.jars}syntax.jar ${designer.jars}jgraph.jar ${designer.jars}foxtrot.jar" />
       </manifest>
     </jar>
     <my.signjar signedjar="${dist.docs}/designer/designer.jar" jar="${build}/designer.jar" />
