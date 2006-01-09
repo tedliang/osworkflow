@@ -21,9 +21,18 @@ public abstract class AbstractDescriptor implements XMLizable, Serializable {
 
     private AbstractDescriptor parent;
     private boolean hasId = false;
+    private int entityId;
     private int id;
 
     //~ Methods ////////////////////////////////////////////////////////////////
+
+    public void setEntityId(int entityId) {
+        this.entityId = entityId;
+    }
+
+    public int getEntityId() {
+        return entityId;
+    }
 
     public void setId(int id) {
         this.id = id;
