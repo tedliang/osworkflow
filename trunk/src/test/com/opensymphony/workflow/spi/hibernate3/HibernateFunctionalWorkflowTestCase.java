@@ -18,7 +18,7 @@ import net.sf.hibernate.SessionFactory;
  *
  * @author Luca Masini (l.masini@infogroup.it)
  */
-public class NewHibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
+public class HibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     org.hibernate.Session session;
@@ -27,7 +27,7 @@ public class NewHibernateFunctionalWorkflowTestCase extends AbstractFunctionalWo
 
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public NewHibernateFunctionalWorkflowTestCase(String s) {
+    public HibernateFunctionalWorkflowTestCase(String s) {
         super(s);
     }
 

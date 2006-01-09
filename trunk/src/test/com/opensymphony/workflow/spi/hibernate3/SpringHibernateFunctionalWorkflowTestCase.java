@@ -19,10 +19,10 @@ import org.springframework.core.io.ClassPathResource;
  *
  * @author Luca Masini (l.masini@infogroup.it)
  */
-public class NewSpringHibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
+public class SpringHibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public NewSpringHibernateFunctionalWorkflowTestCase(String s) {
+    public SpringHibernateFunctionalWorkflowTestCase(String s) {
         super(s);
     }
 
