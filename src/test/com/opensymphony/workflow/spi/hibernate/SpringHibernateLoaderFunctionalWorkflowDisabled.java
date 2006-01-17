@@ -21,10 +21,10 @@ import org.springframework.core.io.ClassPathResource;
  *
  * @author Luca Masini (l.masini@infogroup.it)
  */
-public class SpringHibernateLoaderFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
+public class SpringHibernateLoaderFunctionalWorkflowDisabled extends AbstractFunctionalWorkflowTest {
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public SpringHibernateLoaderFunctionalWorkflowTestCase(String s) {
+    public SpringHibernateLoaderFunctionalWorkflowDisabled(String s) {
         super(s);
     }
 
