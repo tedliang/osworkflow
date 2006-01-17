@@ -5,7 +5,7 @@
 <!-- com.opensymphony.workflow.loader.ResultDescriptor already added -->
 <hibernate-mapping default-cascade="all">
 	<!-- com.opensymphony.workflow.loader.Workflows -->
-	<class name="com.opensymphony.workflow.loader.WorkflowName" >
+	<class name="com.opensymphony.workflow.spi.hibernate.WorkflowName" >
 		<id name="workflowName" unsaved-value="any">
 			<generator class="assigned"/>
 		</id>

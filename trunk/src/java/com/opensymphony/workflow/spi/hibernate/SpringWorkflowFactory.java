@@ -2,9 +2,10 @@
  * Copyright (c) 2002-2003 by OpenSymphony
  * All rights reserved.
  */
-package com.opensymphony.workflow.loader;
+package com.opensymphony.workflow.spi.hibernate;
 
 import com.opensymphony.workflow.FactoryException;
+import com.opensymphony.workflow.loader.XMLWorkflowFactory;
 
 import java.util.Properties;
 

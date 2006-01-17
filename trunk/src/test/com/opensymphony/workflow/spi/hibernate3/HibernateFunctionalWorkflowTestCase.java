@@ -42,7 +42,7 @@ public class HibernateFunctionalWorkflowTestCase extends AbstractFunctionalWorkf
         session = factory3.openSession();
 
         Configuration config = new DefaultConfiguration();
-        config.load(getClass().getResource("/new-osworkflow-hibernate3.xml"));
+        config.load(getClass().getResource("/osworkflow-hibernate3.xml"));
         config.getPersistenceArgs().put("session", session);
         config.getPersistenceArgs().put("propertySetDelegate", new PropertySetDelegateImpl());
 
