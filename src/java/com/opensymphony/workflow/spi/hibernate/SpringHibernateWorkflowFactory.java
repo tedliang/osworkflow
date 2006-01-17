@@ -8,16 +8,16 @@
  * To change the template for this generated file go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
-package com.opensymphony.workflow.loader;
+package com.opensymphony.workflow.spi.hibernate;
 
 import com.opensymphony.workflow.FactoryException;
 import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
+import com.opensymphony.workflow.loader.AbstractWorkflowFactory;
+import com.opensymphony.workflow.loader.WorkflowDescriptor;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
-
-import org.springframework.dao.DataAccessException;
 
 import org.springframework.orm.hibernate.HibernateCallback;
 import org.springframework.orm.hibernate.HibernateTemplate;
@@ -34,7 +34,7 @@ import java.util.Map;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision$
+ * @version $Revision: 1.1 $
  */
 public class SpringHibernateWorkflowFactory extends AbstractWorkflowFactory {
     //~ Static fields/initializers /////////////////////////////////////////////

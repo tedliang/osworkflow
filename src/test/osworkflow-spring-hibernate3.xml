@@ -52,7 +52,7 @@
 		
 	<bean id="workflowTypeResolver" class="com.opensymphony.workflow.util.SpringTypeResolver"/>
 	
-	<bean id="workflowFactory" class="com.opensymphony.workflow.loader.SpringWorkflowFactory" init-method="init">
+	<bean id="workflowFactory" class="com.opensymphony.workflow.spi.hibernate.SpringWorkflowFactory" init-method="init">
         <property name="resource"><value>spring-workflows.xml</value></property>
         <property name="reload"><value>false</value></property>
 	</bean>

@@ -18,7 +18,7 @@
 		<property name="dataSource"><ref local="dataSource"/></property>
 		<property name="mappingResources">
 			<list>
-				<value>com/opensymphony/workflow/loader/WorkflowDescriptor.hbm.xml</value>
+				<value>com/opensymphony/workflow/spi/hibernate/WorkflowDescriptor.hbm.xml</value>
 				<value>com/opensymphony/workflow/spi/hibernate/HibernateCurrentStep.hbm.xml</value>
 				<value>com/opensymphony/workflow/spi/hibernate/HibernateHistoryStep.hbm.xml</value>
 				<value>com/opensymphony/workflow/spi/hibernate/HibernateWorkflowEntry.hbm.xml</value>				
@@ -44,7 +44,7 @@
 		<property name="sessionFactory"><ref local="sessionFactory"/></property>
 	</bean-->
 
-	<bean id="xmlWorkflowFactory" class="com.opensymphony.workflow.loader.SpringWorkflowFactory" init-method="init">
+	<bean id="xmlWorkflowFactory" class="com.opensymphony.workflow.spi.hibernate.SpringWorkflowFactory" init-method="init">
         <property name="resource"><value>spring-workflows.xml</value></property>
         <property name="reload"><value>false</value></property>
 	</bean>
@@ -60,7 +60,7 @@
 		
 	<bean id="workflowTypeResolver" class="com.opensymphony.workflow.util.SpringTypeResolver"/>
 	
-	<bean id="workflowFactory" class="com.opensymphony.workflow.loader.SpringHibernateWorkflowFactory" init-method="initDone">
+	<bean id="workflowFactory" class="com.opensymphony.workflow.spi.hibernate.SpringHibernateWorkflowFactory" init-method="initDone">
 		<property name="sessionFactory"><ref bean="sessionFactory"/></property>
         <property name="reload"><value>true</value></property>
         <property name="validate"><value>false</value></property>

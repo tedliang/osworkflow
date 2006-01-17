@@ -21,10 +21,10 @@ import org.springframework.core.io.ClassPathResource;
  *
  * @author Luca Masini (l.masini@infogroup.it)
  */
-public class NewSpringHibernateLoaderFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
+public class SpringHibernateLoaderFunctionalWorkflowTestCase extends AbstractFunctionalWorkflowTest {
     //~ Constructors ///////////////////////////////////////////////////////////
 
-    public NewSpringHibernateLoaderFunctionalWorkflowTestCase(String s) {
+    public SpringHibernateLoaderFunctionalWorkflowTestCase(String s) {
         super(s);
     }
 
@@ -34,7 +34,7 @@ public class NewSpringHibernateLoaderFunctionalWorkflowTestCase extends Abstract
         super.setUp();
         DatabaseHelper.runScript("", "jdbc/CreateDS");
 
-        XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("new-osworkflow-spring-hibernate-loader.xml"));
+        XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("osworkflow-spring-hibernate-loader.xml"));
         WorkflowFactory oldFactory = (WorkflowFactory) beanFactory.getBean("xmlWorkflowFactory");
         WorkflowDescriptor wfd = oldFactory.getWorkflow(getWorkflowName());
 

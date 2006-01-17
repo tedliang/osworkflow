@@ -2,9 +2,11 @@
  * Copyright (c) 2002-2003 by OpenSymphony
  * All rights reserved.
  */
-package com.opensymphony.workflow.loader;
+package com.opensymphony.workflow.spi.hibernate;
 
 import com.opensymphony.workflow.InvalidWorkflowDescriptorException;
+import com.opensymphony.workflow.loader.WorkflowDescriptor;
+import com.opensymphony.workflow.loader.WorkflowLoader;
 
 import org.springframework.beans.factory.FactoryBean;
 

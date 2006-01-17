@@ -32,7 +32,7 @@ public class SpringHibernateFunctionalWorkflowTestCase extends AbstractFunctiona
         super.setUp();
         DatabaseHelper.runScript("", "jdbc/CreateDS");
 
-        XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("new-osworkflow-spring-hibernate3.xml"));
+        XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("osworkflow-spring-hibernate3.xml"));
 
         workflow = (Workflow) beanFactory.getBean("workflow");
         workflow.setConfiguration((Configuration) beanFactory.getBean("osworkflowConfiguration"));
