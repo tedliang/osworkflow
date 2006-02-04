@@ -28,7 +28,7 @@
     <property name="propertyset.version" value="1.4"/>
     <property name="propertyset.jar" value="propertyset-${propertyset.version}.jar"/>
     <property name="propertyset-ejb.jar" value="propertyset-ejb-${propertyset.version}.jar"/>
-    <property name="oscore.jar" value="oscore-2.2.2.jar"/>
+    <property name="oscore.jar" value="oscore-2.2.5.jar"/>
     <property name="build.client" value="${build}/designer"/>
 
     <property name="dist.client" value="${dist}/designer"/>
