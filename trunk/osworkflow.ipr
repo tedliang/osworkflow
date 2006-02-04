@@ -314,6 +314,7 @@
     <option enabled="false" />
   </component>
   <component name="WebRootContainer" />
+  <component name="XSLT-Support.FileAssociationsManager" />
   <component name="libraryTable">
     <library name="xfire">
       <CLASSES>
