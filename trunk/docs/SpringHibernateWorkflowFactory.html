@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+        SpringHibernateWorkflowFactory
+         </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <p>The <b>com.opensymphony.workflow.spi.hibernate.SpringHibernateWorkflowFactory</b> is a workflow factory that allows definitions to be stored in a relational DB. Compared to <b>JDBCWorkflowFactory</b> this doesn't persist the descriptor in a binary column. Instead a normalised form of the workflow descriptor is saved.</p>
+
+<p>This way it's possible to create and modify workflows in the database using traditional relational tools. For example a workflow defined in a legacy system (an OS/390 Mainframe) that need to be modified and reloaded without user intervention.</p>
+
+<p>Exporting a flow from the mainframe and importing it into the Factory tables will do the work.</p>
+
+<p>The current implementation requires both Spring and hibernate to be in use. Change your Spring definition file to point to the new factory and to add the new Hibernate mapping file:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;bean id=<span class="code-quote">"sessionFactory"</span> class=<span class="code-quote">"org.springframework.orm.hibernate.LocalSessionFactoryBean"</span>&gt;</span>
+  <span class="code-tag">&lt;property name=<span class="code-quote">"dataSource"</span>&gt;</span><span class="code-tag">&lt;ref local=<span class="code-quote">"dataSource"</span>/&gt;</span><span class="code-tag">&lt;/property&gt;</span>
+  <span class="code-tag">&lt;property name=<span class="code-quote">"mappingResources"</span>&gt;</span>
+    <span class="code-tag">&lt;list&gt;</span>
+        <span class="code-tag">&lt;value&gt;</span>com/opensymphony/workflow/spi/hibernate/WorkflowDescriptor.hbm.xml<span class="code-tag">&lt;/value&gt;</span>
+        <span class="code-tag">&lt;value&gt;</span>com/opensymphony/workflow/spi/hibernate/HibernateCurrentStep.hbm.xml<span class="code-tag">&lt;/value&gt;</span>
+        <span class="code-tag">&lt;value&gt;</span>com/opensymphony/workflow/spi/hibernate/HibernateHistoryStep.hbm.xml<span class="code-tag">&lt;/value&gt;</span>
+        <span class="code-tag">&lt;value&gt;</span>com/opensymphony/workflow/spi/hibernate/HibernateWorkflowEntry.hbm.xml<span class="code-tag">&lt;/value&gt;</span>				
+        <span class="code-tag">&lt;value&gt;</span>com/opensymphony/module/propertyset/hibernate/PropertySetItemImpl.hbm.xml<span class="code-tag">&lt;/value&gt;</span>
+  <span class="code-tag">&lt;/list&gt;</span>
+  <span class="code-tag">&lt;/property&gt;</span>
+  <span class="code-tag">&lt;property name=<span class="code-quote">"hibernateProperties"</span>&gt;</span>
+    <span class="code-tag">&lt;props&gt;</span>
+        <span class="code-tag">&lt;prop key=<span class="code-quote">"hibernate.dialect"</span>&gt;</span>net.sf.hibernate.dialect.MckoiDialect<span class="code-tag">&lt;/prop&gt;</span>
+        <span class="code-tag">&lt;prop key=<span class="code-quote">"hibernate.show_sql"</span>&gt;</span>false<span class="code-tag">&lt;/prop&gt;</span>
+        <span class="code-tag">&lt;prop key=<span class="code-quote">"hibernate.hbm2ddl.auto"</span>&gt;</span>create-drop<span class="code-tag">&lt;/prop&gt;</span>
+    <span class="code-tag">&lt;/props&gt;</span>
+  <span class="code-tag">&lt;/property&gt;</span>
+<span class="code-tag">&lt;/bean&gt;</span></pre>
+</div></div> 
+
+<p>and then replace the workflowFactory definition:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;bean id=<span class="code-quote">"workflowFactory"</span> class=<span class="code-quote">"com.opensymphony.workflow.spi.hibernate.SpringHibernateWorkflowFactory"</span> init-method=<span class="code-quote">"initDone"</span>&gt;</span>
+    <span class="code-tag">&lt;property name=<span class="code-quote">"sessionFactory"</span>&gt;</span><span class="code-tag">&lt;ref bean=<span class="code-quote">"sessionFactory"</span>/&gt;</span><span class="code-tag">&lt;/property&gt;</span>
+    <span class="code-tag">&lt;property name=<span class="code-quote">"reload"</span>&gt;</span><span class="code-tag">&lt;value&gt;</span>true<span class="code-tag">&lt;/value&gt;</span><span class="code-tag">&lt;/property&gt;</span>
+    <span class="code-tag">&lt;property name=<span class="code-quote">"validate"</span>&gt;</span><span class="code-tag">&lt;value&gt;</span>false<span class="code-tag">&lt;/value&gt;</span><span class="code-tag">&lt;/property&gt;</span>
+  <span class="code-tag">&lt;/bean&gt;</span></pre>
+</div></div> 
+
+<h3><a name="SpringHibernateWorkflowFactory-Creatinganexampleofthepopulatedtables">Creating an example of the populated tables</a></h3>
+
+<p>It's sufficient to read an existing osworkflow definition file and then persist it on the DB tables using <b>Hibernate</b> save. This way all tables will be correctly populated and you will have a live working example of the Factory.</p>
+
+<h3><a name="SpringHibernateWorkflowFactory-Versioning">Versioning</a></h3>
+
+<p>There isn't automatic support for workflow versioning, but updating the reference from the <b>WorkflowName</b> table will be sufficient for most versioning needs. Doing so enables you to have all the previous <em>WorfklowDescriptors</em> and only one active (the one pointed by <b>WorkflowName</b>).</p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>
