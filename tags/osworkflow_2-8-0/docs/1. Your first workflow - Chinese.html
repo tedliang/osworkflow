@@ -1,0 +1,277 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Your first workflow - Chinese
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <p>h3 创建描述符 </p>
+
+<p>首先，让我们来定义工作流。你可以使用任何名字来命名工作流。一个工作流对应一个XML格式的定义文件。让我们来开始新建一个“myworkflow.xml”的文件，这是样板文件：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;?xml version=<span class="code-quote">"1.0"</span> encoding=<span class="code-quote">"UTF-8"</span>?&gt;</span>
+&lt;!DOCTYPE workflow PUBLIC 
+  <span class="code-quote">"-//OpenSymphony Group//DTD OSWorkflow 2.7//EN"</span>
+  <span class="code-quote">"http://www.opensymphony.com/osworkflow/workflow_2_7.dtd"</span>&gt;
+<span class="code-tag">&lt;workflow&gt;</span>
+  <span class="code-tag">&lt;initial-actions&gt;</span>
+    ...
+  <span class="code-tag">&lt;/initial-actions&gt;</span>
+  <span class="code-tag">&lt;steps&gt;</span>
+    ...
+  <span class="code-tag">&lt;/steps&gt;</span>
+<span class="code-tag">&lt;/workflow&gt;</span></pre>
+</div></div>
+
+<p>首先是标准的XML头部，要注意的是OSWorkflow将会通过这些指定的DTD来验证XML内容的合法性。你可以使用绝大多数的XML编辑工具来编辑它，并且可以highlight相应的错误。</p>
+
+<p>h3 步骤和动作</p>
+
+<p>接下来我们来定义初始化动作和步骤。首先需要理解的OSWorkflow重要概念是steps （步骤） 和 actions （动作）。一个步骤是工作流所处的位置，比如一个简单的工作流过程，它可能从一个步骤流转到另外一个步骤（或者有时候还是停留在一样的步骤）。举例来说，一个文档管理系统的流程，它的步骤名称可能有“First Draft - 草案初稿”，“Edit Stage -编辑阶段”，“At publisher - 出版商”等。</p>
+
+<p>动作指定了可能发生在步骤内的转变，通常会导致步骤的变更。在我们的文件管理系统中，在“草案初稿”这个步骤可能有“start first draft - 开始草案初稿”和“complete first draft - 完成草案初稿”这样2个动作。</p>
+
+<p>简单的说，步骤是“在哪里”，动作是“可以去哪里”。</p>
+
+<p>初始化步骤是一种特殊类型的步骤，它用来启动工作流。在一个工作流程开始前，它是没有状态，不处在任何一个步骤，用户必须采取某些动作才能开始这个流程。这些特殊步骤被定义在 &lt;initial-actions&gt;。</p>
+
+<p>在我们的例子里面，假定只有一个简单的初始化步骤：“Start Workflow”，它的定义在里面&lt;initial-actions&gt;：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;action id=<span class="code-quote">"1"</span> name=<span class="code-quote">"Start Workflow"</span>&gt;</span>
+  <span class="code-tag">&lt;results&gt;</span>
+    <span class="code-tag">&lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> status=<span class="code-quote">"Queued"</span> step=<span class="code-quote">"1"</span>/&gt;</span>
+  <span class="code-tag">&lt;/results&gt;</span>
+<span class="code-tag">&lt;/action&gt;</span></pre>
+</div></div>
+
+<p>这个动作是最简单的类型，只是简单地指明了下一个我们要去的步骤和状态。</p>
+
+<p>h3 工作流状态</p>
+
+<p>工作流状态是一个用来描述工作流程中具体步骤状态的字符串。在我们的文档管理系统中，在“草案初稿”这个步骤可能有2个不同的状态：“Underway - 进行中”和“Queued - 等候处理中”</p>
+
+<p>我们使用“Queued”指明这个条目已经被排入“First Draft”步骤的队列。比如说某人请求编写某篇文档，但是还没有指定作者，那么这个文档在“First Draft”步骤的状态就是“Queued”。“Underway”状态被用来指明一个作者已经挑选了一篇文档开始撰写，而且可能正在锁定这篇文档。</p>
+
+<p>h3 第一个步骤</p>
+
+<p>让我们来看第一个步骤是怎样被定义在&lt;steps&gt;元素中的。我们有2个动作：第一个动作是保持当前步骤不变，只是改变了状态到“Underway”，第二个动作是移动到工作流的下一步骤。我们来添加如下的内容到&lt;steps&gt;元素：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;step id=<span class="code-quote">"1"</span> name=<span class="code-quote">"First Draft"</span>&gt;</span>
+  <span class="code-tag">&lt;actions&gt;</span>
+    <span class="code-tag">&lt;action id=<span class="code-quote">"1"</span> name=<span class="code-quote">"Start First Draft"</span>&gt;</span>
+      <span class="code-tag">&lt;results&gt;</span>
+        <span class="code-tag">&lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> status=<span class="code-quote">"Underway"</span> step=<span class="code-quote">"1"</span>/&gt;</span>
+      <span class="code-tag">&lt;/results&gt;</span>
+    <span class="code-tag">&lt;/action&gt;</span>
+    <span class="code-tag">&lt;action id=<span class="code-quote">"2"</span> name=<span class="code-quote">"Finish First Draft"</span>&gt;</span>
+      <span class="code-tag">&lt;results&gt;</span>
+        <span class="code-tag">&lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> status=<span class="code-quote">"Queued"</span> step=<span class="code-quote">"2"</span>/&gt;</span>
+      <span class="code-tag">&lt;/results&gt;</span>
+    <span class="code-tag">&lt;/action&gt;</span>
+  <span class="code-tag">&lt;/actions&gt;</span>
+<span class="code-tag">&lt;/step&gt;</span>
+<span class="code-tag">&lt;step id=<span class="code-quote">"2"</span> name=<span class="code-quote">"finished"</span> /&gt;</span></pre>
+</div></div>
+
+<p>这样我们就定义了2个动作，old-status属性是用来指明当前步骤完成以后的状态是什么，在大多数的应用中，通常用"Finished"表示。</p>
+
+<p>上面定义的这2个动作是没有任何限制的。比如，一个用户可以调用action 2而不用先调用action 1。很明显的，我们如果没有开始撰写草稿，是不可能去完成一个草稿的。同样的，上面的定义也允许你开始撰写草稿多次，这也是毫无意义的。我们也没有做任何的处理去限制其他用户完成别人的草稿。这些都应该需要想办法避免。</p>
+
+<p>让我们来一次解决这些问题。首先，我们需要指定只有工作流的状态为“Queued”的时候，一个caller （调用者）才能开始撰写草稿的动作。这样就可以阻止其他用户多次调用开始撰写草稿的动作。我们需要指定动作的约束，约束是由Condition（条件）组成。</p>
+
+<p>h3 条件</p>
+
+<p>OSWorkflow 有很多有用的内置条件可以使用。在此相关的条件是“StatusCondition - 状态条件”。 条件也可以接受参数，参数的名称通常被定义在javadocs里（如果是使用Java Class实现的条件的话）。在这个例子里面，状态条件接受一个名为“status”的参数，指明了需要检查的状态条件。我们可以从下面的xml定义里面清楚的理解：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;action id=<span class="code-quote">"1"</span> name=<span class="code-quote">"Start First Draft"</span>&gt;</span>
+  <span class="code-tag">&lt;restrict-to&gt;</span>
+    <span class="code-tag">&lt;conditions&gt;</span>
+      <span class="code-tag">&lt;condition type=<span class="code-quote">"class"</span>&gt;</span>
+        <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>
+          com.opensymphony.workflow.util.StatusCondition
+        <span class="code-tag">&lt;/arg&gt;</span>
+        <span class="code-tag">&lt;arg name=<span class="code-quote">"status"</span>&gt;</span>Queued<span class="code-tag">&lt;/arg&gt;</span>
+      <span class="code-tag">&lt;/condition&gt;</span>
+    <span class="code-tag">&lt;/conditions&gt;</span>
+  <span class="code-tag">&lt;/restrict-to&gt;</span>
+  <span class="code-tag">&lt;results&gt;</span>
+    <span class="code-tag">&lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> status=<span class="code-quote">"Underway"</span> step=<span class="code-quote">"1"</span>/&gt;</span>
+  <span class="code-tag">&lt;/results&gt;</span>
+<span class="code-tag">&lt;/action&gt;</span></pre>
+</div></div>
+
+<p>希望对于条件的理解现在已经清楚了。上面的条件定义保证了动作1只能在当前状态为“Queued”的时候才能被调用，也就是说在初始化动作被调用以后。</p>
+
+<p>h3  函数</p>
+
+<p>接下来，我们想在一个用户开始撰写草稿以后，设置他为“owner”。为了达到这样的目的，我们需要做2件事情：</p>
+
+<p>1) 通过一个函数设置“caller”变量在当前的环境设置里。<br/>
+2) 根据“caller”变量来设置“owner”属性。</p>
+
+<p>函数是OSWorkflow的一个功能强大的特性。函数基本上是一个在工作流程中的工作单位，他不会影响到流程本身。举例来说，你可能有一个“SendEmail”的函数，用来在某些特定的流程流转发生时来发送email提醒。</p>
+
+<p>函数也可以用来添加变量到当前的环境设置里。变量是一个指定名称的对象，可以用来在工作流中被以后的函数或者脚本使用。</p>
+
+<p>OSWorkflow提供了一些内置的常用函数。其中一个称为“Caller”，这个函数会获得当前调用工作流的用户，并把它放入一个名为“caller”的字符型变量中。</p>
+
+<p>因为我们需要追踪是哪个用户开始了编写草稿，所以可以使用这个函数来修改我们的动作定义：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;action id=<span class="code-quote">"1"</span> name=<span class="code-quote">"Start First Draft"</span>&gt;</span>
+  <span class="code-tag">&lt;pre-functions&gt;</span>
+    <span class="code-tag">&lt;function type=<span class="code-quote">"class"</span>&gt;</span>
+      <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>com.opensymphony.workflow.util.Caller<span class="code-tag">&lt;/arg&gt;</span>
+    <span class="code-tag">&lt;/function&gt;</span>
+  <span class="code-tag">&lt;/pre-functions&gt;</span>
+  <span class="code-tag">&lt;results&gt;</span>
+    &lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> status=<span class="code-quote">"Underway"</span> 
+                                       step=<span class="code-quote">"1"</span> owner=<span class="code-quote">"${caller}"</span>/&gt;
+  <span class="code-tag">&lt;/results&gt;</span>
+<span class="code-tag">&lt;/action&gt;</span></pre>
+</div></div>
+
+<p>h3 组合起来<br/>
+把这些概念都组合起来，这样我们就有了动作1：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;action id=<span class="code-quote">"1"</span> name=<span class="code-quote">"Start First Draft"</span>&gt;</span>
+  <span class="code-tag">&lt;restrict-to&gt;</span>
+    <span class="code-tag">&lt;conditions&gt;</span>
+      <span class="code-tag">&lt;condition type=<span class="code-quote">"class"</span>&gt;</span>
+        <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>
+                com.opensymphony.workflow.util.StatusCondition
+        <span class="code-tag">&lt;/arg&gt;</span>
+        <span class="code-tag">&lt;arg name=<span class="code-quote">"status"</span>&gt;</span>Queued<span class="code-tag">&lt;/arg&gt;</span>
+      <span class="code-tag">&lt;/condition&gt;</span>
+    <span class="code-tag">&lt;/conditions&gt;</span>
+  <span class="code-tag">&lt;/restrict-to&gt;</span>
+  <span class="code-tag">&lt;pre-functions&gt;</span>
+    <span class="code-tag">&lt;function type=<span class="code-quote">"class"</span>&gt;</span>
+      <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>
+              com.opensymphony.workflow.util.Caller
+      <span class="code-tag">&lt;/arg&gt;</span>
+    <span class="code-tag">&lt;/function&gt;</span>
+  <span class="code-tag">&lt;/pre-functions&gt;</span>
+  <span class="code-tag">&lt;results&gt;</span>
+    &lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> status=<span class="code-quote">"Underway"</span> 
+                                       step=<span class="code-quote">"1"</span>  owner=<span class="code-quote">"${caller}"</span>/&gt;
+  <span class="code-tag">&lt;/results&gt;</span>
+<span class="code-tag">&lt;/action&gt;</span></pre>
+</div></div>
+
+
+<p>我们使用类似想法来设置动作2：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;action id=<span class="code-quote">"2"</span> name=<span class="code-quote">"Finish First Draft"</span>&gt;</span>
+  <span class="code-tag">&lt;restrict-to&gt;</span>
+    <span class="code-tag">&lt;conditions type=<span class="code-quote">"AND"</span>&gt;</span>
+      <span class="code-tag">&lt;condition type=<span class="code-quote">"class"</span>&gt;</span>
+        &lt;arg 
+        name=<span class="code-quote">"class.name"</span>&gt;com.opensymphony.workflow.util.StatusCondition
+        <span class="code-tag">&lt;/arg&gt;</span>
+        <span class="code-tag">&lt;arg name=<span class="code-quote">"status"</span>&gt;</span>Underway<span class="code-tag">&lt;/arg&gt;</span>
+      <span class="code-tag">&lt;/condition&gt;</span>
+      <span class="code-tag">&lt;condition type=<span class="code-quote">"class"</span>&gt;</span>
+        <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>
+              com.opensymphony.workflow.util.AllowOwnerOnlyCondition
+       <span class="code-tag">&lt;/arg&gt;</span>
+      <span class="code-tag">&lt;/condition&gt;</span>
+    <span class="code-tag">&lt;/conditions&gt;</span>
+  <span class="code-tag">&lt;/restrict-to&gt;</span>
+  <span class="code-tag">&lt;results&gt;</span>
+    <span class="code-tag">&lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> status=<span class="code-quote">"Queued"</span> step=<span class="code-quote">"2"</span>/&gt;</span>
+  <span class="code-tag">&lt;/results&gt;</span>
+<span class="code-tag">&lt;/action&gt;</span></pre>
+</div></div>
+
+<p>在这里我们指定了一个新的条件：“allow owner only”。这样能够保证只有开始撰写这份草稿的用户才能完成它。而状态条件确保了只有在“Underway”状态下的流程才能调用“finish first draft”动作。</p>
+
+<p>把他们组合在一起，我们就有了第一个流程定义：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;?xml version=<span class="code-quote">"1.0"</span> encoding=<span class="code-quote">"UTF-8"</span>?&gt;</span>
+&lt;!DOCTYPE workflow PUBLIC 
+                 <span class="code-quote">"-//OpenSymphony Group//DTD OSWorkflow 2.7//EN"</span>
+                 <span class="code-quote">"http://www.opensymphony.com/osworkflow/workflow_2_7.dtd"</span>&gt;
+<span class="code-tag">&lt;workflow&gt;</span>
+  <span class="code-tag">&lt;initial-actions&gt;</span>
+    <span class="code-tag">&lt;action id=<span class="code-quote">"1"</span> name=<span class="code-quote">"Start Workflow"</span>&gt;</span>
+      <span class="code-tag">&lt;results&gt;</span>
+        <span class="code-tag">&lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> status=<span class="code-quote">"Queued"</span> step=<span class="code-quote">"1"</span>/&gt;</span>
+      <span class="code-tag">&lt;/results&gt;</span>
+    <span class="code-tag">&lt;/action&gt;</span>
+  <span class="code-tag">&lt;/initial-actions&gt;</span>
+  <span class="code-tag">&lt;steps&gt;</span>
+    <span class="code-tag">&lt;step id=<span class="code-quote">"1"</span> name=<span class="code-quote">"First Draft"</span>&gt;</span>
+      <span class="code-tag">&lt;actions&gt;</span>
+        <span class="code-tag">&lt;action id=<span class="code-quote">"1"</span> name=<span class="code-quote">"Start First Draft"</span>&gt;</span>
+          <span class="code-tag">&lt;restrict-to&gt;</span>
+            <span class="code-tag">&lt;conditions&gt;</span>
+              <span class="code-tag">&lt;condition type=<span class="code-quote">"class"</span>&gt;</span>
+                <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>
+                   com.opensymphony.workflow.util.StatusCondition
+                <span class="code-tag">&lt;/arg&gt;</span>
+                <span class="code-tag">&lt;arg name=<span class="code-quote">"status"</span>&gt;</span>Queued<span class="code-tag">&lt;/arg&gt;</span>
+              <span class="code-tag">&lt;/condition&gt;</span>
+            <span class="code-tag">&lt;/conditions&gt;</span>
+          <span class="code-tag">&lt;/restrict-to&gt;</span>
+          <span class="code-tag">&lt;pre-functions&gt;</span>
+            <span class="code-tag">&lt;function type=<span class="code-quote">"class"</span>&gt;</span>
+              <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>
+                 com.opensymphony.workflow.util.Caller
+              <span class="code-tag">&lt;/arg&gt;</span>
+            <span class="code-tag">&lt;/function&gt;</span>
+          <span class="code-tag">&lt;/pre-functions&gt;</span>
+          <span class="code-tag">&lt;results&gt;</span>
+            &lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> status=<span class="code-quote">"Underway"</span> 
+                                           step=<span class="code-quote">"1"</span>  owner=<span class="code-quote">"${caller}"</span>/&gt;
+          <span class="code-tag">&lt;/results&gt;</span>
+        <span class="code-tag">&lt;/action&gt;</span>
+        <span class="code-tag">&lt;action id=<span class="code-quote">"2"</span> name=<span class="code-quote">"Finish First Draft"</span>&gt;</span>
+          <span class="code-tag">&lt;restrict-to&gt;</span>
+            <span class="code-tag">&lt;conditions type=<span class="code-quote">"AND"</span>&gt;</span>
+              <span class="code-tag">&lt;condition type=<span class="code-quote">"class"</span>&gt;</span>
+                <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>
+                    com.opensymphony.workflow.util.StatusCondition
+                <span class="code-tag">&lt;/arg&gt;</span>
+                <span class="code-tag">&lt;arg name=<span class="code-quote">"status"</span>&gt;</span>Underway<span class="code-tag">&lt;/arg&gt;</span>
+              <span class="code-tag">&lt;/condition&gt;</span>
+              <span class="code-tag">&lt;condition type=<span class="code-quote">"class"</span>&gt;</span>
+                <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>
+                  com.opensymphony.workflow.util.AllowOwnerOnlyCondition
+                <span class="code-tag">&lt;/arg&gt;</span>
+              <span class="code-tag">&lt;/condition&gt;</span>
+            <span class="code-tag">&lt;/conditions&gt;</span>
+          <span class="code-tag">&lt;/restrict-to&gt;</span>
+          <span class="code-tag">&lt;results&gt;</span>
+            <span class="code-tag">&lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> status=<span class="code-quote">"Queued"</span> step=<span class="code-quote">"2"</span>/&gt;</span>
+          <span class="code-tag">&lt;/results&gt;</span>
+        <span class="code-tag">&lt;/action&gt;</span>
+      <span class="code-tag">&lt;/actions&gt;</span>
+    <span class="code-tag">&lt;/step&gt;</span>
+    <span class="code-tag">&lt;step id=<span class="code-quote">"2"</span> name=<span class="code-quote">"finished"</span> /&gt;</span>
+  <span class="code-tag">&lt;/steps&gt;</span>
+<span class="code-tag">&lt;/workflow&gt;</span></pre>
+</div></div>
+
+<p>现在这个工作流的定义已经完整了，让我们来测试和检查它的运行。</p>
+
+<p>阅读 <a href="2. Testing your workflow - Chinese.html" title="2. Testing your workflow - Chinese">2. Testing your workflow - Chinese</a>.</p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

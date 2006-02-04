@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="com/opensymphony/workflow/ejb/|com/opensymphony/workflow/spi/ejb/" output="build/java" kind="src" path="src/java"/>
+	<classpathentry output="build/designer" kind="src" path="src/designer"/>
+	<classpathentry output="build/test" kind="src" path="src/test"/>
+	<classpathentry kind="lib" path="lib/build/log4j-1.2.8.jar"/>
+	<classpathentry kind="lib" path="lib/optional/dom4j-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/optional/commons-lang-2.0.jar"/>
+	<classpathentry kind="lib" path="lib/optional/commons-collections-2.1.jar"/>
+	<classpathentry kind="lib" path="lib/build/jalopy/jalopy-ant-0.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/build/jta.jar"/>
+	<classpathentry kind="lib" path="lib/optional/servlet.jar"/>
+	<classpathentry kind="lib" path="lib/build/xdoclet/commons-collections-2.0.jar"/>
+	<classpathentry kind="lib" path="lib/optional/jta.jar"/>
+	<classpathentry kind="lib" path="lib/designer/forms.jar"/>
+	<classpathentry kind="lib" path="lib/designer/jgraph.jar"/>
+	<classpathentry kind="lib" path="lib/optional/ofbcore-entity.jar"/>
+	<classpathentry kind="lib" path="lib/build/junit-3.8.1.jar"/>
+	<classpathentry kind="lib" path="lib/optional/bsf.jar"/>
+	<classpathentry kind="lib" path="lib/optional/commons-dbcp.jar"/>
+	<classpathentry kind="lib" path="lib/optional/activation.jar"/>
+	<classpathentry kind="lib" path="lib/optional/cglib2.jar"/>
+	<classpathentry kind="lib" path="lib/optional/webwork.jar"/>
+	<classpathentry kind="lib" path="lib/build/jalopy/aelfred-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/designer/foxtrot.jar"/>
+	<classpathentry kind="lib" path="lib/build/jalopy/oro-2.0.6.jar"/>
+	<classpathentry kind="lib" path="lib/core/commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/optional/xwork-1.0-beta2.jar"/>
+	<classpathentry kind="lib" path="lib/optional/commons-beanutils-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/build/simple-jndi.jar"/>
+	<classpathentry kind="lib" path="lib/optional/quartz.jar"/>
+	<classpathentry kind="lib" path="lib/build/jalopy/jalopy-1.0b10.jar"/>
+	<classpathentry kind="lib" path="lib/build/mckoidb.jar"/>
+	<classpathentry kind="lib" path="lib/designer/syntax.jar"/>
+	<classpathentry kind="lib" path="lib/optional/glue_stub.jar"/>
+	<classpathentry kind="lib" path="lib/optional/ofbcore-share.jar"/>
+	<classpathentry kind="lib" path="lib/optional/jnet.jar"/>
+	<classpathentry kind="lib" path="lib/optional/db-ojb-1.0.rc4.jar"/>
+	<classpathentry kind="lib" path="lib/optional/mail.jar"/>
+	<classpathentry kind="lib" path="lib/optional/jdbc.jar"/>
+	<classpathentry kind="lib" path="lib/build/jalopy/log4j-1.2.6.jar"/>
+	<classpathentry kind="lib" path="lib/optional/ehcache.jar"/>
+	<classpathentry kind="lib" path="lib/optional/bsh-1.2b7.jar"/>
+	<classpathentry kind="lib" path="lib/build/jalopy/jdom-1.0b8.jar"/>
+	<classpathentry kind="lib" path="lib/optional/commons-pool.jar"/>
+	<classpathentry kind="lib" path="lib/build/xmlunit1.0.jar"/>
+	<classpathentry kind="lib" path="lib/designer/looks.jar"/>
+	<classpathentry kind="lib" path="lib/optional/ejb.jar"/>
+	<classpathentry kind="lib" path="lib/optional/jms.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/core/oscore-2.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/optional/prevayler2.00.001alpha.jar"/>
+	<classpathentry kind="lib" path="lib/optional/velocity-dep-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/optional/hibernate-2.1.7c.jar"/>
+	<classpathentry kind="lib" path="lib/optional/osuser-1.0-dev-2Feb05.jar"/>
+	<classpathentry kind="lib" path="lib/optional/hibernate3.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/optional/spring-1.2.5.jar"/>
+	<classpathentry kind="lib" path="lib/core/propertyset-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/optional/propertyset-hibernate-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/optional/xfire/xfire-aegis.jar"/>
+	<classpathentry kind="lib" path="lib/optional/xfire/xfire-core.jar"/>
+	<classpathentry kind="output" path="build/test"/>
+</classpath>

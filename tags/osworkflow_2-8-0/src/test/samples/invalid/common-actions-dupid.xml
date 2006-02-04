@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.7//EN" "http://www.opensymphony.com/osworkflow/workflow_2_7.dtd">
+<workflow>
+	<initial-actions>
+		<action id="1" name="Start Workflow">
+			<results>
+				<unconditional-result old-status="Finished" status="Underway" step="1" owner="${caller}" />
+			</results>
+		</action>
+	</initial-actions>
+
+	<common-actions>
+		<action id="100" name="Restart Workflow">
+			<results>
+				<unconditional-result step="1" old-status="Restarted" status="Underway" owner="bob" />
+			</results>
+		</action>
+		<action id="101" name="Hose Workflow">
+			<results>
+				<unconditional-result step="-1" old-status="Hosed" status="Corrupt" owner="evil bob" />
+			</results>
+		</action>
+	</common-actions>
+		
+	<steps>
+		<step id="1" name="First Draft">
+			<actions>
+				<!-- these should reference the common-actions above! -->
+				<common-action id="100" />
+				<action id="101" name="Finish First Draft">
+					<results>
+						<unconditional-result old-status="Finished" status="Underway" step="2" />
+					</results>
+				</action>				
+			</actions>
+		</step>
+  </steps>
+</workflow>

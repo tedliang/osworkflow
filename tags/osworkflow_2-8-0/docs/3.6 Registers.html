@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Registers
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="3.5 Validators.html" title="3.5 Validators">3.5 Validators</a></li>
+	<li>Forward to <a href="3.7 Conditions.html" title="3.7 Conditions">3.7 Conditions</a></li>
+</ul>
+
+
+<p>A register in OSWorkflow is a runtime field that can be dynamically registered in the workflow definition file.</p>
+
+<p>Registers are useful in a number of situations. For example, you might want to provide easy access to the entity that is progressing through the workflow (separate from the actual workflow itself) to the workflow descriptor. In this case, you would define a register that encapsulates this entity. If this entity happens to be a local session EJB, you could use the <b>com.opensymphony.workflow.util.ejb.local.LocalEJBRegister</b> register class to make this entity available. Later on in a particular post-function, you will have access to the entity, and can call any of its methods through a beanshell script, for example.</p>
+
+<p>Registers, just like <a href="3.5 Validators.html" title="3.5 Validators">3.5 Validators</a> and <a href="3.4 Functions.html" title="3.4 Functions">3.4 Functions</a>, can be implemented using three different forms: <b>Java-based</b>, <b>BeanShell</b>, and <b>BSF</b>.</p>
+
+<h3><a name="3.6Registers-Javabased">Java-based</a></h3>
+
+<p>Java-based registers must implement the <b>com.opensymphony.workflow.Register</b> interface (or in the case of <b>remote-ejb</b>'s, the <b>com.opensymphony.workflow.RegisterRemote</b> interface).  </p>
+
+<h3><a name="3.6Registers-BeanShellandBSFregisters">BeanShell and BSF registers</a></h3>
+
+<p>The value or object returned by the script will be the object that is registered.</p>
+
+<h3><a name="3.6Registers-Registerinterfacenote">Register interface note</a></h3>
+
+<p>While validators and functions both have the three parameters (<b>transientVars</b>, <b>args</b>, and <b>propertySet</b>) to work with, registers only have the args Map to use (along with the <b>context</b> and <b>entry</b> variables that are found in the <b>propertySet</b> normally). This is because registers are called regardless of user input, and also make up the variables map, so it would not make sense to give them scope to that kind of information.</p>
+
+<h3><a name="3.6Registers-Anexample">An example</a></h3>
+
+<p>The following example will help illustrate register functionality and usage. The register used here is a simple logging register, which is basically a register that exposes a 'log' variable that can then be accessed during the lifetime of the workflow. The logger does a couple of useful things like add the workflow instance id to the logged message.</p>
+
+<p>We specify the register at the top of the workflow descriptor:</p>
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;registers&gt;</span>
+    <span class="code-tag">&lt;register type=<span class="code-quote">"class"</span> variable-name=<span class="code-quote">"log"</span>&gt;</span>
+      <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>com.opensymphony.workflow.util.LogRegister<span class="code-tag">&lt;/arg&gt;</span>
+      <span class="code-tag">&lt;arg name=<span class="code-quote">"addInstanceId"</span>&gt;</span>true<span class="code-tag">&lt;/arg&gt;</span>
+    <span class="code-tag">&lt;/register&gt;</span>
+  <span class="code-tag">&lt;/registers&gt;</span></pre>
+</div></div>
+
+<p>As can be seen from the code, we create a LogRegister, with the name 'log', and specify a parameter of 'addInstanceId' with the value 'true'.</p>
+
+<p>We can now use this variable anywhere in the workflow descriptor. For example:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;function type=<span class="code-quote">"beanshell"</span> name=<span class="code-quote">"bsh.function"</span>&gt;</span>
+  <span class="code-tag">&lt;arg name=<span class="code-quote">"script"</span>&gt;</span>transientVars.get(<span class="code-quote">"log"</span>).info(<span class="code-quote">"function called"</span>);<span class="code-tag">&lt;/arg&gt;</span>
+<span class="code-tag">&lt;/function&gt;</span></pre>
+</div></div>
+
+<p>This will print out 'function called', with the workflow instance ID prepended to the output.</p>
+
+<p>While this example is fairly trivial, it does illustrate the power of registers, and highlights how they can be used to allow access to specific entities or data during the lifetime of a workflow.</p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

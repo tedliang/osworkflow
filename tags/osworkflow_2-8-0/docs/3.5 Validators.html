@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Validators
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="3.4.4 Utility Functions.html" title="3.4.4 Utility Functions">3.4.4 Utility Functions</a></li>
+	<li>Forward to <a href="3.6 Registers.html" title="3.6 Registers">3.6 Registers</a></li>
+</ul>
+
+
+<p>Just like <a href="3.4 Functions.html" title="3.4 Functions">3.4 Functions</a>, OSWorkflow allows for validators in three different forms: <b>Java-based</b>, <b>BeanShell</b>, and <b>BSF</b>. Java-based validators must implement the <b>com.opensymphony.workflow.Validator</b> interface (or in the case of <b>remote-ejb</b>'s, the <b>com.opensymphony.workflow.ValidatorRemote</b> interface). With Java-based validators, throwing an InvalidInputException is all that is needed to mark an input as invalid and stop the workflow action from occuring. </p>
+
+<p>But in BeanShell and BSF, things are a little different, since exceptions thrown in the scripts can't propogate out to the Java runtime environment. To get around this, any value returned in a BeanShell or BSF script will be used as the error message(s). The logic is as follows:</p>
+
+<ul>
+	<li>If the value returned is an InvalidInputException object, that object is immediately thrown to the client</li>
+	<li>If the value returned is a Map, that Map is used for the error/errorMessage pairs in the InvalidInputException</li>
+	<li>If the value returned is a String[], the even numbers are used as keys, and the odd numbers are used as values to construct a Map that can then be used in the above case.</li>
+	<li>Otherwise, the value is converted to a String and added as a generic error message.</li>
+</ul>
+
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

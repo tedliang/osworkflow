@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Testing your workflow - Chinese
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <p>现在我们已经完成了一个完整的工作流定义，下一步是检验它是否按照我们预想的方式执行。</p>
+
+<p>在一个快速开发环境中，最简单的方法就是写一个测试案例。通过测试案例调用工作流，根据校验结果和捕捉可能发生的错误，来保证流程定义的正确性。</p>
+
+<p>我们假设你已经熟悉Junit和了解怎样编写测试案例。如果你对这些知识还不了解的话，可以去JUnit的网站查找、阅读相关文档。编写测试案例会成为你的一个非常有用的工具。</p>
+
+<p>在开始载入流程定义、调用动作以前，我们需要配置OSWorkflow的数据存储方式和定义文件的位置等。</p>
+
+<p>h3 配置 osworkflow.xml</p>
+
+<p>我们需要创建的第一个文件是 <em>osworkflow.xml</em>。下面是一个简单的例子：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;osworkflow&gt;</span>
+  <span class="code-tag">&lt;persistence class=<span class="code-quote">"com.opensymphony.workflow.spi.memory.MemoryWorkflowStore"</span>/&gt;</span>
+  <span class="code-tag">&lt;factory class=<span class="code-quote">"com.opensymphony.workflow.loader.XMLWorkflowFactory"</span>&gt;</span>
+    <span class="code-tag">&lt;property key=<span class="code-quote">"resource"</span> value=<span class="code-quote">"workflows.xml"</span> /&gt;</span>
+  <span class="code-tag">&lt;/factory&gt;</span> 
+<span class="code-tag">&lt;/osworkflow&gt;</span></pre>
+</div></div>
+
+<p>这个例子指明了我们准备使用内存 (MemoryWorkflowStore) 来保存流程数据。这样可以减少设置数据库的相关信息，减少出问题的可能性。用内存持久化对于测试来说是非常方便的。</p>
+
+<p>h3 Workflow factories</p>
+
+<p>上面的配置文件还指明了我们工作流工厂（XMLWorkflowFactory），工作流工厂的主要功能是管理流程定义文件，包括读取定义文件和修改定义文件的功能。通过'resource'这个属性指明了采用通过从classpath中读取流程定义文件的方式，按照这个定义，接下来我们需要在classpath中创建一个名为workflows.xml的文件。</p>
+
+<p>workflows.xml 的内容：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;workflows&gt;</span>
+  <span class="code-tag">&lt;workflow name=<span class="code-quote">"mytest"</span> type=<span class="code-quote">"resource"</span> location=<span class="code-quote">"myworkflow.xml"</span>/&gt;</span>
+<span class="code-tag">&lt;/workflows&gt;</span></pre>
+</div></div>
+
+<p>我们把 <em>myworkflow.xml</em> 和workflows.xml放在同一目录，这样它就能够被工作流工厂读取了。</p>
+
+<p>这样就完成了配置，接下来是初始化一个流程并调用它。</p>
+
+<p>h3 Initialising OSWorkflow</p>
+
+<p>OSWorkflow 的调用模式相当简单：通过一个主要的接口来执行大部分操作。这个接口就是  <em>Workflow</em>  interface，及其扩展 <em>AbstractWorkflow</em> 的实现，例如EJBWorkflow 和 SOAPWorkflow. 为了简单起见，我们使用最基本的一种： BasicWorkflow。</p>
+
+<p>首先，我们来创建Workflow。在实际项目中，这个对象应该被放在一个全局的位置上以供重用，因为每次都创建一个新的Workflow对象是需要耗费比较昂贵的系统资源。在这里的例子，我们采用BasicWorkflow，它的构建器由一个当前调用者的用户名构成，当然我们很少看到单用户的工作流应用，可以参考其他的Workflow实现有不同的方式去获得当前调用者。</p>
+
+<p>为了简单起见，我们采用BasicWorkflow来创建一个单一的用户模式，避免编写其他获取用户方法的麻烦。</p>
+
+<p>这样我们来创建一个'testuser'调用的workflow:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">Workflow workflow = <span class="code-keyword">new</span> BasicWorkflow(<span class="code-quote">"testuser"</span>);</pre>
+</div></div>
+
+<p>下一步是提供配置文件，在大多数情况下，只是简单的传递一个DefaultConfiguration实例：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">DefaultConfiguration config = <span class="code-keyword">new</span> DefaultConfiguration();
+workflow.setConfiguration(config);</pre>
+</div></div>
+
+<p>现在我们已经创建并且配置好了一个workflow，接下来就是开始调用它了。</p>
+
+<p>h3 启动和进行一个工作流程</p>
+
+<p>首先我们需要调用initialize 方法来启动一个工作流程，这个方法有3个参数，workflow name （定义在workflows.xml里，通过workflow factory处理）, action ID （我们要调用的初始化动作的ID），和初始化变量。 因为在例子里面不需初始化变量，所以我们只是传递一个null，</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java"><span class="code-object">long</span> workflowId = workflow.initialize(<span class="code-quote">"mytest"</span>, 1, <span class="code-keyword">null</span>);</pre>
+</div></div>
+
+<p>我们现在已经有了一个工作流实例，返回的workflowId可以在后续的操作中来代表这个实例。这个参数会在Workflow interface的绝大部分方法中用到。</p>
+
+<p>h4 检验工作流</p>
+
+<p>现在让我们来检验启动的工作流实例是否按照我们所预期的那样运行。根据流程定义，我们期望的当前步骤是第一步，而且应该可以执行第一个动作（开始编写草稿）。</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">Collection currentSteps = workflow.getCurrentSteps(workflowId);
+<span class="code-comment">//校验只有一个当前步骤
+</span>assertEquals(<span class="code-quote">"Unexpected number of current steps"</span>, 1, currentSteps.size());
+<span class="code-comment">//校验这个步骤是1
+</span>Step currentStep = (Step)currentSteps.iterator().next();
+assertEquals(<span class="code-quote">"Unexpected current step"</span>, 1, currentStep.getStepId());
+
+<span class="code-object">int</span>[] availableActions = workflow.getAvailableActions(workflowId);
+<span class="code-comment">//校验只有一个可执行的动作
+</span>assertEquals(<span class="code-quote">"Unexpected number of available actions"</span>, 1, availableActions.length);
+<span class="code-comment">//校验这个步骤是1
+</span>assertEquals(<span class="code-quote">"Unexpected available action"</span>, 1, availableActions[0]);</pre>
+</div></div>
+
+<p>h4 执行动作</p>
+
+<p>现在已经校验完了工作流实例正如我们所期望的到了第一个步骤，让我们来开始执行第一个动作：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">workflow.doAction(workflowId, 1, <span class="code-keyword">null</span>);</pre>
+</div></div>
+
+<p>这是简单的调用第一个动作，工作流引擎根据指定的条件，改变状态到‘Underway’，并且保持在当前步骤。</p>
+
+<p>现在我们可以类似地调用第2个动作，它所需要的条件已经都满足了。</p>
+
+<p>在调用完第2个动作以后，根据流程定义就没有可用的动作了，getAvailableActions将会返回一个空数组。</p>
+
+<p>Congratulations, 你已经完成了一个工作流定义并且成功地调用了它。下一节我们将会讲解osworkflow一些更深入的概念。</p>
+
+<p>Go to <a href="3. Further descriptor concepts - Chinese.html" title="3. Further descriptor concepts - Chinese">3. Further descriptor concepts - Chinese</a></p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

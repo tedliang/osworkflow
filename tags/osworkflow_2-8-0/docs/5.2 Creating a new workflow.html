@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Creating a new workflow
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="5.1 Interface choices.html" title="5.1 Interface choices">5.1 Interface choices</a></li>
+	<li>Forward to <a href="5.3 Executing actions.html" title="5.3 Executing actions">5.3 Executing actions</a></li>
+</ul>
+
+
+<p>This is a very brief guide on how you can create a new workflow instance using the OSWorkflow Java APIs. First, the workflow definition file (in XML) must be created and defined using the <a href="1.5 Loading Workflow Definitions.html" title="1.5 Loading Workflow Definitions">1.5 Loading Workflow Definitions</a>. Then your code must know what the <b>initialStep</b> value should be for initializing an instance. Before you can initialize a workflow you must <b>create</b> it so that you have an ID that can be referenced from now on in the API. The following code example illustrates this:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">Workflow wf = <span class="code-keyword">new</span> BasicWorkflow(username);
+HashMap inputs = <span class="code-keyword">new</span> HashMap();
+inputs.put(<span class="code-quote">"docTitle"</span>, request.getParameter(<span class="code-quote">"title"</span>));
+wf.initialize(<span class="code-quote">"workflowName"</span>, 1, inputs);</pre>
+</div></div>
+
+<p>Note that usually, you would use a more appropriate Workflow implementation rather than BasicWorkflow. For example, EJBWorkflow or OfbizWorkflow. If you want to use a Workflow store that does not have a custom workflow context implementation (for example, JDBC, or Hibernate), then use BasicWorkflow. Contributions of WorkflowContexts for various stores are more than welcome!</p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

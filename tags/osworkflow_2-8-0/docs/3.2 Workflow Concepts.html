@@ -1,0 +1,223 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Workflow Concepts
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="3.1 Workflow Definition.html" title="3.1 Workflow Definition">3.1 Workflow Definition</a></li>
+	<li>Forward to <a href="3.3 Common and Global Actions.html" title="3.3 Common and Global Actions">3.3 Common and Global Actions</a></li>
+</ul>
+
+
+<p>OSWorkflow is very unique compared to other workflow engines one might be familiar with. In order to completely grasp OSWorkflow and properly harness the features available, it is important that one understand the core concepts that form the foundation for OSWorkflow.</p>
+
+<h2><a name="3.2WorkflowConcepts-Steps%2CStatus%2CandActions">Steps, Status, and Actions</a></h2>
+
+<p>Any particular <em>workflow instance</em> can have one or more <em>current steps</em> at any given moment. Every current step has a <em>status value</em> associated to it. Status values of the current steps constitute <em>workflow status</em> for that workflow instance. <b>The actual status values are entirely up to the application developer and/or project manager</b>. A status value can be, for example "Underway", or "Queued".</p>
+
+<p>For the workflow to progress, a <em>transition</em> must take place in the finite state machine that represents a workflow instance. Once a step is completed it can not be current anymore. Usually a new current step is created immediately thereafter, which keeps the workflow going. The final status value of the completed step is set by the <b>old-status</b> attribute. It happens just before the transition to another step. <em>Old-status</em> must already be defined when a new transition takes place in the workflow. <em>It can be any value you please, but "Finished" usually works fine for most applications</em>. </p>
+
+<p><em>Transition</em> itself is a result of an <em>action</em>. A step may have many actions connected to it. Which particular action will be launched is determined by the end user, external event or automatically by a trigger. Depending on the action accomplished, a certain transition takes place. Actions can be restricted to particular groups and users or current state of the workflow. Each action must have one <em>unconditional result</em> (default) and zero or more <em>conditional results</em>.</p>
+
+<p>So, to summarize, a workflow consists of a number of Steps. A step has a current status (for example, Queued, Underway, or Finished). A step has a number of Actions that can be performed in it. An action has Conditions under which it is available, as well as Functions that are executed. Actions have results that change the state and current step of the workflow.</p>
+
+<h2><a name="3.2WorkflowConcepts-Results%2CJoins%2CandSplits">Results, Joins, and Splits</a></h2>
+
+<h3><a name="3.2WorkflowConcepts-3.2.1UnconditionalResult">3.2.1 Unconditional Result</a></h3>
+
+<p>For every action, it is required that there exist one result, called the unconditional-result. A result is nothing more than a series of directives that tell OSWorkflow what the next task to do is. This involves making a transition from one state to the next state(s) in the state machine that makes up a given workflow. </p>
+
+<h3><a name="3.2WorkflowConcepts-3.2.2ConditionalResults">3.2.2 Conditional Results</a></h3>
+
+<p>A conditional result is an extension of an unconditional result. It is identical, except for the fact that it requires one or more additional sub-elements: <b>condition</b>. The first conditional result that evaluates to true (using the types <b>AND</b> or <b>OR</b>) will dictate the transition that takes place due to the result of any given action taken by the user. Additional information regarding conditions can be found below.</p>
+
+<h3><a name="3.2WorkflowConcepts-3.2.3Therearethreedifferentresults%28conditionalorunconditional%29thatcanoccur%3A">3.2.3 There are three different results (conditional or unconditional) that can occur:</a></h3>
+
+<ul>
+	<li>A new single step/status combo</li>
+</ul>
+
+
+<ul>
+	<li>A split in to two or more step/status combos</li>
+</ul>
+
+
+<ul>
+	<li>A join that joins together this transition as well as others to a new single step/status combo</li>
+</ul>
+
+
+<p>Depending on what kind of behavior you are looking for, your XML workflow descriptor will look different. Please read the DTD (which provides documentation as well) in <a href="http://www.opensymphony.com/osworkflow/workflow_2_6.dtd" title="Visit page outside Confluence">Appendix A</a> for more information. <em>One caveat: currently a split or a join cannot result in an immediate split or join again</em>.</p>
+
+<h4><a name="3.2WorkflowConcepts-3.2.3.1.Asinglestep%2Fstatusresultcanbespecifiedsimplyby%3A">3.2.3.1. A single step/status result can be specified simply by:</a></h4>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> step=<span class="code-quote">"2"</span> 
+                      status=<span class="code-quote">"Underway"</span> owner=<span class="code-quote">"${someOwner}"</span>/&gt;</pre>
+</div></div>
+
+<p>If the status is not Queued, then a third requirement is the owner of the new step. Besides specifying information about the next state, results also can specify <em>validators</em> and <em>post-functions</em>. These will be discussed below.</p>
+
+<p>In certain cases the result of an action does not require a transition to another step. Such a result may be specified by setting the step value to -1.  For example, we can change the above example to remain in the current step (or steps) as follows:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> step=<span class="code-quote">"-1"</span> 
+                      status=<span class="code-quote">"Underway"</span> owner=<span class="code-quote">"${someOwner}"</span>/&gt;</pre>
+</div></div>
+
+<h4><a name="3.2WorkflowConcepts-3.2.3.2.Splittingfromonestatetomultiplestatescanbeachievedby%3A">3.2.3.2. Splitting from one state to multiple states can be achieved by:</a></h4>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;unconditional-result split=<span class="code-quote">"1"</span>/&gt;
+...
+&lt;splits&gt;
+  &lt;split id=<span class="code-quote">"1"</span>&gt;
+    &lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> step=<span class="code-quote">"2"</span> 
+                          status=<span class="code-quote">"Underway"</span> owner=<span class="code-quote">"${someOwner}"</span>/&gt;
+    &lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> step=<span class="code-quote">"2"</span> 
+                          status=<span class="code-quote">"Underway"</span> owner=<span class="code-quote">"${someOtherOwner}"</span>/&gt;
+  &lt;/split&gt;
+&lt;/splits&gt;</pre>
+</div></div>
+
+<h4><a name="3.2WorkflowConcepts-3.2.3.3.Joinsarethemostcomplexcases.Atypicaljoinmightlooklike%3A">3.2.3.3. Joins are the most complex cases. A typical join might look like:</a></h4>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;!-- <span class="code-keyword">for</span> step id 6 -&gt;
+&lt;unconditional-result join=<span class="code-quote">"1"</span>/&gt;
+...
+&lt;!- <span class="code-keyword">for</span> step id 8 -&gt;
+&lt;unconditional-result join=<span class="code-quote">"1"</span>/&gt;
+...
+&lt;joins&gt;
+  &lt;join id=<span class="code-quote">"1"</span>&gt;
+    &lt;join id=<span class="code-quote">"1"</span>&gt;
+    &lt;conditions type=<span class="code-quote">"AND"</span>&gt;
+      &lt;condition type=<span class="code-quote">"beanshell"</span>&gt;
+        &lt;arg name=<span class="code-quote">"script"</span>&gt;
+          <span class="code-quote">"Finished"</span>.equals(jn.getStep(6).getStatus() 
+          &amp;&amp; <span class="code-quote">"Finished"</span>.equals(jn.getStep(8).getStatus())
+        &lt;/arg&gt;
+      &lt;/condition&gt;
+    &lt;/conditions&gt;
+  &lt;/join&gt;
+  &lt;unconditional-result old-status=<span class="code-quote">"Finished"</span> status=<span class="code-quote">"Underway"</span> 
+                                 owner=<span class="code-quote">"test"</span> step=<span class="code-quote">"2"</span>/&gt;
+  &lt;/join&gt;
+&lt;/joins&gt;</pre>
+</div></div>
+
+<p>The above might seem somewhat cryptic, but the main thing to notice is that the <b>condition element</b> uses a special variable <b>"jn"</b> that can be used to make up expressions that determine when the join actually occurs. Essentially, this expression statement says <b>"proceed with the join when the steps with IDs 6 and 8 that are transitioning to this join have a status of Finished".</b> </p>
+
+<h2><a name="3.2WorkflowConcepts-ExternalFunctions">External Functions</a></h2>
+
+<p>OSWorkflow defines a standard way for external business logic and services to be defined and executed. This is accomplished by using "functions". A function usually encapsulates functionality that is external to the workflow instance itself, perhaps related to updating an external entity or system with workflow information, or notifying an external system regarding a change in workflow status. </p>
+
+<p><em>There are two types of functions: pre and post step functions.</em> </p>
+
+<p>Pre functions are functions that are executed before the workflow makes a particular transition. An example is a pre function that sets up the name of the caller to use as the result for the state change that is about to take place. Another example of a pre-function is a function that updates the most recent caller of an action. Both of these are provided as standard utility functions that are very useful for practical workflows. </p>
+
+<p>Post functions have the same range of applicability as pre functions, except that they are executed after the state change has taken place. An example of a post function is one that sends out an email to interested parties that the workflow has had a particular action performed on it. For example, when a document in the 'research' step has a 'markReadyForReview' action taken, the reviewers group is emailed. </p>
+
+<p>There are many reasons for including pre and post functions. One is that if the user were to click the "done" button twice and to send out two "execute action" calls, and that action had a pre function that took a long time to finish, then it is possible the long function could get called multiple times, because the transition hasn't been made yet, and OSWorkflow thinks the second call to perform the action is valid. So changing that function to be a post function is what has to happen. <em>Generally pre functions are for simple, quick executions, and post are where the "meat" goes.</em></p>
+
+<p>Functions can be specified in two separate locations; steps and actions.</p>
+
+<p>Usually, a pre or post function is specified in an action. The general case is that along with transitioning the workflow, a functions is used to 'do something', whether it be notifying a third party, sending an email, or simply setting variables for future use. The following diagram will help illustrate action level functions:<br/>
+<img src="3.2 Workflow Concepts_attachments/actionfunctions.png" align="absmiddle" border="0" /></p>
+
+<p>In the case of pre and post functions being specified on steps, the usage is slightly different. Pre-functions specified on a step will be executed <em>before</em> the workflow is transitioned to that step. Note that these functions will be applied indiscriminantly to ALL transitions to the step, even those that originate in the step itself (for example, moving from Queued to Underway within the same step will cause the invocation of any step pre-functions specified).</p>
+
+<p>Similarly, step post-functions will be called prior to the workflow transitioning <em>out</em> of the step, even if it's to change state and remain within the step.</p>
+
+<p>The following diagram illustrates the invocation order. Note that the action box is abbreviated and could well contain pre and post functions of its own.<br/>
+<img src="3.2 Workflow Concepts_attachments/stepfunction.png" align="absmiddle" border="0" /></p>
+
+<p>You can find more information on <a href="3.4 Functions.html" title="3.4 Functions">3.4 Functions</a>.</p>
+
+<h2><a name="3.2WorkflowConcepts-TriggerFunctions">Trigger Functions</a></h2>
+
+<p>Trigger functions are just like any other function, except that they aren't associated with only one action. They are also identified with a unique ID that is used at a later time (when a trigger is fired) to be executed by the Quartz job scheduler (or any other job scheduler). These functions usually run under the context of a system user and not a regular user working in the workflow. Trigger functions are invoked by using the OSWorkflow API from an outside source, such as a job scheduler like Quartz.</p>
+
+<p>You can find more information on <a href="Trigger functions.html" title="Trigger functions">Trigger functions</a>.</p>
+
+<h2><a name="3.2WorkflowConcepts-Validators">Validators</a></h2>
+
+<p>A validator is nothing more than some code that validates the input that can be paired with an action. If the input is deemed to be valid, according to the validator, the action will be executed. If the input is invalid, the <em>InvalidInputException</em> will be thrown back to the calling client - usually a JSP or servlet.</p>
+
+<p>Validators follow many of the same rules as Functions. You can find out more about <a href="3.5 Validators.html" title="3.5 Validators">3.5 Validators</a>.</p>
+
+<h2><a name="3.2WorkflowConcepts-Registers">Registers</a></h2>
+
+<p>A register is a helper function that returns an object that can be used in Functions for easy access to common objects, especially entities that revolve around the workflow. The object being registered can be any kind of object. Typical examples of objects being registered are: Document, Metadata, Issue, and Task. This is strictly for convenience and does not add any extra benefit to OSWorkflow besides making the developer's life much simpler. Here is an example of a register:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;registers&gt;
+	&lt;register name=<span class="code-quote">"doc"</span> class=<span class="code-quote">"com.acme.DocumentRegister"</span>/&gt;
+&lt;/registers&gt;
+...
+&lt;results&gt;
+	&lt;result condition=<span class="code-quote">"doc.priority == 1"</span> step=<span class="code-quote">"1"</span> status=<span class="code-quote">"Underway"</span> 
+                  owner=<span class="code-quote">"${someManager}"</span>/&gt;
+	&lt;unconditional-result step=<span class="code-quote">"1"</span> status=<span class="code-quote">"Queued"</span>/&gt;
+&lt;/results&gt;
+...</pre>
+</div></div>
+
+<h2><a name="3.2WorkflowConcepts-Conditions">Conditions</a></h2>
+
+<p>Conditions, just like validators, registers, and functions, can be implemented in a variety of languages and technologies. Conditions can be grouped together using <b>AND</b> or <b>OR</b> logic. Any other kind of complex login must be implemented by the workflow developer. Conditions usually associated with conditional results, where a result is executed based on the conditions imposed on it being satisfied.</p>
+
+<p>Conditions are very similar to functions except that they return <b>boolean</b> instead of <b>void</b>. You can find out more about <a href="3.7 Conditions.html" title="3.7 Conditions">3.7 Conditions</a>.</p>
+
+<h2><a name="3.2WorkflowConcepts-VariableInterpolation">Variable Interpolation</a></h2>
+
+<p>In all functions, conditions, validators, and registers it is possible to provide a set of <b>args</b> to the code of choice. These args are translated to the <b>args Map</b> that is discussed in further detail later on. Likewise the <b>status, old-status, and owner elements</b> in the workflow descriptor are also all parsed for variables to be dynamically converted. A variable is identified when it looks like <b>${foo}</b>. OSWorkflow recognizes this form and first looks in the <b>transientVars</b> for the key foo. If the key does not exist as a transient variable, then then  <b>propertySet</b> is searched. If the propertyset does not contain the specified key either, then the entire variable is converted to an empty String.</p>
+
+<p>One thing of particular importance is that in the case of <b>args</b>, if the variable is the only argument, the argument will not be of type String, but instead whatever the variable type is. However, if the arg is a mix of characters and variables, the entire argument is converted to String no matter what. That means the two arguments below are very different in that foo is a Date object and bar is a String:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;arg name=<span class="code-quote">"foo"</span>&gt;${someDate}&lt;/arg&gt;
+&lt;arg name=<span class="code-quote">"bar"</span>&gt; ${someDate} &lt;/arg&gt; &lt;!-- note the extra spaces --&gt;</pre>
+</div></div>
+
+<h2><a name="3.2WorkflowConcepts-PermissionsandRestrictions">Permissions and Restrictions</a></h2>
+
+<p><em>Permissions</em> can be assigned to users and/or groups based on the state of the workflow instance. These permissions are unrelated to the functionality of the workflow engine, but they are useful to have for applications that implement OSWorkflow. For example, a document management system might have the permission name "file-write-permission" enabled for a particular group only during the "Document Edit" stage of the workflow. That way your application can use the API to determine if files can be modified or not. This is useful as there could be a number of states within the workflow where the "file-write-permission" is applicable, so instead of checking for specific steps or conditions, the check can simply be made for a particular permission.</p>
+
+<p>Permissions and actions both use the concept of <em>restrictions</em>. <b>A restriction is nothing more than one or more conditions embedded inside a restrict-to element.</b> </p>
+
+<h2><a name="3.2WorkflowConcepts-Autoactions">Auto actions</a></h2>
+
+<p>Sometimes it is desirable to have an action performed automatically, based on specific conditions. This is useful for example when trying to add automation to a workflow. In order to achieve this, an attribute of <b>auto="true"</b> will have to be added to the specific action. The workflow engine will then evaluate the conditions and restrictions on the action, and if they are matched and the workflow <b>could</b> perform the action, then it automatically does so. The auto action executes with the current caller, so the permissions checks and so on are performed against the user who called the action that initiated the auto action.</p>
+
+<h2><a name="3.2WorkflowConcepts-IntegratingwithAbstractEntities">Integrating with Abstract Entities</a></h2>
+
+<p>Because OSWorkflow is not an out-of-the-box solution, some development work is required to make your project work correctly with OSWorkflow. It is recommended that your core entity, such as "Document" or "Order", be given a new attribute: <em>workflowId</em>. That way when a new Document or Order is created, it can be associated with a workflow instance also. Then your code can look up that workflow instance and retrieve workflow information and/or issue workflow actions via the OSWorkflow API.</p>
+
+<h2><a name="3.2WorkflowConcepts-WorkflowInstanceState%28AvailablesinceOSWorkflow2.6%29">Workflow Instance State (Available since OSWorkflow 2.6)</a></h2>
+
+<p>Sometimes it is helpful to specify a state to the workflow instance as a whole, independent to its progression or its steps. OSWorkflow offers a number of such "meta-states" that a workflow instance can be in. These are <b>CREATED</b>, <b>ACTIVATED</b>, <b>SUSPENDED</b>, <b>KILLED</b>, and <b>COMPLETED</b>. When a workflow instance is first created, it is in the <b>CREATED</b> state. Then as soon as an action is performed on it, it moves automatically to the <b>ACTIVATED</b> state. If the caller does not explicitly alters the instance state, the workflow will remain in this state until it is unambigiously completed. This is defined to be the case when the workflow cannot possibly perform any further actions. In this case, the workflow will automatically move to the <b>COMPLETED</b> state.</p>
+
+<p>However, while the workflow is in the <b>ACTIVATED</b> state, a caller can termined or suspend the workflow (set the state to <b>KILLED</b> or <b>SUSPENDED</b>). A terminated workflow will not be able to progress any further, and will remain in the state it was in at the time of termination forever. A workflow that has been suspended will be 'frozen' and no actions can be performed on it, until it is explicitly returned back to the <b>ACTIVATED</b> state.</p>
+
+<ul>
+	<li>Back to <a href="3.1 Workflow Definition.html" title="3.1 Workflow Definition">3.1 Workflow Definition</a></li>
+	<li>Forward to <a href="3.4 Functions.html" title="3.4 Functions">3.4 Functions</a></li>
+</ul>
+
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

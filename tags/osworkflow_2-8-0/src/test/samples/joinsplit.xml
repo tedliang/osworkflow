@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.6//EN" "http://www.opensymphony.com/osworkflow/workflow_2_6.dtd">
+
+<workflow>
+  <initial-actions>
+    <action id="100" name="Initiate">
+      <pre-functions>
+        <function type="class">
+          <arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+        </function>
+      </pre-functions>
+      <results>
+        <unconditional-result old-status="Finished" status="Underway" step="1" owner="${caller}"/>
+      </results>
+    </action>
+  </initial-actions>
+
+  <steps>
+    <step id="1" name="Mail Documents">
+      <actions>
+        <action id="1" name="Documents Mailed">
+          <results>
+            <unconditional-result old-status="Finished" split="1"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+
+    <step id="2" name="Receive Completed Documents">
+      <actions>
+        <action id="2" name="Completed Documents Received">
+          <restrict-to>
+            <conditions type="AND">
+              <condition type="class">
+                <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
+                <arg name="status">Underway</arg>
+                <arg name="stepId">2</arg>
+              </condition>
+            </conditions>
+          </restrict-to>
+          <results>
+            <unconditional-result old-status="Finished" status="Underway" join="1"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+    <step id="3" name="Receive Letter">
+      <actions>
+        <action id="3" name="Letter Received">
+          <restrict-to>
+            <conditions type="AND">
+              <condition type="class">
+                <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
+                <arg name="status">Underway</arg>
+                <arg name="stepId">3</arg>
+              </condition>
+            </conditions>
+          </restrict-to>
+          <results>
+            <unconditional-result old-status="Finished" status="Underway" join="1"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+    <step id="4" name="Receive Wire">
+      <actions>
+        <action id="4" name="Wire Received">
+          <restrict-to>
+            <conditions type="AND">
+              <condition type="class">
+                <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
+                <arg name="status">Underway</arg>
+                <arg name="stepId">4</arg>
+              </condition>
+            </conditions>
+          </restrict-to>
+          <results>
+            <unconditional-result old-status="Finished" status="Underway" join="1" owner="${mostRecentOwner}"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+
+    <step id="5" name="Finished">
+
+    </step>
+  </steps>
+  <splits>
+    <split id="1">
+      <unconditional-result old-status="Finished" status="Underway" step="2"/>
+      <unconditional-result old-status="Finished" status="Underway" step="3"/>
+    </split>
+  </splits>
+  <joins>
+    <join id="1">
+      <!-- This is the join that says that the subscription doc AND the hot issue letter are received -->
+      <conditions type="AND">
+        <condition type="beanshell">
+          <arg name="script"><![CDATA[
+"Finished".equals(jn.getStep(2).getStatus())
+                    && "Finished".equals(jn.getStep(3).getStatus())
+          ]]></arg>
+        </condition>
+      </conditions>
+      <unconditional-result old-status="Finished" status="Underway" owner="test" step="6"/>
+    </join>
+  </joins>
+</workflow>

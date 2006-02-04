@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0+" codebase="$$codebase" href="$$name">
+  <information>
+    <title>OSWorkflow Designer 2.8</title>
+    <vendor>OpenSymphony</vendor>
+    <homepage href="../index.html"/>
+    <description>OSWorkflow Designer Application</description>
+    <!--    <icon href="logo.gif"/>-->
+    <offline-allowed/>
+  </information>
+  <security>
+    <all-permissions/>
+  </security>
+  <resources>
+    <j2se version="1.4+" max-heap-size="128m"/>
+    <jar href="designer.jar" main="true"/>
+    <jar href="forms.jar" main="false"/>
+    <jar href="jgraph.jar" main="false"/>
+    <jar href="looks.jar" main="false"/>
+    <jar href="foxtrot.jar" main="false"/>
+    <jar href="syntax.jar" main="false"/>
+  </resources>
+
+  <application-desc main-class="com.opensymphony.workflow.designer.Launcher">
+  </application-desc>
+</jnlp>

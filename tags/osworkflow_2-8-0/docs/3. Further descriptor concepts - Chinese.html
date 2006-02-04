@@ -1,0 +1,135 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Further descriptor concepts - Chinese
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <p>h3 定义条件和函数</p>
+
+<p>你也许已经注意到，到目前为止，我们定义的条件和函数类型都是“class”。这种类型的条件和函数接受一个参数：“class.name”，以此来指明一个实现FunctionProvider或Condition接口的完整类名。</p>
+
+<p>在osworkflow里面也有一些其他内置的类型，包括beanshell，无状态的session bean，JNDI树上的函数等。我们在下面的例子里使用beanshell类型。</p>
+
+<p>h3 Property sets</p>
+
+<p>我们可能需要在工作流的任意步骤持久化一些少量数据。在osworkflow里，这是通过OpenSymphony的PropertySet library来实现。一个PropertySet基本上是一个可以持久化的类型安全map，你可以添加任意的数据到propertyset（一个工作流实例对应一个propertyset），并在以后的流程中再读取这些数据。除非你特别指定操作，否则propertyset中的数据不会被清空或者被删除。任意的函数和条件都可以和propertyset交互，以beanshell script来说，可以在脚本上下文中用“propertyset”这个名字来获取。下面来看具体写法是怎么样的，让我们增加如下的代码在“Start First Draft”动作的pre-functions里面：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;function type=<span class="code-quote">"beanshell"</span>&gt;</span>
+  <span class="code-tag">&lt;arg name=<span class="code-quote">"script"</span>&gt;</span>propertySet.setString(<span class="code-quote">"foo"</span>, <span class="code-quote">"bar"</span>)<span class="code-tag">&lt;/arg&gt;</span>
+<span class="code-tag">&lt;/function&gt;</span></pre>
+</div></div>
+
+<p>这样我们就添加了一个持久化的属性“foo”，它的值是“bar”。这样在以后的流程中，我们就可以获得这个值了。</p>
+
+<p>h3 Transient Map 临时变量</p>
+
+<p>另外一个和propertyset变量相对的概念是临时变量：“transientVars”。临时变量是一个简单的map，只是在当前的工作流调用的上下文内有效。它包括当前的工作流实例，工作流定义等对应值的引用。你可以通过FunctionProvider的javadoc来查看这个map有那些可用的key。</p>
+
+<p>还记得我们在教程的第2部分传入的那个null吗？如果我们不传入null的话，那么这些输入数据将会被添加到临时变量的map里。</p>
+
+<p>h3 inputs 输入</p>
+
+<p>每次调用workflow的动作时可以输入一个可选的map，可以在这个map里面包含供函数和条件使用的任何数据，它不会被持久化，只是一个简单的数据传递。</p>
+
+<p>h3 Validators 校验器</p>
+
+<p>为了让工作流能够校验输入的数据，引入了校验器的概念。一个校验器和函数，条件的实现方式非常类似（比如，它可以是一个class，脚本，或者EJB）。在这个教程里面，我们将会定义一个校验器，在“finish first draft”这个步骤，校验用户输入的数据“working.title”不能超过30个字符。这个校验器看起来是这样的：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java"><span class="code-keyword">package</span> com.mycompany.validators;
+
+<span class="code-keyword">public</span> class TitleValidator <span class="code-keyword">implements</span> Validator
+{
+  <span class="code-keyword">public</span> void validate(Map transientVars, Map args, PropertySet ps) 
+        <span class="code-keyword">throws</span> InvalidInputException, WorkflowException
+  {
+    <span class="code-object">String</span> title = (<span class="code-object">String</span>)transientVars.get(<span class="code-quote">"working.title"</span>); 
+    <span class="code-keyword">if</span>(title == <span class="code-keyword">null</span>)
+      <span class="code-keyword">throw</span> <span class="code-keyword">new</span> InvalidInputException(<span class="code-quote">"Missing working.title"</span>);
+    <span class="code-keyword">if</span>(title.length() &gt; 30)
+      <span class="code-keyword">throw</span> <span class="code-keyword">new</span> InvalidInputException(<span class="code-quote">"Working title too <span class="code-object">long</span>"</span>);
+  }
+}</pre>
+</div></div>
+
+<p>然后通过在流程定义文件添加validators元素，就可以登记这个校验器了：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;validators&gt;</span>
+  <span class="code-tag">&lt;validator type=<span class="code-quote">"class"</span>&gt;</span>
+    <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>
+      com.mycompany.validators.TitleValidator
+    <span class="code-tag">&lt;/arg&gt;</span>
+  <span class="code-tag">&lt;/validator&gt;</span>
+<span class="code-tag">&lt;/validators&gt;</span></pre>
+</div></div>
+
+<p>这样，当我们执行动作2的时候，这个校验器将会被调用，并且检验我们的输入。这样在测试代码里面，如果加上：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">Map inputs = <span class="code-keyword">new</span> HashMap();
+inputs.put(<span class="code-quote">"working.title"</span>, 
+  <span class="code-quote">"the quick brown fox jumped over the lazy dog,"</span> +
+  <span class="code-quote">" thus making <span class="code-keyword">this</span> a very <span class="code-object">long</span> title"</span>);
+workflow.doAction(workflowId, 2, inputs);</pre>
+</div></div>
+
+<p>我们将会得到一个InvalidInputException，这个动作将不会被执行。减少输入的title字符，将会让这个动作成功执行。</p>
+
+<p>我们已经介绍了输入和校验，下面来看看寄存器。</p>
+
+<p>h3 Registers 寄存器</p>
+
+<p>寄存器是一个工作流的全局变量。和propertyset类似，它可以在工作流实例的任意地方被获取。和propertyset不同的是，它不是一个持久化的数据，而是每次调用时都需要重新计算的数据。</p>
+
+<p>它可以被用在什么地方呢？在我们的文档管理系统里面，如果定义了一个“document”的寄存器，那么对于函数、条件、脚本来说就是非常有用的：可以用它来获得正在被编辑的文档。</p>
+
+<p>寄存器地值会被放在临时变量（transientVars map）里，这样能够在任意地方获得它。</p>
+
+<p>定义一个寄存器和函数、条件的一个重要区别是，它并不是依靠特定的调用（不用关心当前的步骤，或者是输入数据，它只是简单地暴露一些数据而已），所以它不用临时变量里的值。</p>
+
+<p>寄存器必须实现Register接口，并且被定义在流程定义文件的头部，在初始化动作之前。</p>
+
+<p>举例来说，我们将会使用一个osworkflow内置的寄存器:LogRegister。这个寄存器简单的添加一个“log”变量，能够让你使用Jakarta的commons-logging输出日志信息。它的好处是会在每条信息前添加工作流实例的ID。</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;registers&gt;</span>
+  <span class="code-tag">&lt;register type=<span class="code-quote">"class"</span> variable-name=<span class="code-quote">"log"</span>&gt;</span>
+    <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>
+      com.opensymphony.workflow.util.LogRegister
+    <span class="code-tag">&lt;/arg&gt;</span>
+    <span class="code-tag">&lt;arg name=<span class="code-quote">"addInstanceId"</span>&gt;</span>true<span class="code-tag">&lt;/arg&gt;</span>
+    <span class="code-tag">&lt;arg name=<span class="code-quote">"Category"</span>&gt;</span>workflow<span class="code-tag">&lt;/arg&gt;</span>
+  <span class="code-tag">&lt;/register&gt;</span>
+<span class="code-tag">&lt;/registers&gt;</span></pre>
+</div></div>
+
+<p>这样我们定义了一个可用的“log”变量，可以通过其他的pre－function的脚本里面使用它：</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;function type=<span class="code-quote">"beanshell"</span>&gt;</span>
+  <span class="code-tag">&lt;arg name=<span class="code-quote">"script"</span>&gt;</span>transientVars.get(<span class="code-quote">"log"</span>).info(<span class="code-quote">"executing action 2"</span>)<span class="code-tag">&lt;/arg&gt;</span>
+<span class="code-tag">&lt;/function&gt;</span></pre>
+</div></div>
+
+<p>日志输出将会在前面添加工作流实例的ID</p>
+
+<p>h3 结论</p>
+
+<p>这个教程的目的是希望可以阐明一些主要的osworkflow概念。你还可以通过API和流程定义格式去获取更多的信息。有一些更高级的特性没有在此提到，比如splits 分支、joins 连接, nested conditions 复合条件、auto stpes 自动步骤等等。你可以通过阅读手册来获得更进一步的理解。</p>
+
+<p>如果你遇到任何的困难，可以在osworkflow的email list上询问。</p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

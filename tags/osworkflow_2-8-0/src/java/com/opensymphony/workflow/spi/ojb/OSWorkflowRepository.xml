@@ -1,0 +1,78 @@
+<!--
+Put this file in the classpath and modify the repository.xml file to use this file (see OJB doc),
+this represents the mapping between OJB classes and osworkflow database on SQLServer,
+but it can be easily adapted to other database servers.
+
+Contributed by Jérôme Picard
+ -->
+
+<!-- Definitions for OJBWorkflowEntry -->
+<class-descriptor class="com.opensymphony.workflow.spi.ojb.OJBWorkflowEntry" table="OS_WFENTRY">
+  <field-descriptor id="1" name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"/>
+  <field-descriptor id="2" name="workflowName" column="NAME" jdbc-type="VARCHAR"/>
+  <field-descriptor id="3" name="state" column="INITIALIZED" jdbc-type="INTEGER"/>
+
+  <collection-descriptor name="currentSteps" element-class-ref="com.opensymphony.workflow.spi.ojb.OJBCurrentStep" auto-retrieve="true" auto-update="true" orderby="ID" sort="DESC">
+    <inverse-foreignkey field-id-ref="2"/>
+  </collection-descriptor>
+  <collection-descriptor name="historySteps" element-class-ref="com.opensymphony.workflow.spi.ojb.OJBHistoryStep" auto-retrieve="true" auto-update="true" orderby="ID" sort="DESC">
+    <inverse-foreignkey field-id-ref="2"/>
+  </collection-descriptor>
+
+  <attribute attribute-name="cacheable" attribute-value="false"/>
+</class-descriptor>
+
+<!-- Definitions for OJBCurrentStep -->
+<class-descriptor class="com.opensymphony.workflow.spi.ojb.OJBCurrentStep" table="OS_CURRENTSTEP">
+  <field-descriptor id="1" name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"/>
+  <field-descriptor id="2" name="entryId" column="ENTRY_ID" jdbc-type="BIGINT"/>
+  <field-descriptor id="3" name="stepId" column="STEP_ID" jdbc-type="INTEGER"/>
+  <field-descriptor id="4" name="actionId" column="ACTION_ID" jdbc-type="INTEGER"/>
+  <field-descriptor id="5" name="owner" column="OWNER" jdbc-type="VARCHAR"/>
+  <field-descriptor id="6" name="startDate" column="START_DATE" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
+  <field-descriptor id="7" name="finishDate" column="FINISH_DATE" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
+  <field-descriptor id="8" name="dueDate" column="DUE_DATE" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
+  <field-descriptor id="9" name="status" column="STATUS" jdbc-type="VARCHAR"/>
+  <field-descriptor id="10" name="caller" column="CALLER" jdbc-type="VARCHAR"/>
+
+  <reference-descriptor name="entry" class-ref="com.opensymphony.workflow.spi.ojb.OJBWorkflowEntry" auto-retrieve="false" auto-update="false">
+    <foreignkey field-id-ref="2"/>
+  </reference-descriptor>
+
+  <attribute attribute-name="cacheable" attribute-value="false"/>
+</class-descriptor>
+
+<!-- Definitions for OJBHistoryStep -->
+<class-descriptor class="com.opensymphony.workflow.spi.ojb.OJBHistoryStep" table="OS_HISTORYSTEP">
+  <field-descriptor id="1" name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"/>
+  <field-descriptor id="2" name="entryId" column="ENTRY_ID" jdbc-type="BIGINT"/>
+  <field-descriptor id="3" name="stepId" column="STEP_ID" jdbc-type="INTEGER"/>
+  <field-descriptor id="4" name="actionId" column="ACTION_ID" jdbc-type="INTEGER"/>
+  <field-descriptor id="5" name="owner" column="OWNER" jdbc-type="VARCHAR"/>
+  <field-descriptor id="6" name="startDate" column="START_DATE" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
+  <field-descriptor id="7" name="finishDate" column="FINISH_DATE" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
+  <field-descriptor id="8" name="dueDate" column="DUE_DATE" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
+  <field-descriptor id="9" name="status" column="STATUS" jdbc-type="VARCHAR"/>
+  <field-descriptor id="10" name="caller" column="CALLER" jdbc-type="VARCHAR"/>
+
+  <reference-descriptor name="entry" class-ref="com.opensymphony.workflow.spi.ojb.OJBWorkflowEntry" auto-retrieve="false" auto-update="false">
+    <foreignkey field-id-ref="2"/>
+  </reference-descriptor>
+
+  <attribute attribute-name="cacheable" attribute-value="false"/>
+</class-descriptor>
+
+
+<!-- Definitions for OJBPropertySetItem -->
+<class-descriptor class="com.opensymphony.module.propertyset.ojb.OJBPropertySetItem" table="OS_PROPERTYENTRY">
+  <field-descriptor id="1" name="globalKey" column="GLOBAL_KEY" jdbc-type="VARCHAR" primarykey="true"/>
+  <field-descriptor id="2" name="itemKey" column="ITEM_KEY" jdbc-type="VARCHAR" primarykey="true"/>
+  <field-descriptor id="3" name="itemType" column="ITEM_TYPE" jdbc-type="INTEGER"/>
+  <field-descriptor id="4" name="stringValue" column="STRING_VALUE" jdbc-type="VARCHAR"/>
+  <field-descriptor id="5" name="dateValue" column="DATE_VALUE" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
+  <field-descriptor id="6" name="doubleValue" column="FLOAT_VALUE" jdbc-type="DOUBLE"/>
+  <field-descriptor id="7" name="longValue" column="NUMBER_VALUE" jdbc-type="BIGINT"/>
+  <field-descriptor id="8" name="byteValue" column="DATA_VALUE" jdbc-type="VARBINARY"/>
+
+  <attribute attribute-name="cacheable" attribute-value="false"/>
+</class-descriptor>

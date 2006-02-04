@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+        Migrating from version 2.5
+         </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <p>In order to migrate existing OSWorkflow 2.5 applications to OSWorkflow 2.6, the <b>WF_ENTRY</b> table must be modified. The <b>INITIALIZED</b> column type has changed from a boolean to an int. In some databases there is no difference between a boolean and an int, so no type change is necessary. In all cases, the column name must be changed to <b>STATE</b>.</p>
+
+<p>If the column type needs to be changed, then the best approach is to create a new <b>STATE</b> column, and populate it with the values from the old <b>INITIALIZED</b> column. Old values of 'false' map to a value to 0 in the new column, and values of 'true' map to 1 in the new column. Once this new column has been successfully populated, the <b>INITIALIZED</b> column can be deleted.</p>
+
+<p>The InternalWorkflowException and WorkflowException classes now wrap an Throwable, instead of an Exception. Recompilation is required.</p>
+
+<p>The <b>doAction</b> method in Workflow can now throw a new runtime exception, <b>InvalidActionException</b>. This exception is thrown if the passed in action is invalid for the workflow.</p>
+
+<p>Previously when an error was encountered in a bsh script, the bsh exception was wrapped in a <b>WorkflowException</b> and thrown. This behaviour is now modified so that the <b>WorkflowException</b> instead wraps the underlying cause of the error in the bsh script.</p>
+
+<p>Due to popular demand, all the read methods in <b>Workflow</b> now no longer throw exceptions. Instead an appropriate 'blank' value is returned. The exception is now just logged, rather than propagated. Methods which make changes in the store still throw exceptions back up, if an error occured.</p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

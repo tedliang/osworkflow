@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.7//EN" "http://www.opensymphony.com/osworkflow/workflow_2_7.dtd">
+<workflow>
+  <initial-actions>
+    <action id="1" name="Start Workflow">
+      <results>
+        <unconditional-result old-status="Finished" status="Underway" step="1" owner="crazybob"/>
+      </results>
+    </action>
+  </initial-actions>
+  <steps>
+    <step id="1" name="First Step">
+      <actions>
+        <action id="2" name="The first action" finish="true">
+          <restrict-to>
+            <conditions type="AND">
+              <condition type="class">
+                <arg name="status">Underway</arg>
+                <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
+              </condition>
+            </conditions>
+          </restrict-to>
+          <results>
+            <unconditional-result old-status="Finished" status="LastFinished" step="2"/>
+          </results>
+        </action>
+      </actions>
+      <post-functions>
+        <function type="beanshell" name="bsh.function">
+          <arg name="script">propertySet.setString("postkey", "postvalue")</arg>
+        </function>
+      </post-functions>
+    </step>
+    <step id="2" name="Second step" />
+  </steps>
+</workflow>
+

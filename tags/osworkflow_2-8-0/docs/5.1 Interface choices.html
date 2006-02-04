@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Interface choices
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="4.4 Palettes.html" title="4.4 Palettes">4.4 Palettes</a></li>
+	<li>Forward to <a href="5.2 Creating a new workflow.html" title="5.2 Creating a new workflow">5.2 Creating a new workflow</a></li>
+</ul>
+
+
+<p>OSWorkflow provides several implementations of the <b>com.opensymphony.workflow.Workflow</b> interface that can be used in your application.</p>
+
+<h2><a name="5.1Interfacechoices-BasicWorkflow">BasicWorkflow</a></h2>
+
+<p>The BasicWorkflow has no transactional support, though depending upon your persistence implementation, transactional support can be wrapped around this. It is created by doing  <div class="code"><div class="codeContent">
+<pre class="code-java">Workflow wf = <span class="code-keyword">new</span> BasicWorkflow(username)</pre>
+</div></div> where username is the user who is associated with the current request.</p>
+
+<h2><a name="5.1Interfacechoices-EJBWorkflow">EJBWorkflow</a></h2>
+
+<p>The EJB workflow uses the EJB container to manage transactions. This is configured in <b>ejb-jar.xml</b>. It is created by doing <div class="code"><div class="codeContent">
+<pre class="code-java">Workflow wf = <span class="code-keyword">new</span> EJBWorkflow()</pre>
+</div></div>. There is no need to give the username (as in BasicWorkflow and OfbizWorkflow) since that is automatically pulled in from the EJB container once the user has been authorized.</p>
+
+<h2><a name="5.1Interfacechoices-OfbizWorkflow">OfbizWorkflow</a></h2>
+
+<p>The OfbizWorkflow is exactly like the BasicWorkflow in every way, except that methods that require transactional support are wrapped with ofbiz TransactionUtil calls.</p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

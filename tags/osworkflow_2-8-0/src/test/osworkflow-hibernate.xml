@@ -1,0 +1,8 @@
+<osworkflow>
+  <!-- The hibernate store requires that you specify the session factory in ConfigLoader.persistenceArgs
+       See javadocs for the store -->
+  <persistence class="com.opensymphony.workflow.spi.hibernate.HibernateWorkflowStore" />
+  <factory class="com.opensymphony.workflow.loader.URLWorkflowFactory">
+    <property key="cache" value="true" />
+  </factory>
+</osworkflow>

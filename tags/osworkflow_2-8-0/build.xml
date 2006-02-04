@@ -1,0 +1,239 @@
+<project name="workflow" default="jar" basedir=".">
+
+  <property name="test.compile.version" value="1.5"/>
+  <property name="src.test" location="src/test"/>
+  <property name="jar.manifest" value="src/etc/deployment/ejb/manifest.txt" />
+  
+  <property name="common.build" value="osbuild.xml"/>
+  <import file="${common.build}"/>
+  
+  <path id="jalopy.classpath">
+    <fileset dir="lib/build/jalopy">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <taskdef name="jalopy" classname="de.hunsicker.jalopy.plugin.ant.AntPlugin">
+    <classpath refid="jalopy.classpath"/>
+  </taskdef>
+
+  <taskdef name="ejbdoclet" classname="xdoclet.modules.ejb.EjbDocletTask" classpathref="cp"/>
+
+  <target name="init" depends="common.init">
+    <property name="lib.designer" value="${lib}/designer"/>
+
+    <property name="src.client" value="${src}/designer"/>
+    <property name="src.etc" value="${src}/etc"/>
+    <property name="src.webapp" value="${src}/webapp"/>
+    <property name="propertyset.version" value="1.4"/>
+    <property name="propertyset.jar" value="propertyset-${propertyset.version}.jar"/>
+    <property name="propertyset-ejb.jar" value="propertyset-ejb-${propertyset.version}.jar"/>
+    <property name="oscore.jar" value="oscore-2.2.5.jar"/>
+    <property name="build.client" value="${build}/designer"/>
+
+    <property name="dist.client" value="${dist}/designer"/>
+    <property name="www" location="www"/>
+
+		<path id="client.classpath">
+			<fileset dir="lib/designer">
+				<include name="*.jar"/>
+			</fileset>
+			<pathelement path="${build.java}"/>
+		</path>
+  </target>
+
+  <target name="clean" depends="common.clean" description="Remove all compiled files and generated sources">
+    <delete>
+      <fileset dir="${src.java}/com/opensymphony/workflow/spi/ejb">
+        <exclude name="*EJB*.java"/>
+        <exclude name="Abstract*.java"/>
+        <exclude name="StepComparator.java"/>
+      </fileset>
+      <fileset dir="${src.java}/com/opensymphony/workflow/ejb">
+        <exclude name="*EJB*.java"/>
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="ejbdoclet" depends="init">
+    <ejbdoclet ejbspec="2.0" verbose="false" destdir="${src.java}">
+      <fileset dir="${src.java}">
+        <include name="**/ejb/**/*EJB.java"/>
+      </fileset>
+      <remoteinterface pattern="{0}Remote"/>
+      <localinterface/>
+      <homeinterface/>
+      <localhomeinterface/>
+      <!--<valueobject/>-->
+      <entitypk/>
+      <entitycmp/>
+      <session/>
+      <utilobject pattern="{0}HomeFactory" cacheHomes="true"/>
+      <deploymentdescriptor destdir="${build.java}/META-INF" validatexml="true" description="OpenSymphony Workflow Module" displayname="OSWorkflow Module"/>
+      <jboss version="4.0" destdir="${build.java}/META-INF"/>
+      <weblogic version="8.1" destdir="${build.java}/META-INF" datasource="defaultDS" createtables="CreateOnly"/>
+      <jrun version="4.0" destdir="${build.java}/META-INF"/>
+      <orion version="2.0" destdir="${build.java}/META-INF"/>
+    </ejbdoclet>
+  </target>
+
+  <target name="test-compile" depends="common.test-compile" description="Compile test classes">
+    <mkdir dir="${build.test}/META-INF"/>
+    <copy todir="${build.test}/META-INF/">
+      <fileset dir="${docs}">
+        <include name="*.dtd" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="precompile" depends="ejbdoclet">
+    <jalopy fileformat="unix" convention="${src}/etc/jalopy.xml" history="file" historymethod="adler32" loglevel="error" threads="2" classpathref="cp">
+      <fileset dir="${src.java}">
+        <include name="**/*.java"/>
+      </fileset>
+    </jalopy>
+    <copy todir="${build.java}/META-INF">
+      <fileset dir="${docs}">
+        <include name="*.dtd"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="example-war" depends="jar" description="Build example war web application">
+    <mkdir dir="${dist}" />
+    <war warfile="${dist}/${name}-${version}-example.war" webxml="${src.webapp}/WEB-INF/web.xml">
+      <fileset dir="${src.webapp}">
+        <exclude name="WEB-INF/web.xml" />
+        <exclude name="**/*.iml" />
+      </fileset>
+      <lib dir="${lib.optional}">
+        <include name="osuser-1.0-dev-2Feb05.jar" />
+        <include name="mail.jar" />
+        <include name="activation.jar" />
+        <include name="quartz.jar" />
+        <include name="bsh-1.2b7.jar" />
+      </lib>
+      <lib dir="${lib.core}"/>
+      <lib file="${build}/${name}-${version}.jar"/>
+      <lib file="${lib}/build/log4j*.jar"/>
+      <lib dir="${lib.optional}/xfire"/>
+      <classes file="${src.etc}/quartz/log4j.properties" />
+    </war>
+  </target>
+
+  <target name="example-ear" depends="jar" description="Build ear application using the EJB store">
+    <mkdir dir="${build}/tmp/lib"/>
+    <mkdir dir="${dist}" />
+    <war warfile="${build}/tmp/${name}-${version}-example.war" webxml="${src.webapp}/WEB-INF/web.xml">
+      <fileset dir="${src.webapp}">
+        <exclude name="**/*.iml" />
+        <exclude name="WEB-INF/web.xml" />
+      </fileset>
+      <lib dir="${lib.optional}/xfire"/>
+    </war>
+    <copy file="${build}/${name}-${version}.jar" tofile="${build}/tmp/${name}-${version}-example.jar"/>
+    <!-- note that we add these files to the jarfile for ease of deployment. In a real environment, the config files
+    would be in a separate dir and added appropriately to the classpath -->
+    <copy file="${src.etc}/example/osworkflow-ejb.xml" tofile="${build}/tmp/osworkflow.xml"/>
+    <copy file="${src.webapp}/WEB-INF/classes/workflows.xml" todir="${build}/tmp"/>
+    <copy file="${src.webapp}/WEB-INF/classes/example.xml" todir="${build}/tmp"/>
+    <touch file="${build}/tmp/${name}-${version}-example.jar" millis="500"/>
+    <jar file="${build}/tmp/${name}-${version}-example.jar" update="true" basedir="${build}/tmp">
+      <include name="*.xml"/>
+    </jar>
+    <copy file="${lib.core}/${oscore.jar}" todir="${build}/tmp"/>
+    <copy file="${lib.core}/${propertyset.jar}" todir="${build}/tmp/lib"/>
+    <copy file="${lib.optional}/${propertyset-ejb.jar}" todir="${build}/tmp"/>
+    <copy file="${lib.core}/commons-logging.jar" todir="${build}/tmp/lib"/>
+    <copy file="${lib.optional}/osuser-1.0-dev-2Feb05.jar" todir="${build}/tmp/lib"/>
+    <copy file="${lib.optional}/quartz.jar" todir="${build}/tmp/lib"/>
+    <copy file="${lib.optional}/bsh-1.2b7.jar" todir="${build}/tmp/lib"/>
+    <!-- update the manifests of the other ejb modules -->
+    <touch file="${build}/tmp/${oscore.jar}" millis="500"/>
+    <touch file="${build}/tmp/${propertyset-ejb.jar}" millis="500"/>
+    <jar jarfile="${build}/tmp/${oscore.jar}" update="true" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
+    <jar jarfile="${build}/tmp/${propertyset-ejb.jar}" update="true" manifest="${src.etc}/deployment/ejb/manifest.txt"/>
+    <filter token="oscore.jar" value="${oscore.jar}"/>
+    <filter token="propertyset-ejb.jar" value="${propertyset-ejb.jar}"/>
+    <filter token="version" value="${version}"/>
+    <filter token="name" value="${name}"/>
+    <copy file="${src.etc}/example/application.xml" todir="${build}/" filtering="true" />
+    <ear appxml="${build}/application.xml" earfile="${dist}/${name}-${version}-example.ear" basedir="${build}/tmp" />
+  </target>
+
+  <target name="client" depends="compile" description="Build the designer client sources">
+    <mkdir dir="${build.client}/META-INF"/>
+    <javac classpathref="client.classpath" srcdir="${src.client}" destdir="${build.client}" source="1.4" target="1.4" compiler="modern"/>
+    <copy todir="${build.client}/META-INF">
+      <fileset dir="${docs}">
+        <include name="*.dtd"/>
+      </fileset>
+    </copy>
+    <copy todir="${build.client}">
+      <fileset dir="${src.client}">
+        <exclude name="**/*.java"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="client-jar" depends="client" description="Build the designer jar file">
+	  <mkdir dir="${build}" />
+    <jar jarfile="${build}/designer.jar">
+	    <manifest>
+				<attribute name="Built-By" value="${user.name}"/>
+		    <attribute name="Main-Class" value="com.opensymphony.workflow.designer.Launcher" />
+		    <attribute name="Class-Path" value="../lib/designer/looks.jar ../lib/designer/forms.jar ../lib/designer/syntax.jar ../lib/designer/jgraph.jar ../lib/designer/foxtrot.jar" />
+	    </manifest>
+      <fileset dir="${build.client}">
+        <exclude name="**/*.iml" />
+      </fileset>
+      <fileset dir="${build.java}">
+		    <include name="**/Condition.class" />
+        <include name="com/opensymphony/workflow/TypeResolver.class" />
+		    <include name="com/opensymphony/workflow/*Exception.class" />
+		    <include name="**/FunctionProvider.class" />
+		    <include name="**/Register.class" />
+		    <include name="**/XMLizable.class" />
+		    <include name="**/Validatable.class" />
+        <include name="**/DTDEntityResolver.class" />
+        <include name="**/VariableResolver.class" />
+        <include name="**/DefaultVariableResolver.class" />
+		    <include name="**/config/**" />
+		    <include name="**/loader/**" />
+	    </fileset>
+      <zipfileset src="${lib.core}/${oscore.jar}">
+        <include name="**/Provider.class" />
+        <include name="**/BeanProvider.class" />
+        <include name="**/DefaultBeanProvider.class" />
+      </zipfileset>
+    </jar>
+  </target>
+
+  <target name="webstart" depends="client-jar" description="Build webstart files">
+    <mkdir dir="${dist.docs}/designer" />
+    <property name="designer.jars" value="" />
+    <jar jarfile="${build}/designer.jar" update="true">
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Main-Class" value="com.opensymphony.workflow.designer.Launcher" />
+        <attribute name="Class-Path" 
+                   value="${designer.jars}looks.jar ${designer.jars}forms.jar ${designer.jars}syntax.jar ${designer.jars}jgraph.jar ${designer.jars}foxtrot.jar" />
+      </manifest>
+    </jar>
+    <my.signjar signedjar="${dist.docs}/designer/designer.jar" jar="${build}/designer.jar" />
+    <my.signjar signedjar="${dist.docs}/designer/looks.jar" jar="${lib.designer}/looks.jar" />
+    <my.signjar signedjar="${dist.docs}/designer/syntax.jar" jar="${lib.designer}/syntax.jar" />
+    <my.signjar signedjar="${dist.docs}/designer/jgraph.jar" jar="${lib.designer}/jgraph.jar" />
+    <my.signjar signedjar="${dist.docs}/designer/foxtrot.jar" jar="${lib.designer}/foxtrot.jar"/>
+    <my.signjar signedjar="${dist.docs}/designer/forms.jar" jar="${lib.designer}/forms.jar" />
+  </target>
+  
+  <presetdef name="my.signjar">
+    <signjar alias="opensymphony" storepass="123456" keystore="${lib.build}/OSKeystore" />    
+  </presetdef>
+  <target name="website" depends="common.website, webstart" description="Build website" />
+  <target name="docs" depends="common.docs, webstart" description="Build all documentation" />
+
+  <target name="dist" depends="client-jar, example-war, common.dist" description="Build distribution zipfile" />
+</project>
+

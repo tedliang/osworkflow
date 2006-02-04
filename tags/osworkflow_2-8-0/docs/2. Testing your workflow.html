@@ -1,0 +1,126 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Testing your workflow
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <p>Now that we have a complete workflow definition, the next step is to verify that it behaves as expected.</p>
+
+<p>The easiest way to do this in a rapid development environment is to write a test case. The test case will invoke the workflow, and by examining the results and the potential errors thrown, we can ensure that our definition is correct.</p>
+
+<p>It is assumed that you are already familiar with JUnit and writing testcases. If not, then go to the JUnit website and go through the documentation there. Writing tests will soon become a very useful addition to your toolbox.</p>
+
+<p>Before we can load in our workflow descriptor and call actions on it, we need to configure OSWorkflow to inform it of what data store to use, as well as the descriptor location and suchlike.</p>
+
+<h3><a name="2.Testingyourworkflow-Configuringosworkflow.xml">Configuring osworkflow.xml</a></h3>
+
+<p>The first file that needs to be created is <em>osworkflow.xml</em>. Below is a simple example:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;osworkflow&gt;</span>
+  <span class="code-tag">&lt;persistence class=<span class="code-quote">"com.opensymphony.workflow.spi.memory.MemoryWorkflowStore"</span>/&gt;</span>
+  <span class="code-tag">&lt;factory class=<span class="code-quote">"com.opensymphony.workflow.loader.XMLWorkflowFactory"</span>&gt;</span>
+    <span class="code-tag">&lt;property key=<span class="code-quote">"resource"</span> value=<span class="code-quote">"workflows.xml"</span> /&gt;</span>
+  <span class="code-tag">&lt;/factory&gt;</span> 
+<span class="code-tag">&lt;/osworkflow&gt;</span></pre>
+</div></div>
+
+<p>This example specifies that we should use the memory workflow store. This saves us from the trouble of having to set up a database or some other store that might require a lot of configuration and initialising. Of course, the memory store is only really useful for testing purposes.</p>
+
+<h3><a name="2.Testingyourworkflow-Workflowfactories">Workflow factories</a></h3>
+
+<p>The configuration file above also specifies that we should use the XML workflow factory. The workflow factory is responsible for managing workflow descriptors. This includes reading them at a bare minimum, and possibly modifying and writing them. The XML workflow factory has a special property called 'resource' which specifies the file where the workflow name to descriptor XML file can be found. The resource is loaded from the classpath, so for the case above, you will need to create a file called workflows.xml that is in your classpath.</p>
+
+<p>The contents of workflows.xml should be:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;workflows&gt;</span>
+  <span class="code-tag">&lt;workflow name=<span class="code-quote">"mytest"</span> type=<span class="code-quote">"resource"</span> location=<span class="code-quote">"myworkflow.xml"</span>/&gt;</span>
+<span class="code-tag">&lt;/workflows&gt;</span></pre>
+</div></div>
+
+<p>So, you need to have the <em>myworkflow.xml</em> file we created earlier alongside workflows.xml, since it will likewise be loaded in as a resources.</p>
+
+<p>At this point we're done with configuration, so first initialize then call our workflow.</p>
+
+<h3><a name="2.Testingyourworkflow-InitialisingOSWorkflow">Initialising OSWorkflow</a></h3>
+
+<p>OSWorkflow has a fairly simple invocation model. There is a main entry point through which almost all interaction takes place. This main entry point is the <em>Workflow</em> interface, and implementation-wise, is usually a subclass of <em>AbstractWorkflow</em>. Example implementations are EJBWorkflow and SOAPWorkflow. For the sake of simplicity, we will use the simplest form, BasicWorkflow.</p>
+
+<p>First, we create our workflow. This object should usually be stored in a global location and should be reused. Although not recommended, one way of doing so is to make it a static. Creating a new one every time can be potentially expensive. BasicWorkflow's constructor takes in one parameter, the username of the current caller. This might seem odd given the earlier recommendation to reuse it, and the fact that any serious usage will involve multiple users. However, most other workflow implementations have their own mechanism for figuring out the current caller, and so are not created 'for' a particular user up front.</p>
+
+<p>BasicWorkflow provides the ability to pin a workflow to a user for the sake of simplicity and to avoid the hassle of hooking up OSWorkflow to a user lookup mechanism.</p>
+
+<p>So, we create our workflow with a user caller 'testuser':</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">Workflow workflow = <span class="code-keyword">new</span> BasicWorkflow(<span class="code-quote">"testuser"</span>);</pre>
+</div></div>
+
+<p>The next step is to provide the workflow with a configuration to use. In most cases, it is sufficient to simply pass in a DefaultConfiguration instance, like so:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">DefaultConfiguration config = <span class="code-keyword">new</span> DefaultConfiguration();
+workflow.setConfiguration(config);</pre>
+</div></div>
+
+<p>We now have an initialised and configured workflow session, and can move on to invoking a particular workflow and calling actions on it.</p>
+
+<h3><a name="2.Testingyourworkflow-Startingandprogressingaworkflow">Starting and progressing a workflow</a></h3>
+<p>The first thing to do to start a workflow is to call the initialize method. This method takes in 3 parameters. These are the workflow name (how that'll be handled depends on our workflow factory), the action ID (which initial action we want to call), and inputs to the action. For now, we'll simply pass in null for the inputs as we aren't using any (more on them later though).</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java"><span class="code-object">long</span> workflowId = workflow.initialize(<span class="code-quote">"mytest"</span>, 1, <span class="code-keyword">null</span>);</pre>
+</div></div>
+
+<p>We now have a workflow instance started. The ID returned is what we will use to specify this workflow for all future interactions. This ID is a parameter to most of the methods in the Workflow interface.</p>
+
+<h4><a name="2.Testingyourworkflow-Verifyingtheworkflow">Verifying the workflow</a></h4>
+
+<p>Now that we've initialised our workflow instance, let's confirm that it behaves as expected. From our workflow definition, we expect that the current step is 1, and that we should be able to only perform action 1 (start first draft).</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">Collection currentSteps = workflow.getCurrentSteps(workflowId);
+<span class="code-comment">//verify we only have one current step
+</span>assertEquals(<span class="code-quote">"Unexpected number of current steps"</span>, 1, currentSteps.size());
+<span class="code-comment">//verify it's step 1
+</span>Step currentStep = (Step)currentSteps.iterator().next();
+assertEquals(<span class="code-quote">"Unexpected current step"</span>, 1, currentStep.getStepId());
+
+<span class="code-object">int</span>[] availableActions = workflow.getAvailableActions(workflowId);
+<span class="code-comment">//verify we only have one available action
+</span>assertEquals(<span class="code-quote">"Unexpected number of available actions"</span>, 1, availableActions.length);
+<span class="code-comment">//verify it's action 1
+</span>assertEquals(<span class="code-quote">"Unexpected available action"</span>, 1, availableActions[0]);</pre>
+</div></div>
+
+<h4><a name="2.Testingyourworkflow-Callingactions">Calling actions</a></h4>
+
+<p>Now that we've initialised our workflow and verified that it behaves as expected, let's start the first draft!</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">workflow.doAction(workflowId, 1, <span class="code-keyword">null</span>);</pre>
+</div></div>
+
+<p>We simply call the first action. The conditions we've specified on it will be evaluated, and the workflow transitions to be 'Underway', while remaining in the same step.</p>
+
+<p>Similarly, we can then call the second action now that we've called the first, since the required conditions are met.</p>
+
+<p>After calling the second action, we have no more available actions, and as expected, the getAvailableActions will return an empty array.</p>
+
+<p>Congratulations, you have now written and called your first workflow! The next topic will cover more advanced descriptor elements.</p>
+
+<p>Go to <a href="3. Further descriptor concepts.html" title="3. Further descriptor concepts">3. Further descriptor concepts</a></p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

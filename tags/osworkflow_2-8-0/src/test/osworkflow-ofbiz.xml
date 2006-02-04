@@ -1,0 +1,6 @@
+<osworkflow>
+  <persistence class="com.opensymphony.workflow.spi.ofbiz.OfbizWorkflowStore" />
+  <factory class="com.opensymphony.workflow.loader.URLWorkflowFactory">
+    <property key="cache" value="true" />
+  </factory>
+</osworkflow>

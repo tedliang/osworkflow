@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.6//EN" "http://www.opensymphony.com/osworkflow/workflow_2_6.dtd">
+
+<workflow>
+  <!-- test for WF-192 -->
+  <initial-actions>
+    <action id="1" name="Start Workflow">
+      <results>
+        <unconditional-result old-status="Done" step="2" status="Expecting Suggestion" owner="${caller}"/>
+      </results>
+    </action>
+  </initial-actions>
+
+  <steps>
+    <step id="2" name="Disagreement">
+      <actions>
+        <action id="3" name="Propose Restaurant">
+          <results>
+            <unconditional-result old-status="Restaurant Proposed" step="3" status="Underway" />
+          </results>
+        </action>
+      </actions>
+    </step>
+
+    <step id="3" name="Evaluation">
+      <actions>
+        <action id="3" name="Reject Proposal">
+          <results>
+            <unconditional-result old-status="Proposal Rejected" step="2" status="Expecting Suggestion">
+            </unconditional-result>
+          </results>
+        </action>
+      </actions>
+    </step>
+
+  </steps>
+
+</workflow>

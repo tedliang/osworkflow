@@ -1,0 +1,135 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Further descriptor concepts
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <h3><a name="3.Furtherdescriptorconcepts-Definingfunctionsandconditions">Defining functions and conditions</a></h3>
+
+<p>You might have noticed that so far, all the conditions and functions are of type 'class'. Functions and conditions of this type take in one argument, of the name 'class.name', which specifies a fully qualified class name that implementes the appropriate interface (FunctionProvider and Condition, respectively).</p>
+
+<p>There are a number of other built-in types, which include beanshell, stateless session beans, as well as functions placed in JNDI. We will use the beanshell type below.</p>
+
+<h3><a name="3.Furtherdescriptorconcepts-Propertysets">Property sets</a></h3>
+
+<p>At any point in the workflow, you will likely want to persist small pieces of data. This is made possible in OSWorkflow by the use of the OpenSymphony PropertySet library. A PropertySet is basically a persistent type-safe Map. You can add items to the propertyset (one is created per workflow) and later on retrieve them. The propertyset is not emptied or deleted unless you explicitly do so yourself. Every function and condition has access to this propertyset, as well as any inline scripts, where it is added to the script context with the name 'propertySet'. So, to illustrate an inline script accessing the property set, let's add the following to our 'Start First Draft' actions' pre-functions.</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;function type=<span class="code-quote">"beanshell"</span>&gt;</span>
+  <span class="code-tag">&lt;arg name=<span class="code-quote">"script"</span>&gt;</span>propertySet.setString(<span class="code-quote">"foo"</span>, <span class="code-quote">"bar"</span>)<span class="code-tag">&lt;/arg&gt;</span>
+<span class="code-tag">&lt;/function&gt;</span></pre>
+</div></div>
+
+<p>We've now added a persistent property called 'foo', with the value of 'bar'. At any point in the workflow from now on, we will be able to retrieve this value.</p>
+
+<h3><a name="3.Furtherdescriptorconcepts-Transientvariables">Transient variables</a></h3>
+
+<p>As well as the propertyset variable, the other important variable made available to workflow scripts, functions, and conditions is the 'transientVars' map. This map is simply a transient map that contains context specific information for the current workflow invocation. It includes the current workflow instance being manipulated, as well as the current workflow store and the workflow descriptor being used as well as other relevant values. You can see a list of all the available keys in the javadocs for FunctionProvider and Condition.</p>
+
+<p>Remember the inputs parameter earlier, which we always passed in as null? Well, if we hadn't passed in a null, the contents of the map we pass in will have been added to the transient map.</p>
+
+<h3><a name="3.Furtherdescriptorconcepts-Inputs">Inputs</a></h3>
+
+<p>Every invocation of a workflow action takes an optional input map. This map can contain any arbitrary data that you might want to make available to your functions or conditions. It is not persisted anywhere, and is simply a data-passing mechanism.</p>
+
+<h3><a name="3.Furtherdescriptorconcepts-Validators">Validators</a></h3>
+
+<p>In order to allow for the workflow to validate inputs, we have the concept of Validators. A Validator is very similarly implemented as a function or condition (ie, it can be a class or script or EJB). For the purposes of this tutorial, we'll define a validator that checks that the input to 'finish first draft' includes a 'working.title' input that is not greater than 30 characters. Our validator will look something like this:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java"><span class="code-keyword">package</span> com.mycompany.validators;
+
+<span class="code-keyword">public</span> class TitleValidator <span class="code-keyword">implements</span> Validator
+{
+  <span class="code-keyword">public</span> void validate(Map transientVars, Map args, PropertySet ps) 
+        <span class="code-keyword">throws</span> InvalidInputException, WorkflowException
+  {
+    <span class="code-object">String</span> title = (<span class="code-object">String</span>)transientVars.get(<span class="code-quote">"working.title"</span>); 
+    <span class="code-keyword">if</span>(title == <span class="code-keyword">null</span>)
+      <span class="code-keyword">throw</span> <span class="code-keyword">new</span> InvalidInputException(<span class="code-quote">"Missing working.title"</span>);
+    <span class="code-keyword">if</span>(title.length() &gt; 30)
+      <span class="code-keyword">throw</span> <span class="code-keyword">new</span> InvalidInputException(<span class="code-quote">"Working title too <span class="code-object">long</span>"</span>);
+  }
+}</pre>
+</div></div>
+
+<p>Next, we register the validator in our workflow definition, by adding a validators element after our restrict-to element:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;validators&gt;</span>
+  <span class="code-tag">&lt;validator type=<span class="code-quote">"class"</span>&gt;</span>
+    <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>
+      com.mycompany.validators.TitleValidator
+    <span class="code-tag">&lt;/arg&gt;</span>
+  <span class="code-tag">&lt;/validator&gt;</span>
+<span class="code-tag">&lt;/validators&gt;</span></pre>
+</div></div>
+
+<p>So now, when we try to execute action 2, the validator above will be called to validate the input we had specified. So in our test case, if we now add:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">Map inputs = <span class="code-keyword">new</span> HashMap();
+inputs.put(<span class="code-quote">"working.title"</span>, 
+  <span class="code-quote">"the quick brown fox jumped over the lazy dog,"</span> +
+  <span class="code-quote">" thus making <span class="code-keyword">this</span> a very <span class="code-object">long</span> title"</span>);
+workflow.doAction(workflowId, 2, inputs);</pre>
+</div></div>
+
+<p>We will get an InvalidInputException thrown, and the action will not be executed. Shortening the title will result in a successful execution of the action.</p>
+
+<p>Now that we have covered inputs and validators, let us move on to registers.</p>
+
+<h3><a name="3.Furtherdescriptorconcepts-Registers">Registers</a></h3>
+
+<p>A register is a global variable in a workflow. Similar to a propertyset, it can be accessed anywhere in the workflow, for as long as it is active. The difference however is that a register is not a persistent value, it is a calculated value that is created or looked up anew with every workflow invocation.</p>
+
+<p>How is this useful? Well, in our document management system, it would be useful to have a 'document' register that allows functions, conditions, and scripts to access the document being edited.</p>
+
+<p>Registers are placed in the transientVars map, and so can be accessed from almost anywhere.</p>
+
+<p>Defining a register is very similar to defining a function or condition, with one important difference. Since a register is not invocation-specific (ie, it doesn't care about the current step, or what the inputs are; all it does is expose something), it does not have access to transientVars.</p>
+
+<p>Registers must implement the Register interface, and are specified at the top of the workflow definition, before initial actions.</p>
+
+<p>For our example, we'll specify one of the built-in registers, LogRegister. This register simply adds a 'log' variable that allows you to log messages using Jakarta's commons-logging. The advantage of using it is that it will also add the instance ID to every log message.</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;registers&gt;</span>
+  <span class="code-tag">&lt;register type=<span class="code-quote">"class"</span> variable-name=<span class="code-quote">"log"</span>&gt;</span>
+    <span class="code-tag">&lt;arg name=<span class="code-quote">"class.name"</span>&gt;</span>
+      com.opensymphony.workflow.util.LogRegister
+    <span class="code-tag">&lt;/arg&gt;</span>
+    <span class="code-tag">&lt;arg name=<span class="code-quote">"addInstanceId"</span>&gt;</span>true<span class="code-tag">&lt;/arg&gt;</span>
+    <span class="code-tag">&lt;arg name=<span class="code-quote">"Category"</span>&gt;</span>workflow<span class="code-tag">&lt;/arg&gt;</span>
+  <span class="code-tag">&lt;/register&gt;</span>
+<span class="code-tag">&lt;/registers&gt;</span></pre>
+</div></div>
+
+<p>Now we have a 'log' variable available, we can use it in an inline script by adding another pre-function:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;function type=<span class="code-quote">"beanshell"</span>&gt;</span>
+  <span class="code-tag">&lt;arg name=<span class="code-quote">"script"</span>&gt;</span>transientVars.get(<span class="code-quote">"log"</span>).info(<span class="code-quote">"executing action 2"</span>)<span class="code-tag">&lt;/arg&gt;</span>
+<span class="code-tag">&lt;/function&gt;</span></pre>
+</div></div>
+
+<p>The logging output will now contain the workflow instance ID.</p>
+
+<h3><a name="3.Furtherdescriptorconcepts-Conclusion">Conclusion</a></h3>
+
+<p>This tutorial has hopefully illustrated the some of the major ideas in OSWorkflow. You should feel comfortable enough now with the API and descriptor syntax to explore further on your own. There are many more advanced features that are not mention here, like splits, joins, nested conditions, auto steps, and others. Feel free to browse the manual to get a stronger grasp on what is available.</p>
+
+<p>If you do get stuck at any point, then please feel free to ask on the OSWorkflow mailing list!</p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

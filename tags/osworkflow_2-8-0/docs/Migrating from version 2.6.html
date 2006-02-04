@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+        Migrating from version 2.6
+         </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <h3><a name="Migratingfromversion2.6-NewstepID">New stepID</a></h3>
+
+<p>OSWorkflow 2.7 introduces a special stepId value that can be specified in results, to denote that the workflow should remain in the same current step at that result. The value of this special ID is -1. Therefore, if you have any workflows that currently use a step ID of -1, you should change it to something else, or your workflow descriptor will be marked as invalid.</p>
+
+<h3><a name="Migratingfromversion2.6-ConfigurationInterface">Configuration Interface</a></h3>
+
+<p>Another major change in OSWorkflow 2.7 is the introduction of a Configuration interface, with the accompanying implementation, DefaultConfiguration. A number of internally used classes and interfaces have been removed (StoreFactory, and ConfigLoader). If your application made any calls to ConfigLoader, you should migrate to the new Configuration mechanism which should be very straightforward.</p>
+
+<p>The major advantage of this approach is that it is now possible to run multiple configurations of OSWorkflow concurrently, since there are no statics involved except for backward compatibility.</p>
+
+<p>This change is fully backward compatible, so if you do not need an extra level of configurability, then you can basically ignore the new Configuration mechanism.</p>
+
+<h3><a name="Migratingfromversion2.6-Statechange">State change</a></h3>
+
+<p>Calls to changeEntryState now with a new state of KILLED or COMPLETED will result in all current steps being moved to the history table</p>
+
+<h3><a name="Migratingfromversion2.6-Nestedconditions">Nested conditions</a></h3>
+
+<p>It is now possible to nest conditions inside of other conditions. The conditions element also no longer requires a type attribute if there is only one condition specified inside of it.</p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

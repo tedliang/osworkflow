@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Conditions
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="3.6 Registers.html" title="3.6 Registers">3.6 Registers</a></li>
+	<li>Forward to <a href="3.8 SOAP Support.html" title="3.8 SOAP Support">3.8 SOAP Support</a></li>
+</ul>
+
+
+<p>Conditions in OSWorkflow are similar to functions with one minor exception: <b>in BSF and Beanshell scripts, there is an extra object in scope of the name "jn"</b>. This variable is of the class <a href="http://www.opensymphony.com/osworkflow/api/com/opensymphony/workflow/JoinNodes.html" title="Visit page outside Confluence">com.opensymphony.workflow.JoinNodes</a> and is used for join-conditions. Other than that, conditions are just like functions except that they must return a value that equates to <b>true or false</b>. This includes a String "true" or a Boolean that evaluates to true, or any other object that has a toString() method that returns the String "true" in some manner (TRUE, True, true, etc).</p>
+
+<p>Each <b>condition</b> must be defined as a child of the <b>conditions</b> element. This element has one attribute called <b>type</b>, which can either be <b>AND</b> or <b>OR</b>. When using the type AND all the condition elements must evaluate to true or the overall condition will return as false. When using the type OR only one condition element must evaluate to true for the overall condition to pass. If you require more complex conditional logic, then consider implementing it yourself using the <b>Condition</b> or <b>ConditionRemote</b> interfaces, BeanShell, or BSF. Note that the type can be omitted if the conditions element contains only one condition.</p>
+
+<p>As of OSWorkflow 2.7, it is possible to nest conditions by simply specifying additional &lt;conditions&gt; children elements under a &lt;conditions&gt; element, which enables you to express more complex logical operations than a simple AND or OR on a set of conditions on the same level.</p>
+
+<p>Below is a list of some of the standard conditions that OSWorkflow ships with:</p>
+
+<ul>
+	<li><b>OSUserGroupCondition</b> - Uses OSUser to determine if the caller is in the required argument "group"</li>
+	<li><b>StatusCondition</b> - Determines if the current step's status if the same as the required argument "status".</li>
+	<li><b>AllowOwnerOnlyCondition</b> - Only returns true if the caller is the owner of the specified current step or any current step if the step is not specified.</li>
+	<li><b>DenyOwnerCondition</b> - Does the opposite of AllowOwnerOnlyCondition.</li>
+</ul>
+
+
+<p>You can read the JavaDocs of these classes for more information.</p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         SOAP Support
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="3.7 Conditions.html" title="3.7 Conditions">3.7 Conditions</a></li>
+	<li>Forward to <a href="4. GUI Designer.html" title="4. GUI Designer">4. GUI Designer</a></li>
+</ul>
+
+
+<p>OSWorkflow comes with support for remote invocation using SOAP. This can be accomplished using either the Glue SOAP implementation from <a href="http://www.webmethods.com/meta/default/folder/0000008629" title="Visit page outside Confluence">WebMethods</a>, or the open source <a href="http://xfire.codehaus.org/" title="Visit page outside Confluence">XFire</a> soap library.</p>
+
+<h2><a name="3.8SOAPSupport-UsingXFire">Using XFire</a></h2>
+
+<p>The example application that is bundled with OSWorkflow exposes the workflow object via SOAP by default, so you are encouraged to use that as a starting point. Enabling SOAP support is a fairly trivial matter. The first step is to ensure that you have all the required xfire jar files in your <b>WEB-INF/lib</b> directory. The files are all included in the <b>lib/optional/xfire</b> directory.</p>
+
+<p>The next step is to add the SOAP servlet to your web application. Add the following to your web.xml file:</p>
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;servlet&gt;
+    &lt;servlet-name&gt;SOAPWorkflow&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.opensymphony.workflow.soap.SOAPWorkflowServlet&lt;/servlet-class&gt;
+  &lt;/servlet&gt;
+  
+  &lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;SOAPWorkflow&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/soap/*&lt;/url-pattern&gt;
+  &lt;/servlet-mapping&gt;</pre>
+</div></div>
+
+<p>Once your application is deployed, you can access the WSDL at <b>http://&lt;server&gt;/soap/Workflow?wsdl</b></p>
+
+<p>For invoking the service, any SOAP client should work. XFire itself has <a href="http://xfire.codehaus.org/Client+API" title="Visit page outside Confluence">client support</a> that would enable you to use the same classes as the server. Other client libraries such as Axis, GLUE, or .net should also work out of the box.</p>
+
+<h2><a name="3.8SOAPSupport-UsingGLUE">Using GLUE</a></h2>
+
+<p>GLUE does <b>not</b> come with OSWorkflow and must be downloaded separately from <a href="http://www.webmethods.com/solutions/wM_Glue_OEM_ISV/" title="Visit page outside Confluence">WebMethods</a>. GLUE is generally free for most usage. You can find the license agreement when you download GLUE. <b>SOAP and Job Scheduling support will not be available if you do not download GLUE 2.1 or later and include GLUE-STD.jar in your classpath.</b></p>
+
+<p>As with XFire, the first step is adding the GLUE servlet to your web application, as detailed in the GLUE documentation. SOAP support <b>must</b> be enabled for scheduled jobs to occur, using the Quartz job scheduler. Here is some example code that uses Glue to talk to OSWorkflow:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java"><span class="code-keyword">import</span> electric.util.Context;
+<span class="code-keyword">import</span> electric.registry.Registry;
+<span class="code-keyword">import</span> electric.registry.RegistryException;
+
+...
+
+Context context = <span class="code-keyword">new</span> Context();
+context.setProperty( <span class="code-quote">"authUser"</span>, username );
+context.setProperty( <span class="code-quote">"authPassword"</span>, password );
+Workflow wf = (Workflow) Registry.bind(
+  <span class="code-quote">"http:<span class="code-comment">//localhost/osworkflow/glue/oswf.wsdl"</span>, Workflow.class, context);</span></pre>
+</div></div>
+
+<p>From this point onward, you can use the Workflow interface just as you normally would. </p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

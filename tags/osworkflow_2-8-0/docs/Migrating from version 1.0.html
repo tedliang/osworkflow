@@ -1,0 +1,205 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+        Migrating from version 1.0
+         </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <p>Migrating from OSWorkflow 1.x to 2.1+ is slightly complex due to the introduction of joins and splits, which means that there <b>can now be more than one current step</b>. Below is an attempt to provide helpful information for migrating your application to version 2.1+:</p>
+
+<ul>
+	<li><b>Check your workflow XML file with the latest DTD</b> - the DTD has changed a bit, especially with regards to functions, validators, and registers. The location attribute for these has been removed and must now be set with an <b>arg</b> name/value pair. Please read the documentation for the exact values you should place here.</li>
+	<li><b>Data migration</b> - the tables in version 1.x were much simpler than they are now in 2.1+. <b>Status values have changed from numbers to Strings</b>. <b>The conversion is as follows: 0 -&gt; Queued, 1 -&gt; Underway, 2 - &gt; Finished</b>. Below is a small guide to help you migrate your data so that it works under 2.1+:</li>
+</ul>
+
+
+<h3><a name="Migratingfromversion1.0-TheoldOSWorkflowschemaisasfollows%3A">The old OSWorkflow schema is as follows:</a></h3>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">entry 
+---- 
+id 
+workflowname 
+currentStep 
+
+step 
+-- 
+id 
+prevId 
+stepId
+entryId 
+status 
+startDate 
+finishDate 
+actionId 
+owner</pre>
+</div></div>
+
+<h3><a name="Migratingfromversion1.0-Thenewschemaisnow%3A">The new schema is now:</a></h3>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">OS_WFENTRY 
+-------- 
+ID 
+NAME 
+INITIALIZED 
+
+
+OS_CURRENTSTEP 
+------------ 
+ID 
+ENTRY_ID 
+STEP_ID 
+ACTION_ID 
+OWNER 
+START_DATE 
+FINISH_DATE 
+STATUS 
+
+
+OS_HISTORYSTEP 
+------------ 
+ID 
+ENTRY_ID 
+STEP_ID 
+ACTION_ID 
+OWNER 
+START_DATE 
+FINISH_DATE 
+STATUS 
+
+
+OS_CURRENTSTEP_PREV 
+----------------- 
+ID 
+PREVIOUS_ID 
+
+
+OS_HISTORYSTEP_PREV 
+----------------- 
+ID 
+PREVIOUS_ID</pre>
+</div></div>
+
+<p>As an example, a creation script for Oracle would look like:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-sql">create table OS_WFENTRY
+    (
+        ID number,
+        NAME varchar(20),
+        INITIALIZED integer,
+        primary key (ID)
+    );
+    create table OS_CURRENTSTEP
+    (
+        ID number,
+        ENTRY_ID number,
+        STEP_ID integer,
+        ACTION_ID integer,
+        OWNER varchar(20),
+        START_DATE date,
+        FINISH_DATE date,
+        STATUS varchar(20),
+        primary key (ID),
+        foreign key (ENTRY_ID) references OS_WFENTRY(ID),
+        foreign key (OWNER) references USERS(USERNAME)
+    );
+    create table OS_HISTORYSTEP
+    (
+        ID number,
+        ENTRY_ID number,
+        STEP_ID integer,
+        ACTION_ID integer,
+        OWNER varchar(20),
+        START_DATE date,
+        FINISH_DATE date,
+        STATUS varchar(20),
+        primary key (ID),
+        foreign key (ENTRY_ID) references OS_WFENTRY(ID),
+        foreign key (OWNER) references USERS(USERNAME)
+    );
+    create table OS_CURRENTSTEP_PREV
+    (
+        ID number,
+        PREVIOUS_ID number,
+        primary key (ID, PREVIOUS_ID),
+        foreign key (ID) references OS_CURRENTSTEP(ID),
+        foreign key (PREVIOUS_ID) references OS_HISTORYSTEP(ID)
+    );
+    create table OS_HISTORYSTEP_PREV
+    (
+        ID number,
+        PREVIOUS_ID number,
+        primary key (ID, PREVIOUS_ID),
+        foreign key (ID) references OS_HISTORYSTEP(ID),
+        foreign key (PREVIOUS_ID) references OS_HISTORYSTEP(ID)
+    );</pre>
+</div></div>
+
+<h3><a name="Migratingfromversion1.0-Howtomigrate">How to migrate</a></h3>
+
+<p>First, dump all non-initialized workflows in your old schema with </p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-sql">DELTE <span class="code-keyword">FROM</span> entry <span class="code-keyword">WHERE</span> currentStep is NULL or currentStep = 0;</pre>
+</div></div>
+
+<p>Now we can assume the rest of the workflow instances are all initialized. Now just copy the (id, workflowName) tuple in to OS_WFENTRY as the tuple (id, name, 1) (the 1 is to mark the workflow as initialized). </p>
+
+<p>Now you want to populate the new OS_HISTORYSTEP and OS_HISTORYSTEP_PREV tables with data for non-current steps. In the old tables, non-current steps are those which don't have a join from the old 'step' table to the old 'entry' table. A sample query which would return you only non-current steps would look like:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-sql"><span class="code-keyword">select</span> ID as id, STEPID as STEP_ID, STATUS as STATUS, STARTDATE as START_DATE,
+        FINISHDATE as FINISH_DATE, ACTIONID as ACTION_ID, OWNER as OWNER, PREVID as PREVIOUS_ID,
+        ENTRYID as ENTRY_ID <span class="code-keyword">from</span> STEP
+    <span class="code-keyword">where</span> ID not in
+        (<span class="code-keyword">select</span> step.ID <span class="code-keyword">from</span> STEP step, WORKFLOWENTRY we
+            <span class="code-keyword">where</span> step.ID = we.CURRENTSTEP)</pre>
+</div></div>
+
+<p>Now you want to populate the new OS_CURRENTSTEP and OS_CURRENTSTEP_PREV tables with data for current steps. In the old tables, current steps are those which do have a join from the old 'step' table to the old 'in the old 'step' table to the old entry table. A sample query which would return you only non-current steps would look like:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-sql"><span class="code-keyword">select</span> step.ID as id, STEPID as STEP_ID, STATUS as STATUS, STARTDATE as START_DATE,
+        FINISHDATE as FINISH_DATE, ACTIONID as ACTION_ID, OWNER as OWNER, PREVID as PREVIOUS_ID,
+        ENTRYID as ENTRY_ID <span class="code-keyword">from</span> STEP, WORKFLOWENTRY we
+        <span class="code-keyword">where</span> step.ID = we.CURRENTSTEP</pre>
+</div></div>
+
+<p>Note that if your db can not handle the complex query above for the non-current step (MySQL maybe?), an alternate mechanism would be to get and process the current steps, delete them, and then get all the remaining steps and process them, which would be historical. But the 'xxx_PREV' tables should be written after the actual step tables, so the constraints from the declared foreign key relationships are not violated.</p>
+
+<p>Now delete the old tables.</p>
+
+<p>A Java/iBatis sample script to handle the above conversion is available else where in the docs:</p>
+
+<p>Note also that OsWorkflow 1.0 used an old version of OsCore, while OsWorkflow 2.1 uses the 2.01 version of OsCore. When using the EJB version, you need to update the OS_SEQUENCE table used by the OsCore sequence generator, to change the 'count' column to 'value'. Here's a groovy script which shows the logic for handling this:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">Connection conn = java.sql.DriverManager.getConnection(dbUrl, dbUsername, dbPassword)
+sql = <span class="code-keyword">new</span> Sql(conn)
+
+sql.execute(<span class="code-quote">"alter table OS_SEQUENCE add (value number(10))"</span>);
+
+count = 0;
+sql.eachRow(<span class="code-quote">"select * from OS_SEQUENCE"</span>) { 
+  sql.execute(<span class="code-quote">"update OS_SEQUENCE set value = ${it.count} where name = ${it.name}"</span>);
+  count++;
+}
+
+println <span class="code-quote">"Updated ${count} rows"</span>
+
+sql.execute(<span class="code-quote">"alter table OS_SEQUENCE drop column count"</span>);</pre>
+</div></div>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

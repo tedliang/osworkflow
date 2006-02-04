@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+        3.4.3 BSF Functions
+         </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="3.4.2 BeanShell Functions.html" title="3.4.2 BeanShell Functions">3.4.2 BeanShell Functions</a></li>
+	<li>Forward to <a href="3.4.4 Utility Functions.html" title="3.4.4 Utility Functions">3.4.4 Utility Functions</a></li>
+</ul>
+
+
+<p>In addition to <a href="3.4.1 Java-based Functions.html" title="3.4.1 Java-based Functions">3.4.1 Java-based Functions</a> and <a href="3.4.2 BeanShell Functions.html" title="3.4.2 BeanShell Functions">3.4.2 BeanShell Functions</a>, OSWorkflow supports a third type of function: <a href="http://oss.software.ibm.com/developerworks/projects/bsf" title="Visit page outside Confluence">Bean Scripting Framework</a> functions. BSF is a project by IBM's AlphaWorks group that allows for commonly used languages such as VBScript, Perlscript, Python, and JavaScript to operate in a common environment. What this means in OSWorkflow is that you can code your functions in any language supported by BSF in the following manner:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;function type=<span class="code-quote">"bsf"</span>&gt;
+	&lt;arg name=<span class="code-quote">"source"</span>&gt;foo.pl&lt;/arg&gt;
+	&lt;arg name=<span class="code-quote">"row"</span>&gt;0&lt;/arg&gt;
+	&lt;arg name=<span class="code-quote">"col"</span>&gt;0&lt;/arg&gt;
+	&lt;arg name=<span class="code-quote">"script"</span>&gt;
+		print $bsf-&gt;lookupBean(<span class="code-quote">"propertySet"</span>).getString(<span class="code-quote">"foo"</span>);
+	&lt;/arg&gt;
+&lt;/function&gt;</pre>
+</div></div>
+
+<p>The above code gets the <b>propertySet</b> then prints out the value with the key "foo". The same variables that are in default scope in BeanShell functions are available to lookup in your BSF script. Please read the BSF guide for info on how to lookup these beans in your language of choice.</p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+        Migrating from version 2.1
+         </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <p>There have been a number of changes in OSWorkflow between 2.1 and 2.5. This guide attempts to provide a migration path and a note of non-backward compatible changes.</p>
+
+<p>Improved error handling: All exceptions are not checked, and are propagated correctly with their underlying causes. This means that you now have to explicitly catch WorkflowException, or one of its subclasses.</p>
+
+<p>The 'inputs' field in scripts has been renamed to 'transientVars', and the 'variables' field renamed to 'propertySet'. The variables map has been removed, and now the PropertySet it previously wrapped is directly passed around. The API's for conditions, validators, and functions have been modified accordingly. Calls to variables.put/get need to be changed to their PropertySet equivelants (eg, setString/getString and so on). This also means that the get/createVariableMap methods from AbstractWorkflow are removed. This also means that the API for FunctionProviders and Conditions has been changed appropriately. Updating your code is a fairly simply matter of changing variable names and converting Map methods to PropertySet equivelants.</p>
+
+<p>Workflow XML descriptor files are now validated. Previously invalid files were still parsed and handled, with the invalid content ignored. This is no longer the case.</p>
+
+<p>The DTD was updated and renamed to workflow_2_5.dtd, you will need to update the DTD declaration in your workflow descriptors.</p>
+
+<p>Use of BasicWorkflow inside of functions is discouraged. Those who used it to access the workflow store now have a 'store' variable in the transient vars that can be used.</p>
+
+<p>A new DUE_DATE column is required in the step tables.</p>
+
+<p>The EJB Store now has a session bean facade.</p>
+
+<p>A number of methods in AbstractWorkflow have also been changed. Instead of two calls to createEntry followed by initialize, initializing a workflow is now done by:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">workflow.initialize(workflowName, initialAction, inputs);</pre>
+</div></div>
+
+<p>This will return a long with the created entry's ID.</p>
+
+<p>Previous descriptor access methods like getActionName, getStepName, and getStepNames in AbstractWorkflow have been removed. It is possible to interrogate the descriptor more fully via the getWorkflowDescriptor method.</p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

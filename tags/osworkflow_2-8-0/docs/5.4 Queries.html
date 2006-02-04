@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Queries
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="5.3 Executing actions.html" title="5.3 Executing actions">5.3 Executing actions</a></li>
+	<li>Forward to <a href="5.5 Implicit vs Explicit Configuration.html" title="5.5 Implicit vs Explicit Configuration">5.5 Implicit vs Explicit Configuration</a></li>
+</ul>
+
+
+<p>OSWorkflow 2.6 introduces a new <a href="http://www.opensymphony.com/osworkflow/api/com/opensymphony/workflow/query/WorkflowExpressionQuery.html" title="Visit page outside Confluence">ExpressionQuery</a> API.</p>
+
+<p>Note that not all workflow stores support queries. Currently the Hibernate, JDBC, and Memory workflow stores do support queries. The hibernate store however does not support mixed-type queries (for example, a query that uses both the history and current step contexts). To execute a query, a WorkflowExpressionQuery object is constructed, and the <a href="http://www.opensymphony.com/osworkflow/api/com/opensymphony/workflow/Workflow.html#query(com.opensymphony.workflow.query.WorkflowExpressionQuery)" title="Visit page outside Confluence">query</a> method is invoked on the Workflow object.</p>
+
+<p>Below are some query example:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java"><span class="code-comment">//Get all workflow entry ID's <span class="code-keyword">for</span> which the owner is 'testuser'
+</span><span class="code-keyword">new</span> WorkflowExpressionQuery(
+  <span class="code-keyword">new</span> FieldExpression(FieldExpression.OWNER, <span class="code-comment">//Check the OWNER field
+</span>  FieldExpression.CURRENT_STEPS,  <span class="code-comment">//Look in the current steps context
+</span>  FieldExpression.EQUALS, <span class="code-comment">//check equality
+</span>  <span class="code-quote">"testuser"</span>)); <span class="code-comment">//the equality value is 'testuser'</span></pre>
+</div></div>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java"><span class="code-comment">//Get all workflow entry ID's that have the name 'myworkflow'
+</span><span class="code-keyword">new</span> WorkflowExpressionQuery(
+  <span class="code-keyword">new</span> FieldExpression(FieldExpression.NAME, <span class="code-comment">//Check the NAME field
+</span>  FieldExpression.ENTRY,  <span class="code-comment">//Look in the entries context
+</span>  FieldExpression.EQUALS,  <span class="code-comment">//Check equality
+</span>  'myworkflow')) <span class="code-comment">//equality value is 'myworkflow'</span></pre>
+</div></div>
+
+<p>Below is an example of a nested query:</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java"><span class="code-comment">// Get all finished workflow entries where the current owner is 'testuser'
+</span>Expression queryLeft = <span class="code-keyword">new</span> FieldExpression(
+  FieldExpression.OWNER, 
+  FieldExpression.CURRENT_STEPS, 
+  FieldExpression.EQUALS, 'testuser');
+Expression queryRight = <span class="code-keyword">new</span> FieldExpression(
+  FieldExpression.STATUS, 
+  FieldExpression.CURRENT_STEPS, 
+  FieldExpression.EQUALS, 
+  <span class="code-quote">"Finished"</span>, 
+  <span class="code-keyword">true</span>);
+WorkflowExpressionQuery query = <span class="code-keyword">new</span> WorkflowExpressionQuery(
+  <span class="code-keyword">new</span> NestedExpression(<span class="code-keyword">new</span> Expression[] {queryLeft, queryRight},
+  NestedExpression.AND));</pre>
+</div></div>
+
+<p>Finally, here is an example of a mixed-context query. Note that this query is not supported by the Hibernate workflow store.</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java"><span class="code-comment">//Get all workflow entries that were finished in the past
+</span><span class="code-comment">//or are currently marked finished
+</span>Expression queryLeft = <span class="code-keyword">new</span> FieldExpression(
+  FieldExpression.FINISH_DATE, 
+  FieldExpression.HISTORY_STEPS, 
+  FieldExpression.LT, <span class="code-keyword">new</span> Date());
+Expression queryRight = <span class="code-keyword">new</span> FieldExpression(
+  FieldExpression.STATUS, 
+  FieldExpression.CURRENT_STEPS, 
+  FieldExpression.EQUALS, <span class="code-quote">"Finished"</span>);
+WorkflowExpressionQuery query = <span class="code-keyword">new</span> WorkflowExpressionQuery(
+  <span class="code-keyword">new</span> NestedExpression(<span class="code-keyword">new</span> Expression[] {queryLeft, queryRight},
+  NestedExpression.OR));</pre>
+</div></div>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

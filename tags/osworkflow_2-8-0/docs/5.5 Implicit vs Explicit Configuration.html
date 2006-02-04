@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Implicit vs Explicit Configuration
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="5.4 Queries.html" title="5.4 Queries">5.4 Queries</a></li>
+</ul>
+
+
+<p>Previous to OSWorkflow 2.7, state was maintained using static fields in a number of places. This approach while convenient, has quite a few drawbacks and restrictions. One of the main ones was the fact that it was not possible to have multiple instances of OSWorkflow with different configurations running. Put simply, you couldn't have a number of workflows using a memory store running alongside other workflow instances that used the EJB store, for example.</p>
+
+<p>OSWorkflow 2.7 fixed this limitation by the introduction of a Configuration interface. The default implementation of this interface is DefaultConfiguration, which mimics the backward compatible behaviour of loading resources and so on. Also for the sake of backward compatibility, a static instance is used <b>if no explicit call is made using a Configuration</b>. Practically speaking, the decision to use the static instance or a specified configuration is determined by the <em>setConfiguration</em> method of AbstractWorkflow. If the method is called, then the per-instance model is used. If it is not called, then the legacy singleton static model is used.</p>
+
+<p>One aspect of the new approach is that the AbstractWorkflow object is no longer stateless, and if you do not use the static approach (which you are dicouraged from using now!), you need to hold onto the instance of AbstractWorkflow that you instatiate and reuse it, instead of creating a new one for every call.</p>
+
+<p>While that might all sound rather complicated, in practice it is quite simple, as the following examples illustrate:</p>
+
+<h3><a name="5.5ImplicitvsExplicitConfiguration-Legacyapproach%3A">Legacy approach:</a></h3>
+<div class="code"><div class="codeContent">
+<pre class="code-java">Workflow workflow = <span class="code-keyword">new</span> BasicWorkflow(<span class="code-quote">"blah"</span>);
+<span class="code-object">long</span> workflowId = workflow.initialize(<span class="code-quote">"someflow"</span>, 1, <span class="code-keyword">new</span> HashMap());
+workflow.doAction(workflowId, 2, <span class="code-keyword">new</span> HashMap());
+...
+<span class="code-comment">//in some other class, called later on
+</span>Workflow workflow = <span class="code-keyword">new</span> BasicWorkflow(<span class="code-quote">"blah"</span>);
+workflow.doAction(workflowId, 3, <span class="code-keyword">new</span> HashMap());</pre>
+</div></div>
+
+<h3><a name="5.5ImplicitvsExplicitConfiguration-Recommendapproach%3A">Recommend approach:</a></h3>
+<div class="code"><div class="codeContent">
+<pre class="code-java">Workflow workflow = <span class="code-keyword">new</span> BasicWorkflow(<span class="code-quote">"blah"</span>);
+Configuration config = <span class="code-keyword">new</span> DefaultConfiguration();
+workflow.setConfiguration(config);
+<span class="code-object">long</span> workflowId = workflow.initialize(<span class="code-quote">"someflow"</span>, 1, <span class="code-keyword">new</span> HashMap());
+workflow.doAction(workflowId, 2, <span class="code-keyword">new</span> HashMap());
+<span class="code-comment">//keep track of Workflow object somewhere!
+</span>...
+<span class="code-comment">//in some other class, called later on
+</span><span class="code-comment">//look up Workflow instance that was held onto earlier
+</span>Workflow workflow = ...; <span class="code-comment">//note, <span class="code-keyword">do</span> NOT create a <span class="code-keyword">new</span> one!
+</span>workflow.doAction(workflowId, 3, <span class="code-keyword">new</span> HashMap());</pre>
+</div></div>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

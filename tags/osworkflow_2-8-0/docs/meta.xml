@@ -1,0 +1,87 @@
+<project>
+    <name>OSWorkflow</name>
+    <jiraId>10004</jiraId>
+    <jiraName>WF</jiraName>
+    <confluenceName>WF</confluenceName>
+
+    <forums>
+        <usersId>5</usersId>
+        <cvsId>13</cvsId>
+    </forums>
+
+    <owners>
+        <person>
+            <name>Hani Suleiman</name>
+            <email>hani@formicary.net</email>
+        </person>
+    </owners>
+
+    <developers />
+
+    <docs>
+        <url>Manual.html</url>
+        <items>
+            <item>
+                <name>Getting Started</name>
+                <url>1.%20Getting%20Started.html</url>
+            </item>
+            <item>
+                <name>Integration with Other Modules</name>
+                <url>2.%20Integration%20with%20Other%20Modules.html</url>
+            </item> 
+            <item>
+                <name>Understanding OSWorkflow</name>
+                <url>3.%20Understanding%20OSWorkflow.html</url>
+            </item> 
+            <item>
+                <name>GUI Designer</name>
+                <url>4.%20GUI%20Designer.html</url>
+            </item> 
+            <item>
+                <name>Using the API</name>
+                <url>5.%20Using%20the%20API.html</url>
+            </item> 
+        </items>
+    </docs>
+
+    <evaluating>
+        <item>
+            <name>Compiling from CVS</name>
+            <url>Compiling%20from%20CVS.html</url>
+        </item> 
+        <item>
+            <name>Tutorial</name>
+            <url>Tutorial.html</url>
+        </item>
+    </evaluating>
+
+    <releases>
+      <release>
+          <version>2.8.0</version>
+          <date>1/8/2006</date>
+          <jiraId>21360</jiraId>
+          <downloads>
+              <download>
+                  <url>https://osworkflow.dev.java.net/files/documents/635/27138/osworkflow-2.8.0.zip</url>
+                  <name>Full</name>
+              </download>
+            <download>
+                <url>https://osworkflow.dev.java.net/files/documents/635/27139/osworkflow-2.8.0.jar</url>
+                <name>Jar only</name>
+            </download>
+          </downloads>
+      </release>
+        <release>
+            <version>2.7.0</version>
+            <date>5/26/2004</date>
+            <jiraId>21290</jiraId>
+            <downloads>
+                <download>
+                    <url>https://osworkflow.dev.java.net/files/documents/635/4647/osworkflow-2.7.0.zip</url>
+                    <name>Full</name>
+                </download>
+            </downloads>
+        </release>
+    </releases>
+
+</project>

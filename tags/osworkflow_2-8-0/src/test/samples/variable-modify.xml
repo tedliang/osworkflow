@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.7//EN" "http://www.opensymphony.com/osworkflow/workflow_2_7.dtd">
+<workflow>
+  <initial-actions>
+    <action id="100" name="Start Workflow">
+      <pre-functions>
+        <function type="beanshell">
+          <arg name="script">
+            propertySet.setString("message", "foo");
+          </arg>
+        </function>
+        <function type="class">
+          <arg name="class.name">com.opensymphony.workflow.util.VerifyArg</arg>
+          <arg name="expected">foo</arg>
+          <arg name="actual">${message}</arg>
+        </function>
+      </pre-functions>
+      <results>
+        <unconditional-result old-status="Finished" status="Underway" step="1"/>
+      </results>
+    </action>
+  </initial-actions>
+  <steps>
+    <step id="1" name="First Step">
+      <actions>
+        <action id="1" name="The first action" finish="true" auto="true">
+          <pre-functions>
+            <function type="beanshell">
+              <arg name="script">
+                propertySet.setString("message", "bar");
+              </arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.opensymphony.workflow.util.VerifyArg</arg>
+              <arg name="expected">bar</arg>
+              <arg name="actual">${message}</arg>
+            </function>
+          </pre-functions>
+          <results>
+            <unconditional-result old-status="Finished" status="LastFinished" step="1"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+  </steps>
+</workflow>
+

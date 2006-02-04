@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<layout>
+  <cell id="0" type="InitialActionCell" height="30" width="100" x="364" y="20"/>
+  <cell id="5" type="StepCell" height="30" width="100" x="68" y="416"/>
+  <cell id="7" type="StepCell" height="30" width="100" x="364" y="218"/>
+  <cell id="2" type="StepCell" height="30" width="100" x="68" y="240"/>
+  <cell id="6" type="StepCell" height="30" width="100" x="210" y="168"/>
+  <cell id="4" type="StepCell" height="30" width="127" x="198" y="404"/>
+  <cell id="1" type="StepCell" height="30" width="100" x="364" y="102"/>
+  <cell id="3" type="StepCell" height="30" width="100" x="68" y="358"/>
+  <cell id="8" type="StepCell" height="30" width="100" x="364" y="276"/>
+  <cell id="1" type="SplitCell" height="30" width="100" x="364" y="160"/>
+  <cell id="2" type="SplitCell" height="30" width="100" x="66" y="98"/>
+  <cell id="1" type="JoinCell" height="30" width="100" x="210" y="274"/>
+  <connector id="8" linewidth="1.0" color="-16777216" labelx="370" labely="1118">
+    <routing id="8" x="192" y="252"/>
+  </connector>
+  <connector id="20" linewidth="1.0" color="-16777216" labelx="500" labely="500">
+  </connector>
+  <connector id="12" linewidth="1.0" color="-16777216" labelx="1136" labely="244">
+    <routing id="12" x="0" y="0"/>
+  </connector>
+  <connector id="18" linewidth="1.0" color="-16777216" labelx="500" labely="500">
+  </connector>
+  <connector id="13" linewidth="1.0" color="-16777216" labelx="491" labely="563">
+  </connector>
+  <connector id="3" linewidth="1.0" color="-16777216" labelx="742" labely="469">
+  </connector>
+  <connector id="4" linewidth="1.0" color="-16777216" labelx="1388" labely="3706">
+    <routing id="4" x="0" y="0"/>
+  </connector>
+  <connector id="6" linewidth="1.0" color="-16777216" labelx="500" labely="500">
+  </connector>
+  <connector id="17" linewidth="1.0" color="-16777216" labelx="500" labely="500">
+  </connector>
+  <connector id="1" linewidth="1.0" color="-16777216" labelx="500" labely="500">
+  </connector>
+  <connector id="10" linewidth="1.0" color="-16777216" labelx="500" labely="500">
+  </connector>
+  <connector id="2" linewidth="1.0" color="-16777216" labelx="1444" labely="4765">
+  </connector>
+  <connector id="16" linewidth="1.0" color="-16777216" labelx="500" labely="500">
+  </connector>
+  <connector id="14" linewidth="1.0" color="-16777216" labelx="500" labely="500">
+  </connector>
+  <connector id="19" linewidth="1.0" color="-16777216" labelx="500" labely="500">
+  </connector>
+  <connector id="11" linewidth="1.0" color="-16777216" labelx="500" labely="500">
+    <routing id="11" x="0" y="0"/>
+  </connector>
+  <connector id="15" linewidth="1.0" color="-16777216" labelx="500" labely="500">
+  </connector>
+  <connector id="7" linewidth="1.0" color="-16777216" labelx="268" labely="254">
+    <routing id="7" x="120" y="156"/>
+  </connector>
+  <connector id="5" linewidth="1.0" color="-16777216" labelx="2054" labely="4588">
+    <routing id="5" x="0" y="0"/>
+  </connector>
+  <connector id="9" linewidth="1.0" color="-16777216" labelx="1593" labely="289">
+  </connector>
+</layout>

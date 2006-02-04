@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.6//EN" "http://www.opensymphony.com/osworkflow/workflow_2_6.dtd">
+
+<workflow>
+  <registers>
+    <register type="jndi" variable-name="reg">
+      <arg name="jndi.location">TestRegister</arg>
+    </register>
+  </registers>
+  <initial-actions>
+    <action id="1" name="Initiate">
+      <pre-functions>
+        <function type="jndi">
+          <arg name="jndi.location">functions/TestFunction</arg>
+        </function>
+      </pre-functions>
+      <results>
+        <unconditional-result old-status="Finished" status="Underway" step="1" owner="${caller}"/>
+      </results>
+    </action>
+  </initial-actions>
+  <steps>
+    <step id="1" name="Receive Completed Documents">
+      <actions>
+        <action id="1" name="Completed Documents Received">
+          <restrict-to>
+            <conditions type="AND">
+              <condition type="class">
+                <arg name="class.name">com.opensymphony.workflow.util.JNDICondition</arg>
+                <arg name="jndi.location">conditions/TestCondition</arg>
+              </condition>
+            </conditions>
+          </restrict-to>
+          <results>
+            <unconditional-result old-status="Finished" status="Finished" step="1"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+  </steps>
+</workflow>

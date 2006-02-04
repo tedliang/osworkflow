@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Loading Workflow Definitions
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="1.4 Persistence Options.html" title="1.4 Persistence Options">1.4 Persistence Options</a></li>
+	<li>Forward to <a href="2. Integration with Other Modules.html" title="2. Integration with Other Modules">2. Integration with Other Modules</a></li>
+</ul>
+
+
+<p>OSWorkflow tries to be as flexible as possible with regards to configuration. Only one file is required to be in the classpath: <a href="#osworkflow.xml" title="Visit page outside Confluence">osworkflow.xml</a>. This file dictates the persistence method (JDBC, EJB, Ofbiz) as well the workflow factory class that is to be used for loading workflow definitions. </p>
+
+<p>The default factory is <b>com.opensymphony.workflow.loader.XMLWorkflowFactory</b>. This loads up a file in the classpath that in turn contains links to any number of workflow definition files, all in XML (<a href="http://www.opensymphony.com/osworkflow/workflow_2_6.dtd" title="Visit page outside Confluence">see Appendix A</a>). </p>
+
+<p>During test phase it's also useful to have your workflow definition files reloaded as they are changed. For this you can specify an optional property called <b>reload</b> (true|false) to your factory definition (default is false). If you would rather specify your workflow definitions in a different way, you are free to extend <a href="http://www.opensymphony.com/osworkflow/api/com/opensymphony/workflow/loader/AbstractWorkflowFactory.html" title="Visit page outside Confluence">com.opensymphony.workflow.loader.AbstractWorkflowFactory</a> in any way that you like. </p>
+
+<p><b>com.opensymphony.workflow.loader.JDBCWorkflowFactory</b> for example is an alternative factory, that allows you to store your workflow definitions in a JDBC database instead of putting them into the xml files. (<a href="JDBCWorkflowFactory.html" title="JDBCWorkflowFactory">JDBCWorkflowFactory</a>)</p>
+
+<p>OSWorkflow also includes a workflow factory that stores a normalized form of the workflow descriptor in a relational DB. This factory uses Spring and Hibernate. See <a href="SpringHibernateWorkflowFactory.html" title="SpringHibernateWorkflowFactory">SpringHibernateWorkflowFactory</a>.</p>
+
+<p>The most common configuration would be:</p>
+<h3><a name="1.5LoadingWorkflowDefinitions-osworkflow.xml%3A"><a name="1.5LoadingWorkflowDefinitions-osworkflow.xml"></a> osworkflow.xml:</a></h3>
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;osworkflow&gt;
+  &lt;persistence class=<span class="code-quote">"com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore"</span>&gt;
+    &lt;arg name=<span class="code-quote">"foo"</span> value=<span class="code-quote">"bar"</span>/&gt;
+    ...
+  &lt;/persistence&gt;
+  &lt;factory class=<span class="code-quote">"com.opensymphony.workflow.loader.XMLWorkflowFactory"</span>&gt;
+    &lt;property key=<span class="code-quote">"resource"</span> value=<span class="code-quote">"workflows.xml"</span> /&gt;
+  &lt;/factory&gt;
+&lt;/osworkflow&gt;</pre>
+</div></div>
+<h3><a name="1.5LoadingWorkflowDefinitions-workflows.xml%3A"><a name="1.5LoadingWorkflowDefinitions-workflows.xml"></a> workflows.xml:</a></h3>
+
+<div class="code"><div class="codeContent">
+<pre class="code-java">&lt;workflows&gt;
+  &lt;workflow name=<span class="code-quote">"example"</span> type=<span class="code-quote">"resource"</span> location=<span class="code-quote">"example.xml"</span>/&gt;
+&lt;/workflows&gt;</pre>
+</div></div>
+
+<ul>
+	<li>Back to <a href="1.4 Persistence Options.html" title="1.4 Persistence Options">1.4 Persistence Options</a></li>
+	<li>Forward to <a href="2. Integration with Other Modules.html" title="2. Integration with Other Modules">2. Integration with Other Modules</a></li>
+</ul>
+
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

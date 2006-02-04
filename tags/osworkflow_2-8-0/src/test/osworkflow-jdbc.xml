@@ -1,0 +1,32 @@
+<osworkflow>
+  <persistence class="com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore">
+    <!-- For jdbc persistence, all are required. -->
+    <property key="datasource" value="jdbc/DefaultDS"/>
+    <!-- McKoi -->
+    <property key="entry.sequence" value="SELECT NEXTVAL('SEQ_OS_WFENTRY')"/>
+    <property key="step.sequence" value="SELECT NEXTVAL('SEQ_OS_CURRENTSTEPS')"/>
+
+    <property key="entry.table" value="OS_WFENTRY"/>
+    <property key="entry.id" value="ID"/>
+    <property key="entry.name" value="NAME"/>
+    <property key="entry.state" value="STATE"/>
+    <property key="history.table" value="OS_HISTORYSTEP"/>
+    <property key="current.table" value="OS_CURRENTSTEP"/>
+    <property key="historyPrev.table" value="OS_HISTORYSTEP_PREV"/>
+    <property key="currentPrev.table" value="OS_CURRENTSTEP_PREV"/>
+    <property key="step.id" value="ID"/>
+    <property key="step.entryId" value="ENTRY_ID"/>
+    <property key="step.stepId" value="STEP_ID"/>
+    <property key="step.actionId" value="ACTION_ID"/>
+    <property key="step.owner" value="OWNER"/>
+    <property key="step.caller" value="CALLER"/>
+    <property key="step.startDate" value="START_DATE"/>
+    <property key="step.finishDate" value="FINISH_DATE"/>
+    <property key="step.dueDate" value="DUE_DATE"/>
+    <property key="step.status" value="STATUS"/>
+    <property key="step.previousId" value="PREVIOUS_ID"/>
+  </persistence>
+  <factory class="com.opensymphony.workflow.loader.URLWorkflowFactory">
+    <property key="cache" value="true" />
+  </factory>
+</osworkflow>

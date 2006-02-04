@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Requirements
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="1.1 Introduction.html" title="1.1 Introduction">1.1 Introduction</a></li>
+	<li>Forward to <a href="1.3 Running the Example App.html" title="1.3 Running the Example App">1.3 Running the Example App</a></li>
+</ul>
+
+
+<p>Almost all of the required libraries for OSWorkflow are included in the distribution:</p>
+
+<ul>
+	<li><a href="http://www.opensymphony.com/oscore" title="Visit page outside Confluence">OSCore 2.0.1+</a></li>
+	<li><a href="http://www.opensymphony.com/propertyset" title="Visit page outside Confluence">PropertySet 1.2+</a></li>
+	<li><a href="http://jakarta.apache.org/commons/logging.html" title="Visit page outside Confluence">Jakarta commons-logging</a></li>
+	<li><a href="http://www.beanshell.org/" title="Visit page outside Confluence">BeanShell</a> (optional)</li>
+	<li><a href="http://oss.software.ibm.com/developerworks/projects/bsf" title="Visit page outside Confluence">BSF</a> (optional)</li>
+	<li>EJB interfaces (not neccesarily an EJB container)</li>
+	<li>XML parser (Not required for JDK 1.4)</li>
+</ul>
+
+
+<p>The core API of OSWorkflow will work with JDK 1.3+. However, the GUI designer application required a 1.4 JVM.</p>
+
+<p><b>A note about SOAP and job scheduling:</b> GLUE is one of the SOAP implementations that OSWorkflow uses. You can also use XFire as of OSWorkflow 2.8. GLUE is freely available from <a href="http://www.webmethods.com/solutions/wM_Glue_OEM_ISV/" title="Visit page outside Confluence">WebMethods</a>. If you are going to require SOAP support or <b>remote</b> Job Scheduling support, you should download the <b>GLUE Professional</b> libraries. <a href="http://xfire.codehaus.org" title="Visit page outside Confluence">XFire</a> is an open source Codehaus project.</p>
+
+<p>In addition to GLUE, you'll also need <a href="http://www.part.net/quartz.html" title="Visit page outside Confluence">Quartz</a> for job scheduling. If you don't wish to use GLUE and/or Quartz, you can provide alternate implementations very easily by using the OSWorkflow API. *If you are going to run Quartz from within your application server or any place that has OSWorkflow properly configured, you do not need GLUE and must configure the JobScheduler to have the arg "local" set to <em>true</em>.</p>
+
+<p>In addition to the above libraries, you will have different required libraries or install bases based on the persistence mechanism (WorkflowStore) you choose to use in your application. You can read more about these requirements in the <a href="1.4 Persistence Options.html" title="1.4 Persistence Options">1.4 Persistence Options</a> section. You may also need other libraries based on any utility functions you decide to use. For example, if you use the <b>OSUserGroupCondition</b> you will need <a href="http://www.opensymphony.com/osuser" title="Visit page outside Confluence">OSUser</a> installed as well. </p>
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

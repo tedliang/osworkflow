@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+        Compiling from CVS
+         </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <p>To get the latest version of OSWorkflow, we recommend that you download the source via CVS and compile using the <a href="http://jakarta.apache.org/ant/index.html" title="Visit page outside Confluence">Jakarta Ant</a> build script provided there. Compiling OSWorkflow from source is trivial with the following two ant targets:</p>
+
+<ul>
+	<li><b>jar</b> <em>(default)</em> - compiles the library <b>osworkflow.jar</b></li>
+	<li><b>example-war</b> - compiles and assembles <b>osworkflow-2.8.0-example.war</b>, which is configured to use memory persistence and should deploy without any configuration into most web containers.</li>
+	<li><b>example-ear</b> - compiled and assembles <b>osworkflow-2.8.0-example.ear</b>, which is a J2EE application that is configured to use osworkflow with the EJB persistence store. Some configuration of data sources is required, as well as a full J2EE application server.</li>
+	<li><b>client-jar</b> - compiled and assembles <b>designer.jar</b>, which is a Swing GUI workflow designer application that can be used to visually inspect and edit workflows.</li>
+</ul>
+
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>

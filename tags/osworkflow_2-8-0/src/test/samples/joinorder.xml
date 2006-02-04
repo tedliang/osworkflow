@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE workflow PUBLIC
+"-//OpenSymphony Group//DTD OSWorkflow 2.8//EN"
+"http://www.opensymphony.com/osworkflow/workflow_2_8.dtd">
+<workflow>
+  <initial-actions>
+    <action id="1" name="Start Workflow">
+      <results>
+        <unconditional-result old-status="Finished" status="Queued" step="1"/>
+      </results>
+    </action>
+  </initial-actions>
+  <steps>
+    <step id="1" name="First Part">
+      <actions>
+        <action id="2" name="Finish First Part">
+          <results>
+            <unconditional-result old-status="Finished" status="Queued" split="1"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+    <step id="2" name="Second Part">
+      <actions>
+        <action id="3" name="Back to First Part">
+          <results>
+            <unconditional-result old-status="Rejected" status="Queued" step="1"/>
+          </results>
+        </action>
+        <action id="4" name="Finish">
+          <results>
+            <unconditional-result old-status="Finished" status="Queued" join="1"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+    <step id="3" name="Another Second Part">
+      <actions>
+        <action id="5" name="Back to First Part">
+          <results>
+            <unconditional-result old-status="Rejected" status="Queued" step="1"/>
+          </results>
+        </action>
+        <action id="6" name="Finish">
+          <results>
+            <unconditional-result old-status="Finished" status="Queued" join="1"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+    <step id="4" name="End">
+      <actions>
+        <action id="7" name="Finish" finish="true">
+          <results>
+            <unconditional-result old-status="Finished" status="Game Over" step="4"/>
+          </results>
+        </action>
+      </actions>
+    </step>
+  </steps>
+  <splits>
+    <split id="1">
+      <unconditional-result old-status="Finished" status="Queued" step="2"/>
+      <unconditional-result old-status="Finished" status="Queued" step="3"/>
+    </split>
+  </splits>
+  <joins>
+    <join id="1">
+      <conditions type="AND">
+        <condition type="beanshell">
+          <arg name="script">
+            "Finished".equals(jn.getStep(2).getStatus())
+          </arg>
+        </condition>
+        <condition type="beanshell">
+          <arg name="script">
+            "Finished".equals(jn.getStep(3).getStatus())
+          </arg>
+        </condition>
+      </conditions>
+      <unconditional-result old-status="Finished" status="Queued" step="4"/>
+    </join>
+  </joins>
+</workflow> 

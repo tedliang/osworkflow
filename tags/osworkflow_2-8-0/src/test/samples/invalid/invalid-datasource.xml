@@ -1,0 +1,7 @@
+<osworkflow>
+  <persistence class="com.opensymphony.workflow.spi.jdbc.JDBCWorkflowStore">
+    <!-- For jdbc persistence, all are required. -->
+    <property key="datasource" value="jdbc/BadDS"/>
+  </persistence>
+  <factory class="com.opensymphony.workflow.loader.URLWorkflowFactory"/>
+</osworkflow>

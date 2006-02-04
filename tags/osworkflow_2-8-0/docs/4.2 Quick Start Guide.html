@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Quick Start Guide
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <ul>
+	<li>Back to <a href="4.1 Designer Installation.html" title="4.1 Designer Installation">4.1 Designer Installation</a></li>
+	<li>Forward to <a href="4.3 Workspaces.html" title="4.3 Workspaces">4.3 Workspaces</a></li>
+</ul>
+
+
+<p>Before editing and creating workflows, a workspace must be created. A workspace is basically a set of workflows that can be edited together. Think of it as a 'workflow project' that consists of any number of workflows.</p>
+
+<p>The first time the designer is started, you will be prompted to either load in an existing workspace, or create a new one. Choose create a new workspace.</p>
+
+<p>You will be presented with a file dialog, create a new directory and enter a name for your workspace file inside this directory. All the files a workspace uses are created alongside the master workspace file, which is why it is best to ensure that it goes into its own directory.</p>
+
+<p>Now that you have a workspace loaded in, it's time to add or import workflows. Let's import a workflow first, just to see what a complete one looks like.</p>
+
+<h2><a name="4.2QuickStartGuide-Importingaworkflow">Importing a workflow</a></h2>
+
+<p>Go to the <b>file</b> menu, and select <b>import</b>. You will be presented with a dialog box prompting you to specify the location and type of import. You can import either a local workflow descriptor, or specify a remote one via its URL. OSWorkflow uses a number of descriptors in its testcases, so these can all be imported remotely. A list of these can be viewed <a href="https://osworkflow.dev.java.net/source/browse/osworkflow/src/test/samples/" title="Visit page outside Confluence">here</a>. Select any one of those examples, and copy the 'as text' link and enter that into the URL box. The Designer will now import this file, and when the import is complete, you will see it listed in your workspace and be able to view it.</p>
+
+<h2><a name="4.2QuickStartGuide-Layout">Layout</a></h2>
+
+<p>Once you have successfully imported a workflow, the designer will check if a layout exists for the specified workflow. The workflow layout determines where all the labels and steps are placed on the graph. If no layout exists, then a reasonable attempt is made to lay out the items in the workflow. You can force this automatic layout by choosing <b>Layout-&gt;Layout graph</b> from the menu.</p>
+
+<p>If you modify the layout (by dragging steps and labels around, for example), make sure you save the workspace. This will ensure that your layout is persisted and will be used the next time you view this graph.</p>
+
+<h2><a name="4.2QuickStartGuide-Creatingaworkflow">Creating a workflow</a></h2>
+
+<p>Instead of importing an existing workflow, you might wish to create a new one from scratch. Select <b>File-&gt;New-&gt;New Workflow</b> from the menu. You will be prompted to specify a workflow name.</p>
+
+<h2><a name="4.2QuickStartGuide-Editingaworkflow">Editing a workflow</a></h2>
+
+<p>Once the workflow is created, a new tab wil display it and will have an initial step in it. You can then drag steps, joins, and splits from the toolbar to create these items in the workflow. In order to create actions between steps, simply move the cursor over the red dot in the middle of every step until the cursor changes, then drag it to the resultant step. The designer will disallow things like dragging results to an initial step, for example.</p>
+
+<p>To edit the information associated with a particular step or result, select it, and the detail tab on the left hand side will be populated with the pre and post functions, as well as conditions if relevant. You can also modify the step name and view here. Alternatively, it is possible to modify names on the graph directly by double clicking on a label.</p>
+
+<p>Once you are satisfied with the changes, save your workspace. Note that while the designer will allow you to create certain types of invalid workflows, you will not be able to save them until they are valid. Any attempts to save an invalid workflow will result in an error dialog box hopefully explaining why the workflow is invalid.</p>
+
+
+<ul>
+	<li>Back to <a href="4.1 Designer Installation.html" title="4.1 Designer Installation">4.1 Designer Installation</a></li>
+	<li>Forward to <a href="4.3 Workspaces.html" title="4.3 Workspaces">4.3 Workspaces</a></li>
+</ul>
+
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>
