@@ -1,0 +1,1119 @@
+<html>
+    <head>
+        <title>OSWorkflow - 
+         Release Notes
+        </title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <h2><a name="2.8ReleaseNotes-OSworkflow2.8ReleaseNotes">OSworkflow 2.8 Release Notes</a></h2>
+
+<h3><a name="2.8ReleaseNotes-KeyChanges">Key Changes</a></h3>
+
+<ul>
+	<li>Numerous bugfixes, see below for partial list.</li>
+	<li>Improved Spring integration.</li>
+	<li>Improved Hibernate support.</li>
+	<li>Improvements to Workflow Designer.</li>
+</ul>
+
+
+<h3><a name="2.8ReleaseNotes-MigrationNotes">Migration Notes</a></h3>
+
+<p>The Register API has been modified; a PropertySet parameter has been added.</p>
+
+<p>Users creating their own workflows via the *Descriptor classes should now use DescriptorFactory, instead of directly instatiating the descriptors.</p>
+
+<p>Action ID's must be globally unique now.</p>
+
+<h3><a name="2.8ReleaseNotes-Changelog">Changelog</a></h3>
+
+<p>For a complete list of all the changes, please refer to the <a href="http://jira.opensymphony.com/secure/ReleaseNote.jspa?projectId=10004&amp;styleName=Html&amp;version=21360" title="Visit page outside Confluence">complete changelog</a></p>
+
+
+<p>
+    <table  width="100%" cellspacing="0" class="grid">
+        <tr>
+            <th colspan="3" style="text-align: left;">
+                <a href="http://jira.opensymphony.com/secure/IssueNavigator.jspa?&pid=10004&fixfor=21360&sorter/field=issuekey&sorter/order=DESC&tempMax=400&reset=true&">OpenSymphony JIRA</a>
+                <span class="smalltext">(96 issues)</span>
+            </th>
+        </tr>
+        <tr>
+                        <th style="text-align: left;">
+                T                                                                                                                                                                            </th>
+                        <th style="text-align: left;">
+                                Key                                                                                                                                                            </th>
+                        <th style="text-align: left;">
+                                                Summary                                                                                                                                            </th>
+                    </tr>
+                                            <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-429"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-429">WF-429</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-429">Designer doesn`t show the join ID</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-423"><img src="http://jira.opensymphony.com/images/icons/newfeature.gif" alt="New Feature" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-423">WF-423</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-423">TransientVars supplied to conditions in external-permission</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-421"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-421">WF-421</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-421">Actions within workflow descriptior should escape 'invalid characters'.</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-417"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-417">WF-417</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-417">Add setter for beanProvider to DefaultVariableResolver</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-416"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-416">WF-416</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-416">new load signatures on WorkflowLoader break compatibility with code complied with 2.7</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-413"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-413">WF-413</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-413">XMLWorkflowFactory.WorkflowConfig  doesn't implement Serializable interface</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-412"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-412">WF-412</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-412">Due date does not supported in queries (HibernateStore+Spring)</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-411"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-411">WF-411</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-411">Implicit calls cannot update the transientVars Map</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-410"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-410">WF-410</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-410">The value of the attribute &quot;auto&quot; of the element &quot;action&quot; is being checked ONLY for the value &quot;true&quot;.</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-409"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-409">WF-409</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-409">There should exist a mechanism that allows removing of all the info about unnecessary workflow entry from the store.</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-408"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-408">WF-408</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-408">The attribute &quot;step&quot; of both the elements &quot;result&quot; and &quot;unconditional-result&quot; could be made #REQUIRED instead of #IMPLIED.</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-407"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-407">WF-407</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-407">The inner com.opensymphony.workflow.JoinNodes$DummyStep class should be made private.</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-406"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-406">WF-406</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-406">Incorrect javadoc for the com.opensymphony.workflow.util.MostRecentOwner class.</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-405"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-405">WF-405</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-405">Incorrect javadoc for the com.opensymphony.workflow.util.Caller class.</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-403"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-403">WF-403</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-403">ClassCastException in LocalEJBCondition</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-401"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-401">WF-401</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-401">Adding version into jar manifest</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-397"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-397">WF-397</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-397">Visibility of the inner class com.opensymphony.workflow.loader.XMLWorkflowFactory.WorkflowConfig</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-396"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-396">WF-396</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-396">Limitation while inheriting MySQLWorkflowStore</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-395"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-395">WF-395</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-395">Unable to compile OSWorkflow from Ant script</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-393"><img src="http://jira.opensymphony.com/images/icons/task.gif" alt="Task" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-393">WF-393</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-393">hibernate ,Spring and OSWorkflow</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-391"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-391">WF-391</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-391">Inconsistent transientVars behaviour</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-389"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-389">WF-389</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-389">conditions and condition xml element order in Workflow description</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-388"><img src="http://jira.opensymphony.com/images/icons/newfeature.gif" alt="New Feature" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-388">WF-388</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-388">SQL Script for OSWorkflow for DB2 Databases</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-387"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-387">WF-387</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-387">Patch to SpringTypeResolver.setFunctions</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-386"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-386">WF-386</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-386">Duplicate entry constraint with MySQLWorkflowStore</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-385"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-385">WF-385</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-385">beanshell condition can not access transientVars</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-384"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-384">WF-384</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-384">Selecting the Conditions Type throws a NoSuchMethodException</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-382"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-382">WF-382</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-382">Consolidation of three identical Conditions</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-381"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-381">WF-381</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-381">Pluggable ScriptVariableParser</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-380"><img src="http://jira.opensymphony.com/images/icons/newfeature.gif" alt="New Feature" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-380">WF-380</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-380">BSF doesn't work with new Jakarta package</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-377"><img src="http://jira.opensymphony.com/images/icons/task.gif" alt="Task" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-377">WF-377</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-377">How to get data to OS Workflow from Ibatis framework</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-376"><img src="http://jira.opensymphony.com/images/icons/task.gif" alt="Task" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-376">WF-376</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-376">How to create user permissions</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-375"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-375">WF-375</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-375">Interface WorkflowFactory instead of class AbstractWorkflowFactory</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-374"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-374">WF-374</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-374">Inconsistency between MemoryWorkflowStore &amp; JDBCWorkflowStore w.r.t step functions</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-373"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-373">WF-373</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-373">Join transition failure</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-372"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-372">WF-372</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-372">Manifest entry in latest OSWorkflow violates spec</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-370"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-370">WF-370</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-370">problems with doAction</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-369"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-369">WF-369</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-369">Defining a conditional-result in an initial-action causes an NPE</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-368"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-368">WF-368</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-368">currentSteps is empty for pre-functions at the first step</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-367"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-367">WF-367</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-367">Cannot KILL a Workflow instance</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-366"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-366">WF-366</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-366">Persistence JDBCStore with Mysql fail</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-365"><img src="http://jira.opensymphony.com/images/icons/newfeature.gif" alt="New Feature" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-365">WF-365</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-365">Type base -&gt; Instance base</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-364"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-364">WF-364</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-364">com.opensymphony.workflow.designer.WorkflowGraphModel has classcastexception</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-362"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-362">WF-362</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-362">JDBCWorkflowFactory: getWorkflow(name) doesn't work unless in debug mode</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-361"><img src="http://jira.opensymphony.com/images/icons/newfeature.gif" alt="New Feature" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-361">WF-361</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-361">Function and Conditions to be displayed on the Edge(Action)</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-360"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-360">WF-360</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-360">HibernateWorkflowStore/SpringHibernateWorkflowStore problem</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-359"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-359">WF-359</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-359">Separate Thread to execute auto actions in transitionWorkflow</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-353"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-353">WF-353</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-353">AbstractWorkflow NPE: cache.put(action, result);</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-352"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-352">WF-352</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-352">Bug in cache management</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-347"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-347">WF-347</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-347">Role/Group attribute for result</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-345"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-345">WF-345</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-345">CreateNewStep even action's finish attribute is set to true</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-342"><img src="http://jira.opensymphony.com/images/icons/newfeature.gif" alt="New Feature" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-342">WF-342</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-342">Display a live graph</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-341"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-341">WF-341</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-341">Documentation or DefaultConfigurator error</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-340"><img src="http://jira.opensymphony.com/images/icons/newfeature.gif" alt="New Feature" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-340">WF-340</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-340">actionId in getAvailableActions</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-339"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-339">WF-339</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-339">Broken compatibility with previous versions</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-338"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-338">WF-338</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-338">moveToHistory bug in implicit finish step</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-337"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-337">WF-337</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-337">Designer can not display join condition editor</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-336"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-336">WF-336</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-336">Scheduled workflow doesn't get the right config</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-335"><img src="http://jira.opensymphony.com/images/icons/task.gif" alt="Task" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-335">WF-335</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-335">get started osworkflow</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-334"><img src="http://jira.opensymphony.com/images/icons/newfeature.gif" alt="New Feature" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-334">WF-334</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-334">Dynamic number of split states</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-333"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-333">WF-333</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-333">getAvailableActions return false on exception</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-332"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-332">WF-332</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-332">null getAction of initial-action</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-331"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-331">WF-331</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-331">Workflow does not escape XML entities when saving itself</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-330"><img src="http://jira.opensymphony.com/images/icons/newfeature.gif" alt="New Feature" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-330">WF-330</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-330">Global condition/function</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-327"><img src="http://jira.opensymphony.com/images/icons/newfeature.gif" alt="New Feature" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-327">WF-327</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-327">Plugin model for fucntion and condition (Spring/BeanShell)</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-325"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-325">WF-325</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-325">Persistence Updates for Due Date</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-324"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-324">WF-324</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-324">MemoryWorkflowStore fixes to work with Due Date</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-323"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-323">WF-323</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-323">Due Date Queries and Duplicate Code Reduction</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-322"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-322">WF-322</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-322">canModifyEntryState don't manage COMPLETED entry state</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-321"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-321">WF-321</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-321">(Conditional)ResultDescriptor does not write due-date to xml</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-320"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-320">WF-320</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-320">Cant get the tutorial to work.  Please help !</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-319"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-319">WF-319</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-319">Multiple evaluations of action restrict-to conditions</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-318"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-318">WF-318</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-318">Order of results from Workflow.getHistorySteps(long) is variable</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-317"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-317">WF-317</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-317">AbstractWorkflow private methods could be protected</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-316"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-316">WF-316</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-316">Mangled stacktraces from BSH scripts</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-314"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-314">WF-314</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-314">Creating Trigger Functions via API does not work</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-313"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-313">WF-313</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-313">Query Speed w/ JDBCWorkflowStore.java can be abysmal</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-312"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-312">WF-312</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-312">Query OS_CURRENTSTEP instead of OS_WFENTRY in JDBCWorkflowStore.java</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-311"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-311">WF-311</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-311">add &quot;createdStep&quot; to transientVars</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-310"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-310">WF-310</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-310">Can't use input parameters in workflow</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-309"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-309">WF-309</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-309">NPE in initial action if conditionalResult is not empty</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-308"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-308">WF-308</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-308">Common actions written out as duplicates</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-307"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-307">WF-307</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-307">Add isModifiable() method to AbstractWorkflowFactory</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-306"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-306">WF-306</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-306">Exception orrured when invoking getAvailableActions() and doAction()</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-305"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-305">WF-305</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-305">bug with Websphere Application Server 5.1..0.4, error creating new workflow instance</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-303"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-303">WF-303</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-303">no results at all from designer</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-302"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-302">WF-302</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-302">actions tag shoukld alow just only common-action</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-301"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-301">WF-301</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-301">the test case should not depend on mckoi lib</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-300"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-300">WF-300</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-300">Eclipse project classpath fix</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-299"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-299">WF-299</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-299">AbstractWorkflow fails to load XML configuration after redeployment on BEA Weblogic 7.0.2</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-297"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-297">WF-297</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-297">WorkflowException does not show stack trace of inner exception</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-296"><img src="http://jira.opensymphony.com/images/icons/improvement.gif" alt="Improvement" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-296">WF-296</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-296">Improve javadocs for Configuration</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-294"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-294">WF-294</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-294">Tutorial's code snippet:</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-277"><img src="http://jira.opensymphony.com/images/icons/newfeature.gif" alt="New Feature" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-277">WF-277</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-277">Request for global actions that do not change workflow step</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowNormal">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-247"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-247">WF-247</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-247">transientVars 'currentSteps' list not updated soon enough after step transition for post-functions</a>
+                                    </td>
+                            </tr>
+                                    <tr class="rowAlternate">
+                                                            <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-206"><img src="http://jira.opensymphony.com/images/icons/bug.gif" alt="Bug" border="0" /></a>
+                                    </td>
+                                <td nowrap="true">
+                                            <a href="http://jira.opensymphony.com/browse/WF-206">WF-206</a>
+                                    </td>
+                                <td >
+                                            <a href="http://jira.opensymphony.com/browse/WF-206">AbstractWorkflow.getVariablesFromMaps unsafe use of PropertySet</a>
+                                    </td>
+                            </tr>
+            </table>
+</p>
+
+
+                    			    </td>
+		    </tr>
+	    </table>
+    </body>
+</html>
