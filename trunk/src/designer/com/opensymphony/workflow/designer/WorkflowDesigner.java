@@ -4,11 +4,13 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
+import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import javax.swing.*;
@@ -58,7 +60,7 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     setJMenuBar(BarFactory.createMenubar(manager, service.getVerb()));
     splash.setProgress(30);
     navigator = new WorkspaceNavigator(this);
-    JScrollPane sp = new JScrollPane(detailPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    JScrollPane sp = new JScrollPane(detailPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     detailFramePanel = new FramePanel(ResourceManager.getString("details"), false);
     detailFramePanel.setContent(sp);
 
@@ -666,12 +668,54 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
         System.exit(1);
       }
 
-      InputStream is = WorkflowDesigner.class.getResourceAsStream("/META-INF/palette.xml");
-      Document doc = db.parse(is);
-      ResourceBundle bundle = ResourceBundle.getBundle("META-INF/palette", Locale.getDefault(), getClass().getClassLoader());
-      Element root = (Element)doc.getElementsByTagName("plugin").item(0);
+      String defaultPalette =  System.getProperty("palette.default", "META-INF/palette");
+      
+      PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle(defaultPalette, Locale.getDefault(), getClass().getClassLoader());
+      EnhancedResourceBundle erb;
 
-      palette = new PaletteDescriptor(root, new EnhancedResourceBundle(bundle));
+      String extendedPalette = System.getProperty("palette.extend");
+      PropertyResourceBundle extendedBundle = null;
+      if(extendedPalette != null)
+      {
+        if(new File(extendedPalette).exists())
+          extendedBundle = new PropertyResourceBundle(new FileInputStream(extendedPalette + ".properties"));
+        else if(getClass().getClassLoader().getResource(extendedPalette) != null)
+        {
+          extendedBundle = new PropertyResourceBundle(getClass().getClassLoader().getResourceAsStream(extendedPalette + ".properties"));
+        }
+      }
+      
+      erb = new EnhancedResourceBundle(bundle, extendedBundle);
+
+      InputStream is = WorkflowDesigner.class.getClassLoader().getResourceAsStream(defaultPalette +".xml");
+      Document doc = db.parse(is);
+      Element root = (Element) doc.getElementsByTagName("plugin").item(0);
+      palette = new PaletteDescriptor(root, erb);
+
+      // extends configuration
+      if (extendedPalette != null)
+      {
+        InputStream extendedStream = null;
+        String extendedXml = extendedPalette + ".xml";
+        if(new File(extendedXml).exists())
+        {
+          extendedStream = new FileInputStream(extendedXml);
+        }
+        else if(getClass().getClassLoader().getResource(extendedXml) != null)
+        {
+          extendedStream = getClass().getClassLoader().getResourceAsStream(extendedXml);
+        }
+        if(extendedStream != null)
+        {
+          Document extendedDoc = db.parse(extendedStream);
+          Element extendedRoot = (Element) extendedDoc.getElementsByTagName("plugin").item(0);
+          palette.init(extendedRoot);
+        }
+        else
+        {
+          System.out.println("WARNING: Cannot find extended palette " + extendedXml);
+        }
+      }
     }
     catch(Exception e)
     {
