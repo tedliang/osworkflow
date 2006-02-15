@@ -33,8 +33,8 @@ public class BeanShellFunctionProvider implements FunctionProvider {
 
     public void execute(Map transientVars, Map args, PropertySet ps) throws WorkflowException {
         String script = (String) args.get(AbstractWorkflow.BSH_SCRIPT);
-        Interpreter i = null;
-        ClassLoader loader = null;
+        Interpreter i;
+        ClassLoader loader;
         WorkflowContext context = (WorkflowContext) transientVars.get("context");
         WorkflowEntry entry = (WorkflowEntry) transientVars.get("entry");
         loader = Thread.currentThread().getContextClassLoader();
@@ -50,6 +50,7 @@ public class BeanShellFunctionProvider implements FunctionProvider {
             i.set("context", context);
             i.set("transientVars", transientVars);
             i.set("propertySet", ps);
+            i.set("args", args);
         } catch (EvalError evalError) {
             String message = "Could not set values for BSH script";
             log.error(message, evalError);
