@@ -151,7 +151,7 @@ public class PaletteDescriptor extends AbstractDescriptor
     {
       return null;
     }
-    for(int i = 0; i < joinList.size(); i++)
+    for(int i = 0; i < resultList.size(); i++)
     {
       ConfigConditionDescriptor result = (ConfigConditionDescriptor)resultList.get(i);
       if(name.equals(result.getName()))
