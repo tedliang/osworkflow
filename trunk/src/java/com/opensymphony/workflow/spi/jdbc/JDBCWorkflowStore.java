@@ -40,12 +40,15 @@ import javax.sql.DataSource;
  * The following properties are all <b>required</b>:
  * <ul>
  *  <li><b>datasource</b> - the JNDI location for the DataSource that is to be used.</li>
- *  <li><b>entry.sequence</b> - SQL query that returns the next ID for a workflow entry</li>
+ *  <li><b>entry.sequence</b> - SQL query that returns the next ID for a workflow entry.
+ *  Use special value 'generated' if you want to use underlying database to generate id (will work only under JDK 1.4 and higher).
+ *  </li>
  *  <li><b>entry.table</b> - table name for workflow entry</li>
  *  <li><b>entry.id</b> - column name for workflow entry ID field</li>
  *  <li><b>entry.name</b> - column name for workflow entry name field</li>
  *  <li><b>entry.state</b> - column name for workflow entry state field</li>
- *  <li><b>step.sequence</b> - SQL query that returns the next ID for a workflow step</li>
+ *  <li><b>step.sequence</b> - SQL query that returns the next ID for a workflow step.
+ *  You can use special value 'generated'.</li>
  *  <li><b>history.table</b> - table name for steps in history</li>
  *  <li><b>current.table</b> - table name for current steps</li>
  *  <li><b>step.id</b> - column name for step ID field</li>
@@ -69,6 +72,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
     //~ Static fields/initializers /////////////////////////////////////////////
 
     private static final Log log = LogFactory.getLog(JDBCWorkflowStore.class);
+    private static final String GENERATED = "generated";
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
@@ -170,25 +174,39 @@ public class JDBCWorkflowStore implements WorkflowStore {
     }
 
     public WorkflowEntry createEntry(String workflowName) throws StoreException {
+        boolean generatedKeys = GENERATED.equals(entrySequence);
+
         Connection conn = null;
         PreparedStatement stmt = null;
 
         try {
             conn = getConnection();
 
-            String sql = "INSERT INTO " + entryTable + " (" + entryId + ", " + entryName + ", " + entryState + ") VALUES (?,?,?)";
+            String sql = "INSERT INTO " + entryTable + " (" + (generatedKeys ? "" : (entryId + ", ")) + entryName + ", " + entryState + ") VALUES (" + (generatedKeys ? "" : "?,") + "?,?)";
 
             if (log.isDebugEnabled()) {
                 log.debug("Executing SQL statement: " + sql);
             }
 
-            stmt = conn.prepareStatement(sql);
+            stmt = prepareStatementWithKeys(conn, sql, entryId);
 
-            long id = getNextEntrySequence(conn);
-            stmt.setLong(1, id);
-            stmt.setString(2, workflowName);
-            stmt.setInt(3, WorkflowEntry.CREATED);
+            long id = 0;
+
+            if (!generatedKeys) {
+                id = getNextEntrySequence(conn);
+                stmt.setLong(1, id);
+                stmt.setString(2, workflowName);
+                stmt.setInt(3, WorkflowEntry.CREATED);
+            } else {
+                stmt.setString(1, workflowName);
+                stmt.setInt(2, WorkflowEntry.CREATED);
+            }
+
             stmt.executeUpdate();
+
+            if (generatedKeys) {
+                id = getGeneratedKey(stmt, entryId);
+            }
 
             return new SimpleWorkflowEntry(id, workflowName, WorkflowEntry.CREATED);
         } catch (SQLException e) {
@@ -807,31 +825,46 @@ public class JDBCWorkflowStore implements WorkflowStore {
         }
     }
 
-    protected long createCurrentStep(Connection conn, long entryId, int wfStepId, String owner, Date startDate, Date dueDate, String status) throws SQLException {
-        String sql = "INSERT INTO " + currentTable + " (" + stepId + ',' + stepEntryId + ", " + stepStepId + ", " + stepActionId + ", " + stepOwner + ", " + stepStartDate + ", " + stepDueDate + ", " + stepFinishDate + ", " + stepStatus + ", " + stepCaller + " ) VALUES (?, ?, ?, null, ?, ?, ?, null, ?, null)";
+    protected long createCurrentStep(Connection conn, long entryId, int wfStepId, String owner, Date startDate, Date dueDate, String status) throws SQLException, StoreException {
+        boolean generatedKeys = GENERATED.equals(stepSequence);
+        String sql = "INSERT INTO " + currentTable + " (" + (generatedKeys ? "" : (stepId + ',')) + stepEntryId + ", " + stepStepId + ", " + stepActionId + ", " + stepOwner + ", " + stepStartDate + ", " + stepDueDate + ", " + stepFinishDate + ", " + stepStatus + ", " + stepCaller + " ) VALUES (" + (generatedKeys ? "" : "?, ") + "?, ?, null, ?, ?, ?, null, ?, null)";
 
         if (log.isDebugEnabled()) {
             log.debug("Executing SQL statement: " + sql);
         }
 
-        PreparedStatement stmt = conn.prepareStatement(sql);
+        PreparedStatement stmt = prepareStatementWithKeys(conn, sql, stepId);
 
-        long id = getNextStepSequence(conn);
-        stmt.setLong(1, id);
-        stmt.setLong(2, entryId);
-        stmt.setInt(3, wfStepId);
-        stmt.setString(4, owner);
-        stmt.setTimestamp(5, new Timestamp(startDate.getTime()));
+        long id = 0;
+        int idxCorrection = 1;
 
-        if (dueDate != null) {
-            stmt.setTimestamp(6, new Timestamp(dueDate.getTime()));
-        } else {
-            stmt.setNull(6, Types.TIMESTAMP);
+        if (!generatedKeys) {
+            id = getNextStepSequence(conn);
+            stmt.setLong(1, id);
+            idxCorrection = 0;
         }
 
-        stmt.setString(7, status);
+        stmt.setLong(2 - idxCorrection, entryId);
+        stmt.setInt(3 - idxCorrection, wfStepId);
+        stmt.setString(4 - idxCorrection, owner);
+        stmt.setTimestamp(5 - idxCorrection, new Timestamp(startDate.getTime()));
+
+        if (dueDate != null) {
+            stmt.setTimestamp(6 - idxCorrection, new Timestamp(dueDate.getTime()));
+        } else {
+            stmt.setNull(6 - idxCorrection, Types.TIMESTAMP);
+        }
+
+        stmt.setString(7 - idxCorrection, status);
         stmt.executeUpdate();
-        cleanup(null, stmt, null);
+
+        try {
+            if (generatedKeys) {
+                id = getGeneratedKey(stmt, stepId);
+            }
+        } finally {
+            cleanup(null, stmt, null);
+        }
 
         return id;
     }
@@ -1074,6 +1107,20 @@ public class JDBCWorkflowStore implements WorkflowStore {
                 }
             }
         }
+    }
+
+    private static long getGeneratedKey(PreparedStatement ps, String pkColumnName) throws SQLException, StoreException {
+        ResultSet rs = ps.getGeneratedKeys();
+
+        if (!rs.next()) {
+            throw new StoreException("Empty ResultSet returned by getGeneratedKeys");
+        }
+
+        return rs.getLong(pkColumnName);
+    }
+
+    private static PreparedStatement prepareStatementWithKeys(Connection conn, String sql, String pkColumnName) throws SQLException, StoreException {
+        return conn.prepareStatement(sql, new String[] {pkColumnName});
     }
 
     private String getInitProperty(Map props, String strName, String strDefault) {
