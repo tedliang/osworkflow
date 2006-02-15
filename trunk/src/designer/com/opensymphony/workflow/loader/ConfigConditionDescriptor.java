@@ -59,14 +59,11 @@ public class ConfigConditionDescriptor extends ConditionDescriptor implements Ar
     type = condition.getAttribute("type");
 
     String n = condition.getAttribute("negate");
-    if("true".equalsIgnoreCase(n) || "yes".equalsIgnoreCase(n))
-    {
-      negate = true;
-    }
-    else
-    {
-      negate = false;
-    }
+    negate = ("true".equalsIgnoreCase(n) || "yes".equalsIgnoreCase(n));
+
+    // add negate as modifiable argument
+    this.args.put("negate", String.valueOf(negate));
+    this.modifiableArgs.add("negate");
 
     List args = XMLUtil.getChildElements(condition, "arg");
     for(int l = 0; l < args.size(); l++)
@@ -76,15 +73,15 @@ public class ConfigConditionDescriptor extends ConditionDescriptor implements Ar
       if("true".equals(arg.getAttribute("modifiable")))
       {
         modifiableArgs.add(arg.getAttribute("name"));
-				String sArgType = arg.getAttribute("argtype");
-				if (sArgType!=null)
-				{
-					ArgType at = (ArgType)palette.getArgType(sArgType);
-					if (at!=null)
-					{
-						argTypeMap.put(arg.getAttribute("name"), at);
-					}
-				}
+        String sArgType = arg.getAttribute("argtype");
+        if(sArgType != null)
+        {
+          ArgType at = palette.getArgType(sArgType);
+          if(at != null)
+          {
+            argTypeMap.put(arg.getAttribute("name"), at);
+          }
+        }
       }
     }
     plugin = XMLUtil.getChildText(condition, "plugin");
