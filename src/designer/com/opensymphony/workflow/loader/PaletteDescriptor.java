@@ -216,7 +216,7 @@ public class PaletteDescriptor extends AbstractDescriptor
     throw new UnsupportedOperationException();
   }
 
-  protected void init(Element root)
+  public void init(Element root)
   {
     // argtypes
     Element a = XMLUtil.getChildElement(root, "argtypes");
