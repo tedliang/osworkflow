@@ -60,6 +60,12 @@ public abstract class ConditionEditor
       cond.setParent(getParent());
       cond.setType(condition.getType());
       cond.setName(condition.getName());
+
+      // negate?
+      String n = (String)condition.getArgs().get("negate");
+      condition.getArgs().remove("negate");
+
+      cond.setNegate("true".equalsIgnoreCase(n) || "yes".equalsIgnoreCase(n));
       cond.getArgs().putAll(condition.getArgs());
 
       return cond;
@@ -91,6 +97,11 @@ public abstract class ConditionEditor
 
     if(condition != null)
     {
+      // negate?
+      String n = (String)condition.getArgs().get("negate");
+      condition.getArgs().remove("negate");
+
+      cond.setNegate("true".equalsIgnoreCase(n) || "yes".equalsIgnoreCase(n));
       cond.getArgs().putAll(condition.getArgs());
     }
   }

@@ -15,7 +15,7 @@ import com.opensymphony.workflow.designer.WorkflowGraphModel;
  */
 public class ConditionsTableModel extends ListTableModel
 {
-  private String[] header = new String[]{ResourceManager.getString("name"), ResourceManager.getString("type")};
+  private String[] header = new String[]{ResourceManager.getString("name"), ResourceManager.getString("type"), ResourceManager.getString("negate")};
   private WorkflowGraphModel graphModel;
   private int type;
   public static final int JOIN = 1;
@@ -86,9 +86,11 @@ public class ConditionsTableModel extends ListTableModel
             descriptor = palette.getResultCondition(condition.getName());
             break;
         }
-        return descriptor!=null && descriptor.getDisplayName()!=null ? descriptor.getDisplayName() : ResourceManager.getString("unknown");
+        return descriptor != null && descriptor.getDisplayName() != null ? descriptor.getDisplayName() : ResourceManager.getString("unknown");
       case 1:
         return condition.getType();
+      case 2:
+        return String.valueOf(condition.isNegate());
     }
     return null;
   }
