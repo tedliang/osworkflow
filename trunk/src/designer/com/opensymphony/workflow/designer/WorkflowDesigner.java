@@ -677,11 +677,11 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
       PropertyResourceBundle extendedBundle = null;
       if(extendedPalette != null)
       {
-        if(new File(extendedPalette).exists())
+        if(new File(extendedPalette + ".properties").exists())
           extendedBundle = new PropertyResourceBundle(new FileInputStream(extendedPalette + ".properties"));
         else if(getClass().getClassLoader().getResource(extendedPalette) != null)
         {
-          extendedBundle = new PropertyResourceBundle(getClass().getClassLoader().getResourceAsStream(extendedPalette + ".properties"));
+          extendedBundle = (PropertyResourceBundle) ResourceBundle.getBundle(extendedPalette, Locale.getDefault(), getClass().getClassLoader());
         }
       }
       
