@@ -188,7 +188,11 @@ public class JDBCWorkflowStore implements WorkflowStore {
                 log.debug("Executing SQL statement: " + sql);
             }
 
-            stmt = prepareStatementWithKeys(conn, sql, entryId);
+            if (generatedKeys) {
+                stmt = conn.prepareStatement(sql, new String[] {entryId});
+            } else {
+                stmt = conn.prepareStatement(sql);
+            }
 
             long id = 0;
 
@@ -833,7 +837,9 @@ public class JDBCWorkflowStore implements WorkflowStore {
             log.debug("Executing SQL statement: " + sql);
         }
 
-        PreparedStatement stmt = prepareStatementWithKeys(conn, sql, stepId);
+        PreparedStatement stmt = generatedKeys ? conn.prepareStatement(sql, new String[] {
+                stepId
+            }) : conn.prepareStatement(sql);
 
         long id = 0;
         int idxCorrection = 1;
@@ -1119,7 +1125,7 @@ public class JDBCWorkflowStore implements WorkflowStore {
         return rs.getLong(pkColumnName);
     }
 
-    private static PreparedStatement prepareStatementWithKeys(Connection conn, String sql, String pkColumnName) throws SQLException, StoreException {
+    private static PreparedStatement prepareStatementWithKeys(Connection conn, String sql, String pkColumnName) throws SQLException {
         return conn.prepareStatement(sql, new String[] {pkColumnName});
     }
 
