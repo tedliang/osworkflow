@@ -120,7 +120,7 @@ public class ActionEditor extends DetailPanel implements ActionListener
     //builderInfo.addSeparator(ResourceManager.getString("permissions"), cc.xywh(2, 8, 3, 1));
 
     builderPerm.addLabel(ResourceManager.getString("type"), cc.xy(2, 2));
-    connector.connect(restrict, "restriction.conditionType");
+    connector.connect(restrict, "restriction.conditionsDescriptor.type");
     builderPerm.add(restrict, cc.xy(4, 2));
 
     conditionsTable = new JTable(conditionsModel);
