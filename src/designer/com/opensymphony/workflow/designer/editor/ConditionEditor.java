@@ -91,6 +91,9 @@ public abstract class ConditionEditor
       condition.setType(cond.getType());
     }
 
+    // set negate as argument
+    cond.getArgs().put("negate", String.valueOf(cond.isNegate()));
+    
     condition.getArgs().putAll(cond.getArgs());
 
     condition = editCondition(condition, WorkflowDesigner.INSTANCE);
