@@ -399,8 +399,6 @@ public class HibernateWorkflowStore implements WorkflowStore {
     /**
      * returns the correct name of the field given or "1" if none is found
      * which matches the input.
-     * @param field
-     * @return
      */
     private String getFieldName(int field) {
         switch (field) {
