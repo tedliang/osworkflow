@@ -15,15 +15,13 @@ import org.jgraph.graph.GraphConstants;
  */
 public class ResultEdge extends WorkflowEdge
 {
-  private static final EdgeRouter EDGE_ROUTER = new EdgeRouter();
-
-  private ResultDescriptor descriptor;
+  //private static final EdgeRouter EDGE_ROUTER = new EdgeRouter();
 
   public ResultEdge(ResultDescriptor descriptor, Point2D labelPos)
   {
     super(descriptor);
     setAttributes(new WorkflowAttributeMap(getAttributes()));
-    this.descriptor = descriptor;
+    getAttributes().put("descriptor", descriptor);
     int arrow = GraphConstants.ARROW_CLASSIC;
     //GraphConstants.setLabelAlongEdge(attributes, true);
     GraphConstants.setLineEnd(attributes, arrow);
@@ -61,16 +59,17 @@ public class ResultEdge extends WorkflowEdge
 
   public ResultDescriptor getDescriptor()
   {
-    return descriptor;
+    return (ResultDescriptor)getAttributes().get("descriptor");
   }
 
   public void setAutoroute()
   {
-    GraphConstants.setRouting(attributes, EDGE_ROUTER);
+    GraphConstants.setRouting(attributes, new DefaultRouting());
   }
 
   public String toString()
   {
+    ResultDescriptor descriptor = getDescriptor();
     if(descriptor == null) return null;
     if(descriptor.getDisplayName() != null)
     {

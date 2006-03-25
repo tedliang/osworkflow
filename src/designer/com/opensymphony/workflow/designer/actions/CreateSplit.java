@@ -12,7 +12,7 @@ import com.opensymphony.workflow.loader.WorkflowDescriptor;
  * @author jackflit
  * Date: 2003-11-18
  */
-public class CreateSplit extends AbstractAction 
+public class CreateSplit extends AbstractAction implements DescriptorAware
 {
 
 	private WorkflowGraphModel model;
@@ -31,4 +31,9 @@ public class CreateSplit extends AbstractAction
 	{
 		CellFactory.createSplit(workflow, model, location);
 	}
+  
+  public void setDescriptor(WorkflowDescriptor descriptor)
+  {
+    this.workflow = descriptor;
+  }
 }

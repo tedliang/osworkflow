@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import org.jgraph.graph.BasicMarqueeHandler;
 import org.jgraph.graph.PortView;
+import org.jgraph.graph.CellView;
 
 /**
  * @author Hani Suleiman (hani@formicary.net) Date: Oct 25 2003 Time: 6:56:10 PM
@@ -127,7 +128,7 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     else if(port != null && !e.isConsumed() && graph.isPortsVisible())
     {
       // Remember Start Location
-      start = graph.toScreen(port.getLocation(null));
+      start = graph.toScreen(port.getLocation());
       // Remember First Port
       firstPort = port;
       // Consume Event
@@ -135,8 +136,10 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
       readyToConnect = false;
     }
     else
+    {
     // Call Superclass
       super.mousePressed(e);
+    }
   }
 
   // Find Port under Mouse and Repaint Connector
@@ -145,6 +148,11 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     // If remembered Start Point is Valid
     if(start != null && !e.isConsumed())
     {
+//      CellView nearestCell = graph.getTopmostViewAt(e.getX(), e.getY(), false, true);
+//      if(nearestCell != null && nearestCell instanceof StepView)
+//      {
+//        System.out.println("in cell " + nearestCell.getClass() + " children " + nearestCell.getChildViews().length);
+//      }
       // ready to connect
       readyToConnect = true;
 
@@ -161,7 +169,7 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
       port = newPort;
       // If Port was found then Point to Port Location
       if(port != null)
-        current = graph.toScreen(port.getLocation(null));
+        current = graph.toScreen(port.getLocation());
       // Else If no Port was found then Point to Mouse Location
       else
         current = graph.snap(e.getPoint());
@@ -224,5 +232,10 @@ public class WorkflowMarqueeHandler extends BasicMarqueeHandler
     }
     // Call Superclass
     super.mouseReleased(e);
+  }
+
+  public CellView getCurrentCell()
+  {
+    return null;
   }
 }

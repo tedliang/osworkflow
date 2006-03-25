@@ -32,24 +32,9 @@ public class CustomPortView extends PortView
    */
   public Rectangle2D getBounds()
   {
-    Point2D location = getLocation(null);
-    Rectangle2D bounds = new Rectangle2D.Double(location.getX() - WIDTH / 2, location.getY(), WIDTH, HEIGHT);
-    //bounds.x = bounds.x - WIDTH / 2;
-    //bounds.width = WIDTH;
-    //bounds.height = HEIGHT;
-    return bounds;
+    Point2D location = getLocation();
+    return new Rectangle2D.Double(location.getX() - WIDTH / 2, location.getY(), WIDTH, HEIGHT);
   }
-
-  //public Point2D getLocation(EdgeView edge)
-  //{
-  //  Point p = super.getLocation(edge);
-//    if(edge!=null && edge.getSource()==edge.getTarget())
-//    {
-//      int index = ((WorkflowPort)getCell()).getEdgeIndex((Edge)edge.getCell());
-//      p.y = p.y - (5 * index);
-//    }
-//    return p;
-//  }
 
   public CellViewRenderer getRenderer()
   {
@@ -60,7 +45,7 @@ public class CustomPortView extends PortView
   {
     public void paint(Graphics g)
     {
-      g.setColor(graph.getBackground());
+      g.setColor(getBackground());
       //g.setXORMode(graph.getBackground());
       if(preview)
       {
@@ -70,7 +55,7 @@ public class CustomPortView extends PortView
         g.drawRect(2, 2, d.width - 5, d.height - 5);
       }
       else
-        ICON.paintIcon(graph, g, 0, 0);
+        ICON.paintIcon(this, g, 0, 0);
     }
 
   }

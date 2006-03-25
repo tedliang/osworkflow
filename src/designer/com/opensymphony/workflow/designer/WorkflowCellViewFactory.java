@@ -20,7 +20,7 @@ public class WorkflowCellViewFactory extends DefaultCellViewFactory
       WorkflowPort port = (WorkflowPort)cell;
       if(port.getIndex() == 0)
         return new CustomPortView(cell);
-      return new PortView(cell);
+      return new OutsidePortView(cell);
     }
     else if(model.isEdge(cell))
     {

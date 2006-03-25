@@ -3,6 +3,7 @@ package com.opensymphony.workflow.designer.views;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 import org.jgraph.graph.Edge;
 import org.jgraph.graph.EdgeView;
@@ -17,6 +18,16 @@ import com.opensymphony.workflow.designer.WorkflowPort;
  */
 public class EdgeRouter implements Edge.Routing
 {
+  public List route(EdgeView edgeView)
+  {
+    return null;
+  }
+
+  public int getPreferredLineStyle(EdgeView edgeView)
+  {
+    return 0;
+  }
+
   public void route(EdgeView edge, java.util.List points)
   {
     PortView sourceView = (PortView)edge.getSource();
@@ -25,8 +36,8 @@ public class EdgeRouter implements Edge.Routing
 
     WorkflowPort sourcePort = (WorkflowPort)sourceView.getCell();
     WorkflowPort targetPort = (WorkflowPort)targetView.getCell();
-    Point2D from = sourceView.getLocation(null);
-    Point2D to = targetView.getLocation(null);
+    Point2D from = sourceView.getLocation();
+    Point2D to = targetView.getLocation();
     //check if this is a dup route
 //    Collection duplicates = new HashSet();
 //    if(sourcePort!=targetPort)

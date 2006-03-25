@@ -55,7 +55,7 @@ public class StepRenderer extends VertexRenderer
     if(selected)
     {
       g2.setStroke(GraphConstants.SELECTION_STROKE);
-      g.setColor(graph.getHighlightColor());
+      g.setColor(highlightColor);
       g.drawRoundRect(b - 1,
                       b - 1,
                       d.width - b,

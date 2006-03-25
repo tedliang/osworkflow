@@ -18,15 +18,16 @@ public class WorkflowAttributeMap extends AttributeMap
     super(map);
   }
 
-  public Object valueChanged(Object newValue)
+  public AttributeMap applyMap(Map change)
   {
-    Object userObject = get(GraphConstants.VALUE);
+    if(!change.containsKey(GraphConstants.VALUE)) return super.applyMap(change);
+    Object userObject = get("descriptor");
+    Object newValue = change.get(GraphConstants.VALUE);
     if(userObject instanceof StepDescriptor)
     {
       StepDescriptor descriptor = (StepDescriptor)userObject;
       //StepDescriptor user = (StepDescriptor)((StepDescriptor)userObject).clone();
       descriptor.setName(newValue.toString());
-      return descriptor;
     }
     else if(userObject instanceof ResultDescriptor)
     {
@@ -41,23 +42,18 @@ public class WorkflowAttributeMap extends AttributeMap
           if(((ActionDescriptor)result.getParent()).getConditionalResults().isEmpty())
           {
             ((ActionDescriptor)result.getParent()).setName(newValue.toString());
-            return result;
           }
         }
       }
       result.setDisplayName(newValue.toString());
-      return result;
     }
     else if(userObject instanceof ActionDescriptor)
     {
       ActionDescriptor descriptor = (ActionDescriptor)userObject;
       //StepDescriptor user = (StepDescriptor)((StepDescriptor)userObject).clone();
       descriptor.setName(newValue.toString());
-      return descriptor;
     }
 
-    return super.valueChanged(newValue);
+    return super.applyMap(change);
   }
-
-
 }

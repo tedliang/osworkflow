@@ -13,22 +13,27 @@ import com.opensymphony.workflow.loader.WorkflowDescriptor;
  * Date: Oct 24, 2003
  * Time: 2:29:02 PM
  */
-public class CreateStep extends AbstractAction
+public class CreateStep extends AbstractAction implements DescriptorAware
 {
-  private WorkflowDescriptor workflow;
+  private WorkflowDescriptor descriptor;
   private WorkflowGraphModel model;
   private Point location;
 
   public CreateStep(WorkflowDescriptor workflow, WorkflowGraphModel model, Point location)
   {
     super(ResourceManager.getString("step"));
-    this.workflow = workflow;
+    this.descriptor = workflow;
     this.model = model;
     this.location = location;
   }
 
   public void actionPerformed(ActionEvent e)
   {
-    CellFactory.createStep(workflow, model, location);
+    CellFactory.createStep(descriptor, model, location);
+  }
+
+  public void setDescriptor(WorkflowDescriptor descriptor)
+  {
+    this.descriptor = descriptor;
   }
 }
