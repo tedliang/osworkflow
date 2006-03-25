@@ -65,7 +65,9 @@ public class Workspace extends XMLWorkflowFactory
           File file = new File(dir, config.location);
           config.url = file.toURL();
           if(file.exists())
+          {
             config.lastModified = file.lastModified();
+          }
         }
         catch(MalformedURLException e)
         {
@@ -128,6 +130,16 @@ public class Workspace extends XMLWorkflowFactory
     }
   }
 
+  public String getWorkflowFile(String workflowName)
+  {
+    WorkflowConfig config = (WorkflowConfig)workflows.get(workflowName);
+    if(config != null && config.url != null)
+    {
+      return config.url.getFile();
+    }
+    return null;
+  }
+  
   public Object getLayout(String workflowName)
   {
     Object obj = layouts.get(workflowName);

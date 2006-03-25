@@ -455,8 +455,8 @@ public class WorkflowGraphModel extends DefaultGraphModel
         Iterator k = edges(port);
         while(k.hasNext())
         {
-          WorkflowEdge edge = (WorkflowEdge)k.next();
-          ResultDescriptor descriptor = (ResultDescriptor)edge.getUserObject();
+          ResultEdge edge = (ResultEdge)k.next();
+          ResultDescriptor descriptor = edge.getDescriptor();
           edges.put(new Integer(descriptor.getId()), edge);
         }
       }

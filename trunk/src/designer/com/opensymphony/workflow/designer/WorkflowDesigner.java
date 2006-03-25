@@ -3,10 +3,7 @@ package com.opensymphony.workflow.designer;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
@@ -33,7 +30,7 @@ import org.w3c.dom.Element;
 /**
  * @author Hani Suleiman (hani@formicary.net) Date: May 15, 2003 Time: 8:36:20 PM
  */
-public class WorkflowDesigner extends JFrame implements GraphSelectionListener, GraphModelListener
+public class WorkflowDesigner extends JFrame implements GraphSelectionListener, GraphModelListener, FileChangeListener
 {
   public static final String WORKSPACE_SUFFIX = ".wsf";
 
@@ -49,7 +46,8 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
   public static WorkflowDesigner INSTANCE = null;
   private PaletteDescriptor palette = null;
   public StatusBar statusBar;
-
+  private FileMonitor monitor = new FileMonitor();
+  
   public WorkflowDesigner(Splash splash)
   {
     super(ResourceManager.getString("app.name"));
@@ -265,6 +263,21 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     //graphTabs.removeGraph(graphTabs.getCurrentGraph());
   }
 
+  public void fileChanged(Object key, String fileName)
+  {
+    //TODO disabled now because clearing the graph is a bit of a fucker
+//    int result = JOptionPane.showConfirmDialog(this, "The workflow " + key + " has been modified externally. Reload?", "Reload Workflow", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+//    if(result == JOptionPane.NO_OPTION) return;
+//    try
+//    {
+//      graphTabs.getGraph((String)key).setDescriptor(manager.getCurrentWorkspace().getWorkflow((String)key, false));
+//    }
+//    catch(FactoryException e)
+//    {
+//      e.printStackTrace();
+//    }
+  }
+
   public void createGraph(String workflowName)
   {
     //Workspace currentWorkspace = manager.getCurrentWorkspace();
@@ -279,6 +292,20 @@ public class WorkflowDesigner extends JFrame implements GraphSelectionListener, 
     try
     {
       descriptor = currentWorkspace.getWorkflow(workflowName, false);
+      if(currentWorkspace instanceof Workspace)
+      {
+        try
+        {
+          String workflowFile = ((Workspace)currentWorkspace).getWorkflowFile(workflowName);
+          if(workflowFile != null)
+            monitor.addFileChangeListener(this, workflowName, workflowFile, 5000);
+        }
+        catch(FileNotFoundException e)
+        {
+          //can't really happen
+          e.printStackTrace();
+        }
+      }
     }
     catch(FactoryException e)
     {

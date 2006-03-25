@@ -808,7 +808,8 @@ public class AbstractWorkflow implements Workflow {
         // Check global actions first
         boolean isCompleted = wf.getGlobalActions().size() == 0;
 
-        for (Iterator iterator = currentSteps.iterator(); isCompleted && iterator.hasNext();) {
+        for (Iterator iterator = currentSteps.iterator();
+                isCompleted && iterator.hasNext();) {
             Step step = (Step) iterator.next();
             StepDescriptor stepDes = wf.getStep(step.getStepId());
 

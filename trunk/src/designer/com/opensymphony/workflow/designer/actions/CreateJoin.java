@@ -12,7 +12,7 @@ import com.opensymphony.workflow.loader.WorkflowDescriptor;
  * @author jackflit
  * Date: 2003-11-18
  */
-public class CreateJoin extends AbstractAction
+public class CreateJoin extends AbstractAction implements DescriptorAware
 {
 
   private WorkflowDescriptor workflow;
@@ -32,4 +32,8 @@ public class CreateJoin extends AbstractAction
     CellFactory.createJoin(workflow, model, location);
   }
 
+  public void setDescriptor(WorkflowDescriptor descriptor)
+  {
+    this.workflow = descriptor;
+  }
 }

@@ -13,7 +13,7 @@ import com.opensymphony.workflow.loader.WorkflowDescriptor;
  * Date: Nov 24, 2003
  * Time: 1:10:28 PM
  */
-public class Delete extends AbstractAction
+public class Delete extends AbstractAction implements DescriptorAware
 {
   private WorkflowDescriptor workflow;
   private WorkflowGraph graph;
@@ -61,4 +61,8 @@ public class Delete extends AbstractAction
 		WorkflowDesigner.INSTANCE.navigator().selectTreeNode(workflow, workflow);
   }
 
+  public void setDescriptor(WorkflowDescriptor descriptor)
+  {
+    this.workflow = descriptor;
+  }
 }

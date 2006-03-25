@@ -15,7 +15,9 @@
           <root url="jar://$MODULE_DIR$/../../lib/designer/jgraph.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../../../jgraph5/src" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">

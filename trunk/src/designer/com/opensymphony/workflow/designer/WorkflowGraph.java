@@ -7,6 +7,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.dnd.*;
 import java.util.List;
 import java.util.Properties;
+import java.util.ArrayList;
 import javax.swing.*;
 
 import com.opensymphony.workflow.designer.actions.*;
@@ -28,11 +29,14 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
   private JPopupMenu cellMenu;
 
   private UndoManager undoManager = new UndoManager();
+  private List actions = new ArrayList();
+  
   private static final Color GRID_COLOR = new Color(240, 240, 240);
 
   public WorkflowGraph(GraphModel model, WorkflowDescriptor descriptor, Layout layout, boolean doAutoLayout)
   {
     super(model);
+    setMarqueeHandler(new WorkflowMarqueeHandler(this));
     getGraphLayoutCache().setFactory(new WorkflowCellViewFactory());
     getGraphLayoutCache().setSelectsAllInsertedCells(false);
     ToolTipManager.sharedInstance().registerComponent(this);
@@ -52,7 +56,6 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     setGridMode(JGraph.LINE_GRID_MODE);
 
     setBendable(true);
-    setMarqueeHandler(new WorkflowMarqueeHandler(this));
     setCloneable(false);
     setPortsVisible(true);
 
@@ -60,10 +63,16 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     genericMenu = new JPopupMenu();
     JMenu n = new JMenu(ResourceManager.getString("create.new"));
     genericMenu.add(n);
-    n.add(new CreateStep(descriptor, getWorkflowGraphModel(), menuLocation));
+    CreateStep createStep = new CreateStep(descriptor, getWorkflowGraphModel(), menuLocation);
+    n.add(createStep);
+    actions.add(createStep);
     //	n.add(new CreateInitialAction(descriptor, getWorkflowGraphModel(), menuLocation));
-    n.add(new CreateJoin(descriptor, getWorkflowGraphModel(), menuLocation));
-    n.add(new CreateSplit(descriptor, getWorkflowGraphModel(), menuLocation));
+    CreateJoin createJoin = new CreateJoin(descriptor, getWorkflowGraphModel(), menuLocation);
+    n.add(createJoin);
+    actions.add(createJoin);
+    CreateSplit createSplit = new CreateSplit(descriptor, getWorkflowGraphModel(), menuLocation);
+    n.add(createSplit);
+    actions.add(createSplit);
     JMenu g = new JMenu(ResourceManager.getString("grid.size"));
     genericMenu.add(g);
     g.add(new SetGridSize(this, menuLocation, 1));
@@ -74,7 +83,9 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     g.add(new SetGridSize(this, menuLocation, 16));
 
     cellMenu = new JPopupMenu();
-    cellMenu.add(new Delete(descriptor, this, menuLocation));
+    Delete delete = new Delete(descriptor, this, menuLocation);
+    actions.add(delete);
+    cellMenu.add(delete);
 
     edgeMenu = new JPopupMenu();
     n = new JMenu(ResourceManager.getString("edge.color"));
@@ -92,7 +103,7 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     {
       n.add(new ResultEdgeLineWidth(this, menuLocation, i));
     }
-    edgeMenu.add(new Delete(descriptor, this, menuLocation));
+    edgeMenu.add(delete);
     model.addUndoableEditListener(undoManager);
     new DropTarget(this, this);
   }
@@ -142,6 +153,13 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
         addJoinDescriptor(join);
       }
       getWorkflowGraphModel().insertResultConnections();
+      for(int i = 0; i < actions.size(); i++)
+      {
+        if(actions.get(i) instanceof DescriptorAware)
+        {
+          ((DescriptorAware)actions.get(i)).setDescriptor(descriptor);
+        }
+      }
     }
   }
 

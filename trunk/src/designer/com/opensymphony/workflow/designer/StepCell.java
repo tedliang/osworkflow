@@ -18,6 +18,7 @@ public class StepCell extends WorkflowCell implements ResultAware
   {
     super(userObject);
     setAttributes(new WorkflowAttributeMap(getAttributes()));
+    getAttributes().put("descriptor", userObject);
     GraphConstants.setEditable(attributes, true);
     descriptor = userObject;
     id = descriptor.getId();
