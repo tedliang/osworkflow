@@ -1,6 +1,7 @@
 package com.opensymphony.workflow.designer;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -16,6 +17,7 @@ import com.opensymphony.workflow.designer.layout.LayoutAlgorithm;
 import com.opensymphony.workflow.designer.layout.SugiyamaLayoutAlgorithm;
 import com.opensymphony.workflow.loader.*;
 import org.jgraph.JGraph;
+import org.jgraph.plaf.basic.BasicGraphUI;
 import org.jgraph.graph.*;
 
 public class WorkflowGraph extends JGraph implements DropTargetListener
@@ -38,7 +40,8 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     super(model);
     setMarqueeHandler(new WorkflowMarqueeHandler(this));
     getGraphLayoutCache().setFactory(new WorkflowCellViewFactory());
-    getGraphLayoutCache().setSelectsAllInsertedCells(false);
+    getGraphLayoutCache().setSelectsAllInsertedCells(false); 
+    getGraphLayoutCache().setSelectsLocalInsertedCells(false);
     ToolTipManager.sharedInstance().registerComponent(this);
     this.layout = layout;
     setDescriptor(descriptor);
@@ -75,12 +78,12 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     actions.add(createSplit);
     JMenu g = new JMenu(ResourceManager.getString("grid.size"));
     genericMenu.add(g);
-    g.add(new SetGridSize(this, menuLocation, 1));
-    g.add(new SetGridSize(this, menuLocation, 2));
-    g.add(new SetGridSize(this, menuLocation, 4));
-    g.add(new SetGridSize(this, menuLocation, 8));
-    g.add(new SetGridSize(this, menuLocation, 12));
-    g.add(new SetGridSize(this, menuLocation, 16));
+    g.add(new SetGridSize(this, 1));
+    g.add(new SetGridSize(this, 2));
+    g.add(new SetGridSize(this, 4));
+    g.add(new SetGridSize(this, 8));
+    g.add(new SetGridSize(this, 12));
+    g.add(new SetGridSize(this, 16));
 
     cellMenu = new JPopupMenu();
     Delete delete = new Delete(descriptor, this, menuLocation);
@@ -108,6 +111,17 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     new DropTarget(this, this);
   }
 
+  public void updateUI() {
+    setUI(new BasicGraphUI()
+    {
+      public boolean isToggleSelectionEvent(MouseEvent e)
+      {
+        return false;
+      }
+    });
+    invalidate();
+  }
+  
   public String convertValueToString(Object value)
   {
     if(value == null) return null;

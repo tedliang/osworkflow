@@ -26,7 +26,8 @@ public class DefaultVariableResolver implements VariableResolver, Serializable {
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
-    private transient BeanProvider beanProvider = null;
+  //this is an Object to avoid the designer having a dependency on oscore
+    private transient Object beanProvider = null;
 
     //~ Methods ////////////////////////////////////////////////////////////////
 
@@ -35,7 +36,7 @@ public class DefaultVariableResolver implements VariableResolver, Serializable {
     }
 
     public BeanProvider getBeanProvider() {
-        return beanProvider;
+        return (BeanProvider)beanProvider;
     }
 
     public Object getVariableFromMaps(String var, Map transientVars, PropertySet ps) {
@@ -57,7 +58,7 @@ public class DefaultVariableResolver implements VariableResolver, Serializable {
                 beanProvider = new DefaultBeanProvider();
             }
 
-            o = beanProvider.getProperty(o, var.substring(firstDot + 1));
+            o = ((BeanProvider)beanProvider).getProperty(o, var.substring(firstDot + 1));
         }
 
         return o;

@@ -2,6 +2,8 @@ package com.opensymphony.workflow.designer.actions;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Map;
+import java.util.HashMap;
 import javax.swing.*;
 
 import com.opensymphony.workflow.designer.ResultEdge;
@@ -30,19 +32,14 @@ public class ResultEdgeLineWidth extends JMenuItem
     public void actionPerformed(ActionEvent e)
     {
       Object cell = graph.getFirstCellForLocation(location.x, location.y);
-      if(cell == null)
-      {
-        return;
-      }
-      else
+      if(cell != null)
       {
         CellView view = (graph.getGraphLayoutCache().getMapping(cell, false));
         if(graph.getModel().isEdge(cell))
         {
+          Map map = new HashMap(1);
           GraphConstants.setLineWidth(((ResultEdge)cell).getAttributes(), width);
-          view.update();
-          view.refresh(graph.getModel(), graph.getGraphLayoutCache(), false);
-          graph.getSelectionModel().setSelectionCell(view.getCell());
+          graph.getGraphLayoutCache().edit(new Object[]{view.getCell()}, map);
         }
       }
     }
