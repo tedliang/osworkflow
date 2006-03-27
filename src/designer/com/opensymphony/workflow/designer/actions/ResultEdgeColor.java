@@ -2,9 +2,10 @@ package com.opensymphony.workflow.designer.actions;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Map;
+import java.util.HashMap;
 import javax.swing.*;
 
-import com.opensymphony.workflow.designer.ResultEdge;
 import com.opensymphony.workflow.designer.WorkflowGraph;
 import org.jgraph.graph.CellView;
 import org.jgraph.graph.GraphConstants;
@@ -29,19 +30,15 @@ public class ResultEdgeColor extends JMenuItem
     public void actionPerformed(ActionEvent e)
     {
       Object cell = graph.getFirstCellForLocation(location.x, location.y);
-      if(cell == null)
-      {
-        return;
-      }
-      else
+      if(cell != null)
       {
         CellView view = graph.getGraphLayoutCache().getMapping(cell, false);
         if(graph.getModel().isEdge(cell))
         {
-          GraphConstants.setForeground(((ResultEdge)cell).getAttributes(), color);
-          view.update();
-          view.refresh(graph.getModel(), graph.getGraphLayoutCache(), false);
-          graph.getSelectionModel().setSelectionCell(view.getCell());
+          Map map = new HashMap(1);
+          GraphConstants.setForeground(map, color);
+          GraphConstants.setLineColor(map, color);
+          graph.getGraphLayoutCache().edit(new Object[]{view.getCell()}, map);
         }
       }
     }
