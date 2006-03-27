@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import com.opensymphony.workflow.designer.views.EdgeRouter;
 import com.opensymphony.workflow.loader.*;
 import org.jgraph.graph.GraphConstants;
 
