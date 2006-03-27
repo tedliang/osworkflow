@@ -15,6 +15,7 @@ import com.opensymphony.workflow.designer.actions.*;
 import com.opensymphony.workflow.designer.dnd.DragData;
 import com.opensymphony.workflow.designer.layout.LayoutAlgorithm;
 import com.opensymphony.workflow.designer.layout.SugiyamaLayoutAlgorithm;
+import com.opensymphony.workflow.designer.views.StepView;
 import com.opensymphony.workflow.loader.*;
 import org.jgraph.JGraph;
 import org.jgraph.plaf.basic.BasicGraphUI;
@@ -129,10 +130,11 @@ public class WorkflowGraph extends JGraph implements DropTargetListener
     {
       return ((EdgeView)value).getCell().toString();
     }
-    else
+    else if(value instanceof VertexView)
     {
-      return value.toString();
+      return ((VertexView)value).getCell().toString();
     }
+    return value.toString();
   }
 
 	public WorkflowDescriptor getDescriptor()

@@ -17,9 +17,4 @@ public class SplitView extends VertexView
   {
     return renderer;
   }
-
-  public String toString()
-  {
-    return cell.toString();
-  }
 }

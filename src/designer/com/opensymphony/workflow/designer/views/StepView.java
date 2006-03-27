@@ -16,10 +16,4 @@ public class StepView extends VertexView
   {
     return renderer;
   }
-
-  public String toString()
-  {
-    return cell.toString();
-  }
-
 }

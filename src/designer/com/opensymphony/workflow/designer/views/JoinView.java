@@ -17,9 +17,4 @@ public class JoinView extends VertexView
   {
     return renderer;
   }
-
-  public String toString()
-  {
-    return cell.toString();
-  }
 }

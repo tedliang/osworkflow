@@ -50,7 +50,7 @@ public class CustomEdgeView extends EdgeView
     }
   }
 
-  public class CustomEdgeHandle extends EdgeHandle
+  public static class CustomEdgeHandle extends EdgeHandle
   {
 
     CustomEdgeHandle(EdgeView edge, GraphContext ctx)
