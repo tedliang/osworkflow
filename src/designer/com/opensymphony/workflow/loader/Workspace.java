@@ -274,7 +274,7 @@ public class Workspace extends XMLWorkflowFactory
       WorkflowConfig config = (WorkflowConfig)workflows.get(name);
       if(config.url!=null)
       {
-	      descriptor.getMetaAttributes().put("generator", "OSWOrkflow Designer");
+	      descriptor.getMetaAttributes().put("generator", "OSWorkflow Designer");
 	      descriptor.getMetaAttributes().put("lastModified", (new Date()).toString());
         return super.saveWorkflow(name, descriptor, replace);
       }
