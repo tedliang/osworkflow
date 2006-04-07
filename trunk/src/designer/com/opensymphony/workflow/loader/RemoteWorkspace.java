@@ -188,7 +188,7 @@ public class RemoteWorkspace extends HTTPWorkflowFactory
     if(descriptor!=null)
     {
       HTTPWorkflowConfig config = (HTTPWorkflowConfig)workflows.get(name);
-      descriptor.getMetaAttributes().put("generator", "OSWOrkflow Designer");
+      descriptor.getMetaAttributes().put("generator", "OSWorkflow Designer");
       descriptor.getMetaAttributes().put("lastModified", (new Date()).toString());
       StringWriter sw = new StringWriter();
       PrintWriter writer = new PrintWriter(new BufferedWriter(sw));
