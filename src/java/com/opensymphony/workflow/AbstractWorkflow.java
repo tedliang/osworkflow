@@ -34,9 +34,9 @@ public class AbstractWorkflow implements Workflow {
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
+    protected Configuration configuration;
+    protected ThreadLocal stateCache = new ThreadLocal();
     protected WorkflowContext context;
-    private Configuration configuration;
-    private ThreadLocal stateCache = new ThreadLocal();
     private TypeResolver typeResolver;
 
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -658,6 +658,44 @@ public class AbstractWorkflow implements Workflow {
         return success;
     }
 
+    /**
+     * check if an action is available or not
+     * @param action The action descriptor
+     * @return true if the action is available
+     */
+    protected boolean isActionAvailable(ActionDescriptor action, Map transientVars, PropertySet ps, int stepId) throws WorkflowException {
+        if (action == null) {
+            return false;
+        }
+
+        WorkflowDescriptor wf = getWorkflowDescriptorForAction(action);
+
+        Map cache = (Map) stateCache.get();
+
+        Boolean result = null;
+
+        if (cache != null) {
+            result = (Boolean) cache.get(action);
+        } else {
+            cache = new HashMap();
+            stateCache.set(cache);
+        }
+
+        if (result == null) {
+            RestrictionDescriptor restriction = action.getRestriction();
+            ConditionsDescriptor conditions = null;
+
+            if (restriction != null) {
+                conditions = restriction.getConditionsDescriptor();
+            }
+
+            result = new Boolean(passesConditions(wf.getGlobalConditions(), new HashMap(transientVars), ps, stepId) && passesConditions(conditions, new HashMap(transientVars), ps, stepId));
+            cache.put(action, result);
+        }
+
+        return result.booleanValue();
+    }
+
     protected List getAvailableActionsForStep(WorkflowDescriptor wf, Step step, Map transientVars, PropertySet ps) throws WorkflowException {
         List l = new ArrayList();
         StepDescriptor s = wf.getStep(step.getStepId());
@@ -793,8 +831,47 @@ public class AbstractWorkflow implements Workflow {
         return l;
     }
 
+    protected Step getCurrentStep(WorkflowDescriptor wfDesc, int actionId, List currentSteps, Map transientVars, PropertySet ps) throws WorkflowException {
+        if (currentSteps.size() == 1) {
+            return (Step) currentSteps.get(0);
+        }
+
+        for (Iterator iterator = currentSteps.iterator(); iterator.hasNext();) {
+            Step step = (Step) iterator.next();
+            ActionDescriptor action = wfDesc.getStep(step.getStepId()).getAction(actionId);
+
+            //$AR init
+            if (isActionAvailable(action, transientVars, ps, step.getStepId())) {
+                return step;
+            }
+
+            //$AR end
+        }
+
+        return null;
+    }
+
     protected WorkflowStore getPersistence() throws StoreException {
         return getConfiguration().getWorkflowStore();
+    }
+
+    protected boolean canInitialize(String workflowName, int initialAction, Map transientVars, PropertySet ps) throws WorkflowException {
+        WorkflowDescriptor wf = getConfiguration().getWorkflow(workflowName);
+
+        ActionDescriptor actionDescriptor = wf.getInitialAction(initialAction);
+
+        if (actionDescriptor == null) {
+            throw new InvalidActionException("Invalid Initial Action #" + initialAction);
+        }
+
+        RestrictionDescriptor restriction = actionDescriptor.getRestriction();
+        ConditionsDescriptor conditions = null;
+
+        if (restriction != null) {
+            conditions = restriction.getConditionsDescriptor();
+        }
+
+        return passesConditions(conditions, new HashMap(transientVars), ps, 0);
     }
 
     protected void checkImplicitFinish(ActionDescriptor action, long id) throws WorkflowException {
@@ -837,6 +914,111 @@ public class AbstractWorkflow implements Workflow {
             String oldStatus = (action != null) ? action.getUnconditionalResult().getOldStatus() : "Finished";
             getPersistence().markFinished(step, (action != null) ? action.getId() : (-1), new Date(), oldStatus, context.getCaller());
             getPersistence().moveToHistory(step);
+        }
+    }
+
+    protected Step createNewCurrentStep(ResultDescriptor theResult, WorkflowEntry entry, WorkflowStore store, int actionId, Step currentStep, long[] previousIds, Map transientVars, PropertySet ps) throws WorkflowException {
+        try {
+            int nextStep = theResult.getStep();
+
+            if (nextStep == -1) {
+                if (currentStep != null) {
+                    nextStep = currentStep.getStepId();
+                } else {
+                    throw new StoreException("Illegal argument: requested new current step same as current step, but current step not specified");
+                }
+            }
+
+            if (log.isDebugEnabled()) {
+                log.debug("Outcome: stepId=" + nextStep + ", status=" + theResult.getStatus() + ", owner=" + theResult.getOwner() + ", actionId=" + actionId + ", currentStep=" + ((currentStep != null) ? currentStep.getStepId() : 0));
+            }
+
+            if (previousIds == null) {
+                previousIds = new long[0];
+            }
+
+            String owner = theResult.getOwner();
+
+            VariableResolver variableResolver = getConfiguration().getVariableResolver();
+
+            if (owner != null) {
+                Object o = variableResolver.translateVariables(owner, transientVars, ps);
+                owner = (o != null) ? o.toString() : null;
+            }
+
+            String oldStatus = theResult.getOldStatus();
+            oldStatus = variableResolver.translateVariables(oldStatus, transientVars, ps).toString();
+
+            String status = theResult.getStatus();
+            status = variableResolver.translateVariables(status, transientVars, ps).toString();
+
+            if (currentStep != null) {
+                store.markFinished(currentStep, actionId, new Date(), oldStatus, context.getCaller());
+                store.moveToHistory(currentStep);
+
+                //store.moveToHistory(actionId, new Date(), currentStep, oldStatus, context.getCaller());
+            }
+
+            // construct the start date and optional due date
+            Date startDate = new Date();
+            Date dueDate = null;
+
+            if ((theResult.getDueDate() != null) && (theResult.getDueDate().length() > 0)) {
+                Object dueDateObject = variableResolver.translateVariables(theResult.getDueDate(), transientVars, ps);
+
+                if (dueDateObject instanceof Date) {
+                    dueDate = (Date) dueDateObject;
+                } else if (dueDateObject instanceof String) {
+                    long offset = 0;
+
+                    try {
+                        offset = Long.parseLong((String) dueDateObject);
+                    } catch (NumberFormatException e) {
+                    }
+
+                    if (offset > 0) {
+                        dueDate = new Date(startDate.getTime() + offset);
+                    }
+                } else if (dueDateObject instanceof Number) {
+                    Number num = (Number) dueDateObject;
+                    long offset = num.longValue();
+
+                    if (offset > 0) {
+                        dueDate = new Date(startDate.getTime() + offset);
+                    }
+                }
+            }
+
+            Step newStep = store.createCurrentStep(entry.getId(), nextStep, owner, startDate, dueDate, status, previousIds);
+            transientVars.put("createdStep", newStep);
+
+            if ((previousIds != null) && (previousIds.length == 0) && (currentStep == null)) {
+                // At this point, it must be a brand new workflow, so we'll overwrite the empty currentSteps
+                // with an array of just this current step
+                List currentSteps = new ArrayList();
+                currentSteps.add(newStep);
+                transientVars.put("currentSteps", new ArrayList(currentSteps));
+            }
+
+            WorkflowDescriptor descriptor = (WorkflowDescriptor) transientVars.get("descriptor");
+            StepDescriptor step = descriptor.getStep(nextStep);
+
+            if (step == null) {
+                throw new WorkflowException("step #" + nextStep + " does not exist");
+            }
+
+            List preFunctions = step.getPreFunctions();
+
+            for (Iterator iterator = preFunctions.iterator();
+                    iterator.hasNext();) {
+                FunctionDescriptor function = (FunctionDescriptor) iterator.next();
+                executeFunction(function, transientVars, ps);
+            }
+
+            return newStep;
+        } catch (WorkflowException e) {
+            context.setRollbackOnly();
+            throw e;
         }
     }
 
@@ -1347,64 +1529,6 @@ public class AbstractWorkflow implements Workflow {
         }
     }
 
-    /**
-     * check if an action is available or not
-     * @param action The action descriptor
-     * @return true if the action is available
-     */
-    private boolean isActionAvailable(ActionDescriptor action, Map transientVars, PropertySet ps, int stepId) throws WorkflowException {
-        if (action == null) {
-            return false;
-        }
-
-        WorkflowDescriptor wf = getWorkflowDescriptorForAction(action);
-
-        Map cache = (Map) stateCache.get();
-
-        Boolean result = null;
-
-        if (cache != null) {
-            result = (Boolean) cache.get(action);
-        } else {
-            cache = new HashMap();
-            stateCache.set(cache);
-        }
-
-        if (result == null) {
-            RestrictionDescriptor restriction = action.getRestriction();
-            ConditionsDescriptor conditions = null;
-
-            if (restriction != null) {
-                conditions = restriction.getConditionsDescriptor();
-            }
-
-            result = new Boolean(passesConditions(wf.getGlobalConditions(), new HashMap(transientVars), ps, stepId) && passesConditions(conditions, new HashMap(transientVars), ps, stepId));
-            cache.put(action, result);
-        }
-
-        return result.booleanValue();
-    }
-
-    private Step getCurrentStep(WorkflowDescriptor wfDesc, int actionId, List currentSteps, Map transientVars, PropertySet ps) throws WorkflowException {
-        if (currentSteps.size() == 1) {
-            return (Step) currentSteps.get(0);
-        }
-
-        for (Iterator iterator = currentSteps.iterator(); iterator.hasNext();) {
-            Step step = (Step) iterator.next();
-            ActionDescriptor action = wfDesc.getStep(step.getStepId()).getAction(actionId);
-
-            //$AR init
-            if (isActionAvailable(action, transientVars, ps, step.getStepId())) {
-                return step;
-            }
-
-            //$AR end
-        }
-
-        return null;
-    }
-
     private WorkflowDescriptor getWorkflowDescriptorForAction(ActionDescriptor action) {
         AbstractDescriptor objWfd = action;
 
@@ -1415,129 +1539,5 @@ public class AbstractWorkflow implements Workflow {
         WorkflowDescriptor wf = (WorkflowDescriptor) objWfd;
 
         return wf;
-    }
-
-    private boolean canInitialize(String workflowName, int initialAction, Map transientVars, PropertySet ps) throws WorkflowException {
-        WorkflowDescriptor wf = getConfiguration().getWorkflow(workflowName);
-
-        ActionDescriptor actionDescriptor = wf.getInitialAction(initialAction);
-
-        if (actionDescriptor == null) {
-            throw new InvalidActionException("Invalid Initial Action #" + initialAction);
-        }
-
-        RestrictionDescriptor restriction = actionDescriptor.getRestriction();
-        ConditionsDescriptor conditions = null;
-
-        if (restriction != null) {
-            conditions = restriction.getConditionsDescriptor();
-        }
-
-        return passesConditions(conditions, new HashMap(transientVars), ps, 0);
-    }
-
-    private Step createNewCurrentStep(ResultDescriptor theResult, WorkflowEntry entry, WorkflowStore store, int actionId, Step currentStep, long[] previousIds, Map transientVars, PropertySet ps) throws WorkflowException {
-        try {
-            int nextStep = theResult.getStep();
-
-            if (nextStep == -1) {
-                if (currentStep != null) {
-                    nextStep = currentStep.getStepId();
-                } else {
-                    throw new StoreException("Illegal argument: requested new current step same as current step, but current step not specified");
-                }
-            }
-
-            if (log.isDebugEnabled()) {
-                log.debug("Outcome: stepId=" + nextStep + ", status=" + theResult.getStatus() + ", owner=" + theResult.getOwner() + ", actionId=" + actionId + ", currentStep=" + ((currentStep != null) ? currentStep.getStepId() : 0));
-            }
-
-            if (previousIds == null) {
-                previousIds = new long[0];
-            }
-
-            String owner = theResult.getOwner();
-
-            VariableResolver variableResolver = getConfiguration().getVariableResolver();
-
-            if (owner != null) {
-                Object o = variableResolver.translateVariables(owner, transientVars, ps);
-                owner = (o != null) ? o.toString() : null;
-            }
-
-            String oldStatus = theResult.getOldStatus();
-            oldStatus = variableResolver.translateVariables(oldStatus, transientVars, ps).toString();
-
-            String status = theResult.getStatus();
-            status = variableResolver.translateVariables(status, transientVars, ps).toString();
-
-            if (currentStep != null) {
-                store.markFinished(currentStep, actionId, new Date(), oldStatus, context.getCaller());
-                store.moveToHistory(currentStep);
-
-                //store.moveToHistory(actionId, new Date(), currentStep, oldStatus, context.getCaller());
-            }
-
-            // construct the start date and optional due date
-            Date startDate = new Date();
-            Date dueDate = null;
-
-            if ((theResult.getDueDate() != null) && (theResult.getDueDate().length() > 0)) {
-                Object dueDateObject = variableResolver.translateVariables(theResult.getDueDate(), transientVars, ps);
-
-                if (dueDateObject instanceof Date) {
-                    dueDate = (Date) dueDateObject;
-                } else if (dueDateObject instanceof String) {
-                    long offset = 0;
-
-                    try {
-                        offset = Long.parseLong((String) dueDateObject);
-                    } catch (NumberFormatException e) {
-                    }
-
-                    if (offset > 0) {
-                        dueDate = new Date(startDate.getTime() + offset);
-                    }
-                } else if (dueDateObject instanceof Number) {
-                    Number num = (Number) dueDateObject;
-                    long offset = num.longValue();
-
-                    if (offset > 0) {
-                        dueDate = new Date(startDate.getTime() + offset);
-                    }
-                }
-            }
-
-            Step newStep = store.createCurrentStep(entry.getId(), nextStep, owner, startDate, dueDate, status, previousIds);
-            transientVars.put("createdStep", newStep);
-
-            if ((previousIds != null) && (previousIds.length == 0) && (currentStep == null)) {
-                // At this point, it must be a brand new workflow, so we'll overwrite the empty currentSteps
-                // with an array of just this current step
-                List currentSteps = new ArrayList();
-                currentSteps.add(newStep);
-                transientVars.put("currentSteps", new ArrayList(currentSteps));
-            }
-
-            WorkflowDescriptor descriptor = (WorkflowDescriptor) transientVars.get("descriptor");
-            StepDescriptor step = descriptor.getStep(nextStep);
-
-            if (step == null) {
-                throw new WorkflowException("step #" + nextStep + " does not exist");
-            }
-
-            List preFunctions = step.getPreFunctions();
-
-            for (Iterator iterator = preFunctions.iterator();
-                    iterator.hasNext();) {
-                FunctionDescriptor function = (FunctionDescriptor) iterator.next();
-                executeFunction(function, transientVars, ps);
-            }
-
-            return newStep;
-        } catch (WorkflowException e) {
-            context.setRollbackOnly();
-            throw e;
-        }
     }
 }
