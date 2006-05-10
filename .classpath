@@ -48,7 +48,7 @@
 	<classpathentry kind="lib" path="lib/optional/ejb.jar"/>
 	<classpathentry kind="lib" path="lib/optional/jms.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/core/oscore-2.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/core/oscore-2.2.5.jar"/>
 	<classpathentry kind="lib" path="lib/optional/prevayler2.00.001alpha.jar"/>
 	<classpathentry kind="lib" path="lib/optional/velocity-dep-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/optional/hibernate-2.1.7c.jar"/>
