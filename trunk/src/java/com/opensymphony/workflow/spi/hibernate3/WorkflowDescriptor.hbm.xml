@@ -5,7 +5,7 @@
 <!-- com.opensymphony.workflow.loader.ResultDescriptor already added -->
 <hibernate-mapping default-cascade="all">
 	<!-- com.opensymphony.workflow.loader.Workflows -->
-	<class name="com.opensymphony.workflow.loader.WorkflowName" >
+	<class name="com.opensymphony.workflow.spi.hibernate.WorkflowName" >
 		<id name="workflowName" unsaved-value="any">
 			<generator class="assigned"/>
 		</id>
@@ -54,7 +54,7 @@
 			<map name="metaAttributes" table="actionMetaAttributes" lazy="false" >
 				<key column="entityCode"/>
 				<index column="keyName" type ="string"/>
-				<element column="value" type="com.opensymphony.workflow.loader.hibernate3.NotNullStringType" length="4000"/>
+				<element column="value" type="com.opensymphony.workflow.spi.hibernate3.NotNullStringType" length="4000"/>
 			</map>
 		</joined-subclass>
 		<!-- com.opensymphony.workflow.loader.ResultDescriptor -->
@@ -96,7 +96,7 @@
 			<map name="args" table="conditionsargs" lazy="false" access="field">
 				<key column="entityCode"/>
 				<index column="name" type ="string"/>
-				<element column="value" type="com.opensymphony.workflow.loader.hibernate3.NotNullStringType" length="4000"/>
+				<element column="value" type="com.opensymphony.workflow.spi.hibernate3.NotNullStringType" length="4000"/>
 			</map>			
 		</joined-subclass>
 		<!-- com.opensymphony.workflow.loader.ConditionsDescriptor -->
@@ -118,7 +118,7 @@
 			<map name="args" table="functionsargs" lazy="false" access="field">
 				<key column="entityCode"/>
 				<index column="name" type ="string"/>
-				<element column="value" type="com.opensymphony.workflow.loader.hibernate3.NotNullStringType" length="4000"/>
+				<element column="value" type="com.opensymphony.workflow.spi.hibernate3.NotNullStringType" length="4000"/>
 			</map>			
 		</joined-subclass>
 		<!-- com.opensymphony.workflow.loader.JoinDescriptor -->
@@ -145,7 +145,7 @@
 			<map name="args" table="registersargs" lazy="false" access="field">
 				<key column="entityCode"/>
 				<index column="name" type ="string"/>
-				<element column="value" type="com.opensymphony.workflow.loader.hibernate3.NotNullStringType" length="4000"/>
+				<element column="value" type="com.opensymphony.workflow.spi.hibernate3.NotNullStringType" length="4000"/>
 			</map>			
 		</joined-subclass>
 		<!-- com.opensymphony.workflow.loader.RestrictionDescriptor -->
@@ -199,7 +199,7 @@
 			<map name="metaAttributes" table="stepMetaAttributes" lazy="false" >
 				<key column="entityCode"/>
 				<index column="keyName" type ="string"/>
-				<element column="value" type="com.opensymphony.workflow.loader.hibernate3.NotNullStringType" length="4000"/>
+				<element column="value" type="com.opensymphony.workflow.spi.hibernate3.NotNullStringType" length="4000"/>
 			</map>
 		</joined-subclass>
 		<!-- com.opensymphony.workflow.loader.ValidatorDescriptor -->
@@ -210,7 +210,7 @@
 			<map name="args" table="validatorsargs" lazy="false" access="field">
 				<key column="entityCode"/>
 				<index column="name" type ="string"/>
-				<element column="value" type="com.opensymphony.workflow.loader.hibernate3.NotNullStringType" length="4000"/>
+				<element column="value" type="com.opensymphony.workflow.spi.hibernate3.NotNullStringType" length="4000"/>
 			</map>			
 		</joined-subclass>
 		<!-- com.opensymphony.workflow.loader.WorkflowDescriptor -->
@@ -261,7 +261,7 @@
 			<map name="metaAttributes" table="workflowMetaAttributes" lazy="false" access="field">
 				<key column="entityCode"/>
 				<index column="keyName" type ="string"/>
-				<element column="value" type="com.opensymphony.workflow.loader.hibernate3.NotNullStringType" length="4000"/>
+				<element column="value" type="com.opensymphony.workflow.spi.hibernate3.NotNullStringType" length="4000"/>
 			</map>
 			<map name="timerFunctions" lazy="false" access="field" cascade="all-delete-orphan">
 				<key column="parentWorkflowDescr"/>
