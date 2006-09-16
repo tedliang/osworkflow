@@ -67,14 +67,13 @@ public abstract class FunctionEditor
     {
       return null;
     }
-
   }
 
   public void modify(FunctionDescriptor func)
   {
     ConfigFunctionDescriptor function;
 
-    if(func.getName() != null)
+    if(func.getName() != null && (getModel().getPalette().getPrefunction(func.getName()) != null))
     {
 	    function = new ConfigFunctionDescriptor(getModel().getPalette().getPrefunction(func.getName()));
     }
@@ -92,7 +91,6 @@ public abstract class FunctionEditor
     {
       func.getArgs().putAll(function.getArgs());
     }
-
   }
 
   private ConfigFunctionDescriptor editFunction(ConfigFunctionDescriptor config, Component parent)
@@ -129,7 +127,7 @@ public abstract class FunctionEditor
     return config;
   }
 
-  abstract protected AbstractDescriptor getParent();
+  protected abstract AbstractDescriptor getParent();
 
-	abstract protected ConfigFunctionDescriptor getFunction();
+  protected abstract ConfigFunctionDescriptor getFunction();
 }
