@@ -70,6 +70,10 @@ public class SimpleStep implements Step, Serializable {
         return caller;
     }
 
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
     public Date getDueDate() {
         return dueDate;
     }
