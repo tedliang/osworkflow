@@ -54,6 +54,7 @@ import java.util.Map;
  *  <li>schedulerName - the name of an existing scheduler to use</li>
  *  <li>schdulerStart - if "true", start the scheduler if it hasn't been started already</li>
  *  <li>txHack - set this to true if you are getting lockups while running with transactions (defaults to false)</li>
+ *  <li>addArguments - set to true if you want the contents of the arguments Map to be available in the JobDataMap of the Job</li>
  * </ul>
  *
  * If you are using a cron trigger, the following is required:
@@ -201,6 +202,11 @@ public class ScheduleJob implements FunctionProvider {
             }
 
             JobDataMap dataMap = new JobDataMap();
+
+            if (TextUtils.parseBoolean((String) args.get("addArguments"))) {
+                dataMap.putAll(args);
+            }
+
             dataMap.put("triggerId", triggerId);
             dataMap.put("entryId", entry.getId());
             dataMap.put("username", username);
