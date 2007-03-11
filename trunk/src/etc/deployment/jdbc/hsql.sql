@@ -21,7 +21,7 @@ DROP TABLE IF EXISTS OS_WFENTRY;
 
 CREATE TABLE OS_WFENTRY
 (
-    ID int,
+    ID bigint,
     NAME varchar(128),
     STATE smallint,
     primary key (ID)
