@@ -18,7 +18,7 @@
             <one-to-many class="com.opensymphony.workflow.spi.hibernate.HibernateCurrentStep"/>
         </bag>
 
-        <bag name="historySteps" cascade="all" lazy="true" inverse="true">
+        <bag name="historySteps" order-by="FINISH_DATE asc" cascade="all" lazy="true" inverse="true">
             <key column="entry_Id"/>
             <!-- index column="stepIndex"/-->
             <one-to-many class="com.opensymphony.workflow.spi.hibernate.HibernateHistoryStep"/>
