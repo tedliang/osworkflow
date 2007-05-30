@@ -36,7 +36,7 @@ import javax.xml.parsers.*;
  * rather than in the calling client.
  *
  * @author Hani Suleiman
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class DefaultConfiguration implements Configuration, Serializable {
     //~ Static fields/initializers /////////////////////////////////////////////
@@ -179,6 +179,10 @@ public class DefaultConfiguration implements Configuration, Serializable {
                     throw ex;
                 } catch (Exception ex) {
                     throw new FactoryException("Error creating workflow factory " + clazz, ex);
+                } finally {
+                    if (is != null) {
+                        is.close();
+                    }
                 }
             }
 
@@ -187,6 +191,14 @@ public class DefaultConfiguration implements Configuration, Serializable {
             throw e;
         } catch (Exception e) {
             throw new FactoryException("Error in workflow config", e);
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (Exception e) {
+                throw new FactoryException("Error in workflow config", e);
+            }
         }
     }
 
