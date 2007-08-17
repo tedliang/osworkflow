@@ -58,6 +58,9 @@ public class BeanShellFunctionProvider implements FunctionProvider {
         }
 
         try {
+        	if(log.isDebugEnabled()){
+        		log.debug("Trying to execute script:\n" + script + "\n");
+        	}
             i.eval(script);
         } catch (TargetError targetError) {
             if (targetError.getTarget() instanceof WorkflowException) {
