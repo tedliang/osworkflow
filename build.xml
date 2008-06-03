@@ -25,7 +25,7 @@
     <property name="src.client" value="${src}/designer"/>
     <property name="src.etc" value="${src}/etc"/>
     <property name="src.webapp" value="${src}/webapp"/>
-    <property name="propertyset.version" value="1.4"/>
+    <property name="propertyset.version" value="1.5"/>
     <property name="propertyset.jar" value="propertyset-${propertyset.version}.jar"/>
     <property name="propertyset-ejb.jar" value="propertyset-ejb-${propertyset.version}.jar"/>
     <property name="oscore.jar" value="oscore-2.2.5.jar"/>
