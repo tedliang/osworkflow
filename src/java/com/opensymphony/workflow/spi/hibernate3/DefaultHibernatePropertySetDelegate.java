@@ -3,10 +3,6 @@
  * All rights reserved.
  */
 
-/**
- * Copyright 2008 Tribune Company All rights reserved.
- * TRIBUNE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package com.opensymphony.workflow.spi.hibernate3;
 
 import com.opensymphony.module.propertyset.PropertySet;
@@ -24,7 +20,7 @@ import java.util.Map;
 /**
  * DOCUMENTME
  * @author $author$
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  *
  */
 public class DefaultHibernatePropertySetDelegate implements PropertySetDelegate {
