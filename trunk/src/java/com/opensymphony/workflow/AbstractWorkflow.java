@@ -30,7 +30,7 @@ import java.util.*;
 public class AbstractWorkflow implements Workflow {
     //~ Static fields/initializers /////////////////////////////////////////////
 
-    protected static final Log log = LogFactory.getLog(getClass());
+    protected final Log log = LogFactory.getLog(getClass());
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
