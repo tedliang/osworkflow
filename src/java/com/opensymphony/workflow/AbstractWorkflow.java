@@ -533,7 +533,7 @@ public class AbstractWorkflow implements Workflow {
             if (actionDesc.getId() == actionId) {
                 action = actionDesc;
 
-                if (isActionAvailable(action, transientVars, ps, 0)) {
+                if (isActionAvailable(action, transientVars, ps, null)) {
                     validAction = true;
                 }
             }
@@ -551,7 +551,7 @@ public class AbstractWorkflow implements Workflow {
                 if (actionDesc.getId() == actionId) {
                     action = actionDesc;
 
-                    if (isActionAvailable(action, transientVars, ps, s.getId())) {
+                    if (isActionAvailable(action, transientVars, ps, step)) {
                         validAction = true;
                     }
                 }
@@ -663,7 +663,7 @@ public class AbstractWorkflow implements Workflow {
      * @param action The action descriptor
      * @return true if the action is available
      */
-    protected boolean isActionAvailable(ActionDescriptor action, Map transientVars, PropertySet ps, int stepId) throws WorkflowException {
+    protected boolean isActionAvailable(ActionDescriptor action, Map transientVars, PropertySet ps, Step step) throws WorkflowException {
         if (action == null) {
             return false;
         }
@@ -689,6 +689,11 @@ public class AbstractWorkflow implements Workflow {
                 conditions = restriction.getConditionsDescriptor();
             }
 
+            int stepId = 0;
+            if (step != null) {
+                stepId = step.getStepId();
+                transientVars.put("currentStep", step);
+            }
             result = new Boolean(passesConditions(wf.getGlobalConditions(), new HashMap(transientVars), ps, stepId) && passesConditions(conditions, new HashMap(transientVars), ps, stepId));
             cache.put(action, result);
         }
@@ -769,7 +774,7 @@ public class AbstractWorkflow implements Workflow {
                 transientVars.put("actionId", new Integer(action.getId()));
 
                 if (action.getAutoExecute()) {
-                    if (isActionAvailable(action, transientVars, ps, 0)) {
+                    if (isActionAvailable(action, transientVars, ps, null)) {
                         l.add(new Integer(action.getId()));
                     }
                 }
@@ -822,7 +827,7 @@ public class AbstractWorkflow implements Workflow {
 
             //check auto
             if (action.getAutoExecute()) {
-                if (isActionAvailable(action, transientVars, ps, s.getId())) {
+                if (isActionAvailable(action, transientVars, ps, step)) {
                     l.add(new Integer(action.getId()));
                 }
             }
@@ -841,7 +846,7 @@ public class AbstractWorkflow implements Workflow {
             ActionDescriptor action = wfDesc.getStep(step.getStepId()).getAction(actionId);
 
             //$AR init
-            if (isActionAvailable(action, transientVars, ps, step.getStepId())) {
+            if (isActionAvailable(action, transientVars, ps, step)) {
                 return step;
             }
 
@@ -1201,6 +1206,7 @@ public class AbstractWorkflow implements Workflow {
         }
 
         Step step = getCurrentStep(wf, action.getId(), currentSteps, transientVars, ps);
+        transientVars.put("currentStep", step);
 
         if (action.getValidators().size() > 0) {
             verifyInputs(entry, action.getValidators(), Collections.unmodifiableMap(transientVars), ps);
