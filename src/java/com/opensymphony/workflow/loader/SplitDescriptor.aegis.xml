@@ -1,5 +1,6 @@
 <mappings>
   <mapping>
     <property name="results" componentType="com.opensymphony.workflow.loader.ResultDescriptor" />
+    <property name="conditionalResults" componentType="com.opensymphony.workflow.loader.ConditionalResultDescriptor" />
   </mapping>
 </mappings>

@@ -1108,6 +1108,10 @@ public class AbstractWorkflow implements Workflow {
         }
     }
 
+    protected boolean passesConditions(List conditions, Map transientVars, PropertySet ps, int currentStepId) throws WorkflowException {
+        return passesConditions(null, conditions, Collections.unmodifiableMap(transientVars), ps, currentStepId);
+    }
+
     protected boolean passesConditions(String conditionType, List conditions, Map transientVars, PropertySet ps, int currentStepId) throws WorkflowException {
         if ((conditions == null) || (conditions.size() == 0)) {
             return true;
@@ -1242,7 +1246,7 @@ public class AbstractWorkflow implements Workflow {
                 iterator.hasNext();) {
             ConditionalResultDescriptor conditionalResult = (ConditionalResultDescriptor) iterator.next();
 
-            if (passesConditions(null, conditionalResult.getConditions(), Collections.unmodifiableMap(transientVars), ps, (step != null) ? step.getStepId() : (-1))) {
+            if (passesConditions(conditionalResult.getConditions(), transientVars, ps, (step != null) ? step.getStepId() : (-1))) {
                 //if (evaluateExpression(conditionalResult.getCondition(), entry, wf.getRegisters(), null, transientVars)) {
                 theResults[0] = conditionalResult;
 
@@ -1313,6 +1317,8 @@ public class AbstractWorkflow implements Workflow {
                 theResults = new ResultDescriptor[results.size()];
                 results.toArray(theResults);
 
+                long[] previousIds = step != null ? new long[] {step.getId()} : null;
+
                 for (Iterator iterator = results.iterator();
                         iterator.hasNext();) {
                     ResultDescriptor resultDescriptor = (ResultDescriptor) iterator.next();
@@ -1322,15 +1328,18 @@ public class AbstractWorkflow implements Workflow {
                         moveToHistoryStep = step;
                     }
 
-                    long[] previousIds = null;
-
-                    if (step != null) {
-                        previousIds = new long[] {step.getId()};
-                    }
-
                     createNewCurrentStep(resultDescriptor, entry, store, action.getId(), moveToHistoryStep, previousIds, transientVars, ps);
                     moveFirst = false;
                 }
+
+                Collection splitConditionalResults = splitDesc.getConditionalResults();
+                for (Iterator iterator = splitConditionalResults.iterator(); iterator.hasNext();) {
+                    ConditionalResultDescriptor conditionalResult = (ConditionalResultDescriptor) iterator.next();
+                    if (passesConditions(conditionalResult.getConditions(), transientVars, ps, (step != null) ? step.getStepId() : 0)) {
+                        createNewCurrentStep(conditionalResult, entry, store, action.getId(), null, previousIds, transientVars, ps);
+                    }
+                }
+
             }
 
             // now execute the post-functions
@@ -1384,7 +1393,7 @@ public class AbstractWorkflow implements Workflow {
             transientVars.put("jn", jn);
 
             //todo verify that 0 is the right value for currentstep here
-            if (passesConditions(null, joinDesc.getConditions(), Collections.unmodifiableMap(transientVars), ps, 0)) {
+            if (passesConditions(joinDesc.getConditions(), transientVars, ps, 0)) {
                 // move the rest without creating a new step ...
                 ResultDescriptor joinresult = joinDesc.getResult();
 
