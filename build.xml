@@ -87,11 +87,6 @@
   </target>
 
   <target name="precompile" depends="ejbdoclet">
-    <jalopy fileformat="unix" convention="${src}/etc/jalopy.xml" history="file" historymethod="adler32" loglevel="error" threads="2" classpathref="cp">
-      <fileset dir="${src.java}">
-        <include name="**/*.java"/>
-      </fileset>
-    </jalopy>
     <copy todir="${build.java}/META-INF">
       <fileset dir="${docs}">
         <include name="*.dtd"/>
