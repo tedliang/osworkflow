@@ -1312,7 +1312,7 @@ public class AbstractWorkflow implements Workflow {
 
             if (!action.isFinish()) {
                 // now make these steps...
-                boolean moveFirst = true;
+                Step moveToHistoryStep = step;
 
                 theResults = new ResultDescriptor[results.size()];
                 results.toArray(theResults);
@@ -1322,15 +1322,43 @@ public class AbstractWorkflow implements Workflow {
                 for (Iterator iterator = results.iterator();
                         iterator.hasNext();) {
                     ResultDescriptor resultDescriptor = (ResultDescriptor) iterator.next();
-                    Step moveToHistoryStep = null;
-
-                    if (moveFirst) {
-                        moveToHistoryStep = step;
-                    }
 
                     createNewCurrentStep(resultDescriptor, entry, store, action.getId(), moveToHistoryStep, previousIds, transientVars, ps);
-                    moveFirst = false;
+                    moveToHistoryStep = null;
                 }
+
+                Collection dynamicResults = splitDesc.getDynamicResults();
+                for (Iterator iterator = dynamicResults.iterator(); iterator.hasNext();) {
+                    DynamicResultDescriptor dynamicResult = (DynamicResultDescriptor) iterator.next();
+
+                    int dynamicResultSize = 1;
+                    String size = dynamicResult.getSize();
+                    VariableResolver variableResolver = getConfiguration().getVariableResolver();
+                    Object sizeObj = variableResolver.translateVariables(size, transientVars, ps);
+                    if (sizeObj != null) {
+                        try {
+                            int value = Integer.parseInt(sizeObj.toString());
+                            if (value > 1) {
+                                dynamicResultSize = value;
+                            }
+                            else {
+                                log.warn("Dynamic result size: " + dynamicResultSize +
+                                    " in Split #" + splitDesc.getId() + " must greater or equal to 1, fallback to 1");
+                            }
+                        } catch (NumberFormatException e) {
+                            log.warn("Unable to parse dynamic result size: " + sizeObj +
+                                " in Split #" + splitDesc.getId() + ", fallback to 1");
+                        }
+                    }
+
+                    for (int i = 0; i < dynamicResultSize; i++) {
+                        transientVars.put("stepIndex", new Integer(i));
+                        createNewCurrentStep(dynamicResult, entry, store, action.getId(), moveToHistoryStep, previousIds, transientVars, ps);
+                        moveToHistoryStep = null;
+                    }
+                    transientVars.remove("stepIndex");
+                }
+
 
                 Collection splitConditionalResults = splitDesc.getConditionalResults();
                 for (Iterator iterator = splitConditionalResults.iterator(); iterator.hasNext();) {

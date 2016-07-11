@@ -249,7 +249,7 @@ must be a real step/status combo, NOT another split or a join.
 
 Used in: splits
 -->
-<!ELEMENT split (unconditional-result+, unconditional-result*)>
+<!ELEMENT split ((unconditional-result|dynamic-result)+, unconditional-result*)>
 <!ATTLIST split
 	id CDATA #REQUIRED
 >
@@ -290,6 +290,23 @@ default result.
   due-date CDATA #IMPLIED
   id CDATA #IMPLIED
   display-name CDATA #IMPLIED
+>
+<!--
+A dynamic result of an action. Multiple results will be created according the
+size attribute.
+
+Used in: split
+-->
+<!ELEMENT dynamic-result (validators?, pre-functions?, post-functions?)>
+<!ATTLIST dynamic-result
+	size CDATA #REQUIRED
+	old-status CDATA #REQUIRED
+	status CDATA #IMPLIED
+	step CDATA #IMPLIED
+	owner CDATA #IMPLIED
+	due-date CDATA #IMPLIED
+	id CDATA #IMPLIED
+	display-name CDATA #IMPLIED
 >
 <!--
 A function that has a unique ID and is called by an external job scheduler.

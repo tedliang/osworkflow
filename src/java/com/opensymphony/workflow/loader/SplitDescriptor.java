@@ -24,6 +24,7 @@ public class SplitDescriptor extends AbstractDescriptor implements Validatable {
     //~ Instance fields ////////////////////////////////////////////////////////
 
     protected List results = new ArrayList();
+    protected List dynamicResults = new ArrayList();
     protected List conditionalResults = new ArrayList();
 
     //~ Constructors ///////////////////////////////////////////////////////////
@@ -47,12 +48,17 @@ public class SplitDescriptor extends AbstractDescriptor implements Validatable {
         return results;
     }
 
+    public List getDynamicResults() {
+        return dynamicResults;
+    }
+
     public List getConditionalResults() {
         return conditionalResults;
     }
 
     public void validate() throws InvalidWorkflowDescriptorException {
         ValidationHelper.validate(results);
+        ValidationHelper.validate(dynamicResults);
         ValidationHelper.validate(conditionalResults);
     }
 
@@ -62,6 +68,11 @@ public class SplitDescriptor extends AbstractDescriptor implements Validatable {
 
         for (int i = 0; i < results.size(); i++) {
             ResultDescriptor result = (ResultDescriptor) results.get(i);
+            result.writeXML(out, indent);
+        }
+
+        for (int i = 0; i < dynamicResults.size(); i++) {
+            DynamicResultDescriptor result = (DynamicResultDescriptor) dynamicResults.get(i);
             result.writeXML(out, indent);
         }
 
@@ -89,6 +100,17 @@ public class SplitDescriptor extends AbstractDescriptor implements Validatable {
             resultDescriptor.setParent(this);
             results.add(resultDescriptor);
         }
+
+
+        List dResults = XMLUtil.getChildElements(split, "dynamic-result");
+
+        for (int i = 0; i < dResults.size(); i++) {
+            Element result = (Element) dResults.get(i);
+            DynamicResultDescriptor resultDescriptor = new DynamicResultDescriptor(result);
+            resultDescriptor.setParent(this);
+            dynamicResults.add(resultDescriptor);
+        }
+
 
         List cResults = XMLUtil.getChildElements(split, "conditional-result");
 
