@@ -2,23 +2,9 @@
 
   <property name="test.compile.version" value="1.5"/>
   <property name="src.test" location="src/test"/>
-  <property name="jar.manifest" value="src/etc/deployment/ejb/manifest.txt" />
-  
   <property name="common.build" value="osbuild.xml"/>
   <import file="${common.build}"/>
   
-  <path id="jalopy.classpath">
-    <fileset dir="lib/build/jalopy">
-      <include name="*.jar"/>
-    </fileset>
-  </path>
-
-  <taskdef name="jalopy" classname="de.hunsicker.jalopy.plugin.ant.AntPlugin">
-    <classpath refid="jalopy.classpath"/>
-  </taskdef>
-
-  <taskdef name="ejbdoclet" classname="xdoclet.modules.ejb.EjbDocletTask" classpathref="cp"/>
-
   <target name="init" depends="common.init">
     <property name="lib.designer" value="${lib}/designer"/>
 
@@ -42,41 +28,6 @@
 		</path>
   </target>
 
-  <target name="clean" depends="common.clean" description="Remove all compiled files and generated sources">
-    <delete>
-      <fileset dir="${src.java}/com/opensymphony/workflow/spi/ejb">
-        <exclude name="*EJB*.java"/>
-        <exclude name="Abstract*.java"/>
-        <exclude name="StepComparator.java"/>
-      </fileset>
-      <fileset dir="${src.java}/com/opensymphony/workflow/ejb">
-        <exclude name="*EJB*.java"/>
-      </fileset>
-    </delete>
-  </target>
-
-  <target name="ejbdoclet" depends="init">
-    <ejbdoclet ejbspec="2.0" verbose="false" destdir="${src.java}">
-      <fileset dir="${src.java}">
-        <include name="**/ejb/**/*EJB.java"/>
-      </fileset>
-      <remoteinterface pattern="{0}Remote"/>
-      <localinterface/>
-      <homeinterface/>
-      <localhomeinterface/>
-      <!--<valueobject/>-->
-      <entitypk/>
-      <entitycmp/>
-      <session/>
-      <utilobject pattern="{0}HomeFactory" cacheHomes="true"/>
-      <deploymentdescriptor destdir="${build.java}/META-INF" validatexml="true" description="OpenSymphony Workflow Module" displayname="OSWorkflow Module"/>
-      <jboss version="4.0" destdir="${build.java}/META-INF"/>
-      <weblogic version="8.1" destdir="${build.java}/META-INF" datasource="defaultDS" createtables="CreateOnly"/>
-      <jrun version="4.0" destdir="${build.java}/META-INF"/>
-      <orion version="2.0" destdir="${build.java}/META-INF"/>
-    </ejbdoclet>
-  </target>
-
   <target name="test-compile" depends="common.test-compile" description="Compile test classes">
     <mkdir dir="${build.test}/META-INF"/>
     <copy todir="${build.test}/META-INF/">
@@ -86,7 +37,7 @@
     </copy>
   </target>
 
-  <target name="precompile" depends="ejbdoclet">
+  <target name="precompile" depends="init">
     <copy todir="${build.java}/META-INF">
       <fileset dir="${docs}">
         <include name="*.dtd"/>
