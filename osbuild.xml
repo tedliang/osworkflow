@@ -149,7 +149,7 @@
 
     <target name="src-jar" depends="init" description="build a jar of the project source code">
         <mkdir dir="${build}"/>
-        <jar basedir="${src.java}" jarfile="${build}/${name}-${version}-src.jar">
+        <jar basedir="${src.java}" jarfile="${build}/${name}-${version}-sources.jar">
             <manifest>
                 <attribute name="Implementation-Title" value="${fullname}"/>
                 <attribute name="Implementation-Version" value="${version}"/>
