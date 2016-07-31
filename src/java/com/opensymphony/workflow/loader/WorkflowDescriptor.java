@@ -28,7 +28,7 @@ public class WorkflowDescriptor extends AbstractDescriptor implements Validatabl
     //~ Static fields/initializers /////////////////////////////////////////////
 
     public static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-    public static final String DOCTYPE_DECL = "<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 2.8//EN\" \"http://www.opensymphony.com/osworkflow/workflow_2_8.dtd\">";
+    public static final String DOCTYPE_DECL = "<!DOCTYPE workflow PUBLIC \"-//OpenSymphony Group//DTD OSWorkflow 3.0//EN\" \"http://www.opensymphony.com/osworkflow/workflow_3_0.dtd\">";
 
     //~ Instance fields ////////////////////////////////////////////////////////
 
