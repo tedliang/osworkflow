@@ -1303,6 +1303,17 @@ public class AbstractWorkflow implements Workflow {
                 splitPostFunctions.addAll(resultDescriptor.getPostFunctions());
             }
 
+            for (Iterator iterator = splitDesc.getDynamicResults().iterator(); iterator.hasNext();) {
+                DynamicResultDescriptor resultDescriptor = (DynamicResultDescriptor) iterator.next();
+
+                if (resultDescriptor.getValidators().size() > 0) {
+                    verifyInputs(entry, resultDescriptor.getValidators(), Collections.unmodifiableMap(transientVars), ps);
+                }
+
+                splitPreFunctions.addAll(resultDescriptor.getPreFunctions());
+                splitPostFunctions.addAll(resultDescriptor.getPostFunctions());
+            }
+
             // now execute the pre-functions
             for (Iterator iterator = splitPreFunctions.iterator();
                     iterator.hasNext();) {
