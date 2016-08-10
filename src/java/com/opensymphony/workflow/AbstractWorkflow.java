@@ -723,6 +723,7 @@ public class AbstractWorkflow implements Workflow {
             ConditionsDescriptor conditions = null;
 
             transientVars.put("actionId", new Integer(action.getId()));
+            transientVars.put("currentStep", step);
 
             if (restriction != null) {
                 conditions = restriction.getConditionsDescriptor();
