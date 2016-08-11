@@ -675,7 +675,10 @@ public class AbstractWorkflow implements Workflow {
         Boolean result = null;
 
         if (cache != null) {
-            result = (Boolean) cache.get(action);
+            Map resultByStep = (Map) cache.get(action);
+            if (resultByStep != null) {
+                result = (Boolean) resultByStep.get(step);
+            }
         } else {
             cache = new HashMap();
             stateCache.set(cache);
@@ -695,7 +698,13 @@ public class AbstractWorkflow implements Workflow {
                 transientVars.put("currentStep", step);
             }
             result = new Boolean(passesConditions(wf.getGlobalConditions(), new HashMap(transientVars), ps, stepId) && passesConditions(conditions, new HashMap(transientVars), ps, stepId));
-            cache.put(action, result);
+
+            Map resultByStep = (Map) cache.get(action);
+            if (resultByStep == null) {
+                resultByStep = new HashMap();
+                cache.put(action, resultByStep);
+            }
+            resultByStep.put(step, result);
         }
 
         return result.booleanValue();
