@@ -1292,8 +1292,40 @@ public class AbstractWorkflow implements Workflow {
             }
         }
 
+        ActionType actionType = ActionType.resolveByResultDescriptor(theResults[0]);
+
         // go to next step
-        if (theResults[0].getSplit() != 0) {
+        if (actionType == ActionType.NEXT) {
+            // normal finish, no splits or joins
+            long[] previousIds = null;
+    
+            if (step != null) {
+                previousIds = new long[] {step.getId()};
+            }
+    
+            if (!action.isFinish()) {
+                createNewCurrentStep(theResults[0], entry, store, action.getId(), step, previousIds, transientVars, ps);
+            }
+        }
+
+        // postFunctions (BOTH)
+        if (extraPostFunctions != null) {
+            for (Iterator iterator = extraPostFunctions.iterator();
+                 iterator.hasNext();) {
+                FunctionDescriptor function = (FunctionDescriptor) iterator.next();
+                executeFunction(function, transientVars, ps);
+            }
+        }
+
+        List postFunctions = action.getPostFunctions();
+
+        for (Iterator iterator = postFunctions.iterator(); iterator.hasNext();) {
+            FunctionDescriptor function = (FunctionDescriptor) iterator.next();
+            executeFunction(function, transientVars, ps);
+        }
+
+
+        if (actionType == ActionType.SPLIT) {
             // the result is a split request, handle it correctly
             SplitDescriptor splitDesc = wf.getSplit(theResults[0].getSplit());
             Collection results = splitDesc.getResults();
@@ -1397,7 +1429,7 @@ public class AbstractWorkflow implements Workflow {
                 FunctionDescriptor function = (FunctionDescriptor) iterator.next();
                 executeFunction(function, transientVars, ps);
             }
-        } else if (theResults[0].getJoin() != 0) {
+        } else if (actionType == ActionType.JOIN) {
             // this is a join, finish this step...
             JoinDescriptor joinDesc = wf.getJoin(theResults[0].getJoin());
             step = store.markFinished(step, action.getId(), new Date(), theResults[0].getOldStatus(), context.getCaller());
@@ -1492,33 +1524,6 @@ public class AbstractWorkflow implements Workflow {
                     executeFunction(function, transientVars, ps);
                 }
             }
-        } else {
-            // normal finish, no splits or joins
-            long[] previousIds = null;
-
-            if (step != null) {
-                previousIds = new long[] {step.getId()};
-            }
-
-            if (!action.isFinish()) {
-                createNewCurrentStep(theResults[0], entry, store, action.getId(), step, previousIds, transientVars, ps);
-            }
-        }
-
-        // postFunctions (BOTH)
-        if (extraPostFunctions != null) {
-            for (Iterator iterator = extraPostFunctions.iterator();
-                    iterator.hasNext();) {
-                FunctionDescriptor function = (FunctionDescriptor) iterator.next();
-                executeFunction(function, transientVars, ps);
-            }
-        }
-
-        List postFunctions = action.getPostFunctions();
-
-        for (Iterator iterator = postFunctions.iterator(); iterator.hasNext();) {
-            FunctionDescriptor function = (FunctionDescriptor) iterator.next();
-            executeFunction(function, transientVars, ps);
         }
 
         //if executed action was an initial action then workflow is activated
