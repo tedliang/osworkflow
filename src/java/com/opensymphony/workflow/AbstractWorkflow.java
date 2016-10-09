@@ -855,6 +855,10 @@ public class AbstractWorkflow implements Workflow {
             Step step = (Step) iterator.next();
             ActionDescriptor action = wfDesc.getStep(step.getStepId()).getAction(actionId);
 
+            if (action == null) {
+                action = wfDesc.getAction(actionId);
+            }
+
             //$AR init
             if (isActionAvailable(action, transientVars, ps, step)) {
                 return step;
